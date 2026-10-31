@@ -1,8 +1,8 @@
 name: CI
 
 # Runs on every PR and on every push to `main` (after a squash, the push run
-# is the only one that tests the real merged code). Lint, typecheck, tests and
-# offline evals join this workflow as the skeleton lands (brief §9).
+# is the only one that tests the real merged code). Offline evals join this
+# workflow with the eval runner (brief §9 step 4).
 on:
   push:
     branches: [main]
@@ -19,6 +19,10 @@ jobs:
   secrets:
     name: Secret scan
     runs-on: ubuntu-latest
+    # On PRs the action lists the PR's commits through the API to scan them.
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       # Full history so gitleaks scans every commit of the PR, not just the tip.
       - uses: actions/checkout@v5
@@ -29,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   quality:
-    name: Format · Commits
+    name: Format · Lint · Types · Tests · Commits
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -45,6 +49,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Format
         run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+      # TZ is forced to UTC by vitest.config.ts, not by the runner's default.
+      - name: Tests
+        run: pnpm test
       - name: Commit messages
         if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}

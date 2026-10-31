@@ -16,4 +16,10 @@ for the pre-commit secret scan.
 
 ```sh
 pnpm install
+cp .env.example .env   # optional: every variable so far has a default
+
+pnpm test        # Vitest, always in UTC
+pnpm lint        # ESLint with type-aware rules
+pnpm typecheck   # tsc, strict
+pnpm format      # Prettier
 ```
