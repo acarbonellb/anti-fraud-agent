@@ -1,0 +1,26 @@
+# Each push declares on stdin "<local ref> <local sha> <remote ref> <remote sha>";
+# the remote ref is validated, which is what lands on origin even with
+# `HEAD:<branch>`. Branch convention: CLAUDE.md §6. Bypassed with --no-verify.
+zero=0000000000000000000000000000000000000000
+pattern='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)/([0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$'
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/*) branch=${remote_ref#refs/heads/} ;;
+    *) continue ;;
+  esac
+
+  if [ "$branch" = "main" ]; then
+    echo "✋ No pushes to 'main': it is reached only by PR." >&2
+    exit 1
+  fi
+
+  # Deleting a remote branch publishes nothing.
+  [ "$local_sha" = "$zero" ] && continue
+
+  if ! printf '%s\n' "$branch" | grep -Eq "$pattern"; then
+    echo "✋ Branch '$branch' doesn't follow <type>/<issue>-<slug> (CLAUDE.md §6)." >&2
+    echo "   Rename it and push again: git branch -m <type>/<issue>-<slug>" >&2
+    exit 1
+  fi
+done

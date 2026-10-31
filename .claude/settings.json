@@ -1,0 +1,63 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__github__get*",
+      "mcp__github__list*",
+      "mcp__github__search*",
+      "mcp__github__issue_read*",
+      "mcp__github__pull_request_read",
+      "mcp__github__create_pull_request",
+      "mcp__github__update_pull_request",
+      "Bash(rg *)",
+      "Bash(fd *)",
+      "Bash(bat *)",
+      "Bash(eza *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(ls *)",
+      "Bash(pwd *)",
+      "Bash(wc *)",
+      "Bash(which *)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log)",
+      "Bash(git log *)",
+      "Bash(git show)",
+      "Bash(git show *)",
+      "Bash(pnpm test)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm format:check)"
+    ],
+    "deny": ["Skill(skill:mattpocock-skills:pr)"]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-dangerous-git.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "mattpocock-skills@mattpocock": true
+  }
+}

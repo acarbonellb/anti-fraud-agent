@@ -1,0 +1,18 @@
+# `main` is reached only by PR (github-pr skill). Bypassed with --no-verify.
+branch=$(git symbolic-ref --short -q HEAD || true)
+if [ "$branch" = "main" ]; then
+  echo "✋ No direct commits to 'main'. Create a working branch and open a PR:" >&2
+  echo "   git switch -c <type>/<issue>-<slug>" >&2
+  exit 1
+fi
+
+# Secret scan of the staged changes. CI runs it too (the hard gate), so a
+# missing local binary warns instead of blocking.
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks git --pre-commit --staged --redact --no-banner || exit 1
+else
+  echo "⚠️  gitleaks not installed: secret scan skipped locally (CI still runs it)." >&2
+  echo "   Install: https://github.com/gitleaks/gitleaks#installing" >&2
+fi
+
+pnpm exec lint-staged

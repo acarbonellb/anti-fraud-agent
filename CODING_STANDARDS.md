@@ -1,0 +1,39 @@
+# CODING_STANDARDS.md
+
+Standards checked in code review, on top of the mandatory patterns in `CLAUDE.md` §4–§5. What a
+linter can check lives in the ESLint config; this file holds what needs judgement.
+
+## Agent safety
+
+- **Untrusted text never steers control flow.** Organizer fields, image text and web results are
+  passed to the model inside an explicit untrusted-data wrapper, never concatenated into the
+  system prompt. No code path branches on a string the organizer wrote (brief D9).
+- **No destructive tools.** The agent can read and recommend; adding a tool that changes state in
+  Satella or elsewhere needs an ADR first (brief D3).
+- **Autonomy is computed, not asked.** `auto_resolved` vs `escalated` comes from the policy in
+  brief §4.2 applied to the findings, not from the model's own claim. The model proposes; the
+  policy decides how much to trust it.
+- **Limits are enforced by the loop**, not by the prompt: a run that reaches a limit escalates
+  with the reason recorded.
+
+## Contract and data
+
+- **One source for the contract.** The Satella DTOs are Zod schemas in one module; types derive
+  from them (`z.infer`). Fixtures and the mock server are validated against the same schemas.
+- **The same calculation that decides, reports.** A number shown in a finding or in the dashboard
+  (capacity ratio, price percentile, cost) comes from the same function the policy used.
+- **Idempotent writes.** A retry with the same `Idempotency-Key` must be safe; a stale subject
+  re-reviews instead of retrying.
+
+## Money and cost
+
+- Prices in integer cents; LLM and tool cost in integer micros (`AGENT_DAILY_BUDGET_MICROS`). No
+  floats for money, ever: compute ratios at the edge for display only.
+
+## Tests
+
+- **Behaviour through the public interface**, not through the shape of internal calls.
+- **Time-relative fixtures**: if behaviour depends on "now" (imminent session, session in 3 years),
+  build the fixture from an injected clock, never from a fixed date that will drift into the past.
+- **Evals are reproducible**: an eval run never hits the network; external responses are recorded
+  fixtures. A new eval case states its expected decision and autonomy (brief §5).
