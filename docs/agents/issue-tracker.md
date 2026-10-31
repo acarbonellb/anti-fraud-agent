@@ -2,7 +2,7 @@
 
 Issues and specs for this repo live in **GitHub Issues** of `acarbonellb/anti-fraud-agent`, so
 the plan, the tasks and the PRs that close them are visible in one place. Use the `gh` CLI for
-all operations. The `github` MCP server in `.mcp.json` (`mcp__github__*`, needs `GITHUB_MCP_PAT`)
+all operations. The `github` MCP server in `.mcp.json` (`mcp__github__*`, needs `SATELLA_GITHUB_MCP_PAT`)
 is an equivalent alternative when it's connected.
 
 ## Conventions
