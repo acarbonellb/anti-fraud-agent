@@ -71,3 +71,17 @@ The `mattpocock-skills` plugin (`/tdd`, `/grilling`, `/domain-modeling`, `/code-
 - The `block-dangerous-git` hook blocks commands that overwrite the working tree or rewrite history (`reset --hard`, `clean -f`, `push --force`, `branch -D`, `checkout .`). Hand those to the user.
 - **Outward-facing actions need the user's confirmation:** making the repo public, creating cloud resources (GCP, databases), adding secrets, spending on LLM or tool APIs beyond local tests, and anything against Satella staging.
 - LLM and tool API keys are demo-only keys with a spend cap at the provider (brief §6.3).
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues of `acarbonellb/anti-fraud-agent`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five default labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`), plus repo rules for when a ticket is `ready-for-agent`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `GLOSSARY.md`, `docs/agent-design-brief.md` and `docs/adr/` at the root. See `docs/agents/domain.md`.
