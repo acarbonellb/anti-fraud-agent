@@ -6,15 +6,17 @@ import { fixtures } from "./fixtures.js";
 import {
   eventReviewContextSchema,
   feedItemSchema,
+  organizerReviewContextSchema,
   priceBenchmarkSchema,
-  similarEventsSchema,
+  similarEventSchema,
 } from "./schemas.js";
 
 it("parses every fixture with its contract schema", () => {
   expect(() => {
     eventReviewContextSchema.parse(fixtures.eventContext);
+    organizerReviewContextSchema.parse(fixtures.organizerContext);
     fixtures.feed.forEach((item) => feedItemSchema.parse(item));
-    similarEventsSchema.parse(fixtures.similarEvents);
+    fixtures.similarEvents.forEach((item) => similarEventSchema.parse(item));
     priceBenchmarkSchema.parse(fixtures.priceBenchmark);
   }).not.toThrow();
 });

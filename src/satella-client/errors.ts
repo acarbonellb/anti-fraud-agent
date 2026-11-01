@@ -15,38 +15,58 @@ const codeByStatus: Partial<Record<number, SatellaErrorCode>> = {
   401: "SATELLA_UNAUTHORIZED",
   403: "SATELLA_FORBIDDEN",
   404: "SATELLA_NOT_FOUND",
-  // The only documented 409 is a stale subject version: re-review, don't retry.
+  // The agent API's only 409 is a stale subject version: re-review, don't retry.
   409: "STALE_SUBJECT",
   429: "SATELLA_RATE_LIMITED",
 };
 
 /**
- * A failed call to the agent API. The message names the request and status
- * only: response bodies never reach logs (CLAUDE.md §4, minimal logs).
+ * A failed call to the agent API. Carries Satella's own error code (e.g.
+ * `INVALID_CURSOR`, `VALIDATION`) for diagnosis, but never its message or
+ * any other part of the body: minimal logs (CLAUDE.md §4).
  */
 export class SatellaApiError extends DomainError {
   constructor(
     readonly code: SatellaErrorCode,
     readonly request: string,
     readonly status: number | null,
-    /** Set on `SATELLA_RATE_LIMITED` when Satella sent `Retry-After`. */
-    readonly retryAfterSeconds: number | null = null,
+    readonly details: {
+      /** Satella's `error.code`, when the body had one. */
+      satellaCode?: string | null;
+      /** Set on `SATELLA_RATE_LIMITED` when Satella sent `Retry-After`. */
+      retryAfterSeconds?: number | null;
+    } = {},
   ) {
+    const satellaCode = details.satellaCode ?? null;
     super(
-      `${request} failed: ${code}${status === null ? "" : ` (${String(status)})`}`,
+      `${request} failed: ${code}` +
+        (status === null ? "" : ` (${String(status)})`) +
+        (satellaCode === null ? "" : ` [${satellaCode}]`),
     );
   }
 
-  static fromStatus(
+  get satellaCode(): string | null {
+    return this.details.satellaCode ?? null;
+  }
+
+  get retryAfterSeconds(): number | null {
+    return this.details.retryAfterSeconds ?? null;
+  }
+
+  static fromResponse(
     request: string,
     status: number,
+    satellaCode: string | null,
     retryAfterSeconds: number | null,
   ): SatellaApiError {
     return new SatellaApiError(
       codeByStatus[status] ?? "SATELLA_UNAVAILABLE",
       request,
       status,
-      status === 429 ? retryAfterSeconds : null,
+      {
+        satellaCode,
+        retryAfterSeconds: status === 429 ? retryAfterSeconds : null,
+      },
     );
   }
 }

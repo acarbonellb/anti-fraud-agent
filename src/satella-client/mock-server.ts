@@ -1,11 +1,8 @@
 /**
  * An in-process HTTP stand-in for Satella's agent API, built from the same
- * schemas as the client so the agent can progress before Satella ships
- * (brief §9 step 2). It implements only what the brief states (§13 over §3):
- * a behaviour the brief doesn't state is asked, not invented here.
- *
- * Error bodies are the mock's own (`{ code }`): the brief doesn't fix their
- * shape, so the client maps errors by status and never reads the body.
+ * schemas as the client so the agent can be tested without Satella. It
+ * mirrors the shipped v1 behaviour (see schemas.ts) and nothing more: what
+ * filtering Satella does (similar events, benchmarks) is the fixture's answer.
  */
 import { createHash, randomUUID } from "node:crypto";
 import {
@@ -16,8 +13,8 @@ import {
 import type { AddressInfo } from "node:net";
 
 import {
+  type AgentReview,
   capacityBandSchema,
-  type CreateReviewRequest,
   createReviewRequestSchema,
   type EventReviewContext,
   eventReviewContextSchema,
@@ -25,6 +22,9 @@ import {
   FEED_MAX_LIMIT,
   type FeedItem,
   feedItemSchema,
+  idempotencyKeySchema,
+  type OrganizerReviewContext,
+  organizerReviewContextSchema,
   type PriceBenchmark,
   type PriceBenchmarkQuery,
   priceBenchmarkSchema,
@@ -33,6 +33,7 @@ import {
   SIMILAR_MAX_WINDOW_DAYS,
   type SimilarEvent,
   similarEventSchema,
+  type SubjectType,
 } from "./schemas.js";
 
 export type Scope = "agent:read" | "agent:recommend";
@@ -40,8 +41,7 @@ export type Scope = "agent:read" | "agent:recommend";
 export interface MockSatellaFixtures {
   feed?: FeedItem[];
   events?: EventReviewContext[];
-  /** Organizer `version`s, so reviews of organizers can be checked for staleness. */
-  organizerVersions?: Record<string, string>;
+  organizers?: OrganizerReviewContext[];
   similar?: Record<string, SimilarEvent[]>;
   benchmarks?: { query: PriceBenchmarkQuery; benchmark: PriceBenchmark }[];
 }
@@ -50,16 +50,9 @@ export interface MockSatellaOptions {
   fixtures: MockSatellaFixtures;
   /** Bearer token → scopes it grants. */
   tokens: Record<string, Scope[]>;
-  /** Per credential and minute (§13: 60). */
+  /** Per credential and minute (Satella: 60). */
   requestsPerMinute?: number;
   now?: () => Date;
-}
-
-export interface StoredReview {
-  reviewId: string;
-  idempotencyKey: string;
-  request: CreateReviewRequest;
-  status: ReviewStatus;
 }
 
 export interface RecordedRequest {
@@ -71,21 +64,24 @@ export interface RecordedRequest {
 
 export interface MockSatella {
   baseUrl: string;
-  reviews: StoredReview[];
+  reviews: AgentReview[];
   requests: RecordedRequest[];
   /** Simulates the subject changing while the agent reviews it. */
-  setEventVersion(eventId: string, version: string): void;
+  setSubjectVersion(type: SubjectType, id: string, version: string): void;
+  /** Simulates an admin resolving a recommendation in Satella's panel. */
+  resolveReview(reviewId: string, outcome: "accepted" | "dismissed"): void;
   close(): Promise<void>;
 }
 
 const EMPTY_BENCHMARK: PriceBenchmark = {
   sampleSize: 0,
-  p10: null,
-  p50: null,
-  p90: null,
-  max: null,
+  p10Cents: null,
+  p50Cents: null,
+  p90Cents: null,
+  maxCents: null,
 };
 
+/** Satella's API v1 error shape: `{ error: { code, message } }`. */
 class HttpError extends Error {
   constructor(
     readonly status: number,
@@ -109,8 +105,11 @@ export async function startMockSatella(
       return [parsed.event.id, parsed];
     }),
   );
-  const organizerVersions = new Map(
-    Object.entries(options.fixtures.organizerVersions ?? {}),
+  const organizers = new Map(
+    (options.fixtures.organizers ?? []).map((context) => {
+      const parsed = organizerReviewContextSchema.parse(context);
+      return [parsed.organizer.id, parsed];
+    }),
   );
   const similar = new Map(
     Object.entries(options.fixtures.similar ?? {}).map(([eventId, list]) => [
@@ -128,15 +127,20 @@ export async function startMockSatella(
   const now = options.now ?? (() => new Date());
   const requestsPerMinute = options.requestsPerMinute ?? 60;
   const windows = new Map<string, { minute: number; count: number }>();
-  const reviews: StoredReview[] = [];
+  const reviews: AgentReview[] = [];
+  const idempotencyKeys = new Map<string, AgentReview>();
   const requests: RecordedRequest[] = [];
 
-  function authorize(req: IncomingMessage, scope: Scope): string {
+  // Satella checks the credential and its scope first, then the rate limit.
+  function authorize(req: IncomingMessage, scope: Scope): void {
     const token = /^Bearer (.+)$/.exec(req.headers.authorization ?? "")?.[1];
     const scopes = token === undefined ? undefined : options.tokens[token];
     if (token === undefined || scopes === undefined) {
-      throw new HttpError(401, "UNAUTHORIZED");
+      throw new HttpError(401, "AUTH_REQUIRED", {
+        "www-authenticate": "Bearer",
+      });
     }
+    if (!scopes.includes(scope)) throw new HttpError(403, "FORBIDDEN");
 
     const minute = Math.floor(now().getTime() / 60_000);
     const window = windows.get(token);
@@ -148,15 +152,12 @@ export async function startMockSatella(
       });
     }
     windows.set(token, { minute, count: used + 1 });
-
-    if (!scopes.includes(scope)) throw new HttpError(403, "FORBIDDEN");
-    return token;
   }
 
-  function subjectVersion(type: "event" | "organizer", id: string) {
+  function currentVersion(type: SubjectType, id: string) {
     return type === "event"
       ? events.get(id)?.version
-      : organizerVersions.get(id);
+      : organizers.get(id)?.version;
   }
 
   async function route(req: IncomingMessage, url: URL) {
@@ -171,10 +172,12 @@ export async function startMockSatella(
 
     if (
       method === "GET" &&
-      (match = /^\/events\/([^/]+)\/review-context$/.exec(path))
+      (match = /^\/(events|organizers)\/([^/]+)\/review-context$/.exec(path))
     ) {
       authorize(req, "agent:read");
-      const context = events.get(decodeURIComponent(match[1] ?? ""));
+      const id = decodeURIComponent(match[2] ?? "");
+      const context =
+        match[1] === "events" ? events.get(id) : organizers.get(id);
       if (context === undefined) throw new HttpError(404, "NOT_FOUND");
       return { status: 200, body: context };
     }
@@ -190,12 +193,13 @@ export async function startMockSatella(
         SIMILAR_DEFAULT_WINDOW_DAYS,
       );
       if (windowDays < 1 || windowDays > SIMILAR_MAX_WINDOW_DAYS) {
-        throw new HttpError(400, "BAD_REQUEST");
+        throw new HttpError(400, "VALIDATION");
       }
       if (!events.has(eventId)) throw new HttpError(404, "NOT_FOUND");
-      // Filtering by window, province and trigram similarity is Satella's job:
-      // the fixture already holds the answer.
-      return { status: 200, body: (similar.get(eventId) ?? []).slice(0, 10) };
+      return {
+        status: 200,
+        body: { items: (similar.get(eventId) ?? []).slice(0, 10) },
+      };
     }
 
     if (method === "GET" && path === "/benchmarks/prices") {
@@ -208,16 +212,24 @@ export async function startMockSatella(
       return createReview(req);
     }
 
+    if (method === "GET" && (match = /^\/reviews\/([^/]+)$/.exec(path))) {
+      authorize(req, "agent:read");
+      const id = decodeURIComponent(match[1] ?? "");
+      const review = reviews.find((candidate) => candidate.id === id);
+      if (review === undefined) throw new HttpError(404, "NOT_FOUND");
+      return { status: 200, body: review };
+    }
+
     throw new HttpError(404, "NOT_FOUND");
   }
 
   function readFeed(params: URLSearchParams) {
     const limit = intParam(params.get("limit"), FEED_DEFAULT_LIMIT);
     if (limit < 1 || limit > FEED_MAX_LIMIT) {
-      throw new HttpError(400, "BAD_REQUEST");
+      throw new HttpError(400, "VALIDATION");
     }
 
-    const cursor = params.get("cursor");
+    const cursor = blankToUndefined(params.get("cursor")) ?? null;
     let start = 0;
     if (cursor !== null) {
       const index = feed.findIndex((item) => encodeCursor(item) === cursor);
@@ -234,73 +246,80 @@ export async function startMockSatella(
   }
 
   function readBenchmark(params: URLSearchParams): PriceBenchmark {
-    const band = params.get("capacityBand");
-    if (band !== null && !capacityBandSchema.safeParse(band).success) {
-      throw new HttpError(400, "BAD_REQUEST");
+    const band = blankToUndefined(params.get("capacityBand"));
+    if (band !== undefined && !capacityBandSchema.safeParse(band).success) {
+      throw new HttpError(400, "VALIDATION");
     }
-    const query = {
-      genre: params.get("genre") ?? undefined,
-      province: params.get("province") ?? undefined,
-      capacityBand: band ?? undefined,
-    };
+    // An empty filter (`?genre=`) is the same as none.
+    const genre = blankToUndefined(params.get("genre"));
+    const province = blankToUndefined(params.get("province"));
     const found = benchmarks.find(
       (entry) =>
-        entry.query.genre === query.genre &&
-        entry.query.province === query.province &&
-        entry.query.capacityBand === query.capacityBand,
+        entry.query.genre === genre &&
+        entry.query.province === province &&
+        entry.query.capacityBand === band,
     );
     return found?.benchmark ?? EMPTY_BENCHMARK;
   }
 
   async function createReview(req: IncomingMessage) {
-    const idempotencyKey = header(req, "idempotency-key");
-    if (idempotencyKey === undefined) throw new HttpError(400, "BAD_REQUEST");
+    const idempotencyKey = idempotencyKeySchema.safeParse(
+      header(req, "idempotency-key") ?? "",
+    );
+    if (!idempotencyKey.success) {
+      throw new HttpError(400, "IDEMPOTENCY_KEY_REQUIRED");
+    }
 
     const parsed = createReviewRequestSchema.safeParse(await readJson(req));
-    if (!parsed.success) throw new HttpError(400, "BAD_REQUEST");
-    const request = parsed.data;
+    if (!parsed.success) throw new HttpError(400, "VALIDATION");
+    const { subject, ...request } = parsed.data;
 
-    // Brief §3.2: the same key, or the same (subject, subjectVersion,
-    // promptVersion), returns the existing recommendation.
-    const existing = reviews.find(
-      (review) =>
-        review.idempotencyKey === idempotencyKey ||
-        (review.request.subject.type === request.subject.type &&
-          review.request.subject.id === request.subject.id &&
-          review.request.subjectVersion === request.subjectVersion &&
-          review.request.agent.promptVersion === request.agent.promptVersion),
-    );
-    if (existing !== undefined) {
-      return { status: 200, body: toResponse(existing) };
-    }
+    // The same key, or the same subject, version and prompt version, returns
+    // the existing recommendation before the version is checked.
+    const existing =
+      idempotencyKeys.get(idempotencyKey.data) ??
+      reviews.find(
+        (review) =>
+          review.subject.type === subject.type &&
+          review.subject.id === subject.id &&
+          review.subject.version === subject.version &&
+          review.promptVersion === request.promptVersion,
+      );
+    if (existing !== undefined) return { status: 200, body: existing };
 
-    const current = subjectVersion(request.subject.type, request.subject.id);
+    const current = currentVersion(subject.type, subject.id);
     if (current === undefined) throw new HttpError(404, "NOT_FOUND");
-    if (current !== request.subjectVersion) {
-      throw new HttpError(409, "STALE_SUBJECT");
-    }
+    if (current !== subject.version) throw new HttpError(409, "STALE_SUBJECT");
 
-    // §13: a new recommendation supersedes the subject's unresolved ones.
-    // `auto_resolved` asks nothing of the admin, so it counts as resolved.
+    // The subject's open recommendations (pending or auto-resolved) are
+    // superseded; those an admin resolved stay as they are.
     for (const review of reviews) {
       if (
-        review.request.subject.type === request.subject.type &&
-        review.request.subject.id === request.subject.id &&
-        review.status === "pending_admin"
+        review.subject.type === subject.type &&
+        review.subject.id === subject.id &&
+        (review.status === "pending_admin" || review.status === "auto_resolved")
       ) {
         review.status = "superseded";
       }
     }
 
-    // §4.2 and §3.2: only an auto-resolved approval asks nothing of the admin;
-    // every reject or request_info is pending for a person.
+    // Only an auto-resolved approval asks nothing of the admin.
     const status: ReviewStatus =
       request.decision === "approve" && request.autonomy === "auto_resolved"
         ? "auto_resolved"
         : "pending_admin";
-    const stored = { reviewId: randomUUID(), idempotencyKey, request, status };
-    reviews.push(stored);
-    return { status: 201, body: toResponse(stored) };
+    const review: AgentReview = {
+      ...request,
+      id: randomUUID(),
+      subject,
+      infoRequest: request.infoRequest ?? null,
+      status,
+      createdAt: now().toISOString(),
+      resolution: null,
+    };
+    reviews.push(review);
+    idempotencyKeys.set(idempotencyKey.data, review);
+    return { status: 201, body: review };
   }
 
   const server = createServer((req, res) => {
@@ -324,14 +343,16 @@ export async function startMockSatella(
           send(
             res,
             error.status,
-            { code: error.code },
-            {
-              ...baseHeaders,
-              ...error.headers,
-            },
+            { error: { code: error.code, message: "Mock error." } },
+            { ...baseHeaders, ...error.headers },
           );
         } else {
-          send(res, 500, { code: "INTERNAL" }, baseHeaders);
+          send(
+            res,
+            500,
+            { error: { code: "INTERNAL", message: "Mock error." } },
+            baseHeaders,
+          );
         }
       },
     );
@@ -346,10 +367,22 @@ export async function startMockSatella(
     baseUrl: `http://127.0.0.1:${String(port)}`,
     reviews,
     requests,
-    setEventVersion(eventId, version) {
-      const context = events.get(eventId);
-      if (context === undefined) throw new Error(`No fixture for ${eventId}`);
-      events.set(eventId, { ...context, version });
+    setSubjectVersion(type, id, version) {
+      if (type === "event") {
+        const context = events.get(id);
+        if (context === undefined) throw new Error(`No fixture for ${id}`);
+        events.set(id, { ...context, version });
+      } else {
+        const context = organizers.get(id);
+        if (context === undefined) throw new Error(`No fixture for ${id}`);
+        organizers.set(id, { ...context, version });
+      }
+    },
+    resolveReview(reviewId, outcome) {
+      const review = reviews.find((candidate) => candidate.id === reviewId);
+      if (review === undefined) throw new Error(`No review ${reviewId}`);
+      review.status = outcome;
+      review.resolution = { outcome, resolvedAt: now().toISOString() };
     },
     close: () =>
       new Promise<void>((resolve, reject) => {
@@ -366,9 +399,15 @@ function encodeCursor(item: FeedItem): string {
   return createHash("sha256").update(item.id).digest("base64url");
 }
 
+/** Satella treats an empty query value (`?genre=`) as not passed. */
+function blankToUndefined(value: string | null): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed === undefined || trimmed === "" ? undefined : trimmed;
+}
+
 function intParam(value: string | null, fallback: number): number {
   if (value === null) return fallback;
-  if (!/^-?\d+$/.test(value)) throw new HttpError(400, "BAD_REQUEST");
+  if (!/^-?\d+$/.test(value)) throw new HttpError(400, "VALIDATION");
   return Number(value);
 }
 
@@ -383,12 +422,8 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
   try {
     return JSON.parse(Buffer.concat(chunks).toString("utf8"));
   } catch {
-    throw new HttpError(400, "BAD_REQUEST");
+    throw new HttpError(400, "VALIDATION");
   }
-}
-
-function toResponse(review: StoredReview) {
-  return { reviewId: review.reviewId, status: review.status };
 }
 
 function send(
