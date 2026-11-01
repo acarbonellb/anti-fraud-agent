@@ -2,19 +2,23 @@ import type { z } from "zod";
 
 import { SatellaApiError } from "./errors.js";
 import {
+  type AgentReview,
+  agentReviewSchema,
   type CreateReviewRequest,
-  type CreateReviewResponse,
   createReviewRequestSchema,
-  createReviewResponseSchema,
+  errorBodySchema,
   type EventReviewContext,
   eventReviewContextSchema,
   type FeedPage,
   feedPageSchema,
+  idempotencyKeySchema,
+  type OrganizerReviewContext,
+  organizerReviewContextSchema,
   type PriceBenchmark,
   type PriceBenchmarkQuery,
   priceBenchmarkSchema,
   type SimilarEvent,
-  similarEventsSchema,
+  similarEventsPageSchema,
 } from "./schemas.js";
 
 export interface SatellaClientOptions {
@@ -28,7 +32,7 @@ export interface SatellaClientOptions {
 }
 
 export interface CreateReviewResult {
-  review: CreateReviewResponse;
+  review: AgentReview;
   /** `false` when Satella returned an existing recommendation (200, not 201). */
   created: boolean;
 }
@@ -36,19 +40,23 @@ export interface CreateReviewResult {
 export interface SatellaClient {
   getFeed(options?: { cursor?: string; limit?: number }): Promise<FeedPage>;
   getEventContext(eventId: string): Promise<EventReviewContext>;
+  getOrganizerContext(organizerId: string): Promise<OrganizerReviewContext>;
   findSimilarEvents(
     eventId: string,
     options?: { windowDays?: number },
   ): Promise<SimilarEvent[]>;
   getPriceBenchmark(query: PriceBenchmarkQuery): Promise<PriceBenchmark>;
   /**
-   * Idempotent: reusing `idempotencyKey` returns the existing review. Throws
+   * Idempotent: reusing `idempotencyKey`, or resending the same subject,
+   * version and prompt version, returns the existing review. Throws
    * `STALE_SUBJECT` when the subject changed since its context was read.
    */
   createReview(
     request: CreateReviewRequest,
     options: { idempotencyKey: string },
   ): Promise<CreateReviewResult>;
+  /** A recommendation with its status and the admin's resolution, if any. */
+  getReview(reviewId: string): Promise<AgentReview>;
 }
 
 const API_PREFIX = "/api/agent/v1";
@@ -99,12 +107,15 @@ export function createSatellaClient(
     }
 
     if (!response.ok) {
-      // Drain the body without reading it into errors: it may hold data that
-      // must not reach logs.
-      await response.body?.cancel();
-      throw SatellaApiError.fromStatus(
+      // Only the stable code survives; the es-ES message stays out of errors
+      // and logs.
+      const errorBody = errorBodySchema.safeParse(
+        await response.json().catch(() => null),
+      );
+      throw SatellaApiError.fromResponse(
         name,
         response.status,
+        errorBody.success ? errorBody.data.error.code : null,
         parseRetryAfter(response.headers.get("retry-after")),
       );
     }
@@ -139,14 +150,23 @@ export function createSatellaClient(
       return data;
     },
 
+    async getOrganizerContext(organizerId) {
+      const { data } = await call(
+        "getOrganizerContext",
+        `/organizers/${pathId(organizerId)}/review-context`,
+        organizerReviewContextSchema,
+      );
+      return data;
+    },
+
     async findSimilarEvents(eventId, { windowDays } = {}) {
       const { data } = await call(
         "findSimilarEvents",
         `/events/${pathId(eventId)}/similar`,
-        similarEventsSchema,
+        similarEventsPageSchema,
         { query: { windowDays } },
       );
-      return data;
+      return data.items;
     },
 
     async getPriceBenchmark(query) {
@@ -160,13 +180,14 @@ export function createSatellaClient(
     },
 
     async createReview(request, { idempotencyKey }) {
-      // Same schema as Satella's limits: a request that would get a 400 fails
-      // here with a clear local error instead.
+      // Same limits as Satella: a request that would get a 400 fails here
+      // with a clear local error instead.
       const body = createReviewRequestSchema.parse(request);
+      idempotencyKeySchema.parse(idempotencyKey);
       const { data, status } = await call(
         "createReview",
         "/reviews",
-        createReviewResponseSchema,
+        agentReviewSchema,
         {
           method: "POST",
           body,
@@ -174,6 +195,15 @@ export function createSatellaClient(
         },
       );
       return { review: data, created: status === 201 };
+    },
+
+    async getReview(reviewId) {
+      const { data } = await call(
+        "getReview",
+        `/reviews/${pathId(reviewId)}`,
+        agentReviewSchema,
+      );
+      return data;
     },
   };
 }

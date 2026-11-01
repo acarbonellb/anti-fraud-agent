@@ -1,9 +1,10 @@
 // Contract tests: the Satella client against the mock server built from the
-// same schemas (brief §13 over §3.2). Covers each endpoint's happy path, the
-// documented errors (400, 401, 403, 404, 409 STALE_SUBJECT, 429 Retry-After),
-// 201 vs 200 on POST /reviews, and the headers the contract requires. Fakes
-// Satella with the in-process mock; `fetch` is stubbed only to produce a
-// response the mock can't (a contract violation, a network failure).
+// same schemas (the shipped v1 agent API). Covers each endpoint's happy path,
+// the documented errors (400, 401, 403, 404, 409 STALE_SUBJECT, 429
+// Retry-After), 201 vs 200 on POST /reviews, and the headers the contract
+// requires. Fakes Satella with the in-process mock; `fetch` is stubbed only
+// to produce a response the mock can't (a contract violation, a network
+// failure).
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { createSatellaClient, type SatellaClient } from "./client.js";
@@ -33,7 +34,7 @@ function defaultOptions(): MockSatellaOptions {
     fixtures: {
       feed: fixtures.feed,
       events: [fixtures.eventContext],
-      organizerVersions: { org_0001: "org-v1" },
+      organizers: [fixtures.organizerContext],
       similar: { evt_0001: fixtures.similarEvents },
       benchmarks: [
         {
@@ -66,8 +67,11 @@ function reviewRequest(
   overrides: Partial<CreateReviewRequest> = {},
 ): CreateReviewRequest {
   return {
-    subject: { type: "event", id: "evt_0001" },
-    subjectVersion: fixtures.eventContext.version,
+    subject: {
+      type: "event",
+      id: "evt_0001",
+      version: fixtures.eventContext.version,
+    },
     decision: "approve",
     autonomy: "auto_resolved",
     confidence: 0.92,
@@ -81,12 +85,10 @@ function reviewRequest(
         sources: [{ url: "https://example.test/sala-lumbre", title: "Sala" }],
       },
     ],
-    agent: {
-      runId: "run-1",
-      promptVersion: "p1",
-      provider: "anthropic",
-      model: "test-model",
-    },
+    agentRunId: "run-1",
+    promptVersion: "p1",
+    provider: "anthropic",
+    model: "test-model",
     ...overrides,
   };
 }
@@ -121,8 +123,18 @@ describe("feed", () => {
       "fe_0001",
       "fe_0002",
       "fe_0003",
+      "fe_0004",
     ]);
-    expect(page.items[2]?.changedFields).toEqual(["description", "terms"]);
+  });
+
+  it("carries the before and after of an edit, and the resolved review id", async () => {
+    const page = await client.getFeed();
+
+    expect(page.items[2]?.changedFields).toEqual(["description", "cover"]);
+    expect(page.items[2]?.changes?.description?.after).toBe(
+      "Cuarteto de jazz con repertorio clásico y temas propios.",
+    );
+    expect(page.items[3]?.reviewId).toBe("rev_0001");
   });
 
   it("pages forward with the cursor of the last item", async () => {
@@ -133,7 +145,7 @@ describe("feed", () => {
     });
 
     expect(first.items.map((item) => item.id)).toEqual(["fe_0001", "fe_0002"]);
-    expect(second.items.map((item) => item.id)).toEqual(["fe_0003"]);
+    expect(second.items.map((item) => item.id)).toEqual(["fe_0003", "fe_0004"]);
   });
 
   it("echoes the cursor when nothing is new", async () => {
@@ -145,11 +157,19 @@ describe("feed", () => {
     expect(empty).toEqual({ items: [], nextCursor: cursor });
   });
 
-  it("rejects an invalid cursor with 400", async () => {
-    await expectSatellaError(
+  it("returns a null cursor for an empty feed read from the start", async () => {
+    await setup({ fixtures: {} });
+
+    expect(await client.getFeed()).toEqual({ items: [], nextCursor: null });
+  });
+
+  it("rejects an invalid cursor with Satella's INVALID_CURSOR", async () => {
+    const error = await expectSatellaError(
       client.getFeed({ cursor: "not-a-cursor" }),
       "SATELLA_BAD_REQUEST",
     );
+
+    expect(error.satellaCode).toBe("INVALID_CURSOR");
   });
 
   it.each([0, 201])("rejects limit %i with 400", async (limit) => {
@@ -157,19 +177,31 @@ describe("feed", () => {
   });
 });
 
-describe("event review context", () => {
-  it("returns the parsed context", async () => {
+describe("review contexts", () => {
+  it("returns the parsed event context", async () => {
     const context = await client.getEventContext("evt_0001");
 
     expect(context.version).toBe(fixtures.eventContext.version);
     expect(context.sessions[0]?.ticketTypes[0]?.priceCents).toBe(1500);
   });
 
-  it("maps an unknown event to SATELLA_NOT_FOUND", async () => {
-    await expectSatellaError(
-      client.getEventContext("evt_missing"),
-      "SATELLA_NOT_FOUND",
-    );
+  it("returns the parsed organizer context, with signals instead of PII", async () => {
+    const context = await client.getOrganizerContext("org_0001");
+
+    expect(context.version).toBe(fixtures.organizerContext.version);
+    expect(context.fiscal.taxId).toEqual({
+      present: true,
+      kind: "CIF",
+      checksumValid: true,
+    });
+    expect(context.history.previousAgentReviews).toHaveLength(1);
+  });
+
+  it.each([
+    ["event", () => client.getEventContext("evt_missing")],
+    ["organizer", () => client.getOrganizerContext("org_missing")],
+  ])("maps an unknown %s to SATELLA_NOT_FOUND", async (_, read) => {
+    await expectSatellaError(read(), "SATELLA_NOT_FOUND");
   });
 });
 
@@ -206,22 +238,27 @@ describe("price benchmark", () => {
 
     expect(benchmark).toEqual({
       sampleSize: 0,
-      p10: null,
-      p50: null,
-      p90: null,
-      max: null,
+      p10Cents: null,
+      p50Cents: null,
+      p90Cents: null,
+      maxCents: null,
     });
   });
 });
 
 describe("create review", () => {
-  it("creates a recommendation with 201", async () => {
+  it("creates a recommendation with 201 and returns it whole", async () => {
     const result = await client.createReview(reviewRequest(), {
       idempotencyKey: "key-1",
     });
 
     expect(result.created).toBe(true);
-    expect(result.review.status).toBe("auto_resolved");
+    expect(result.review).toMatchObject({
+      subject: reviewRequest().subject,
+      status: "auto_resolved",
+      infoRequest: null,
+      resolution: null,
+    });
   });
 
   it("returns the existing recommendation with 200 on a retry", async () => {
@@ -245,7 +282,7 @@ describe("create review", () => {
     });
 
     expect(again.created).toBe(false);
-    expect(again.review.reviewId).toBe(first.review.reviewId);
+    expect(again.review.id).toBe(first.review.id);
   });
 
   it("leaves a reject pending for the admin even when auto-resolved", async () => {
@@ -257,25 +294,28 @@ describe("create review", () => {
     expect(result.review.status).toBe("pending_admin");
   });
 
-  it("supersedes the subject's unresolved recommendations", async () => {
-    await client.createReview(reviewRequest({ decision: "request_info" }), {
-      idempotencyKey: "key-1",
-    });
-    await client.createReview(
-      reviewRequest({
-        agent: { ...reviewRequest().agent, promptVersion: "p2" },
-      }),
-      { idempotencyKey: "key-2" },
+  it("supersedes the subject's open recommendations, not resolved ones", async () => {
+    const resolved = await client.createReview(
+      reviewRequest({ decision: "request_info", promptVersion: "p1" }),
+      { idempotencyKey: "key-1" },
     );
+    mock.resolveReview(resolved.review.id, "dismissed");
+    await client.createReview(reviewRequest({ promptVersion: "p2" }), {
+      idempotencyKey: "key-2",
+    });
+    await client.createReview(reviewRequest({ promptVersion: "p3" }), {
+      idempotencyKey: "key-3",
+    });
 
     expect(mock.reviews.map((review) => review.status)).toEqual([
+      "dismissed",
       "superseded",
       "auto_resolved",
     ]);
   });
 
   it("throws STALE_SUBJECT when the subject changed during the review", async () => {
-    mock.setEventVersion("evt_0001", "v2-changed");
+    mock.setSubjectVersion("event", "evt_0001", "v2-changed");
 
     await expectSatellaError(
       client.createReview(reviewRequest(), { idempotencyKey: "key-1" }),
@@ -284,11 +324,14 @@ describe("create review", () => {
     expect(mock.reviews).toHaveLength(0);
   });
 
-  it("reviews organizers against their version", async () => {
+  it("reviews organizers against their context version", async () => {
     const result = await client.createReview(
       reviewRequest({
-        subject: { type: "organizer", id: "org_0001" },
-        subjectVersion: "org-v1",
+        subject: {
+          type: "organizer",
+          id: "org_0001",
+          version: fixtures.organizerContext.version,
+        },
       }),
       { idempotencyKey: "key-1" },
     );
@@ -299,20 +342,49 @@ describe("create review", () => {
   it("maps an unknown subject to SATELLA_NOT_FOUND", async () => {
     await expectSatellaError(
       client.createReview(
-        reviewRequest({ subject: { type: "event", id: "evt_missing" } }),
+        reviewRequest({
+          subject: { type: "event", id: "evt_missing", version: "v1" },
+        }),
         { idempotencyKey: "key-1" },
       ),
       "SATELLA_NOT_FOUND",
     );
   });
 
-  it("refuses locally a request over Satella's limits, before any call", async () => {
+  it.each([
+    [
+      "a rationale over Satella's limit",
+      reviewRequest({ rationale: "x".repeat(4001) }),
+      "key-1",
+    ],
+    ["an idempotency key with spaces", reviewRequest(), "key with spaces"],
+  ])("refuses locally %s, before any call", async (_, request, key) => {
     await expect(
-      client.createReview(reviewRequest({ rationale: "x".repeat(4001) }), {
-        idempotencyKey: "key-1",
-      }),
+      client.createReview(request, { idempotencyKey: key }),
     ).rejects.toThrow();
     expect(mock.requests).toHaveLength(0);
+  });
+});
+
+describe("get review", () => {
+  it("returns the admin's resolution without who resolved it", async () => {
+    const { review } = await client.createReview(
+      reviewRequest({ decision: "reject" }),
+      { idempotencyKey: "key-1" },
+    );
+    mock.resolveReview(review.id, "accepted");
+
+    const fetched = await client.getReview(review.id);
+
+    expect(fetched.status).toBe("accepted");
+    expect(fetched.resolution?.outcome).toBe("accepted");
+  });
+
+  it("maps an unknown review to SATELLA_NOT_FOUND", async () => {
+    await expectSatellaError(
+      client.getReview("rev_missing"),
+      "SATELLA_NOT_FOUND",
+    );
   });
 });
 
@@ -360,6 +432,7 @@ describe("authentication and limits", () => {
 
     expect(error.status).toBe(429);
     expect(error.retryAfterSeconds).toBe(45);
+    expect(error.satellaCode).toBe("RATE_LIMITED");
   });
 });
 
@@ -374,6 +447,24 @@ describe("responses outside the contract", () => {
       "SATELLA_CONTRACT_VIOLATION",
     );
     expect(error.message).not.toContain("nope");
+  });
+
+  it("keeps Satella's error code but never its message", async () => {
+    const failing = clientFor(READ_AND_RECOMMEND, () =>
+      Promise.resolve(
+        Response.json(
+          { error: { code: "VALIDATION", message: "Teléfono 600123123" } },
+          { status: 400 },
+        ),
+      ),
+    );
+
+    const error = await expectSatellaError(
+      failing.getFeed(),
+      "SATELLA_BAD_REQUEST",
+    );
+    expect(error.satellaCode).toBe("VALIDATION");
+    expect(error.message).not.toContain("600123123");
   });
 
   it("maps a network failure to SATELLA_UNAVAILABLE", async () => {
