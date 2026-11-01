@@ -38,8 +38,9 @@ fixtures.
   fixture that doesn't parse is a failing test, not a warning.
 - Cover the documented errors: 400 (bad cursor, limits), 401, 403, 404, 409 `STALE_SUBJECT`,
   429 with `Retry-After`; and `200` vs `201` on `POST /reviews`.
-- The source of truth is `docs/agent-design-brief.md` §13 (over §3). A behaviour the brief
-  doesn't state is not invented in the mock: ask the user.
+- The source of truth is Satella's shipped agent API v1, modelled in `schemas.ts` (ADR 0011);
+  the brief (§13 over §3) is its history. A behaviour neither the shipped API nor the brief
+  states is not invented in the mock: ask the user.
 
 ## 3. Evals
 

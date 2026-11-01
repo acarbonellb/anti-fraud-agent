@@ -19,9 +19,10 @@ Take the decision with the user first and write it into the ticket.
 term against `GLOSSARY.md` and the design brief. A term missing from both, or meant differently,
 is an open decision until the user picks the meaning and it lands in `GLOSSARY.md`.
 
-**Anything about Satella resolves against the brief.** A criterion that needs a Satella behaviour
-the brief doesn't state (brief §10 lists the known doubts) is `ready-for-human`: the answer comes
-from the user, never from guessing.
+**Anything about Satella resolves against the shipped contract, then the brief.** First
+`src/satella-client/schemas.ts` and Satella's agent API surface (ADR 0011), then the brief. A
+criterion that needs a Satella behaviour neither states (brief §10 lists the known doubts) is
+`ready-for-human`: the answer comes from the user, never from guessing.
 
 **A `ready-for-agent` ticket answers a skill's confirmation gates.** When a skill asks to confirm
 something before acting (e.g. `/tdd`'s seams), the AFK agent takes the answer from the ticket's
