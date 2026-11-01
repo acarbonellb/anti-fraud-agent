@@ -310,7 +310,7 @@ export type PriceBenchmark = z.infer<typeof priceBenchmarkSchema>;
 /** Satella only links `http(s)`. */
 const httpUrl = z.url({ protocol: /^https?$/ }).max(2048);
 
-const findingSchema = z.object({
+export const findingSchema = z.object({
   check: z.string().min(1).max(60),
   verdict: z.enum(["pass", "warn", "fail", "unknown"]),
   detail: z.string().max(1000),
@@ -321,7 +321,7 @@ const findingSchema = z.object({
 });
 export type Finding = z.infer<typeof findingSchema>;
 
-const infoRequestSchema = z.object({
+export const infoRequestSchema = z.object({
   questions: z.array(z.string().min(1).max(300)).min(1).max(10),
   /** A draft only: Satella never sends it to the organizer by itself. */
   draft: z.string().max(2000),

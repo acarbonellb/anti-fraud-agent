@@ -30,7 +30,8 @@ export default tseslint.config(
     },
   },
   {
-    files: ["src/config/**", "*.config.ts"],
+    // Entry points hand process.env to loadConfig; nothing else reads it.
+    files: ["src/config/**", "*.config.ts", "scripts/**"],
     rules: { "no-restricted-properties": "off" },
   },
   {
