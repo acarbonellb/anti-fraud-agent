@@ -16,6 +16,7 @@ import {
   type MockSatella,
   startMockSatella,
 } from "../satella-client/mock-server.js";
+import { PROMPT_VERSION } from "./prompt.js";
 import { reviewSubject } from "./review.js";
 
 const TOKEN = "token";
@@ -85,11 +86,15 @@ it("reviews an event and submits the recommendation to Satella", async () => {
     autonomy: "auto_resolved",
     status: "auto_resolved",
     agentRunId: "run-1",
-    promptVersion: "review-v1",
+    promptVersion: PROMPT_VERSION,
     provider: "scripted",
   });
   const similarResult = provider.requests[1]?.messages.at(-1)?.content;
   expect(similarResult).toContain("Noche jazz Lumbre");
+  // The deterministic checks ran first and their findings travel with it.
+  expect(result.review.findings.map((finding) => finding.check)).toContain(
+    "postal_code_province",
+  );
 });
 
 it("re-reviews when the event changes during the review", async () => {

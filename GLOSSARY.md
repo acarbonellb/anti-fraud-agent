@@ -38,8 +38,14 @@ fixed.
 - **Finding**: the result of one check (`pass` / `warn` / `fail` / `unknown`), with a confidence
   and its sources.
 - **Hard signal**: a finding strong enough to allow an auto-resolved `reject` (off-platform
-  payment, illegal content, exact duplicate of another organizer, capacity several times the
-  venue's), always with sources.
+  payment, illegal content including alcohol aimed at minors, exact duplicate of another
+  organizer, capacity several times the venue's), from a rule check or with sources (ADR 0012).
+- **Deterministic check**: a check computed in code on the review context before the model runs
+  (`src/checks/`). Its findings are authoritative over the model's.
+- **Rule finding / heuristic finding**: a deterministic finding that is a certain inconsistency
+  anyone can verify (rule), or one that crossed a threshold still needing judgement (heuristic).
+  Only rule findings let a `request_info` resolve on its own (ADR 0012).
+- **Mechanical request**: a `request_info` whose every negative finding is a rule finding.
 - **Run**: one execution of the agent on one subject, with its tool trace, tokens, cost and
   latency.
 - **Pass**: one scheduled sweep of the feed from the stored cursor.

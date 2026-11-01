@@ -4,6 +4,8 @@
  * subject changed during the review: re-review the new version, never retry
  * the old recommendation (CLAUDE.md §4).
  */
+import { runEventChecks } from "../checks/event-checks.js";
+import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { LlmProvider } from "../providers/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
@@ -23,6 +25,8 @@ export interface ReviewSubjectInput {
   extraTools?: readonly AnyAgentTool[];
   /** Re-reviews after a stale subject before giving up. */
   maxStaleRetries?: number;
+  /** For checks relative to "now" when an event isn't published yet. */
+  now?: () => Date;
 }
 
 export interface ReviewSubjectResult {
@@ -41,10 +45,17 @@ export async function reviewSubject(
   const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
 
   for (let attempt = 1; ; attempt += 1) {
-    const context =
+    const now = input.now?.() ?? new Date();
+    const { context, systemFindings } =
       subject.type === "event"
-        ? await satella.getEventContext(subject.id)
-        : await satella.getOrganizerContext(subject.id);
+        ? await satella.getEventContext(subject.id).then((ctx) => ({
+            context: ctx,
+            systemFindings: runEventChecks(ctx, now),
+          }))
+        : await satella.getOrganizerContext(subject.id).then((ctx) => ({
+            context: ctx,
+            systemFindings: runOrganizerChecks(ctx),
+          }));
 
     const run = await runReview({
       provider: input.provider,
@@ -53,6 +64,7 @@ export async function reviewSubject(
       autoApproveThreshold: input.autoApproveThreshold,
       task: `${subject.type} ${subject.id}`,
       context,
+      systemFindings,
     });
 
     try {

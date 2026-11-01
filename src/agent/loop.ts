@@ -5,6 +5,7 @@
  */
 import type { z } from "zod";
 
+import type { SystemFinding } from "../checks/types.js";
 import { DomainError } from "../errors.js";
 import type {
   ChatMessage,
@@ -12,6 +13,7 @@ import type {
   TokenUsage,
   ToolCall,
 } from "../providers/types.js";
+import type { Finding } from "../satella-client/schemas.js";
 import { type AutonomyVerdict, decideAutonomy } from "./policy.js";
 import { PROMPT_VERSION, systemPrompt } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
@@ -38,12 +40,17 @@ export interface TraceEntry {
   error?: string;
 }
 
+/** What a run recommends: the model's proposal with the system findings first. */
+export type Recommendation = Omit<Proposal, "findings"> & {
+  findings: Finding[];
+};
+
 export interface RunResult {
   promptVersion: string;
   provider: string;
   model: string;
   endedBy: RunEnd;
-  recommendation: Proposal;
+  recommendation: Recommendation;
   autonomy: AutonomyVerdict;
   usage: TokenUsage;
   toolCalls: number;
@@ -60,6 +67,11 @@ export interface RunReviewInput {
   task: string;
   /** The subject's review context: reaches the model fenced as untrusted. */
   context: unknown;
+  /**
+   * Findings of the deterministic checks, computed before the run. The model
+   * sees them; they win over any model finding for the same check (ADR 0012).
+   */
+  systemFindings?: readonly SystemFinding[];
   fence?: UntrustedFence;
 }
 
@@ -67,18 +79,37 @@ export interface RunReviewInput {
 const MAX_OUTPUT_TOKENS_PER_CALL = 4096;
 /** Reminders to submit before giving up on a model that only talks. */
 const MAX_NUDGES = 2;
+/** Satella accepts up to 30 findings per recommendation. */
+const MAX_FINDINGS = 30;
 
 export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const { provider, tools, limits } = input;
   const fence = input.fence ?? createUntrustedFence();
   const toolsByName = new Map(tools.map((tool) => [tool.name, tool]));
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
+  const systemFindings = input.systemFindings ?? [];
+  const systemChecks = new Set(
+    systemFindings.map((item) => item.finding.check),
+  );
 
   const messages: ChatMessage[] = [
     { role: "system", content: systemPrompt(fence.nonce) },
     {
       role: "user",
-      content: `Review ${input.task}. Its review context follows.\n${fence.wrap("review_context", input.context)}`,
+      content: [
+        `Review ${input.task}. Its review context follows.`,
+        fence.wrap("review_context", input.context),
+        "The deterministic checks already ran on that context. Their findings follow; they are authoritative and already part of the recommendation, so don't repeat them.",
+        // Their details quote organizer text, so they travel fenced too.
+        fence.wrap(
+          "deterministic_checks",
+          systemFindings.map(({ finding }) => ({
+            check: finding.check,
+            verdict: finding.verdict,
+            detail: finding.detail,
+          })),
+        ),
+      ].join("\n"),
     },
   ];
   const usage: TokenUsage = { inputTokens: 0, outputTokens: 0 };
@@ -88,7 +119,18 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   let nudges = 0;
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
-    const recommendation = proposal ?? limitFallback(endedBy);
+    const base = proposal ?? limitFallback(endedBy);
+    // System findings win: a model finding for a check the code ran is dropped.
+    const modelFindings = base.findings.filter(
+      (finding) => !systemChecks.has(finding.check),
+    );
+    const recommendation: Recommendation = {
+      ...base,
+      findings: [
+        ...systemFindings.map((item) => item.finding),
+        ...modelFindings,
+      ].slice(0, MAX_FINDINGS),
+    };
     return {
       promptVersion: PROMPT_VERSION,
       provider: provider.provider,
@@ -101,7 +143,8 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
           ? decideAutonomy({
               decision: recommendation.decision,
               confidence: recommendation.confidence,
-              findings: recommendation.findings,
+              systemFindings,
+              modelFindings,
               autoApproveThreshold: input.autoApproveThreshold,
             })
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
