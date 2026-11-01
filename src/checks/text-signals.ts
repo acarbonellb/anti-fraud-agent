@@ -51,6 +51,16 @@ const PATTERNS: Record<TextSignalKind, readonly RegExp[]> = {
   ],
 };
 
+/**
+ * "No aceptamos Bizum" warns against the very thing the payment rule looks
+ * for. A negation shortly before the match turns the signal off: a false
+ * hard signal would let a rejection resolve on its own.
+ */
+const NEGATED_BEFORE = /\b(?:no|nunca|jam[aá]s|ni)\b[^.\n]{0,30}$/i;
+const NEGATABLE: ReadonlySet<TextSignalKind> = new Set([
+  "off_platform_payment",
+]);
+
 const ALCOHOL =
   /\b(?:botell[oó]n|alcohol|barra libre|chupitos?|cervezas?|copas|cubatas?)\b/i;
 // `+14`, `menores`, `desde los 16`…; `+18` and up are adults.
@@ -66,10 +76,11 @@ export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
     ][]) {
       for (const pattern of patterns) {
         const found = pattern.exec(text);
-        if (found) {
-          signals.push({ kind, field, match: mask(found[0]) });
-          break;
-        }
+        if (!found) continue;
+        const before = text.slice(Math.max(0, found.index - 45), found.index);
+        if (NEGATABLE.has(kind) && NEGATED_BEFORE.test(before)) continue;
+        signals.push({ kind, field, match: mask(found[0]) });
+        break;
       }
     }
     const alcohol = ALCOHOL.exec(text);

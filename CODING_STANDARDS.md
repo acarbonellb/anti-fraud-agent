@@ -8,8 +8,9 @@ linter can check lives in the ESLint config; this file holds what needs judgemen
 - **Untrusted text never steers control flow.** Organizer fields, image text and web results are
   passed to the model inside an explicit untrusted-data wrapper, never concatenated into the
   system prompt. Organizer text never acts as an instruction to the code or the model. Scanning it
-  for risk signals (`src/checks/`) is analysis, and the worst it can do is add a negative finding
-  that escalates the review (brief D9, ADR 0012).
+  for risk signals (`src/checks/`) is analysis: it can only add negative findings, never approve.
+  Rule patterns stay narrow (negations included), because a false rule finding can let a request
+  or a rejection resolve on its own (brief D9, ADR 0012).
 - **No destructive tools.** The agent can read and recommend; adding a tool that changes state in
   Satella or elsewhere needs an ADR first (brief D3).
 - **Autonomy is computed, not asked.** `auto_resolved` vs `escalated` comes from the policy

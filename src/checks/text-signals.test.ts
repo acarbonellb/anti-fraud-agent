@@ -32,6 +32,19 @@ describe("off-platform payment", () => {
     expect(signal?.match).not.toMatch(/2100/);
   });
 
+  it.each([
+    "No aceptamos Bizum ni transferencias: paga solo en la web.",
+    "Nunca te pediremos un pago por PayPal.",
+  ])("ignores a warning against off-platform payment: %s", (text) => {
+    expect(kinds(text)).not.toContain("off_platform_payment");
+  });
+
+  it("still catches a payment request after an unrelated negation", () => {
+    expect(
+      kinds("No hay gastos de gestión. Paga por Bizum al organizador."),
+    ).toContain("off_platform_payment");
+  });
+
   it("ignores a venue phone with no payment wording", () => {
     expect(kinds("Información en la sala: 983 123 456")).toEqual([]);
   });
