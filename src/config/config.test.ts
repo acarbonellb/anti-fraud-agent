@@ -40,6 +40,38 @@ describe("loadConfig", () => {
     );
   });
 
+  it("defaults to the local LM Studio model and the provisional threshold", () => {
+    const config = loadConfig({});
+
+    expect(config.autoApproveThreshold).toBe(0.85);
+    expect(config.llm).toEqual({
+      provider: "lmstudio",
+      baseUrl: "http://localhost:1234/v1",
+      model: "qwen/qwen3.5-9b",
+      apiKey: undefined,
+    });
+  });
+
+  it("reads the model and its key from the environment", () => {
+    const config = loadConfig({
+      AGENT_LLM_PROVIDER: "openai",
+      AGENT_LLM_BASE_URL: "https://api.example.test/v1",
+      AGENT_LLM_MODEL: "some-model",
+      AGENT_LLM_API_KEY: "sk-test",
+      AGENT_AUTO_APPROVE_THRESHOLD: "0.9",
+    });
+
+    expect(config.llm.apiKey).toBe("sk-test");
+    expect(config.autoApproveThreshold).toBe(0.9);
+  });
+
+  it.each([
+    ["AGENT_AUTO_APPROVE_THRESHOLD", "1.5"],
+    ["AGENT_LLM_BASE_URL", "ftp://example.test"],
+  ])("rejects %s=%s", (variable, value) => {
+    expect(() => loadConfig({ [variable]: value })).toThrow(ConfigError);
+  });
+
   it("names every invalid variable and never echoes its value", () => {
     const secretLooking = "sk-not-a-number-123";
     let error: unknown;

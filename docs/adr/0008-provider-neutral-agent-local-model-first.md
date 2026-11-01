@@ -1,0 +1,69 @@
+# ADR 0008 — A provider-neutral agent with two adapters, shipped local-model first
+
+- **Date:** 2026-11-01
+- **Status:** accepted
+- **Related:** brief D8 and §4; ADR 0011 (the Satella contract); issue #5.
+
+## Context
+
+Brief D8 asks for an agent that is neutral with respect to the LLM provider: one interface with
+adapters for Claude, OpenAI and Grok over the same tools, evaluated offline first. The role the
+project targets also asks for open-source models.
+
+Two facts shaped the plan:
+
+- Not every provider needs its own adapter. An adapter translates the loop's neutral messages,
+  tools and token usage into one API format. Claude's Messages API has its own format. OpenAI's
+  Chat Completions is shared by xAI's Grok and by local servers such as LM Studio and Ollama.
+- Paid APIs cost money for every real run. The author's Claude Max plan covers claude.ai and
+  Claude Code, not API calls. The first phase has to run at zero cost, which means a local
+  open-source model.
+
+A smoke test on 2026-11-01 confirmed the local path. `qwen/qwen3.5-9b` served by LM Studio on an
+RTX 4070 Laptop (8 GB of VRAM) made a correct tool call in 1.6 s and closed the round trip with
+a correct answer. Its responses follow the OpenAI format, with an extra `reasoning_content`
+field.
+
+## Decision
+
+1. **The loop, the policy and the evals talk only to `LlmProvider`** (`src/providers/types.ts`):
+   neutral messages, tool definitions generated from Zod as JSON Schema, tool calls with their
+   raw JSON arguments, and token usage. No provider's wire format leaves its adapter.
+2. **Two adapters cover four providers.** The **OpenAI-compatible** adapter serves OpenAI, Grok
+   and local open-source servers; only the base URL, the key and the model change. The
+   **Anthropic** adapter serves Claude. Provider choice is configuration (`AGENT_LLM_*`).
+3. **They ship in phases.** Phase 1 delivers the OpenAI-compatible adapter against a local model
+   (LM Studio by default, `qwen/qwen3.5-9b`), at zero API cost. OpenAI and Grok come next as
+   configuration. Claude comes with the Anthropic adapter. Any paid run needs the author's
+   go-ahead first (CLAUDE.md §8).
+4. **A scripted provider keeps the seam honest.** Loop tests run on a provider that replays
+   scripted responses. With one real adapter, that second implementation stops the interface
+   from taking on any one provider's shape. Adapter tests replay recorded real responses
+   (`src/providers/openai-compatible/recordings/`); no unit test touches the network.
+5. **The default model is chosen by the evals, not by preference.** Once the eval runner exists
+   (#6), it compares provider × model on accuracy, approved-fraud rate, cost and latency, and
+   the winner becomes the default.
+
+## Alternatives rejected
+
+- **One adapter per provider (four).** Grok and local servers speak OpenAI's format. Four
+  adapters would mean three copies of the same translation.
+- **A unifying library (Vercel AI SDK, LiteLLM).** It saves the adapters, but hides what this
+  project is meant to show: tool schema translation, tool-call parsing and token accounting. It
+  also adds a dependency between the agent and every provider change.
+- **Start with Claude.** It has the strongest tool use, but every real run costs money from day
+  one, and a local model is enough to build and debug the loop.
+- **Configure all four providers now.** It's a lot of setup and keys before the loop has even
+  run once. The neutral interface already keeps the door open.
+
+## Consequences
+
+- A local model is weaker than the paid ones. In the first real run it miscomputed a service
+  fee: it called 150 cents on a €15 ticket "about 1%". Calculations belong in deterministic
+  tools (#7), not in the model.
+- Findings name a check from a closed vocabulary (`src/agent/checks.ts`), so the policy reads
+  stable names instead of labels the model invents.
+- `pnpm review:local` runs one real review on the local model against the Satella mock, with
+  nothing leaving the machine.
+- Cost per review is measured in tokens from day one. Prices per model arrive with the paid
+  providers.
