@@ -1,7 +1,7 @@
 # ADR 0011 — Satella's shipped agent API v1 is the contract, not the brief
 
 - **Date:** 2026-11-01
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-02
 - **Related:** brief §3, §9 step 2 and §13; brief D1 (integration by API, future ADR 0001); issues
   #4 and #13; PRs #11 and #12.
 
@@ -79,3 +79,17 @@ would have rejected every real response as a contract violation.
   smoke test against staging belongs in that issue.
 - The brief's §10 doubts about Satella still go to the user. Reading Satella's code doesn't
   settle a doubt about intent, only about what was built.
+
+## Amendment (2026-11-02): both gaps closed, and the feed tolerates new types
+
+Satella closed the two gaps listed in point 5. SAT-353 puts session date and time changes in the
+feed as `event.substantial_change` and `event.minor_change`, with a `kind` (`postponement`,
+`start_time` or `minor`). SAT-354 sends `maxCents` as `null` below 5 prices, like the
+percentiles.
+
+The first of those changes would have stopped the agent cold. The client validated feed item
+types against a closed list, so the first new item turned the whole page into a contract
+violation. Satella may add feed types within v1, so the client now skips items of a type it
+doesn't know yet and reports them in `skippedTypes`. The cursor still moves past them. Items
+of known types are still validated strictly: a known type that breaks its shape is still a
+contract violation.

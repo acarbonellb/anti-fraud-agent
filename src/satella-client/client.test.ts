@@ -124,7 +124,50 @@ describe("feed", () => {
       "fe_0002",
       "fe_0003",
       "fe_0004",
+      "fe_0005",
     ]);
+  });
+
+  it("carries the kind of a session date change", async () => {
+    const page = await client.getFeed();
+
+    expect(page.items[4]).toMatchObject({
+      type: "event.substantial_change",
+      kind: "postponement",
+    });
+  });
+
+  it("skips and counts item types it doesn't know yet, without failing the page", async () => {
+    const fromTheFuture = clientFor(READ_AND_RECOMMEND, () =>
+      Promise.resolve(
+        Response.json({
+          items: [
+            { id: "x1", type: "event.teleported", whatever: true },
+            fixtures.feed[1],
+          ],
+          nextCursor: "cursor-2",
+        }),
+      ),
+    );
+
+    const page = await fromTheFuture.getFeed();
+
+    expect(page.items.map((item) => item.id)).toEqual(["fe_0002"]);
+    expect(page.skippedTypes).toEqual(["event.teleported"]);
+    expect(page.nextCursor).toBe("cursor-2");
+  });
+
+  it("still rejects a known item type that breaks the contract", async () => {
+    const broken = clientFor(READ_AND_RECOMMEND, () =>
+      Promise.resolve(
+        Response.json({
+          items: [{ ...fixtures.feed[1], subject: { type: "venue" } }],
+          nextCursor: "cursor-2",
+        }),
+      ),
+    );
+
+    await expectSatellaError(broken.getFeed(), "SATELLA_CONTRACT_VIOLATION");
   });
 
   it("carries the before and after of an edit, and the resolved review id", async () => {
@@ -146,6 +189,11 @@ describe("feed", () => {
 
     expect(first.items.map((item) => item.id)).toEqual(["fe_0001", "fe_0002"]);
     expect(second.items.map((item) => item.id)).toEqual(["fe_0003", "fe_0004"]);
+    const third = await client.getFeed({
+      cursor: second.nextCursor ?? "",
+      limit: 2,
+    });
+    expect(third.items.map((item) => item.id)).toEqual(["fe_0005"]);
   });
 
   it("echoes the cursor when nothing is new", async () => {
@@ -154,13 +202,17 @@ describe("feed", () => {
 
     const empty = await client.getFeed({ cursor });
 
-    expect(empty).toEqual({ items: [], nextCursor: cursor });
+    expect(empty).toEqual({ items: [], nextCursor: cursor, skippedTypes: [] });
   });
 
   it("returns a null cursor for an empty feed read from the start", async () => {
     await setup({ fixtures: {} });
 
-    expect(await client.getFeed()).toEqual({ items: [], nextCursor: null });
+    expect(await client.getFeed()).toEqual({
+      items: [],
+      nextCursor: null,
+      skippedTypes: [],
+    });
   });
 
   it("rejects an invalid cursor with Satella's INVALID_CURSOR", async () => {

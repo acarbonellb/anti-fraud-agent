@@ -49,6 +49,9 @@ export const feedItemTypeSchema = z.enum([
   "organizer.profile_updated",
   "content_report.created",
   "agent_review.resolved",
+  // Date or time changes of a session only, with their `kind`.
+  "event.substantial_change",
+  "event.minor_change",
 ]);
 export type FeedItemType = z.infer<typeof feedItemTypeSchema>;
 
@@ -70,20 +73,55 @@ export const feedItemSchema = z.object({
     .optional(),
   /** On `agent_review.resolved`: the resolved recommendation. */
   reviewId: id.optional(),
+  /**
+   * On `event.substantial_change` and `event.minor_change`: `postponement`
+   * (another day), `start_time` (more than 3 h the same day) or `minor`.
+   */
+  kind: z.enum(["postponement", "start_time", "minor"]).optional(),
 });
 export type FeedItem = z.infer<typeof feedItemSchema>;
 
 export const FEED_DEFAULT_LIMIT = 50;
 export const FEED_MAX_LIMIT = 200;
 
-export const feedPageSchema = z.object({
-  items: z.array(feedItemSchema),
-  /**
-   * The last item's cursor, or the one sent when nothing is new. Null when
-   * starting from the beginning of an empty feed.
-   */
-  nextCursor: z.string().min(1).nullable(),
-});
+const knownFeedItemTypes: ReadonlySet<string> = new Set(
+  feedItemTypeSchema.options,
+);
+
+/**
+ * Satella can add feed types within v1. An item of a type the agent doesn't
+ * know yet is skipped and counted, not a contract violation: failing the
+ * whole page would stall the agent on an additive change, and the cursor
+ * still moves past it. Items of known types are validated strictly.
+ */
+export const feedPageSchema = z
+  .object({
+    items: z.array(z.looseObject({ type: z.string() })),
+    /**
+     * The last item's cursor, or the one sent when nothing is new. Null when
+     * starting from the beginning of an empty feed.
+     */
+    nextCursor: z.string().min(1).nullable(),
+  })
+  .transform((page, ctx) => {
+    const items: FeedItem[] = [];
+    const skippedTypes: string[] = [];
+    for (const [index, raw] of page.items.entries()) {
+      if (!knownFeedItemTypes.has(raw.type)) {
+        skippedTypes.push(raw.type);
+        continue;
+      }
+      const item = feedItemSchema.safeParse(raw);
+      if (!item.success) {
+        for (const issue of item.error.issues) {
+          ctx.addIssue({ ...issue, path: ["items", index, ...issue.path] });
+        }
+        return z.NEVER;
+      }
+      items.push(item.data);
+    }
+    return { items, nextCursor: page.nextCursor, skippedTypes };
+  });
 export type FeedPage = z.infer<typeof feedPageSchema>;
 
 // ── Event review context ──
@@ -291,11 +329,7 @@ export interface PriceBenchmarkQuery {
   capacityBand?: CapacityBand;
 }
 
-/**
- * Percentiles are null with fewer than 5 prices in the sample. Satella still
- * sends `maxCents` then (a known mismatch it plans to fix), so `maxCents`
- * carries no weight when `p50Cents` is null.
- */
+/** Every reference is null with fewer than 5 prices in the sample. */
 export const priceBenchmarkSchema = z.object({
   sampleSize: count,
   p10Cents: cents.nullable(),
