@@ -1,8 +1,7 @@
 name: CI
 
 # Runs on every PR and on every push to `main` (after a squash, the push run
-# is the only one that tests the real merged code). Offline evals join this
-# workflow with the eval runner (brief §9 step 4).
+# is the only one that tests the real merged code).
 on:
   push:
     branches: [main]
@@ -56,6 +55,11 @@ jobs:
       # TZ is forced to UTC by vitest.config.ts, not by the runner's default.
       - name: Tests
         run: pnpm test
+      # Replays the recorded model responses through the real agent: no model,
+      # no network, no cost. Fails on stale recordings, auto-approved fraud
+      # among the gated cases, or an evals/report.md that no longer matches.
+      - name: Offline evals
+        run: pnpm eval:replay --check
       - name: Commit messages
         if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}

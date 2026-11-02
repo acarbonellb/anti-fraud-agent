@@ -1,0 +1,61 @@
+import type { EvalCase } from "../../src/evals/types.js";
+import {
+  buildEvent,
+  buildOrganizer,
+  eventFixtures,
+  IN_THREE_WEEKS,
+} from "../builders.js";
+
+const SEED = "previous-fraud-reports";
+
+export const evalCase: EvalCase = {
+  id: "23",
+  slug: SEED,
+  title: "Organizer with previous fraud reports publishes a new event",
+  // The brief reviews the new event, so the reports reach the agent only if
+  // it reads the organizer's context: the organizer checks (ADR 0012's
+  // heuristic `organizer_history`) run on organizer reviews, not here.
+  subject: "event",
+  expected: { decisions: ["request_info"], autonomy: "escalated" },
+  build(clock) {
+    const organizer = buildOrganizer(clock, {
+      seed: `${SEED}:organizer`,
+      name: "Ritmo Total Eventos",
+      description: "Fiestas temáticas y conciertos tributo.",
+      city: "Palma",
+      postalCode: "07003",
+      createdDaysAgo: 300,
+      events: { published: 5, cancelled: 2, ended: 3 },
+      contentReports: [
+        { category: "fraud", status: "actioned", count: 3 },
+        { category: "other", status: "dismissed", count: 1 },
+      ],
+    });
+    const event = buildEvent(clock, organizer.organizer.id, {
+      seed: SEED,
+      title: "Tributo a los grandes del rock de los 80",
+      description:
+        "Tres bandas tributo repasan los éxitos del rock de los ochenta.",
+      genre: "rock",
+      artists: [{ name: "Neón Eterno" }, { name: "Los Casetes" }],
+      venue: {
+        name: "Sala Mistral",
+        address: "Carrer de la Drassana Vella 12",
+        city: "Palma",
+        province: "Illes Balears",
+        postalCode: "07003",
+        latitude: 39.5711,
+        longitude: 2.6466,
+      },
+      sessions: [
+        {
+          startsInHours: IN_THREE_WEEKS,
+          ticketTypes: [
+            { name: "General", priceCents: 2000, capacity: 500, taken: 45 },
+          ],
+        },
+      ],
+    });
+    return eventFixtures(event, organizer);
+  },
+};

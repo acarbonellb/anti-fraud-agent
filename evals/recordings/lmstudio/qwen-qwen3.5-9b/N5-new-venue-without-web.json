@@ -1,0 +1,75 @@
+{
+  "caseId": "N5",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "02a0d1842ddb5696aa90bae49521f69513ddef221cd60ffbf86ec6087651073a",
+      "latencyMs": 2669,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "HSiKe90qwA18tQ0tK2RSStotH8gLoO9T",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_003766f918\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2858,
+          "outputTokens": 42
+        }
+      }
+    },
+    {
+      "requestHash": "b2902b064135e1ab643925054dc831fd3286f393723ab22141ae3823abf0b6d9",
+      "latencyMs": 1556,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "jSKJe4nC0vpBKi1SQeoShz5VXFQrR0pa",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3242,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "375772b211aa4b86ce89402a6ffe82ef31d826e63fb740090e69dc2e0b4cc39c",
+      "latencyMs": 47537,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos sobre el organizador (org_003766f918 - Guadiana Directo):\n- **Identidad fiscal**: El nombre legal \"Guadiana Directo S.L.\" está presente y el CIF tiene un checksum válido. La dirección también está presente.\n- **Edad de la cuenta**: 930 días (aproximadamente 2 años y medio), lo cual es razonable para una promotora establecida.\n- **Historial**: Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres, lo que sugiere una estructura operativa sólida.\n- **Otros organizadores**: El propietario no tiene otros organizadores asociados, lo que reduce el riesgo de duplicidad o fraude.\n\n### Hallazgos sobre el evento (evt_8a3417cf99 - Inauguración de Espacio Tinta):\n- **Ubicación**: El código postal 06800 corresponde a Badajoz, y la dirección del venue es consistente con esta provincia.\n- **Pago fuera de plataforma**: No hay solicitudes de pago fuera de la plataforma.\n- **Enlaces externos**: No hay enlaces a otras ticketeras ni acortadores de URL.\n- **Términos abusivos**: Las condiciones no niegan la devolución en caso de cancelación.\n- **Contenido para menores**: No se ofrece alcohol a menores.\n- **Inyección de prompts**: Los textos no intentan dar instrucciones al revisor.\n- **Precios**: Ninguna entrada VIP cuesta menos que una general, y los precios están dentro de la normalidad.\n- **Gastos de gestión**: No superan el 20% del precio.\n- **Sesiones**: Las sesiones no se solapan y las fechas no son inminentes ni lejanas.\n\n### Eventos similares:\nNo se han encontrado eventos similares en la misma provincia con un título parecido cerca de las fechas del evento, lo que descarta la posibilidad de clonación.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas sospechosas. El organizador tiene un historial sólido y el evento cumple con todos los requisitos de la plataforma. Por lo tanto, mi recomendación es **aprobar** el evento.",
+          "toolCalls": [
+            {
+              "id": "oCrOTPY6Jc7Ic79B2gVdmzV5vNOzopnp",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Guadiana Directo\\\" tiene un historial sólido: cuenta con 14 eventos publicados (12 finalizados sin cancelaciones), fiscalidad verificada, y una estructura operativa estable. El evento \\\"Inauguración de Espacio Tinta\\\" cumple con todos los requisitos de la plataforma: ubicación consistente, precios razonables, términos adecuados, y sin señales de fraude o ilegalidad. No hay eventos similares que sugieran clonación. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene fiscalidad verificada, CIF válido y cuenta establecida (930 días).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.com/organizers/org_003766f918\",\"title\":\"Guadiana Directo - Perfil\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial de 14 eventos publicados, 12 finalizados sin cancelaciones. Sin informes de contenido ni despublicaciones.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.com/organizers/org_003766f918\",\"title\":\"Guadiana Directo - Historial\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con un título parecido cerca de las fechas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99/similar\",\"title\":\"Eventos similares\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 06800 corresponde a Badajoz.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20% del precio.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3375,
+          "outputTokens": 1808
+        }
+      }
+    }
+  ]
+}

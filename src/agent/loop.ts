@@ -15,7 +15,7 @@ import type {
 } from "../providers/types.js";
 import type { Finding } from "../satella-client/schemas.js";
 import { type AutonomyVerdict, decideAutonomy } from "./policy.js";
-import { PROMPT_VERSION, systemPrompt } from "./prompt.js";
+import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
 import { type AnyAgentTool, toToolDefinition } from "./tools.js";
 import { createUntrustedFence, type UntrustedFence } from "./untrusted.js";
@@ -73,6 +73,8 @@ export interface RunReviewInput {
    */
   systemFindings?: readonly SystemFinding[];
   fence?: UntrustedFence;
+  /** Defaults to the active prompt; the evals swap it to compare versions. */
+  prompt?: Prompt;
 }
 
 /** Output tokens asked for per call; the run's token budget caps it further. */
@@ -85,6 +87,7 @@ const MAX_FINDINGS = 30;
 export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const { provider, tools, limits } = input;
   const fence = input.fence ?? createUntrustedFence();
+  const prompt = input.prompt ?? REVIEW_PROMPT;
   const toolsByName = new Map(tools.map((tool) => [tool.name, tool]));
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
   const systemFindings = input.systemFindings ?? [];
@@ -93,7 +96,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   );
 
   const messages: ChatMessage[] = [
-    { role: "system", content: systemPrompt(fence.nonce) },
+    { role: "system", content: prompt.system(fence.nonce) },
     {
       role: "user",
       content: [
@@ -132,7 +135,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       ].slice(0, MAX_FINDINGS),
     };
     return {
-      promptVersion: PROMPT_VERSION,
+      promptVersion: prompt.version,
       provider: provider.provider,
       model: provider.model,
       endedBy,

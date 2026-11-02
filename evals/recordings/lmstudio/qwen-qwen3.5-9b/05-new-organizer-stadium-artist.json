@@ -1,0 +1,75 @@
+{
+  "caseId": "05",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "e08b0ce4ca2b3f2906a924bc078fad457a564e89becfcfb09ced4fb349088f03",
+      "latencyMs": 2476,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "iQ7Kr7WnQdjUceIit52XIteQccyz6yeU",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2865,
+          "outputTokens": 39
+        }
+      }
+    },
+    {
+      "requestHash": "64863232d9c7b24c37f3d86db1a10ac84e1c691e018be7578e7ec30c1c96dbed",
+      "latencyMs": 1601,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "5U7bWKONhseCWpaZwJXCwjnRLjuz35YJ",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3229,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "748640f4cef9581669836a401329efa23b9d87f9120cc8054867ab75eec20f70",
+      "latencyMs": 27508,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Datos clave:**\n- **Organizador:** \"Estrellas Cercanas Live\" (org_4f35bcdaf2)\n  - Estado: approved\n  - Creado: 2026-10-27 (hace 7 días)\n  - Fiscal: NIF presente y checksum válido\n  - Dirección: Murcia, 30001 (coincide con el evento)\n  - Historial: 1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas\n  - Equipo: 1 dueño, 1 manager, 2 scanners\n\n- **Evento:** \"Valeria Montecristo en concierto íntimo\"\n  - Fecha: 2026-11-23 (en el futuro, no inminente)\n  - Sala: Sala Pequeño Búho, Murcia\n  - Precio: 15€ (general), tarifa fija de 1€\n  - Descripción: \"La artista que llena estadios en toda Latinoamérica...\"\n\n**Puntos a considerar:**\n\n1. **Organizador nuevo pero verificado:**\n   - Cuenta de 7 días, pero fiscalidad correcta (NIF válido)\n   - Sin historial negativo (0 reportes, sin cambios sustanciales)\n   - Equipo con múltiples roles (scanner x2)\n\n2. **Evento coherente:**\n   - Todos los checks determinísticos pasaron\n   - Precio y tarifa de servicio razonables\n   - Fecha no inminente ni lejana\n   - Sin pagos fuera de plataforma, sin enlaces externos\n\n3. **Posible señal leve:**\n   - Descripción: \"La artista que llena estadios en toda Latinoamérica\" para un concierto íntimo en una sala pequeña podría ser marketing exagerado, pero no es fraude por sí mismo.\n   - No hay eventos similares detectados (no es clon).\n\n**Conclusión:**\nNo hay evidencia de fraude, ilegalidad o comportamiento sospeoso. El organizador es nuevo pero verificado fiscalmente, con historial limpio. El evento cumple todos los requisitos técnicos y de contenido. La descripción del artista puede ser marketing, no una señal de alerta.\n\nRecomiendo **aprobar** el evento.",
+          "toolCalls": [
+            {
+              "id": "aAYD5lArAStsAHbenClLThcbiYuCXaCT",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento cumple todos los requisitos de la plataforma. El organizador \\\"Estrellas Cercanas Live\\\" es nuevo (7 días) pero fiscalmente verificado con NIF válido, sin historial negativo y con equipo adecuado. Todos los checks determinísticos pasaron: postal code correcto, sin pagos fuera de plataforma, sin enlaces externos, términos no abusivos, sin contenido para menores, sin inyección de prompts, precios sanos, tarifa de servicio dentro del límite, sesiones no solapadas ni mal temporizadas. No hay eventos similares detectados (no es clon). La descripción del artista (\\\"llena estadios en Latinoamérica\\\") es marketing, no fraude. Sin señales de alerta que requieran más investigación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador fiscalmente verificado con NIF válido, cuenta nueva pero sin irregularidades.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2\",\"title\":\"Estrellas Cercanas Live\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares detectados en la provincia de Murcia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_46a35e8461/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Capacidad de 250 entradas coherente con una sala pequeña.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/venues/ven_46a35e8461\",\"title\":\"Sala Pequeño Búho\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3363,
+          "outputTokens": 1049
+        }
+      }
+    }
+  ]
+}

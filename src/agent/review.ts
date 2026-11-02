@@ -11,8 +11,10 @@ import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
 import type { Subject } from "../satella-client/schemas.js";
 import { type RunLimits, type RunResult, runReview } from "./loop.js";
+import type { Prompt } from "./prompt.js";
 import { satellaTools } from "./satella-tools.js";
 import type { AnyAgentTool } from "./tools.js";
+import type { UntrustedFence } from "./untrusted.js";
 
 export interface ReviewSubjectInput {
   subject: Subject;
@@ -27,6 +29,9 @@ export interface ReviewSubjectInput {
   maxStaleRetries?: number;
   /** For checks relative to "now" when an event isn't published yet. */
   now?: () => Date;
+  /** A fixed nonce makes the requests reproducible (evals); random otherwise. */
+  fence?: UntrustedFence;
+  prompt?: Prompt;
 }
 
 export interface ReviewSubjectResult {
@@ -65,6 +70,8 @@ export async function reviewSubject(
       task: `${subject.type} ${subject.id}`,
       context,
       systemFindings,
+      ...(input.fence === undefined ? {} : { fence: input.fence }),
+      ...(input.prompt === undefined ? {} : { prompt: input.prompt }),
     });
 
     try {
