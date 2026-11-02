@@ -10,24 +10,25 @@ import { DomainError } from "../errors.js";
 import { computeMetrics, type Metrics } from "./metrics.js";
 import type { ReportSet } from "./report.js";
 
-const rate = z.number().nullable();
+// Null when no case was there to measure.
+const measured = z.number().nullable();
 
 const metricsSchema = z.strictObject({
   cases: z.number().int().nonnegative(),
   scored: z.number().int().nonnegative(),
   failed: z.number().int().nonnegative(),
-  accuracy: rate,
-  approvedFraudRate: rate,
-  autoApprovedFraudRate: rate,
-  escalationRate: rate,
-  autonomyAccuracy: rate,
-  brier: rate,
-  meanInputTokens: rate,
-  meanOutputTokens: rate,
-  meanLatencyMs: rate,
+  accuracy: measured,
+  approvedFraudRate: measured,
+  autoApprovedFraudRate: measured,
+  escalationRate: measured,
+  autonomyAccuracy: measured,
+  brier: measured,
+  meanInputTokens: measured,
+  meanOutputTokens: measured,
+  meanLatencyMs: measured,
 }) satisfies z.ZodType<Metrics>;
 
-export const historyEntrySchema = z.strictObject({
+const historyEntrySchema = z.strictObject({
   id: z.string().regex(/^E\d{3,}$/),
   /** UTC, when the entry was appended. */
   date: z.iso.date(),
@@ -99,17 +100,22 @@ export function planHistory(input: {
   };
 }
 
-export function setName(set: Pick<CurrentSet, "provider" | "model">): string {
+export function setName(set: SetKey): string {
   return `${set.provider}/${set.model}`;
 }
 
-export function latestEntry(
+/** A recording set is one provider/model; entries and reports key on it. */
+export type SetKey = Pick<CurrentSet, "provider" | "model">;
+
+export function sameSet(a: SetKey, b: SetKey): boolean {
+  return a.provider === b.provider && a.model === b.model;
+}
+
+function latestEntry(
   history: readonly HistoryEntry[],
-  set: Pick<CurrentSet, "provider" | "model">,
+  set: SetKey,
 ): HistoryEntry | undefined {
-  return history.findLast(
-    (entry) => entry.provider === set.provider && entry.model === set.model,
-  );
+  return history.findLast((entry) => sameSet(entry, set));
 }
 
 const HOW_TO_APPEND =
@@ -212,7 +218,7 @@ function entryId(n: number): string {
   return `E${String(n).padStart(3, "0")}`;
 }
 
-export function roundMetrics(metrics: Metrics): Metrics {
+function roundMetrics(metrics: Metrics): Metrics {
   const round = (value: number | null) =>
     value === null ? null : Math.round(value * 10_000) / 10_000;
   return {

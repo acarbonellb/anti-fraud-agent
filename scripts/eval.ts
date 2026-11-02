@@ -58,7 +58,8 @@ if (noteAt !== -1 && (note === undefined || note.startsWith("--"))) {
   process.exit(2);
 }
 const only = args.filter(
-  (arg, index) => !arg.startsWith("--") && index !== noteAt + 1,
+  (arg, index) =>
+    !arg.startsWith("--") && (noteAt === -1 || index !== noteAt + 1),
 );
 const history = parseHistory(readOrEmpty(HISTORY));
 

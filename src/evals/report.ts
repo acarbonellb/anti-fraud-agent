@@ -3,7 +3,7 @@
  * the recordings and fails if it differs from the committed one, so every
  * behaviour change shows up in the PR diff (#6). No timestamps, no locale.
  */
-import type { HistoryEntry } from "./history.js";
+import { type HistoryEntry, sameSet, setName } from "./history.js";
 import { computeMetrics, type Metrics } from "./metrics.js";
 import { type CaseResult, caseOrder } from "./types.js";
 
@@ -36,17 +36,12 @@ export function renderReport(
   if (sets.length === 0) {
     lines.push("No recordings yet: run `pnpm eval` with a model.", "");
   }
-  const sorted = [...sets].sort((a, b) =>
-    compare(`${a.provider}/${a.model}`, `${b.provider}/${b.model}`),
-  );
+  const sorted = [...sets].sort((a, b) => compare(setName(a), setName(b)));
   for (const set of sorted) {
     lines.push(
       ...renderSet(
         set,
-        history.filter(
-          (entry) =>
-            entry.provider === set.provider && entry.model === set.model,
-        ),
+        history.filter((entry) => sameSet(entry, set)),
       ),
     );
   }
