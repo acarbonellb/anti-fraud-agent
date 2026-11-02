@@ -22,7 +22,8 @@ export const CHECKS = {
   price_sanity:
     "Prices against the benchmark and between ticket types (VIP below general…).",
   service_fee: "Service fees out of proportion.",
-  session_dates: "Imminent, very distant or overlapping sessions.",
+  session_dates: "Overlapping sessions of the event.",
+  session_timing: "A session imminent after publishing, or very far away.",
   off_platform_payment:
     "Asks to pay outside the platform (Bizum, transfer, phone). Hard signal.",
   external_ticketing_link: "Links to other ticketing sites or URL shorteners.",

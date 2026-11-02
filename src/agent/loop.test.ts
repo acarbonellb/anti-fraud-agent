@@ -12,6 +12,7 @@ import {
   sayText,
 } from "../providers/scripted-provider.js";
 import type { CompletionResponse } from "../providers/types.js";
+import { systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";
 import { defineTool } from "./tools.js";
 import { createUntrustedFence } from "./untrusted.js";
@@ -186,6 +187,81 @@ describe("a run that ends in a submission", () => {
 
     expect(outcome.trace[0]?.error).toBe("INVALID_INPUT");
     expect(outcome.recommendation.infoRequest?.questions).toEqual(["¿Aforo?"]);
+  });
+});
+
+describe("deterministic findings", () => {
+  const postalCodeFail = systemFinding(
+    "rule",
+    "postal_code_province",
+    "fail",
+    "Regla CP↔provincia: el 28013 es de Madrid, no de Sevilla.",
+  );
+
+  it("shows them to the model fenced, and puts them first in the recommendation", async () => {
+    const { provider, result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          decision: "request_info",
+          infoRequest: { questions: ["¿Provincia?"], draft: "Hola" },
+        }),
+      ],
+      { systemFindings: [postalCodeFail] },
+    );
+
+    const outcome = await result;
+
+    const user = provider.requests[0]?.messages[1]?.content ?? "";
+    expect(user).toContain(
+      '<untrusted_data source="deterministic_checks" nonce="n0nce">',
+    );
+    expect(user).toContain("28013 es de Madrid");
+    expect(outcome.recommendation.findings[0]).toEqual(postalCodeFail.finding);
+    expect(outcome.autonomy).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["mechanical request: postal_code_province"],
+    });
+  });
+
+  it("drops a model finding that contradicts a check the code ran", async () => {
+    const { result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          findings: [
+            {
+              check: "postal_code_province",
+              verdict: "pass",
+              detail: "Todo bien.",
+              confidence: 1,
+              sources: [],
+            },
+          ],
+        }),
+      ],
+      { systemFindings: [postalCodeFail] },
+    );
+
+    const outcome = await result;
+
+    expect(
+      outcome.recommendation.findings.filter(
+        (finding) => finding.check === "postal_code_province",
+      ),
+    ).toEqual([postalCodeFail.finding]);
+    expect(outcome.autonomy.autonomy).toBe("escalated");
+  });
+
+  it("keeps them in the fallback when a limit ends the run", async () => {
+    const { result } = run([callTool("lookup_venue", { name: "A" })], {
+      systemFindings: [postalCodeFail],
+      limits: { ...LIMITS, maxToolCalls: 0 },
+    });
+
+    expect((await result).recommendation.findings).toEqual([
+      postalCodeFail.finding,
+    ]);
   });
 });
 

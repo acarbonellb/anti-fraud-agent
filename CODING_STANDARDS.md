@@ -7,12 +7,19 @@ linter can check lives in the ESLint config; this file holds what needs judgemen
 
 - **Untrusted text never steers control flow.** Organizer fields, image text and web results are
   passed to the model inside an explicit untrusted-data wrapper, never concatenated into the
-  system prompt. No code path branches on a string the organizer wrote (brief D9).
+  system prompt. Organizer text never acts as an instruction to the code or the model. Scanning it
+  for risk signals (`src/checks/`) is analysis: it can only add negative findings, never approve.
+  Rule patterns stay narrow (negations included), because a false rule finding can let a request
+  or a rejection resolve on its own (brief D9, ADR 0012).
 - **No destructive tools.** The agent can read and recommend; adding a tool that changes state in
   Satella or elsewhere needs an ADR first (brief D3).
-- **Autonomy is computed, not asked.** `auto_resolved` vs `escalated` comes from the policy in
-  brief §4.2 applied to the findings, not from the model's own claim. The model proposes; the
-  policy decides how much to trust it.
+- **Autonomy is computed, not asked.** `auto_resolved` vs `escalated` comes from the policy
+  (brief §4.2 refined by ADR 0012) applied to the findings, not from the model's own claim. The
+  model proposes; the policy decides how much to trust it.
+- **Evidence over claims.** Anything a rule can compute is a deterministic check in `src/checks/`,
+  run in code before the model, never left to the model. A model `pass` is not evidence. A new
+  deterministic check declares whether it is a `rule` or a `heuristic`. When in doubt it is a
+  heuristic: a false rule lets a request resolve on its own.
 - **Limits are enforced by the loop**, not by the prompt: a run that reaches a limit escalates
   with the reason recorded.
 
