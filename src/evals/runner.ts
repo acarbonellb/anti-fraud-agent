@@ -37,12 +37,17 @@ import {
 } from "./types.js";
 
 // The production defaults: a recording made on one machine replays on any.
-const { runLimits, autoApproveThreshold } = loadConfig({});
+const { runLimits, autoApproveThreshold: defaultThreshold } = loadConfig({});
 const TOKEN = "eval";
 
 export interface RunOptions {
   /** Defaults to the active prompt. */
   prompt?: Prompt;
+  /**
+   * Defaults to the production one. Lets a test move the metrics with the
+   * same recordings, as a policy change would (#21).
+   */
+  autoApproveThreshold?: number;
 }
 
 export interface Recorded {
@@ -60,7 +65,13 @@ export async function recordCase(
   const prompt = options.prompt ?? REVIEW_PROMPT;
   const recorder = createRecordingProvider(provider);
   try {
-    const outcome = await review(evalCase, recorder, clock, prompt);
+    const outcome = await review(
+      evalCase,
+      recorder,
+      clock,
+      prompt,
+      options.autoApproveThreshold ?? defaultThreshold,
+    );
     const recording: Recording = {
       caseId: evalCase.id,
       provider: provider.provider,
@@ -96,6 +107,7 @@ export async function replayCase(
       createReplayProvider(recording),
       new Date(recording.clock),
       prompt,
+      options.autoApproveThreshold ?? defaultThreshold,
     );
     return resultOf(evalCase, withLatency(outcome, recording.calls));
   } catch (error) {
@@ -139,6 +151,7 @@ async function review(
   provider: LlmProvider,
   clock: Date,
   prompt: Prompt,
+  autoApproveThreshold: number,
 ): Promise<Omit<CaseOutcome, "latencyMs">> {
   const fixtures = evalCase.build(clock);
   const mock = await startMockSatella({

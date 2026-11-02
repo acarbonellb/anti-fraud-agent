@@ -1,21 +1,37 @@
 /**
  * The offline evals (brief §4.3 and §5, issue #6).
  *
- *   pnpm eval [case…]          record with the configured model (AGENT_LLM_*;
+ *   pnpm eval [case…] [--note "<what changed>"]
+ *                              record with the configured model (AGENT_LLM_*;
  *                              LM Studio by default, free), then replay all
- *   pnpm eval:replay           replay every recording, rewrite the report
+ *   pnpm eval:replay [--note "<what changed>"]
+ *                              replay every recording, append to the history
+ *                              and rewrite the report
  *   pnpm eval:replay --check   CI: no model, no network; fails on stale or
  *                              missing recordings, on auto-approved fraud among
- *                              the gated cases, or on a report that changed
+ *                              the gated cases, on metrics the history doesn't
+ *                              hold, on an entry with no experiment section, or
+ *                              on a report that changed
+ *
+ * Both writing modes append one history entry per set whose metrics or prompt
+ * versions moved, and then require `--note` (#21, ADR 0014).
  *
  * A paid provider records only with the author's go-ahead (CLAUDE.md §8).
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { EVAL_CASES } from "../evals/cases/index.js";
 import { loadConfig } from "../src/config/config.js";
 import { gateFailures } from "../src/evals/gate.js";
+import {
+  experimentIds,
+  historyFailures,
+  measureSet,
+  parseHistory,
+  planHistory,
+  serializeHistory,
+} from "../src/evals/history.js";
 import { renderReport } from "../src/evals/report.js";
 import { recordCase, replaySet } from "../src/evals/runner.js";
 import { loadRecordingSets, writeRecording } from "../src/evals/store.js";
@@ -25,11 +41,27 @@ const RECORDINGS = fileURLToPath(
   new URL("../evals/recordings", import.meta.url),
 );
 const REPORT = fileURLToPath(new URL("../evals/report.md", import.meta.url));
+const HISTORY = fileURLToPath(
+  new URL("../evals/history.jsonl", import.meta.url),
+);
+const EXPERIMENTS = fileURLToPath(
+  new URL("../docs/experiments.md", import.meta.url),
+);
 
 const args = process.argv.slice(2);
 const replayOnly = args.includes("--replay");
 const check = args.includes("--check");
-const only = args.filter((arg) => !arg.startsWith("--"));
+const noteAt = args.indexOf("--note");
+const note = noteAt === -1 ? undefined : args[noteAt + 1];
+if (noteAt !== -1 && (note === undefined || note.startsWith("--"))) {
+  console.error('--note takes a value: --note "<what changed>".');
+  process.exit(2);
+}
+const only = args.filter(
+  (arg, index) =>
+    !arg.startsWith("--") && (noteAt === -1 || index !== noteAt + 1),
+);
+const history = parseHistory(readOrEmpty(HISTORY));
 
 if (!replayOnly) await record(only);
 
@@ -37,14 +69,22 @@ const sets = [];
 for (const set of loadRecordingSets(RECORDINGS)) {
   sets.push(await replaySet(EVAL_CASES, set));
 }
-const report = renderReport(sets);
+const current = sets.map(measureSet);
 
 if (check) {
-  const failures = gateFailures(sets);
+  const report = renderReport(sets, history);
+  const failures = [
+    ...gateFailures(sets),
+    ...historyFailures({
+      history,
+      current,
+      experimentIds: experimentIds(readOrEmpty(EXPERIMENTS)),
+    }),
+  ];
   if (sets.length === 0) {
     failures.push("No recordings in evals/recordings/. Run `pnpm eval`.");
   }
-  if (committedReport() !== report) {
+  if (readOrEmpty(REPORT) !== report) {
     failures.push(
       "evals/report.md differs from the replayed one. Run `pnpm eval:replay` and commit it.",
     );
@@ -53,7 +93,27 @@ if (check) {
   if (failures.length > 0) process.exit(1);
   console.log(`✓ ${String(sets.length)} recording set(s) replay cleanly.`);
 } else {
-  writeFileSync(REPORT, report);
+  const plan = planHistory({
+    history,
+    current,
+    ...(note === undefined ? {} : { note }),
+    date: new Date().toISOString().slice(0, 10),
+  });
+  if ("noteMissing" in plan) {
+    console.error(
+      `✗ The metrics of ${plan.noteMissing.join(", ")} moved: say what changed. ` +
+        `Run \`pnpm eval:replay --note "<what changed>"\`` +
+        (replayOnly ? "." : " (the new recordings are kept)."),
+    );
+    process.exit(1);
+  }
+  appendFileSync(HISTORY, serializeHistory(plan.append));
+  writeFileSync(REPORT, renderReport(sets, [...history, ...plan.append]));
+  for (const entry of plan.append) {
+    console.log(
+      `History: ${entry.id} appended for ${entry.provider}/${entry.model}. Write its \`## ${entry.id}\` section in docs/experiments.md.`,
+    );
+  }
   console.log(`Report written to evals/report.md.`);
 }
 
@@ -90,10 +150,11 @@ async function record(ids: readonly string[]): Promise<void> {
   }
 }
 
-function committedReport(): string | null {
+function readOrEmpty(path: string): string {
   try {
-    return readFileSync(REPORT, "utf8");
-  } catch {
-    return null;
+    return readFileSync(path, "utf8");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return "";
+    throw error;
   }
 }

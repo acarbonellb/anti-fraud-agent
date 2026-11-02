@@ -71,6 +71,9 @@ Closes #<n>
 - **Evidence:** the test that failed and now passes, command output, or **eval metrics before and
   after** (accuracy, approved-fraud rate, cost) when the change touches prompts, policy or tools.
   Docs-only: say so in one line.
+- **A PR that moves eval metrics** (prompt, model, tools, checks, policy): Evidence shows the
+  before and after `evals/history.jsonl` entries (id, note and the key gated metrics) and links
+  its `docs/experiments.md` section (ADR 0014).
 - **Door:** two-way if reverting leaves everything as it was; one-way if not (data migrations,
   anything sent to Satella, deleting recordings or eval history).
 

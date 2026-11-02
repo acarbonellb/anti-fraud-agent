@@ -12,14 +12,15 @@ Language: code, commits, PRs, issues and docs in **English**. The agent's `ratio
 
 ## 2. Docs index (authoritative in their area)
 
-| Area                                                                                          | Doc                                                                             |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **Specification** (tools, autonomy, evals, deployment; the Satella contract's design history) | `docs/agent-design-brief.md` — **§13 overrides §3** where they differ           |
-| **Satella contract** (what the agent API v1 actually serves)                                  | `src/satella-client/schemas.ts` — ADR 0011: the shipped API wins over the brief |
-| Domain vocabulary                                                                             | `GLOSSARY.md`                                                                   |
-| Architecture decisions                                                                        | `docs/adr/` (index in `docs/adr/README.md`)                                     |
-| Review standards                                                                              | `CODING_STANDARDS.md`                                                           |
-| Issue tracker, triage labels, domain docs for skills                                          | `docs/agents/`                                                                  |
+| Area                                                                                          | Doc                                                                              |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Specification** (tools, autonomy, evals, deployment; the Satella contract's design history) | `docs/agent-design-brief.md` — **§13 overrides §3** where they differ            |
+| **Satella contract** (what the agent API v1 actually serves)                                  | `src/satella-client/schemas.ts` — ADR 0011: the shipped API wins over the brief  |
+| Domain vocabulary                                                                             | `GLOSSARY.md`                                                                    |
+| Eval metrics over time and why they moved                                                     | `evals/history.jsonl` (generated) and `docs/experiments.md` (written) — ADR 0014 |
+| Architecture decisions                                                                        | `docs/adr/` (index in `docs/adr/README.md`)                                      |
+| Review standards                                                                              | `CODING_STANDARDS.md`                                                            |
+| Issue tracker, triage labels, domain docs for skills                                          | `docs/agents/`                                                                   |
 
 ## 3. Fixed stack (unless an ADR says otherwise)
 
@@ -46,6 +47,7 @@ Language: code, commits, PRs, issues and docs in **English**. The agent's `ratio
 - **`runId` and `correlationId`** in every log line and in the `X-Correlation-Id` header to Satella.
 - **Bounded runs:** `AGENT_MAX_TOOL_CALLS`, `AGENT_MAX_TOKENS`, `AGENT_MAX_WEB_SEARCHES`; reaching one escalates and records why (brief §4.2).
 - **Deterministic or sourced:** every tool is deterministic or returns its sources. External calls are recorded and replayed in evals.
+- **Metric changes are logged.** A change that moves eval metrics appends its `evals/history.jsonl` entry (`pnpm eval:replay --note "…"`) and writes its `docs/experiments.md` section in the same PR. Past entries and sections are never rewritten: a newer entry corrects them (ADR 0014).
 - **Eval fixtures are fictitious.** Organizers, promoters and artists in problem cases are invented: no case may suggest that a real person or company commits fraud. Real venues only to check that they exist and their capacity.
 
 ## 6. Code conventions

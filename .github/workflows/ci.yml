@@ -57,7 +57,9 @@ jobs:
         run: pnpm test
       # Replays the recorded model responses through the real agent: no model,
       # no network, no cost. Fails on stale recordings, auto-approved fraud
-      # among the gated cases, or an evals/report.md that no longer matches.
+      # among the gated cases, metrics the history doesn't hold, a history
+      # entry with no experiment section, or an evals/report.md that no longer
+      # matches.
       - name: Offline evals
         run: pnpm eval:replay --check
       - name: Commit messages
