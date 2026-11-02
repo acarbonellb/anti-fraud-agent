@@ -1,0 +1,75 @@
+{
+  "caseId": "18",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "71c3dddb5ecc99f9d25abcdebf9731d1b9b496ac9cddadc5ccd4d3691d33c22a",
+      "latencyMs": 2679,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "a5VuSCHEyVO5yoAQCAjfGviSmJDlEDKi",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_d23a73c5fb\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2869,
+          "outputTokens": 40
+        }
+      }
+    },
+    {
+      "requestHash": "045d89a2118ddcbbef5975406491d2adf2d19aa0fed057f3fa3d1572dd38a1ce",
+      "latencyMs": 1612,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "UnxBmFw048DQmeMjC5Fi4rU0PFWOm5zl",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_12f51c9410\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3257,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "ae8c6fa92288d64db1509b13c91cc3016bfcbcd8b438f2f8d069b0e08114ea65",
+      "latencyMs": 54613,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento `evt_12f51c9410` (\"Gira del aniversario de Viento de Cierzo\") y su organizador (`org_d23a73c5fb`, \"Horizonte Lejano Eventos\"). A continuación, presento mi análisis basado en los datos disponibles:\n\n### Análisis del evento\n- **Título**: \"Gira del aniversario de Viento de Cierzo\"\n- **Artista**: Viento de Cierzo (headliner)\n- **Fecha**: 1 de noviembre de 2029\n- **Lugar**: Palacio de los Calados, Logroño, La Rioja\n- **Precio**: 3500 céntimos (35€) para entradas generales\n- **Gastos de gestión**: 100 céntimos (fijos)\n\n### Verificación del organizador\n- **Nombre**: Horizonte Lejano Eventos\n- **Estado**: Aprobado\n- **Creado**: 16 de mayo de 2024\n- **Datos fiscales**: CIF presente y con checksum válido\n- **Dirección**: Logroño, 26001 (coincide con el código postal del evento)\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido\n- **Equipo**: 1 propietario, 1 gerente, 2 escáneres\n\n### Deterministic checks realizados\nTodos los controles determinísticos han pasado o tienen una advertencia leve:\n- **postal_code_province**: Pass (el código postal 26001 corresponde a La Rioja)\n- **off_platform_payment**: Pass (no se pide pagar fuera de la plataforma)\n- **external_ticketing_link**: Pass (no hay enlaces externos a otras ticketeras)\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación)\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores)\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor)\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general)\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio)\n- **session_dates**: Pass (las sesiones no se solapan)\n- **session_timing**: Warn (la sesión está a más de 548 días de la publicación, lo cual es inusual pero no necesariamente fraudulento)\n\n### Búsqueda de eventos similares\nNo se encontraron eventos similares en otras organizaciones en la misma provincia con un título parecido cerca de las fechas del evento. Esto descarta la posibilidad de que sea un clon o una copia.\n\n### Conclusión\nEl evento parece ser legítimo y no hay señales de fraude o ilegalidad. La única advertencia es el timing de la sesión (más de 548 días después de la publicación), pero esto puede ser normal para eventos de larga planificación, especialmente para aniversarios o giras especiales. El organizador tiene un historial sólido y datos fiscales válidos.\n\n### Recomendación\nAprobación del evento con una confianza alta, dado que no hay evidencia de fraude ni ilegalidad, y las advertencias son leves y justificables.",
+          "toolCalls": [
+            {
+              "id": "ZUlXxwfycaGloarIb0NEmnASRYiMclWP",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Gira del aniversario de Viento de Cierzo\\\" es legítimo y no presenta señales de fraude ni ilegalidad. El organizador \\\"Horizonte Lejano Eventos\\\" tiene un historial sólido (14 eventos publicados, 12 finalizados), datos fiscales válidos (CIF con checksum correcto) y una dirección consistente con el código postal del evento. Todos los controles determinísticos han pasado o tienen advertencias leves justificables (timing de la sesión a más de 548 días, que es normal para aniversarios o giras especiales). No se encontraron eventos similares que sugieran clonación. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 26001 corresponde a La Rioja.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"Hay una sesión (1/11/29, 9:00) a más de 548 días de la publicación.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con CIF válido, dirección consistente y cuenta antigua (930 días).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en otras organizaciones en la misma provincia.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_12f51c9410.jpg\",\"title\":\"Evento evt_12f51c9410\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3391,
+          "outputTokens": 2076
+        }
+      }
+    }
+  ]
+}

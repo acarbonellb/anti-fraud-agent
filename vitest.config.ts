@@ -7,7 +7,7 @@ process.env.TZ = "UTC";
 
 export default defineConfig({
   test: {
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "evals/**/*.test.ts"],
     restoreMocks: true,
   },
 });

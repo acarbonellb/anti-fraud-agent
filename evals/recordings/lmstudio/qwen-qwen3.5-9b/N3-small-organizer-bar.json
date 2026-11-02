@@ -1,0 +1,75 @@
+{
+  "caseId": "N3",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T17:43:00.000Z",
+  "calls": [
+    {
+      "requestHash": "ad3eedde5dc5770f5533363eb3b2350e9596de43f4f50e1524fd92147a42af40",
+      "latencyMs": 2660,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "oE4h9lYvG8kv119rYoFyzla0ceLrGhFl",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_4a047afca5\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2867,
+          "outputTokens": 40
+        }
+      }
+    },
+    {
+      "requestHash": "c3772918d32d947289697646c6d51175976a2f6c5b3a8c890bd4e3bb5db3a744",
+      "latencyMs": 1563,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "9YOCjLyj3oSUhAeQJspI3kWdprVsTN17",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_3519e887b2\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3277,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "ba0f88b3398d96b53b901d2546cd624f449224c0c1482420b33a783ca8bf042f",
+      "latencyMs": 51890,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento `evt_3519e887b2` (\"Concierto de Os Vagalumes en La Tartana\") y su contexto organizador. A continuación, presento los hallazgos:\n\n### Contexto del organizador (Peña Gatuna):\n- **Estado**: Aprobado desde septiembre de 2022.\n- **Datos fiscales**: Nombre legal presente, CIF válido y con checksum correcto.\n- **Historial**: 9 eventos publicados, 8 finalizados sin cancelaciones. Sin denuncias por contenido ni cambios sustanciales.\n- **Equipo**: 1 propietario, 1 gerente y 2 escáneres.\n- **Presencia web**: Anuncia conciertos en Instagram desde 2019.\n\n### Contexto del evento:\n- **Título**: \"Concierto de Os Vagalumes en La Tartana\".\n- **Descripción**: Conciso y coherente con un concierto pequeño en un bar.\n- **Género**: Folk.\n- **Artista**: Os Vagalumes (con foto).\n- **Lugar**: Bar La Tartana, Lugo (código postal 27001, consistente con la provincia).\n- **Sesión**: Una sola sesión del 23 de noviembre de 2026, con puertas a las 14:00 y concierto a las 15:00.\n- **Entradas**: Tipo \"General\" a 8€ (800 céntimos), con capacidad de 80 y 31 ocupadas.\n- **Gastos de gestión**: Fijos en 1€, lo que representa un 12,5% del precio de la entrada (dentro del límite del 20%).\n- **Términos**: Permiten devolución en caso de cancelación y no admiten cambios de titularidad.\n\n### Deterministic checks (ya realizados):\nTodos los controles determinísticos han pasado:\n- Código postal consistente con la provincia.\n- Sin pagos fuera de plataforma.\n- Sin enlaces externos a otras ticketeras ni acortadores.\n- Términos sin cláusulas abusivas.\n- Sin alcohol para menores.\n- Sin intentos de inyección de prompts.\n- Precios sanos (ninguna VIP más barata que la general).\n- Gastos de gestión dentro del 20%.\n- Sesiones no solapadas ni con fechas extremas.\n\n### Búsqueda de eventos similares:\nNo se encontraron eventos similares en otras organizaciones en la misma provincia (Lugo) con títulos parecidos y fechas cercanas, lo que descarta la posibilidad de un clon o evento exacto duplicado por otro organizador.\n\n### Análisis adicional:\n- **Organizador**: Peña Gatuna es una organización cultural establecida desde 2019, con un historial limpio y datos fiscales válidos. No hay señales de fraude ni irregularidades.\n- **Evento**: El evento parece legítimo, con una descripción clara, un lugar real (Bar La Tartana en Lugo) y precios razonables para un concierto pequeño en un bar.\n- **Artista**: Os Vagalumes es un grupo folk gallego conocido, lo que añade credibilidad al evento.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o irregularidades. El evento cumple con todos los requisitos de la plataforma y el organizador tiene un historial sólido. Por lo tanto, mi recomendación es **aprobar** el evento.",
+          "toolCalls": [
+            {
+              "id": "TIAi3XX2XEGldGdru5hZhWKnzsuBq9gl",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Concierto de Os Vagalumes en La Tartana\\\" es legítimo y cumple con todos los requisitos de la plataforma. El organizador (Peña Gatuna) tiene un historial sólido, datos fiscales válidos y sin denuncias. El evento tiene una descripción clara, precios razonables, gastos de gestión dentro del límite del 20%, y no presenta señales de fraude ni irregularidades. No se encontraron eventos similares que pudieran ser clones. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2022, con CIF válido y checksum correcto.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizers/org_4a047afca5\",\"title\":\"Peña Gatuna\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"9 eventos publicados, 8 finalizados sin cancelaciones. Sin denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/org_4a047afca5\",\"title\":\"Historial de eventos\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/events/evt_3519e887b2/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 27001 corresponde a Lugo.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/venue/ven_3519e887b2\",\"title\":\"Bar La Tartana\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_3519e887b2\",\"title\":\"Concierto de Os Vagalumes en La Tartana\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3417,
+          "outputTokens": 2002
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "caseId": "12",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "ed7affcab6ae5432b3fc6f7e9ff77cec9f86294890486ed553be58c6deba5d65",
+      "latencyMs": 2729,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "0tIGryFsT5PCNsN1fKXzO2ZHMrTd08WS",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2884,
+          "outputTokens": 39
+        }
+      }
+    },
+    {
+      "requestHash": "4b58a5ea669ef3af0e047fe67cd19665543976e01f6cdd5d46645d9a1ba8dfae",
+      "latencyMs": 1568,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "DHRx7Km5LSjfZimGijG8uEzVExxuFMSl",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_d11830d06b\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3262,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "1accdd625141e307e1a4a1b2cad5f94eb40f7e23d408702cdcbf718a172cf877",
+      "latencyMs": 29309,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos (autoritativos):**\n- `postal_code_province`: pass - El código postal 08012 corresponde a Barcelona.\n- `off_platform_payment`: pass - No hay solicitud de pago fuera de la plataforma.\n- `external_ticketing_link`: pass - No hay enlaces externos a otras ticketeras ni acortadores.\n- `abusive_terms`: **fail** - Las condiciones niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esto es una cláusula abusiva según las reglas de la plataforma.\n- `minors_alcohol`: pass - No hay alcohol para menores.\n- `prompt_injection`: pass - No hay intentos de instruir al revisor.\n- `price_sanity`: pass - Ninguna entrada VIP cuesta menos que una general.\n- `service_fee`: pass - Los gastos de gestión no superan el 20% del precio.\n- `session_dates`: pass - Las sesiones no se solapan.\n- `session_timing`: pass - Las fechas de las sesiones no son inminentes ni lejanas.\n\n**Contexto del organizador:**\n- El organizador \"Comedia en Vena\" está aprobado, tiene una cuenta activa desde mayo de 2024 (930 días), con datos fiscales válidos (CIF con checksum correcto).\n- Tiene 14 eventos publicados, 12 finalizados y 0 cancelados.\n- No hay informes de contenido ni despublicaciones por admin.\n- El equipo tiene roles adecuados (owner, manager, scanner).\n\n**Búsqueda de eventos similares:**\n- No hay eventos similares en la misma provincia con fechas cercanas, lo que descarta clonación.\n\n**Análisis del fallo en `abusive_terms`:**\nLa cláusula «No se devolverá el dinero aunque se cancele el evento por cualquier motivo» es claramente abusiva y va en contra de las políticas de protección al consumidor en España. Esta es una violación clara de las reglas de la plataforma.\n\n**Decisión:**\nDado que hay un fallo claro en `abusive_terms` (cláusula abusiva), el evento debe ser rechazado. No hay evidencia de fraude, pero la cláusula abusiva por sí sola justifica el rechazo según las políticas de la plataforma.\n\nNo necesito solicitar información adicional porque el hallazgo es claro y autoritativo.",
+          "toolCalls": [
+            {
+              "id": "8RekT2IalBxCdElhAvxjJYtTZx1CmBDL",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento contiene una cláusula abusiva en sus términos: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula niega la devolución incluso en caso de cancelación, lo cual es contrario a las políticas de protección al consumidor y a las reglas de la plataforma. El organizador tiene un historial limpio (14 eventos publicados, 0 cancelados, sin informes de contenido), datos fiscales válidos y no hay señales de fraude o clonación. Sin embargo, la cláusula abusiva por sí sola justifica el rechazo del evento.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula es abusiva y contraviene las políticas de protección al consumidor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Cover del evento\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Comedia en Vena' tiene datos fiscales válidos (CIF con checksum correcto), cuenta activa desde 2024 y sin otros organizadores asociados.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_24aa87dac6\",\"title\":\"Perfil del organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene 14 eventos publicados, 12 finalizados y 0 cancelados. No hay informes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_24aa87dac6\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia con fechas cercanas, descartando clonación.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_d11830d06b\",\"title\":\"Evento principal\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3401,
+          "outputTokens": 1115
+        }
+      }
+    }
+  ]
+}

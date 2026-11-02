@@ -1,0 +1,75 @@
+{
+  "caseId": "11",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "9cc24d8c1b8e8360e9608a2d4aec2abaf2ddfe639c2d66742a654aea35e11df4",
+      "latencyMs": 2615,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "PUr34lsYhHEBiw1ayCFxqwAuQ0pCdvwN",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2899,
+          "outputTokens": 42
+        }
+      }
+    },
+    {
+      "requestHash": "fe2b3c43a19c950d0191660b775fc0a72d82a965311ac0392ee037732bb96979",
+      "latencyMs": 1575,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "jDFG0hHw822fDy68sXkJ4WSkLKX85tbU",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3292,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "4402536149e342a5a05c51a2d644b9b06e6d325ba4993143d597d506af1d19c4",
+      "latencyMs": 28946,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Norte Bravo Conciertos):**\n- Estado: approved\n- Creado en 2024, cuenta con 930 días de antigüedad\n- Datos fiscales presentes y con checksum válido\n- No tiene otros organizadores asociados\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido\n- Equipo completo (owner, manager, scanners)\n\n**Evento:**\n- Título: \"Xana Rock: gira de invierno\"\n- Género: rock\n- Fecha: 23 de noviembre de 2026\n- Sala El Hórreo Eléctrico en Oviedo, Asturias\n- Precio de entrada general: 1600 céntimos (16€)\n- Comisión de servicio: 100 céntimos (fija)\n\n**Deterministic checks:** Todos los controles determinísticos han pasado o tienen advertencia leve:\n- postal_code_province: pass\n- off_platform_payment: pass\n- external_ticketing_link: warn (bit.ly en la descripción - esto es una advertencia, no un fallo)\n- abusive_terms: pass\n- minors_alcohol: pass\n- prompt_injection: pass\n- price_sanity: pass\n- service_fee: pass\n- session_dates: pass\n- session_timing: pass\n\n**Hallazgos adicionales:**\n- No hay eventos similares en la provincia con fechas cercanas (find_similar_events devolvió vacío)\n- El organizador tiene buena reputación y historial limpio\n- La URL bit.ly es una advertencia leve pero no un fallo, ya que muchas páginas usan acortadores de URL para enlaces a otras ticketeras\n\n**Conclusión:**\nNo hay evidencia de fraude, contenido ilegal o prácticas sospechosas. El único punto de atención es el uso de un enlace acortado (bit.ly), pero esto es común y no necesariamente indica fraude. El organizador es legítimo y tiene buen historial.\n\nRecomendación: **approve** con confianza moderada-alta.",
+          "toolCalls": [
+            {
+              "id": "Y4feVtCEPmEGRkJeFuLh4MvpN7lYc1lz",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento y el organizador presentan una imagen limpia sin señales de fraude. El organizador Norte Bravo Conciertos tiene 930 días de antigüedad, datos fiscales válidos, historial positivo (14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias), y equipo completo. Todos los controles determinísticos han pasado o tienen advertencias leves. No hay eventos similares que sugieran clonación. La única observación es el uso de un enlace acortado bit.ly en la descripción, pero esto es común y no constituye fraude por sí mismo. El precio (16€) y la comisión (100 céntimos) son razonables. Se aprueba con confianza moderada-alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, email verificado, sin otros organizadores asociados.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_935780b688\",\"title\":\"Norte Bravo Conciertos - Perfil\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 denuncias de contenido, 0 revisiones previas como agente.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_935780b688\",\"title\":\"Norte Bravo Conciertos - Historial\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Asturias con fechas cercanas (ventana de 60 días).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_36c9c3f3cb/similar\",\"title\":\"Eventos similares\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción contiene un enlace acortado bit.ly/xana-invierno-entradas. Esto es una advertencia leve pero no un fallo, ya que el uso de acortadores de URL es común y no necesariamente indica fraude.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_36c9c3f3cb\",\"title\":\"Xana Rock: gira de invierno\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3433,
+          "outputTokens": 1103
+        }
+      }
+    }
+  ]
+}

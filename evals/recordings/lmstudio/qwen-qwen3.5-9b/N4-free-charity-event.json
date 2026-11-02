@@ -1,0 +1,75 @@
+{
+  "caseId": "N4",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v2",
+  "clock": "2026-11-02T10:21:00.000Z",
+  "calls": [
+    {
+      "requestHash": "c737c079f8d9e642f6c54fbb4e5c2a29c07444e7a802114bcbf2ba78eb82c267",
+      "latencyMs": 2640,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "JO95JyCUXlZIehGZwHqPm9Y2dO2ZdpWX",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_a6a428c7d5\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 2877,
+          "outputTokens": 41
+        }
+      }
+    },
+    {
+      "requestHash": "6b5e0c6d1c292b850f50f025d6da543a925513aab73439313b0946985f5bd22c",
+      "latencyMs": 1618,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "O1Tb1h559sJ5WO6feGhmmXxpKwLENrZk",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_cc37ee29fe\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3260,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "ffc826b7fada7bf8bdc12e5c56516fb4cbac009ee55d078db1197dc78b60486f",
+      "latencyMs": 50019,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el organizador. A continuación, presento los hallazgos:\n\n### Hallazgos sobre el organizador (org_a6a428c7d5):\n- **Identidad fiscal**: El nombre legal \"Vecinos con Música S.L.\" está presente y el CIF tiene un checksum válido. La dirección también está presente en Albacete, 02001.\n- **Edad de la cuenta**: La cuenta del propietario tiene 930 días (más de 2 años), lo que indica una presencia establecida.\n- **Historial**: El organizador ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones ni publicaciones no deseadas por administradores. No hay informes de contenido ni revisiones previas como agente.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres, lo que sugiere una estructura operativa sólida.\n\n### Hallazgos sobre el evento (evt_cc37ee29fe):\n- **Título y descripción**: El evento se titula \"Concierto solidario por el banco de alimentos\" y la descripción indica que es un concierto benéfico a favor del banco de alimentos del barrio, con entrada gratuita y recogida de alimentos no perecederos. No hay indicios de contenido ilegal o fraudulento.\n- **Artistas**: Los artistas son \"Coro Las Acacias\" (headliner) y \"Banda La Mancha Sur\". Ambos tienen fotos asociadas.\n- **Sala**: El evento se celebrará en el \"Centro Cívico Las Acacias\", ubicado en la Calle de las Acacias 12, Albacete, con coordenadas geográficas proporcionadas. No hay indicios de que la sala no exista o que su capacidad sea cuestionable.\n- **Fechas y sesiones**: La sesión está programada para el 23 de noviembre de 2026, con puertas a las 07:00 y finalización a las 10:00. No hay solapamientos ni fechas inminentes o lejanas.\n- **Precios y tarifas**: La entrada es gratuita (precio en céntimos: 0). No hay entradas VIP que cuesten menos que la general, y los gastos de gestión son nulos.\n- **Términos y condiciones**: Se permite la devolución en caso de cancelación y no se admiten cambios de titularidad. No hay términos abusivos.\n- **Pago fuera de la plataforma**: No hay solicitudes de pago fuera de la plataforma (Bizum, transferencia, teléfono).\n- **Enlaces externos a ticketeras o acortadores**: No hay enlaces a otras ticketeras ni a acortadores de URL.\n- **Contenido para menores y alcohol**: No hay oferta de alcohol a menores ni contenido adulto dirigido a menores.\n- **Inyección de prompts**: Los textos no intentan dar instrucciones al revisor.\n- **Eventos similares**: No se han encontrado eventos similares en otras organizaciones en la misma provincia con títulos o fechas cercanas, lo que descarta la posibilidad de clonación.\n\n### Conclusión:\nNo hay indicios de fraude, ilegalidad o contenido problemático. El organizador tiene un historial sólido y una estructura operativa adecuada. El evento parece ser legítimo y benéfico, con todos los requisitos cumplidos.\n\n**Recomendación**: APROBAR",
+          "toolCalls": [
+            {
+              "id": "sM2PU9mqDGVQ4J4ujoEZp69JAwsw4j1a",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento y el organizador cumplen con todos los requisitos de la plataforma. El organizador \\\"Vecinos con Música\\\" tiene un historial sólido (14 eventos publicados, 12 finalizados sin cancelaciones), cuenta fiscal válida, y una estructura operativa adecuada. El evento es un concierto benéfico legítimo en Albacete, con entrada gratuita, artistas verificados, sala existente y fechas programadas correctamente. No hay indicios de fraude, ilegalidad o contenido problemático.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El nombre legal 'Vecinos con Música S.L.' está presente, el CIF tiene checksum válido y la dirección en Albacete es correcta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_a6a428c7d5\",\"title\":\"Organizer profile\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones ni publicaciones no deseadas por administradores. No hay informes de contenido ni revisiones previas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_a6a428c7d5\",\"title\":\"Organizer history\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se han encontrado eventos similares en otras organizaciones en la misma provincia con títulos o fechas cercanas, lo que descarta la posibilidad de clonación.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 02001 corresponde a Albacete.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_cc37ee29fe\",\"title\":\"Event details\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3392,
+          "outputTokens": 1900
+        }
+      }
+    }
+  ]
+}

@@ -54,6 +54,18 @@ fixtures.
   confidence calibration, cost and latency per review, rationale quality.
 - Recording new external responses is a deliberate step that hits the network and may cost money:
   confirm with the user first, then commit the recording with its source URLs.
+- **Two modes.** `pnpm eval [case…]` runs the real agent with the configured model (LM Studio by
+  default: free; a paid provider needs the user's go-ahead), records every model response under
+  `evals/recordings/<provider>/<model>/` and rewrites `evals/report.md`. `pnpm eval:replay --check`
+  (CI) replays them with no model: it fails on a stale or missing recording, on any gated fraud case
+  approved as `auto_resolved` (the only outcome that skips the admin), or on a report that changed.
+- **A changed request makes recordings stale.** A change to the prompt, a tool, a check's wording or
+  a fixture changes what the model is sent, so the old answer no longer applies. Re-record the
+  affected cases locally and commit recordings and report in the same PR: the report diff is the
+  behaviour change. Keep requests reproducible: dates from the injected clock, ids and the fence
+  nonce from the case id, never `Math.random`, `Date.now` or this machine's env.
+- Cases that need the external tools carry `requires: ["external"]`: they run and record, but stay
+  out of the gated metrics.
 
 ## Done when
 
