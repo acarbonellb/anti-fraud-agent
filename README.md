@@ -7,7 +7,8 @@ info) for a human admin, with graded autonomy, provider-neutral LLM adapters
 
 Status: bootstrapping. The specification is
 [`docs/agent-design-brief.md`](docs/agent-design-brief.md) (in Spanish);
-decisions are recorded in [`docs/adr/`](docs/adr/).
+decisions are recorded in [`docs/adr/`](docs/adr/), and the ones worth arguing
+about are mapped in [`docs/design-highlights.md`](docs/design-highlights.md).
 
 ## Development
 
@@ -23,6 +24,14 @@ pnpm lint        # ESLint with type-aware rules
 pnpm typecheck   # tsc, strict
 pnpm format      # Prettier
 ```
+
+### Offline evals
+
+The brief §5 dataset (31 cases) runs through the real agent. `pnpm eval [case…]`
+records the configured model's responses (LM Studio by default, so free);
+`pnpm eval:replay` replays them with no model and rewrites
+[`evals/report.md`](evals/report.md). CI runs `pnpm eval:replay --check`. See
+[ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md).
 
 ### Run a review locally (no cost)
 
