@@ -1,9 +1,11 @@
 // Checks the eval report's Markdown: deterministic (same results, same text,
 // whatever order they arrive in), with the metrics per provider/model and a
-// row per case with expected versus actual and the policy's reasons. Pure
-// function; fakes nothing.
-import { expect, it } from "vitest";
+// row per case with expected versus actual and the policy's reasons, and each
+// set's history as a table and a chart. Pure function; fakes nothing.
+import { describe, expect, it } from "vitest";
 
+import type { HistoryEntry } from "./history.js";
+import { computeMetrics } from "./metrics.js";
 import { renderReport, type ReportSet } from "./report.js";
 import type { CaseResult } from "./types.js";
 
@@ -87,4 +89,91 @@ it("lists the cases that need the external tools apart, after the gated ones", (
 
 it("says when there are no recordings at all", () => {
   expect(renderReport([])).toContain("No recordings yet");
+});
+
+describe("history", () => {
+  const gated = computeMetrics([scored], { includeExternal: false });
+  const entry = (
+    id: string,
+    note: string,
+    moved: Partial<typeof gated>,
+    model = "qwen/qwen3.5-9b",
+  ): HistoryEntry => ({
+    id,
+    date: "2026-11-02",
+    provider: "lmstudio",
+    model,
+    promptVersions: ["review-v2"],
+    note,
+    gated: { ...gated, ...moved },
+    all: gated,
+  });
+  const history = [
+    entry("E001", "Baseline | first.", {
+      accuracy: 0.5909,
+      approvedFraudRate: 0.3889,
+      autoApprovedFraudRate: 0,
+      brier: 0.3021,
+    }),
+    entry("E002", "Other model.", { accuracy: 0.1 }, "other"),
+    entry("E003", "Threshold 0.9.", {
+      accuracy: 0.6364,
+      approvedFraudRate: 0.3333,
+      autoApprovedFraudRate: null,
+      brier: 0.25,
+    }),
+  ];
+
+  it("lists the set's own entries in order, with the key gated metrics", () => {
+    const report = renderReport([set], history);
+    expect(report).toContain(
+      [
+        "### History",
+        "",
+        "| Entry | Date | Prompt | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| E001 | 2026-11-02 | `review-v2` | Baseline \\| first. | 59.1 % | 38.9 % | 0.0 % | 0.302 |",
+        "| E003 | 2026-11-02 | `review-v2` | Threshold 0.9. | 63.6 % | 33.3 % | — | 0.250 |",
+        "",
+      ].join("\n"),
+    );
+    expect(report).not.toContain("| E002 |");
+  });
+
+  it("draws the gated rates over the entries as a Mermaid line chart", () => {
+    const report = renderReport([set], history);
+    expect(report).toContain(
+      [
+        "```mermaid",
+        "xychart-beta",
+        '  title "Gated cases over the history (%)"',
+        "  x-axis [E001, E003]",
+        '  y-axis "%" 0 --> 100',
+        "  line [59.1, 63.6]",
+        "  line [38.9, 33.3]",
+        "  line [0, 0]",
+        "```",
+      ].join("\n"),
+    );
+    expect(report).toContain(
+      "Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.",
+    );
+  });
+
+  it("renders the same history the same way, after the metrics and before the cases", () => {
+    const report = renderReport([set], history);
+    expect(renderReport([set], [...history])).toBe(report);
+    expect(report.indexOf("### History")).toBeGreaterThan(
+      report.indexOf("| Mean latency |"),
+    );
+    expect(report.indexOf("### History")).toBeLessThan(
+      report.indexOf("### Gated cases"),
+    );
+  });
+
+  it("says when a set has no entries yet", () => {
+    expect(renderReport([set], [])).toContain(
+      'No entries yet: run `pnpm eval:replay --note "<what changed>"`.',
+    );
+  });
 });

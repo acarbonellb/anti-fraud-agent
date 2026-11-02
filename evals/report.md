@@ -5,7 +5,9 @@ The dataset is brief §5 and the metrics brief §4.3. **Gated** leaves out the
 cases that need the external tools (#7). **Auto-approved fraud** is a problem
 case approved without reaching the admin; CI fails if it is above 0 among the
 gated cases. Approved fraud the policy escalated still counts in the
-approved-fraud rate, which measures the model.
+approved-fraud rate, which measures the model. Each set's **History** comes
+from `evals/history.jsonl`; why each entry exists, and what was decided, is
+in `docs/experiments.md`.
 
 ## lmstudio / qwen/qwen3.5-9b
 
@@ -22,6 +24,24 @@ Prompt `review-v2` · recorded 2026-11-02
 | Brier score | 0.302 | 0.470 |
 | Mean tokens in / out | 10670 / 1413 | 10130 / 1432 |
 | Mean latency | 38.9 s | 39.3 s |
+
+### History
+
+| Entry | Date | Prompt | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| E001 | 2026-11-02 | `review-v2` | Baseline: first full recording of the brief §5 dataset. | 59.1 % | 38.9 % | 0.0 % | 0.302 |
+
+Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
+
+```mermaid
+xychart-beta
+  title "Gated cases over the history (%)"
+  x-axis [E001]
+  y-axis "%" 0 --> 100
+  line [59.1]
+  line [38.9]
+  line [0]
+```
 
 ### Gated cases
 

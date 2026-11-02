@@ -3,6 +3,7 @@
  * the recordings and fails if it differs from the committed one, so every
  * behaviour change shows up in the PR diff (#6). No timestamps, no locale.
  */
+import type { HistoryEntry } from "./history.js";
 import { computeMetrics, type Metrics } from "./metrics.js";
 import { type CaseResult, caseOrder } from "./types.js";
 
@@ -15,7 +16,10 @@ export interface ReportSet {
   results: CaseResult[];
 }
 
-export function renderReport(sets: readonly ReportSet[]): string {
+export function renderReport(
+  sets: readonly ReportSet[],
+  history: readonly HistoryEntry[] = [],
+): string {
   const lines = [
     "# Offline eval report",
     "",
@@ -24,7 +28,9 @@ export function renderReport(sets: readonly ReportSet[]): string {
     "cases that need the external tools (#7). **Auto-approved fraud** is a problem",
     "case approved without reaching the admin; CI fails if it is above 0 among the",
     "gated cases. Approved fraud the policy escalated still counts in the",
-    "approved-fraud rate, which measures the model.",
+    "approved-fraud rate, which measures the model. Each set's **History** comes",
+    "from `evals/history.jsonl`; why each entry exists, and what was decided, is",
+    "in `docs/experiments.md`.",
     "",
   ];
   if (sets.length === 0) {
@@ -33,11 +39,21 @@ export function renderReport(sets: readonly ReportSet[]): string {
   const sorted = [...sets].sort((a, b) =>
     compare(`${a.provider}/${a.model}`, `${b.provider}/${b.model}`),
   );
-  for (const set of sorted) lines.push(...renderSet(set));
+  for (const set of sorted) {
+    lines.push(
+      ...renderSet(
+        set,
+        history.filter(
+          (entry) =>
+            entry.provider === set.provider && entry.model === set.model,
+        ),
+      ),
+    );
+  }
   return lines.join("\n");
 }
 
-function renderSet(set: ReportSet): string[] {
+function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
   const results = [...set.results].sort(
     (a, b) => caseOrder(a.caseId) - caseOrder(b.caseId),
   );
@@ -70,6 +86,7 @@ function renderSet(set: ReportSet): string[] {
         : `${(m.meanLatencyMs / 1000).toFixed(1)} s`,
     ),
     "",
+    ...historySection(history),
     ...caseTable(
       "Gated cases",
       results.filter((result) => !result.external),
@@ -78,6 +95,56 @@ function renderSet(set: ReportSet): string[] {
       "Cases that need the external tools (#7)",
       results.filter((result) => result.external),
     ),
+  ];
+}
+
+/** The set's entries of `evals/history.jsonl`, in the order they were appended. */
+function historySection(history: readonly HistoryEntry[]): string[] {
+  if (history.length === 0) {
+    return [
+      "### History",
+      "",
+      'No entries yet: run `pnpm eval:replay --note "<what changed>"`.',
+      "",
+    ];
+  }
+  // Mermaid can't leave a gap: a rate with no cases to measure plots as 0,
+  // and the table shows it as «—».
+  const line = (value: (entry: HistoryEntry) => number | null) =>
+    `  line [${history.map((entry) => String(Number(((value(entry) ?? 0) * 100).toFixed(1)))).join(", ")}]`;
+  return [
+    "### History",
+    "",
+    "| Entry | Date | Prompt | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- |",
+    ...history.map(
+      (entry) =>
+        `| ${[
+          entry.id,
+          entry.date,
+          entry.promptVersions.map((v) => `\`${v}\``).join(", ") || "—",
+          entry.note,
+          percent(entry.gated.accuracy),
+          percent(entry.gated.approvedFraudRate),
+          percent(entry.gated.autoApprovedFraudRate),
+          fixed(entry.gated.brier, 3),
+        ]
+          .map(cell)
+          .join(" | ")} |`,
+    ),
+    "",
+    "Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.",
+    "",
+    "```mermaid",
+    "xychart-beta",
+    '  title "Gated cases over the history (%)"',
+    `  x-axis [${history.map((entry) => entry.id).join(", ")}]`,
+    '  y-axis "%" 0 --> 100',
+    line((entry) => entry.gated.accuracy),
+    line((entry) => entry.gated.approvedFraudRate),
+    line((entry) => entry.gated.autoApprovedFraudRate),
+    "```",
+    "",
   ];
 }
 
