@@ -1,0 +1,90 @@
+# ADR 0014 — Eval metrics are tracked in a machine-written history, explained in an experiment log, and CI enforces both
+
+- **Date:** 2026-11-02
+- **Status:** accepted
+- **Related:** brief §4.3; ADR 0013 (the replayed evals and the report this builds on); ADR 0008
+  (the evals choose the default model); issues #21, #6, #7 and #15.
+
+## Context
+
+ADR 0013 made `evals/report.md` deterministic and committed, so a PR's diff shows how it moved the
+metrics. The report is a snapshot, though: each recording overwrites it, and the evolution of the
+agent's performance lives only in git history, where nobody reads it.
+
+Brief §4.3 asks for a loop: measure per model and prompt version, keep what works, retire what
+doesn't. The changes that will move the metrics are already queued: the external tools (#7),
+other models (#15), prompt versions, checks and policy thresholds. Each should show where it moved
+the numbers and what was decided because of it, starting from a baseline.
+
+The baseline, recorded on 2026-11-02, is a model that approves too easily: `qwen/qwen3.5-9b` with
+prompt `review-v2`, at 59.1 % gated accuracy, a 38.9 % approved-fraud rate, a 0 % auto-approved
+fraud rate and a Brier score of 0.302.
+
+## Decision
+
+1. **Numbers are generated; the narrative is written.** `evals/history.jsonl` is append-only and
+   machine-written: nobody types a metric by hand. `docs/experiments.md` is the human log, with
+   one `## E00N — title` section per history entry.
+2. **A history entry** is one JSON object per line:
+   - `id` (`E001`, `E002`…, with no gap) and `date` (UTC, `YYYY-MM-DD`, when appended);
+   - `provider`, `model` and `promptVersions`;
+   - `note`, one line saying what changed;
+   - `gated` and `all`, each the `Metrics` of `src/evals/metrics.ts`, rounded to 4 decimals.
+
+   An entry is never edited or deleted. A wrong one is corrected by a newer entry that says so.
+
+3. **Runs append.** `pnpm eval` and `pnpm eval:replay` append one entry per recording set whose
+   metrics or prompt versions differ from that set's latest entry, or that has none. A code-only
+   change counts too: a policy threshold moves the metrics without re-recording. When they would
+   append, they require `--note "<what changed>"`; without it they fail, write nothing and say how
+   to call them. Recordings already made are kept.
+4. **CI enforces it.** Besides ADR 0013's failures, `pnpm eval:replay --check` fails when a
+   recording set has no entry or its current metrics differ from its latest one, and when
+   `docs/experiments.md` has no section for some entry. A history that doesn't parse, or whose ids
+   skip, fails too.
+5. **An experiment section** states the hypothesis, the change and its PR, the key metrics before
+   → after (from the history), what went wrong or surprised, and the decision (keep, revert or
+   retire) with the next step.
+6. **The report shows the evolution.** Each recording set gets a «History» section: a table of its
+   entries (id, date, prompt, note, gated accuracy, approved-fraud rate, auto-approved fraud rate
+   and Brier score) and a Mermaid `xychart-beta` line chart of the three rates over the entries.
+   Both are deterministic, so the report still matches byte for byte in CI.
+7. **Retirement stays manual.** A prompt version or model is retired by a decision in the
+   experiment log, not automatically. Automating it waits for the online metric, the admin
+   agreement rate (brief §4.3).
+8. **The process carries it.** A change that moves eval metrics appends its entry and writes its
+   section in the same PR (`CLAUDE.md` §5). A ticket that touches the prompt, a model, the tools,
+   the checks or the policy states its **hypothesis** before it is `ready-for-agent`
+   (`docs/agents/triage-labels.md`). The PR's Evidence shows the before and after entries and
+   links the section (`github-pr` skill).
+
+## Alternatives rejected
+
+- **Rely on git history of `evals/report.md`.** The numbers are there, but nobody diffs a report
+  across ten commits, and the reason for each change isn't.
+- **A hand-written results table.** A typed metric drifts from what was measured; generated
+  numbers can't.
+- **Numbers and narrative in one file.** The machine would have to edit human prose, or humans
+  would edit generated numbers. Keeping them apart, joined by the id, lets each be checked.
+- **Append only when recording.** A policy threshold or a check moves the metrics with the same
+  recordings; that change would go unrecorded.
+- **Append without a note, or a default note.** The history would fill with entries nobody can
+  explain, which is the problem this solves.
+- **Retire prompts and models automatically on a metric drop.** With 31 offline cases, one
+  case moves accuracy by 3–5 points. Retiring needs the admin agreement rate, which needs
+  production.
+- **Store full-precision metrics.** Floating-point noise in the last digits would read as a change
+  and demand an entry; 4 decimals are finer than the report shows.
+- **A database or a dashboard now.** Brief §8 brings Postgres and a dashboard later; a JSON Lines
+  file in the repo is reviewable in the PR that changes it.
+
+## Consequences
+
+- Every PR that moves a metric carries a history line, an experiment section and the report diff.
+  CI fails until all three agree.
+- `evals/history.jsonl` is excluded from Prettier: it is machine-written, one entry per line.
+- The latency mean is part of the stored metrics, so re-recording almost always appends an entry,
+  even when no decision changed. That is intended: a new recording is a new measurement.
+- Rewriting a past entry can only be caught in review: CI checks that the latest entry matches,
+  not that earlier lines are untouched. The PR diff of `evals/history.jsonl` shows it.
+- The first entry, E001, is the 2026-11-02 baseline, with its diagnosis in `docs/experiments.md`.

@@ -64,6 +64,13 @@ fixtures.
   affected cases locally and commit recordings and report in the same PR: the report diff is the
   behaviour change. Keep requests reproducible: dates from the injected clock, ids and the fence
   nonce from the case id, never `Math.random`, `Date.now` or this machine's env.
+- **History and experiment log** (ADR 0014). When a change moves the metrics (re-recordings, the
+  prompt, a check, a policy threshold), `pnpm eval` or `pnpm eval:replay` requires
+  `--note "<what changed>"` and appends one entry per moved set to `evals/history.jsonl`. Write
+  the matching `## E00N — title` section in `docs/experiments.md` (hypothesis, change, before →
+  after, what went wrong, decision) and commit both with the report. `--check` fails on a set
+  whose metrics differ from its latest entry and on an entry without a section. Never edit or
+  delete an entry: append a newer one that corrects it.
 - Cases that need the external tools carry `requires: ["external"]`: they run and record, but stay
   out of the gated metrics.
 

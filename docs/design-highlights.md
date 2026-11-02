@@ -46,6 +46,13 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
     the admin, not on every approval the model gets wrong. The approved-fraud rate (38.9 % for
     the local model) stays in the report as model quality.
   - [ADR 0013](adr/0013-evals-replay-recorded-model-responses.md)
+- **Every metric change leaves a line and a reason.**
+  - _Why:_ a machine-written history holds the numbers, a written experiment log holds the
+    hypothesis and the decision, and CI fails until both match the replayed metrics. Failures
+    stay in the log as honestly as wins.
+  - _Evidence:_ E001, the baseline: a lenient model whose 7 gated approvals of fraud the policy
+    all escalated.
+  - [ADR 0014](adr/0014-eval-metrics-history-and-experiment-log.md)
 - **Keep the cases you can't pass yet.**
   - _Why:_ the 9 cases that need external tools are recorded but not gated.
   - _Evidence:_ their 26.9 % auto-approved fraud is the baseline that will show whether #7 works,

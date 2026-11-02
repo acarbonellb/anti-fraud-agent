@@ -24,6 +24,12 @@ is an open decision until the user picks the meaning and it lands in `GLOSSARY.m
 criterion that needs a Satella behaviour neither states (brief §10 lists the known doubts) is
 `ready-for-human`: the answer comes from the user, never from guessing.
 
+**A ticket that can move the eval metrics states its hypothesis before `ready-for-agent`.** A
+ticket that touches the prompt, a model, the tools, the checks or the policy says which metrics it
+expects to move, which way and why (e.g. «the approved-fraud rate drops below 20 % with accuracy
+no lower»). The hypothesis goes into its `docs/experiments.md` section, measured against the
+history (ADR 0014).
+
 **A `ready-for-agent` ticket answers a skill's confirmation gates.** When a skill asks to confirm
 something before acting (e.g. `/tdd`'s seams), the AFK agent takes the answer from the ticket's
 «Seams to test» or acceptance criteria and cites the lines it relied on. A gate the ticket doesn't
