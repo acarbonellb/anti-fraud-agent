@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "clock": "2026-11-02T17:43:00.000Z",
   "calls": [
     {
-      "requestHash": "e93da26a9e463b32c8b1e7b7f7386d2a67d93c39f3e885a13318a1f304bcd817",
-      "latencyMs": 2567,
+      "requestHash": "d526332499addba99f3e51b1d629a95e525b237ede7805505a035f1d6cc836a7",
+      "latencyMs": 3033,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "baZKeQoFJjCIEB4oNWwKaXtNslKipywr",
+              "id": "pT8UtoUMNbymhY5ppVigTg0QqyhZzIL6",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c68156293b\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2880,
+          "inputTokens": 2879,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "26573edb1610df5b28fd64443d0b073e7c441d77331e4e4854d45e82ab2f90db",
-      "latencyMs": 1541,
+      "requestHash": "6f67db4ecb20cb39645219c2424096c916cbae6d613b113ec74a19f179fd3620",
+      "latencyMs": 1492,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "aN9HPi2Lvm9NFEDnuA7lvwztzb6mKRpf",
+              "id": "WtcZhqKVS4amN7fDwMxgi2xP8fCFQOCe",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3263,
+          "inputTokens": 3262,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "8cd6cdf8814a8b4e8c42d2680fa102f47ff303f50cfcc817b8ce7f81b9613b5c",
-      "latencyMs": 34768,
+      "requestHash": "323edeecd458047498458f0f366f727a87bdf2bdca5af17889571c20f4b31a5e",
+      "latencyMs": 27759,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y al organizador. Aquí está mi análisis:\n\n**Organizador (org_c68156293b - Alborada Conciertos):**\n- Estado: aprobado\n- Creado en 2024-05-16 (cuenta con 930 días de antigüedad)\n- Datos fiscales presentes y con checksum válido\n- Dirección presente, ciudad Santander, código postal 39004\n- Propietario con email verificado, sin otros organizadores\n- Equipo: 1 dueño, 1 manager, 2 scanners\n- Historial: 14 eventos publicados, 12 finalizados, 0 cancelados\n- Sin despublicaciones por admin, sin reportes de contenido, sin revisiones previas\n\n**Evento (evt_249509afef):**\n- Título: \"Concierto al amanecer en el Muelle Grande\"\n- Género: clásica\n- Artista: Orquesta Brisa del Cantábrico\n- Fecha: 2/11/26, sesión de 20:00 a 21:00\n- Precio: 1500 céntimos (15€) para General\n- Capacidad: 3000 entradas\n- Comisión de servicio: 100 céntimos fija\n- Términos: permiten devolución en cancelación, no admiten cambios de titular\n- No hay pagos fuera de plataforma ni enlaces externos\n\n**Deterministic checks:**\n- postal_code_province: pass (39004 corresponde a Cantabria)\n- off_platform_payment: pass\n- external_ticketing_link: pass\n- abusive_terms: pass\n- minors_alcohol: pass\n- prompt_injection: pass\n- price_sanity: pass\n- service_fee: pass\n- session_dates: pass\n- session_timing: warn (la sesión empieza menos de 12h después de publicarse)\n\n**Hallazgos adicionales:**\n- No hay eventos similares en la provincia en el mismo periodo (find_similar_events devolvió [])\n- El organizador tiene buena reputación con historial limpio\n\n**Consideraciones:**\nEl único hallazgo es un \"warn\" por session_timing: la sesión empieza menos de 12 horas después de publicarse. Esto podría ser una señal de alerta, pero no necesariamente fraudulenta. Podría tratarse de un evento programado para el día siguiente con anticipación limitada, o simplemente una coincidencia temporal.\n\nNo hay evidencia de fraude, contenido ilegal, clonación, ni otras señales de alarma. El organizador es legítimo y tiene buen historial. La sesión que empieza menos de 12 horas después de la publicación no es un \"hard signal\" de fraude, aunque merece atención.\n\nDado que no hay señales claras de fraude y el único hallazgo es una advertencia leve sobre el timing de la sesión (que podría tener explicaciones inocuas), recomiendo aprobar el evento.",
+          "content": "He revisado el evento y al organizador. Aquí está mi análisis:\n\n**Organizador (org_c68156293b - Alborada Conciertos):**\n- Cuenta aprobada desde mayo de 2024 (930 días), con email verificado.\n- Datos fiscales presentes y con checksum válido.\n- Historial sólido: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Sin cambios sustanciales ni despublicaciones por admin.\n- No hay otros organizadores bajo la misma cuenta.\n\n**Evento (evt_249509afef):**\n- Título y descripción coherentes con un concierto clásico al aire libre en Santander.\n- Artista: \"Orquesta Brisa del Cantábrico\" con foto disponible.\n- Precio de entrada general: 15€ (1500 céntimos), sin entradas VIP más baratas.\n- Gastos de gestión fijos de 1€, dentro del 20%.\n- Condiciones aceptables: permiten devolución en cancelación, no niegan cambios de titularidad.\n- No hay pagos fuera de plataforma ni enlaces a otras ticketeras.\n- Código postal 39004 corresponde a Cantabria (verificado).\n- Sesión programada para el 2/11/26 a las 9:00, menos de 12h después de la publicación (advertencia leve, pero no crítica).\n\n**Hallazgos adicionales:**\n- No hay eventos similares en la provincia con fechas cercanas (no parece ser un clon).\n- No hay indicios de impersonación ni de contenido ilegal.\n- El nombre del artista \"Orquesta Brisa del Cantábrico\" es plausible para un evento clásico en Santander.\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o comportamiento sospechoso. La única advertencia es que la sesión empieza menos de 12 horas después de publicar el evento, pero esto no es necesariamente fraudulento (podría ser una planificación rápida). El organizador tiene un historial limpio y datos fiscales válidos.\n\nRecomendación: **approve** con confianza moderada-alta.",
           "toolCalls": [
             {
-              "id": "Aie7bYZ7vsiLzG3opDAcjemnOdlNhJZb",
+              "id": "9Jd4P5NVMQbNwZsWJ8sIUtJOT3DGpUnW",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento y el organizador presentan una imagen limpia sin señales de fraude. El organizador Alborada Conciertos tiene 930 días de antigüedad, datos fiscales válidos, historial positivo (14 eventos publicados, 12 finalizados, 0 cancelados), sin reportes de contenido ni despublicaciones por admin. El evento cumple con todos los checks determinísticos: código postal consistente con la provincia, sin pagos fuera de plataforma, sin enlaces externos, términos razonables, precios sanos, comisiones adecuadas. No hay eventos similares que sugieran clonación. El único hallazgo es un \\\"warn\\\" por session_timing (la sesión empieza menos de 12h después de publicarse), pero esto no constituye una señal clara de fraude y puede tener explicaciones inocuas (evento programado con poca antelación). Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-16, cuenta de 930 días, datos fiscales con CIF válido y checksum correcto, email verificado, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Perfil de organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, 0 cancelados, sin despublicaciones por admin, sin reportes de contenido, sin revisiones previas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Cantabria en los últimos 60 días que sugieran clonación.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_249509afef/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La sesión del 2/11/26 a las 20:00 empieza menos de 12 horas después de la publicación (2026-11-02T09:00:00.000Z). Esto podría indicar una programación con poca antelación, pero no es necesariamente fraudulento.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_249509afef\",\"title\":\"Detalles del evento\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento y el organizador presentan una imagen limpia sin señales de fraude. El organizador Alborada Conciertos cuenta con una cuenta aprobada desde 2024, datos fiscales válidos, historial sólido (14 eventos publicados, 12 finalizados) y sin denuncias por contenido. El evento es coherente: concierto clásico al aire libre en Santander con precio razonable, gastos de gestión dentro de lo normal y condiciones aceptables. No hay clonajes, pagos fuera de plataforma ni enlaces sospechosos. La única advertencia leve es que la sesión empieza menos de 12 horas después de publicar, pero esto no indica fraude. Se aprueba.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con cuenta aprobada desde 2024, email verificado, datos fiscales válidos (CIF con checksum correcto), sin otros organizadores bajo la misma cuenta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Perfil del organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones, sin despublicaciones por admin, sin denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Perfil del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con fechas cercanas; no parece ser un clon.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_249509afef/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La primera sesión (2/11/26, 9:00) empieza menos de 12 horas después de publicarse el evento (1/11/26, 22:00). Advertencia leve pero no crítica.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_249509afef\",\"title\":\"Detalles del evento\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3397,
-          "outputTokens": 1324
+          "inputTokens": 3396,
+          "outputTokens": 1089
         }
       }
     }

@@ -137,3 +137,25 @@ function strings(value: unknown, key = ""): string[] {
   }
   return [];
 }
+
+// Case 17's story is told in Madrid time; the clocks above fall in winter
+// (UTC+1) and in summer (UTC+2).
+it.each(CLOCKS)(
+  "case 17 is published at 23:00 for 09:00 the next day, Madrid time, at %s",
+  (clock) => {
+    const evalCase = EVAL_CASES.find((c) => c.id === "17");
+    const event = evalCase?.build(clock).event;
+    const madrid = (iso: string | null | undefined) =>
+      new Date(iso ?? "").toLocaleString("en-GB", {
+        timeZone: "Europe/Madrid",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    const published = madrid(event?.event.publishedAt);
+    const starts = madrid(event?.sessions[0]?.startsAt);
+    expect(published).toMatch(/ 23:00$/);
+    expect(starts).toMatch(/ 09:00$/);
+    expect(starts.slice(0, 3)).not.toBe(published.slice(0, 3));
+  },
+);

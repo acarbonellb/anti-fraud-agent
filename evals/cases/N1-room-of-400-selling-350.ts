@@ -1,7 +1,7 @@
 import type { EvalCase } from "../../src/evals/types.js";
 import {
   buildEvent,
-  establishedOrganizer,
+  buildOrganizer,
   eventFixtures,
   IN_THREE_WEEKS,
 } from "../builders.js";
@@ -16,13 +16,18 @@ export const evalCase: EvalCase = {
   subject: "event",
   expected: { decisions: ["approve"], autonomy: "auto_resolved" },
   build(clock) {
-    const organizer = establishedOrganizer(
-      clock,
-      SEED,
-      "Campo Grande Música",
-      "Valladolid",
-      "47003",
-    );
+    // The contract has no website field: an organizer shows it, if at all,
+    // in its description. Verifying it is #7's job.
+    const organizer = buildOrganizer(clock, {
+      seed: `${SEED}:organizer`,
+      name: "Campo Grande Música",
+      description:
+        "Promotora de conciertos en Valladolid desde 2015. Web: https://campogrande-musica.example.test · Instagram y Facebook: @campograndemusica.",
+      city: "Valladolid",
+      postalCode: "47003",
+      createdDaysAgo: 900,
+      events: { published: 14, cancelled: 0, ended: 12 },
+    });
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
       title: "La Ruta Lenta presenta Kilómetro Cero",

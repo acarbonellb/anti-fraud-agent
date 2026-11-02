@@ -19,9 +19,9 @@ Prompt `review-v2` · recorded 2026-11-02
 | Auto-approved fraud rate | 0.0 % | 26.9 % |
 | Escalation rate | 59.1 % | 45.2 % |
 | Autonomy accuracy | 81.8 % | 64.5 % |
-| Brier score | 0.307 | 0.474 |
-| Mean tokens in / out | 10682 / 1399 | 10139 / 1421 |
-| Mean latency | 38.6 s | 39.2 s |
+| Brier score | 0.302 | 0.470 |
+| Mean tokens in / out | 10670 / 1413 | 10130 / 1432 |
+| Mean latency | 38.9 s | 39.3 s |
 
 ### Gated cases
 
@@ -36,7 +36,7 @@ Prompt `review-v2` · recorded 2026-11-02
 | 14 | «VIP» costs less than «General» | ✅ request_info | ✅ auto_resolved | 0.85 | mechanical request: price_sanity |
 | 15 | Service fee of 45 % | ❌ request_info → approve | ✅ escalated | 0.75 | deterministic checks flagged: service_fee; confidence 0.75 below 0.85 |
 | 16 | Free, with 50,000 tickets, in a warehouse of unknown capacity | ❌ request_info → approve | ✅ escalated | 0.95 | warnings that are not minor: venue_capacity |
-| 17 | Published at night for a session the next morning, with a large capacity | ❌ request_info → approve | ✅ escalated | 0.92 | deterministic checks flagged: session_timing |
+| 17 | Published at night for a session the next morning, with a large capacity | ❌ request_info → approve | ✅ escalated | 0.85 | deterministic checks flagged: session_timing |
 | 18 | Session three years away with the whole capacity on sale | ❌ request_info → approve | ✅ escalated | 0.95 | deterministic checks flagged: session_timing |
 | 19 | Two overlapping sessions at the same venue | ✅ request_info | ❌ auto_resolved → escalated | 0.80 | confidence 0.8 below 0.85 |
 | 21 | Owner with a rejected organization who creates another (organizer) | ❌ reject → request_info | ✅ escalated | 0.30 | no rule-based finding to ask about; needs judgement: organizer_history; confidence 0.3 below 0.85 |

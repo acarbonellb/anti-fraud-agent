@@ -59,8 +59,8 @@ export interface TicketSpec {
 }
 
 export interface SessionSpec {
-  /** Hours after publishing. */
-  startsInHours: number;
+  /** Hours after publishing, or an exact instant (see `madridTime`). */
+  startsInHours: number | { at: number };
   durationHours?: number;
   ticketTypes: TicketSpec[];
 }
@@ -87,7 +87,8 @@ export interface EventSpec {
   venue: VenueSpec;
   sessions: SessionSpec[];
   serviceFee?: ServiceFee;
-  publishedHoursAgo?: number;
+  /** Hours before the clock, or an exact instant (see `madridTime`). */
+  publishedHoursAgo?: number | { at: number };
   /** Hours after publishing that the organizer last edited it. */
   editedHoursAfterPublishing?: number;
   imageUrls?: string[];
@@ -103,7 +104,11 @@ export function buildEvent(
   spec: EventSpec,
 ): EventReviewContext {
   const eventId = stableId("evt", spec.seed);
-  const publishedAt = anchor(clock) - (spec.publishedHoursAgo ?? 2) * HOUR_MS;
+  const published = spec.publishedHoursAgo ?? 2;
+  const publishedAt =
+    typeof published === "number"
+      ? anchor(clock) - published * HOUR_MS
+      : published.at;
   const updatedAt =
     publishedAt + (spec.editedHoursAfterPublishing ?? 0) * HOUR_MS;
   return {
@@ -139,7 +144,10 @@ export function buildEvent(
       sameNameOtherOrganizers: spec.venue.sameNameOtherOrganizers ?? 0,
     },
     sessions: spec.sessions.map((session, index) => {
-      const startsAt = publishedAt + session.startsInHours * HOUR_MS;
+      const startsAt =
+        typeof session.startsInHours === "number"
+          ? publishedAt + session.startsInHours * HOUR_MS
+          : session.startsInHours.at;
       return {
         id: stableId("ses", `${spec.seed}:${String(index)}`),
         startsAt: iso(startsAt),
@@ -165,6 +173,54 @@ export function buildEvent(
     moderation: { canUnpublish: false },
     organizerId,
   };
+}
+
+/**
+ * The instant a Madrid wall clock shows `hh:mm`, `dayOffset` days after the
+ * clock's Madrid date. For cases whose story is told in local time (case 17:
+ * published at 23:00 for 09:00 the next day), whatever the clock and the DST.
+ */
+export function madridTime(
+  clock: Date,
+  dayOffset: number,
+  hours: number,
+  minutes = 0,
+): { at: number } {
+  const [year, month, day] = madridParts(clock.getTime());
+  const wall = Date.UTC(year, month - 1, day + dayOffset, hours, minutes);
+  // Madrid is UTC+1 or UTC+2: start from the wall time read as UTC and
+  // subtract the offset Madrid has at that moment.
+  const offset = (instant: number) => {
+    const [y, mo, d, h, mi] = madridParts(instant);
+    return (
+      Date.UTC(y, mo - 1, d, h, mi) - Math.floor(instant / 60_000) * 60_000
+    );
+  };
+  const guess = wall - offset(wall);
+  return { at: wall - offset(guess) };
+}
+
+function madridParts(
+  instant: number,
+): [number, number, number, number, number] {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Madrid",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(instant));
+  const part = (type: string) =>
+    Number(parts.find((item) => item.type === type)?.value);
+  return [
+    part("year"),
+    part("month"),
+    part("day"),
+    part("hour"),
+    part("minute"),
+  ];
 }
 
 /** Starting at 20:00 or so a few weeks out: nothing imminent, nothing far. */

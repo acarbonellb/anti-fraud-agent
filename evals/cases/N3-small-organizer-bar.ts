@@ -20,7 +20,7 @@ export const evalCase: EvalCase = {
       seed: `${SEED}:organizer`,
       name: "Peña Gatuna",
       description:
-        "Asociación de amigos de la música en directo. Conciertos pequeños en bares de Lugo desde hace años.",
+        "Asociación de amigos de la música en directo. Conciertos pequeños en bares de Lugo; los anunciamos en Instagram, @penagatuna, desde 2019.",
       legalName: "Asociación Cultural Peña Gatuna",
       city: "Lugo",
       postalCode: "27001",

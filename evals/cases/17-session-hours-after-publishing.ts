@@ -3,6 +3,7 @@ import {
   buildEvent,
   establishedOrganizer,
   eventFixtures,
+  madridTime,
 } from "../builders.js";
 
 const SEED = "session-hours-after-publishing";
@@ -29,7 +30,8 @@ export const evalCase: EvalCase = {
         "Concierto al aire libre al amanecer con Orquesta Brisa del Cantábrico.",
       genre: "clasica",
       artists: [{ name: "Orquesta Brisa del Cantábrico" }],
-      publishedHoursAgo: 1,
+      // 23:00 the night before, Madrid time, for 09:00 the next morning.
+      publishedHoursAgo: madridTime(clock, -1, 23),
       venue: {
         name: "Explanada del Muelle Grande",
         address: "Paseo del Muelle Grande s/n",
@@ -41,7 +43,7 @@ export const evalCase: EvalCase = {
       },
       sessions: [
         {
-          startsInHours: 10,
+          startsInHours: madridTime(clock, 0, 9),
           durationHours: 2,
           ticketTypes: [
             { name: "General", priceCents: 1500, capacity: 3000, taken: 0 },
