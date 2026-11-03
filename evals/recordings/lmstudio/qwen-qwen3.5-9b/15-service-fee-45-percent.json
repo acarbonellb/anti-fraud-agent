@@ -2,19 +2,19 @@
   "caseId": "15",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "f427fe96873b80e12b3de111d19fd80b02e29ade0ca70e278b7ad8f074092e08",
-      "latencyMs": 2563,
+      "requestHash": "252ac6472d40454914428f0bd715308700bde67f04d4090644ab5b2f64f3b865",
+      "latencyMs": 3328,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "qahCqvX0JK7T17nJruTZoJzpmLOtwsgo",
+              "id": "ji1DVfXgP4lmAYUaUIDzgsDyXzfwVkSH",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_3639566f71\"}"
             }
@@ -22,31 +22,513 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3156,
+          "inputTokens": 3372,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "38a715d173c9bfbec945e9d1e5da0177a3e26a81d7a2cdac7755243425335693",
-      "latencyMs": 34847,
+      "requestHash": "534e66fd1bd158abf39d4717a2d07bf894f6c98fed0b1399ca0cd82216b49abd",
+      "latencyMs": 1609,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el contexto del organizador y los resultados de las verificaciones deterministas. Aquí está mi análisis:\n\n**Organizador (Tramontana Escena):**\n- Estado: aprobado, cuenta activa desde 2024 (930 días).\n- Datos fiscales: CIF presente y con checksum válido.\n- Historial: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido. No hay cambios sustanciales ni despublicaciones por admin.\n- Equipo: 1 dueño, 1 manager, 2 scanners (estructura sólida).\n\n**Eventos:**\n- Ningún evento previo despublicado por admin ni reportado por contenido.\n- Sin revisiones anteriores como agente.\n\n**Verificaciones deterministas del evento:**\n- Postal code y provincia: correcto.\n- Pago fuera de plataforma: no hay solicitud.\n- Enlaces externos a ticketeras/acortadores: ninguno.\n- Términos abusivos: no niegan devolución en cancelación.\n- Alcohol para menores: no aplica.\n- Prompt injection: no intenta instruir al revisor.\n- Sanity de precios: ninguna VIP más barata que general.\n- **Gastos de gestión (service_fee): WARN** - 45% del precio (umbral 20%). Esto es alto pero no ilegal; podría ser una política interna o un error, pero no es una señal de fraude por sí solo.\n- Fechas de sesiones: no se solapan ni son inminentes/lejanas.\n- Precio vs benchmark: todos los precios están dentro del rango razonable (ningún precio supera 3x el p90).\n- Existencia del recinto: verificado en OpenStreetMap.\n- Capacidad: aforo de la sesión (150) está dentro del aforo real del local (162 según Wikidata).\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o clonación. El único punto de atención es el servicio fee elevado (45%), pero no es una señal de rechazo por sí solo; podría ser una decisión comercial del organizador. No hay evidencia de que esto sea fraudulento ni perjudicial para el usuario más allá de un coste adicional.\n\nDado que el organizador tiene buena reputación, datos fiscales válidos y sin historial negativo, y el evento cumple con todas las verificaciones críticas (incluyendo existencia del recinto y capacidad), mi recomendación es **aprobar** el evento con una nota sobre los gastos de gestión elevados en la justificación.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "b2J9pkDv7moyIQtB9OZBo5ys9ujo5ho3",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador Tramontana Escena tiene una cuenta activa desde 2024, datos fiscales válidos (CIF con checksum correcto), y un historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido. El evento \\\"Cabaret de invierno\\\" cumple todas las verificaciones deterministas críticas: postal code consistente, recinto existente en OpenStreetMap, aforo compatible con Wikidata, sin pagos fuera de plataforma, sin términos abusivos, sin alcohol para menores, sin enlaces externos sospechosos, y precios dentro del benchmark (ningún precio supera 3x el p90). El único punto de atención es un servicio fee del 45% (umbral 20%), pero esto no es ilegal ni fraudulento; podría ser una política comercial o un error administrativo. No hay señales de fraude, clonación o ilegalidad. Se aprueba con confianza alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, checksum correcto, cuenta activa 930 días.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_3639566f71\",\"title\":\"Tramontana Escena - Perfil organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/org_3639566f71\",\"title\":\"Historial de eventos Tramontana Escena\"}]},{\"check\":\"service_fee\",\"verdict\":\"warn\",\"detail\":\"Gastos de gestión del 45% (umbral 20%). No es ilegal, pero elevado. Posible política comercial o error.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/event/evt_4a09b3616d\",\"title\":\"Cabaret de invierno - Detalles\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap a 5 m de las coordenadas.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/1012156\",\"title\":\"OpenStreetMap: Sala de Teatre La Planeta\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo de sesión (150) dentro del aforo real del local (162 según Wikidata).\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q18006535\",\"title\":\"Wikidata Q18006535\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3x el p90 (35,00 €) de eventos comparables en Girona.\",\"confidence\":0.92,\"sources\":[{\"url\":\"https://example.test/benchmark/cabaret/Girona/lt300\",\"title\":\"Benchmark de precios cabaret Girona\"}]}]}"
+              "id": "cnsgDYE2zSNeGfc1HRiZiYZOyCqPzvOF",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Tramontana Escena Girona cabaret invierno 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3543,
-          "outputTokens": 1359
+          "inputTokens": 3759,
+          "outputTokens": 54
         }
+      }
+    },
+    {
+      "requestHash": "93b2e735a5d69b3c3604073c0f6ecea641f882c806c08017e5f40149101272be",
+      "latencyMs": 1761,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "xqBivBcwHzNUHgJTDB4UJj4pDvf1G1fg",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Sala La Planeta\\\" Girona cabaret 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4163,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "663c85477521a4a53398fa33b5c5f7020c504a9dea8a46e3f274227f4421db76",
+      "latencyMs": 1725,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "vLRlY4oBELMCK8elqog9OLuV5iYqXHMS",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" Girona cabaret 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4866,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "4440fc33932b420f8e21c3cfc41219dcbd54a0f6e381628c67972a2742343ea2",
+      "latencyMs": 1809,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "LjeGaagd9zonPcs5LTlakYdZMHJd0F1P",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" S.L. Girona\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5467,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "ebba1a97f40e7401c43f815517e3bc226a4eaf4dee65a0bf1db37f3b11dbdea3",
+      "latencyMs": 1992,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "mUKexEkKINPnZAoN0NoXSu3PXgKayufZ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona cabaret 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6102,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "9fc6684ba269ffc7562e9a28f54e161b4ae581bfe480d0ce1cbbe7663ff499e3",
+      "latencyMs": 1892,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "lG2YNI6OIwcr6RmIXv93xsBfmrdSuPCj",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" Girona 2026 cabaret invierno\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6618,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "4bf5095bb08ef8f606634e1049128ca00422b10def618037a342e3f031111375",
+      "latencyMs": 1743,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "PQOarMIl8sTJSj4sUGO9NHcAerbT0OZK",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" S.L. Girona 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7163,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "de07aa7a30901d87ae71ef6dfefb38b87bc6384b7a63dcc28037505860ba53b1",
+      "latencyMs": 2037,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "J3Ct910ZcBOJCfngU71fKxnQy3MIlhJV",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona 2026 cabaret\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8202,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "e570bcc0d0b2b6fd89622de34eba908e6805a81653c2a5f72203fe007b4594fa",
+      "latencyMs": 2182,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "JDEMKTeHvrsh45XbEAQq3p0hqvNyj0kn",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona 2026 \\\"Cabaret de invierno\\\"\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8999,
+          "outputTokens": 61
+        }
+      }
+    },
+    {
+      "requestHash": "93f27890d5a9e43d8f46852df7d9e9cdbc4a56423859773b772005d25151a1ce",
+      "latencyMs": 2032,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "wVAfn8nznPd5eQh4LdChOBaNWriUwyAl",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona 2026 \\\"Cabaret de invierno\\\" Sala La Planeta\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9679,
+          "outputTokens": 65
+        }
+      }
+    },
+    {
+      "requestHash": "d10295d55421afea5a0e8db9c14c7bb74b3bb5db576ac5270b9c96ce17f9620e",
+      "latencyMs": 2181,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "1SLcywdSqf8akWZaVRiRGw0hwsabJkBQ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona 2026 \\\"Cabaret de invierno\\\" Sala La Planeta noviembre\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 10550,
+          "outputTokens": 66
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "fe0d4da19bbb402f5dcce5c1668a58f39766bccc6209afcc27f37b3e802ff22c",
+      "provider": "Tavily",
+      "query": "Tramontana Escena Girona cabaret invierno 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26",
+            "title": "Tickets : Girona - Montaña en Escena Winter Edition 2026",
+            "snippet": "Montaña en Escena es una selección de las mejores películas sobre deportes como el esquí, el alpinismo, la escalada o el parapente.Read more"
+          },
+          {
+            "url": "https://www.instagram.com/p/ComUdkcIyYo",
+            "title": "Llega la nueva edición de verano de Montaña en Escena ...",
+            "snippet": "Feb 13, 2023 — Te damos cita a partir del 24 de abril. Visita www.montanaenescena.com ・ de la Winter Edition 2026! Nos vemos a partir del 23 de noviembre en"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DC4p6p3t-ms",
+            "title": "Seguimos con la gira de Montaña en Escena hoy toca ...",
+            "snippet": "El cicle tindrà lloc a la sala d'actes de l'Agrupació Excursionista de Granollers. Les sessions seran els DIJOUS 5, 12 i 19 de novembre a les 20 ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "0fbc14f756a871d0522c0cf35c8ba06705753db14e87457f0ff263e39bacab98",
+      "provider": "Tavily",
+      "query": "\"Sala La Planeta\" Girona cabaret 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://temporada-alta.com/es/programacio",
+            "title": "Programación 2026 - Temporada Alta",
+            "snippet": "Familiar\n Teatro\n\n## Bufairons\n\nCentre de Titelles de Lleida\n\nSala La Planeta\n\nComprar entradas\n\n© 17 Oct\n\n Música\n\n## e-STRINGS by GIO\n\nThe electric music fusion\n\nAuditori de Girona\n\nÚltimas entradas\n\n© 18 Oct\n\n Música\n\n## Anna Andreu\n\nCal fer més immens el cel: L’última vigília\n\nTeatre Municipal de Girona\n\nComprar entradas\n\nNova funció  © Kiku Piñol 18 Oct\n\n Teatro\n\n## Les coses excepcionals\n\nDuncan Macmillan - Sixto Paz - Pau Roca\n\nSala La Planeta\n\nComprar entradas [...] octubre\n\n20:00 h\n\nHAS"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/bLYOIuK36W0j",
+            "title": "Sala La Planeta",
+            "snippet": "# Sala La Planeta\nID: bLYOIuK36W0j\nWebsite: www.laplaneta.cat\nHeadquarters: Girona, Spain\nLinkedIn: www.linkedin.com/company/sala-la-planeta · 0 followers\nIndustry: Performing Arts\nSocial profiles: www.facebook.com/salalaplanetagirona, www.twitter.com/salalaplaneta, www.instagram.com/salalaplaneta\nDescription: The company is the independent theater room La Planeta. It has been operating since 1997. [...] ## Products and services\nKeywords: entertainment, la planeta, 1997, independent, theater, on"
+          },
+          {
+            "url": "https://www.planomato.com/es/girona/p/programacion-sala-la-planeta",
+            "title": "Programación Sala La Planeta 2025: fecha en Girona | Planomato",
+            "snippet": "La Sala La Planeta es un espacio independiente de teatro en Girona, con una programación estable de artes escénicas que incluye teatro contemporáneo, danza, performance y otras propuestas innovadoras. Es un lugar de encuentro para la comunidad teatral y un punto clave en la vida cultural de Girona. Ofrece espectáculos como 'Cadires' (4 de abril), 'Pla per Roig' (5 de abril), 'Els Versos del Fill del Forner' (3 de abril), 'Exercicis de Crueltat per a Infants' (3 y 4 de mayo) y 'La Filla del Mar' "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f66598b1d564b9d5beec3ad84e965993209d740587efe861f9ae5670e61baa76",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena\" Girona cabaret 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://temporada-alta.com/en/programme",
+            "title": "2026 Programme",
+            "snippet": "Discover the Temporada Alta 2026 programme: theatre, music, dance and circus in Girona and Salt. Check out the shows and dates, and buy tickets."
+          },
+          {
+            "url": "https://www.girona.cat/turisme/eng/agenda.php",
+            "title": "Activities | Tourism | Girona City Council",
+            "snippet": "St Narcissus' Fair and Festival  \n   St Narcissus' Fair and Festival\n Auditorium of Girona programme  \n   Auditorium of Girona programme\n\nOfficial website of the Tourist Office\n\nAjuntament de Girona\n\nPl. del Vi, 1 - 17004 GIRONA - Phone +34 972 010 001\n\n© 2026 Girona City Council | Contact Us\n\n# Site map [...] SATURDAY, NOVEMBER 21 - 8:00 PM\n\nConcert: Uni Caine & Girona Jazz Project\n\nConcert at the Girona Auditorium, reference facility for musical events in the city and in Catalonia.\n\nSUNDAY, NO"
+          },
+          {
+            "url": "https://planns.city/en/plan/temporada-alta-autumn-theatre-in-girona-2026",
+            "title": "Temporada Alta: Autumn Theatre in Girona at Teatre Municipal El Jardí | PLANNS",
+            "snippet": "Skip to content\n\nPLANNS.\n\nPLANNS.\n\nTodayTmrwWkndMonth\n\nExploreMomenntsPlannerDiscoverAccount\n\n## Temporada Alta: Autumn Theatre in Girona\n\nCultureTeatre Municipal El Jardí • 3 OCT • CHECK PRICE\n\nTicketsPlanner\n\nCulture\n\n# Temporada Alta: Autumn Theatre in Girona\n\nPremieres and stage figures this autumn.\n\nTHEATERFESTIVALPERFORMANCE\n\n Teatre Municipal El Jardí [...] Temporada Alta extends its reach to the Teatre Municipal El Jardí in Figueres, cementing its presence across the region. The programm"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "42f6964fc1478bc5dfdb4e3715f59fd8b9be2cc2c22a41bad8b837db08ceb204",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena\" S.L. Girona",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://ensembletramontana.com/contact",
+            "title": "Contact – Ensemble Tramontana",
+            "snippet": "You can subscribe directly to our RSS feed and use your favourite RSS reader to follow us. (coming maybe: some info abt how to use RSS feeds)\n\nYou can also follow us on Facebook. [...] Close Menu\n\n Home\n  + About\n  + Performers\n    - Bios\n  + What we do\n Book Us\n Calendar\n Watch and Listen\n Explore!\n Contact\n\nAll the ways you can follow us\n\nWe’ll post everything important on our blog. Everything we post on our blog will also appear on our Facebook page. We also have a mailing list.\n\nYou can join"
+          },
+          {
+            "url": "https://uk.linkedin.com/company/tramontana-asset-management-ltd",
+            "title": "Tramontana",
+            "snippet": "# Tramontana\n\nDescription: We unlock the wider capital markets for sustainable finance and develop high-integrity carbon projects that save emissions and contribute to the UN Sustainable Development Goals\nLinkedIn:  · 1,417 followers\nIndustry: Financial Services\nType: Privately Held\nHeadquarters: London, United Kingdom\nSocial Profiles: \n\n## Employees\n- Now: 31\n\n## Leadership\n- Steve Holmes, Chief Operating Officer [...] ## Products and services\nKeywords: asset management, financial services, imp"
+          },
+          {
+            "url": "https://www.mapquest.com/es/girona/sani-elec-caballe-girona-697421238",
+            "title": "SANI-ELEC CABALLÉ GIRONA",
+            "snippet": "Advertisement\n\nYes, MapQuest has an app No printouts. Just live voice directions. Get the free app Image 194.4\n## You might also like\n\nImage 20: Sani-elec Caballé Aiguaviva Sani-elec Caballé Aiguaviva\n\nImage 21 Sparkling Mind Sl\n\nImage 22: EGO Construcciones y Reformas integrales GIRONA EGO Construcciones y Reformas integrales GIRONA Window and door installation and erection\n\nImage 23: Mamparas Expo 76 Mamparas Expo 76\n\nImage 24: Artbany Espai Cuina Artbany Espai Cuina [...] See more\n\nImage 27: "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "9d0cc5910b91f1537b174099efc5ed8b07fbed7e17276cead75860341a41c813",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena S.L.\" Girona cabaret 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.laietanacultural.com/de/event-details/cabaret-variety-show-a-dream-of-love",
+            "title": "Cabaret Variety Show - A Dream of Love | Laietana Cultural",
+            "snippet": "top of page\n\nTel: +34 689 458 179\n\n# Cabaret Variety Show - A Dream of Love\n\nA Dream of Love — a dazzling world where cabaret, circus, burlesque, drag and magic unite in a celebration of love and fantasy. Let yourself be enchanted by the elegance of live cabaret singing and magical performances, infused with glamour and allure ✨\n\n## Zeit & Ort\n\n30. Dez. 2026, 20:00 – 31. Dez. 2026, 01:30\n\nLaietana Cultural, Via Laietana, 64, Bajos izq, Ciutat Vella, 08003 Barcelona, España [...] ## Über die Vera"
+          },
+          {
+            "url": "https://feverup.com/m/353945/en",
+            "title": "Magna Comedy tickets: a comedy show with beer tasting | Fever",
+            "snippet": "no tickets are available at the moment Magna Comedy: a comedy show with a beer tasting session … 12 Oct - 4 Oct From €99.00 Girona. Time: 20.00h (duration"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=FVpEVhOYL4A",
+            "title": "Create your own symphony in Costa Brava Girona - YouTube",
+            "snippet": "In Costa Brava Girona we have incredible landscapes, culture, gastronomy, settings and long experience MICE professionals that will help you"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "4e5edd5f478c104b2e4f334e67b0477830e32f938b19249070b9ba0ec991ebbd",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena\" Girona 2026 cabaret invierno",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26&language=es",
+            "title": "Girona - Montaña en Escena edición de invierno del 2026",
+            "snippet": "Girona - Montaña en Escena edición de invierno del 2026. Crear evento Desde las 19h30 hasta las 22h30 (apertura de puertas a las 19h) Girona, Camí dels Carlins"
+          },
+          {
+            "url": "https://temporada-alta.com/es/programacio",
+            "title": "Programación 2026 - Temporada Alta",
+            "snippet": "Comprar entradas](\n\n© David Ruano 07 Dic – 08 Dic\n\n Música\n Teatro\n\n## El retrat de Dorian Gray\n\nOscar Wilde - Marc Rosich - Àngels Gonyalons\n\nTeatre Municipal de Girona\n\nÚltimas entradas\n\n© Vibe Stalpaert 07 Dic\n\n Danza\n Teatro\n\n## Everything Must Change\n\nSung Im Her & Maarten Seghers - Needcompany\n\nTeatre de Salt\n\nEntradas agotadas - Lista de espera\n\n© 08 Dic\n\n Música\n\n## The Black Heritage Choir\n\nThe Soul of Gospel\n\nAuditori de Girona\n\nComprar entradas\n\n© 08 Dic\n\n Teatro [...] octubre\n\n20:00 "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DVJS_aijJha?hl=en",
+            "title": "El festival Internacional del Circ de Girona @festivalcirc ...",
+            "snippet": "Pista Central 2026 en: Jaulín - Botorrita - Osera De Ebro - Cuarte De Huerva - El Burgo De Ebro Organiza: @comarca_central. Produce ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "531dffc52d9296f5e27470aa1b0c5dc1cfbc6c3c138b605b40e4f6690cd03299",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena\" S.L. Girona 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26",
+            "title": "Tickets : Girona - Montaña en Escena Winter Edition 2026 - Billetweb",
+            "snippet": "Add to my calendar  2026-11-26 19:30:00 2026-11-26 22:30:00 Europe/Paris Girona - Montaña en Escena Winter Edition 2026 Reservations on :  -- Montaña en Escena es una selección de las mejores películas sobre deportes como el esquí, el alpinismo, la escalada o el parapente. Todas las películas están en versión original subtituladas en español.  Odeón Multicines Girona, Camí dels Carlins, Salt, Espagne Montaña en Escena  \n\nOdeón Multicines Girona, Camí dels Carlins, Salt, Espagne [...] About\n\nMont"
+          },
+          {
+            "url": "https://tracxn.com/d/legal-entities/india/tramontana-sustainable-commodities-private-limited/__Ulib_XSREQgWNT4sG3FcQb6ptWEXxzS0I5eJgS8p8-U",
+            "title": "TRAMONTANA SUSTAINABLE COMMODITIES PRIVATE LIMITED - 2026 Company Profile & Financials - Tracxn",
+            "snippet": "| Interest Expenses | 7116 | 5234 | 8759 | 5219 | 7112 |\n| Expenses from other activities | 4911 | 6461 | 9875 | 6466 | 1021 |\n| EBITDA | 7736 | 3676 | 9578 | 3996 | 7695 |\n| Taxes | 4701 | 2817 | 8623 | 2288 | 2595 |\n| Net Profit | 8884 | 7807 | 7527 | 2580 | 6449 |\n| Balance Sheet |  |  |  |  |  |\n| Assets | 3523 | 2541 | 5604 | 2435 | 3627 |\n| Accounts Receivables | 1311 | 9124 | 8669 | 8099 | 5417 |\n| Inventory | 3160 | 9440 | 8554 | 6112 | 8460 | [...] | Net Debt/EBITDA | 1455 | 5361 | 4935"
+          },
+          {
+            "url": "https://www.axesor.es/Informes-Empresas/584015/BAR_TRAMONTANA_SL.html",
+            "title": "Bar Tramontana sl  – Informe Mercantil, Financiero y de Riesgo",
+            "snippet": "Experian Axesor\n\n2026 © axesor es una marca de AXESOR CONOCER PARA DECIDIR S.A. NIF. A-18/413302. Todos\nlos derechos reservados. Ins. Reg. Merc. de Granada Nº 4,T. 719, L.O,S.8,F.30,H.GR9880,I/A 1 (24.04.96).\n\nInformación completa de Bar Tramontana sl\nInforme de Bar Tramontana sl\n\n### ¿Desea saber más sobre Bar Tramontana sl?\n\nRegístrese gratis y obtenga 1 Per [...] |  |  |\n --- |\n| Dirección | CTRA DE GIRON, S/Nº  17220, SANT FELIU DE GUIXOLS, GIRONA |\n| Teléfono | 972820031 |\n\n### Detalle de a"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "8eda66ba5ddcecfc63b7031f0294cbf404de382d869316459be82528a0a66361",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena S.L.\" Girona 2026 cabaret",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26",
+            "title": "Tickets : Girona - Montaña en Escena Winter Edition 2026 - Billetweb",
+            "snippet": "Create an event\n\nDesde las 19h30 hasta las 22h30 (apertura de puertas a las 19h)\n\nGirona - Montaña en Escena Winter Edition 2026\n\nBy Montaña en Escena\n\nThu Nov 26, 2026\n\nTimezone : Europe/Paris\n\nOdeón Multicines Girona, Camí dels Carlins, Salt, Espagne\n\nGirona - Montaña en Escena Winter Edition 2026\n\nAbout [...] Share this page\n\nGirona - Montaña en Escena Winter Edition 2026\n\nBook\n\nMontaña en Escena\n\nSend a message)\n\nView events\n\n© Billetweb 2014 - 2026\n\nLegal Notice\n\nReport this page\n\nContact u"
+          },
+          {
+            "url": "https://www.getyourguide.com/en-gb/girona-l550/shows-musicals-tc124",
+            "title": "The best Girona Shows & musicals - 2026 (Verified Reviews)",
+            "snippet": "Language Currency \n\nMobile \n\nImage 23: Get it on Google PlayImage 24: Download on the App Store\n\n## Support\n\n- [x] \n   Contact\n   Legal Notice\n   Privacy Policy\n   Your Privacy Choices Image 25\n   General Terms and Conditions\n   Information according to the Digital Services Act\n   Sitemap\n\n## Company\n\n- [x] \n   About Us\n   Careers\n   Blog\n   Press\n   Gift Cards\n   The Explorer\n\n## Work With Us\n\n- [x] \n   As a Supply Partner\n   As a Content Creator\n   As an Affiliate Partner\n\nWays You Can Pay [.."
+          },
+          {
+            "url": "https://www.girona.cat/turisme/eng/agenda.php",
+            "title": "Activities | Tourism | Girona City Council",
+            "snippet": "St Narcissus' Fair and Festival  \n   St Narcissus' Fair and Festival\n Auditorium of Girona programme  \n   Auditorium of Girona programme\n\nOfficial website of the Tourist Office\n\nAjuntament de Girona\n\nPl. del Vi, 1 - 17004 GIRONA - Phone +34 972 010 001\n\n© 2026 Girona City Council | Contact Us\n\n# Site map [...] SATURDAY, NOVEMBER 21 - 8:00 PM\n\nConcert: Uni Caine & Girona Jazz Project\n\nConcert at the Girona Auditorium, reference facility for musical events in the city and in Catalonia.\n\nSUNDAY, NO"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f32bcae5e8c3124b41dad30daaeb8bc11a981b7f678a6f2bd287fc42ab3ef77d",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena S.L.\" Girona 2026 \"Cabaret de invierno\"",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26&language=es",
+            "title": "Girona - Montaña en Escena edición de invierno del 2026 - Billetweb",
+            "snippet": "Girona - Montaña en Escena edición de invierno del 2026. Crear evento Desde las 19h30 hasta las 22h30 (apertura de puertas a las 19h) Girona, Camí dels Carlins"
+          },
+          {
+            "url": "https://oazis.app/evenements/montana-en-escena-winter-edition-2026-girona",
+            "title": "Montaña en Escena Winter Edition 2026 — Girona · Oazis",
+            "snippet": "Montaña en Escena es una selección de las mejores películas sobre deportes como el esquí, el alpinismo, la escalada o el parapente. Todas las películas están en versión original subtituladas en español.\n\nDe 19:30 hasta 22:45. Apertura de puertas a partir de las 19:00.\n\n## Explorer [...] ## Sorties par ville\n\n## Par envie\n\n## Découvrir\n\n## Infos & légal\n\n## Toi & Oazis\n\n## Organisateurs\n\nOazis - les sorties culturelles autour de toi, mises à jour chaque jour.\n\n© 2026 Oazis\n\nOazis\nMontaña en Escen"
+          },
+          {
+            "url": "https://temporada-alta.com/es/programacio",
+            "title": "Programación 2026 - Temporada Alta",
+            "snippet": "Comprar entradas](\n\n© David Ruano 07 Dic – 08 Dic\n\n Música\n Teatro\n\n## El retrat de Dorian Gray\n\nOscar Wilde - Marc Rosich - Àngels Gonyalons\n\nTeatre Municipal de Girona\n\nÚltimas entradas\n\n© Vibe Stalpaert 07 Dic\n\n Danza\n Teatro\n\n## Everything Must Change\n\nSung Im Her & Maarten Seghers - Needcompany\n\nTeatre de Salt\n\nEntradas agotadas - Lista de espera\n\n© 08 Dic\n\n Música\n\n## The Black Heritage Choir\n\nThe Soul of Gospel\n\nAuditori de Girona\n\nComprar entradas\n\n© 08 Dic\n\n Teatro [...] octubre\n\n20:00 "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "cd87acda432441ddaac9cc92ca9fef886617b3e0af338a04d40457550c14230a",
+      "provider": "Tavily",
+      "query": "\"Tramontana Escena S.L.\" Girona 2026 \"Cabaret de invierno\" Sala La Planeta",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.apropacultura.org/es/node/3624",
+            "title": "Sala La Planeta | Acerca Cultura",
+            "snippet": "Pere Puig (/cdn-cgi/l/email-protection#90e4f5f1e4e2f5d0fcf1e0fcf1fef5e4f1befef5e4)\n\n972207754\n\nAcerca Cultura, ¡aún más cerca!\n\nSelecciona tu provincia y disfruta de la cultura para todos\n\n## Programación del equipamiento\n\n \n\n  Solicitud\n\n  Espectáculo\n\n  La solitud dels cossos celestes\n\n  Sala La Planeta\n\n  Girona\n\n  04/12/2026\n \n\n  Reserva directa\n\n  Espectáculo\n\n  EN DIP, UN VAMPIR BEN EDUCAT\n\n  Sala La Planeta\n\n  Girona\n\n  19/12/2026 al 20/12/2026\n \n\n  Reserva directa\n\n  Espectáculo [...] Es"
+          },
+          {
+            "url": "https://programesfestamajor.cat/girona/2026/espais/sala-la-planeta",
+            "title": "Sala La Planeta · Espais de Girona 2026",
+            "snippet": "⌖ Sala La Planeta\n\nLectura dramatitzada de Josafat, de Prudenci Bertrana, pels 120 anys de la publicació de la novel·la. Albert Reverendo dirigeix una adaptació del text de Joan Ribas, també concebuda com un homenatge al director. Interpreten la lectura Mª Àngels Buisac, Laura Casamitjana, Aniol Fusté i Jordi Garcia. L’entrada és gratuïta i no requereix reserva.\n\nProgrames de Festa Major · Projecte independent · v2.13.19\n\n© 2026 Xavier Capdevila. Disseny, codi i continguts propis. [...] ⌖ Sala L"
+          },
+          {
+            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26&language=es",
+            "title": "Venta de entradas : Girona - Montaña en Escena edición de invierno del 2026 - Billetweb",
+            "snippet": "Crear evento\n\nDesde las 19h30 hasta las 22h30 (apertura de puertas a las 19h)\n\nGirona - Montaña en Escena edición de invierno del 2026\n\nPor Montaña en Escena\n\nJue 26 nov 2026\n\nZona horaria : Europe/Paris\n\nOdeón Multicines Girona, Camí dels Carlins, Salt, Espagne\n\nGirona - Montaña en Escena edición de invierno del 2026\n\nAcerca de [...] Comparte esta página\n\nGirona - Montaña en Escena edición de invierno del 2026\n\nReservar\n\nMontaña en Escena\n\nEnviar un mensaje)\n\nVer eventos\n\n© Billetweb 2014 - 202"
+          }
+        ]
       }
     }
   ]

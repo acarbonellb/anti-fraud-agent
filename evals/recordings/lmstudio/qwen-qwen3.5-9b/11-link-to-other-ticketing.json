@@ -2,19 +2,19 @@
   "caseId": "11",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "69248a975853b66370096120c2819eac5680b4023e2466848071f91f8f5dc4f1",
-      "latencyMs": 2603,
+      "requestHash": "d36a92df82ebf1e477d348232ca0ae3f2e07c5591ce65715baa6001bd089338c",
+      "latencyMs": 3460,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "TfD85cl8vlYoVCNeZQjhnvDT7U8wtaKA",
+              "id": "uIcfrv9REE8ywKwoPadMxv6UuSzmdQcH",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
             }
@@ -22,53 +22,549 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3157,
+          "inputTokens": 3427,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "3335168b380c977a80fb227a8019733dd6ceb5fcd3331b9a1daf3c39ad3554ab",
-      "latencyMs": 1523,
+      "requestHash": "a95d0c4b9cbeb0042536e6f12e0ff77ac3186be7fc74265d6a7b22a07baa955f",
+      "latencyMs": 1577,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "fR1zIHBn88jf4s6FD5K8zdL6yu0S4sNU",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\",\"windowDays\":60}"
+              "id": "Dbpsk3QNTmWUslbO2o8MU42Mr3Kvv3DL",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Xana Rock gira de invierno Oviedo Teatro Campoamor 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3550,
+          "inputTokens": 3820,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "880504f95264f7bcf34ede95568984a80fb50fbba51894412f8502e4c2e61d35",
+      "latencyMs": 1382,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "oPjp2cuJiOKeiXkhUC2GGSwVZioqxOYX",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Xana Rock banda Oviedo Asturias conciertos\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4264,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "0c048f5c46face8a11d8c51300a0289b91ba55518634bc130df6c05752df6ee3",
+      "latencyMs": 1846,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "21plxaeYdPraA4Nbh4yHvqjp9UkpOm63",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" conciertos Oviedo 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4743,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "c5148d9cb08a83ffb3b8bec5d458fedee87e36266ebbd3396845af1fb72ca17d",
+      "latencyMs": 1589,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ossNcfvcaloJc4kogdhA6s42kUUj015j",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 entradas bit.ly\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5311,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "04a4b32cb4c071ad5487bc5b2645275d7c78dbd89f4c4f121d4b80a7e64c51e1",
-      "latencyMs": 40127,
+      "requestHash": "626298fb23922d511b278f5a8086e1d2d21e96b1a9087e9c68d03d82ba4b5f7e",
+      "latencyMs": 1733,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos determinísticos (ya autorizados):\n- **Código postal**: Pasa (33003 corresponde a Asturias).\n- **Pago fuera de plataforma**: Pasa.\n- **Enlace externo de ticketing**: Advertencia por el uso de `bit.ly/xana-invierno-entradas` en la descripción. No es una señal de fraude, pero merece atención.\n- **Términos abusivos**: Pasa (se permite devolución).\n- **Alcohol a menores**: Pasa.\n- **Inyección de prompt**: Pasa.\n- **Precios vs sanity**: Pasa.\n- **Gastos de gestión**: Pasa.\n- **Sesiones solapadas**: Pasa.\n- **Timing de sesiones**: Pasa.\n- **Precio vs benchmark**: Pasa (ningún precio supera 3 veces el p90).\n- **Existencia del recinto**: Pasa (Teatro Campoamor existe en OpenStreetMap).\n- **Aforo del recinto**: Desconocido (no hay datos públicos de aforo para Teatro Campoamor; la sesión con más entradas pone a la venta 450).\n\n### Contexto del organizador:\n- **Nombre**: Norte Bravo Conciertos.\n- **Estado**: Aprobado.\n- **Cuenta**: Creada en mayo de 2024 (930 días), email verificado.\n- **Datos fiscales**: CIF presente y con checksum válido, dirección completa.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido ni recomendaciones previas.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n\n### Eventos similares:\nNo hay eventos similares en otras organizadoras en la provincia de Asturias con título parecido cerca de las fechas del evento.\n\n### Análisis:\n- El enlace `bit.ly` es una advertencia leve, pero no un fallo. Podría ser simplemente para redirigir a la ticketera oficial sin mostrar el URL largo. No hay evidencia de que sea un intento de evadir la plataforma o de phishing.\n- El aforo del recinto es desconocido, pero la venta de 450 entradas no parece excesiva dado que no tenemos referencia externa. No hay señal de fraude aquí.\n- El organizador tiene un historial limpio y datos fiscales válidos.\n\n### Decisión:\nNo hay evidencia de fraude ni ilegalidad. La única advertencia es el enlace externo, que no es una señal de rechazo por sí solo. Por tanto, recomiendo **aprobar** el evento con confianza media-alta.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "A88QksAhNBtYM9UOS71AiUWqTpDOuCds",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento cumple con los requisitos básicos: recinto verificado, precios razonables, sin términos abusivos, sin pago fuera de plataforma y sin contenido ilegal. El organizador tiene un historial limpio, datos fiscales válidos y cuenta aprobada. La única advertencia es el uso de un enlace acortado (bit.ly) en la descripción, que no indica fraude pero merece atención. No hay eventos similares que sugieran clonación. Se aprueba con confianza media-alta.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 33003 corresponde a Asturias.\",\"confidence\":1,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"El texto enlaza a otra ticketera o a un acortador de URL: «bit.ly/xana-invierno-entradas» en la descripción.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://xana-rock-gira-de-invierno.example.test\",\"title\":\"Evento Xana Rock\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Asturias, aforo 300to1000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Campoamor» figura en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/11128109\",\"title\":\"OpenStreetMap: Teatro Campoamor (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Teatro Campoamor»; la sesión con más entradas pone a la venta 450.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en otras organizadoras en Asturias cerca de las fechas del evento.\",\"confidence\":1,\"sources\":[]}]}"
+              "id": "Esi4v7MHYbu9qDyl0xViFE1aMS2OirOa",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"Teatro Campoamor\\\"\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3691,
-          "outputTokens": 1568
+          "inputTokens": 6033,
+          "outputTokens": 55
         }
+      }
+    },
+    {
+      "requestHash": "d39cad9f01ae40bfa2d528e8f98eb93481770600d83ed7f657fcb4e3d3d7cccc",
+      "latencyMs": 1657,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "AMqklDXgZpEj21OF5AttRleCCXPg5A4A",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Norte Bravo Conciertos\\\" Oviedo 2026 conciertos\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6547,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "e88066e3515d3127b3c6aed4fbcd081b55611ce8bae91d247f76c98069d53e82",
+      "latencyMs": 1879,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "YW1cMV2w0CGCZ81eofoDnRCwAy2xpusY",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"gira de invierno\\\"\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7360,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "826613152ef051d958885c33215f42d69d2943269358695edb07006f6b62e051",
+      "latencyMs": 1829,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "PCMYfz5ro9HYBh7VGyBhMWpvw5nh5pff",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"Teatro Campoamor\\\" entradas\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8052,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "1f9a624335dff609344cdad5e9e30a3c07ea655bbaeb5856f545e10cb3530b89",
+      "latencyMs": 1847,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "cFI2MQUFo42rhOrxT3cItksTUB2dHCuW",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"Teatro Campoamor\\\" conciertos rock\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8741,
+          "outputTokens": 58
+        }
+      }
+    },
+    {
+      "requestHash": "14bc74f61a46d7feb89ebaa6f1b0f17ed0b66d65b7c45b51a7f3a4cb0633e2b4",
+      "latencyMs": 1894,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "jDXCV1xQhjKjZH6P022jJs7oToNOa2vp",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"Teatro Campoamor\\\" conciertos rock Asturias\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9427,
+          "outputTokens": 59
+        }
+      }
+    },
+    {
+      "requestHash": "9ccf182747e9d8ddb6a4a67e31a95b6796c7c0c3fa65fc9c8fbfdeb5cd5e105d",
+      "latencyMs": 1998,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "3btXLjTFiZYta7LRdRCJQ31vpduiNURe",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" Oviedo 2026 \\\"Teatro Campoamor\\\" conciertos rock Asturias\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 10158,
+          "outputTokens": 59
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "15b5fd6e54e972d435ca6af4a1f2843b9fd30c0904028a72d407cda18f8637c5",
+      "provider": "Tavily",
+      "query": "Teatro Campoamor Oviedo aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.oviedo.es/teatrocampoamor",
+            "title": "Teatro Campoamor - Ayuntamiento de Oviedo - oviedo.es",
+            "snippet": "Teatro Campoamor es el epicentro de la actividad cultural en Oviedo y en Asturias. Campoamor Oviedo, C/Pelayo 985 20 75 90 985 20 73 55 cultura de 11:00 a 14:"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Campoamor",
+            "title": "Teatro Campoamor - Wikipedia, la enciclopedia libre",
+            "snippet": "Capacidad · Patio: 442 butacas, distribuidas en 18 filas · Palcos de platea: 154 butacas (repartidas en 26 palcos) · Entresuelo: 187 butacas (84 en palcos, 43 en ...Read more"
+          },
+          {
+            "url": "https://intermezzo-promusic.com/local/teatro-campoamor-oviedo",
+            "title": "Teatro Campoamor Oviedo - Intermezzo Promusic",
+            "snippet": "Dirección \n\nC. Pelayo, 3   \n Oviedo, Asturias 33003 España  Cómo llegar\n\nTeléfono  985 20 75 90\n\nWebsite  \n\nEl Teatro Campoamor es el teatro de ópera de Oviedo, fundado en 1892 y conocido entre otras cosas por ser el escenario de la entrega de los Premios Princesa de Asturias.\n\n## Eventos en este recinto\n\nHoy\n\n \n\n  #### Suor Angelica\n\n  Recurrente\n\n   Teatro Campoamor Oviedo   C. Pelayo, 3, Oviedo, Asturias, España [...] Recurrente\n\n   Teatro Campoamor Oviedo   C. Pelayo, 3, Oviedo, Asturias, Es"
+          },
+          {
+            "url": "https://www.teatrocampoamor.es",
+            "title": "Teatro Campoamor | Web Oficial | Oviedo",
+            "snippet": "El Teatro Campoamor es patrimonio vivo de Oviedo y emblema cultural de España. Cada temporada renueva su compromiso con la calidad, el rigor artístico y el ...Read more"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/Vp6IR9WtoL5D",
+            "title": "Teatro Campoamor",
+            "snippet": "# Teatro Campoamor\nID: Vp6IR9WtoL5D\nHeadquarters: OVIEDO, Spain\nLinkedIn: www.linkedin.com/company/teatro-campoamor · 23 followers\nIndustry: Performing Arts [...] ## Headcount\n- Now: 18 · +3 yearly (20%) · -1 quarterly · 0 monthly\n  - Southern Europe: 4\n  - Western Europe: 1\n  - Eastern Europe: 0\n  - Latin America: 0\n  - Sub Saharan Africa: 0\n  - Central Asia: 0\n  - Northern America: 0\n  - Australia New Zealand: 0\n  - Northern Europe: 0\n  - South Eastern Asia: 0\n  - Polynesia: 0\n  - Southern Asi"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ee4b1df7720a220acd87dfbb67d66011c96cb40e482fb7a0cd1c94db99301ec7",
+      "provider": "Tavily",
+      "query": "Xana Rock gira de invierno Oviedo Teatro Campoamor 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.teatrocampoamor.es/en/index.html",
+            "title": "Teatro Campoamor | Official Website | Oviedo",
+            "snippet": "Teatro Campoamor is a living part of Oviedo’s heritage and a cultural landmark in Spain. Each season, it renews its commitment to quality, artistic rigour and respect for its audiences, offering programmes that enrich the city’s cultural life and foster connection through the arts.\n\nEvery performance, every concert, is an invitation to discover, feel and share unique experiences.\n\nTo step inside Campoamor is to become part of a legacy where past and present converse in memorable harmonies. [...]"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DDy813Tgnel",
+            "title": "🚨 Las localidades para los esperados Conciertos de Año ...",
+            "snippet": "Las localidades para los esperados Conciertos de Año Nuevo, que se celebrarán en el Teatro Campoamor el 1 de enero a las 19 horas y el día 2 ...Read more"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DVfvhDpiCCu",
+            "title": "Oviedo y Soria nos vemos 10 y 11 abril. Entradas ya a ...",
+            "snippet": "Oviedo y Soria nos vemos 10 y 11 abril. Entradas ya a venta. Link entradas en mi bio     Viernes 10 Abril Botánico Café Teatro, SoriaRead more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "45cf13bbdc49f26a4b5bb9ed44367b784a877c629a4cd4af0c41d6f12db54dc0",
+      "provider": "Tavily",
+      "query": "Xana Rock banda Oviedo Asturias conciertos",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://m.facebook.com/www.oviedo.es/photos/a.159742244065067/5669919266380643",
+            "title": "Ayuntamiento de Oviedo",
+            "snippet": "AZKENA ROCK FESTIVAL 2025: VIERNES 21 DE JUNIO: VIRGEN BLANCA: 13:30 LAURIE WRIGHT SABADO 22 DE JUNIO: VIRGEN BLANCA 13:30 Juan Pablo Benito"
+          },
+          {
+            "url": "https://www.facebook.com/AvalanchOficial/videos/-pr%C3%B3xima-parada-de-la-gira-30-aniversario%EF%B8%8F-s%C3%A1bado-29-de-noviembre-sala-tribeca-l/1335475471100436",
+            "title": "️ Sábado 29 de Noviembre 📍 Sala Tribeca Live (Oviedo ...",
+            "snippet": "Próxima parada de la Gira 30 Aniversario: 🗓️ Sábado 29 de Noviembre Sala Tribeca Live (Oviedo) ¿Te lo vas a perder?"
+          },
+          {
+            "url": "https://www.instagram.com/p/DRk3ikuDNOu",
+            "title": "Horarios para el concierto de Avalanch en Oviedo ...",
+            "snippet": "⌚ Horarios para el concierto de Avalanch en Oviedo el sábado 29 de Noviembre: Entrada VIP / meet and greet ➡️ 19:30h Entrada general ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e8be1b23600bda060f0a972172516f6600385d9a5e3a79d8d5678605f54791a5",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" conciertos Oviedo 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=CD0gfScDLS0",
+            "title": "xiii oviedo rock 2026 is coming",
+            "snippet": "XIII OVIEDO ROCK 2026 IS COMING @OviedoPress. Until I Met You\" Mike Patton | 54th International Cervantino Festival Canal22•160K. Press OPENING"
+          },
+          {
+            "url": "https://www.instagram.com/p/DRk3ikuDNOu",
+            "title": "Horarios para el concierto de Avalanch en Oviedo ...",
+            "snippet": "⌚ Horarios para el concierto de Avalanch en Oviedo el sábado 29 de Noviembre: Entrada VIP / meet and greet ➡️ 19:30h Entrada general ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "d814987be8380bd87151b25ca5367b566a3b15c062bd17898fc4ee121ee846b4",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 entradas bit.ly",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/eXXkrFQPjT63",
+            "title": "bit.ly",
+            "snippet": "# Arthur Queiroz Imóveis\nID: eXXkrFQPjT63\nWebsite: www.bitly.com/\nHeadquarters: Macaé, Rj, Brazil\nLinkedIn: www.linkedin.com/company/arthur-queiroz-im%C3%B3veis · 1 followers\nIndustry: Leasing Non-residential Real Estate\nSocial profiles: www.facebook.com/bitly, www.twitter.com/bitly, www.instagram.com/bitly [...] Description: Bitly is a platform that allows users to create, share, and track short links and QR codes. It offers dynamic solutions to fit every business need, including analytics, mob"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/Rcv9FtCjfXCz",
+            "title": "bit.ly",
+            "snippet": "# Silver Linings Solutions\nID: Rcv9FtCjfXCz\nWebsite: www.bitly.com/\nHeadquarters: Houston , Texas, United States\nLinkedIn: www.linkedin.com/company/express-cash-atm-llc · 7 followers\nIndustry: Consumer Services\nCompany type: Privately Held\nFounded: 2020\nSocial profiles: www.facebook.com/bitly, www.twitter.com/bitly, www.instagram.com/bitly [...] Description: Bitly is a platform that allows users to create, share, and track short links and QR codes. It offers dynamic solutions to fit every busine"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "a2247daf230e28aee4a9825feab7d0ceb4907c9faa03cbff89d8ca07c90aadc9",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 \"Teatro Campoamor\"",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.teatrocampoamor.es/en/index.html",
+            "title": "Teatro Campoamor | Official Website | Oviedo",
+            "snippet": "Teatro Campoamor is a living part of Oviedo’s heritage and a cultural landmark in Spain. Each season, it renews its commitment to quality, artistic rigour and respect for its audiences, offering programmes that enrich the city’s cultural life and foster connection through the arts.\n\nEvery performance, every concert, is an invitation to discover, feel and share unique experiences.\n\nTo step inside Campoamor is to become part of a legacy where past and present converse in memorable harmonies. [...]"
+          },
+          {
+            "url": "https://www.operaoviedo.com",
+            "title": "Ópera de Oviedo",
+            "snippet": "#### Se ocupa de la planificación, organización y gestión de la temporada operística en el Teatro Campoamor.\n\nCONOCE LA FUNDACIÓN\n\n### Últimas temporadas\n\n#### Recorre la programación de la ópera de Oviedo a lo largo de sus últimas temporadas.\n\nDESCÚBRELO   DESCARGA AQUÍ LA MEMORIA ANUAL\n\n### Noticias\n\n#### Toda la actualidad de la Ópera de Oviedo\n\nVER TODA LA ACTUALIDAD   TEMPORADA 2025-2026\n\n\n\nYa a la venta las localidades de la próxima temporada operística del Campoamor [...] Le recomendamos "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=CD0gfScDLS0",
+            "title": "xiii oviedo rock 2026 is coming - YouTube",
+            "snippet": "XIII OVIEDO ROCK 2026 IS COMING. @OviedoPress 6 likes 55 views 1mo ago. more. Subscribe. Comments. Comment."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "33c60765bbe8c22fa8a72d7ae49578d57094764cd98c2d403bcd310367c498fc",
+      "provider": "Tavily",
+      "query": "\"Norte Bravo Conciertos\" Oviedo 2026 conciertos",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://en.asturias.com/san-mateo-oviedo",
+            "title": "San Mateo Oviedo 2026: schedule of events | asturias.com",
+            "snippet": "advertising on asturias.com\ngo to asturias.com\nasturias.com\nSan Mateo Festival 2026\n\n# San Mateo Festival 2026\n\n## Concerts, theater, the Night of the Fires...\n\nThursday\n\nMonday\n\nSan Mateo Festival 2026\nCopyrightgoole maps icon\n\nThe San Mateo festivities in Oviedo, from September 10th to 21nd, 2026 , will offer a wide range of musical performances on various stages. [...] Chimo Bayo and King Africa  \nSeptember 13 · 20:30 p.m. · El Bombé\n\nBitter and Kas  \nSeptember 14 · 20:30 p.m. · El Bombé\n\nLit"
+          },
+          {
+            "url": "https://www.facebook.com/www.oviedo.es/posts/-%F0%9D%97%B2%F0%9D%97%B9%F0%9D%97%BF%F0%9D%97%BC%F0%9D%98%84-%F0%9D%97%A2%F0%9D%98%83%F0%9D%97%B6%F0%9D%97%B2%F0%9D%97%B1%F0%9D%97%BC-%F0%9D%9F%AE%F0%9D%9F%AC%F0%9D%9F%AE%F0%9D%9F%B2-un-evento-de-referencia-internacional-que-servir%C3%A1-como-antesa/1485777093587109",
+            "title": "🎶 𝗲𝗹𝗿𝗼𝘄 𝗢𝘃𝗶𝗲𝗱𝗼 𝟮𝟬𝟮𝟲 Un evento de referencia ...",
+            "snippet": "5 de septiembre A partir de las 18:00 horas Recinto La Ería Entradas disponibles en https://goo.su/8OufB3A ℹ Venta de entradas de ...Read more"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/bLwmw2CiHqXC",
+            "title": "Norte Bravo",
+            "snippet": "# MECANIZADOS NORTE BRAVO SL\nID: bLwmw2CiHqXC\nHeadquarters: AMPUERO, Spain\nLinkedIn: www.linkedin.com/company/mecanizados-norte-bravo-sl · 4 followers\nIndustry: Appliances, Electrical, and Electronics Manufacturing\n\n## Headcount\n- Now: 5 · 0 yearly (0%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c45bddb1f62c38b8b7e346fee8c6f8e3e974441bd457f0c68c4c042faddcb6ff",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 \"gira de invierno\"",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.planomato.com/es/oviedo/p/concierto-puno-dragon-oviedo",
+            "title": "Concierto de Puño Dragón en el Concurso de Rock Ciudad de Oviedo 2026: fecha y entrada libre | Planomato",
+            "snippet": "## Descripción\n\nYa tenemos los detalles de cómo se cierra la programación musical en la Plaza de Feijoo para las próximas fiestas de San Mateo en Oviedo. La banda asturiana de rock alternativo Puño Dragón será la encargada de poner el broche final a los conciertos en este escenario el 19 de septiembre de 2026. Su actuación se integra dentro del Concurso de Rock Ciudad de Oviedo Alejandro Blanco Espina, una cita que ya es habitual en el calendario festivo de la ciudad.\n\n### Otros planes... [...] "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=reLqcHyhw4I",
+            "title": "THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING",
+            "snippet": "# THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING\n## Channel: Oviedo Press\n6.12K subscribers\n1 likes\n\n### Description\n36 views\nPosted: 2026-10-23"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e15ecb6be9374d8763d3f165e6a7e74b8ab755ed9d80279a478eda49d841f55f",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 \"Teatro Campoamor\" entradas",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.planomato.com/es/oviedo/v/teatro-campoamor",
+            "title": "Teatro Campoamor, Oviedo | Planomato",
+            "snippet": "13 nov\n\n### Macbeth - Ópera de Oviedo\n\nRepresentación de la ópera Macbeth de Giuseppe Verdi en el Teatro Campoamor dentro de la temporada 2026-2027.Ópera\n\nGianni Schicci para la infancia\n\n14 nov\n\n### Gianni Schicci para la infancia\n\nRepresentación infantil de la ópera Gianni Schicci a cargo de la compañía La Federica en el Teatro Campoamor.Ópera\n\nOrlando furioso\n\n14 nov\n\n### Orlando furioso [...] Doble programa lírico que une Kindertotenlieder de Gustav Mahler y Suor Angelica de Giacomo Puccini,"
+          },
+          {
+            "url": "https://www.operaoviedo.com",
+            "title": "Ópera de Oviedo",
+            "snippet": "Le recomendamos el uso de Mozilla Firefox o Google Chrome\n\nÓpera de Oviedo\n\nÓpera de Oviedo\n\n# Macbeth\n\n## G. Verdi\n\n#### 13, 15, 18, 20 y 21 de noviembre 2026\n\nViernes de Ópera\n\nFICHA DE LA ÓPERA   COMPRAR ENTRADAS   COMPRAR VIERNES DE ÓPERA\n\nÓpera de Oviedo\n\n# Gianni Schicchi para la infancia\n\n## Para la todos los públicos\n\n#### 14 de noviembre de 2026\n\nCOMPRAR ENTRADAS\n\nÓpera de Oviedo\n\n# Manon Lescaut\n\n## G. Puccini\n\n#### 11, 13, 16, 18 y 19 de diciembre 2026\n\nViernes de Ópera [...] Viernes "
+          },
+          {
+            "url": "https://www.teatrocampoamor.es/en/index.html",
+            "title": "Teatro Campoamor | Official Website | Oviedo",
+            "snippet": "Teatro Campoamor is a living part of Oviedo’s heritage and a cultural landmark in Spain. Each season, it renews its commitment to quality, artistic rigour and respect for its audiences, offering programmes that enrich the city’s cultural life and foster connection through the arts.\n\nEvery performance, every concert, is an invitation to discover, feel and share unique experiences.\n\nTo step inside Campoamor is to become part of a legacy where past and present converse in memorable harmonies. [...]"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "fd37af5ceea6df16ba456296174c36e877e4e31006b0e14d4cf87ae844771694",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 \"Teatro Campoamor\" conciertos rock",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=CD0gfScDLS0",
+            "title": "XIII OVIEDO ROCK 2026 IS COMING",
+            "snippet": "[13:36] creo que esto es un inicio de de ciertas eh de ciertos ecosistemas que se van a estar dando dentro del ámbito musical.\n[13:44] ¿Por qué? Porque aparte de este concierto o del Odio Rock, estamos gestando ciertas alianzas con con estas productoras que te dije, ¿verdad?\n[13:53] Entonces, yo creo que va a ser más a menudo de aquí para adelante la inclusión de artistas internacionales de Argentina, de Uruguay o de Brasil, de [...] [25:38] da hacia ciertos eh [música] movimientos culturales. E"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=reLqcHyhw4I",
+            "title": "THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING",
+            "snippet": "# THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING\n## Channel: Oviedo Press\n6.12K subscribers\n1 likes\n\n### Description\n36 views\nPosted: 2026-10-23"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "5db42c24ea07f7f2268e92056305205c03c1159673258884f8b756a141eabbbf",
+      "provider": "Tavily",
+      "query": "\"Xana Rock\" Oviedo 2026 \"Teatro Campoamor\" conciertos rock Asturias",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://blog.telecable.es/san-mateo-oviedo",
+            "title": "Conciertos San Mateo Oviedo 2026: fechas y horarios | Blog Telecable",
+            "snippet": "Además de los grupos que participan en el concurso, a partir de las 21:30 h, actúan grupos invitados que podrás ver en directo.\n\nEstos son los conciertos de los artistas invitados del Concurso de Rock Ciudad de Oviedo 2026 en la plaza de Feijoo:\n\n### Viernes, 11 de septiembre 2026\n\n 23:30 h. Plaza de Feijoo: Stormy Mondays.\n\n### Sábado, 12 de septiembre 2026\n\n 23:30 h. Plaza de Feijoo: La Sonrisa de Julia.\n\n### Domingo, 13 de septiembre 2026 [...] En 1948, la primera edición organizada por la So"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=reLqcHyhw4I",
+            "title": "THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING",
+            "snippet": "# THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING\n## Channel: Oviedo Press\n6.12K subscribers\n1 likes\n\n### Description\n36 views\nPosted: 2026-10-23"
+          }
+        ]
       }
     }
   ]

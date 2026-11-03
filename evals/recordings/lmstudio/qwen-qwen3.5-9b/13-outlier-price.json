@@ -2,19 +2,19 @@
   "caseId": "13",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "eca2b13c95e8dc379997303cd463a3fb7d07f97fe7b64871467bf6079b41e663",
-      "latencyMs": 2545,
+      "requestHash": "e3f3fa73db4559be97079b82017aa12eb8544b915b7082cc4aedae98bcd8f499",
+      "latencyMs": 3390,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "8eYSGHUVOZklFJprgXNLQq8h14pJLy57",
+              "id": "En3jyaDFa2whDd9R3rC5y5TuW7LxaxLN",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_9f3669c2c6\"}"
             }
@@ -22,21 +22,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3151,
+          "inputTokens": 3437,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "205ce7848f058eafe2cb1632d4b17426a51dcf89d48ca8cf9c6a4ae5493cef9c",
-      "latencyMs": 1544,
+      "requestHash": "76a1e4e686d28d90653235eb4b883c626ca6a339e97c15a440608ee7aef7a411",
+      "latencyMs": 1460,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "agfriI0OEUBpQi8PwC8Jy3HTOEn5Uv8e",
+              "id": "4zHEJ6MmW6bca6nsX7YES2OFCmgSpWKp",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Azahar jazz copla Sala Hangar Córdoba\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3828,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "b9286c190bd47b42930ce63572621bd42080d7c844a8df192f7a1e64666dfb58",
+      "latencyMs": 1749,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "wC5tirgt0iYeaNpvKmLpDeyN0U3MxDz3",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_37bff18a82\",\"windowDays\":60}"
             }
@@ -44,31 +66,105 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3542,
+          "inputTokens": 4482,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "4c49bb5570a95ce2f601a98e40d4872a6559555cfe87bf4c4dc86769764468e2",
-      "latencyMs": 42690,
+      "requestHash": "f25348c7794aad80a8df57045ff5c6d6d24eb5a200595e64df2f9aae726bb6c3",
+      "latencyMs": 21305,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: Pass (el código postal 14006 corresponde a Córdoba).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **venue_exists**: Pass (el recinto \"Sala Hangar\" existe en OpenStreetMap).\n- **venue_capacity**: Unknown (no hay datos públicos del aforo, pero la sesión con más entradas pone a la venta 280).\n\n### Hallazgo de precio:\n- **price_benchmark**: Warn (la entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300. El umbral es 3 veces). Esto es una señal de alerta, pero no necesariamente fraudulenta; podría ser un error o una decisión comercial.\n\n### Contexto del organizador:\n- **Patio Andalusí Producciones**: Organizador aprobado desde mayo de 2024, con 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido. No tiene otros organizadores asociados. La cuenta del propietario tiene 930 días de antigüedad y el email está verificado.\n- **Historial**: Sin cambios sustanciales, sin despublicaciones por admin, sin reportes de contenido y sin revisiones anteriores como agente.\n\n### Eventos similares:\n- No hay eventos similares en los últimos 60 días en la misma provincia con un título parecido, lo que descarta la posibilidad de clonación.\n\n### Análisis:\n- El precio de la entrada (950,00 €) es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento; podría ser una decisión comercial o un error. No hay evidencia de fraude ni ilegalidad.\n- El organizador tiene un historial limpio y está aprobado.\n- No hay señales de clonación, pagos fuera de la plataforma, términos abusivos, etc.\n\n### Decisión:\nDado que el único hallazgo es una advertencia sobre el precio (que no es fraudulento por sí mismo) y el organizador tiene un historial limpio, recomiendo **aprobar** el evento. Sin embargo, debido a la desviación significativa del precio respecto al benchmark, podría ser útil añadir una nota en el razonamiento para que el admin esté informado.\n\n### Razonamiento (en español):\nEl evento \"Trío Azahar: jazz y copla\" ha sido revisado exhaustivamente. El organizador \"Patio Andalusí Producciones\" tiene un historial limpio, con 14 eventos publicados y sin cancelaciones ni reportes de contenido. No hay señales de fraude, clonación, pagos fuera de la plataforma, términos abusivos, etc. La única señal es una advertencia sobre el precio de la entrada (950,00 €), que es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento y podría ser una decisión comercial o un error. Se recomienda aprobar el evento, pero informando al admin sobre la desviación del precio.\n\n### Hallazgos:\n1. **price_benchmark**: Warn (la entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300). Confianza: 0.8.\n2. **organizer_identity**: Pass (el organizador está aprobado, con tax ID válido y cuenta antigua). Confianza: 0.9.\n3. **organizer_history**: Pass (sin cancelaciones, reportes de contenido o despublicaciones por admin). Confianza: 0.9.\n4. **similar_event**: Pass (no hay eventos similares en los últimos 60 días). Confianza: 0.95.\n\n### Decisión final:\n**Aprobar** el evento con una nota sobre la desviación del precio.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "fwdVu6wqeHRPOokv1a6s6suSGLlkDJOj",
+              "id": "JUVsbc5TOFaT9g2f7DLofu9xnqeVETKw",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento \\\"Trío Azahar: jazz y copla\\\" ha sido revisado exhaustivamente. El organizador \\\"Patio Andalusí Producciones\\\" tiene un historial limpio, con 14 eventos publicados y sin cancelaciones ni reportes de contenido. No hay señales de fraude, clonación, pagos fuera de la plataforma, términos abusivos, etc. La única señal es una advertencia sobre el precio de la entrada (950,00 €), que es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento y podría ser una decisión comercial o un error. Se recomienda aprobar el evento, pero informando al admin sobre la desviación del precio.\",\"findings\":[{\"check\":\"price_benchmark\",\"verdict\":\"warn\",\"detail\":\"La entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300. El umbral es 3 veces.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/benchmarks/jazz/cordoba/lt300\",\"title\":\"Benchmark de precios: Jazz, Córdoba, lt300\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador está aprobado, con tax ID válido y cuenta antigua (930 días).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizers/org_9f3669c2c6\",\"title\":\"Patio Andalusí Producciones\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin cancelaciones, reportes de contenido o despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizers/org_9f3669c2c6/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en los últimos 60 días.\",\"confidence\":0.95,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.9,\"rationale\":\"El evento cumple con todos los requisitos básicos: el organizador Patio Andalusí Producciones está aprobado, tiene fiscalidad verificada y un historial limpio (14 eventos publicados, 0 cancelados). Las verificaciones deterministas pasan (código postal correcto, sin pagos fuera de plataforma, sin enlaces externos, términos no abusivos, etc.). Los warnings de precio y aforo tienen explicaciones razonables: el precio es alto comparado con la media del género en Córdoba, pero puede ser por la naturaleza especial del evento; el aforo de 280 vs. 250 del recinto tiene una explicación plausible (terraza o aforo ampliado). El Trío Azahar existe como banda real (Instagram, Facebook) y tiene fechas de gira que incluyen un concierto en Bruselas en febrero de 2026, lo que sugiere disponibilidad para Córdoba en noviembre. No hay eventos similares detectados ni señales de clonación. La decisión es aprobar con confianza alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Patio Andalusí Producciones aprobado desde mayo 2024, fiscalidad verificada (CIF válido), cuenta de propietario con 930 días de antigüedad y email verificado.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3787471847\",\"title\":\"OpenStreetMap: Sala Hangar (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 0 cancelados, 0 cambios sustanciales, sin denuncias de contenido ni revisiones previas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"Trío Azahar tiene presencia web verificada (Instagram, Facebook) y fechas de gira que incluyen un concierto en Bruselas el 27/02/2026, lo que sugiere disponibilidad para Córdoba en noviembre.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.instagram.com/trioazaharmusic/reels\",\"title\":\"Trío Azahar (@trioazaharmusic) - Instagram\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Córdoba con fechas cercanas, lo que descarta clonación.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"warn\",\"detail\":\"Precio de 950€ es 27 veces el p90 (35€) de eventos comparables en Córdoba para jazz con aforo <300, pero puede justificarse por la naturaleza especial del evento.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo de venta (280) es 1,1 veces el aforo oficial (250), lo cual puede explicarse por terraza o aforo ampliado.\",\"confidence\":0.75,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/sala-hangar\",\"title\":\"la web (www.salasdeconcierto.net)\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3678,
-          "outputTokens": 1663
+          "inputTokens": 4618,
+          "outputTokens": 821
         }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "3b3567a2bee025e32a79489545db64bfcba4caffe5a282d06fa520233d6a897f",
+      "provider": "Tavily",
+      "query": "Sala Hangar Córdoba aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/sala-hangar",
+            "title": "Sala Hangar de Córdoba - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nSala Hangar de Córdoba\n\nSalas de Conciertos Pop / Rock Aforo: 250-750\n\n# Sala Hangar de Córdoba\n\nCórdoba / Córdoba\n\n## Descripción\n\nClub Nocturno y sala de conciertos de la ciudad andaluza, un punto de encuentro para disfrutar de la buena música en vivo y en directo, con el mejor sonido, comodidad y ambiente de publico en general. Una de las salas emblemáticas de la ciudad donde siempre puedes encontrar música en vivo.\n\n### Horario\n\nSin definir\n\n## Ubicación [...] ## Ubicac"
+          },
+          {
+            "url": "https://www.instagram.com/hangarcordoba?hl=en",
+            "title": "Hangar Cordoba (@hangarcordoba)",
+            "snippet": "Sala de conciertos y club musical. Hangar Cordoba 3,187 posts 31.3K followers. Viernes 6 de Noviembre 20.00 H. Hasta completar aforo. Sábado 7 de Noviembre 17:"
+          },
+          {
+            "url": "https://www.lnkmsc.com/spaces/hangar-cordoba/profile",
+            "title": "Hangar Cordoba",
+            "snippet": "Hangar es algo más que una sala de conciertos, es un punto de encuentro con ... Aforo 300 personas; Teléfono +34 646 490 585; Web Ir a la web; Twitter Ver ...Read more"
+          },
+          {
+            "url": "https://www.explorecordoba.com/bar/sala-hangar",
+            "title": "Sala Hangar Córdoba: Live Music and Disco Pub Nights",
+            "snippet": "The hall holds about 300 people, small enough that you are never far from the stage. Outside, Hangar Picnic is a large terrace where you can eat lunch or dinner: burgers, pizzas, nachos and hot dogs.\n\n## Checking the night before you go [...] There are no standing hours. The venue is open late at weekends, and doors follow the concert programme, so check the venue's page or the ticket listing for the night you plan to go.\n\n \n\n### Who goes to Sala Hangar?\n\nMostly adults. One local guide puts the "
+          },
+          {
+            "url": "https://www.facebook.com/Hangarcordoba",
+            "title": "Hangar Cordoba",
+            "snippet": "Sábado 7 de Noviembre, 20:00h. ... Entrada libre y aforo limitado · May be an image of text. Alvaro Jurado and Inma Manchón Moruno.Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "b8bb26a8175f3735bffacbbfc6d7925b4b4fb35ca200bc757015dd94ae5da3eb",
+      "provider": "Tavily",
+      "query": "Trío Azahar jazz copla Sala Hangar Córdoba",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/trioazaharmusic/reels",
+            "title": "Trío Azahar (@trioazaharmusic) - Instagram",
+            "snippet": "Músicos profesionales, banda sonora de momentos especiales✨ Violín, viola y chelo Córdoba AGENDA 26-27 ABIERTA trioazaharmusic@gmail.com.Read more"
+          },
+          {
+            "url": "https://www.facebook.com/Hangarcordoba",
+            "title": "Hangar Cordoba",
+            "snippet": "FRUIT TONES en Cordoba 4.11.2026 21:30 ENTRADAS : · Compra entradas para FRUIT TONES en Cordoba Sala Hangar, en Cordoba | entradium, por El Colectivo Cordoba.Read more"
+          },
+          {
+            "url": "https://www.spainculture.be/es/region/bruselas/tri-azahar-ca-pricho-espanol",
+            "title": "Trío Azahar: capricho español | Bruselas 02/27/2026",
+            "snippet": "Feb 27, 2026 — Trío Azahar: capricho español Paula Aguilo, Cristina Mura y Ana Santisteban ofrecen un recital de múúsica tradicional española y flamenco."
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=k-4Xr_E4vWI",
+            "title": "O-Bri · Festival Internacional de Jazz de Córdoba 2024",
+            "snippet": "# O-Bri · Festival Internacional de Jazz de Córdoba 2024\n## Channel: Festival Internacional de Jazz - Córdoba\n1.42K subscribers\n\n### Description\nPosted: 2026-11-17\nOsvaldo Brizuela (guitarra).\n\nTeatro Real.9 de Noviembre de 2024\n\nwww.cordobajazzfestival.com.ar"
+          },
+          {
+            "url": "https://www.facebook.com/EcoparqueTrasmiera/videos/empezamos-isla-jazz-2026-con-el-tr%C3%ADo-siguaraya-y-su-tremendo-jazz-latino-arranca/1028471899970572",
+            "title": "Empezamos Isla Jazz 2026 con el Trío Siguaraya y su ...",
+            "snippet": "Empezamos Isla Jazz 2026 con el Trío Siguaraya y su tremendo jazz latino. ¡Arrancamos! 2nd Aegina Jazz Festival αποκτά"
+          }
+        ]
       }
     }
   ]

@@ -4,6 +4,7 @@ import {
   buildOrganizer,
   eventFixtures,
   IN_THREE_WEEKS,
+  pageDate,
 } from "../builders.js";
 
 const SEED = "small-organizer-bar";
@@ -53,7 +54,7 @@ export const evalCase: EvalCase = {
         },
       ],
     });
-    return eventFixtures(event, organizer, {
+    const fixtures = eventFixtures(event, organizer, {
       benchmark: {
         sampleSize: 18,
         p10Cents: 500,
@@ -62,5 +63,23 @@ export const evalCase: EvalCase = {
         maxCents: 2500,
       },
     });
+    const day = pageDate(event.sessions[0]?.startsAt ?? clock.toISOString());
+    return {
+      ...fixtures,
+      // Authored: the association and the band are invented (CLAUDE.md §5).
+      web: [
+        {
+          url: "https://redes-ejemplo.test/penagatuna",
+          title: "Peña Gatuna (@penagatuna)",
+          snippet:
+            "Asociación de amigos de la música en directo en Lugo. Perfil activo desde 2019, 260 publicaciones: carteles y fotos de conciertos pequeños en bares.",
+        },
+        {
+          url: "https://osvagalumes.test/",
+          title: "Os Vagalumes — folk desde Lugo",
+          snippet: `Grupo folk de Lugo. Tocamos nuestras canciones de siempre en bares y fiestas de Galicia. Agenda: ${day}, Lugo, Club Clavicembalo (con Peña Gatuna).`,
+        },
+      ],
+    };
   },
 };

@@ -2,19 +2,19 @@
   "caseId": "10",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "930e1fe2bb869da957810b575106341b4ec859dca223f0a1a549b3055cee92be",
-      "latencyMs": 2593,
+      "requestHash": "7009e323a24c3892e8132c5aa420cd93dfb982e18a71e11374212c1582e23e4e",
+      "latencyMs": 3213,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "1WdfPoT9gt5ewAhoM0rWSBmS3QOYJQ4A",
+              "id": "STBadKbsDiAyqDN4p3P2mzQYvMk6BANI",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f973bd9013\"}"
             }
@@ -22,31 +22,417 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3174,
+          "inputTokens": 3433,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "be8f00a485333072e8241831785b135a37808b4914da6b4b7a6f5aacbdd5a0ac",
-      "latencyMs": 17784,
+      "requestHash": "5134002dbb43693ca31988da898b870ffc1d895d94874bbd12985847c9b4da3b",
+      "latencyMs": 1573,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el contexto del organizador y los resultados de las comprobaciones determinísticas. Aquí está mi análisis:\n\n**Comprobaciones determinísticas (autoritativas):**\n- **Pago fuera de la plataforma (off_platform_payment): FAIL.** La descripción pide explícitamente pagar por Bizum al número 600 000 000, lo cual es una señal clara de fraude. Esta es una violación directa de las políticas de pago seguro.\n- Todas las demás comprobaciones determinísticas (código postal, enlaces externos, términos abusivos, menores/alcohol, inyección de prompts, sanity de precios, fee de servicio, fechas de sesión, timing de sesión, benchmark de precios, existencia del recinto) son PASS o UNKNOWN sin señales de fraude adicionales.\n\n**Contexto del organizador:**\n- El organizador \"Ruta del Duende Música\" está aprobado y tiene una cuenta antigua (930 días).\n- Tiene datos fiscales válidos (CIF con checksum correcto).\n- No hay informes de contenido ni despublicaciones por admin.\n- Sin embargo, el evento actual contiene una instrucción clara de pago fuera de la plataforma, lo cual es una señal de fraude independiente del historial del organizador.\n\n**Conclusión:**\nLa solicitud de pago por Bizum en la descripción del evento es una violación grave y directa de las políticas de seguridad de pagos. Esto constituye evidencia suficiente para rechazar el evento, independientemente del historial limpio del organizador. No necesito más información porque la señal de fraude (pago fuera de plataforma) es clara y no admite explicaciones inocentes en este contexto.\n\nVoy a emitir una recomendación de rechazo con alta confianza debido a la violación explícita de la política de pagos.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "9lgX80GDrl6q8WeUKEjx1ivJzR3DYqYK",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento contiene una instrucción clara de pago fuera de la plataforma: la descripción pide explícitamente pagar por Bizum al número 600 000 000, lo cual es una violación directa de las políticas de seguridad de pagos. Esta señal de fraude es independiente del historial del organizador y no admite explicaciones inocentes. Todas las demás comprobaciones determinísticas son favorables o sin señales adicionales de fraude. Se rechaza el evento por riesgo de fraude en el proceso de pago.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento pide explícitamente pagar por Bizum al número 600 000 000, lo cual es una violación directa de las políticas de pago seguro. Esta señal de fraude es clara y no admite explicaciones inocentes.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_537612d9ac.jpg\",\"title\":\"Cobertura del evento\"}]}]}"
+              "id": "ModrHfDrz0wvQfQAW5DYjju1AVWcqaWS",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Marina Escalante concierto acústico Cádiz 2026\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3560,
-          "outputTokens": 666
+          "inputTokens": 3819,
+          "outputTokens": 53
         }
+      }
+    },
+    {
+      "requestHash": "94dfb9b7f8b69e268a1305df6a98bbfdb5e70213a7a32fec96d5fd896a21b73d",
+      "latencyMs": 1836,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "0O6X3qZ3SXrWvXvvxC41TW6FE5VHuriT",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Marina Escalante artista cantante Cádiz\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4988,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "8c02ab1c82a34e7177f003485036b1822b0ad4be50ce35816e0833d171ccf6d4",
+      "latencyMs": 1682,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "CpIkIQxb0zSq8eE4XT8PZZL0nTCujKnZ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" concierto acústico Cádiz 2026\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5596,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "8e64be2ac658877e83696d983c37bedf907d5f965b1c28a7725a5098d19e263f",
+      "latencyMs": 1883,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "pLEjKEYNS83MmfUhqdQH4NCnEyByQb8B",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" artista Cádiz concierto 2026\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6767,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "08a3318dca52b9bbb8bd68763b4663a9c2ead41a867daa5fbfe18ad1d4b4ec3f",
+      "latencyMs": 2183,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "OXsLWruHcg90917wcsFjOeob3fBdcLY1",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" \\\"Gran Teatro Falla\\\" Cádiz 2026\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7875,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "6a277db168483f75e0888811af40484d5c21e99a330f0321f9ddb8f082b7058c",
+      "latencyMs": 2075,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "URCm3rKDmUDgZVpuoZpjXaBpw68JBntg",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" artista Cádiz 2026 concierto acústico\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9261,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "3311d8f5453674c362d80490c1d16387d4cee1b4d2090a89c156d003f6b29f34",
+      "latencyMs": 28467,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y los datos disponibles. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Pago fuera de la plataforma (FAIL):** La descripción del evento pide explícitamente pagar por Bizum al número 600 000 000, lo cual es una violación clara de las políticas de pago fuera de la plataforma. Esto es un \"hard signal\" de fraude según las directrices.\n\n2. **Artista no verificada:** No he encontrado ninguna referencia a \"Marina Escalante\" como artista musical en Cádiz o en España. Los resultados de búsqueda muestran:\n   - Un perfil de LinkedIn de Marina Escalante (profesional de recursos humanos/compensación)\n   - Un perfil de Instagram con 632 seguidores y ubicación en Hondarribia\n   - Una agente inmobiliaria llamada Marina Escalante en California\n   \n   No hay ninguna artista musical llamada Marina Escalante que actúe en Cádiz.\n\n3. **No hay presencia web del evento:** No he encontrado ninguna noticia, artículo o anuncio sobre este concierto acústico de Marina Escalante en el Gran Teatro Falla de Cádiz para noviembre de 2026. La programación del Gran Teatro Falla muestra otros artistas (Vicente Amigo, La Lupi, Javier Perianes, etc.) pero no Marina Escalante.\n\n4. **Organizador con buena reputación:** El organizador \"Ruta del Duende Música\" tiene:\n   - Cuenta aprobada desde mayo de 2024\n   - CIF válido y verificado\n   - 14 eventos publicados (12 finalizados, 0 cancelados)\n   - Sin reportes de contenido\n   \n   Esto sugiere que el organizador en sí es legítimo.\n\n**Conclusión:**\n\nA pesar de que el organizador parece ser legítimo, hay señales claras de fraude:\n- **Pago fuera de la plataforma** (Bizum) es una violación directa de las políticas y un \"hard signal\" de fraude\n- El artista no existe como tal en el contexto musical español/cadizo\n- No hay ninguna cobertura mediática o presencia web del evento\n\nLa combinación de pago fuera de plataforma + artista no verificable + ausencia total de presencia web del evento apunta a que este es probablemente un evento falso creado para engañar a los usuarios.\n\n**Recomendación: REJECT** con alta confianza debido al pago fuera de plataforma (hard signal) y la falta de verificación del artista.",
+          "toolCalls": [
+            {
+              "id": "uCVRKGcmAdVdXWY0IX9FsH4wCPV4905B",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta señales claras de fraude: 1) Pago fuera de la plataforma (Bizum) es un \\\"hard signal\\\" según las políticas; 2) No existe artista musical llamada Marina Escalante en Cádiz ni cobertura mediática del evento; 3) Ausencia total de presencia web del concierto. Aunque el organizador tiene buena reputación, el pago externo y la falta de verificación del artista invalidan el evento.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción pide pagar por Bizum al 600 000 000, violando la política de pagos fuera de plataforma (hard signal).\",\"confidence\":1,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_537612d9ac.jpg\",\"title\":\"Evento Acústico de Marina Escalante\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No existe artista musical llamada Marina Escalante en Cádiz ni cobertura mediática del concierto. Los resultados muestran perfiles de LinkedIn (RRHH), Instagram y agente inmobiliaria, no una artista musical.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.linkedin.com/in/marina-m-escalante\",\"title\":\"Marina Escalante - LinkedIn\"},{\"url\":\"https://www.instagram.com/marinaescalante\",\"title\":\"Marina Escalante 🌻 (@marinaescalante)\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"No hay cobertura mediática ni presencia web del evento en el Gran Teatro Falla de Cádiz para noviembre 2026. La programación oficial muestra otros artistas.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.guiadecadiz.com/es/que-hacer/teatros/gran-teatro-falla\",\"title\":\"GRAN TEATRO FALLA | Guía de Cádiz\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 10322,
+          "outputTokens": 1046
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "1694af0e504b3256a78d70d0a7536b444c94471a87c79d460c9a1524a96e93ee",
+      "provider": "Tavily",
+      "query": "Gran Teatro Falla Cádiz aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.codigocarnaval.com/coac/aforo-gran-teatro-falla",
+            "title": "➤ Aforo Gran Teatro Falla - Todo lo que debes saber",
+            "snippet": "El Gran Teatro Falla tiene un aforo de 1214 personas repartidas entre las diferentes localidades: butacas, palcos, anfiteatro y gallinero. Cabe recordar, que ...Read more"
+          },
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla",
+            "title": "Gran Teatro Falla | Agenda Cultural de Andalucía",
+            "snippet": "Con un aforo de unas 1100 localidades aproximadamente, que se dividen en patio de butacas, palcos, platea (planta baja), principal (primera planta) y segundo ( ...Read more"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/19/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "Gran Teatro Falla · Aforo: 1214 · Ancho de boca: 1165 · Fondo desde boca: 1800 · Anchura máxima: 2153 · Fondo desde boca: 2392 · Altura máxima (boca): 1265 · Hombro ...Read more"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Gran_Teatro_Falla",
+            "title": "Gran Teatro Falla - Wikipedia, la enciclopedia libre",
+            "snippet": "Tiene una capacidad para 1214 espectadores repartidos en butacas, palcos, anfiteatro y paraíso. El escenario mide 18 metros de largo por 25,5 m de fondo, y el ...Read more"
+          },
+          {
+            "url": "http://laciudad.cadiz.es/programacion-gran-teatro-falla.asp",
+            "title": "Programacin del Gran Teatro Falla de Cdiz",
+            "snippet": " Para los espectculos sealados: 15% descuento tercera edad (mayores 65 aos), desempleados y colectivos (mnimo 25 personas, previa solicitud).  \n  Con carn joven: 6 en paraso en todos los espectculos organizados por el Ayuntamiento. Las localidades con carn joven, slo podrn adquirirse directamente en la taquilla del Teatro. Imprescindible presentacin del carn correspondiente en taquilla y acceso al Teatro.\n\n#### Ms informacin: 956 22 08 34 [...]  De martes a viernes:  \n De 10.30h. a 13.30h. y de "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "5c1dd4f2a33934c9787f56038c698ef3699640ba9598c66a9bae70db9296c759",
+      "provider": "Tavily",
+      "query": "Marina Escalante concierto acústico Cádiz 2026",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/concierto-acustico-cadiz-homenaje-manuel-alejandro_0_2006919238.html",
+            "title": "Concierto acústico en Cádiz en homenaje a Manuel Alejandro",
+            "snippet": "comScore\n\nNoticias de Cádiz\n\n# Concierto acústico en Cádiz en homenaje a Manuel Alejandro\n\n## A cargo de la cantante jerezana Semifussa, será el sábado 13 de junio en el colegio San Felipe Neri\n\n## Manuel Alejandro, en la Academia Santa Cecilia de El Puerto\n\nCartel del concierto de Semifussa.\ndiariodecadiz\n\n03 de junio 2026 - 07:01 [...] El concierto contará con el acompañamiento al piano y los arreglos musicales de Daniel Borrego, que aporta una reinterpretación elegante y cuidada de clásicos q"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.amp.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "## Todos los conciertos de verano de Cádiz capital 2026 por fechas\n\n28 DE JUNIO\n\n Una jam para Salvador Catalán. Baluarte de la Candelaria (Feria del Libro)\n\n29 DE JUNIO\n\n Noche de K-pop y bailes urbanos. Academia Serendipia. Baluarte de la Candelaria (Feria del Libro)\n\n30 DE JUNIO\n\n 30 de junio. Swing. El Domador de Medusas. Baluarte de la Candelaria (Feria del Libro)\n\n1 DE JULIO [...] Junto a estos conciertos, las programaciones de salas privadas como Calachica (conciertos variados) el Café Te"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "En esta línea de conciertos dirigidos al gran público también se mueve uno de los ciclos veteranos del verano gaditano, Música del Mar, que se celebra en el muelle Reina Victoria. En el puerto gaditano cabe la música urbana con RVFV (11 de julio) y Morad (21 de agosto); el rock andaluz con Medina Azahara y la banda local Alan Nepa (10 de julio); y las melodías más nostálgicas con Molan los 90 (1 de agosto con Tina Cousins, Paco Pil, Locomía, Los Inhumanos, Kriss Orue, New Limit, Double Vision y "
+          },
+          {
+            "url": "https://www.lavozdigital.es/provincia/cadiz/cadiz-entrega-jazz-arranca-jazzcadiz-mes-conciertos-20260703210215-ntv.html",
+            "title": "Cádiz se entrega al jazz: arranca JazzCádiz con un mes de conciertos hasta el 26 de julio",
+            "snippet": "1. 1.  Los barrios de Cádiz con el metro cuadrado más caro y más barato\n2. 2.  Música del Mar levanta el telón con el rock eterno de Medina Azahara\n3. 3.  Fiestas en los barrios de Cádiz 2026: fechas, lugares y actividades del programa de verano\n4. 4.  Cádiz se entrega al jazz: arranca JazzCádiz con un mes de conciertos hasta el 26 de julio\n5. 5.  Natalia Castro, escritora: «El pesimismo genera reacciones mucho menos productivas que un optimismo realista» [...] Saltar al contenido\n\nLa Voz de Cád"
+          },
+          {
+            "url": "https://linkedin.com/in/marina-m-escalante",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante [...] - Liked By: Jump Capital is proud to lead Compa’s $35M Series B. Big congratulations to Charlie Franklin, Joseph Delmonico Malandruccolo, Taylor Cone,...\n- Liked By: Enterprise comp teams have been stuck in spreadsheets and manual benchmarking for decades. Compa is finally moving the needle. Congrats on...\n- Liked By: My comp predictions for 2026, and link below to add your vote and what's most likely to happen: 1. AI begins to eat comp as we know it...."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ca8d0c29f323b7722fcf2da123e40c251620889e79a4f2a8f9b53d76cd95066b",
+      "provider": "Tavily",
+      "query": "Marina Escalante artista cantante Cádiz",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://linkedin.com/in/marina-m-escalante",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante [...] - Shared By: Brilliant work by my team @ Compa! Check out our new logo and website [...] ## Recommendations (4)\n- Sean Hoskin: “Marina consistently demonstrates exceptional professionalism, intellectual acuity, and collaborative spirit. She combines deep intuition with rigorous analytical skills, enabling her to rapidly grasp the essential scope of complex business objectives and translate them into precise, effective..."
+          },
+          {
+            "url": "https://www.instagram.com/marinaescalante",
+            "title": "Marina Escalante 🌻 (@marinaescalante)",
+            "snippet": "Marina Escalante. 632 followers. 1,049 following. Hondarribia ... Follow marinaescalante in the app to see their photos and videos. Open Instagram. Sign up.Read more"
+          },
+          {
+            "url": "https://www.facebook.com/public/Marina-Escalante?locale=es_LA",
+            "title": "Marina Escalante en personas",
+            "snippet": "Ver perfiles de personas llamadas Marina Escalante. Únete a Facebook para estar en contacto con Marina Escalante y otras personas que tal vez conozcas."
+          },
+          {
+            "url": "https://www.youtube.com/channel/UCxMMj904Chqmk2fZkodLbnw",
+            "title": "Marina Escalante",
+            "snippet": "Marina Escalante. Home. Shorts. Library. Marina Escalante. @MarinaEscalante-t2b. 4 videos. More about this channel ...more. More about this channel ...moreRead more"
+          },
+          {
+            "url": "https://linkedin.com/in/marina-escalante-57647b22",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante\n\nHeadline: Independent Real Estate Professional\nCurrent role: Realtor\nSeniority: Specialist, Real Estate\nLocation: Santa Clarita, California, United States\nExperience: 27 years 7 months\nLinkedIn: www.linkedin.com/in/marina-escalante-57647b22 · 109 followers\n\n## Experience\n- Realtor at Park Regency Realty (Jan 1999 to present)\n\n## Skills\nrealtor"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "2d4e9d1aaec68012a87df066c96113cf1906133c15308f7c348eba0701af497f",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" concierto acústico Cádiz 2026",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/concierto-acustico-cadiz-homenaje-manuel-alejandro_0_2006919238.html",
+            "title": "Concierto acústico en Cádiz en homenaje a Manuel Alejandro",
+            "snippet": "comScore\n\nNoticias de Cádiz\n\n# Concierto acústico en Cádiz en homenaje a Manuel Alejandro\n\n## A cargo de la cantante jerezana Semifussa, será el sábado 13 de junio en el colegio San Felipe Neri\n\n## Manuel Alejandro, en la Academia Santa Cecilia de El Puerto\n\nCartel del concierto de Semifussa.\ndiariodecadiz\n\n03 de junio 2026 - 07:01 [...] El concierto contará con el acompañamiento al piano y los arreglos musicales de Daniel Borrego, que aporta una reinterpretación elegante y cuidada de clásicos q"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.amp.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "## Todos los conciertos de verano de Cádiz capital 2026 por fechas\n\n28 DE JUNIO\n\n Una jam para Salvador Catalán. Baluarte de la Candelaria (Feria del Libro)\n\n29 DE JUNIO\n\n Noche de K-pop y bailes urbanos. Academia Serendipia. Baluarte de la Candelaria (Feria del Libro)\n\n30 DE JUNIO\n\n 30 de junio. Swing. El Domador de Medusas. Baluarte de la Candelaria (Feria del Libro)\n\n1 DE JULIO [...] Junto a estos conciertos, las programaciones de salas privadas como Calachica (conciertos variados) el Café Te"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "En esta línea de conciertos dirigidos al gran público también se mueve uno de los ciclos veteranos del verano gaditano, Música del Mar, que se celebra en el muelle Reina Victoria. En el puerto gaditano cabe la música urbana con RVFV (11 de julio) y Morad (21 de agosto); el rock andaluz con Medina Azahara y la banda local Alan Nepa (10 de julio); y las melodías más nostálgicas con Molan los 90 (1 de agosto con Tina Cousins, Paco Pil, Locomía, Los Inhumanos, Kriss Orue, New Limit, Double Vision y "
+          },
+          {
+            "url": "https://www.lavozdigital.es/provincia/cadiz/cadiz-entrega-jazz-arranca-jazzcadiz-mes-conciertos-20260703210215-ntv.html",
+            "title": "Cádiz se entrega al jazz: arranca JazzCádiz con un mes de conciertos hasta el 26 de julio",
+            "snippet": "1. 1.  Los barrios de Cádiz con el metro cuadrado más caro y más barato\n2. 2.  Música del Mar levanta el telón con el rock eterno de Medina Azahara\n3. 3.  Fiestas en los barrios de Cádiz 2026: fechas, lugares y actividades del programa de verano\n4. 4.  Cádiz se entrega al jazz: arranca JazzCádiz con un mes de conciertos hasta el 26 de julio\n5. 5.  Natalia Castro, escritora: «El pesimismo genera reacciones mucho menos productivas que un optimismo realista» [...] Saltar al contenido\n\nLa Voz de Cád"
+          },
+          {
+            "url": "https://linkedin.com/in/marina-m-escalante",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante [...] - Liked By: Jump Capital is proud to lead Compa’s $35M Series B. Big congratulations to Charlie Franklin, Joseph Delmonico Malandruccolo, Taylor Cone,...\n- Liked By: Enterprise comp teams have been stuck in spreadsheets and manual benchmarking for decades. Compa is finally moving the needle. Congrats on...\n- Liked By: My comp predictions for 2026, and link below to add your vote and what's most likely to happen: 1. AI begins to eat comp as we know it...."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "a5b59ac064bbb4881cfb8460b7f016abbd622ad876325e24d178730f4e909d5d",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" artista Cádiz concierto 2026",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.guiadecadiz.com/es/agenda/julio/2026/concierto-aitana-en-cadiz-cuarto-azul-world-tour",
+            "title": "Concierto de Aitana en Cádiz: \"Cuarto Azul World Tour\" - Conciertos | Agenda de Guía de Cádiz",
+            "snippet": "Desde el comienzo de 2026, la artista abrirá el tour participando en Lollapalooza Argentinay Estéreo Picnic Colombia,compartiendo cartel con grandes nombres comoSabrina Carpenter, Tyler, The Creator, Chapell Roan, Lorde o Skrillex.   \n   \nCon este anuncio, AITANAse consolida no solo como la artista pop de habla hispana más influyente de 2025, sino también como un fenómeno capaz de competir en las grandes ligas del pop global. [...] El icono del pop español da el salto definitivo a la conquista g"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/conciertos-cadiz-2026_0_2005515093.html",
+            "title": "Conciertos en Cádiz: Así sonará 2026",
+            "snippet": "Una de las programaciones más esperadas, en vistas de su brillante debut en 2025, es la del Cádiz Music Stadium, es decir, los conciertos en el Estadio Nuevo Mirandilla que el pasado año acogieron la presencia de la diva Jennifer López. Para 2026 todavía no se ha anunciado ninguna estrella internacional, pero sí de una de las artistas pop más queridas del público nacional, Aitana, que estará en Cádiz el 12 de julio. [...] También en este mismo mes está previsto el concierto de Las Rodes en la Sa"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/tag/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "## Laura Gallego estará en el Teatro Falla de Cádiz en la primavera 2026\n\nTamara García\n\nLa artista llegará al coliseo de la plaza Fragela con su espectáculo 'La última folclórica' el próximo 25 de marzo\n\nEl Arrebato anuncia concierto en el Gran Teatro Falla de Cádiz en 2026\n\nAmbigú en el COAC\n\n## La barra del Falla para el COAC 2026 del Carnaval de Cádiz busca hostelero\n\nTamara García\n\nLa tasa de ocupación mínima se ha rebajado en más de 1.300 euros con respecto a la licitación del pasado año ["
+          },
+          {
+            "url": "https://ondacadiz.es/agenda-de-conciertos",
+            "title": "Conciertos | Onda Cádiz RTV",
+            "snippet": "Inicio\nDespejado\nNubes altas\n\n## Navegación principal\n\n# Conciertos\n\n## Concierto de \"la reina del flow\" en cádiz\n\nConcierto de \"la reina del flow\" en cádiz\n\nEl fenómeno mundial LA REINA DEL FLOW llega el 17 de julio al Cádiz Music Stadium para cerrar el cartel 2026 de la temporada y poner el broche final a su tour en España.\n...\n\n## Morad en cádiz\n\nMorad en cádiz [...] NOSINMÚSICA 2026 - LOVE OF LESBIAN en Concierto\nLa legendaria banda Love of Lesbian&nbsp;anuncia su despedida después de 25 año"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/tag/conciertos-cadiz",
+            "title": "Diario de Cádiz | Noticias de Cádiz, Andalucía y España, actualidad y última hora",
+            "snippet": "La peña Juanito Villar convoca su VI Concurso de Cante por Soleá de Cádiz\n\nActuación de Fontaines D. C. en el Primavera Sound de Barcelona de 2025.\n\n## La aclamada banda rock Fontaines D. C. actúa en Cádiz este verano 2026\n\nTamara García\n\nLa formación irlandesa, seguida por artistas como Cillian Murphy o Harry Styles y cuyo nombre devolvía la camiseta con la que vimos a Greta Thunberg en la Flotilla Libertad, tocará en el Baluarte de la Candelaria\n\nConciertos en Cádiz: Así sonará 2026 [...] Mar "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "888cf7b5623ad8e782ceb110fb556a670520f2583c4dd285693ad86a0b6c5c06",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" \"Gran Teatro Falla\" Cádiz 2026",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.diariodecadiz.es/tag/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "## Laura Gallego estará en el Teatro Falla de Cádiz en la primavera 2026\n\nTamara García\n\nLa artista llegará al coliseo de la plaza Fragela con su espectáculo 'La última folclórica' el próximo 25 de marzo\n\nEl Arrebato anuncia concierto en el Gran Teatro Falla de Cádiz en 2026\n\nAmbigú en el COAC\n\n## La barra del Falla para el COAC 2026 del Carnaval de Cádiz busca hostelero\n\nTamara García\n\nLa tasa de ocupación mínima se ha rebajado en más de 1.300 euros con respecto a la licitación del pasado año ["
+          },
+          {
+            "url": "https://guiadecadiz.com/es/que-hacer/teatros/gran-teatro-falla",
+            "title": "GRAN TEATRO FALLA | Guía de Cádiz",
+            "snippet": "Imagen\n\n### Programación\n\n07/11/2026\n\n### Vicente Amigo: Andenes del tiempo\n\n10/11/2026\n\n### La Lupi: \"Lo inédito\"\n\n14/11/2026\n\n### Requiem a D. Manuel de Falla\n\n23/11/2026\n\n### Javier Perianes\n\n25/11/2026 - 26/11/2026\n\n### Visitas teatralizadas: La esencia del músico\n\n28/11/2026\n\n### Verborrea\n\n01/12/2026\n\n### Puro Cádiz\n\n02/12/2026\n\n### Villancicos Lumbre\n\n03/12/2026\n\n### Perico Sambeat Plays Zappa\n\n05/12/2026\n\n### Pablo López: El Niño del Espacio\n\n07/12/2026 [...] 07/12/2026\n\n### Radioteatro "
+          },
+          {
+            "url": "https://taquilla.com/cadiz/gran-teatro-falla-cadiz",
+            "title": "Gran Teatro Falla, Cádiz | Programación y Venta de Entradas",
+            "snippet": "Del 04-04-2026 al 27-06-2026\n\n### EntradasNo me toques el cuento\n\nDesde 9,00€\n\n+INFO\n\nOrquesta Ciudad de Granada\n\nDel 10-04-2026 al 30-05-2026\n\n### EntradasOrquesta Ciudad de Granada\n\nDesde 6,00€\n\n+INFO\n\n### ORQUESTA CIUDAD DE GRANADA\n\n#### Gran Teatro Falla\n\nPl. Fragela, s/n, 11003 Cádiz, España, Cádiz1\n\n1NOTA: dirección orientativa. La única dirección válida completamente es la que aparecerá en las entradas\n\n Sábado, 11 Abr\n\n  + Ver más\n\n    20:00\n\n    desde 6,00€\n\n    Ver desde 6,00€ [...] ##"
+          },
+          {
+            "url": "http://www.guiadecadiz.com/es/que-hacer/teatros/gran-teatro-falla",
+            "title": "GRAN TEATRO FALLA | Guía de Cádiz",
+            "snippet": "Imagen\n\n### Programación\n\n20/05/2026\n\n### Invisible\n\n22/05/2026 - 23/05/2026\n\n### El mago invisible\n\n28/05/2026\n\n### Lakecia Benjamin Quartet\n\n30/05/2026\n\n### El entusiasmo\n\n18/06/2026 - 19/06/2026\n\n### Conservatorio Profesional de Danza \"Maribel Gallardo\". Muestra fin de curso\n\nLas mejores rutas de senderismo de la provincia de Cádiz\n\nDonde alojarte y dormir en la provincia de Cádiz\n\nConciertos en la Provincia de Cádiz\n\nConcert Music Festival Sancti-Petri 2025 [...] El Gran Teatro Falla deCádiz"
+          },
+          {
+            "url": "https://www.guiadecadiz.com/es/que-hacer/teatros/gran-teatro-falla",
+            "title": "GRAN TEATRO FALLA | Guía de Cádiz",
+            "snippet": "Imagen\n\n### Programación\n\n20/05/2026\n\n### Invisible\n\n22/05/2026 - 23/05/2026\n\n### El mago invisible\n\n28/05/2026\n\n### Lakecia Benjamin Quartet\n\n30/05/2026\n\n### El entusiasmo\n\n18/06/2026 - 19/06/2026\n\n### Conservatorio Profesional de Danza \"Maribel Gallardo\". Muestra fin de curso\n\nLas mejores rutas de senderismo de la provincia de Cádiz\n\nDonde alojarte y dormir en la provincia de Cádiz\n\nConciertos en la Provincia de Cádiz\n\nConcert Music Festival Sancti-Petri 2025 [...] El Gran Teatro Falla deCádiz"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "6e84b2828c5b21b65fca8a161e91905e9c73b53d28fc8886993e95bee6a02a8b",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" artista Cádiz 2026 concierto acústico",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/concierto-acustico-cadiz-homenaje-manuel-alejandro_0_2006919238.html",
+            "title": "Concierto acústico en Cádiz en homenaje a Manuel Alejandro",
+            "snippet": "El concierto contará con el acompañamiento al piano y los arreglos musicales de Daniel Borrego, que aporta una reinterpretación elegante y cuidada de clásicos que han marcado generaciones.\n\nEn formato acústico y con una puesta en escena cercana, el concierto propone un recorrido por composiciones inmortalizadas por artistas como Raphael, Rocío Jurado, Luis Miguel, Jeannette o José José, poniendo el foco en la emoción, la sensibilidad y la fuerza de las letras y melodías de Manuel Alejandro. [..."
+          },
+          {
+            "url": "https://linkedin.com/in/marina-m-escalante",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante [...] - Liked By: Jump Capital is proud to lead Compa’s $35M Series B. Big congratulations to Charlie Franklin, Joseph Delmonico Malandruccolo, Taylor Cone,...\n- Liked By: Enterprise comp teams have been stuck in spreadsheets and manual benchmarking for decades. Compa is finally moving the needle. Congrats on...\n- Liked By: My comp predictions for 2026, and link below to add your vote and what's most likely to happen: 1. AI begins to eat comp as we know it.... [...] - Shared B"
+          },
+          {
+            "url": "https://malagamagazine.es/frigiliana-acogera-un-concierto-en-acustico-de-la-artista-britanica-jenny-ball-el-proximo-viernes-30-de-octubre",
+            "title": "Frigiliana acogerá un concierto en acústico de la artista británica Jenny Ball el próximo viernes 30 de octubre - Málaga Magazine",
+            "snippet": "Registrarse\n\nRecuperación de contraseña\n\nRecupera tu contraseña\n\nLogo\n\nmartes, octubre 27, 2026\n\nFacebook\n\nInstagram\n\nX\n\nYoutube\n\nLogo\n\nspot_img [...] Inicio -actualidad Frigiliana acogerá un concierto en acústico de la artista británica Jenny Ball...\n\n -actualidad\n Provincia\n Axarquia\n Eventos y Espectaculos\n Música\n\n# Frigiliana acogerá un concierto en acústico de la artista británica Jenny Ball el próximo viernes 30 de octubre\n\nPor\n\nMálaga Magazine\n\n-\n\n0\n\n4\n\nFacebookXPinterestWhatsApp\n\n[]( [."
+          },
+          {
+            "url": "https://lagacetadecadiz.es/andres-suarez-muestra-su-lado-mas-intimo-y-calido-con-un-concierto-acustico-en-chiclana",
+            "title": "Andrés Suárez muestra su lado más íntimo con un concierto acústico en Chiclana - La Gaceta de Cádiz",
+            "snippet": "Title: Andrés Suárez muestra su lado más íntimo con un concierto acústico en Chiclana - La Gaceta de Cádiz\n# Andrés Suárez muestra su lado más íntimo con un concierto acústico en Chiclana. Dentro del ciclo **‘Universo Quiñones’,** que rinde memoria al escritor chiclanero, el cantante y compositor gallego Andrés Suárez ofrecerá un concierto **acústico en solitario -a piano, guitarra y voz**– este próximo **viernes, 11 de octubre**, a partir de las 20 horas en el **Teatro Moderno de Chiclana.** La"
+          },
+          {
+            "url": "https://linkedin.com/in/marina-escalante-57647b22",
+            "title": "Marina Escalante",
+            "snippet": "# Marina Escalante\n\nHeadline: Independent Real Estate Professional\nCurrent role: Realtor\nSeniority: Specialist, Real Estate\nLocation: Santa Clarita, California, United States\nExperience: 27 years 7 months\nLinkedIn: www.linkedin.com/in/marina-escalante-57647b22 · 109 followers\n\n## Experience\n- Realtor at Park Regency Realty (Jan 1999 to present)\n\n## Skills\nrealtor"
+          }
+        ]
       }
     }
   ]

@@ -2,19 +2,19 @@
   "caseId": "24",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "71b4599f3ee78e2ed181deabb59b7f46ecb0ef895f17c1e4fec2fbd7bd15f3e7",
-      "latencyMs": 2557,
+      "requestHash": "d631d813bdec9b42d5feae884cd2b68332185009c1bc354894112436eb1da08a",
+      "latencyMs": 3103,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "67OKqTUA0csDssfKyd4bmeihzan8Lso1",
+              "id": "3OqmZnR1iQjGGGsROFGsCaoAb10R0pLF",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c8cafdb37b\"}"
             }
@@ -22,21 +22,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3167,
+          "inputTokens": 3456,
           "outputTokens": 38
         }
       }
     },
     {
-      "requestHash": "ce8cdcb0c266117523bd18818555fe7e720b86327c6701fe0e49d6376a744fcd",
-      "latencyMs": 1573,
+      "requestHash": "1a5f8ed19a725a08bde9a8b89c7044f3aa7d19a5322db43aa45386d223228d60",
+      "latencyMs": 1535,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "cKCwOAFOP7la8mjIz6bW1RYkkiZQ0ZAT",
+              "id": "W8F243uTZ8aLTc2wnPekudoUZjQLjRGv",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Teatro Darymelia Jaén aforo capacidad 300\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3841,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "89516d58fb29901bc397c28369038159bd25e841973df3901809d08449a3257e",
+      "latencyMs": 1555,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "Kfh61DCCikRCnfRVoxK89zuHGP63u6Mq",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_1551f43933\",\"windowDays\":60}"
             }
@@ -44,31 +66,95 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3552,
+          "inputTokens": 4252,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "6121a2a4d22cffe7d1a13f8af1779855b8bfa6740a935e3d2267bf53bdbc99ea",
-      "latencyMs": 42102,
+      "requestHash": "901bed307f0dcb71cc0d18111a78403c142d5e67c15971aeefe4125f8c0fdd9c",
+      "latencyMs": 10321,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_1551f43933` (\"Botellón +14 de fin de curso\") y su contexto. A continuación presento mi análisis y recomendación:\n\n### Análisis de hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: pass (el código postal 23004 corresponde a Jaén).\n- **off_platform_payment**: pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: pass (no hay enlaces externos a otras ticketeras ni acortadores).\n- **abusive_terms**: pass (las condiciones permiten devolución en caso de cancelación).\n- **minors_alcohol**: **fail** (el título y descripción ofrecen alcohol a menores de edad: \"Botellón +14\" y \"cervezas +14\"). Esta es una violación clara de la política de contenido para menores.\n- **prompt_injection**: pass (no hay intentos de instruir al revisor).\n- **price_sanity**: pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: pass (las sesiones no se solapan).\n- **session_timing**: pass (las fechas no son inminentes ni lejanas).\n- **price_benchmark**: pass (ningún precio supera 3 veces el p90 de eventos comparables).\n- **venue_exists**: pass (el recinto \"Darymelia\" existe en OpenStreetMap cerca de las coordenadas del evento).\n- **venue_capacity**: unknown (no hay información pública sobre el aforo del recinto, pero la sesión con más entradas pone a la venta 800 entradas).\n\n### Contexto del organizador:\n- El organizador \"Juerga Joven Producciones\" tiene un estado de cuenta \"approved\", con datos fiscales válidos y una cuenta activa desde mayo de 2024.\n- Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones ni publicaciones no deseadas por administradores.\n- No hay informes de contenido previo ni recomendaciones anteriores.\n\n### Hallazgos adicionales:\n- **similar_event**: No se encontraron eventos similares en la misma provincia con fechas cercanas, lo que descarta la posibilidad de clonación.\n\n### Decisión:\nEl evento presenta una falla clara en el check `minors_alcohol`, ya que ofrece alcohol a menores de edad (título \"Botellón +14\" y descripción \"cervezas +14\"). Esto es una violación directa de las políticas de contenido para menores, independientemente de la edad indicada. No hay evidencia de fraude ni ilegalidad adicional, pero la falla en este aspecto es suficiente para rechazar el evento.\n\n### Recomendación:\n**Rechazar** el evento debido a la oferta de alcohol a menores de edad, que es una violación clara de las políticas de contenido.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "psn2Mz9GIouip2ke42ZOzaltVCAfjyFc",
+              "id": "cpMlhvkhtA2SmpLb4MqqJvXtursCiw66",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Botellón +14 de fin de curso\\\" presenta una falla clara en el check minors_alcohol: ofrece alcohol a menores de edad (título \\\"Botellón +14\\\" y descripción \\\"cervezas +14\\\"). Esto es una violación directa de las políticas de contenido para menores, independientemente de la edad indicada. No hay evidencia de fraude ni ilegalidad adicional, pero esta falla es suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El título y descripción ofrecen alcohol a menores de edad: «Botellón … +14» en el título; «cervezas … +14» en la descripción.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_1551f43933.jpg\",\"title\":\"Cobertura del evento\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 23004 corresponde a Jaén.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género fiesta, Jaén, aforo 300to1000).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Darymelia» figura en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/539737386\",\"title\":\"OpenStreetMap: Darymelia (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Darymelia»; la sesión con más entradas pone a la venta 800.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta dos señales de fraude graves: (1) Venta de entradas para un aforo 2,7 veces superior al real del Teatro Darymelia (300 butacas), lo que indica venta ilegal de entradas y posible estafa. (2) Oferta de alcohol a menores (+14 en título y descripción con cervezas), violando la normativa de protección de menores. El organizador tiene historial limpio, pero las señales de fraude son claras y no admiten explicación inocente.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El evento ofrece alcohol a menores: título «Botellón +14» y descripción menciona cervezas para +14, lo cual es ilegal.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_1551f43933.jpg\",\"title\":\"Evento evt_1551f43933\"}]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Se venden 800 entradas para un teatro de 300 butacas (2,7 veces el aforo real), señal grave de fraude y venta ilegal.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen\",\"title\":\"Teatro Darymelia de Jaén\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3690,
-          "outputTokens": 1634
+          "inputTokens": 4390,
+          "outputTokens": 403
         }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "37e8fdbc56b518baef52c69e9f5b6292cda50cab098d088fcf1cab97f0035a29",
+      "provider": "Tavily",
+      "query": "Teatro Darymelia Jaén aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-municipal-darymelia",
+            "title": "Teatro Municipal Darymelia - SalasDeConcierto.net",
+            "snippet": "Aforo: 321 personas ; Teléfono: 95 321 91 16 ; Email: informacioncultura@aytojaen.es ; Popularidad: 3.851"
+          },
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
+            "title": "Teatro Darymelia de Jaén | Agenda Cultural de Andalucía",
+            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas. Estadio Olímpico, Pta 13."
+          },
+          {
+            "url": "https://www.planomato.com/es/jaen/v/teatro-darymelia",
+            "title": "Teatro Darymelia, Jaén - Planomato | Planomato",
+            "snippet": "# Teatro Darymelia\n\nEl Teatro Darymelia es un antiguo cine y actual teatro de la ciudad de Jaén (España). Es Bien de Interés Cultural y se encuentra en el centro histórico de Jaén. Fue construido entre 1922 y 1927 y remodelado en los años 80 y restaurado en 1992. Tiene una capacidad de 300 o 321 butacas y acoge obras de teatro, espectáculos infantiles, musicales, conciertos y danza.\n\n## Eventos Anteriores\n\n'Trolls', el Musical\n\n07 jun\n\n### 'Trolls', el Musical [...] El musical de 'Trolls' se rep"
+          },
+          {
+            "url": "https://www.aytojaen.es/portal/RecursosWeb/DOCUMENTOS/1/1_26871_1.pdf",
+            "title": "teatro darymelia",
+            "snippet": "TEATRO DARYMELIA. PLANO DE BUTACAS. AFOROS. 188 PLATEA. 87 ANFITEATRO. 275 TOTAL + 2 LOCALIADES PARA SILLAS DE RUEDAS. INDICADAS CON VISIBILIDAD REDUCIDA SEGÚN"
+          },
+          {
+            "url": "https://www.andalucia.org/listing/teatro-darymelia/13524102",
+            "title": "Teatro Darymelia",
+            "snippet": "Con una capacidad de 300 butacas, en su escenario se representan obras teatrales, infantiles, musicales, así como conciertos, espectáculos de danza y familiares"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e594567115b118f7a681549a271bf23f775ab0b29b30c3ae47f156f27a4cc976",
+      "provider": "Tavily",
+      "query": "Teatro Darymelia Jaén aforo capacidad 300",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
+            "title": "Teatro Darymelia de Jaén | Agenda Cultural de Andalucía",
+            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas y está enclavado en el casco histórico de Jaén."
+          },
+          {
+            "url": "https://www.jaenhoy.es/ocio/curiosa-historia-teatro-darymelia-nombre-jaen_0_2006303683.html",
+            "title": "La curiosa historia del Teatro Darymelia: una infidelidad ...",
+            "snippet": "Mar 27, 2026 — El Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas. se trata de una historia popular"
+          },
+          {
+            "url": "https://www.andalucia.org/listing/teatro-darymelia/13524102",
+            "title": "Teatro Darymelia",
+            "snippet": "Con una capacidad de 300 butacas, en su escenario se representan obras teatrales, infantiles, musicales, así como conciertos, espectáculos de danza y familiares ...Read more"
+          }
+        ]
       }
     }
   ]

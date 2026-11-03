@@ -2,19 +2,19 @@
   "caseId": "18",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "debae339e2565dcf79448969d614066719d09bdf9127da6dd042db317d62d6b2",
-      "latencyMs": 2664,
+      "requestHash": "dd9c983f1db918584b0edc79ea1319c61a8718ada0988f13a6e2810ee31ed534",
+      "latencyMs": 3424,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "5WJIT3tZRp2gbaEndKMe0Dce2TqRW07h",
+              "id": "bs51JEOMrfKsdmTKGP76BuIwNv0u3ooL",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_d23a73c5fb\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3190,
+          "inputTokens": 3406,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "0848ff2b243650bdaf927cd5457d5e137a134921b9e5b722859a00c01e3326f2",
-      "latencyMs": 1584,
+      "requestHash": "f0c6d118c1ba1a1422d5c4497e52590b1d38845357ae60fc2e2f1bcd6f730a5f",
+      "latencyMs": 1535,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "RsACCunUJvdlhPm3ryhXSZa7ricb9uGO",
+              "id": "nbMLbIXCfP1aNy9bDDe3Uak2YzyjUS0g",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_12f51c9410\",\"windowDays\":60}"
             }
@@ -44,31 +44,207 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3578,
+          "inputTokens": 3794,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "9eb597b9c079fdc38e740d291153959b259d3d6180a4f22be97ab3d96e3361ce",
-      "latencyMs": 36277,
+      "requestHash": "55e057693d28a10ccb201532f3d6427f2dc30cbf64a88611829ed41f20cd9996",
+      "latencyMs": 1420,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_12f51c9410` (\"Gira del aniversario de Viento de Cierzo\") y su organizador `org_d23a73c5fb` (\"Horizonte Lejano Eventos\"). A continuación, presento mi análisis basado en los datos proporcionados y las verificaciones realizadas.\n\n### Análisis del evento:\n1. **Organizador**: \n   - El organizador \"Horizonte Lejano Eventos\" tiene un estado de \"approved\", lo que indica que ha sido previamente validado por la plataforma.\n   - Cuenta con una cuenta activa desde mayo de 2024 (930 días), lo que sugiere una presencia establecida en la plataforma.\n   - No hay historial de eventos cancelados ni informes de contenido, y no ha sido despublicado por administradores.\n   - El organizador tiene un equipo con roles definidos (owner, manager, scanner), lo que indica una estructura operativa sólida.\n\n2. **Evento**:\n   - El evento es un concierto especial para celebrar los 20 años del artista \"Viento de Cierzo\".\n   - La descripción y términos son claros: se permite la devolución en caso de cancelación y no hay cambios de titularidad.\n   - No hay solicitudes de pago fuera de la plataforma, ni enlaces a otras ticketeras ni acortadores de URL.\n   - Los precios de las entradas (35€) están dentro del rango razonable para el género pop en La Rioja, según el benchmark de precios.\n   - El servicio de gestión (100€) no supera el 20% del precio de la entrada.\n   - Las sesiones no se solapan y la fecha del evento (2/11/29) está a más de 548 días de la publicación, lo cual genera una advertencia por ser muy lejano, pero no es motivo de rechazo.\n\n3. **Verificaciones deterministas y de venue**:\n   - El código postal (26008) corresponde correctamente a La Rioja.\n   - El recinto \"Palacio de los Deportes de La Rioja\" existe en OpenStreetMap y su capacidad (3.851) es compatible con el número de entradas a la venta (2.500).\n   - No hay señales de fraude, ilegalidad o contenido inapropiado.\n\n4. **Búsqueda de eventos similares**:\n   - No se encontraron eventos similares en los últimos 60 días en la misma provincia, lo que descarta la posibilidad de clonación o duplicación.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas cuestionables. El único punto a considerar es la fecha del evento, que está muy lejos (más de 548 días), pero esto no es motivo de rechazo, solo una advertencia. Dado que el organizador tiene un historial positivo y el evento cumple con todos los requisitos de la plataforma, mi recomendación es **aprobar** el evento.\n\n### Recomendación:\n- **Decisión**: `approve`\n- **Confianza**: 0.95 (alta, debido a la ausencia de señales de fraude y al cumplimiento de todos los criterios)\n- **Razonamiento**: El evento cumple con todos los requisitos de la plataforma, el organizador tiene un historial positivo y no hay señales de fraude o ilegalidad. La fecha lejana del evento es una advertencia, pero no un motivo de rechazo.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "LDADQpMjg1bvMdfEVDQwmreUiz6Zgzah",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento cumple con todos los requisitos de la plataforma: el organizador tiene un historial positivo, no hay señales de fraude o ilegalidad, los precios y gastos de gestión son razonables, y el recinto existe con una capacidad compatible. La fecha del evento está muy lejos (más de 548 días), lo cual genera una advertencia, pero no es motivo de rechazo. No se encontraron eventos similares recientes que sugieran clonación. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Horizonte Lejano Eventos' tiene un estado de 'approved', cuenta con una CIF válida y checksum correcto, y ha sido activo en la plataforma desde 2024.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_d23a73c5fb\",\"title\":\"Horizonte Lejano Eventos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador ha publicado 14 eventos, de los cuales 12 han finalizado correctamente. No hay informes de contenido ni despublicaciones por administradores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_d23a73c5fb\",\"title\":\"Horizonte Lejano Eventos\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"El recinto 'Palacio de los Deportes de La Rioja' existe en OpenStreetMap y sus coordenadas coinciden con las del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/46108020\",\"title\":\"OpenStreetMap: Palacio de los Deportes\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"La capacidad del recinto (3.851) es compatible con el número de entradas a la venta (2.500).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q7126327\",\"title\":\"Wikidata: Palacio de los Deportes\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia en los últimos 60 días.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La sesión está programada para el 2/11/29, a más de 548 días de la publicación, lo cual es inusual pero no necesariamente problemático.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "id": "Gs9WTgmAPtMO2WBKBuzcVCiQYSxUnR2z",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Viento de Cierzo concierto 20 años aniversario Logroño\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3712,
-          "outputTokens": 1422
+          "inputTokens": 3928,
+          "outputTokens": 52
         }
+      }
+    },
+    {
+      "requestHash": "83fb5baa61834dbbe8fe9dc8747d4802eb7e347ac16e224ab22c819acf618f0e",
+      "latencyMs": 1653,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "bUygD8tEhQfYoIlkPFefOYhSzr4kwdjh",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Viento de Cierzo\\\" banda Logroño\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4617,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "a0d609b428e961c9db61f8aca124b01bf694d43e38eda1c5bd983f0f4603fd05",
+      "latencyMs": 1730,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "m0CJg7Q6PL8pT2qpsFdA5Iud06IMJMh4",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Viento de Cierzo\\\" concierto 20 años Logroño 2029\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5154,
+          "outputTokens": 58
+        }
+      }
+    },
+    {
+      "requestHash": "8a2c9fff32e17682f9fbda453e4caab9fca6971a8dff414d97c43c0fa61c38e1",
+      "latencyMs": 38663,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Datos clave:**\n- Evento: \"Gira del aniversario de Viento de Cierzo\" en Logroño, 2/11/2029\n- Organizador: Horizonte Lejano Eventos (org_d23a73c5fb), aprobado desde mayo 2024, con 14 eventos publicados y 12 finalizados sin cancelaciones. Fiscalidad correcta (CIF con checksum válido).\n- Precio: 35€ general, dentro del benchmark de La Rioja para pop en aforo 1000-5000.\n- Aforo: 2.500 entradas vendidas contra un recinto de 3.851 (Wikidata), compatible.\n- Recinto: Palacio de los Deportes verificado en OpenStreetMap.\n\n**Señales de alerta:**\n1. **Nombre del artista**: \"Viento de Cierzo\" no aparece como banda real en La Rioja ni en Logroño. Las búsquedas web muestran:\n   - \"Cierzo\" es una banda surgida en 1997 (no 20 años de antigüedad para 2029).\n   - \"Viento en Contra\" es una banda centroamericana, no española.\n   - \"Viento Negro\" existe pero no hay constancia de un grupo llamado \"Viento de Cierzo\".\n   \n   El nombre parece inventado o mal escrito.\n\n2. **Descripción del evento**: \"Celebra sus veinte años con un concierto especial\" – si la banda fuera real, ¿qué banda? No hay evidencia de que exista una banda llamada \"Viento de Cierzo\" en Logroño ni en España.\n\n3. **Fecha futura (2029)**: Aunque no es ilegal, el evento está programado para 2029 (más de 548 días después de la publicación). Esto genera un warning en los checks determinísticos, pero no es una razón por sí sola para rechazar.\n\n4. **Organizador**: Horizonte Lejano Eventos parece legítimo (aprobado, fiscalidad correcta, historial limpio), pero el evento promociona a un artista que no existe o está mal identificado.\n\n**Conclusión:**\nEl nombre del artista \"Viento de Cierzo\" no corresponde a ninguna banda real conocida en España ni en La Rioja. Esto sugiere que el evento podría ser:\n- Una broma o error.\n- Un intento de fraude con un nombre inventado.\n- Una copia mal hecha de otra banda (ej. \"Cierzo\", \"Viento en Contra\", etc.).\n\nDado que no hay evidencia de que exista una banda llamada \"Viento de Cierzo\" y el evento parece promocionar a un artista ficticio, esto es una señal de alerta importante. Sin embargo, el organizador tiene un historial limpio y la fiscalidad está correcta.\n\n**Decisión:**\nRecomiendo **request_info** para aclarar:\n- ¿Quién es realmente \"Viento de Cierzo\"? ¿Es una banda real o un nombre ficticio?\n- ¿Por qué se celebra un \"aniversario de 20 años\" si la banda no existe públicamente?\n- ¿Hay algún artista invitado o colaboración que justifique el evento?\n\nEsto es necesario antes de aprobar o rechazar.",
+          "toolCalls": [
+            {
+              "id": "dOCRos4HU1SUKv1AZ1Mk8ZjpvREkzsZF",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento promociona a un artista llamado \\\"Viento de Cierzo\\\", pero las búsquedas web no encuentran ninguna banda con ese nombre en Logroño ni en España. Las bandas relacionadas son \\\"Cierzo\\\" (surgida en 1997), \\\"Viento en Contra\\\" (centroamericana) o \\\"Viento Negro\\\". La descripción del evento menciona un \\\"aniversario de 20 años\\\", pero no hay evidencia de que exista una banda llamada \\\"Viento de Cierzo\\\". El organizador Horizonte Lejano Eventos tiene un historial limpio y fiscalidad correcta, pero el artista parece ficticio o mal identificado. Necesitamos aclarar la identidad del artista antes de aprobar o rechazar.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No existe una banda llamada 'Viento de Cierzo' en Logroño ni en España según búsquedas web. Las bandas relacionadas son 'Cierzo' (1997), 'Viento en Contra' (centroamericana) o 'Viento Negro'. El nombre parece inventado o mal identificado.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://lariojameteo.es/cierzo-viento-la-rioja\",\"title\":\"El Cierzo en La Rioja: Qué Es, Cuándo Sopla y Cómo Afecta\"},{\"url\":\"https://www.facebook.com/CierzoRockOficial\",\"title\":\"Cierzo (@CierzoRockOficial)\"},{\"url\":\"https://www.youtube.com/watch?v=cnhVqW-jG-M\",\"title\":\"The band Viento en Contra celebrates 20 years with a ...\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"El organizador Horizonte Lejano Eventos tiene presencia web y fiscalidad correcta, con historial limpio (14 eventos publicados, 12 finalizados sin cancelaciones).\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Quién es realmente 'Viento de Cierzo'? ¿Es una banda real o un nombre ficticio?\",\"¿Por qué se celebra un 'aniversario de 20 años' si la banda no existe públicamente?\",\"¿Hay algún artista invitado o colaboración que justifique el evento?\"],\"draft\":\"El evento promociona a un artista llamado 'Viento de Cierzo', pero las búsquedas web no encuentran ninguna banda con ese nombre en Logroño ni en España. Las bandas relacionadas son 'Cierzo' (surgida en 1997), 'Viento en Contra' (centroamericana) o 'Viento Negro'. La descripción del evento menciona un 'aniversario de 20 años', pero no hay evidencia de que exista una banda llamada 'Viento de Cierzo'. El organizador Horizonte Lejano Eventos tiene un historial limpio y fiscalidad correcta, pero el artista parece ficticio o mal identificado. Necesitamos aclarar la identidad del artista antes de aprobar o rechazar.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5772,
+          "outputTokens": 1476
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "7198062abd2526f2c2c37a93b99f487062b9e241abc343d047a8c877326c7c09",
+      "provider": "Tavily",
+      "query": "Viento de Cierzo concierto 20 años aniversario Logroño",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=cnhVqW-jG-M",
+            "title": "The band Viento en Contra celebrates 20 years with a ...",
+            "snippet": "... Viento en Contra, considerada una de las más importante de pop rock en Centroamérica, celebrará 20 años ... concierto el próximo 15 de julio"
+          },
+          {
+            "url": "https://www.facebook.com/lahabitacionroja/posts/esta-semana-haremos-tres-conciertos-de-celebraci%C3%B3n-de-nuestro-30-aniversario-el-/1654918032671138",
+            "title": "Esta semana haremos tres conciertos de celebración de ...",
+            "snippet": "Esta semana haremos tres conciertos. Fundición de Logroño. Puertas 20:00 y concierto a las 20:30. La información y las entradas de todos los"
+          },
+          {
+            "url": "https://www.facebook.com/greatstraits/videos/logro%C3%B1o-aqu%C3%AD-os-dejamos-el-v%C3%ADdeo-resumen-gracias-a-pixel%C3%ADn-photo-del-concierto/1621457595573399",
+            "title": "¡LOGROÑO! ⭐ Aquí os dejamos el vídeo-resumen ( ...",
+            "snippet": "Aquí os dejamos el vídeo-resumen (gracias a Pixelín Photo) del concierto del pasado viernes en el Riojaforum. 🎥 ¡LOGROÑO!"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DaPzsepsNYB",
+            "title": "LOGROÑO! 20 NOVIEMBRE! FIN DE GIRA EN CASA♥️ ...",
+            "snippet": "LOGROÑO! 20 NOVIEMBRE! FIN DE GIRA EN CASA♥️ VOLVEMOS A NUESTRA CIUDAD DE LA MANO DE @vibramahou SORPRESAS Y MUCHA MÚSICA NUEVA. ENTRADAS EN ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/AytoLogrono/posts/hasta-el-10-de-septiembre-se-celebra-en-logro%C3%B1o-la-xxviii-semana-de-m%C3%BAsica-anti/1584448503710776",
+            "title": "🎶👏| Hasta el 10 de septiembre, se celebra en #Logroño la ...",
+            "snippet": "Consulta toda la información, programación, compra de entradas y abonos en el espacio del Festival en La Listilla : ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "2a3d618b8e5d6cc1a2370528a1b31d1fe241389df9129a87007c63b239de4c5b",
+      "provider": "Tavily",
+      "query": "\"Viento de Cierzo\" banda Logroño",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://lariojameteo.es/cierzo-viento-la-rioja",
+            "title": "El Cierzo en La Rioja: Qué Es, Cuándo Sopla y Cómo Afecta",
+            "snippet": "En Logroño se estima que el cierzo sopla de forma apreciable entre 80 y 120 días al año, lo que le convierte en un elemento climático casi"
+          },
+          {
+            "url": "https://logrono.es/-/la-banda-de-musica-de-logrono-ofrece-este-domingo-en-el-auditorio-municipal-un-concierto-gratuito-sobre-actos-legendarios-y-leyendas",
+            "title": "La Banda de Música de Logroño ofrece este domingo en el ...",
+            "snippet": "Este concierto forma parte del Ciclo de otoño de la Banda de Música de Logroño y ofrece un repertorio original para la agrupación de vientos y"
+          },
+          {
+            "url": "https://www.facebook.com/CierzoRockOficial",
+            "title": "Cierzo (@CierzoRockOficial)",
+            "snippet": "Cierzo es una banda surgida en 1997 y regresa 20 años después para grabar una producción que quedó inconclusa."
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=cnhVqW-jG-M",
+            "title": "The band Viento en Contra celebrates 20 years with a concert ...",
+            "snippet": "The Guatemalan band Viento en Contra, considered one of the most important pop rock bands in Central America, will celebrate 20 years on stage"
+          },
+          {
+            "url": "https://www.youtube.com/channel/UCAQp5WAeZ87jd1uTFklpNqw",
+            "title": "Banda Viento Negro - Topic",
+            "snippet": "Banda Viento Negro - Topic. Home. Shorts. Library. Banda Viento Negro - Topic. 1.75K subscribers. More about this channel ...more. More about this channel"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "0184b221dad4af7e1695d3b057045c2edfdd2392b0c1ed43772fa4bf69b93885",
+      "provider": "Tavily",
+      "query": "\"Viento de Cierzo\" concierto 20 años Logroño 2029",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=cnhVqW-jG-M",
+            "title": "The band Viento en Contra celebrates 20 years with a ...",
+            "snippet": "... Viento en Contra, considerada una de las más importante de pop rock en Centroamérica, celebrará 20 años ... concierto el próximo 15 de julio"
+          },
+          {
+            "url": "https://www.facebook.com/lahabitacionroja/posts/esta-semana-haremos-tres-conciertos-de-celebraci%C3%B3n-de-nuestro-30-aniversario-el-/1654918032671138",
+            "title": "Esta semana haremos tres conciertos de celebración de ...",
+            "snippet": "Esta semana haremos tres conciertos. Fundición de Logroño. Puertas 20:00 y concierto a las 20:30. La información y las entradas de todos los"
+          },
+          {
+            "url": "https://lariojameteo.es/cierzo-viento-la-rioja",
+            "title": "El Cierzo en La Rioja: Qué Es, Cuándo Sopla y Cómo Afecta",
+            "snippet": "Jul 26, 2026 — En Logroño se estima que el cierzo sopla de forma apreciable entre 80 y 120 días al año, lo que le convierte en un elemento climático casi"
+          },
+          {
+            "url": "https://www.instagram.com/p/C7L95FmIBCA",
+            "title": "LOGROÑO ÚLTIMAS ENTRADAS El viernes 24 de mayo ...",
+            "snippet": ";LOGROÑO ÚLTIMAS ENTRADAS El viernes 24 de mayo a las 20:00h #Logroño, interpretadas por la Royal Film Concert Orchestra."
+          },
+          {
+            "url": "https://www.instagram.com/reel/DaPzsepsNYB",
+            "title": "LOGROÑO! 20 NOVIEMBRE! FIN DE GIRA EN CASA♥️ ...",
+            "snippet": "LOGROÑO! 20 NOVIEMBRE! FIN DE GIRA EN CASA♥️ VOLVEMOS A NUESTRA CIUDAD DE LA MANO DE @vibramahou SORPRESAS Y MUCHA MÚSICA NUEVA. ENTRADAS EN ...Read more"
+          }
+        ]
       }
     }
   ]

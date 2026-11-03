@@ -4,6 +4,7 @@ import {
   establishedOrganizer,
   eventFixtures,
   IN_THREE_WEEKS,
+  pageDate,
 } from "../builders.js";
 
 const SEED = "three-day-festival";
@@ -62,7 +63,7 @@ export const evalCase: EvalCase = {
             : [{ ...day, taken: 500 }],
       })),
     });
-    return eventFixtures(event, organizer, {
+    const fixtures = eventFixtures(event, organizer, {
       benchmark: {
         sampleSize: 12,
         p10Cents: 2500,
@@ -71,5 +72,23 @@ export const evalCase: EvalCase = {
         maxCents: 15_000,
       },
     });
+    const first = pageDate(event.sessions[0]?.startsAt ?? clock.toISOString());
+    return {
+      ...fixtures,
+      // Authored: the festival and its bands are invented (CLAUDE.md §5).
+      web: [
+        {
+          url: "https://riaviva.test/",
+          title: "Festival Ría Viva — tres días de música junto a la ría",
+          snippet: `Ría Viva celebra su sexta edición desde el ${first}, tres días en la Alameda de Pontevedra: doce bandas, zona gastronómica y actividades para familias. Os Faroleiros, Marea de Fondo y Lúa Chea en el cartel. Abono de tres días y entradas de día.`,
+        },
+        {
+          url: "https://noticias-ejemplo.test/cultura/ria-viva-sexta-edicion",
+          title: "Ría Viva Festivales presenta su sexta edición",
+          snippet:
+            "La organización de Ría Viva repite tras cinco ediciones con buena afluencia de público y anuncia el cartel completo.",
+        },
+      ],
+    };
   },
 };
