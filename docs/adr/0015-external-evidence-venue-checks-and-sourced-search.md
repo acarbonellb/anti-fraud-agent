@@ -82,7 +82,8 @@ ADR 0012 already counts a model `pass` for nothing. It left external evidence fo
    the agent's proposal. No brief §5 case expects an automatic organizer approval.
 8. **Providers.**
    - **Nominatim and Overpass** (OpenStreetMap) for the venue: free, no key, at most 1 request per
-     second, an identifying User-Agent, attribution.
+     second, attribution. The policy asks for a `User-Agent` that identifies the application, not
+     an email, so the agent sends a fixed one with the repo URL and no personal data.
    - **Wikidata** for capacity: free and CC0.
    - **Tavily** behind `webSearch`: the free plan's 1,000 credits a month with no card is a hard
      spend cap. The adapter is replaceable without touching the tool.
@@ -131,8 +132,10 @@ ADR 0012 already counts a model `pass` for nothing. It left external evidence fo
 
 - Brief §4.1 and §10.7 stay as design history. This ADR records where the agent departs from
   them.
-- New variables: `NOMINATIM_CONTACT_EMAIL` for the venue checks and `TAVILY_API_KEY` for
-  `webSearch`.
+- One new variable: `TAVILY_API_KEY` for `webSearch`. The venue checks need none.
+- Nominatim's policy limits scheduled tasks to 4 requests per minute and asks clients to cache.
+  Recordings cover the evals. The scheduled agent (#8) will need a cache, and if volume grows, a
+  contact email or its own Nominatim instance.
 - Case 09 (a poster with another ticketing site's logo and QR code) stays external and ungated: a
   known gap. A vision-capable model could close it later with no new provider.
 - Hypotheses, measured against E001 (ADR 0014):
