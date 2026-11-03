@@ -3,6 +3,7 @@ import type { RunEnd } from "../agent/loop.js";
 import type {
   Decision,
   EventReviewContext,
+  Finding,
   OrganizerReviewContext,
   PriceBenchmark,
   PriceBenchmarkQuery,
@@ -34,8 +35,8 @@ export interface EvalCase {
   title: string;
   subject: "event" | "organizer";
   /**
-   * Cases that need the external tools (#7): they run and record, but stay
-   * out of the gated metrics until those tools exist.
+   * Cases that need external tools that don't exist yet (#7): they run and
+   * record, but stay out of the gated metrics until those tools exist.
    */
   requires?: readonly "external"[];
   expected: {
@@ -53,6 +54,8 @@ export interface CaseOutcome {
   confidence: number;
   /** The policy's reasons for the autonomy. */
   reasons: string[];
+  /** The venue checks' verdicts, for the report (ADR 0015). */
+  venue: { check: string; verdict: Finding["verdict"] }[];
   endedBy: RunEnd;
   inputTokens: number;
   outputTokens: number;

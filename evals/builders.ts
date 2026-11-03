@@ -2,12 +2,13 @@
  * Builders for the eval cases' Satella fixtures. Every date is relative to
  * the run's clock (CODING_STANDARDS «Time-relative fixtures»), ids are
  * hashes of the case's seed so nothing in a subject hints at its case, and
- * every organizer, artist and venue is invented (CLAUDE.md §5).
+ * every organizer and artist is invented (CLAUDE.md §5). Venues are real, so
+ * the venue checks can verify them (ADR 0015), except where not existing is
+ * the case's point (04, N5).
  */
 import { createHash } from "node:crypto";
 
 import type {
-  CapacityBand,
   Decision,
   EventReviewContext,
   OrganizerReviewContext,
@@ -16,6 +17,7 @@ import type {
   ReviewStatus,
   SimilarEvent,
 } from "../src/satella-client/schemas.js";
+import { benchmarkQuery } from "../src/checks/price-benchmark.js";
 import type { BenchmarkFixture, CaseFixtures } from "../src/evals/types.js";
 
 const HOUR_MS = 3_600_000;
@@ -341,11 +343,8 @@ export function benchmarksFor(
   context: EventReviewContext,
   benchmark: PriceBenchmark = TYPICAL_BENCHMARK,
 ): BenchmarkFixture[] {
-  const filters: PriceBenchmarkQuery = {
-    ...(context.event.genre === null ? {} : { genre: context.event.genre }),
-    ...(context.venue === null ? {} : { province: context.venue.province }),
-    capacityBand: capacityBand(context),
-  };
+  // The same query the agent's price check sends, and every subset of it.
+  const filters = benchmarkQuery(context);
   const keys = Object.keys(filters) as (keyof PriceBenchmarkQuery)[];
   return Array.from({ length: 2 ** keys.length }, (_, mask) => ({
     query: Object.fromEntries(
@@ -355,19 +354,6 @@ export function benchmarksFor(
     ),
     benchmark,
   }));
-}
-
-function capacityBand(context: EventReviewContext): CapacityBand {
-  const largest = Math.max(
-    0,
-    ...context.sessions.map((session) =>
-      session.ticketTypes.reduce((total, ticket) => total + ticket.capacity, 0),
-    ),
-  );
-  if (largest < 300) return "lt300";
-  if (largest <= 1000) return "300to1000";
-  if (largest <= 5000) return "1000to5000";
-  return "gt5000";
 }
 
 /** The usual shape of an event case: one event, its organizer, benchmarks. */

@@ -29,19 +29,19 @@ export const evalCase: EvalCase = {
     });
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Concierto de Os Vagalumes en La Tartana",
+      title: "Concierto de Os Vagalumes en el Clavicembalo",
       description:
-        "Os Vagalumes tocan sus canciones de siempre en La Tartana. Aforo reducido.",
+        "Os Vagalumes tocan sus canciones de siempre en el Clavicembalo. Aforo reducido.",
       genre: "folk",
       artists: [{ name: "Os Vagalumes" }],
       venue: {
-        name: "Bar La Tartana",
-        address: "Rúa da Muralla Baixa 5",
+        name: "Club Clavicembalo",
+        address: "Rúa dos Paxariños 23",
         city: "Lugo",
         province: "Lugo",
-        postalCode: "27001",
-        latitude: 43.0097,
-        longitude: -7.5567,
+        postalCode: "27002",
+        latitude: 43.01,
+        longitude: -7.5511,
       },
       sessions: [
         {

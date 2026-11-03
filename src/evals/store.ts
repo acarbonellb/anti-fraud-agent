@@ -1,12 +1,14 @@
 /**
  * Recordings on disk: `<root>/<provider>/<model-slug>/<id>-<slug>.json`, one
- * per case, committed so CI can replay them. Every file is validated on load:
+ * per case and model, plus the venue providers' responses, one per case.
+ * Committed so CI can replay them. Every file is validated on load:
  * a hand-edited recording that doesn't parse fails loudly.
  */
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { type Recording, recordingSchema } from "./recording.js";
+import { type ToolRecording, toolRecordingSchema } from "./tool-recording.js";
 import type { EvalCase } from "./types.js";
 
 export interface RecordingSet {
@@ -80,4 +82,36 @@ function subdirectories(dir: string): string[] {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
     throw error;
   }
+}
+
+/** `<root>/<id>-<slug>.json`: one per case, shared by every recording set. */
+export function writeToolRecording(
+  root: string,
+  evalCase: Pick<EvalCase, "id" | "slug">,
+  recording: ToolRecording,
+): void {
+  mkdirSync(root, { recursive: true });
+  writeFileSync(
+    join(root, `${evalCase.id}-${evalCase.slug}.json`),
+    `${JSON.stringify(recording, null, 2)}\n`,
+  );
+}
+
+/** By case id; validated like the model recordings. */
+export function loadToolRecordings(root: string): Map<string, ToolRecording> {
+  let files: string[];
+  try {
+    files = readdirSync(root).filter((file) => file.endsWith(".json"));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return new Map();
+    throw error;
+  }
+  const recordings = files
+    .sort()
+    .map((file) =>
+      toolRecordingSchema.parse(
+        JSON.parse(readFileSync(join(root, file), "utf8")),
+      ),
+    );
+  return new Map(recordings.map((recording) => [recording.caseId, recording]));
 }

@@ -31,13 +31,13 @@ export const evalCase: EvalCase = {
       genre: "clasica",
       artists: [{ name: "Cuarteto Albaida" }],
       venue: {
-        name: "Iglesia Vieja de San Telmo",
-        address: "Calle de los Mártires Nuevos 6",
+        name: "Teatro Cervantes",
+        address: "Calle Ramos Marín s/n",
         city: "Málaga",
         province: "Málaga",
-        postalCode: "29005",
-        latitude: 36.7213,
-        longitude: -4.4214,
+        postalCode: "29012",
+        latitude: 36.7248,
+        longitude: -4.4185,
       },
       sessions: [
         {

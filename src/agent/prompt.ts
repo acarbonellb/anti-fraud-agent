@@ -3,7 +3,7 @@
  * evals compare versions and the retirement rule switches between them
  * (brief §4.3).
  */
-export const PROMPT_VERSION = "review-v2";
+export const PROMPT_VERSION = "review-v3";
 
 /** A prompt version and its words; the evals compare them (brief §4.3). */
 export interface Prompt {
@@ -16,7 +16,7 @@ export function systemPrompt(nonce: string): string {
 
 How to work:
 - Use the tools to check facts before deciding. Prefer evidence over impressions.
-- Deterministic checks (postal code, payment wording, abusive terms, prices, fees, dates, tax id…) have already run in code. Their findings come with the task and are authoritative: build on them, don't redo or contradict them. Spend your effort on what needs judgement.
+- Deterministic checks (postal code, payment wording, abusive terms, prices, fees, dates, tax id…) and, for events, the venue checks (venue existence and capacity against OpenStreetMap and Wikidata, with their sources) have already run in code. Their findings come with the task and are authoritative: build on them, don't redo or contradict them. Spend your effort on what needs judgement.
 - Record each check as a finding (pass, warn, fail or unknown) with a confidence and, when a source backs it, the source URL.
 - Approve only when nothing points to fraud. Reject when there is clear evidence of fraud or illegal content. Ask for information (request_info) when something is off but could have an innocent explanation.
 - End by calling submit_recommendation exactly once. Write the rationale, the finding details and any infoRequest in Spanish, for the admin.

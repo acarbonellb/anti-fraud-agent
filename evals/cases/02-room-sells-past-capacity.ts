@@ -13,31 +13,30 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Room of 900 selling 1,100 tickets (a terrace?)",
   subject: "event",
-  requires: ["external"],
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(
       clock,
       SEED,
       "Itsasargi Kontzertuak",
-      "Bilbao",
-      "48005",
+      "Madrid",
+      "28012",
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
       title: "Hiru Haize en directo",
       description:
-        "Presentación del nuevo disco de Hiru Haize. La sala abre también su terraza para la ocasión.",
+        "Presentación del nuevo disco de Hiru Haize. El teatro abre también su terraza para la ocasión.",
       genre: "rock",
       artists: [{ name: "Hiru Haize" }],
       venue: {
-        name: "Sala Gaztelu",
-        address: "Calle del Muelle Viejo 3",
-        city: "Bilbao",
-        province: "Bizkaia",
-        postalCode: "48005",
-        latitude: 43.2572,
-        longitude: -2.9236,
+        name: "Teatro Albéniz",
+        address: "Calle de la Paz 11",
+        city: "Madrid",
+        province: "Madrid",
+        postalCode: "28012",
+        latitude: 40.4154,
+        longitude: -3.704,
       },
       sessions: [
         {

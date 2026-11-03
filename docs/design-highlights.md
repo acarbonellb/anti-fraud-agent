@@ -17,6 +17,17 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
   - _Evidence:_ the model approved 7 of 18 gated fraud cases, and the policy sent all 7 to the
     admin.
   - [ADR 0012](adr/0012-autonomy-rests-on-deterministic-checks.md)
+- **External evidence must not vouch for what it doesn't check.**
+  - _Why:_ a verified venue is evidence about the venue, nothing else. The model read it as
+    evidence about the whole event.
+  - _Evidence:_ once the venue checks verified the room (E002), the model approved case 13 (a
+    950 € ticket in a 300-person room) at 0.95 instead of doubting it at 0.65. The approval
+    resolved on its own and CI went red. A deterministic price check against Satella's benchmark
+    (E003) brought the gate back to 0. The model still approves 13, and the policy no longer
+    lets it through.
+  - [ADR 0015](adr/0015-external-evidence-venue-checks-and-sourced-search.md),
+    [ADR 0012](adr/0012-autonomy-rests-on-deterministic-checks.md) (amendment),
+    `docs/experiments.md` E002–E003
 - **Organizer text is data, never instructions.**
   - _Why:_ texts travel inside fences with a per-run nonce the organizer can't guess, and wording
     that tries to instruct the reviewer is itself a finding.

@@ -3,7 +3,8 @@
  *
  *   pnpm eval [case…] [--note "<what changed>"]
  *                              record with the configured model (AGENT_LLM_*;
- *                              LM Studio by default, free), then replay all
+ *                              LM Studio by default, free) and the venue
+ *                              providers (OSM, Wikidata: free), then replay all
  *   pnpm eval:replay [--note "<what changed>"]
  *                              replay every recording, append to the history
  *                              and rewrite the report
@@ -34,11 +35,20 @@ import {
 } from "../src/evals/history.js";
 import { renderReport } from "../src/evals/report.js";
 import { recordCase, replaySet } from "../src/evals/runner.js";
-import { loadRecordingSets, writeRecording } from "../src/evals/store.js";
+import {
+  loadRecordingSets,
+  loadToolRecordings,
+  writeRecording,
+  writeToolRecording,
+} from "../src/evals/store.js";
 import { createOpenAiCompatibleProvider } from "../src/providers/openai-compatible/adapter.js";
+import { createVenueThrottles } from "../src/venue/venue-checks.js";
 
 const RECORDINGS = fileURLToPath(
   new URL("../evals/recordings", import.meta.url),
+);
+const TOOL_RESPONSES = fileURLToPath(
+  new URL("../evals/tool-responses", import.meta.url),
 );
 const REPORT = fileURLToPath(new URL("../evals/report.md", import.meta.url));
 const HISTORY = fileURLToPath(
@@ -66,8 +76,9 @@ const history = parseHistory(readOrEmpty(HISTORY));
 if (!replayOnly) await record(only);
 
 const sets = [];
+const toolRecordings = loadToolRecordings(TOOL_RESPONSES);
 for (const set of loadRecordingSets(RECORDINGS)) {
-  sets.push(await replaySet(EVAL_CASES, set));
+  sets.push(await replaySet(EVAL_CASES, set, toolRecordings));
 }
 const current = sets.map(measureSet);
 
@@ -138,9 +149,20 @@ async function record(ids: readonly string[]): Promise<void> {
   console.log(
     `Recording ${String(cases.length)} case(s) with ${provider.provider}/${provider.model}…`,
   );
+  // The venue providers are free and keyless (OSM, Wikidata); one set of
+  // throttles keeps Nominatim at 1 request per second across cases.
+  const throttles = createVenueThrottles();
   for (const evalCase of cases) {
-    const { recording, result } = await recordCase(evalCase, provider, clock);
+    const { recording, toolRecording, result } = await recordCase(
+      evalCase,
+      provider,
+      clock,
+      { fetch: globalThis.fetch, throttles },
+    );
     if (recording !== null) writeRecording(RECORDINGS, evalCase, recording);
+    if (toolRecording !== null) {
+      writeToolRecording(TOOL_RESPONSES, evalCase, toolRecording);
+    }
     const { outcome } = result;
     console.log(
       outcome === null

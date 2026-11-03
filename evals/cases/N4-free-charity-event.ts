@@ -31,13 +31,13 @@ export const evalCase: EvalCase = {
       serviceFee: { type: "none", value: 0 },
       artists: [{ name: "Coro Las Acacias" }, { name: "Banda La Mancha Sur" }],
       venue: {
-        name: "Centro Cívico Las Acacias",
-        address: "Calle de las Acacias 12",
+        name: "Centro Cultural La Asunción",
+        address: "Calle Monjas s/n",
         city: "Albacete",
         province: "Albacete",
-        postalCode: "02001",
-        latitude: 38.9942,
-        longitude: -1.8564,
+        postalCode: "02005",
+        latitude: 38.9964,
+        longitude: -1.8574,
       },
       sessions: [
         {

@@ -36,13 +36,13 @@ export const evalCase: EvalCase = {
         { name: "Lúa Chea" },
       ],
       venue: {
-        name: "Parque de la Alameda Vieja",
-        address: "Avenida de la Alameda Vieja s/n",
+        name: "Alameda de Pontevedra",
+        address: "Alameda do Arquitecto Sesmero s/n",
         city: "Pontevedra",
         province: "Pontevedra",
-        postalCode: "36001",
-        latitude: 42.4336,
-        longitude: -8.6475,
+        postalCode: "36002",
+        latitude: 42.4309,
+        longitude: -8.6486,
       },
       sessions: [0, 1, 2].map((offset) => ({
         startsInHours: IN_THREE_WEEKS + offset * 24,

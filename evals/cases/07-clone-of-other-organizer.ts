@@ -9,7 +9,7 @@ import {
 
 const SEED = "clone-of-other-organizer";
 const TITLE = "Gran Gala de Zarzuela: La Verbena Eterna";
-const VENUE = "Teatro Ribalta";
+const VENUE = "Teatro Liceo";
 
 export const evalCase: EvalCase = {
   id: "07",
@@ -35,12 +35,12 @@ export const evalCase: EvalCase = {
       genre: "lirica",
       venue: {
         name: VENUE,
-        address: "Plaza del Corrillo Alto 4",
+        address: "Plaza del Liceo s/n",
         city: "Salamanca",
         province: "Salamanca",
         postalCode: "37002",
-        latitude: 40.9651,
-        longitude: -5.6637,
+        latitude: 40.9661,
+        longitude: -5.6623,
         sameNameOtherOrganizers: 1,
       },
       sessions: [

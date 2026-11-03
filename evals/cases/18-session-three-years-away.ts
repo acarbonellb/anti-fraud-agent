@@ -29,13 +29,13 @@ export const evalCase: EvalCase = {
       genre: "pop",
       artists: [{ name: "Viento de Cierzo" }],
       venue: {
-        name: "Palacio de los Calados",
-        address: "Avenida de la Vendimia 50",
+        name: "Palacio de los Deportes de La Rioja",
+        address: "Calle Clavijo s/n",
         city: "Logroño",
         province: "La Rioja",
-        postalCode: "26001",
-        latitude: 42.4627,
-        longitude: -2.445,
+        postalCode: "26008",
+        latitude: 42.4531,
+        longitude: -2.4559,
       },
       sessions: [
         {

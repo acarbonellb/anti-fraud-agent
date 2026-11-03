@@ -37,13 +37,13 @@ export const evalCase: EvalCase = {
       genre: "pop",
       artists: [{ name: "Valeria Montecristo" }],
       venue: {
-        name: "Sala Pequeño Búho",
-        address: "Calle de la Platería Vieja 21",
+        name: "Garaje Beat Club",
+        address: "Avenida Miguel de Cervantes 45",
         city: "Murcia",
         province: "Murcia",
-        postalCode: "30001",
-        latitude: 37.9847,
-        longitude: -1.1285,
+        postalCode: "30009",
+        latitude: 38.0012,
+        longitude: -1.1446,
       },
       sessions: [
         {

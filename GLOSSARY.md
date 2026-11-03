@@ -71,6 +71,8 @@ fixed.
   these, because the agent already has what it needs to get them right.
 - **Recording**: the model's responses to one case, each with the hash of the request that
   produced it, plus the clock the fixtures were built from (`evals/recordings/`).
+- **Tool recording**: the venue providers' HTTP responses to one case, keyed by the hash of each
+  request and shared by every model's recordings (`evals/tool-responses/`, ADR 0015).
 - **Record / replay**: `pnpm eval` runs the real model and records; `pnpm eval:replay` feeds the
   recorded responses back through the real agent, with no model, network or cost.
 - **Fixture origin**: `recorded` (a real provider response, committed only for open data or

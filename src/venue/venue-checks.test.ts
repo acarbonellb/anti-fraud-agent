@@ -1,0 +1,213 @@
+// Checks the venue checks through their providers: the requests they build
+// (fixed User-Agent, no request repeated in a run, Nominatim's pace), and
+// that every provider failure ends as an `unknown` finding that says so.
+// Fakes `fetch` with canned provider responses and the throttle's clock.
+import { describe, expect, it } from "vitest";
+
+import { fixtures } from "../satella-client/fixtures.js";
+import type { EventReviewContext } from "../satella-client/schemas.js";
+import { type Fetch, USER_AGENT } from "./http.js";
+import { createThrottle, noThrottle } from "./throttle.js";
+import { createVenueChecks } from "./venue-checks.js";
+
+const throttles = {
+  nominatim: noThrottle,
+  wikidata: noThrottle,
+};
+
+function eventAt(latitude: number, longitude: number): EventReviewContext {
+  const context = structuredClone(fixtures.eventContext);
+  if (context.venue === null) throw new Error("fixture without a venue");
+  context.venue = { ...context.venue, latitude, longitude };
+  return context;
+}
+
+const LAT = 40.4154216;
+const LON = -3.7040234;
+
+const nominatimHit = (tags: Record<string, string>) => [
+  {
+    osm_type: "node",
+    osm_id: 1,
+    lat: String(LAT),
+    lon: String(LON),
+    category: "amenity",
+    type: "theatre",
+    name: "Teatro",
+    extratags: tags,
+  },
+];
+
+interface Call {
+  url: string;
+  init: RequestInit;
+}
+
+/** Answers by provider host; anything unexpected is a network failure. */
+function fakeFetch(answers: {
+  search?: () => Response;
+  reverse?: () => Response;
+  wikidata?: () => Response;
+}): { fetch: Fetch; calls: Call[] } {
+  const calls: Call[] = [];
+  const fetch: Fetch = (url, init) => {
+    calls.push({ url, init });
+    const { hostname, pathname } = new URL(url);
+    const answer =
+      hostname === "nominatim.openstreetmap.org"
+        ? pathname === "/search"
+          ? answers.search
+          : answers.reverse
+        : hostname === "query.wikidata.org"
+          ? answers.wikidata
+          : undefined;
+    return answer === undefined
+      ? Promise.reject(new TypeError("fetch failed"))
+      : Promise.resolve(answer());
+  };
+  return { fetch, calls };
+}
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status });
+
+describe("venue checks", () => {
+  it("sends the fixed User-Agent and searches Nominatim once for both checks", async () => {
+    const { fetch, calls } = fakeFetch({
+      search: () => json(nominatimHit({ capacity: "898" })),
+    });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+
+    expect(findings.map((item) => item.finding.verdict)).toEqual([
+      "pass",
+      "pass",
+    ]);
+    expect(calls).toHaveLength(1);
+    const call = calls[0];
+    expect(new Headers(call?.init.headers).get("User-Agent")).toBe(USER_AGENT);
+    expect(USER_AGENT).toMatch(
+      /^anti-fraud-agent\/[\d.]+ \(\+https:\/\/github\.com\/acarbonellb\/anti-fraud-agent\)$/,
+    );
+    const url = new URL(call?.url ?? "");
+    expect(url.searchParams.get("format")).toBe("jsonv2");
+    expect(url.searchParams.get("extratags")).toBe("1");
+  });
+
+  it("asks Wikidata for the capacity of the item OSM links to", async () => {
+    const { fetch, calls } = fakeFetch({
+      search: () => json(nominatimHit({ wikidata: "Q2635919" })),
+      wikidata: () =>
+        json({ results: { bindings: [{ capacity: { value: "1100" } }] } }),
+    });
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(capacity?.finding.sources[0]?.url).toBe(
+      "https://www.wikidata.org/wiki/Q2635919",
+    );
+    expect(calls[1]?.url).toContain("wd%3AQ2635919+wdt%3AP1083");
+  });
+
+  it("asks what lies at the point only when the name doesn't verify the venue", async () => {
+    const { fetch, calls } = fakeFetch({
+      search: () => json([]),
+      // What Nominatim answers at sea: the country, no municipality.
+      reverse: () =>
+        json({
+          category: "boundary",
+          type: "administrative",
+          address: { country: "España" },
+        }),
+    });
+    const [exists] = await createVenueChecks({ fetch, throttles })(
+      eventAt(39.41, -0.2),
+    );
+    expect(exists?.finding.verdict).toBe("fail");
+    expect(calls.map((call) => new URL(call.url).pathname)).toEqual([
+      "/search",
+      "/reverse",
+    ]);
+    const reverse = new URL(calls[1]?.url ?? "");
+    expect(reverse.searchParams.get("lat")).toBe("39.41");
+    expect(reverse.searchParams.get("zoom")).toBe("18");
+  });
+
+  it.each([
+    {
+      failure: "a 429",
+      answer: () => json({}, 429),
+      text: "429",
+    },
+    {
+      failure: "an error status",
+      answer: () => json({}, 503),
+      text: "devolvió un error",
+    },
+    {
+      failure: "a body that doesn't parse",
+      answer: () => json({ unexpected: true }),
+      text: "no se entiende",
+    },
+    {
+      failure: "a timeout",
+      answer: () => {
+        throw new DOMException("timed out", "TimeoutError");
+      },
+      text: "no respondió a tiempo",
+    },
+  ])("turns $failure from Nominatim into unknown findings", async (row) => {
+    const { fetch } = fakeFetch({ search: row.answer });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(findings.map((item) => item.finding.verdict)).toEqual([
+      "unknown",
+      "unknown",
+    ]);
+    expect(findings[0]?.finding.detail).toContain(row.text);
+  });
+
+  it("says so when the reverse lookup fails after an empty name search", async () => {
+    const { fetch } = fakeFetch({
+      search: () => json([]),
+      reverse: () => new Response("busy", { status: 504 }),
+    });
+    const [exists] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(exists?.finding.verdict).toBe("unknown");
+    expect(exists?.finding.detail).toContain(
+      "Tampoco se pudo comprobar qué hay en las coordenadas",
+    );
+  });
+});
+
+describe("throttle", () => {
+  it("spaces calls at least the interval apart, in order", async () => {
+    let clock = 0;
+    const starts: number[] = [];
+    const throttle = createThrottle(1000, {
+      now: () => clock,
+      sleep: (ms) => {
+        clock += ms;
+        return Promise.resolve();
+      },
+    });
+    const task = () => {
+      starts.push(clock);
+      return Promise.resolve();
+    };
+    await Promise.all([throttle(task), throttle(task), throttle(task)]);
+    expect(starts).toEqual([0, 1000, 2000]);
+  });
+
+  it("keeps going after a failed call", async () => {
+    const throttle = createThrottle(0);
+    await expect(
+      throttle(() => Promise.reject(new Error("x"))),
+    ).rejects.toThrow("x");
+    await expect(throttle(() => Promise.resolve("ok"))).resolves.toBe("ok");
+  });
+});

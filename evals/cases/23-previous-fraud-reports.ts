@@ -39,13 +39,13 @@ export const evalCase: EvalCase = {
       genre: "rock",
       artists: [{ name: "Neón Eterno" }, { name: "Los Casetes" }],
       venue: {
-        name: "Sala Mistral",
-        address: "Carrer de la Drassana Vella 12",
+        name: "Es Gremi",
+        address: "Carrer del Gremi de Porgadors 16",
         city: "Palma",
         province: "Illes Balears",
-        postalCode: "07003",
-        latitude: 39.5711,
-        longitude: 2.6466,
+        postalCode: "07009",
+        latitude: 39.5967,
+        longitude: 2.6702,
       },
       sessions: [
         {

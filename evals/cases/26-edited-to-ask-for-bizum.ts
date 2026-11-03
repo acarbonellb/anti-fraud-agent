@@ -44,13 +44,13 @@ export const evalCase: EvalCase = {
       publishedHoursAgo: 72,
       editedHoursAfterPublishing: 70,
       venue: {
-        name: "Sala El Puente de Piedra",
-        address: "Calle de la Rúa Alta 22",
+        name: "Teatro Ramos Carrión",
+        address: "Calle de Ramos Carrión 25",
         city: "Zamora",
         province: "Zamora",
         postalCode: "49001",
-        latitude: 41.5034,
-        longitude: -5.7446,
+        latitude: 41.5023,
+        longitude: -5.7472,
       },
       sessions: [
         {

@@ -1,0 +1,70 @@
+{
+  "caseId": "18",
+  "calls": [
+    {
+      "requestHash": "0b9ef6fd350933ebe60019af55f78cbde655341dd79bad447ec3f464b7d98aa6",
+      "method": "GET",
+      "url": "https://nominatim.openstreetmap.org/search?q=Palacio+de+los+Deportes+de+La+Rioja%2C+Logro%C3%B1o&format=jsonv2&limit=5&extratags=1&countrycodes=es",
+      "origin": "recorded",
+      "attribution": "Data © OpenStreetMap contributors, ODbL 1.0, https://osm.org/copyright",
+      "response": {
+        "status": 200,
+        "json": [
+          {
+            "place_id": 289373333,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 46108020,
+            "lat": "42.4530587",
+            "lon": "-2.4558612",
+            "category": "leisure",
+            "type": "sports_centre",
+            "place_rank": 30,
+            "importance": 0.322688475709118,
+            "addresstype": "leisure",
+            "name": "Palacio de los Deportes",
+            "display_name": "Palacio de los Deportes, Calle Clavijo, Guindalera, Las Gaunas, Logroño, La Rioja, 26008, España",
+            "extratags": {
+              "building": "sports_centre",
+              "wikidata": "Q7126327"
+            },
+            "boundingbox": [
+              "42.4527277",
+              "42.4534637",
+              "-2.4565707",
+              "-2.4552075"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "7e2894fcacf58f87ce3afe02e33206648e4a047a1ff524a03db10a08d1256132",
+      "method": "GET",
+      "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fcapacity+WHERE+%7B+wd%3AQ7126327+wdt%3AP1083+%3Fcapacity+%7D&format=json",
+      "origin": "recorded",
+      "attribution": "Wikidata, CC0 1.0",
+      "response": {
+        "status": 200,
+        "json": {
+          "head": {
+            "vars": [
+              "capacity"
+            ]
+          },
+          "results": {
+            "bindings": [
+              {
+                "capacity": {
+                  "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+                  "type": "literal",
+                  "value": "3851"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

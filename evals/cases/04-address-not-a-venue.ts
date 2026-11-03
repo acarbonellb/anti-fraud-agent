@@ -13,7 +13,6 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Address is a block of flats and the coordinates fall in the sea",
   subject: "event",
-  requires: ["external"],
   expected: {
     decisions: ["reject", "request_info"],
     autonomy: "escalated",

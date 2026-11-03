@@ -307,7 +307,7 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
   return [overlapFinding, ...timing];
 }
 
-function euros(cents: number): string {
+export function euros(cents: number): string {
   return `${(cents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 }
 

@@ -30,13 +30,13 @@ export const evalCase: EvalCase = {
       genre: "flamenco",
       artists: [{ name: "Rocío del Aljibe" }],
       venue: {
-        name: "Teatro Alcaraván",
-        address: "Calle de la Alfalfa Nueva 8",
+        name: "Teatro Lope de Vega",
+        address: "Avenida Honduras s/n",
         city: "Sevilla",
         province: "Sevilla",
         postalCode: "28013",
-        latitude: 37.3925,
-        longitude: -5.9931,
+        latitude: 37.3786,
+        longitude: -5.9908,
       },
       sessions: [
         {

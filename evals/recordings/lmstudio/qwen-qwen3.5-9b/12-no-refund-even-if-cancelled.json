@@ -2,19 +2,19 @@
   "caseId": "12",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "ed7affcab6ae5432b3fc6f7e9ff77cec9f86294890486ed553be58c6deba5d65",
-      "latencyMs": 2729,
+      "requestHash": "27f8ec9240004671e01d69d3d97f84a12d5da1e096bcb61d0b6b2aab9809b6a3",
+      "latencyMs": 2727,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "0tIGryFsT5PCNsN1fKXzO2ZHMrTd08WS",
+              "id": "IXc81RRuuU7edPvz6KMm0z2yeE1Z8TTd",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2884,
+          "inputTokens": 3145,
           "outputTokens": 39
         }
       }
     },
     {
-      "requestHash": "4b58a5ea669ef3af0e047fe67cd19665543976e01f6cdd5d46645d9a1ba8dfae",
-      "latencyMs": 1568,
+      "requestHash": "06690a45bf3386922c17313f4de94737c00969eadd70e889a3cb073b4c43a60f",
+      "latencyMs": 1497,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "DHRx7Km5LSjfZimGijG8uEzVExxuFMSl",
+              "id": "ZWg1dNU8GkZJCcX0bgyKDY4p9vMZRDBe",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_d11830d06b\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3262,
+          "inputTokens": 3523,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "1accdd625141e307e1a4a1b2cad5f94eb40f7e23d408702cdcbf718a172cf877",
-      "latencyMs": 29309,
+      "requestHash": "4562c3e0a1a4c9fa9c94ecc3b122d892a9eb80528e2a900baa9f9a071082cdeb",
+      "latencyMs": 23365,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos (autoritativos):**\n- `postal_code_province`: pass - El código postal 08012 corresponde a Barcelona.\n- `off_platform_payment`: pass - No hay solicitud de pago fuera de la plataforma.\n- `external_ticketing_link`: pass - No hay enlaces externos a otras ticketeras ni acortadores.\n- `abusive_terms`: **fail** - Las condiciones niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esto es una cláusula abusiva según las reglas de la plataforma.\n- `minors_alcohol`: pass - No hay alcohol para menores.\n- `prompt_injection`: pass - No hay intentos de instruir al revisor.\n- `price_sanity`: pass - Ninguna entrada VIP cuesta menos que una general.\n- `service_fee`: pass - Los gastos de gestión no superan el 20% del precio.\n- `session_dates`: pass - Las sesiones no se solapan.\n- `session_timing`: pass - Las fechas de las sesiones no son inminentes ni lejanas.\n\n**Contexto del organizador:**\n- El organizador \"Comedia en Vena\" está aprobado, tiene una cuenta activa desde mayo de 2024 (930 días), con datos fiscales válidos (CIF con checksum correcto).\n- Tiene 14 eventos publicados, 12 finalizados y 0 cancelados.\n- No hay informes de contenido ni despublicaciones por admin.\n- El equipo tiene roles adecuados (owner, manager, scanner).\n\n**Búsqueda de eventos similares:**\n- No hay eventos similares en la misma provincia con fechas cercanas, lo que descarta clonación.\n\n**Análisis del fallo en `abusive_terms`:**\nLa cláusula «No se devolverá el dinero aunque se cancele el evento por cualquier motivo» es claramente abusiva y va en contra de las políticas de protección al consumidor en España. Esta es una violación clara de las reglas de la plataforma.\n\n**Decisión:**\nDado que hay un fallo claro en `abusive_terms` (cláusula abusiva), el evento debe ser rechazado. No hay evidencia de fraude, pero la cláusula abusiva por sí sola justifica el rechazo según las políticas de la plataforma.\n\nNo necesito solicitar información adicional porque el hallazgo es claro y autoritativo.",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos ya realizados:**\n- `postal_code_province`: pass (08001 corresponde a Barcelona)\n- `off_platform_payment`: pass\n- `external_ticketing_link`: pass\n- `abusive_terms`: **fail** - La cláusula \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\" niega la devolución incluso en caso de cancelación, lo cual es abusivo según las reglas.\n- `minors_alcohol`: pass\n- `prompt_injection`: pass\n- `price_sanity`: pass\n- `service_fee`: pass\n- `session_dates`: pass\n- `session_timing`: pass\n- `price_benchmark`: pass\n- `venue_exists`: pass (Sala Apolo existe en OpenStreetMap)\n- `venue_capacity`: unknown (aforo no disponible en fuentes públicas, pero se venden 120 entradas)\n\n**Contexto del organizador:**\n- Organizador: \"Comedia en Vena\" (org_24aa87dac6)\n- Estado: approved\n- Creado: 2024-05-17 (930 días de antigüedad)\n- Fiscal: CIF presente y checksum válido, dirección completa\n- Equipo: 1 dueño, 1 manager, 2 scanners\n- Historial: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones previas como agente\n\n**Búsqueda de eventos similares:**\n- No hay eventos similares en los últimos 60 días en la misma provincia con títulos parecidos.\n\n**Análisis del hallazgo `abusive_terms`:**\nLa cláusula abusiva es un fallo claro: \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\". Esto viola las políticas de protección al consumidor, ya que niega derechos básicos de reembolso incluso en casos justificados (cancelación del organizador, fuerza mayor, etc.).\n\nEste es un hallazgo de tipo `fail` con evidencia clara. No hay explicación inocente para una cláusula tan abusiva; es una práctica comercial desleal.\n\n**Decisión:**\nDado que hay un hallazgo de `abusive_terms` con veredicto `fail`, y no hay señales de fraude, ilegalidad u otros problemas graves, pero sí una violación clara de las políticas de términos y condiciones, la decisión debe ser **reject**.\n\nLa confianza es alta porque el hallazgo es directo y no requiere más investigación.",
           "toolCalls": [
             {
-              "id": "8RekT2IalBxCdElhAvxjJYtTZx1CmBDL",
+              "id": "sIkSjzv4EnsfUHViJdvjPjDv1xC6zLnJ",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento contiene una cláusula abusiva en sus términos: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula niega la devolución incluso en caso de cancelación, lo cual es contrario a las políticas de protección al consumidor y a las reglas de la plataforma. El organizador tiene un historial limpio (14 eventos publicados, 0 cancelados, sin informes de contenido), datos fiscales válidos y no hay señales de fraude o clonación. Sin embargo, la cláusula abusiva por sí sola justifica el rechazo del evento.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula es abusiva y contraviene las políticas de protección al consumidor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Cover del evento\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Comedia en Vena' tiene datos fiscales válidos (CIF con checksum correcto), cuenta activa desde 2024 y sin otros organizadores asociados.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_24aa87dac6\",\"title\":\"Perfil del organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene 14 eventos publicados, 12 finalizados y 0 cancelados. No hay informes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_24aa87dac6\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia con fechas cercanas, descartando clonación.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_d11830d06b\",\"title\":\"Evento principal\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento ha sido rechazado debido a la presencia de una cláusula abusiva en los términos y condiciones: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula niega el derecho al reembolso incluso en casos justificados como cancelación del organizador o fuerza mayor, lo cual viola las políticas de protección al consumidor y las normas de la plataforma. No hay evidencia de fraude, ilegalidad u otros problemas graves; el resto de los checks determinísticos (postal code, venue existence, prices, fees, dates) han pasado correctamente. El organizador «Comedia en Vena» tiene un historial limpio (14 eventos publicados, 0 cancelados, 0 reportes de contenido), pero la cláusula abusiva es suficiente para rechazar este evento específico.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"La cláusula «No se devolverá el dinero aunque se cancele el evento por cualquier motivo» niega la devolución incluso en caso de cancelación, lo cual es abusivo y viola las políticas de protección al consumidor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Cover del evento\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3401,
-          "outputTokens": 1115
+          "inputTokens": 3662,
+          "outputTokens": 910
         }
       }
     }

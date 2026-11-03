@@ -2,19 +2,19 @@
   "caseId": "06",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "edf14cbf2ef6b7e0aecbf6c083111b22575c8efd2f461fa1b9a57d2dc2c0b337",
-      "latencyMs": 2527,
+      "requestHash": "e27204cf4c1bf7a7ed0c699e08f59222050f5bcbba8f1ef3dbc87d660610392d",
+      "latencyMs": 2572,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "5E4EtQ1voO8bMdVdLdwnpt6tYqhlm4vu",
+              "id": "axDeQdn5zQrT6nKR8ZwDy7tKrAYUQCWE",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f032e3a64e\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2846,
+          "inputTokens": 3111,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "aaeb6dfc9c24175fb0b2a00b0dfc23cc3a6d4c9cccbc246b940ab4163357303a",
-      "latencyMs": 1493,
+      "requestHash": "099689c5fd7b5dbc70adb7294c58bc80b7d18be6d5cb5ea49b78260bc38bbeb7",
+      "latencyMs": 1481,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "KUYjHPFxHkMHuRL1YLjTV3rOniAQGkO2",
+              "id": "NUIzILzAeiFZAMIsw2e8jd8p6jPQw4LQ",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_bd0d54bb69\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3221,
+          "inputTokens": 3486,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "cd1c6a7982d10c8d6d7cab232151bbe858302d323d69e6d042020b5cde2adacf",
-      "latencyMs": 27826,
+      "requestHash": "d2526190194859cb21a71e9022ac86b373d2448d790c37c427c2d4cb2e1665b9",
+      "latencyMs": 29982,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos sobre el organizador (Granate Directo):\n- **Identidad fiscal**: El nombre legal \"Granate Directo S.L.\" está presente, con un CIF válido y la dirección en Granada. No hay indicios de fraude fiscal.\n- **Historial del organizador**: Ha publicado 14 eventos, cancelados 0 y finalizados 12. No ha sido despublicado por administradores ni tiene reportes de contenido. No hay recomendaciones previas.\n- **Web y presencia**: El organizador tiene logo y portada, lo que sugiere una presencia web establecida.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres, lo que indica una estructura operativa sólida.\n\n### Hallazgos sobre el evento:\n- **Título y descripción**: \"Los Bárbaros del Sur: gira Tierra Quemada\" con teloneros por confirmar. No hay indicios de contenido ilegal o adulto.\n- **Precio y tarifas**: El precio de la entrada general es de 2400 céntimos (24€) con una tarifa de servicio fija de 100 céntimos (1€). La tarifa de servicio no supera el 20% del precio, y no hay entradas VIP más baratas que las generales.\n- **Fecha y sesión**: La sesión está programada para el 23 de noviembre de 2026, con puertas a las 7:00 y final a las 11:00. No es inminente ni lejana.\n- **Ubicación**: El venue \"Sala Albaicín Sónico\" en Granada (código postal 18009) coincide con la provincia.\n- **Condiciones**: Se permite la devolución en caso de cancelación y no se admiten cambios de titularidad, lo cual es estándar.\n\n### Hallazgos sobre similaridad:\n- No hay eventos similares publicados por otros organizadores en la misma provincia cerca de las fechas del evento.\n\n### Conclusión:\nNo hay indicios de fraude, ilegalidad o contenido problemático. El organizador tiene un historial sólido y el evento cumple con los estándares de la plataforma. La decisión es **aprobar**.",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento mis hallazgos:\n\n### Hallazgos sobre el organizador (Granate Directo):\n- **Identidad fiscal**: El nombre legal \"Granate Directo S.L.\" está presente, con un CIF válido y una dirección en Granada. La cuenta tiene 930 días de antigüedad y el correo electrónico está verificado.\n- **Historial**: Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador. No ha tenido revisiones anteriores como agente.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres.\n\n### Hallazgos sobre el evento:\n- **Precio**: El precio de la entrada general es de 2400 céntimos (24 €), lo cual está dentro del rango normal para conciertos de rock en Granada con aforo entre 300 y 1000. No supera el p90 (35,00 €) de eventos comparables.\n- **Gastos de gestión**: Son fijos de 100 céntimos (1 €), lo cual no supera el 20% del precio de la entrada.\n- **Sesiones**: La sesión está programada para el 24 de noviembre de 2026, con puertas a las 9:00 y finalización a las 13:00. No hay solapamientos ni fechas inminentes o lejanas.\n- **Condiciones**: Se permite la devolución en caso de cancelación y no se admiten cambios de titularidad. No hay términos abusivos.\n- **Pago**: No se pide pagar fuera de la plataforma.\n- **Enlaces externos**: No hay enlaces a otras ticketeras ni acortadores de URL.\n- **Contenido**: No hay alcohol para menores, ni contenido ilegal, ni texto copiado, ni imágenes con marcas de otras ticketeras.\n- **Aforo del recinto**: El \"Sala Planta Baja\" existe en OpenStreetMap como un nightclub a 3 metros de las coordenadas del evento. Sin embargo, el aforo no está disponible en Wikidata ni OpenStreetMap. La sesión con más entradas pone a la venta 700 entradas, pero esto no es necesariamente una señal de fraude, ya que podría ser un error o una estimación.\n\n### Hallazgos sobre eventos similares:\nNo hay eventos similares publicados por otros organizadores en la misma provincia con un título similar cerca de las fechas del evento.\n\n### Conclusión:\nNo hay evidencia de fraude ni ilegalidad. El único punto de atención es el aforo desconocido del recinto, pero esto no es una señal clara de fraude y podría explicarse por la falta de datos públicos. Por lo tanto, recomiendo aprobar el evento.",
           "toolCalls": [
             {
-              "id": "Rk07EKC2vk35cZMiIEiY5Eb9Z3rnha3t",
+              "id": "3wxfgKa9Qs6KyLrCz0JfUv9R0y9GuBl5",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Granate Directo\\\" tiene un historial sólido: 14 eventos publicados, sin cancelaciones ni reportes de contenido. Su identidad fiscal es válida (CIF correcto), y su equipo está bien estructurado. El evento cumple con todos los estándares: precio razonable, tarifa de servicio dentro del límite, fecha no inminente, ubicación verificada y condiciones estándar. No hay indicios de fraude, ilegalidad o contenido problemático. La decisión es aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF válido, nombre legal presente, dirección en Granada.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, sin reportes de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia cerca de las fechas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/events/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Precio de entrada general de 24€ con tarifa de servicio de 1€, dentro del límite.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_bd0d54bb69\",\"title\":\"Los Bárbaros del Sur\"}]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Sesión programada para el 23 de noviembre de 2026, no inminente ni lejana.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_bd0d54bb69\",\"title\":\"Los Bárbaros del Sur\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Granate Directo\\\" tiene una identidad fiscal válida, un historial limpio y no ha tenido problemas anteriores. El evento cumple con todas las condiciones de la plataforma, incluyendo precios razonables, gastos de gestión adecuados y fechas de sesión apropiadas. No hay evidencia de fraude ni ilegalidad. El aforo del recinto es desconocido, pero esto no es una señal clara de fraude y podría explicarse por la falta de datos públicos. Por lo tanto, recomiendo aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene un nombre legal válido, CIF correcto, dirección en Granada y cuenta con 930 días de antigüedad.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.com/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.com/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del recinto no está disponible en Wikidata ni OpenStreetMap. La sesión con más entradas pone a la venta 700 entradas, pero esto no es necesariamente una señal de fraude.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5691935477\",\"title\":\"OpenStreetMap: Sala Planta Baja (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares publicados por otros organizadores en la misma provincia con un título similar cerca de las fechas del evento.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3352,
-          "outputTokens": 1054
+          "inputTokens": 3617,
+          "outputTokens": 1158
         }
       }
     }

@@ -27,6 +27,7 @@ function result(
             autonomy: "auto_resolved",
             confidence: 0.5,
             reasons: [],
+            venue: [],
             endedBy: "submitted",
             inputTokens: 0,
             outputTokens: 0,

@@ -26,17 +26,17 @@ export const evalCase: EvalCase = {
       seed: SEED,
       title: "Trío Azahar: jazz y copla",
       description:
-        "El Trío Azahar mezcla jazz y copla en una noche en Sala Candil, con aforo para 300 personas.",
+        "El Trío Azahar mezcla jazz y copla en una noche en Sala Hangar, con aforo para 300 personas.",
       genre: "jazz",
       artists: [{ name: "Trío Azahar" }],
       venue: {
-        name: "Sala Candil",
-        address: "Calle del Zoco Alto 11",
+        name: "Sala Hangar",
+        address: "Avenida de la Libertad 2",
         city: "Córdoba",
         province: "Córdoba",
-        postalCode: "14002",
-        latitude: 37.8882,
-        longitude: -4.7794,
+        postalCode: "14006",
+        latitude: 37.8924,
+        longitude: -4.7827,
       },
       sessions: [
         {

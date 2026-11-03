@@ -3,8 +3,10 @@
  * fixtures, then `reviewSubject` runs the deterministic checks, the loop and
  * the policy. Only the model changes between modes:
  *
- * - **record** (`pnpm eval`): a real model, wrapped to keep every response;
- * - **replay** (`pnpm eval:replay`, CI): the recorded responses, in order.
+ * - **record** (`pnpm eval`): a real model, wrapped to keep every response,
+ *   and the venue providers over the network, wrapped the same way;
+ * - **replay** (`pnpm eval:replay`, CI): the recorded responses, the model's
+ *   in order and the providers' by request hash. No network.
  *
  * Every input to the model is reproducible: fixtures come from the
  * recording's clock, the fence nonce and the run id derive from the case id,
@@ -17,6 +19,14 @@ import { reviewSubject } from "../agent/review.js";
 import { createUntrustedFence } from "../agent/untrusted.js";
 import { loadConfig } from "../config/config.js";
 import { DomainError } from "../errors.js";
+import type { Fetch } from "../venue/http.js";
+import { isVenueCheck } from "../venue/scoring.js";
+import { noThrottle } from "../venue/throttle.js";
+import {
+  createVenueChecks,
+  createVenueThrottles,
+  type VenueThrottles,
+} from "../venue/venue-checks.js";
 import type { LlmProvider } from "../providers/types.js";
 import { createSatellaClient } from "../satella-client/client.js";
 import { startMockSatella } from "../satella-client/mock-server.js";
@@ -29,6 +39,11 @@ import {
 } from "./recording.js";
 import type { ReportSet } from "./report.js";
 import type { RecordingSet } from "./store.js";
+import {
+  createRecordingFetch,
+  createReplayFetch,
+  type ToolRecording,
+} from "./tool-recording.js";
 import {
   type CaseOutcome,
   type CaseResult,
@@ -53,21 +68,33 @@ export interface RunOptions {
 export interface Recorded {
   /** Null when the run failed: there is nothing worth replaying. */
   recording: Recording | null;
+  /** The venue providers' responses; null with `recording`. */
+  toolRecording: ToolRecording | null;
   result: CaseResult;
+}
+
+export interface RecordOptions extends RunOptions {
+  /** The network for the venue providers. Required, so a test can't reach it by accident. */
+  fetch: Fetch;
+  /** Shared across cases: the providers' limits are per client. */
+  throttles?: VenueThrottles;
 }
 
 export async function recordCase(
   evalCase: EvalCase,
   provider: LlmProvider,
   clock: Date,
-  options: RunOptions = {},
+  options: RecordOptions,
 ): Promise<Recorded> {
   const prompt = options.prompt ?? REVIEW_PROMPT;
   const recorder = createRecordingProvider(provider);
+  const tools = createRecordingFetch(options.fetch);
   try {
     const outcome = await review(
       evalCase,
       recorder,
+      tools.fetch,
+      options.throttles ?? createVenueThrottles(),
       clock,
       prompt,
       options.autoApproveThreshold ?? defaultThreshold,
@@ -82,16 +109,22 @@ export async function recordCase(
     };
     return {
       recording,
+      toolRecording: { caseId: evalCase.id, calls: tools.calls() },
       result: resultOf(evalCase, withLatency(outcome, recorder.calls)),
     };
   } catch (error) {
-    return { recording: null, result: failed(evalCase, error) };
+    return {
+      recording: null,
+      toolRecording: null,
+      result: failed(evalCase, error),
+    };
   }
 }
 
 export async function replayCase(
   evalCase: EvalCase,
   recording: Recording | null,
+  toolRecording: ToolRecording | null,
   options: RunOptions = {},
 ): Promise<CaseResult> {
   const prompt = options.prompt ?? REVIEW_PROMPT;
@@ -105,6 +138,8 @@ export async function replayCase(
     const outcome = await review(
       evalCase,
       createReplayProvider(recording),
+      createReplayFetch(toolRecording),
+      REPLAY_THROTTLES,
       new Date(recording.clock),
       prompt,
       options.autoApproveThreshold ?? defaultThreshold,
@@ -115,10 +150,18 @@ export async function replayCase(
   }
 }
 
+/** Replay makes no request worth spacing out. */
+const REPLAY_THROTTLES: VenueThrottles = {
+  nominatim: noThrottle,
+  wikidata: noThrottle,
+};
+
 /** Replays every case against one provider/model's recordings. */
 export async function replaySet(
   cases: readonly EvalCase[],
   set: RecordingSet,
+  /** By case id; shared by every set. */
+  toolRecordings: ReadonlyMap<string, ToolRecording>,
   options: RunOptions = {},
 ): Promise<ReportSet> {
   const results: CaseResult[] = [];
@@ -128,6 +171,7 @@ export async function replaySet(
       await replayCase(
         evalCase,
         set.recordings.get(evalCase.id) ?? null,
+        toolRecordings.get(evalCase.id) ?? null,
         options,
       ),
     );
@@ -149,6 +193,8 @@ function distinct(values: readonly string[]): string[] {
 async function review(
   evalCase: EvalCase,
   provider: LlmProvider,
+  fetch: Fetch,
+  throttles: VenueThrottles,
   clock: Date,
   prompt: Prompt,
   autoApproveThreshold: number,
@@ -183,6 +229,7 @@ async function review(
       provider,
       limits: runLimits,
       autoApproveThreshold,
+      venueChecks: createVenueChecks({ fetch, throttles }),
       now: () => clock,
       fence: createUntrustedFence(nonceFor(evalCase.id)),
       prompt,
@@ -194,6 +241,9 @@ async function review(
       autonomy: run.autonomy.autonomy,
       confidence: run.recommendation.confidence,
       reasons: run.autonomy.reasons,
+      venue: run.recommendation.findings
+        .filter((finding) => isVenueCheck(finding.check))
+        .map((finding) => ({ check: finding.check, verdict: finding.verdict })),
       endedBy: run.endedBy,
       inputTokens: run.usage.inputTokens,
       outputTokens: run.usage.outputTokens,

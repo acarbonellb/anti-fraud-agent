@@ -2,19 +2,19 @@
   "caseId": "05",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "e08b0ce4ca2b3f2906a924bc078fad457a564e89becfcfb09ced4fb349088f03",
-      "latencyMs": 2476,
+      "requestHash": "5473e1c4d832a007a972d2dd62cdc0f36a75a79d686fea426df602888efa8d33",
+      "latencyMs": 2520,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "iQ7Kr7WnQdjUceIit52XIteQccyz6yeU",
+              "id": "4X246D3zaDU54gi10RHMxOlaMPTBSDR9",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2865,
+          "inputTokens": 3121,
           "outputTokens": 39
         }
       }
     },
     {
-      "requestHash": "64863232d9c7b24c37f3d86db1a10ac84e1c691e018be7578e7ec30c1c96dbed",
-      "latencyMs": 1601,
+      "requestHash": "2045b3ca156e826ecf7a77d68a606dd606999b3add1a0c6f4a66f77f2c6fdccd",
+      "latencyMs": 1547,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "5U7bWKONhseCWpaZwJXCwjnRLjuz35YJ",
+              "id": "hdn2WoVv3a1hYjDlJ3LRd8z8OZW8bEWq",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3229,
+          "inputTokens": 3485,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "748640f4cef9581669836a401329efa23b9d87f9120cc8054867ab75eec20f70",
-      "latencyMs": 27508,
+      "requestHash": "791ed4927712e6193ede3ad3cc62eae04c095f981254fdaf27ca290db830ff92",
+      "latencyMs": 57766,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Datos clave:**\n- **Organizador:** \"Estrellas Cercanas Live\" (org_4f35bcdaf2)\n  - Estado: approved\n  - Creado: 2026-10-27 (hace 7 días)\n  - Fiscal: NIF presente y checksum válido\n  - Dirección: Murcia, 30001 (coincide con el evento)\n  - Historial: 1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas\n  - Equipo: 1 dueño, 1 manager, 2 scanners\n\n- **Evento:** \"Valeria Montecristo en concierto íntimo\"\n  - Fecha: 2026-11-23 (en el futuro, no inminente)\n  - Sala: Sala Pequeño Búho, Murcia\n  - Precio: 15€ (general), tarifa fija de 1€\n  - Descripción: \"La artista que llena estadios en toda Latinoamérica...\"\n\n**Puntos a considerar:**\n\n1. **Organizador nuevo pero verificado:**\n   - Cuenta de 7 días, pero fiscalidad correcta (NIF válido)\n   - Sin historial negativo (0 reportes, sin cambios sustanciales)\n   - Equipo con múltiples roles (scanner x2)\n\n2. **Evento coherente:**\n   - Todos los checks determinísticos pasaron\n   - Precio y tarifa de servicio razonables\n   - Fecha no inminente ni lejana\n   - Sin pagos fuera de plataforma, sin enlaces externos\n\n3. **Posible señal leve:**\n   - Descripción: \"La artista que llena estadios en toda Latinoamérica\" para un concierto íntimo en una sala pequeña podría ser marketing exagerado, pero no es fraude por sí mismo.\n   - No hay eventos similares detectados (no es clon).\n\n**Conclusión:**\nNo hay evidencia de fraude, ilegalidad o comportamiento sospeoso. El organizador es nuevo pero verificado fiscalmente, con historial limpio. El evento cumple todos los requisitos técnicos y de contenido. La descripción del artista puede ser marketing, no una señal de alerta.\n\nRecomiendo **aprobar** el evento.",
+          "content": "He revisado el evento `evt_46a35e8461` (\"Valeria Montecristo en concierto íntimo\") y su organizador `org_4f35bcdaf2` (\"Estrellas Cercanas Live\"). A continuación, presento mi análisis basado en los datos disponibles:\n\n### Resumen de hallazgos deterministas y de venue (autoritativos):\n- **Código postal**: 30009 corresponde a Murcia → pass.\n- **Pago fuera de plataforma**: No hay solicitud de pago externo → pass.\n- **Enlaces externos a ticketeras/acortadores**: Ninguno → pass.\n- **Términos abusivos**: Las condiciones permiten devolución en cancelación → pass.\n- **Alcohol a menores**: No se ofrece alcohol a menores → pass.\n- **Prompt injection**: No hay intentos de instruir al revisor → pass.\n- **Sanidad de precios**: Ninguna entrada VIP cuesta menos que la general → pass.\n- **Gastos de gestión**: Están por debajo del 20% del precio → pass.\n- **Sesiones no solapadas**: Las sesiones no se superponen → pass.\n- **Timing de sesiones**: Fechas no inminentes ni lejanas → pass.\n- **Precio vs benchmark**: El precio (15,00 €) está por debajo del p90 (35,00 €) para pop en Murcia con aforo <300 → pass.\n- **Existencia del venue**: \"Garaje Beat Club\" existe en OpenStreetMap como nightclub cerca de las coordenadas → pass.\n- **Aforo del venue**: Desconocido (ni Wikidata ni OSM publican el aforo); la sesión con más entradas pone a la venta 250 tickets → unknown.\n\n### Contexto del organizador:\n- **Nombre**: \"Estrellas Cercanas Live\".\n- **Estado**: approved.\n- **Creado**: 2026-10-28 (7 días antes del evento).\n- **Fiscal**: NIF presente y checksum válido; dirección en Murcia.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n- **Historial**: 1 evento publicado, 0 cancelados, 0 cambios sustanciales, 0 reportes de contenido, sin revisiones previas por agentes.\n- **Otros organizadores del dueño**: Ninguno.\n\n### Búsqueda de eventos similares:\nNo hay eventos similares publicados en Murcia con título parecido en los últimos 60 días → no hay señales de clonación.\n\n### Análisis adicional:\n1. **Aforo desconocido**: El venue \"Garaje Beat Club\" no tiene aforo público en Wikidata ni OSM. Sin embargo, la sesión con más entradas pone a la venta 250 tickets, lo cual es coherente con un local pequeño (aforo <300). No hay señal de que se vendan entradas por encima del aforo real, ya que no conocemos el aforo exacto. Esto no es una falla clara, pero merece atención si hubiera datos contradictorios.\n\n2. **Organizador nuevo**: El organizador fue creado hace 7 días y tiene solo 1 evento publicado. No hay historial de eventos cancelados ni reportes de contenido. El NIF es válido y la dirección está presente. Esto no es una señal de fraude, pero sí un perfil de bajo volumen que requiere prudencia.\n\n3. **Descripción del evento**: \"La artista que llena estadios en toda Latinoamérica, por primera vez en una sala pequeña.\" Esta frase podría ser exagerada (marketing), pero no es ilegal ni fraudulenta per se. No hay indicios de que la artista tenga fechas confirmadas en otros lugares (no he verificado disponibilidad del artista, pero no hay datos que sugieran conflicto).\n\n4. **Precio**: 15,00 € para una sala pequeña en Murcia con género pop está dentro del rango razonable según el benchmark (p90 = 35,00 €). No hay señal de precio abusivo.\n\n5. **Gastos de gestión**: 1,00 € fijos (aproximadamente 6,7% del precio) están por debajo del umbral del 20%. Pass.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o clonación. El único punto de incertidumbre es el aforo desconocido del venue, pero no hay datos que sugieran que se vendan entradas por encima del aforo real (la capacidad de venta es 250 tickets, lo cual es coherente con un local pequeño). El organizador es nuevo pero fiscalmente válido y sin historial negativo.\n\nDado que todos los checks deterministas pasan o son unknown sin señal negativa clara, y no hay hallazgos en el contexto del organizador ni en la búsqueda de eventos similares, mi recomendación es **aprobar** el evento con una confianza moderada (0.75), reflejando la incertidumbre sobre el aforo exacto del venue pero la ausencia de señales de fraude.\n\n### Recomendación:\n- **Decision**: approve\n- **Confidence**: 0.75\n- **Rationale**: No hay evidencia de fraude, ilegalidad o clonación. Todos los checks deterministas pasan o son unknown sin señal negativa clara. El organizador es nuevo pero fiscalmente válido y sin historial negativo. El precio está dentro del rango razonable según el benchmark.",
           "toolCalls": [
             {
-              "id": "aAYD5lArAStsAHbenClLThcbiYuCXaCT",
+              "id": "INxyY0rTyBtCFEYhsDvpdvVlzUQQvDMS",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento cumple todos los requisitos de la plataforma. El organizador \\\"Estrellas Cercanas Live\\\" es nuevo (7 días) pero fiscalmente verificado con NIF válido, sin historial negativo y con equipo adecuado. Todos los checks determinísticos pasaron: postal code correcto, sin pagos fuera de plataforma, sin enlaces externos, términos no abusivos, sin contenido para menores, sin inyección de prompts, precios sanos, tarifa de servicio dentro del límite, sesiones no solapadas ni mal temporizadas. No hay eventos similares detectados (no es clon). La descripción del artista (\\\"llena estadios en Latinoamérica\\\") es marketing, no fraude. Sin señales de alerta que requieran más investigación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador fiscalmente verificado con NIF válido, cuenta nueva pero sin irregularidades.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2\",\"title\":\"Estrellas Cercanas Live\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares detectados en la provincia de Murcia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_46a35e8461/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Capacidad de 250 entradas coherente con una sala pequeña.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/venues/ven_46a35e8461\",\"title\":\"Sala Pequeño Búho\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.75,\"rationale\":\"No hay evidencia de fraude, ilegalidad o clonación. Todos los checks deterministas pasan o son unknown sin señal negativa clara. El organizador es nuevo pero fiscalmente válido y sin historial negativo. El precio está dentro del rango razonable según el benchmark.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 30009 corresponde a Murcia.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/4648208796\",\"title\":\"OpenStreetMap: Garaje Beat Club (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género pop, Murcia, aforo lt300).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Garaje Beat Club» figura en OpenStreetMap como amenity=nightclub a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/4648208796\",\"title\":\"OpenStreetMap: Garaje Beat Club (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Garaje Beat Club»; la sesión con más entradas pone a la venta 250.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador fiscalmente válido (NIF presente y checksum correcto), dirección en Murcia, sin otros organizadores del dueño.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas por agentes.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares publicados en Murcia con título parecido en los últimos 60 días.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3363,
-          "outputTokens": 1049
+          "inputTokens": 3619,
+          "outputTokens": 2224
         }
       }
     }

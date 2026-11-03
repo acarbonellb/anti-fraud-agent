@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7 and #18.
 
 ## Context
@@ -97,3 +97,15 @@ be measured, provided the rule is written down and each finding names it.
 ADR 0015 settles the consequence above: an event's auto-approval now requires the venue checks
 (`verifyVenue` `pass`, and capacity `pass` or unknown within the exposure cap), a `webSearch`
 finding never counts towards one, and organizer reviews always escalate.
+
+## Amendment (2026-11-03, #24): a price heuristic against the benchmark
+
+Point 2 gains a heuristic: a ticket priced above 3× the p90 of Satella's price benchmark for the
+event's genre, province and capacity band (`price_benchmark`, a `warn`). The check asks Satella
+for the benchmark in code, before the model. A benchmark with too small a sample, or one Satella
+can't serve, gives `unknown`.
+
+Why now: case 13 (950 € in a 300-person room) was caught only by the model's doubt. In E002 the
+model approved it once the venue checks had verified the venue, and it resolved on its own (see
+`docs/experiments.md`). Point 3 already says what is computable belongs in code. The factor is
+provisional, like the other thresholds.

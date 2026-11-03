@@ -14,7 +14,11 @@ import type {
   ToolCall,
 } from "../providers/types.js";
 import type { Finding } from "../satella-client/schemas.js";
-import { type AutonomyVerdict, decideAutonomy } from "./policy.js";
+import {
+  type AutonomySubject,
+  type AutonomyVerdict,
+  decideAutonomy,
+} from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
 import { type AnyAgentTool, toToolDefinition } from "./tools.js";
@@ -65,11 +69,14 @@ export interface RunReviewInput {
   autoApproveThreshold: number;
   /** What to review, in trusted words: e.g. "event evt_123". */
   task: string;
+  /** What the policy weighs beyond the findings (ADR 0015). */
+  subject: AutonomySubject;
   /** The subject's review context: reaches the model fenced as untrusted. */
   context: unknown;
   /**
-   * Findings of the deterministic checks, computed before the run. The model
-   * sees them; they win over any model finding for the same check (ADR 0012).
+   * Findings of the deterministic and venue checks, computed before the run.
+   * The model sees them; they win over any model finding for the same check
+   * (ADR 0012, ADR 0015).
    */
   systemFindings?: readonly SystemFinding[];
   fence?: UntrustedFence;
@@ -92,7 +99,10 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
   const systemFindings = input.systemFindings ?? [];
   const systemChecks = new Set(
-    systemFindings.map((item) => item.finding.check),
+    systemFindings.flatMap((item) => [
+      item.finding.check,
+      ...(item.covers ?? []),
+    ]),
   );
 
   const messages: ChatMessage[] = [
@@ -102,7 +112,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       content: [
         `Review ${input.task}. Its review context follows.`,
         fence.wrap("review_context", input.context),
-        "The deterministic checks already ran on that context. Their findings follow; they are authoritative and already part of the recommendation, so don't repeat them.",
+        "The deterministic and venue checks already ran on that context. Their findings follow; they are authoritative and already part of the recommendation, so don't repeat them.",
         // Their details quote organizer text, so they travel fenced too.
         fence.wrap(
           "deterministic_checks",
@@ -110,6 +120,9 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
             check: finding.check,
             verdict: finding.verdict,
             detail: finding.detail,
+            ...(finding.sources.length === 0
+              ? {}
+              : { sources: finding.sources }),
           })),
         ),
       ].join("\n"),
@@ -144,6 +157,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       autonomy:
         endedBy === "submitted"
           ? decideAutonomy({
+              subject: input.subject,
               decision: recommendation.decision,
               confidence: recommendation.confidence,
               systemFindings,

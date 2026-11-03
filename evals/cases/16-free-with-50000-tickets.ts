@@ -11,7 +11,7 @@ const SEED = "free-with-50000-tickets";
 export const evalCase: EvalCase = {
   id: "16",
   slug: SEED,
-  title: "Free, with 50,000 tickets, in a warehouse of unknown capacity",
+  title: "Free, with 50,000 tickets, at a venue of unknown capacity",
   subject: "event",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
@@ -24,20 +24,20 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Rave gratuita en la Nave 7",
+      title: "Rave gratuita de doce horas",
       description:
-        "Doce horas de techno en una nave del polígono. Entrada gratuita con inscripción.",
+        "Doce horas de techno en la sala. Entrada gratuita con inscripción.",
       genre: "electronica",
       serviceFee: { type: "none", value: 0 },
       artists: [{ name: "Kolektiv Arena" }],
       venue: {
-        name: "Nave 7 del Polígono La Estación",
-        address: "Calle del Ferrocarril Viejo, nave 7",
+        name: "Sala Pícaro",
+        address: "Calle de las Cadenas 6",
         city: "Toledo",
         province: "Toledo",
-        postalCode: "45007",
-        latitude: 39.8628,
-        longitude: -4.0273,
+        postalCode: "45001",
+        latitude: 39.8596,
+        longitude: -4.0229,
       },
       sessions: [
         {

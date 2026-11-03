@@ -21,6 +21,8 @@ export const CHECKS = {
     "Same title, date and venue as another organizer's event. Hard signal.",
   price_sanity:
     "Prices against the benchmark and between ticket types (VIP below general…).",
+  price_benchmark:
+    "A price far above comparable events, by Satella's price benchmark.",
   service_fee: "Service fees out of proportion.",
   session_dates: "Overlapping sessions of the event.",
   session_timing: "A session imminent after publishing, or very far away.",

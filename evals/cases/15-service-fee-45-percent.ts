@@ -24,26 +24,26 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Cabaret de invierno en el Teatre de les Voltes",
+      title: "Cabaret de invierno",
       description:
         "Números de cabaret, música en directo y humor en una noche de invierno.",
       genre: "cabaret",
       serviceFee: { type: "percent", value: 45 },
       venue: {
-        name: "Teatre de les Voltes",
-        address: "Carrer de les Muralles Baixes 7",
+        name: "Sala La Planeta",
+        address: "Carrer de Jeroni Real de Fontclara s/n",
         city: "Girona",
         province: "Girona",
         postalCode: "17001",
-        latitude: 41.9853,
-        longitude: 2.8241,
+        latitude: 41.987,
+        longitude: 2.8233,
       },
       sessions: [
         {
           startsInHours: IN_THREE_WEEKS,
           durationHours: 2,
           ticketTypes: [
-            { name: "General", priceCents: 2000, capacity: 260, taken: 22 },
+            { name: "General", priceCents: 2000, capacity: 150, taken: 22 },
           ],
         },
       ],
