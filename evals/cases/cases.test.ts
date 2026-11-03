@@ -12,6 +12,10 @@ import { describe, expect, it } from "vitest";
 import { runEventChecks } from "../../src/checks/event-checks.js";
 import { runOrganizerChecks } from "../../src/checks/organizer-checks.js";
 import {
+  benchmarkQuery,
+  priceBenchmarkCheck,
+} from "../../src/checks/price-benchmark.js";
+import {
   eventReviewContextSchema,
   organizerReviewContextSchema,
   priceBenchmarkSchema,
@@ -99,6 +103,7 @@ describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(
 // findings let a request resolve on its own, the heuristic ones escalate.
 const EXPECTED_FLAGS: Record<string, string[]> = {
   "03": ["rule postal_code_province"],
+  "13": ["heuristic price_benchmark"],
   "10": ["rule off_platform_payment"],
   "11": ["heuristic external_ticketing_link"],
   "12": ["rule abusive_terms"],
@@ -119,10 +124,22 @@ it.each(EVAL_CASES.map((c) => [c.id, c] as const))(
   (id, evalCase) => {
     const clock = CLOCKS[0] ?? new Date();
     const fixtures = evalCase.build(clock);
+    const { event } = fixtures;
     const findings =
-      fixtures.event === undefined
+      event === undefined
         ? runOrganizerChecks(fixtures.organizer)
-        : runEventChecks(fixtures.event, clock);
+        : [
+            ...runEventChecks(event, clock),
+            // What the Satella mock answers for the query the agent sends.
+            priceBenchmarkCheck(
+              event,
+              fixtures.benchmarks?.find(
+                ({ query }) =>
+                  JSON.stringify(query) ===
+                  JSON.stringify(benchmarkQuery(event)),
+              )?.benchmark ?? null,
+            ),
+          ];
     const flagged = findings
       .filter(({ finding }) => finding.verdict !== "pass")
       .map(({ certainty, finding }) => `${certainty} ${finding.check}`);

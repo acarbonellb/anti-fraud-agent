@@ -5,6 +5,10 @@
  * the old recommendation (CLAUDE.md §4).
  */
 import { runEventChecks } from "../checks/event-checks.js";
+import {
+  benchmarkQuery,
+  priceBenchmarkCheck,
+} from "../checks/price-benchmark.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
@@ -119,10 +123,18 @@ async function prepareEvent(
   now: Date,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
+  const benchmark = await input.satella
+    .getPriceBenchmark(benchmarkQuery(context))
+    // Without a benchmark the check says so; the review goes on.
+    .catch((error: unknown) => {
+      if (error instanceof SatellaApiError) return null;
+      throw error;
+    });
   return {
     context,
     systemFindings: [
       ...runEventChecks(context, now),
+      priceBenchmarkCheck(context, benchmark),
       ...(await input.venueChecks(context)),
     ],
     autonomySubject: {
