@@ -49,12 +49,19 @@ it("holds the 31 cases of brief §5 in order, one file each", () => {
   expect(files).toEqual(EVAL_CASES.map((c) => `${c.id}-${c.slug}.ts`).sort());
 });
 
-// The venue checks settle 01, 02, 04 and N5; `webSearch` will settle the
-// rest but 09, the known gap (ADR 0015 point 10).
+// The venue checks settle 01, 02, 04 and N5, and `webSearch` 05, 06 and 20.
+// 09 is the known gap, and 08 waits for a text check in code (ADR 0015).
 it("tags the cases that need external tools not built yet (#7)", () => {
   expect(
     EVAL_CASES.filter((c) => c.requires?.includes("external")).map((c) => c.id),
-  ).toEqual(["05", "06", "08", "09", "20"]);
+  ).toEqual(["08", "09"]);
+});
+
+it("gives authored web pages to the cases whose entities are invented", () => {
+  const clock = CLOCKS[0] ?? new Date();
+  expect(
+    EVAL_CASES.filter((c) => c.build(clock).web !== undefined).map((c) => c.id),
+  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4"]);
 });
 
 describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(

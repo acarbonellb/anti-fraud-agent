@@ -2,19 +2,19 @@
   "caseId": "N3",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T19:58:00.000Z",
   "calls": [
     {
-      "requestHash": "b965c86f8843db236805c8a063363b24d8257b9cdd363867b7e326812a3dad30",
-      "latencyMs": 2760,
+      "requestHash": "26db712efa623aa6758752c738cd5952bc2b03d8174aeaa5b454bf05537cd66b",
+      "latencyMs": 1717,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "iG4mBdBJPJDjHdyiE1L3QmzedUyCZk1u",
+              "id": "tNvEmHJIw76ZRuJJHZquIVipwAZy9XUe",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_4a047afca5\"}"
             }
@@ -22,32 +22,253 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3136,
+          "inputTokens": 3357,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "3e28459ab8cdc161786a3a7c153f4e1e465b61a31162a3224d987cb0f65a7ccf",
-      "latencyMs": 27303,
+      "requestHash": "221e6c93829d7b6b6d49519688b490a842ae1d6fcb7c6bc267c0f15e2e89cc71",
+      "latencyMs": 1556,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el contexto del organizador y los resultados de las verificaciones deterministas. Aquí está mi análisis:\n\n**Organizador (Peña Gatuna):**\n- Creado en 2022, cuenta con 1530 días de antigüedad.\n- Estado \"approved\", fiscalidad verificada (CIF válido), dirección presente.\n- Equipo estable (1 dueño, 1 manager, 2 scanners).\n- Historial limpio: 9 eventos publicados, 8 finalizados, sin cancelaciones ni denuncias por contenido.\n- Sin revisiones previas de agentes ni cambios sustanciales.\n\n**Evento:**\n- Título y descripción coherentes con el género folk y la banda Os Vagalumes.\n- Términos aceptables (devolución en caso de cancelación).\n- Sin pagos fuera de plataforma, sin enlaces externos, sin términos abusivos.\n- Precio de entrada (800 céntimos = 8€) dentro del rango razonable para Lugo y folk (p90=15€).\n- Gastos de gestión (100 céntimos = 1€) por debajo del 20%.\n- Sesión única, sin solapamientos, ni fechas inminentes o lejanas.\n- Recinto \"Club Clavicembalo\" existe en OpenStreetMap como bar a 4 m de las coordenadas (dentro del umbral de 200 m).\n\n**Hallazgo clave:**\n- El aforo del recinto es desconocido (no aparece en Wikidata ni OpenStreetMap). La sesión con más entradas pone a la venta 80 localidades. Dado que el evento se anuncia como \"aforo reducido\" y el recinto es un bar, no hay indicios de que las entradas superen la capacidad real. Sin embargo, la ausencia de datos oficiales sobre el aforo genera una incertidumbre leve.\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o contenido problemático. El organizador tiene un historial sólido y transparente. La única duda es el aforo del recinto, pero no hay evidencia de que las entradas superen la capacidad real (de hecho, se anuncia \"aforo reducido\"). Por tanto, recomiendo aprobar el evento.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "bVciuT7fPYlkLLZxBM9y87bH7Vlb2PSS",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador Peña Gatuna tiene un historial limpio: creado en 2022, fiscalidad verificada, sin denuncias ni cancelaciones. El evento cumple con todos los requisitos de seguridad y transparencia: precio razonable (8€), gastos de gestión dentro del límite (1€), recinto verificado en OpenStreetMap, términos aceptables y sin pagos externos. La única duda es el aforo desconocido del Club Clavicembalo, pero no hay indicios de que las 80 entradas superen la capacidad real (el evento se anuncia como \\\"aforo reducido\\\"). No hay señales de fraude ni ilegalidad.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2022, CIF válido, dirección presente, equipo estable.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_4a047afca5\",\"title\":\"Peña Gatuna - Perfil organizador\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"9 eventos publicados, 8 finalizados, sin cancelaciones ni denuncias.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/org_4a047afca5\",\"title\":\"Historial de eventos\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del Club Clavicembalo; la sesión con más entradas pone a la venta 80.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/1536963618\",\"title\":\"OpenStreetMap: Club Clavicembalo\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 8€ está por debajo del p90 (15€) para folk en Lugo, aforo lt300.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/benchmarks/folk/lugo/lt300\",\"title\":\"Benchmarks de precios\"}]}]}"
+              "id": "JOZGsyywnDLMdzJKAvTFN19hpkzpi4Ln",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Os Vagalumes concierto 2026 Lugo Clavicembalo\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3546,
-          "outputTokens": 1044
+          "inputTokens": 3767,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "30999605203e29901bf14b5671ded9ad3921afc32c48a65f487ed9397b15305d",
+      "latencyMs": 1337,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "AedfdJkzxbXeHiyRMHITIXo2Bxw1N0aI",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Club Clavicembalo Lugo aforo capacidad\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3981,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "6783cdfdf78d3a0b8d0e2fec15547a4b6ddde59d6cde4dc198eec5fb75eb8736",
+      "latencyMs": 1387,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "yoM3Bi5JwXyQo4vj6sf2rVDb086Jq1ze",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Club Clavicembalo Lugo OpenStreetMap aforo\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4189,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "ca80311eac2463d1f4924051811ea0707ec51affa088e0931cf51eabb352a4eb",
+      "latencyMs": 1410,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "uc06AG6BgLXoUGUbXF9lHpjsUSsOS6Qp",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Club Clavicembalo Lugo aforo capacidad sitio web\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4399,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "155a06d5a0a0f8dcddeacf116609a4da474e7c8fdd96ac3a6d1037a45eecbcf0",
+      "latencyMs": 1379,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "FzYlS6EaL8u37bxS29t5JzIHEKkrTv8s",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Club Clavicembalo\\\" Lugo aforo\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4609,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "a3e0d27038243a0cc039a3d2e98cbb43a4dfb49f38310fb24742ab93cb3d5d2a",
+      "latencyMs": 1463,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "zRw8Gkdfzw9OlvpFM5cK3ma2YSHo9jNW",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Club Clavicembalo\\\" Lugo Wikidata aforo\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4818,
+          "outputTokens": 50
+        }
+      }
+    },
+    {
+      "requestHash": "008fe4e4bb8a0659129b88580870c025eebfda8568a2b0e142c5e2d3032ceef3",
+      "latencyMs": 1382,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "NLYgkruUufQWZ5zSf92cbKlGSAQAcDbb",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Os Vagalumes\\\" banda Lugo folk\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5029,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "e3d1986b5c741c565ac7798f05bd4c2e45a5ed2e5116602b51984df2c4088cce",
+      "latencyMs": 1575,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "iSAaWKYVXmVcSRnBwtsdyaImuRljV4pm",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Os Vagalumes\\\" concierto 24 noviembre 2026 Lugo\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5237,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "e5cbdf4ca3d129c1b9a97eab237efde2fcf50d12232e87890b72e393aed4eb93",
+      "latencyMs": 1430,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "OIlboeanyIterur9m1Sj4gOOLferXhs2",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Os Vagalumes\\\" tour 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5453,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "ed36571bf6a44e0c2a4737cec2c2a1e465f5fd409c0e2024767e2f48f1042bf7",
+      "latencyMs": 1360,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "5XHYKIzc6zD80p4BfO5I2FnKMfjPAZkG",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Os Vagalumes\\\" banda Galicia folk\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5663,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "a022c52f676a39ad99525da879e3447fb0c53da6d3fdef42926dad4ab5bc7c4a",
+      "latencyMs": 1339,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ETQ16kDji2RI6Sv1yZf3b5gq7uRybdto",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Os Vagalumes\\\" Wikipedia\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5870,
+          "outputTokens": 44
         }
       }
     }
-  ]
+  ],
+  "searches": []
 }

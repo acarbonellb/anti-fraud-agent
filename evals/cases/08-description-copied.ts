@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Description copied word for word from another ticketing site",
   subject: "event",
+  // Web search didn't settle it: the model never searched the text (E004).
   requires: ["external"],
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
@@ -48,6 +49,25 @@ export const evalCase: EvalCase = {
         },
       ],
     });
-    return eventFixtures(event, organizer);
+    const copied = event.event.description ?? "";
+    return {
+      ...eventFixtures(event, organizer),
+      // Authored: the original organizer and ticketing site are invented.
+      web: [
+        {
+          url: "https://entradas-ejemplo.test/eventos/bandas-sonoras-velas",
+          title:
+            "Bandas sonoras a la luz de las velas — Velas y Cuerdas Producciones | EntradasEjemplo",
+          snippet: copied,
+        },
+        {
+          url: "https://velasycuerdas.test/",
+          title:
+            "Velas y Cuerdas Producciones: conciertos a la luz de las velas",
+          snippet:
+            "Desde 2019 organizamos conciertos de bandas sonoras con cuarteto de cuerda y miles de velas. Venta exclusiva en EntradasEjemplo.",
+        },
+      ],
+    };
   },
 };

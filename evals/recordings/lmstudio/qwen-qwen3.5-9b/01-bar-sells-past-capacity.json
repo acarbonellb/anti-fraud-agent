@@ -2,19 +2,19 @@
   "caseId": "01",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "ac96814317d01e8111af90f847c5bc22d96fc209606baf18ffb06824b114febd",
-      "latencyMs": 3170,
+      "requestHash": "fc9b1184d5ff5eb830f59740afb24d9e4ee0d54da22f29c98b2a8582c17d2cab",
+      "latencyMs": 3534,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "0J8z9f91EWWD5aMiWTdQPXTRrsXtLHE1",
+              "id": "6Nm9dAe2KmJMEE4UCYfkPKs9x9VV0KTT",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_1c0d565186\"}"
             }
@@ -22,53 +22,321 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3189,
+          "inputTokens": 3405,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "7556165b5e54e556c7eed83cbeda64adea7b85dfa813574d223755f8b6ab2043",
-      "latencyMs": 1836,
+      "requestHash": "a57eb20fad8a15edbd197b1189a4fe4738b02b5594f19f926d3c7e28a4f71d2f",
+      "latencyMs": 1527,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "A7MpO3nixiF2WaHpL2dFz63kDbv3uvdW",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_9fb0d56ae2\",\"windowDays\":60}"
+              "id": "3l84cybrmvyiy8hYJnOb3GDdHpSrtn4T",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada aforo capacidad 140\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3579,
-          "outputTokens": 51
+          "inputTokens": 3795,
+          "outputTokens": 49
         }
       }
     },
     {
-      "requestHash": "d491b8ff47492051096a6301399548b15c157773d41ffb03ed14688108f5d8b0",
-      "latencyMs": 36561,
+      "requestHash": "d9b8ebc1a4bf513e252c7dc91653d429c9e6db21ab8c083544dc61667bd11cf6",
+      "latencyMs": 1596,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos (ya verificados):\n- **postal_code_province**: Pass - El código postal 18001 corresponde a Granada.\n- **off_platform_payment**: Pass - No se pide pagar fuera de la plataforma.\n- **external_ticketing_link**: Pass - No hay enlaces a otras ticketeras ni acortadores.\n- **abusive_terms**: Pass - Las condiciones no niegan la devolución en caso de cancelación.\n- **minors_alcohol**: Pass - No se ofrece alcohol a menores.\n- **prompt_injection**: Pass - No hay intentos de dar instrucciones al revisor.\n- **price_sanity**: Pass - Ninguna entrada VIP cuesta menos que una general.\n- **service_fee**: Pass - Los gastos de gestión no superan el 20% del precio.\n- **session_dates**: Pass - Las sesiones no se solapan.\n- **session_timing**: Pass - Las fechas de las sesiones no son inminentes ni lejanas.\n- **price_benchmark**: Pass - Ningún precio supera 3 veces el p90 (35,00 €) de eventos comparables.\n- **venue_exists**: Pass - El recinto \"Masquevinos\" existe en OpenStreetMap.\n- **capacity_far_above_venue**: Fail - Señal grave: se ponen a la venta 2.000 entradas para un local con aforo de 140 (umbral: 2 veces).\n\n### Contexto del organizador:\n- **Garbanzo Negro Eventos** es una promotora aprobada desde mayo de 2024, con datos fiscales válidos y cuenta activa (930 días).\n- Tiene 14 eventos publicados, 12 finalizados y sin cancelaciones ni reportes de contenido.\n- No hay antecedentes de despublicaciones por admin ni recomendaciones previas.\n\n### Eventos similares:\nNo se encontraron eventos similares en la provincia de Granada con títulos parecidos cerca de las fechas del evento.\n\n### Análisis:\nEl único hallazgo crítico es **capacity_far_above_venue** (fail), que indica que el evento pone a la venta 2.000 entradas para un local con aforo real de 140, lo cual es 14 veces superior al umbral de seguridad (2 veces). Esto es una señal grave de posible fraude o error masivo en la configuración del evento.\n\nNo obstante, el organizador tiene buena reputación (aprobado, sin reportes, fiscalidad válida), y no hay indicios de otras irregularidades (no pide pagos fuera de plataforma, no usa enlaces externos, etc.). Podría tratarse de un error de configuración (por ejemplo, copiar una plantilla con aforo incorrecto) o de una práctica fraudulenta.\n\nDado que el hallazgo es grave pero aislado, y el organizador parece legítimo, lo más prudente es solicitar información para aclarar si hubo un error técnico o intencional.\n\n### Recomendación:\n**request_info** con bajo-medio nivel de confianza (0.6), pidiendo al organizador que explique la discrepancia entre el aforo real del local y las entradas a la venta, y confirmar que no se trata de una práctica fraudulenta.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "jf8wAl03JtJf6gRuUEfYdd17pV4O3I6R",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento presenta un hallazgo grave: capacity_far_above_venue (fail), ya que se ponen a la venta 2.000 entradas para un local con aforo real de 140 (umbral de seguridad: 2 veces). Esto es una señal clara de posible fraude o error técnico. El organizador (Garbanzo Negro Eventos) tiene buena reputación (aprobado, sin reportes, fiscalidad válida), pero la discrepancia en el aforo requiere aclaración antes de aprobar. No hay otros hallazgos negativos ni indicios de fraude adicional. Se solicita información para determinar si hubo un error de configuración o una práctica fraudulenta.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-17, con datos fiscales válidos y cuenta activa (930 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Granada con títulos parecidos cerca de las fechas del evento.\",\"confidence\":0.85,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué el evento pone a la venta 2.000 entradas para un local con aforo real de 140? ¿Se trata de un error de configuración o de una práctica intencional?\",\"¿Podéis confirmar que no se trata de una práctica fraudulenta (por ejemplo, vender más entradas del aforo real)?\",\"¿Tenéis documentación que justifique el aforo declarado en la plataforma?\"],\"draft\":\"Solicitamos al organizador que aclare la discrepancia entre el aforo real del local (140) y las entradas a la venta (2.000), así como que confirme que no se trata de una práctica fraudulenta.\"}}"
+              "id": "v8mBOUJEU5zsGiopFan4RWuVTxZRhTzG",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada capacidad aforo 2000\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3717,
-          "outputTokens": 1386
+          "inputTokens": 4312,
+          "outputTokens": 50
         }
+      }
+    },
+    {
+      "requestHash": "29418a73584120a909e6e0da521146bcfc89324ceb746f840f170bbad52f7729",
+      "latencyMs": 1674,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "QYR3tjHW8x9y4SlWjQ1DjYruqkMNcibJ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada \\\"sentamos hasta\\\" capacidad\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4801,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "bfe6089a7771cfec176121de64c490a37aaee1922871456b5cb21442a9b274a1",
+      "latencyMs": 1609,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ZWPHZ5FsnnX0m6f7fvhF6xFoICbSrUZw",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada \\\"sentamos hasta 48\\\" aforo\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5378,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "a06c722800ae2b0850f59eb99b4521f5f051c51c53c3b275f0c25910e3701062",
+      "latencyMs": 1814,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "7F4qVWaNgEAJ9p6rJf0ENeJXBxQWbeNM",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada \\\"sentamos hasta 48\\\" sitio web oficial\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6096,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "3a8fe63a324001b9814b2fec6f3ad80772a0228fd525cbc58dc27aafa412134c",
+      "latencyMs": 1696,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "GnK4e4ngQ2khB4n8xwbBvdgOBW3F6npz",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Masquevinos Granada \\\"sentamos hasta 48\\\" aforo capacidad\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6680,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "7f7255b20435b8aed3867c846beb56b5e9520ee3156dc98821f719a21bf2d3cc",
+      "latencyMs": 22228,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el caso del evento \"Fiesta de fin de temporada\" (evt_9fb0d56ae2) organizado por Garbanzo Negro Eventos. Aquí está mi análisis:\n\n**Hallazgo crítico:** La verificación determinista ya detectó un fallo grave en `capacity_far_above_venue`: la sesión pone a la venta 2.000 entradas, mientras que OpenStreetMap indica un aforo de 140 para este local (umbral de 2 veces superado con 14,3 veces).\n\n**Investigación adicional:**\n- He buscado información sobre el local \"Masquevinos\" en Granada y he encontrado que existe un restaurante llamado \"Restaurante Mas que Vinos\" en Granada (zona peatonal del centro histórico, junto al Zacatín) con sitio web oficial https://restaurantemasquevinos.es/es.\n- En su sitio web oficial, el propio local indica: \"sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller\". Esto confirma que la capacidad real del local es de aproximadamente 48-50 personas, no 140 ni 2.000.\n- El evento propone vender entradas para 2.000 personas en un local que solo puede albergar ~48 personas.\n\n**Conclusión:** Esto constituye una señal de fraude muy clara (capacity_far_above_venue). No hay explicación inocente para poner a la venta 2.000 entradas en un local de 48-50 plazas. El organizador podría estar intentando:\n1. Vender entradas para un evento que nunca tendrá lugar\n2. Engañar a los compradores sobre la capacidad real del local\n3. Operar como una estafa\n\n**Decisión:** RECHAZAR (reject) con alta confianza, ya que hay evidencia clara de que el aforo anunciado es 40 veces superior a la capacidad real del local, lo cual es imposible y constituye una señal de fraude grave.",
+          "toolCalls": [
+            {
+              "id": "99Ak5897aFc2ik1GKC7wHCR2enG9BXsD",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"Señal de fraude grave: el evento pone a la venta 2.000 entradas para un local que solo puede albergar ~48 personas según su sitio web oficial (https://restaurantemasquevinos.es/es). La capacidad anunciada es 41 veces superior a la real, lo cual es imposible y constituye una señal de fraude clara. No hay explicación inocente para esta discrepancia tan extrema.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La sesión pone a la venta 2.000 entradas, pero el local 'Masquevinos' en Granada solo puede albergar ~48 personas según su sitio web oficial (https://restaurantemasquevinos.es/es). La capacidad anunciada es 41 veces superior a la real.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://restaurantemasquevinos.es/es\",\"title\":\"Restaurante Mas que Vinos — Vinos y brasa en Granada\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"El local 'Masquevinos' tiene una capacidad real de ~48 personas según su sitio web oficial, pero el evento anuncia 2.000 plazas (41 veces superior).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://restaurantemasquevinos.es/es\",\"title\":\"Restaurante Mas que Vinos — Vinos y brasa en Granada\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7165,
+          "outputTokens": 823
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "349dab43470e5473506fbe6e6686097ead5dd5b0727ad26774a95af5d34e151b",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada aforo capacidad 140",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Mas"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          },
+          {
+            "url": "https://www.facebook.com/masquevinos.serafin/posts/masquevinosmasqueamigostabernamasquevinosmasquevinoszacatintapasgranadarestauran/1636626888467798",
+            "title": "Masquevinos Zacatin's post",
+            "snippet": "What are some restaurant recommendations in Seville, Granada, and Cordoba, and what to do on a Sunday in Granada?Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "0f2b670fe764f5a856048d856293fe6a9758575dda2fed2b933625e13e2d9e4f",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada capacidad aforo 2000",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Mas"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          },
+          {
+            "url": "https://www.yelp.com/biz/masquevinos-granada",
+            "title": "Masquevinos - Updated November 2026",
+            "snippet": "Very impressed with this place. Great service, ambience, ok prices. They were one of the few places I've found in Spain willing to work with vegetarians and ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f5742e659bf738170916591fa8cf4274c94da670556a554afe09cb27984bce25",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada \"sentamos hasta\" capacidad",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Has"
+          },
+          {
+            "url": "https://pidemesa.es/restaurantes/granada/granada/taberna-masquevinos",
+            "title": "Restaurante Taberna Masquevinos en Granada",
+            "snippet": "tiene un servicio y atención difícil de superar, me atendió un chico calvo que es lo siguiente a amable, explicaciones me dio un montón (yo pregunto mucho por donde voy), pedimos lo que se ve en la factura y quedamos súper satisfechos. El dueño nos dio explicaciones sobre el vino tinto de la foto que os aconsejo que pidáis, muy bueno, no os arrepentiréis si es que os gusta el vino. Nada que objetar, hasta los precios los vi correctos estando en la misma Catedral y Capilla Real. Totalmente [...] "
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "5abf06832de71fe8b19eddc4b293441ecbf9b3b3f6aef6df0f7b0e39177ab3ab",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada \"sentamos hasta 48\" aforo",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          },
+          {
+            "url": "https://www.bodegasmasquevinos.com/en",
+            "title": "Home - Más Que Vinos",
+            "snippet": "Nuestro horario de atención hasta Agosto es: De 7:00 a 15:00.\n\n¿Podemos ayudarle?\n\nAbrir chat\n\nPowered by Joinchat\n\n EN\n DE\n ES [...] Play Video\n\n## Our partners\n\n[](\n\n[](\n\n[](\n\nBodegas Más Que Vinos\n\nCamino de los Molinos s/n\n\n45312 Cabañas de Yepes - Toledo\n\nmqv@bodegasmasquevinos.com\n\nTlf: +34 925 122 281\n\nBodegas Más Que Vinos\n\nMonday to Thursday: 8:00am-14:00pm & 15:00pm-17:30pm. Friday: 8:00am-14:00pm\n\nWe open our winery to the public with personalised tours\\.\n\nWine Shop\n\nLegal Notice\n\nCon"
+          },
+          {
+            "url": "https://winewitandwisdomswe.com/2021/07/06/way-to-go-granada-now-a-do",
+            "title": "Way to Go, Granada (Now a DO)! – Wine, Wit, and Wisdom",
+            "snippet": "Andalusia autonomous communityRed (Tinto) and Rosé (Rosado): Tempranillo, Garnacha Tinta, Cabernet Sauvignon, Cabernet Franc, Merlot, Syrah, Pinot Noir, Monastrell, Romé, and Petit Verdot.\n\nWhite (Blanco): Vijiriego (Vijariego), Sauvignon Blanc, Chardonnay, Moscatel de Alejandría (Muscat of Alexandria), Moscatel de Grano Menudo (Muscat Blanc à Petits Grains), Pedro Ximenez, Palomino, Baladí Verdejo (Cayetana Blanca), and Torrontés. [...] For the number-crunchers among us, this means that (as of "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f4aefb40563b66c21f201e00d0ad8763c6dfb94d5630e7b1aaedede4d2420c0c",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada \"sentamos hasta 48\" sitio web oficial",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Has"
+          },
+          {
+            "url": "https://pidemesa.es/restaurantes/granada/granada/taberna-masquevinos",
+            "title": "Restaurante Taberna Masquevinos en Granada",
+            "snippet": "El que me siga creerá que como gratis en todos los sitios, nada de nada, pago como todos, ojalá por poner una buena reseña te invitaran. Las reseñas tienen que ser verdaderas y ponerlas con el cerebro y corazón. Granada tiene infinidad de lugares para tapear, comer, cenar, desayunar, lo que te apetezca, tienes que dejarte llevar y que tu instinto te guíe según el hambre que tengas, lo que te guste y el dinero del que dispongas, a partir de ahí cualquier cosa. Este local tiene un servicio y [...]"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c131c0e638edf0b7b615521d6ec87accff13967b16c08cb7ff049c22d67f9ce1",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada \"sentamos hasta 48\" aforo capacidad",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Has"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DRetMBFCo-i",
+            "title": "Si estás buscando un restaurante en el que celebrar con tu grupo ...",
+            "snippet": "¡Hola, Granada! El fin de semana ya está aquí✨ ¿Dónde tomar un buen vino con una tapa deliciosa?     En la plataforma Restaurantes"
+          }
+        ]
       }
     }
   ]

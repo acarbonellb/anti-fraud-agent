@@ -2,19 +2,19 @@
   "caseId": "05",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "5473e1c4d832a007a972d2dd62cdc0f36a75a79d686fea426df602888efa8d33",
-      "latencyMs": 2520,
+      "requestHash": "38a57c9f69185166a897e7c7d3f905421e4f552614b9b7f40713133fb2d7e3b5",
+      "latencyMs": 2989,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "4X246D3zaDU54gi10RHMxOlaMPTBSDR9",
+              "id": "DSb0fSp3ihxvhgDOKQzGokRhTCSMHl4e",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3121,
+          "inputTokens": 3342,
           "outputTokens": 39
         }
       }
     },
     {
-      "requestHash": "2045b3ca156e826ecf7a77d68a606dd606999b3add1a0c6f4a66f77f2c6fdccd",
-      "latencyMs": 1547,
+      "requestHash": "7a2b39acbb05b18ba12efda92fca77c8f9e007a9b9144a21e334105083b83dfa",
+      "latencyMs": 1518,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "hdn2WoVv3a1hYjDlJ3LRd8z8OZW8bEWq",
+              "id": "0lONi3QsVm0Dc9OlhgvCrpPBVtKpwEkv",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
             }
@@ -44,32 +44,253 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3485,
+          "inputTokens": 3706,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "791ed4927712e6193ede3ad3cc62eae04c095f981254fdaf27ca290db830ff92",
-      "latencyMs": 57766,
+      "requestHash": "67c90649fa24f3966a4995d61176dfeae31e7a1faf15e6abfe6d0e5ecc72c544",
+      "latencyMs": 1475,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_46a35e8461` (\"Valeria Montecristo en concierto íntimo\") y su organizador `org_4f35bcdaf2` (\"Estrellas Cercanas Live\"). A continuación, presento mi análisis basado en los datos disponibles:\n\n### Resumen de hallazgos deterministas y de venue (autoritativos):\n- **Código postal**: 30009 corresponde a Murcia → pass.\n- **Pago fuera de plataforma**: No hay solicitud de pago externo → pass.\n- **Enlaces externos a ticketeras/acortadores**: Ninguno → pass.\n- **Términos abusivos**: Las condiciones permiten devolución en cancelación → pass.\n- **Alcohol a menores**: No se ofrece alcohol a menores → pass.\n- **Prompt injection**: No hay intentos de instruir al revisor → pass.\n- **Sanidad de precios**: Ninguna entrada VIP cuesta menos que la general → pass.\n- **Gastos de gestión**: Están por debajo del 20% del precio → pass.\n- **Sesiones no solapadas**: Las sesiones no se superponen → pass.\n- **Timing de sesiones**: Fechas no inminentes ni lejanas → pass.\n- **Precio vs benchmark**: El precio (15,00 €) está por debajo del p90 (35,00 €) para pop en Murcia con aforo <300 → pass.\n- **Existencia del venue**: \"Garaje Beat Club\" existe en OpenStreetMap como nightclub cerca de las coordenadas → pass.\n- **Aforo del venue**: Desconocido (ni Wikidata ni OSM publican el aforo); la sesión con más entradas pone a la venta 250 tickets → unknown.\n\n### Contexto del organizador:\n- **Nombre**: \"Estrellas Cercanas Live\".\n- **Estado**: approved.\n- **Creado**: 2026-10-28 (7 días antes del evento).\n- **Fiscal**: NIF presente y checksum válido; dirección en Murcia.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n- **Historial**: 1 evento publicado, 0 cancelados, 0 cambios sustanciales, 0 reportes de contenido, sin revisiones previas por agentes.\n- **Otros organizadores del dueño**: Ninguno.\n\n### Búsqueda de eventos similares:\nNo hay eventos similares publicados en Murcia con título parecido en los últimos 60 días → no hay señales de clonación.\n\n### Análisis adicional:\n1. **Aforo desconocido**: El venue \"Garaje Beat Club\" no tiene aforo público en Wikidata ni OSM. Sin embargo, la sesión con más entradas pone a la venta 250 tickets, lo cual es coherente con un local pequeño (aforo <300). No hay señal de que se vendan entradas por encima del aforo real, ya que no conocemos el aforo exacto. Esto no es una falla clara, pero merece atención si hubiera datos contradictorios.\n\n2. **Organizador nuevo**: El organizador fue creado hace 7 días y tiene solo 1 evento publicado. No hay historial de eventos cancelados ni reportes de contenido. El NIF es válido y la dirección está presente. Esto no es una señal de fraude, pero sí un perfil de bajo volumen que requiere prudencia.\n\n3. **Descripción del evento**: \"La artista que llena estadios en toda Latinoamérica, por primera vez en una sala pequeña.\" Esta frase podría ser exagerada (marketing), pero no es ilegal ni fraudulenta per se. No hay indicios de que la artista tenga fechas confirmadas en otros lugares (no he verificado disponibilidad del artista, pero no hay datos que sugieran conflicto).\n\n4. **Precio**: 15,00 € para una sala pequeña en Murcia con género pop está dentro del rango razonable según el benchmark (p90 = 35,00 €). No hay señal de precio abusivo.\n\n5. **Gastos de gestión**: 1,00 € fijos (aproximadamente 6,7% del precio) están por debajo del umbral del 20%. Pass.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o clonación. El único punto de incertidumbre es el aforo desconocido del venue, pero no hay datos que sugieran que se vendan entradas por encima del aforo real (la capacidad de venta es 250 tickets, lo cual es coherente con un local pequeño). El organizador es nuevo pero fiscalmente válido y sin historial negativo.\n\nDado que todos los checks deterministas pasan o son unknown sin señal negativa clara, y no hay hallazgos en el contexto del organizador ni en la búsqueda de eventos similares, mi recomendación es **aprobar** el evento con una confianza moderada (0.75), reflejando la incertidumbre sobre el aforo exacto del venue pero la ausencia de señales de fraude.\n\n### Recomendación:\n- **Decision**: approve\n- **Confidence**: 0.75\n- **Rationale**: No hay evidencia de fraude, ilegalidad o clonación. Todos los checks deterministas pasan o son unknown sin señal negativa clara. El organizador es nuevo pero fiscalmente válido y sin historial negativo. El precio está dentro del rango razonable según el benchmark.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "INxyY0rTyBtCFEYhsDvpdvVlzUQQvDMS",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.75,\"rationale\":\"No hay evidencia de fraude, ilegalidad o clonación. Todos los checks deterministas pasan o son unknown sin señal negativa clara. El organizador es nuevo pero fiscalmente válido y sin historial negativo. El precio está dentro del rango razonable según el benchmark.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 30009 corresponde a Murcia.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/4648208796\",\"title\":\"OpenStreetMap: Garaje Beat Club (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género pop, Murcia, aforo lt300).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Garaje Beat Club» figura en OpenStreetMap como amenity=nightclub a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/4648208796\",\"title\":\"OpenStreetMap: Garaje Beat Club (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Garaje Beat Club»; la sesión con más entradas pone a la venta 250.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador fiscalmente válido (NIF presente y checksum correcto), dirección en Murcia, sin otros organizadores del dueño.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas por agentes.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares publicados en Murcia con título parecido en los últimos 60 días.\",\"confidence\":0.95,\"sources\":[]}]}"
+              "id": "QjsI5YctWp19rYBTZnjp9TtLvet55jiT",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Valeria Montecristo concierto 2026 Murcia Garaje Beat Club\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3619,
-          "outputTokens": 2224
+          "inputTokens": 3840,
+          "outputTokens": 54
+        }
+      }
+    },
+    {
+      "requestHash": "fb246331f4080f090c05cf5d72903f6edb87b1db4b51b9487e31b73728213a22",
+      "latencyMs": 1552,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "xnZvMAWgxYK74pug3He4hCNgLIFH00ij",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" \\\"Garaje Beat Club\\\" Murcia\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4155,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "78352b05cd5c94b0080b94048ca6bf9da3d21430a24c451e8f5d7ce66f8f7f67",
+      "latencyMs": 1548,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "XpoAHP8UosO3aPBL6X8LoT2QgckJS8qI",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" artista real concierto 2026\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4468,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "7a8826b0f24b44757c98c7ffda40206db00e8ff5ef937a4347158bbf34845975",
+      "latencyMs": 1381,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "BsPiLQNvDDvyAo8vK2xZZhsEUhdovVha",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Garaje Beat Club\\\" Murcia aforo capacidad\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4782,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "04ec0494896cb98756d4ff5de9763ab34368e71bd96a6eacc89961e5d6ca9e8a",
+      "latencyMs": 1323,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "eMgyBCpFhSOLLk22LxSlcy9TMzi10rbS",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Garaje Beat Club\\\" Murcia OpenStreetMap\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4911,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "876bd8e4a583483b89ba2070b82892bf9f345a801855ad6e8c7f26ccb35dbe69",
+      "latencyMs": 1275,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "p40mi52ByuFkossMg0K3Cpug5yK0Beyg",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Garaje Beat Club\\\" Murcia Wikipedia\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5040,
+          "outputTokens": 45
+        }
+      }
+    },
+    {
+      "requestHash": "900682bb17070381fc54b5cd224667f82e500d8262cf8141c4809009440f01ab",
+      "latencyMs": 1307,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "wl6lPxUPtQJBatdPoSdYVBqzGKefe9cO",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Garaje Beat Club\\\" Murcia Facebook Instagram\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5167,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "86cd100142a0a246bd72ad823ffa7cfaa0abfa479a194d8fa6940f4e3d8d37c4",
+      "latencyMs": 1612,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "etmonLuqsZVPmiUWu9cAdLi45L8CRBw0",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" \\\"Gira Estadios\\\" 2026 fechas\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5295,
+          "outputTokens": 58
+        }
+      }
+    },
+    {
+      "requestHash": "132fa8fcad1ba5e4a8258e5d5386220a31930890769c63d1c34bc688e6f090c3",
+      "latencyMs": 1450,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ENXc6KVJhx2A8PNCSEriCjBha2Zo4BKn",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" artista falsa impostor\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5614,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "9ca3d535e449e41c604c0ecd22923c9c6e70355213c36f76ac3b184c6abbe7a1",
+      "latencyMs": 1695,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "fgvrz4RdHkrWe88WNl11NteiwC3tjhmP",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" \\\"concierto íntimo\\\" Murcia 2026\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5924,
+          "outputTokens": 59
+        }
+      }
+    },
+    {
+      "requestHash": "25de5e09205cc99da65f6f87bf64f49caa5352a59d21c36428da3fb767a2917a",
+      "latencyMs": 1537,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "2yyqkjq3XmbCDzUS3G1gh7dEsgud2R92",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Valeria Montecristo\\\" \\\"Estrellas Cercanas Live\\\"\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6244,
+          "outputTokens": 52
         }
       }
     }
-  ]
+  ],
+  "searches": []
 }

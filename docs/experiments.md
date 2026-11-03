@@ -128,3 +128,45 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     event), which `find_similar_events` already makes computable: case 07 shouldn't depend on
     the model either;
   - several runs per case before reading a single case's change as a regression.
+
+## E004 — `webSearch`: fewer approvals of fraud, a model that searches too much
+
+- **Hypothesis** (#25, ADR 0015):
+  - 05, 06, 08 and 20 join the gate, and all four escalate;
+  - the all-cases auto-approved fraud rate falls towards 3.8 % (09 only), if the model uses
+    search well;
+  - legitimate cases don't escalate more.
+- **Change** (#25):
+  - the model gets `web_search`, a provider-neutral tool with Tavily behind it;
+  - a model finding counts as sourced only by a URL a tool retrieved in the run;
+  - the capacity check gains its web step;
+  - cases with invented entities search authored pages, the four problem cases and N1–N4 (ADR
+    0015 amendment);
+  - prompt `review-v4`.
+- **Before → after** (E003 → E004): gated: 53.8 % → 65.5 % accuracy, **33.3 % → 8.3 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.335 → 0.319. All cases:
+  48.4 % → 61.3 % accuracy, 42.3 % → 15.4 % approved-fraud rate, 3.8 % → 3.9 % auto-approved
+  fraud rate. Mean input tokens per review: about 10,400 → 39,600.
+- **What went wrong or surprised:**
+  - **Search made the model much harder to fool.** It approves 2 of 24 gated fraud cases, down
+    from 7 of 21. 01 now resolves its `reject` on its own: the model searched the bar, and the
+    sourced capacity `fail` (14×) became a hard signal. 06 found the band's other date.
+  - **Case 08 is still not settled, so it keeps `external`.** The model searched the theatre's
+    capacity, never the description, and approved at 0.95. Even had it found the copy, a model
+    `text_originality` warning is "minor" and doesn't stop an approval. With 08 gated, CI failed,
+    so 08 stays outside the gate, a known gap like 09. That is why the all-cases rate didn't
+    fall.
+  - **The model searches too much.** 05, N2 and N3 hit the 10-search limit, looking for one exact
+    confirmation (band + venue + date) with the query reworded each time. The limit escalates
+    them safely. For N2 and N3, legitimate events, it is a false alarm the admin pays for.
+  - **My authored pages were incomplete at first.** I gave pages only to the problem cases. The
+    model searched N3's and N4's invented bands on the real web, found nothing and escalated
+    them. Giving N1–N4 their own pages, dated like a band's real agenda, fixed N1 and N4. I
+    stopped there: shaping pages until the model approves would tune the dataset to the model.
+  - **Cost:** each review reads about 4× the input tokens, and recording all cases spent 124
+    Tavily credits.
+- **Decision:** keep. Next:
+  - a text-originality check in code: search a literal sentence of the description, 1 credit
+    per event, so 08 escalates on evidence and can join the gate;
+  - stop the over-searching, with a lower cap or a prompt that says when to stop, measured
+    against N2 and N3.

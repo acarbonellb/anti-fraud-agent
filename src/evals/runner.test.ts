@@ -12,6 +12,7 @@ import {
   createScriptedProvider,
 } from "../providers/scripted-provider.js";
 import { fixtures } from "../satella-client/fixtures.js";
+import { createAuthoredSearch } from "../search/authored.js";
 import { fakeVenueFetch } from "../venue/fake-venue-fetch.js";
 import type { Recording } from "./recording.js";
 import { recordCase, replayCase } from "./runner.js";
@@ -25,6 +26,8 @@ const network = {
     longitude: -4.7245,
     capacity: 500,
   }),
+  // An empty web: no case here searches.
+  search: createAuthoredSearch([]),
 };
 
 const eventCase: EvalCase = {

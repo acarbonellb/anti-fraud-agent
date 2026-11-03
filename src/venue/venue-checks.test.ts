@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 
 import { fixtures } from "../satella-client/fixtures.js";
 import type { EventReviewContext } from "../satella-client/schemas.js";
+import type { WebSearch } from "../search/types.js";
 import { type Fetch, USER_AGENT } from "./http.js";
 import { createThrottle, noThrottle } from "./throttle.js";
 import { createVenueChecks } from "./venue-checks.js";
@@ -181,6 +182,53 @@ describe("venue checks", () => {
     expect(exists?.finding.detail).toContain(
       "Tampoco se pudo comprobar qué hay en las coordenadas",
     );
+  });
+});
+
+describe("the web search fallback for capacity", () => {
+  function counting(snippet: string): {
+    search: WebSearch;
+    queries: string[];
+  } {
+    const queries: string[] = [];
+    return {
+      queries,
+      search: {
+        provider: "fake",
+        search: ({ query }) => {
+          queries.push(query);
+          return Promise.resolve([
+            {
+              url: "https://salas-ejemplo.test/teatro",
+              title: "Teatro",
+              snippet,
+            },
+          ]);
+        },
+      },
+    };
+  }
+
+  it("searches only when neither Wikidata nor OSM publishes it", async () => {
+    const { search, queries } = counting("Sala Lumbre: aforo de 300 personas.");
+    const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
+    const [, capacity] = await createVenueChecks({ fetch, throttles, search })(
+      eventAt(LAT, LON),
+    );
+    expect(queries).toHaveLength(1);
+    expect(queries[0]).toContain("aforo");
+    expect(capacity?.finding.sources[0]?.url).toBe(
+      "https://salas-ejemplo.test/teatro",
+    );
+  });
+
+  it("doesn't search when OSM has the capacity", async () => {
+    const { search, queries } = counting("irrelevante");
+    const { fetch } = fakeFetch({
+      search: () => json(nominatimHit({ capacity: "898" })),
+    });
+    await createVenueChecks({ fetch, throttles, search })(eventAt(LAT, LON));
+    expect(queries).toEqual([]);
   });
 });
 

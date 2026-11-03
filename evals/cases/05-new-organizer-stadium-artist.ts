@@ -14,7 +14,6 @@ export const evalCase: EvalCase = {
   title:
     "New organizer, no website, a week-old Instagram, a «stadium» artist in a small room at 15 €",
   subject: "event",
-  requires: ["external"],
   expected: { decisions: ["reject"], autonomy: "escalated" },
   build(clock) {
     const organizer = buildOrganizer(clock, {
@@ -54,6 +53,29 @@ export const evalCase: EvalCase = {
         },
       ],
     });
-    return eventFixtures(event, organizer);
+    return {
+      ...eventFixtures(event, organizer),
+      // Authored: the artist and the organizer are invented (CLAUDE.md §5).
+      web: [
+        {
+          url: "https://valeriamontecristo.test/gira",
+          title: "Valeria Montecristo — Gira Estadios: todas las fechas",
+          snippet:
+            "Valeria Montecristo recorre los estadios de Latinoamérica y España con su Gira Estadios. Venta oficial solo a través de esta web. La gira no incluye salas pequeñas ni conciertos acústicos.",
+        },
+        {
+          url: "https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios",
+          title: "Valeria Montecristo agota 60.000 entradas en dos horas",
+          snippet:
+            "La cantante Valeria Montecristo agotó las entradas de su gira de estadios. Su productora recuerda que no hay fechas en salas y alerta de reventa y eventos falsos con su nombre.",
+        },
+        {
+          url: "https://redes-ejemplo.test/estrellascercanaslive",
+          title: "Estrellas Cercanas Live (@estrellascercanaslive)",
+          snippet:
+            "Perfil creado hace una semana. 3 publicaciones, 41 seguidores. «Traemos a las grandes estrellas a tu ciudad».",
+        },
+      ],
+    };
   },
 };

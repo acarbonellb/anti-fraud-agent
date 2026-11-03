@@ -54,6 +54,23 @@ export const evalCase: EvalCase = {
         },
       ],
     });
-    return eventFixtures(event, organizer);
+    return {
+      ...eventFixtures(event, organizer),
+      // Authored: the association and the performers are invented.
+      web: [
+        {
+          url: "https://vecinosconmusica.test/",
+          title: "Vecinos con Música — asociación vecinal de Albacete",
+          snippet:
+            "Asociación vecinal que organiza conciertos solidarios desde 2017. Este año, a favor del banco de alimentos del barrio, con Coro Las Acacias y Banda La Mancha Sur.",
+        },
+        {
+          url: "https://coro-lasacacias.test/",
+          title: "Coro Las Acacias",
+          snippet:
+            "Coro aficionado del barrio de Las Acacias, en Albacete. Ensayos semanales y conciertos benéficos.",
+        },
+      ],
+    };
   },
 };

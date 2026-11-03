@@ -132,6 +132,9 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const trace: TraceEntry[] = [];
   let toolCalls = 0;
   let webSearches = 0;
+  // What the tools retrieved in this run: the only URLs a model finding may
+  // cite as a source and have the policy count (ADR 0015 point 6).
+  const retrievedUrls = new Set<string>();
   let nudges = 0;
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
@@ -162,6 +165,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
               confidence: recommendation.confidence,
               systemFindings,
               modelFindings,
+              retrievedUrls,
               autoApproveThreshold: input.autoApproveThreshold,
             })
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
@@ -232,6 +236,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
 
       try {
         const output = await tool.execute(args.value);
+        for (const url of tool.sources?.(output) ?? []) retrievedUrls.add(url);
         trace.push({ tool: call.name, ok: true });
         messages.push(toolResult(call, fence.wrap(call.name, output)));
       } catch (error) {

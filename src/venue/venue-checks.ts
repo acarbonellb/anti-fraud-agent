@@ -12,12 +12,15 @@ import { createNominatim, NOMINATIM_MIN_INTERVAL_MS } from "./nominatim.js";
 import {
   maxTicketsOnSale,
   type Outcome,
+  publishedCapacity,
   scoreCapacity,
   scoreVenue,
   venueFinding,
   type VenueToVerify,
   verifiedMatch,
+  type WebCapacitySearch,
 } from "./scoring.js";
+import { type WebSearch, WebSearchError } from "../search/types.js";
 import { createThrottle, type Throttle } from "./throttle.js";
 import {
   createWikidata,
@@ -32,6 +35,11 @@ export type VenueChecks = (
 
 export interface VenueChecksOptions {
   fetch: Fetch;
+  /**
+   * The capacity's last resort (ADR 0015 point 4). Without one, a capacity
+   * neither Wikidata nor OSM publishes stays unknown.
+   */
+  search?: WebSearch;
   /** Shared across runs: the providers' rate limits are per client. */
   throttles: VenueThrottles;
 }
@@ -106,10 +114,19 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
         itemId !== undefined && isItemId(itemId)
           ? await settle(wikidata.capacity(itemId))
           : null;
+      const needsWeb =
+        match !== null &&
+        options.search !== undefined &&
+        publishedCapacity(match.place, fromWikidata) === null;
+      const web =
+        needsWeb && options.search !== undefined
+          ? await searchCapacity(options.search, venue)
+          : null;
       return scoreCapacity({
         venue,
         match,
         wikidata: fromWikidata,
+        web,
         maxTicketsOnSale: maxTicketsOnSale(context),
       });
     };
@@ -117,6 +134,27 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
     return Promise.all([verify(), estimate()]);
   };
 }
+
+/** A fixed query: the venue's name, its city and the word for capacity. */
+async function searchCapacity(
+  search: WebSearch,
+  venue: VenueToVerify,
+): Promise<WebCapacitySearch> {
+  try {
+    const results = await search.search({
+      query: `${venue.name} ${venue.city} aforo`,
+      maxResults: CAPACITY_SEARCH_RESULTS,
+    });
+    return { ok: true, results };
+  } catch (error) {
+    if (error instanceof WebSearchError) {
+      return { ok: false, failure: error.failure };
+    }
+    throw error;
+  }
+}
+
+const CAPACITY_SEARCH_RESULTS = 5;
 
 /** A provider error becomes data the scoring reads; anything else is a bug. */
 async function settle<T>(promise: Promise<T>): Promise<Outcome<T>> {

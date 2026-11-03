@@ -14,6 +14,8 @@ import {
 import type { CompletionResponse } from "../providers/types.js";
 import { type SystemFinding, systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";
+import { createAuthoredSearch } from "../search/authored.js";
+import { webSearchTool } from "../search/web-search-tool.js";
 import { defineTool } from "./tools.js";
 import { createUntrustedFence } from "./untrusted.js";
 
@@ -355,6 +357,59 @@ describe("tool errors the model can recover from", () => {
     expect(outcome.trace[0]?.error).toBe(code);
     const errorMessage = provider.requests[1]?.messages.at(-1)?.content ?? "";
     expect(errorMessage).not.toContain("10.0.0.1");
+  });
+});
+
+describe("sources from web search (ADR 0015)", () => {
+  const page = {
+    url: "https://entradas-ejemplo.test/evento/original",
+    title: "Evento original",
+    snippet: "El mismo evento, en otra ticketera.",
+  };
+  const search = webSearchTool(createAuthoredSearch([page]));
+  const rejection = (url: string) => ({
+    ...approval,
+    decision: "reject",
+    findings: [
+      {
+        check: "exact_duplicate_other_organizer",
+        verdict: "fail",
+        detail: "Es un clon.",
+        confidence: 0.9,
+        sources: [{ url, title: "Fuente" }],
+      },
+    ],
+  });
+
+  it("counts a source a search retrieved in this run", async () => {
+    const { provider, result } = run(
+      [
+        callTool("web_search", { query: "evento original ticketera" }),
+        callTool("submit_recommendation", rejection(page.url)),
+      ],
+      { tools: [search] },
+    );
+    const outcome = await result;
+    expect(outcome.webSearches).toBe(1);
+    expect(outcome.autonomy.autonomy).toBe("auto_resolved");
+    const toolMessage = provider.requests[1]?.messages.at(-1);
+    expect(toolMessage?.role === "tool" && toolMessage.content).toContain(
+      '<untrusted_data source="web_search" nonce="n0nce">',
+    );
+  });
+
+  it("doesn't count a source no tool retrieved", async () => {
+    const { result } = run(
+      [
+        callTool("web_search", { query: "evento original ticketera" }),
+        callTool(
+          "submit_recommendation",
+          rejection("https://entradas-ejemplo.test/inventada"),
+        ),
+      ],
+      { tools: [search] },
+    );
+    expect((await result).autonomy.autonomy).toBe("escalated");
   });
 });
 

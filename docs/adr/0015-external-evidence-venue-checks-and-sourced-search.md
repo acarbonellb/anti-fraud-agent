@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -180,3 +180,23 @@ organizer (case 22, a wrong tax-id checksum) now escalates too, as #24 asks ("An
 review never resolves on its own"). The case keeps the brief's expected `auto_resolved`, so the
 eval reports what the rule costs instead of hiding it. Whether a rule finding about an organizer
 should resolve a request on its own again is open: it is the one place the two ADRs disagree.
+
+## Amendment (2026-11-03, #25): what counts as a `webSearch` source, and where searches are recorded
+
+1. **A model finding is sourced only by a URL a tool retrieved in the same run.** Point 6 lets a
+   finding "backed by a `webSearch` source" resolve a `reject`. Since #5, the policy had counted
+   any URL the model wrote. The loop now collects the URLs that tools return (`web_search`
+   results), and the policy counts a model source only if it is one of them. A URL the model
+   wrote from memory or invented is a claim, like a model `pass` (ADR 0012).
+2. **Searches are recorded at the `WebSearch` boundary, inside each model's recording.** The
+   model chooses the queries, so the searches of one model's run don't apply to another's. The
+   record keeps only url, title and a snippet of up to 500 characters, never Tavily's raw
+   response. The venue providers' HTTP responses stay shared per case
+   (`evals/tool-responses/`).
+3. **Authored cases search authored pages in both modes.** Cases 05, 06, 08 and 20 carry hand-
+   written pages on `.test` domains, built from the case's clock. Any query, from the model or
+   the capacity fallback, is matched against them by its words, in code. Nothing about invented
+   entities is sent to Tavily, and the report marks those cases "authored web results".
+4. **The capacity fallback reads a number only from a page that names the venue**, and only next
+   to a unit («400 personas») or right after «aforo de» or «aforo:». The page is the finding's
+   source. It runs only when Wikidata and OSM publish nothing, and only for a verified venue.

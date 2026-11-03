@@ -2,19 +2,19 @@
   "caseId": "02",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "1e62043a4195017c6ba6fdbfd38c6aa7a64b46091f954fad42df20cd9381777f",
-      "latencyMs": 3027,
+      "requestHash": "e9032f8c3f5370987afc83d271e99e578d418d432cc18e351d8cacee78e5b05b",
+      "latencyMs": 3166,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "8NHh5C7UTSJZfLDQmYaeu2FUHLNkSQui",
+              "id": "7o5GUNyCcnrSHax6k54WL6cGwWI7eMp2",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c301c6a2f4\"}"
             }
@@ -22,53 +22,265 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3187,
+          "inputTokens": 3403,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "59faa14826b2b91a3ba85919267aa091c07c4d71a147bbbb30b614a51de45ae5",
-      "latencyMs": 1498,
+      "requestHash": "a59a217afec3c69cb3b287951ec72cb931488afc8f7b6262c32f235e813a3c96",
+      "latencyMs": 1468,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "t327Z1w9JLkZSFdSTE0nnrwgzBKk2ByG",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_c6ca54cd26\",\"windowDays\":60}"
+              "id": "XFaMeMqHTgRcyxtM4jZZmOl5GHGQxwRU",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock Madrid concierto 2026\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3580,
+          "inputTokens": 3796,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "1ff1889fb2f970070473fd9995a70da04e78f44f45795a2215ba577976bdc224",
-      "latencyMs": 49691,
+      "requestHash": "61155fa461133e2660ecb5e887915eaa95f91dcfe7a0eaf70267a760321d2ab8",
+      "latencyMs": 1649,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_c6ca54cd26` (\"Hiru Haize en directo\") y su contexto. A continuación presento mi análisis y recomendación:\n\n### Análisis de los hallazgos determinísticos y del venue:\n- **postal_code_province**: Pass (el código postal 28012 corresponde a Madrid).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **price_benchmark**: Pass (ningún precio supera 3 veces el p90 de eventos comparables).\n- **venue_exists**: Pass (el recinto \"Teatro Albéniz\" existe en OpenStreetMap cerca de las coordenadas del evento).\n- **venue_capacity**: Warn (el aforo a la venta es 1.2 veces el aforo oficial de OpenStreetMap, lo cual puede tener explicación como una terraza o aforo ampliado).\n\n### Contexto del organizador:\n- **Organizador**: \"Itsasargi Kontzertuak\" (nombre en euskera que significa \"Conciertos de Itsasargi\").\n- **Estado**: Aprobado.\n- **Creado**: 17 de mayo de 2024.\n- **Descripción**: Promotora de conciertos y espectáculos en Madrid.\n- **Datos fiscales**: Presentes y con checksum válido (CIF).\n- **Propietario**: Cuenta de 930 días, email verificado, sin otros organizadores.\n- **Equipo**: 1 propietario, 1 manager, 2 scanners.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones anteriores como agente.\n\n### Hallazgos adicionales:\n- No hay eventos similares en los últimos 60 días (no hay clones).\n- El nombre del organizador (\"Itsasargi Kontzertuak\") y el título del evento (\"Hiru Haize en directo\") están en euskera, lo cual es consistente con la descripción de la promotora. No hay señales de impersonación de un promoter conocido.\n\n### Evaluación del hallazgo \"venue_capacity\":\nEl aforo a la venta (1.100) es 1.2 veces el aforo oficial de OpenStreetMap (898). Esto puede tener explicaciones inocentes, como una terraza adicional o un aforo ampliado autorizado. No hay señal de fraude aquí.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas abusivas. El evento parece legítimo, con un organizador histórico y fiscalmente correcto. El hallazgo de \"venue_capacity\" es solo una advertencia, no un fallo.\n\n**Recomendación**: APROBAR.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "CiCzB6rwxEJRpWms7wQsn5L6zxS9bj2l",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Hiru Haize en directo\\\" es legítimo: organizador histórico y fiscalmente correcto, recinto verificado, precios y gastos de gestión razonables, sin señales de fraude o ilegalidad. El hallazgo de venue_capacity (aforo a la venta 1.2 veces el oficial) tiene explicación inocente (terraza o aforo ampliado). No hay clones ni eventos similares recientes.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 28012 corresponde a Madrid.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Madrid, aforo 1000to5000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Albéniz» figura en OpenStreetMap como amenity=theatre a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 1.100, 1,2 veces el aforo de 898 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Entre 1 y 2 veces puede tener explicación (una terraza, un aforo ampliado).\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador histórico (930 días), fiscalidad correcta (CIF con checksum válido), sin otros organizadores del propietario.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido, 0 revisiones anteriores como agente.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en los últimos 60 días (no hay clones).\",\"confidence\":1,\"sources\":[]}]}"
+              "id": "NSGDgmzpnIur4Ei02mwkfSlOMKJIlHDW",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock España\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3713,
-          "outputTokens": 1926
+          "inputTokens": 4427,
+          "outputTokens": 44
         }
+      }
+    },
+    {
+      "requestHash": "dd5e07a0d8420e7c7810d72dd56cf3906199b80788b744a31a36d9c44ce26b98",
+      "latencyMs": 1819,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "d7x6jUmtUO6DBBIUPSRssjQNrSUkXmeR",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Teatro Albéniz\\\" Madrid aforo capacidad\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4973,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "b6410fedc1a471aa741fefe97e7fb5d0441d4a2f77528b9f18b2a70fbe32f020",
+      "latencyMs": 1640,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "vRdbtferfKvzaoG8DOPRj5J5WawxU4k7",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock concierto 2026 Madrid\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5719,
+          "outputTokens": 50
+        }
+      }
+    },
+    {
+      "requestHash": "e1203840ac85b508043b076931868e6bea7cbab8f23ac562dbdc2d0192fdf14f",
+      "latencyMs": 40102,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Datos clave:**\n- Evento: \"Hiru Haize en directo\" - presentación de nuevo disco\n- Artista: Hiru Haize (banda rock)\n- Fecha: 24 de noviembre de 2026\n- Lugar: Teatro Albéniz, Madrid\n- Precio: 22€ (general), dentro del benchmark para rock en Madrid\n\n**Hallazgos:**\n\n1. **Organizador**: Itsasargi Kontzertuak está aprobado desde mayo 2024, con fiscalidad verificada, sin reportes de contenido y sin revisiones previas como agente. Tiene 14 eventos publicados (12 finalizados), sin cancelaciones ni despublicaciones por admin. Equipo sólido (1 dueño, 1 manager, 2 scanners).\n\n2. **Artista \"Hiru Haize\"**: No encuentro referencias a una banda llamada \"Hiru Haize\" en los resultados de búsqueda web. Los resultados muestran:\n   - BLACK HAZE (banda de hard rock desde 1986)\n   - HAIZE-ARROSA (grupo formado en 2022 en Berriz, Bizkaia)\n   - Hiru Beltz (banda de Algorta desde 1995)\n   - Ni Hil (quinteto vitoriano con sencillo \"Hiru gurdi\")\n   \n   No hay ninguna banda llamada exactamente \"Hiru Haize\". Esto es una señal de alerta.\n\n3. **Teatro Albéniz**: El aforo real es de 898 espectadores según OpenStreetMap y múltiples fuentes (UMusic Hotel, Cartelera Musicales, Wikipedia). El evento pone a la venta 1.100 entradas, lo que representa ~1,2 veces el aforo oficial. La heurística dice que entre 1-2 veces puede tener explicación (terraza, aforo ampliado), pero esto merece atención.\n\n4. **Descripción del evento**: \"Presentación del nuevo disco de Hiru Haize. El teatro abre también su terraza para la ocasión.\" La mención de la terraza podría explicar el aforo superior al oficial, pero no hay confirmación de que realmente haya una terraza operativa en esa fecha.\n\n5. **Coincidencia sospechosa**: El nombre \"Hiru Haize\" parece ser una combinación de nombres existentes (\"Hiru\" aparece en Hiru Beltz y Ni Hil con \"Hiru gurdi\", y \"Haize\" en Haize-arrosa). Esto podría indicar un intento de crear una banda ficticia o copiar nombres.\n\n**Conclusión**:\n- El organizador es legítimo y aprobado\n- El precio está dentro del benchmark\n- La mención de terraza podría explicar el aforo, pero no hay confirmación\n- **No existe ninguna banda llamada \"Hiru Haize\"** en la web, lo que es una señal de alerta importante\n- El nombre parece ser una combinación sospechosa de bandas reales\n\nDado que no puedo verificar la existencia de la banda \"Hiru Haize\" y el nombre parece ser una combinación sospechosa, necesito solicitar información para confirmar si:\n1. La banda existe realmente (¿es un proyecto nuevo? ¿un artista independiente?)\n2. Si efectivamente hay una terraza operativa en el Teatro Albéniz\n3. Confirmar la autenticidad del evento",
+          "toolCalls": [
+            {
+              "id": "wDQCXmV9FAqSPdMERqCLehO9QoIboZxs",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El organizador Itsasargi Kontzertuak es legítimo y aprobado, con fiscalidad verificada y sin historial negativo. Sin embargo, no existe ninguna banda llamada \\\"Hiru Haize\\\" en los resultados de búsqueda web (solo aparecen BLACK HAZE, HAIZE-ARROSA, Hiru Beltz, Ni Hil). El nombre parece ser una combinación sospechosa de nombres existentes. Además, el evento pone a la venta 1.100 entradas para un teatro con aforo oficial de 898; aunque menciona que \\\"el teatro abre también su terraza\\\", no hay confirmación de que esto sea real. Necesito verificar la autenticidad del artista y la existencia de la terraza antes de aprobar.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No existe ninguna banda llamada 'Hiru Haize' en los resultados de búsqueda web. Solo aparecen BLACK HAZE (hard rock desde 1986), HAIZE-ARROSA (grupo formado en 2022 en Berriz, Bizkaia), Hiru Beltz (banda de Algorta desde 1995) y Ni Hil (quinteto vitoriano). El nombre parece ser una combinación sospechosa.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.facebook.com/MiliciaMetalica/posts/black-hazebanda-de-hard-rock-formada-en-1986-por-miguel-bravo-y-jes%C3%BAs-remacha-qu/1287568536708896\",\"title\":\"BLACK HAZE - Banda de Hard Rock\"},{\"url\":\"https://baga-biga.eus/es/haize-arrosa-nuevo-grupo-y-primer-single-videoclip\",\"title\":\"HAIZE-ARROSA Nuevo grupo y primer single + videoclip\"},{\"url\":\"https://www.metaleuskadi.com/banda/hiru-beltz\",\"title\":\"Hiru Beltz\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El evento pone a la venta 1.100 entradas para un teatro con aforo oficial de 898 espectadores (según OpenStreetMap, UMusic Hotel, Cartelera Musicales y Wikipedia). La mención de 'terraza' podría explicar el exceso, pero no hay confirmación de que exista una terraza operativa en esa fecha.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz\"},{\"url\":\"https://www.umusic-hotels.com/es/umusic-hotel-madrid/teatro-albeniz\",\"title\":\"Teatro Albéniz en UMusic Hotel\"}]}],\"infoRequest\":{\"questions\":[\"¿Existe realmente una banda llamada 'Hiru Haize'? ¿Es un proyecto nuevo o independiente?\",\"¿El Teatro Albéniz tiene una terraza operativa para este evento? ¿Puede proporcionar documentación que lo confirme?\",\"¿Tienen algún enlace a la web oficial de la banda Hiru Haize o redes sociales donde puedan verificarse?\"],\"draft\":\"Necesitamos confirmar la autenticidad del artista y la existencia de la terraza antes de aprobar el evento.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6556,
+          "outputTokens": 1535
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "f828708f9894c2f8a77714e71866abe70785d6dcc02e962df4d75740e6ee0d26",
+      "provider": "Tavily",
+      "query": "Hiru Haize banda rock Madrid concierto 2026",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.bandsintown.com/e/1037954717-haze-at-plaza-de-toros-de-las-ventas?came_from=1680",
+            "title": "Haze @ Plaza de Toros de Las Ventas",
+            "snippet": "Haze is coming to Plaza de Toros de Las Ventas in Madrid on Nov 13, 2026. Find tickets and get exclusive concert information, all at Bandsintown. Hàze are an"
+          },
+          {
+            "url": "https://events.musicofourdesire.com/event/q4pv-hallas-live-madrid-spain",
+            "title": "Hällas in Madrid - Oct 2026 | Lineup - Mood",
+            "snippet": "Oct 17, 2026 — La banda sueca Hällas llega a Madrid con su Panorama Fall Tour 2026 para ofrecer un concierto en la Sala Nazca, acompañados por Komodor como ...Read more"
+          },
+          {
+            "url": "https://hotel.hardrock.com/madrid/calendar-of-events.aspx",
+            "title": "Calendar of Events – November 2026 in Madrid",
+            "snippet": "Calendar of events for November 2026 in Madrid. MARTÍ CONCERT November 6, Friday |7:00 PM - 9:00 PM. INE November 7, Saturday |8:00 PM - 10:00 PM. CONCERT"
+          },
+          {
+            "url": "https://www.resurrectionfest.es/en/route/tokio-hotel-tour-2026",
+            "title": "Route Resurrection 2026: Tokio Hotel",
+            "snippet": "Route Resurrection 2026: Tokio Hotel. Próximos conciertos: Madrid, Palacio Vistalegre - 23/11/2026. INFO. ¡Tokio Hotel will be back in Madrid in 2026! After ...Read more"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DZyD18HIeXx?hl=en",
+            "title": "❤️ Madrid, nos vemos el 26 de junio. Hay ciudades que ...",
+            "snippet": "❤️ Madrid, nos vemos el 26 de junio. · www.ticketandroll.com · MADRID. · Vicalvaro, Madrid. · CONCIERTO 7 DE NOVIEMBRE EN SALA UNI (MADRID)Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "9700774e261858b9be2fe68fc44a6f7b52a0a0d5945897fbc3811d79139a6ecd",
+      "provider": "Tavily",
+      "query": "Hiru Haize banda rock España",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/MiliciaMetalica/posts/black-hazebanda-de-hard-rock-formada-en-1986-por-miguel-bravo-y-jes%C3%BAs-remacha-qu/1287568536708896",
+            "title": "BLACK HAZE🔹 Banda de Hard Rock formada en 1986 por ...",
+            "snippet": "BLACK HAZE Banda de Hard Rock formada en 1986 por Miguel Bravo y Jesús Remacha que vivió una época emergente llegando a ser reconocidos"
+          },
+          {
+            "url": "https://baga-biga.eus/es/haize-arrosa-nuevo-grupo-y-primer-single-videoclip",
+            "title": "HAIZE-ARROSA Nuevo grupo y primer single + videoclip",
+            "snippet": "Haize-arrosa se formó en Berriz (Bizkaia) en 2022. Los colores musicales del grupo Haize-arrosa son tan variados como diversos,"
+          },
+          {
+            "url": "https://www.metaleuskadi.com/banda/hiru-beltz",
+            "title": "Hiru Beltz",
+            "snippet": "Hiru Beltz se formó el verano de 1995 cuando Urko, Sergio, Igor y Pino, todos miembros de la misma cuadrilla de amigos y todos de Algorta,"
+          },
+          {
+            "url": "https://www.instagram.com/p/DdtT0iJIFHi",
+            "title": "\"El quinteto vitoriano Ni Hil ha lanzado oficialmente \"Hiru ...",
+            "snippet": "El quinteto vitoriano Ni Hil ha lanzado oficialmente \"Hiru gurdi\", el primer sencillo y avance de su esperado álbum de debut,"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=AnehxKP-ckY",
+            "title": "Banda Haize Berriak de Sakana - 19 de septiembre",
+            "snippet": "Banda Haize Berriak de Sakana Director: David Sánchez Programa Theme from New York New York - John Kander, Arr. John Ford Francisco Alegre"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ed89199900672453d6c8fce6a52dd6076d82ad66327793c8a447f4590caad8af",
+      "provider": "Tavily",
+      "query": "\"Teatro Albéniz\" Madrid aforo capacidad",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.umusic-hotels.com/es/umusic-hotel-madrid/teatro-albeniz",
+            "title": "Descubre el Teatro Albéniz en Madrid | UMusic Hotel",
+            "snippet": "2 Niveles\n\nReconocido como edificio histórico de intrerés cultural por la Comunidad de Madrid, el Teatro Albéniz está situado dentro del nuevo UMusic Hotel Madrid, en el corazón de la escena musical y de ocio de la ciudad. Recientemente reformado, el espacio tiene capacidad para 898 espectadores, manteniendo sus elementos protegidos e históricos que le dan carácter y encanto.\n\nHorario Apertura Taquilla: [...] Google Maps iconVer MapaIcon view galleryVer Galería;)\n\n UMusic Hotels: benefit icon 1\n"
+          },
+          {
+            "url": "https://www.carteleramusicales.es/teatro/teatro-albeniz-umusic-hotel",
+            "title": "Teatro Albéniz Umusic Hotel, Madrid",
+            "snippet": "En Madrid, edificio de 1945 con capacidad para 898 espectadores. Reabrió en 2022 con el musical Company, dirigido y protagonizado por Antonio Banderas."
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Alb%C3%A9niz",
+            "title": "Teatro Albéniz - Wikipedia, la enciclopedia libre",
+            "snippet": "El Teatro Albéniz es uno de los teatros más céntricos de Madrid (España), ubicado en el n.º 11 de la calle de la Paz. Se inauguró, con un aforo de mil butacas, ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/MadridEsTeatro/posts/la-tercera-temporada-de-la-revuelta-pasa-al-teatro-alb%C3%A9niz-con-sus-900-butacas-y/1634616258663472",
+            "title": "La tercera temporada de LA REVUELTA pasa al Teatro ...",
+            "snippet": "Teatro Albéniz con sus 900 butacas ・ aforo de 1.122 butacas y 22 palcos ・ rá con un espacio de 260 metros cuadrados"
+          },
+          {
+            "url": "https://www.infobae.com/espana/2026/07/08/asi-es-el-teatro-albeniz-el-nuevo-escenario-en-el-que-se-grabara-la-revuelta-la-proxima-temporada-ocho-decadas-de-historia-y-900-butacas",
+            "title": "Así es el Teatro Albéniz, el nuevo escenario en el que se ...",
+            "snippet": "Jul 7, 2026 — Así es el Teatro Albéniz, el nuevo escenario en el que se grabará 'La Revuelta' la próxima temporada: ocho décadas de historia y 900 butacas · El ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "b0c6c5cdbf1b5bbb9e33a66496b87f228fdc77f65a068dbf314e4ce138ef2b72",
+      "provider": "Tavily",
+      "query": "Hiru Haize banda rock concierto 2026 Madrid",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.hellpress.com/agenda-conciertos",
+            "title": "Agenda de conciertos de Heavy Metal en España en 2026",
+            "snippet": "### Conciertos de UUHAI, ACYL y BLOSSOM CULT en Portugalete, Sevilla, Madrid y Barcelona\n\nLa banda mongola de Folk Metal-Rock Uuhai\n\nLa banda mongola de Folk Metal-Rock Uuhai (foto de Altankhuyag Erdenebat y edición de Peter Sallai)\n\n Domingo 28 de marzo de 2027 - Portugalete (sala Groove)\n Martes 30 de marzo de 2027 - Sevilla (La 2, Sala X)\n Jueves 1 de abril de 2027 - Madrid (sala Rockville)\n Viernes 2 de abril de 2027 - Barcelona (sala Razzmatazz 3)\n\n#### Entradas para la gira de UUHAI [...] "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DQkaLZejPgN",
+            "title": "El rock volvió a Madrid ⚡️   @thehives dándolo todo y el público ...",
+            "snippet": "April 2026 in Querétaro, Mexiko, wo die Band als Headliner bei der ... #WillHoge #Madrid #Americana #Rock #mutick #entradas #concierto."
+          },
+          {
+            "url": "https://www.madnesslive.es/es/12-entradas",
+            "title": "Madness Live! Venta de entradas conciertos Rock Metal en España",
+            "snippet": "Venta online cerrada   \n   Disponible en taquilla\n ¡Últimas entradas!\n\nConciertos en Madrid\n\n##### Michael Monroe + Jolly Joker (Madrid)\n\nJueves 29 de octubre 2026  \nRevi Live(C. los Cavilas, 4, Vicálvaro)  \nPuertas: 19:30\n\nComprar Entrada\n\n Comprar entradas para Archspire + Crown Magnetar + The Zenith Passa...\n\nConciertos en Madrid\n\n##### Archspire + Crown Magnetar + The Zenith Passage + Analepsy (Madrid) [...] Comprar Entrada\n\n Comprar entradas para Brujeria (Málaga)\n\nConciertos en Málaga\n\n###"
+          },
+          {
+            "url": "https://www.resurrectionfest.es/machine-head-ofreceran-4-conciertos-en-espana-en-2026",
+            "title": "Machine Head ofrecerán 4 conciertos en España en 2026",
+            "snippet": "La banda estadounidense liderada por el insaciable Robb Flynn estará de vuelta por España a finales de abril de 2026 con nada más y nada menos que 4 paradas"
+          },
+          {
+            "url": "https://www.instagram.com/p/DXbxfaAEUly",
+            "title": "¡HORARIOS DE LOS CONCIERTOS DE MACHINE HEAD EN ...",
+            "snippet": "🗓️ 25 de abril de 2026. Pamplona, Sala Tótem (ENTRADAS AGOTADAS) 🗓️ 27 de abril de 2026. Madrid, La Riviera 🗓️ 29 de abril de 2026. Málaga"
+          }
+        ]
       }
     }
   ]

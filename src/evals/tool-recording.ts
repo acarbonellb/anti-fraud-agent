@@ -17,7 +17,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 
 import type { Fetch } from "../venue/http.js";
-import { StaleRecordingError } from "./recording.js";
+import { StaleRecordingError } from "./stale.js";
 
 export const ATTRIBUTIONS: Readonly<Record<string, string>> = {
   "nominatim.openstreetmap.org":

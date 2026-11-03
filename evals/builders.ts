@@ -228,6 +228,19 @@ function madridParts(
 /** Starting at 20:00 or so a few weeks out: nothing imminent, nothing far. */
 export const IN_THREE_WEEKS = 21 * 24;
 
+/**
+ * A session's day as an authored web page writes it, in Europe/Madrid
+ * («14 de diciembre de 2026»), so a page can announce the same date.
+ */
+export function pageDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("es-ES", {
+    timeZone: "Europe/Madrid",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
 export interface OrganizerSpec {
   seed: string;
   name: string;

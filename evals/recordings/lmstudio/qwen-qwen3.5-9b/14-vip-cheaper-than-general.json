@@ -2,19 +2,19 @@
   "caseId": "14",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "2be1aa216a402193512d9bbd15dd247b291dc9326ca67b8c669d81a6c2928abf",
-      "latencyMs": 2552,
+      "requestHash": "97b6fc12dfe54414a60e947dcc13567d146cc7de5447aa8ebbb3c104202a9308",
+      "latencyMs": 2751,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "KBzCy60t3uxqCkbcrjmGFQWQ9p5XoZgY",
+              "id": "6o6sbmKcqeopAjUvmEcGFRPyyGP081bg",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f5d65ea921\"}"
             }
@@ -22,53 +22,523 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3183,
+          "inputTokens": 3437,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "daf36fded87685474aa33286d688260f780a6d55a38cb286cbca95ecd0d170d8",
-      "latencyMs": 1483,
+      "requestHash": "906288319f08dd19cdd15010fb3c1fb66a2f8e13e18d6a77e2bbfa6f9d6940bc",
+      "latencyMs": 1449,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "oGRn2kul29H53lzCxSnCC9bAWWPK0FqK",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_e15aa9110b\",\"windowDays\":60}"
+              "id": "oG0YSZru9iVFOkwBCDEOdYLTrXLcMshf",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda indie Burgos concierto 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3559,
-          "outputTokens": 51
+          "inputTokens": 3813,
+          "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "3574978aec06d90c83ad4ab0b025567a75a112a495ce8006384dd12bee725328",
-      "latencyMs": 28976,
+      "requestHash": "5f9503e1e499a8b23765e01f24e7033f031fad0a8a795c53db89439c06460953",
+      "latencyMs": 1651,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos (ya autorizados):\n- **Código postal**: Pasa (09003 corresponde a Burgos).\n- **Pago fuera de plataforma**: Pasa.\n- **Enlaces externos a ticketeras**: Pasa.\n- **Términos abusivos**: Pasa (se permite devolución en cancelación).\n- **Alcohol para menores**: Pasa.\n- **Inyección de prompts**: Pasa.\n- **Precio vs sanity**: **Falla** — La entrada VIP (18,00 €) cuesta menos que la General (25,00 €), lo cual es contradictorio y poco lógico.\n- **Gastos de gestión**: Pasa (no superan el 20%).\n- **Sesiones solapadas**: Pasa.\n- **Timing de sesiones**: Pasa.\n- **Precio vs benchmark**: Pasa (ningún precio supera 3 veces el p90).\n- **Existencia del recinto**: Pasa (Teatro Principal existe en OpenStreetMap).\n- **Aforo del recinto**: Desconocido (no hay datos públicos de aforo).\n\n### Contexto del organizador:\n- **Meseta Beat** es un organizador aprobado desde mayo de 2024, con fiscalidad correcta (CIF válido), dirección presente y cuenta antigua (930 días).\n- Tiene 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- No hay otros organizadores bajo la misma propiedad.\n- Sin revisiones prevías de agentes ni cambios sustanciales.\n\n### Eventos similares:\n- No se encontraron eventos similares en los últimos 60 días en la provincia de Burgos con títulos parecidos, lo que descarta clonación o duplicidad exacta.\n\n### Análisis del fallo de precio (VIP < General):\nEste es un hallazgo claro y grave: las entradas VIP suelen incluir beneficios adicionales (acceso a prueba de sonido, ubicación preferente, etc.). En este caso, la entrada VIP cuesta menos que la General, lo cual es contradictorio y sugiere una posible configuración errónea o intento de engañar al usuario. Aunque podría ser un error técnico, es un fallo significativo que requiere corrección antes de aprobar el evento.\n\n### Conclusión:\nDado que hay un fallo claro en la lógica de precios (VIP < General), y aunque no hay evidencia de fraude ni ilegalidad, este problema debe ser corregido antes de aprobar el evento. Por lo tanto, recomiendo **solicitar información** para aclarar si se trata de un error técnico o una configuración intencional inusual.\n\n---",
+          "content": null,
           "toolCalls": [
             {
-              "id": "TQQLjscEzSycwVdUg32GV2j6eQkZUfKT",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.85,\"rationale\":\"El evento presenta un fallo claro en la lógica de precios: la entrada VIP (18,00 €) cuesta menos que la General (25,00 €), lo cual es contradictorio y poco lógico. Aunque no hay evidencia de fraude ni ilegalidad, este problema debe ser aclarado antes de aprobar el evento. Se solicita información al organizador para confirmar si se trata de un error técnico o una configuración intencional inusual.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"Regla VIP↔General: «VIP» (18,00 €) cuesta menos que «General» (25,00 €).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_e15aa9110b.jpg\",\"title\":\"Cobertura del evento\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado con fiscalidad correcta y cuenta antigua.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://meseta-beat.example.com\",\"title\":\"Meseta Beat\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, sin cancelaciones ni denuncias.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://meseta-beat.example.com/events\",\"title\":\"Historial de eventos\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué la entrada VIP cuesta menos que la General? ¿Incluye algún beneficio adicional que justifique esta diferencia?\",\"¿Se trata de un error técnico en la configuración de precios o es una decisión intencional?\"],\"draft\":\"Solicito aclaración sobre la lógica de precios del evento, dado que la entrada VIP (18,00 €) cuesta menos que la General (25,00 €).\"}}"
+              "id": "NH3v9xdXR8LFEDcN9uF3eEH2EwRGs3TX",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda origen discografía\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3693,
-          "outputTokens": 1134
+          "inputTokens": 4413,
+          "outputTokens": 45
         }
+      }
+    },
+    {
+      "requestHash": "2d2709cbaa2eba9df6d5a587e26bf5ac7a096276c293e617d007e744b4b33466",
+      "latencyMs": 1766,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "oDIbVcRXVPFaol1M0ohdYR1vNGHqr6qi",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie Burgos concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4884,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "c2fd1410e0a7ee81a34d10fe9acbd5a418b0e9cef1ac35c990dc9c0fa9f98705",
+      "latencyMs": 1467,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "0OxrMCKf4WjKF1ALzuNasYXWsvi9LpqW",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie España\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5486,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "a6ba52630c864cae94d2eba48a81313b75c1df6b1de3624d24457fdd9fdd9175",
+      "latencyMs": 1480,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "gFB14QZvabvAcBAr0N9ESDlnH7rXX7h5",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5935,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "4f3adb655b0b5e3a99c65a4889d19f5254167e49f47a3f1829ca3ade76899d2f",
+      "latencyMs": 1685,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "SUJD66SCUebMzxKnelIXoaezmX6XazET",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie conciertos 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6727,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "7642b5acfbf2a4af0d851bbc1124e8887caeecb56c640728ed8eb46adf4a4b66",
+      "latencyMs": 1503,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "yaZEgZZ65yAzQjUeH5S1Baizi7O0UONM",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie España origen\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7310,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "0dd86acd4e8d15430b6503cc02f532c4b02ddcd59b8af68c325f35df32583000",
+      "latencyMs": 1762,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "uaDlxj4DEmX1Zfp1E5oUlG85RGfIBdn6",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie conciertos 2026 España\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7679,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "0867236d7ad91394bdd0ebe3eba1722ec3ad3e4e9f0d21806ac67ffeb00f16a9",
+      "latencyMs": 1674,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "oOiAMKzM6PSQAMTFt4oB4IFtBqeHVqcm",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie conciertos 2026 España cartel\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8220,
+          "outputTokens": 54
+        }
+      }
+    },
+    {
+      "requestHash": "afa65472d18b165bf048d0b364a96a51a0ebc33f5d10a65a35f104f7853b313a",
+      "latencyMs": 1892,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "lRwFkyK7Tw9w8Hl82a1DaqTVxEWmbvir",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie conciertos 2026 España cartel\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8912,
+          "outputTokens": 54
+        }
+      }
+    },
+    {
+      "requestHash": "cf9e7c704f8589272ddac829b6e31239aa2474a85a55ac1cc79c806861b69426",
+      "latencyMs": 1805,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "CLhiPTGkxh5Jzj0uRsozVttumJP6jC6V",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie conciertos 2026 España cartel\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9604,
+          "outputTokens": 54
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "20f5bfba513d24d3fe94eec2596eb6b92db3cb62ef05466ec35b94f37f16add9",
+      "provider": "Tavily",
+      "query": "Teatro Principal Burgos aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.taquilla.com/burgos/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos, Burgos | Programación y Venta de Entradas",
+            "snippet": "### ¿Cuál es el aforo del Teatro Principal de Burgos?\n\nEl teatro tiene capacidad para 846 butacas.\n\n### ¿Quién fue el arquitecto del Teatro Principal de Burgos?\n\nEl edificio fue diseñado en 1858 por el arquitecto Francisco de Angoitia.\n\n### ¿Cuándo se construyó el Teatro Principal de Burgos?\n\nEl teatro comenzó a construirse en 1843, pero las obras no acabaron hasta 1856.\n\n## Fotos de Teatro Principal de Burgos\n\nTeatro Principal de Burgos 1\n\nTeatro Principal de Burgos 2 [...] La taquilla del Teat"
+          },
+          {
+            "url": "https://www.mirem.net/web/datosrecinto.php?id=315&d=t&df=3",
+            "title": "Teatro Principal de Burgos",
+            "snippet": "-El responsable de programación es Ignacio Javier de Miguel Gallo. SALA Aforo : 846 - Fijos: 690 - Móviles: 156 - En platea: 154 - En palcos: 194 - En pisos: ...Read more"
+          },
+          {
+            "url": "https://tienda.santamarialareal.org/es/productos/detalles/teatro-principal-burgos/260",
+            "title": "Teatro Principal (Burgos)",
+            "snippet": "Teatro Principal (Burgos) siendo un teatro barroco con el auditórium … una capacidad de 878 espectadores."
+          },
+          {
+            "url": "https://www.redescena.net/escenario/129/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos",
+            "snippet": "Aforo: 771 · Ancho de boca: 897 · Fondo desde boca: 1040 · Anchura máxima: 1480 · Fondo desde boca: 2000 · Altura máxima (boca): 1400 · Hombro izquierdo: 450 · Hombro ...Read more"
+          },
+          {
+            "url": "https://cultura.jcyl.es/web/jcyl/Cultura/es/Plantilla100Directorio/1284282053297/1284236230164/1284236230164/DirectorioPadre",
+            "title": "Teatro Principal - Cultura - Junta de Castilla y León",
+            "snippet": "Aforo. Aforo: 431; Butacas: 142; Anfiteatro: 84; Palcos: 119; Otros: 86 ; Camerinos. Individuales: 2; Colectivos: 2; Capacidad: 28 ; Escenario. Cortes ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "189b16b41e0589cdd079b3ee44fbc05808658110c902bef2bad60145032b16c7",
+      "provider": "Tavily",
+      "query": "Las Ardillas Rojas banda indie Burgos concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://auroracajadeburgos.org",
+            "title": "Aurora Caja de Burgos Music Fest | 19 de diciembre - 2 de enero - Aurora Caja de Burgos Music Fest 2026",
+            "snippet": "MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n\n## EN BENEFICIO DE\n\n[](\n\n[](\n\n### ELACyL\n\n[](\n\n[](\n\n### Asociación Parkinson Burgos\n\n[](\n\n[](\n\n### Autismo Burgos\n\n[](\n\n[](\n\n### Asociación Española Contra el Cáncer\n\n## NOTICIAS\n\n[](\n\n### La M.O.D.A. se suma a Aurora Caja de Burgos Music Fest con dos conciertos los días 26 y 27 de diciembre\n\n Leer más »\n\n15 de September de 2026\n\n[]( [...] Skip to content\n\n[](\n\n## ENTRADAS A LA VENTA · ENTRADAS "
+          },
+          {
+            "url": "https://conciertosya.com",
+            "title": "ConciertosYa",
+            "snippet": "#### Como Comprar\n\nCómo comprar tus entradas\n\nElige el evento al que quieres asistir y pulsa el botón verde COMPRAR.\n\n1. Completa tus datos  \nSelecciona cuántas entradas quieres y rellena los datos del comprador. Si quieres, puedes personalizar las entradas con los datos de los asistentes; es opcional. Después, pulsa COMPRAR al final de la página. [...] 2. Revisa la compra y paga  \nComprueba que los datos sean correctos, confirma que lo son y acepta las condiciones de compra. Elige cómo pagar: t"
+          },
+          {
+            "url": "https://www.instagram.com/p/DWP9Yr0jNt7",
+            "title": "Foro Indie Rocks! on Instagram: \"Marquen su calendario",
+            "snippet": "Marquen su calendario: el sábado 21 de noviembre tenemos una cita con la distorsión y el sonido único de @9ranada en el Foro Indie Rocks!"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "536b0ef6ac5a43279b56265210958a84888951b7a004fce0dcde28aeb07a06d8",
+      "provider": "Tavily",
+      "query": "Las Ardillas Rojas banda origen discografía",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://open.spotify.com/intl-es/album/6xrPgXVNp8x1LoVhKLFkUe",
+            "title": "Escucha La Ardilla Roja (B. S. O.) - Álbum de Alberto Iglesias",
+            "snippet": "Escucha La Ardilla Roja (B. S. O.) en Spotify. Alberto Iglesias · Álbum · 1993 · 20 canciones ... Hable con ella (Banda Sonora Original). Álbum • 2002 · Amarga"
+          },
+          {
+            "url": "https://alvinylasardillas.fandom.com/es/wiki/Discografia",
+            "title": "Discografia | Alvin y las ardillas Wiki",
+            "snippet": "Álbumes · 1959 Todos Vamos a cantar con las Ardillas · 1960 Vamos a cantar de nuevo con las Ardillas · 1960 La vuelta al Mundo de las Ardillas · 1961 El Show de"
+          },
+          {
+            "url": "https://www.facebook.com/100064422353041/posts/las-ardillitas-de-lalo-guerrero-muchos-crecimos-con-la-m%C3%BAsica-de-lalo-guerrero-y/1295303742627025",
+            "title": "LAS ARDILLITAS DE LALO GUERRERO Muchos crecimos ...",
+            "snippet": "... origen de su creador, son la versión tropicalizada de Alvin y las ardillas, creación que hizo en 1958 el armenio Ross Bagdasarian. De esta"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "44d11a07922675ad533b071214cbcaf81eac9c8ae293a83659aad280a64cca1c",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie Burgos concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://auroracajadeburgos.org",
+            "title": "Aurora Caja de Burgos Music Fest | 19 de diciembre - 2 de enero - Aurora Caja de Burgos Music Fest 2026",
+            "snippet": "MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n MUSIC FEST 2026\n\n## EN BENEFICIO DE\n\n[](\n\n[](\n\n### ELACyL\n\n[](\n\n[](\n\n### Asociación Parkinson Burgos\n\n[](\n\n[](\n\n### Autismo Burgos\n\n[](\n\n[](\n\n### Asociación Española Contra el Cáncer\n\n## NOTICIAS\n\n[](\n\n### La M.O.D.A. se suma a Aurora Caja de Burgos Music Fest con dos conciertos los días 26 y 27 de diciembre\n\n Leer más »\n\n15 de September de 2026\n\n[]( [...] Skip to content\n\n[](\n\n## ENTRADAS A LA VENTA · ENTRADAS "
+          },
+          {
+            "url": "https://conciertosya.com",
+            "title": "ConciertosYa",
+            "snippet": "#### Como Comprar\n\nCómo comprar tus entradas\n\nElige el evento al que quieres asistir y pulsa el botón verde COMPRAR.\n\n1. Completa tus datos  \nSelecciona cuántas entradas quieres y rellena los datos del comprador. Si quieres, puedes personalizar las entradas con los datos de los asistentes; es opcional. Después, pulsa COMPRAR al final de la página. [...] 2. Revisa la compra y paga  \nComprueba que los datos sean correctos, confirma que lo son y acepta las condiciones de compra. Elige cómo pagar: t"
+          },
+          {
+            "url": "https://www.instagram.com/p/DWP9Yr0jNt7",
+            "title": "Foro Indie Rocks! on Instagram: \"Marquen su calendario",
+            "snippet": "Marquen su calendario: el sábado 21 de noviembre tenemos una cita con la distorsión y el sonido único de @9ranada en el Foro Indie Rocks!"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "d4dd42d0b5072cb0c1adac2253f14dfcf08da4a4a588a50dec5f3961028d0bd0",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie España",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/fundacionbiodiversidad/videos/ardilla-roja-sciurus-vulgaris/718178945598559",
+            "title": "Ardilla roja (Sciurus vulgaris)",
+            "snippet": "La ardilla roja (Sciurus vulgaris) es una de las ardillas más extendidas por los bosques de Europa y la única autóctona presente en España 🐿️"
+          },
+          {
+            "url": "https://www.facebook.com/fundacionbiodiversidad/posts/la-ardilla-roja-%EF%B8%8F-sciurus-vulgaris-es-la-%C3%BAnica-ardilla-aut%C3%B3ctona-de-espa%C3%B1avive-e/1321784219986721",
+            "title": "La ardilla roja 🐿️ (Sciurus vulgaris) es la única ...",
+            "snippet": "La ardilla roja 🐿️ (Sciurus vulgaris) es la única ardilla autóctona de España. Vive en bosques maduros y su presencia indica ecosistemas bien"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=q7l4PxDO6ws",
+            "title": "Banda Los Sebastianes De Saúl Plata - La Ardilla (En Vivo / ...",
+            "snippet": "Banda Los Sebastianes De Saúl Plata - La Ardilla (En Vivo / Audio). @SebastianesVEVO22 likes988 views10 months ago"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "299c030bd5ed2d2e94e758b15e6322b6262a2d715db3c695f583af76cc5d6a9f",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://los40.com/autor/ana_rojas_martin/a",
+            "title": "Consulta las últimas noticias de Ana Rojas en LOS40",
+            "snippet": "## Todas las claves del tour de Bad Gyal en 2026: una subida de apuesta que honra todas sus eras\n\nUna crónica donde repasamos setlist, invitados, fotos y los secretos mejores guardados de la gira\n\nAna Rojas\n\n22/03/2026\n\n![Conrad Taylor, el DJ que llevó Berghain de Rosalía al techno: “Es muy importante para mí crear un espacio seguro en la pista de baile donde todos sean aceptados”]( [...] ## Bad Bunny abre su gira europea en Barcelona: así hemos vivido el concierto en directo, invitados en La Ca"
+          },
+          {
+            "url": "https://www.ticketmaster.com/discover/concerts?page=20&classificationId=KnvZfZ7vAJ6",
+            "title": "2026 Latin Concert Tickets - Find Latin Music schedules & events near you on Ticketmaster",
+            "snippet": "Orleans ArenaLas Vegas, NV\n \n\n  Saturday, November 7, 2026 at 7:00 PMSatNov 077:00 PM\n\n  Menudo 50\n\n  United PalaceNew York, NY\n \n\n  Saturday, November 7, 2026 at 8:00 PMSatNov 078:00 PM\n\n  El Tri\n\n  Aztec TheatreSan Antonio, TX\n \n\n  Saturday, November 7, 2026 at 8:00 PMSatNov 078:00 PM\n\n  Jorge Luis Chacin\n\n  Martin Marietta Center for the Performing ArtsRaleigh, NC\n \n\n  Saturday, November 7, 2026 at 8:00 PMSatNov 078:00 PM\n\n  Buena Vista Orchestra [...] Desert Diamond ArenaGlendale, AZ\n \n\n  Fr"
+          },
+          {
+            "url": "https://elpasolive.com/events",
+            "title": "Upcoming Events - El Paso Live",
+            "snippet": "Mariachi Sol de Mexico Christmas\n\nDec 20, 2026\n\nMariachi Sol de Mexico Christmas\n\nShowtime 7:30 PM\n\nBuy Tickets More Info\n\nLindsey Stirling - The Snow Waltz Tour\n\nDec 22, 2026\n\nLindsey Stirling - The Snow Waltz Tour\n\nShowtime 8:00 PM\n\nBuy Tickets More Info\n\nNUTCRACKER! Magical Christmas Ballet\n\nDec 23, 2026 – Dec 24, 2026\n\nNUTCRACKER! Magical Christmas Ballet\n\nShowtimeMultiple\n\nBuy Tickets More Info\n\nThe Temptations\n\nDec 28, 2026\n\nThe Temptations\n\nShowtime 7:30 PM\n\nBuy Tickets More Info [...] De"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "07bf9207b76ba251a3fc3cbd8ba2785b57aad8fbce25f364a9364d90b309d71f",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie conciertos 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://ticketeras.com",
+            "title": "Ticketeras",
+            "snippet": "### REYNALDO ARMAS Y MAS\n\n  ### REYNALDO ARMAS Y MAS\n\n  Regular price  $79.00 USD\n\n  Regular price   Sale price  $79.00 USD\n\n  Unit price  /  per\n LOS RIELEROS SOLO EXITOS TOUR 2026\n\n  ### LOS RIELEROS SOLO EXITOS TOUR 2026\n\n  ### LOS RIELEROS SOLO EXITOS TOUR 2026\n\n  Regular price  $50.00 USD\n\n  Regular price   Sale price  $50.00 USD\n\n  Unit price  /  per\n DURANGOFEST 2026\n\n  ### DURANGOFEST 2026\n\n  ### DURANGOFEST 2026\n\n  Regular price  $60.00 USD\n\n  Regular price   Sale price  $60.00 USD [..."
+          },
+          {
+            "url": "https://conciertosya.com",
+            "title": "ConciertosYa",
+            "snippet": "Estamos a su disposición, no dude en contactar con nosotros. [...] #### Como Comprar\n\nCómo comprar tus entradas\n\nElige el evento al que quieres asistir y pulsa el botón verde COMPRAR.\n\n1. Completa tus datos  \nSelecciona cuántas entradas quieres y rellena los datos del comprador. Si quieres, puedes personalizar las entradas con los datos de los asistentes; es opcional. Después, pulsa COMPRAR al final de la página. [...] 2. Revisa la compra y paga  \nComprueba que los datos sean correctos, confirma"
+          },
+          {
+            "url": "https://www.instagram.com/p/DWP9Yr0jNt7",
+            "title": "Foro Indie Rocks! on Instagram: \"Marquen su calendario",
+            "snippet": "Marquen su calendario: el sábado 21 de noviembre tenemos una cita con la distorsión y el sonido único de @9ranada en el Foro Indie Rocks!"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "6684571fb42aee4d85efcf6f98a1cd658eaf9d8bc7e134affd6577edb0ee0bd7",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie España origen",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://es.wikipedia.org/wiki/Indie_en_Espa%C3%B1a",
+            "title": "Indie en España - Wikipedia, la enciclopedia libre",
+            "snippet": "La llamada música independiente tuvo su origen en el Reino Unido y los Estados Unidos a finales de los años 1970 y principios de los 1980 tras la irrupción del"
+          },
+          {
+            "url": "https://www.tiktok.com/@labibliamusical/video/7529263416733617430",
+            "title": "Historia del indie español: 5 etapas y bandas clave",
+            "snippet": "En el mundo anglosajón, indie suele referirse a bandas que trabajan fuera de las grandes discográficas. En España, el término se ha convertido"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DMcyeL_Nnz_?hl=en",
+            "title": "Así nace el indie en España. El uso actual del término ...",
+            "snippet": "Pero donde surge este movimiento? Os lo cuento! ☝ Esta información está recogida en el libro “Pequeño circo. Historia oral del indie en España"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "8fa65aadb10d6ec91cf99d22a61e8dfc2ec21ef75cf4d9aa12d6aa46a10d0396",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie conciertos 2026 España",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://malditosmusicos.com/festivales",
+            "title": "Festivales de música indie en España 2026 — Carteles y fechas | Malditos Músicos | Malditos Músicos",
+            "snippet": "Ir al contenido\n\nMalditos MúsicosMalditos MúsicosBackstagesolo artistasLa Escucha\n\nTemporada de festivales\n\n# Festivales de música indie en España 2026\n\nNo todos los festivales merecen el viaje. Aquí están los que sí. Carteles, fechas y acceso a entradas de los que cuentan en la escena indie, rock y pop.\n\n## No te los pierdas\n\nLos próximos festivales con cartel confirmado. Empieza por aquí.\n\n C\n\n  Fecha por confirmar\n\n  ### Cooltural Go\n\n  Ciclo de conciertos de indie y pop-rock en Almería. [..."
+          },
+          {
+            "url": "https://www.instagram.com/reel/DaIShrct51L",
+            "title": "\"Cinco chicos madrileños con un indierock rabioso y ...",
+            "snippet": "Cinco chicos madrileños con un indierock rabioso y contagiante que prometen no parar \"Hasta que el mundo estalle\". Todo eso y mucho más es lo ...Read more"
+          },
+          {
+            "url": "https://conciertosya.com",
+            "title": "ConciertosYa",
+            "snippet": "En Europa y en España existen normas de protección de datos pensadas para proteger su información personal de obligado cumplimiento para nuestra entidad. [...] #### Como Comprar\n\nCómo comprar tus entradas\n\nElige el evento al que quieres asistir y pulsa el botón verde COMPRAR.\n\n1. Completa tus datos  \nSelecciona cuántas entradas quieres y rellena los datos del comprador. Si quieres, puedes personalizar las entradas con los datos de los asistentes; es opcional. Después, pulsa COMPRAR al final de l"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f63fb5d851d5fc5f2ddee0571a427e2caa1f9b5a3291e65a9193c46488705c8a",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie conciertos 2026 España cartel",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.santandersmusic.com/magazine/festivales/festivales-espana",
+            "title": "Festivales de Música en España en 2026: Agenda Completa",
+            "snippet": "​El Festival Interestelar Sevilla 2026 se celebrará los días 15 y 16 de mayo en el Centro Andaluz de Arte Contemporáneo (CAAC). Este evento reunirá a destacados artistas de la escena indie y pop nacional. Además de los conciertos, el festival ofrecerá actividades culturales y gastronómicas, creando una experiencia completa para los asistentes. ​\n\n#### Cartel\n\n#### Fecha y lugar de celebración\n\n15 y 16 mayo de 2026 - CAAC, Sevilla [...] Arenal Sound 2026 regresa a la playa de Burriana para ofrece"
+          },
+          {
+            "url": "https://malditosmusicos.com/festivales",
+            "title": "Festivales de música indie en España 2026 — Carteles y fechas | Malditos Músicos | Malditos Músicos",
+            "snippet": "Ir al contenido\n\nMalditos MúsicosMalditos MúsicosBackstagesolo artistasLa Escucha\n\nTemporada de festivales\n\n# Festivales de música indie en España 2026\n\nNo todos los festivales merecen el viaje. Aquí están los que sí. Carteles, fechas y acceso a entradas de los que cuentan en la escena indie, rock y pop.\n\n## No te los pierdas\n\nLos próximos festivales con cartel confirmado. Empieza por aquí.\n\n C\n\n  Fecha por confirmar\n\n  ### Cooltural Go\n\n  Ciclo de conciertos de indie y pop-rock en Almería. [..."
+          },
+          {
+            "url": "https://indyrock.es/festivalagenda.htm",
+            "title": "Agenda de Festivales en IndyRock",
+            "snippet": "### 12 de diciembre de 2026, en La Nueva Cubierta de Leganés, Madrid. Alestorm, Dartagnan,  Saurom, que justo celebra este año su XXX aniversario, interpretará por primera vez y última en su carrera el álbum \"El Principito\" al completo. General Pista: 50€ + gg. \\ Grada sin numerar: 55€ + gg.\n\n## ▸ FESTIVALES INTERNACIONALES ↥\n\n--- [...] ### Primavera Sound Barcelona 2027 del 3 al 5 de junio Parc del Fòrum. BarcelonaDoechii, Phoebe Bridgers, Fontaines D.C., Massive Attack, Turnstile, Hayley Willi"
+          }
+        ]
       }
     }
   ]

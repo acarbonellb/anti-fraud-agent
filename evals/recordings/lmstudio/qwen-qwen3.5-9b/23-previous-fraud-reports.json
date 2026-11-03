@@ -2,19 +2,19 @@
   "caseId": "23",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "68acae3eddee5994d12cc1e59d738fcf2a9a71c45e3180e9eea9b189665cf22d",
-      "latencyMs": 2496,
+      "requestHash": "6f16bc1fc3bb08e697ca3b4f122974bddabf2d04bd59bf4a07742080aed2b69e",
+      "latencyMs": 2796,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "wDPTIEjo9Pa2joVkQaTIIOBEEHuVoqTT",
+              "id": "rAJRFo2oOjp9mJ49u0r8Xhdv7jUlf9eF",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_090fb3c94c\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3165,
+          "inputTokens": 3419,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "2c14427f081b3f2e5782ded4f574eecf29d27c943ee8cb15ab6a72dbfaadf2a8",
-      "latencyMs": 1568,
+      "requestHash": "fbff03210e76eb126a6c0e3031027f6b2552c239b34aa7b384989b3bd8d3120c",
+      "latencyMs": 1609,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Pckjsok0jMK6uxilvJxzY7AtrzUNolJk",
+              "id": "EpDD1TNRbln50qt6qTmtSmVPGBFuCov6",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_031108c163\",\"windowDays\":60}"
             }
@@ -44,31 +44,301 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3573,
+          "inputTokens": 3827,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "6a8bfddbc59ffe544860c1029117e9b052bc99ec49ebe97fe2bcfece2db1bc1a",
-      "latencyMs": 34353,
+      "requestHash": "af69169c2c3e69886d0507207ffb7de40240be369ff54f661aad0fafb63946ca",
+      "latencyMs": 1594,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_031108c163` (\"Tributo a los grandes del rock de los 80\") y su organizador `org_090fb3c94c` (\"Ritmo Total Eventos\"). A continuación, presento mi análisis basado en la información disponible:\n\n### Análisis del Organizador\n- **Estado**: El organizador tiene estado \"approved\" y cuenta con datos fiscales válidos (CIF con checksum correcto).\n- **Historial**: Ha publicado 5 eventos, cancelado 2 y finalizado 3. No hay eventos despublicados por administradores ni cambios sustanciales.\n- **Reportes de contenido**: Hay 3 reportes en la categoría \"fraud\" que ya han sido gestionados (\"actioned\") y 1 en la categoría \"other\" que ha sido descartado (\"dismissed\"). Esto indica que el organizador ha tenido incidentes pasados, pero no hay indicios actuales de fraude.\n- **Equipo**: Cuenta con un propietario, un gerente y dos escáneres, lo que sugiere una estructura operativa sólida.\n\n### Análisis del Evento\n- **Título y descripción**: El evento es un tributo al rock de los 80 con tres bandas. La descripción parece coherente con el género.\n- **Artistas**: \"Neón Eterno\" (headliner) y \"Los Casetes\". Ambos tienen fotos asociadas.\n- **Precio**: La entrada general cuesta 20€ (2000 céntimos), lo cual es razonable para un evento de rock en Illes Balears según el benchmark (p90 de 35€).\n- **Gastos de gestión**: Son fijos a 1€, lo que representa menos del 20% del precio, cumpliendo con los estándares.\n- **Condiciones**: No niegan la devolución en caso de cancelación y no ofrecen alcohol a menores.\n- **Sesiones**: Una sola sesión el 24 de noviembre de 2026, sin solapamientos ni fechas inminentes o lejanas.\n- **Ubicación**: El recinto \"Es Gremi\" existe en OpenStreetMap como un nightclub cerca de las coordenadas proporcionadas. Sin embargo, el aforo no está disponible en Wikidata ni OpenStreetMap, lo que genera una incertidumbre sobre la capacidad real del lugar (la sesión pone a la venta 500 entradas).\n\n### Hallazgos Adicionales\n- **Eventos similares**: No se han encontrado eventos similares de otros organizadores en las proximidades, lo que descarta la posibilidad de clonación.\n- **Pago fuera de plataforma**: No hay indicios de pago fuera de la plataforma (Bizum, transferencia, etc.).\n- **Enlaces externos a ticketeras**: No hay enlaces a otras ticketeras ni acortadores de URL.\n\n### Conclusión\nEl evento parece legítimo y coherente con las prácticas habituales del sector. Sin embargo, existe una incertidumbre sobre el aforo del recinto \"Es Gremi\", ya que no se puede verificar su capacidad real. Esto podría ser un problema si el número de entradas a la venta (500) supera la capacidad real del lugar, pero también podría ser simplemente una falta de información pública.\n\nDado que no hay indicios claros de fraude o ilegalidad, y considerando que el organizador tiene un historial mixto pero gestionado adecuadamente, mi recomendación es **aprobar** el evento con una confianza moderada (0.7), ya que la única duda restante es sobre el aforo, que podría ser resuelto con más información si fuera necesario.\n\n### Recomendación\n- **Decisión**: `approve`\n- **Confianza**: 0.7\n- **Razonamiento**: El evento cumple con los estándares de precios, condiciones y ubicación. No hay indicios de fraude o ilegalidad. La única duda es sobre el aforo del recinto, pero no hay evidencia de que esto sea un problema grave en este momento.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "YatFD6ZZjS1zHvpdZwbrsq3oSuXHn7zC",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.7,\"rationale\":\"El evento \\\"Tributo a los grandes del rock de los 80\\\" cumple con los estándares de precios, condiciones y ubicación. No hay indicios de fraude o ilegalidad. La única duda es sobre el aforo del recinto \\\"Es Gremi\\\", pero no hay evidencia de que esto sea un problema grave en este momento. El organizador tiene un historial mixto pero gestionado adecuadamente.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con datos fiscales válidos y estado 'approved'.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c\",\"title\":\"Ritmo Total Eventos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Organizador con 3 reportes de fraude gestionados y 1 reporte 'other' descartado.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c\",\"title\":\"Ritmo Total Eventos\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «es Gremi».\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/386615333\",\"title\":\"OpenStreetMap: es Gremi (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en las proximidades.\",\"confidence\":0.95,\"sources\":[]}]}"
+              "id": "09rDwjTSBfYhik5MCWbL3g0DqPWc1Kkp",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Ritmo Total Eventos Palma tributo rock 80 Neón Eterno Los Casetes\",\"maxResults\":5}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3711,
-          "outputTokens": 1331
+          "inputTokens": 3965,
+          "outputTokens": 58
         }
+      }
+    },
+    {
+      "requestHash": "4900cf30e132acebbed513e4e2c9504f1a1cf6be1ca135f57660c23a3eaf7439",
+      "latencyMs": 1653,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "4VMx9yKJM3ziscRt5HbBACcgVzdTaCTZ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Neón Eterno banda tributo rock 80s Palma Mallorca\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4625,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "89cc880c0fe0244bcc9fb39a0233bb59168877b98cf30caa2819728368504331",
+      "latencyMs": 1638,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "4tbRaY09qAFzaiyLWdxfTaRLPPeb5O5w",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Neón Eterno\\\" banda tributo rock 80s España\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5162,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "282c3577ae84180128a38d856b2225ed14ea1438d4a5582743ba18a0e3dd2d3c",
+      "latencyMs": 1628,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "74CgdajwVP4xxeOi1J7EaXWpeKeYdXyc",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Los Casetes\\\" banda tributo rock 80s España\",\"maxResults\":5}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5799,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "fe02f59c537b707756067836463f2c6d577fb19969a979307c980d9395a6c1d4",
+      "latencyMs": 39239,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento **evt_031108c163** (\"Tributo a los grandes del rock de los 80\") y su organizador **Ritmo Total Eventos**. Aquí está mi análisis:\n\n### ✅ Lo que pasa bien (verificado por checks determinísticos):\n- Código postal correcto para Palma (07009 en Illes Balears).\n- Sin pago fuera de plataforma, sin enlaces externos, sin términos abusivos.\n- Sin alcohol a menores, sin inyección de prompts.\n- Precios sanos: la única entrada es General a 20€ (2000 céntimos), sin VIP más barata.\n- Comisión de servicio del 10% está dentro del límite del 20%.\n- Sesión única el 24/11/2026, sin solapamientos ni fechas inminentes/lejanas.\n- Precio de entrada (20€) está muy por debajo del p90 de rock en Baleares (35€).\n- Recinto \"Es Gremi\" existe y coincide con las coordenadas (OpenStreetMap).\n- Aforo de 500 entradas es compatible con el aforo real del local (800 según mallorcamusicmagazine.com).\n\n### ✅ Contexto del organizador:\n- **Ritmo Total Eventos** está aprobado desde enero 2026.\n- Tiene CIF válido, dirección en Palma, cuenta de 330 días.\n- Ha publicado 5 eventos, cancelado 2, finalizado 3.\n- Tiene 3 reportes de contenido por \"fraud\" (ya gestionados) y 1 \"other\" (desestimado).\n- No ha sido despublicado por admin, sin cambios sustanciales.\n\n### 🔍 Búsqueda web sobre las bandas:\n- **\"Neón Eterno\"**: No aparece como banda tributo conocida en España. Hay referencias a \"Neon Collective\" (tributos en A Coruña) y a la banda mexicana \"Neón\", pero no a una banda llamada exactamente \"Neón Eterno\" que toque rock de los 80 en Mallorca.\n- **\"Los Casetes\"**: Aparece como \"Casete Stereo\", banda tributo de rock en español de los 80/90, pero con contacto desde España (3203642960) y correo casetestereo@gmail.com. Podría ser la misma banda o una variante del nombre.\n\n### ⚠️ Señales de atención:\n1. **Nombre de artista \"Neón Eterno\"**: No hay evidencia de que exista como banda tributo en España. Podría ser un nombre inventado o mal escrito (quizás confusión con \"Neon Collective\").\n2. **Organizador con 3 reportes de fraude anteriores**: Aunque ya gestionados, es una señal de riesgo histórico.\n3. **Falta de presencia web/social verificable** para las bandas en el contexto del evento.\n\n### 🧭 Decisión:\nDado que:\n- No hay evidencia clara de que \"Neón Eterno\" sea una banda real (podría ser un nombre ficticio o mal escrito).\n- El organizador tiene historial de reportes de fraude (aunque gestionados).\n- Los checks determinísticos y del recinto pasan, pero la autenticidad de las bandas es dudosa.\n\n**Recomiendo: `request_info`** para aclarar:\n- ¿Quién es realmente \"Neón Eterno\"? ¿Es una banda real o un nombre ficticio?\n- ¿Tienen contrato con los artistas?\n- ¿Por qué el organizador tiene 3 reportes de fraude anteriores?\n\n---",
+          "toolCalls": [
+            {
+              "id": "SyGjvwl0DBrYgeWda7kiQ25yCEueMP3F",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento pasa todos los checks determinísticos (precios, aforo, recinto, fechas, términos, etc.). Sin embargo, hay señales de atención: 1) La banda \\\"Neón Eterno\\\" no aparece en búsquedas web como banda tributo real en España (solo referencias a \\\"Neon Collective\\\" o la banda mexicana \\\"Neón\\\"). 2) El organizador \\\"Ritmo Total Eventos\\\" tiene 3 reportes de contenido por fraude anteriores (aunque gestionados). Esto requiere aclaración antes de aprobar.\",\"findings\":[{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"El organizador tiene 3 reportes de contenido por 'fraud' en su historial (ya gestionados), lo que indica un patrón previo de incidentes.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_090fb3c94c/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se ha encontrado evidencia de que 'Neón Eterno' sea una banda tributo real en España. Solo hay referencias a 'Neon Collective' (tributos en A Coruña) y a la banda mexicana 'Neón'.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.instagram.com/reel/DdkgC-GqNoZ\",\"title\":\"The 80s Show by Neon Collective en A Coruña\"},{\"url\":\"https://www.facebook.com/local16Toneladas/posts/the-80s-show-by-neon-collective-tributes-con-los-tributos-de-tres-grandes-bandas/903045815414598\",\"title\":\"'The 80's Show' by Neon Collective Tributes\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La banda 'Los Casetes' aparece como 'Casete Stereo', banda tributo de rock en español, pero no está claro si es la misma entidad que se anuncia en el evento.\",\"confidence\":0.65,\"sources\":[{\"url\":\"https://www.instagram.com/casetestereo\",\"title\":\"Casete Stereo I Banda tributo\"}]}],\"infoRequest\":{\"questions\":[\"¿Quién es realmente la banda 'Neón Eterno'? ¿Es una banda real o un nombre ficticio?\",\"¿Tienen contrato oficial con los artistas 'Neón Eterno' y 'Los Casetes'?\",\"¿Por qué el organizador tiene 3 reportes de fraude anteriores en su historial?\"],\"draft\":\"Solicitamos información para aclarar la identidad real de las bandas y el historial del organizador antes de aprobar.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6463,
+          "outputTokens": 1500
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "4609de7b9509c83a44c7a9c934bb63f2de9848398deaba1ea970e235f008f26c",
+      "provider": "Tavily",
+      "query": "Es Gremi Palma aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://mallorcamusicmagazine.com/es-gremi-entradas",
+            "title": "Conciertos Es Gremi, Palma",
+            "snippet": "La sala 1 es la más emblemática, con capacidad para 800 espectadores. Por su escenario han pasado artistas como Joe Satriani, Rels B o José González. La sala 3, ...Read more"
+          },
+          {
+            "url": "https://esgremi.com/salas",
+            "title": "Salas - Es Gremi Centre Musical",
+            "snippet": "### sala 1\n\n Aforo: 624 pax\n Barras disponibles: 4\n Guardarropa: Sí\n Baños: Sí\n Superficie: 500m² repartidos en dos plantas\n Otros: 2 pantallas LED 2x2m, 1 pantalla 4×2 m\n Han pasado por aquí: Joe Satriani, Rosendo, Saratoga, Nach, Depedro, Dinosaur Jr., Izal, Dani Fernández, Zahara, Alice Wonder o León Benavente, entre muchos otros.\n\n¿Eres promotor o artista? Accede a la información técnica de la sala.\n\nVer el rider técnico\n\n[/fusion\\_modal]\n\n#### PRÓXIMAMENTE EN SALA 1\n\n \n\n### sala 3 [...] ###"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/9zEC4zusrK27",
+            "title": "Es Gremi",
+            "snippet": "# Es Gremi\nID: 9zEC4zusrK27\nWebsite: www.esgremi.com/\nHeadquarters: POLIGON INDUSTRIAL DE SON CASTELLO, Spain\nLinkedIn: www.linkedin.com/company/es-gremi · 0 followers\nIndustry: Restaurants\nIndustry codes: SIC 58, 581, NAICS 72, 722\nSocial profiles: www.facebook.com/esgremicentremusical, www.twitter.com/esgremi, www.instagram.com/esgremi, www.youtube.com/@esgremitv\nEmail: info@esgremi.com\nPhone: 971 91 10 04 [...] Phone: 971 91 10 04\nDescription: Es Gremi Centre Musical is one of the largest mus"
+          },
+          {
+            "url": "https://esgremi.com/es-gremi",
+            "title": "Es Gremi Centre Musical",
+            "snippet": "Es Gremi es un espacio ideal donde los músicos pueden desarrollar su creatividad en un espacio de 4.500m2 diseñado y creado por y para ellos.Read more"
+          },
+          {
+            "url": "https://www.facebook.com/esgremicentremusical?locale=es_LA",
+            "title": "Es Gremi Centre Musical | Palma de Mallorca",
+            "snippet": "Más de 4.500m2 dedicados al músico y a la música en directo. Locales de ensayo, escuela de música, tr. Sala de eventos y espectáculos · $.Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "8a48de281d33f787327ffb33d4f87561ab88688fc4e2140a9c0c0a6f6891ea1b",
+      "provider": "Tavily",
+      "query": "Ritmo Total Eventos Palma tributo rock 80 Neón Eterno Los Casetes",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/100041169948329/videos/concierto-los-cassettes-tributo-80-90-11-septiembre-2230-auditorio-municipalno-t/1485517771807421",
+            "title": "CONCIERTO | 🎤 LOS CASSETTES (TRIBUTO 80' & 90') 📆 ...",
+            "snippet": "CONCIERTO | LOS CASSETTES (TRIBUTO 80' & 90') 11 SEPTIEMBRE ⏰ 22:30 AUDITORIO MUNICIPAL NO TE PUEDES PERDER EL MEJOR TRIBUTO."
+          },
+          {
+            "url": "https://www.instagram.com/p/DPJ05XCjC_5",
+            "title": "TRIBUTO POR SIEMPRE ROCK LATINO🎸 Revive los ...",
+            "snippet": "40 te recordará que el Rock Latino nunca muere! 🗓️VIE 03 | 22H00 🎟️ENTRADA $10 | PREVENTA 2x$15. RESERVA TUS ENTRADAS.Read more"
+          },
+          {
+            "url": "https://www.instagram.com/reel/Dc11738JhJo",
+            "title": "🎸 EXcesos 🎸 Una banda tributo anglo-latina que revive ...",
+            "snippet": "EXcesos Una banda tributo anglo-latina que revive los grandes éxitos del rock y la música de los 80s y 90s que marcó generaciones.Read more"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=FkQ-X_jjm1o",
+            "title": "Maná, Hombres G, Vilma Palma",
+            "snippet": "Disfruta de este mix de CLÁSICOS DEL ROCK EN ESPAÑOL inspirado en Maná, Hombres G y Vilma Palma, con una selección dedicada a las mejores"
+          },
+          {
+            "url": "https://entradium.com/events/rock-n-bole-tributo-a-los-redondos-palma-de-mallorca",
+            "title": "ROCK'N BOLE (Tributo a Los Redondos)",
+            "snippet": "ROCK'N BOLE vuelve a los escenarios con un homenaje a Patricio Rey y sus Redonditos de Ricota. Una noche para revivir los clásicos, compartir la mística ...Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "37f15c2eb10ced9af1c22484fb41a2e6212d1e9602795d9b246a1e766a0f250e",
+      "provider": "Tavily",
+      "query": "Neón Eterno banda tributo rock 80s Palma Mallorca",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/reel/DdkgC-GqNoZ",
+            "title": "The 80s Show by Neon Collective en A Coruña (Segunda ...",
+            "snippet": "8 de noviembre de 2026 a las 18:00 'The 80's Show' by Neon Collective, con los tributos de tres grandes bandas que han hecho historia: The Cure, ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/sodarockhall/videos/sergio-santacruz/426983465590684",
+            "title": "sergio santacruz",
+            "snippet": "Neón es una banda Mexicana de culto adelantada a su tiempo que en los 80's demostró la posibilidad de éxito del rock en México y abrió"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=OsS_XzDL4qU",
+            "title": "neon nostalgic - canadas biggest 80's retro party!",
+            "snippet": "Breaking away from the traditional mold of tribute and cover band shows, Neon Nostalgic is the world's only live rock and roll act that syncs"
+          },
+          {
+            "url": "https://www.gigheaven.com/members/neon.html",
+            "title": "NEON: 1980s Party Band in Montreal Canada",
+            "snippet": "Eighties party band in Montreal, Canada. Pop, rock, soul and new wave from Prince, Bowie, The Cure, Duran Duran and A-ha, for weddings and events."
+          },
+          {
+            "url": "https://www.instagram.com/p/DXXKM_Xl3sa",
+            "title": "gallegos, vascos, andaluces, castellanos, catalanes… son ...",
+            "snippet": "TECHNO POP   Los grandes himnos del pop de los 80 y 90 llegan al escenario en un espectáculo único.⚡ ¿Cuántas de esas canciones te sabes?  Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "799fce4483fe30549e4dc30c055e414f64bec54b3d0807fbc8261f7ebd1e283d",
+      "provider": "Tavily",
+      "query": "\"Neón Eterno\" banda tributo rock 80s España",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/reel/DdkgC-GqNoZ",
+            "title": "The 80s Show by Neon Collective en A Coruña (Segunda ...",
+            "snippet": "8 de noviembre de 2026 a las 18:00 'The 80's Show' by Neon Collective, con los tributos de tres grandes bandas que han hecho historia: The Cure, ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/local16Toneladas/posts/the-80s-show-by-neon-collective-tributes-con-los-tributos-de-tres-grandes-bandas/903045815414598",
+            "title": "'The 80's Show' by Neon Collective Tributes , con los ...",
+            "snippet": "➡️THE 80s SHOW BY NEON COLLECTIVE en 16 Toneladas Viernes 20 Febrero 2026 ⏰22:30h (puertas) / 23:00h (concierto) Entradas ...Read more"
+          },
+          {
+            "url": "https://www.instagram.com/neoncollectivetributes?hl=en",
+            "title": "Neon Collective Tributes (@neoncollectivetributes)",
+            "snippet": "Banda de tributos que pone en valor a los grupos que han cambiado la historia de la música repetidas veces. ⬇️ COMPRA YA TUS ENTRADAS GIRA 26/27 ⬇️.Read more"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=vJyLbp626zo",
+            "title": "Neón - No Hay Nada Eterno (Video Oficial)",
+            "snippet": "Neón - No Hay Nada Eterno (Video Oficial) Mix 80s By Dj Mike. GIT - 1986"
+          },
+          {
+            "url": "https://www.facebook.com/exafm/videos/ne%C3%B3n-toca-en-vivo-juegos-de-amor-y-no-hay-nada-eterno-entrevista-con-jessie-en-e/993538765975359",
+            "title": "Neón toca en vivo \"Juegos de amor\" y \"No hay nada eterno\"",
+            "snippet": "Neón toca en vivo \"Juegos de amor\" y \"No hay nada eterno\" | Entrevista con #JessieEnExa."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "55d75a1dbe64cbfb2891f5d73d35cec5943d012f3ff4f3532b354409c602ff3a",
+      "provider": "Tavily",
+      "query": "\"Los Casetes\" banda tributo rock 80s España",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/casetestereo",
+            "title": "Casete Stereo I Banda tributo (@casetestereo)",
+            "snippet": "Los mejores exitos del rock en español de los 80's y 90's Contacto: 3203642960 - 3112182342 casetestereo@gmail.com · ¡Un año más recordando esa época ...Read more"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=VqkS7xhm3bI",
+            "title": "Banda CASETE STEREO (Zipaquirá) - Lugares y Personajes",
+            "snippet": "CASETE STEREO, un proyecto musical, los grandes clásicos del rock en español de los 80's y 90's Para más información +57 320 3642960 correo:"
+          },
+          {
+            "url": "https://www.maikelnaits.com/cms/1/186/banda-espanola-tributo-80s",
+            "title": "Banda Española Tributo 80s",
+            "snippet": "Una banda de covers de los 80 que traerá gratos recuerdos con los mejores himnos del pop y el rock de la década, nuestros músicos mantienen vivo el legado ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/100041169948329/videos/concierto-los-cassettes-tributo-80-90-11-septiembre-2230-auditorio-municipalno-t/1485517771807421",
+            "title": "CONCIERTO | 🎤 LOS CASSETTES (TRIBUTO 80' & 90') 📆 ...",
+            "snippet": "CONCIERTO | LOS CASSETTES (TRIBUTO 80' & 90') 11 SEPTIEMBRE ⏰ 22:30 AUDITORIO MUNICIPAL NO TE PUEDES PERDER EL MEJOR TRIBUTO."
+          },
+          {
+            "url": "https://www.instagram.com/reel/Dc11738JhJo",
+            "title": "🎸 EXcesos 🎸 Una banda tributo anglo-latina que revive ...",
+            "snippet": "Una banda tributo anglo-latina que revive los grandes éxitos del rock y la música de los 80s y 90s que marcó generaciones. Con un repertorio ...Read more"
+          }
+        ]
       }
     }
   ]

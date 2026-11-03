@@ -1,4 +1,5 @@
 import type { Autonomy } from "../agent/policy.js";
+import type { SearchResult } from "../search/types.js";
 import type { RunEnd } from "../agent/loop.js";
 import type {
   Decision,
@@ -23,6 +24,11 @@ export interface CaseFixtures {
   organizer: OrganizerReviewContext;
   similar?: SimilarEvent[];
   benchmarks?: BenchmarkFixture[];
+  /**
+   * Authored web pages, for cases whose organizers, artists or texts are
+   * invented: every search in the case runs against them, not the real web.
+   */
+  web?: SearchResult[];
 }
 
 /** One brief §5 case: a fixture subject with its expected outcome. */
@@ -54,6 +60,8 @@ export interface CaseOutcome {
   confidence: number;
   /** The policy's reasons for the autonomy. */
   reasons: string[];
+  /** Whether the case searched authored pages, not the real web. */
+  authoredWeb: boolean;
   /** The venue checks' verdicts, for the report (ADR 0015). */
   venue: { check: string; verdict: Finding["verdict"] }[];
   endedBy: RunEnd;

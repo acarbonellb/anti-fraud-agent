@@ -2,19 +2,19 @@
   "caseId": "12",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:57:00.000Z",
+  "promptVersion": "review-v4",
+  "clock": "2026-11-03T18:59:00.000Z",
   "calls": [
     {
-      "requestHash": "27f8ec9240004671e01d69d3d97f84a12d5da1e096bcb61d0b6b2aab9809b6a3",
-      "latencyMs": 2727,
+      "requestHash": "b89adca00ac99b3e70b686703e51a05e86658d9f830ce26ec27a09fe545ca5e1",
+      "latencyMs": 3536,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "IXc81RRuuU7edPvz6KMm0z2yeE1Z8TTd",
+              "id": "PgxlXMIob3UTsnJq7Wv081ux0xZVNKen",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
             }
@@ -22,53 +22,501 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3145,
+          "inputTokens": 3404,
           "outputTokens": 39
         }
       }
     },
     {
-      "requestHash": "06690a45bf3386922c17313f4de94737c00969eadd70e889a3cb073b4c43a60f",
-      "latencyMs": 1497,
+      "requestHash": "b3a0b44892369b85a5fa31fe9e764157f1c2a616ae0ccae4c4af2b0558fffb82",
+      "latencyMs": 1553,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "ZWg1dNU8GkZJCcX0bgyKDY4p9vMZRDBe",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_d11830d06b\",\"windowDays\":60}"
+              "id": "XoeR7uTUZsmDmEe8nwzaSBvWiRwRGWiz",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Pau Rovelló comedia stand-up tour dates 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3523,
+          "inputTokens": 3782,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "8fbc4c314aee7fd74de0c059a1e87d6ed01bfe565462e7c804bba3e4862481ed",
+      "latencyMs": 2045,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "HKqYLoS5pkiPGSnRSmH40fgen4VloxW7",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Pau Rovelló comediante Barcelona Sala Apolo 24 noviembre 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4539,
+          "outputTokens": 58
+        }
+      }
+    },
+    {
+      "requestHash": "f6fa7e6ac57ce4e2c2f98112a50acadb5b70bfb70740aa0b4de34b28c142f33b",
+      "latencyMs": 1669,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "6Rbza1pItRdFF2t6irIbO0JNksm8E70J",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Pau Rovelló comediante 2026 tour dates\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5315,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "4562c3e0a1a4c9fa9c94ecc3b122d892a9eb80528e2a900baa9f9a071082cdeb",
-      "latencyMs": 23365,
+      "requestHash": "e8ca24423cb7371414ef68b39f047328bce17686a3db492ced35fc2cbeda452c",
+      "latencyMs": 1634,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos ya realizados:**\n- `postal_code_province`: pass (08001 corresponde a Barcelona)\n- `off_platform_payment`: pass\n- `external_ticketing_link`: pass\n- `abusive_terms`: **fail** - La cláusula \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\" niega la devolución incluso en caso de cancelación, lo cual es abusivo según las reglas.\n- `minors_alcohol`: pass\n- `prompt_injection`: pass\n- `price_sanity`: pass\n- `service_fee`: pass\n- `session_dates`: pass\n- `session_timing`: pass\n- `price_benchmark`: pass\n- `venue_exists`: pass (Sala Apolo existe en OpenStreetMap)\n- `venue_capacity`: unknown (aforo no disponible en fuentes públicas, pero se venden 120 entradas)\n\n**Contexto del organizador:**\n- Organizador: \"Comedia en Vena\" (org_24aa87dac6)\n- Estado: approved\n- Creado: 2024-05-17 (930 días de antigüedad)\n- Fiscal: CIF presente y checksum válido, dirección completa\n- Equipo: 1 dueño, 1 manager, 2 scanners\n- Historial: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones previas como agente\n\n**Búsqueda de eventos similares:**\n- No hay eventos similares en los últimos 60 días en la misma provincia con títulos parecidos.\n\n**Análisis del hallazgo `abusive_terms`:**\nLa cláusula abusiva es un fallo claro: \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\". Esto viola las políticas de protección al consumidor, ya que niega derechos básicos de reembolso incluso en casos justificados (cancelación del organizador, fuerza mayor, etc.).\n\nEste es un hallazgo de tipo `fail` con evidencia clara. No hay explicación inocente para una cláusula tan abusiva; es una práctica comercial desleal.\n\n**Decisión:**\nDado que hay un hallazgo de `abusive_terms` con veredicto `fail`, y no hay señales de fraude, ilegalidad u otros problemas graves, pero sí una violación clara de las políticas de términos y condiciones, la decisión debe ser **reject**.\n\nLa confianza es alta porque el hallazgo es directo y no requiere más investigación.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "sIkSjzv4EnsfUHViJdvjPjDv1xC6zLnJ",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento ha sido rechazado debido a la presencia de una cláusula abusiva en los términos y condiciones: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esta cláusula niega el derecho al reembolso incluso en casos justificados como cancelación del organizador o fuerza mayor, lo cual viola las políticas de protección al consumidor y las normas de la plataforma. No hay evidencia de fraude, ilegalidad u otros problemas graves; el resto de los checks determinísticos (postal code, venue existence, prices, fees, dates) han pasado correctamente. El organizador «Comedia en Vena» tiene un historial limpio (14 eventos publicados, 0 cancelados, 0 reportes de contenido), pero la cláusula abusiva es suficiente para rechazar este evento específico.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"La cláusula «No se devolverá el dinero aunque se cancele el evento por cualquier motivo» niega la devolución incluso en caso de cancelación, lo cual es abusivo y viola las políticas de protección al consumidor.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Cover del evento\"}]}]}"
+              "id": "73e6J0RAfTaOvIQnxzRNx2KmarxIsayf",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante stand-up Spain\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3662,
-          "outputTokens": 910
+          "inputTokens": 6087,
+          "outputTokens": 49
         }
+      }
+    },
+    {
+      "requestHash": "f580b3a868f5f49b515971acf371c0981654593530ed787d2b73a43a4ec0677f",
+      "latencyMs": 1676,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "UWP4Ouy0ZuJESHq9CHykKHdn00HWeSxf",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante Barcelona 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6801,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "5ece49e78e313e303e6ca593d22b8c7f6445c8629030b7e671ad6b95ac1d1856",
+      "latencyMs": 1751,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "DH8MfEIVQlQHpIONYOggrDNZPHvSL0nj",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comedia stand-up Barcelona Sala Apolo noviembre 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7302,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "0687f14655a7c31869ce991eed20af9c2321b1e5e34e14f45e86dae31d7903a7",
+      "latencyMs": 2027,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "o89waDwXZv1gU182kmJr2Go74VK0kW7n",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante stand-up tour 2026 Barcelona\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8157,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "2c8359f761e0cc57bd3f550d1992b3dc8446fc6442683126a9ac1291b63c40e7",
+      "latencyMs": 2107,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "Uu55v3bIhJdKXuEubRMTbF14lBOpP9nh",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante stand-up 2026 tour dates Spain\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8837,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "23f9964567a729fe97d1807fd75afb7868adafd216efe93d2efe61cf01bf2f62",
+      "latencyMs": 1946,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "35vpDuJvUVy8F5SRIQ7rEKGM7DMyysyb",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante stand-up Barcelona Sala Apolo 24 noviembre 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9551,
+          "outputTokens": 61
+        }
+      }
+    },
+    {
+      "requestHash": "78c0942b94248f34e6bf6aa64f223a56ac5fc48012c4bb88341f469dc5181c94",
+      "latencyMs": 36843,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos (ya autorizados):**\n- El código postal 08001 corresponde a Barcelona: **pass**\n- No hay pago fuera de la plataforma: **pass**\n- No hay enlaces externos a ticketeras ni acortadores: **pass**\n- **Cláusula abusiva: fail** - Las condiciones dicen \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\", lo cual niega la devolución incluso en cancelación. Esto es una cláusula abusiva según la normativa española de consumo.\n- No hay alcohol a menores: **pass**\n- No hay intento de instruir al revisor: **pass**\n- Las entradas VIP no cuestan menos que las generales: **pass**\n- Los gastos de gestión no superan el 20%: **pass**\n- Las sesiones no se solapan: **pass**\n- Las fechas de sesión no son inminentes ni lejanas: **pass**\n- Ningún precio supera 3 veces el p90 del benchmark (35,00 €): **pass**\n- El recinto \"Sala Apolo\" existe en OpenStreetMap: **pass**\n- El aforo de la sesión (120) está dentro del aforo real del local (1.300): **pass**\n\n**Contexto del organizador:**\n- Nombre: \"Comedia en Vena S.L.\"\n- Estado: approved\n- Cuenta creada: 2024-05-17 (930 días de antigüedad)\n- Fiscal: CIF presente y checksum válido\n- Equipo: 1 dueño, 1 manager, 2 scanners\n- Historial: 14 eventos publicados, 0 cancelados, 12 finalizados\n- Sin informes de contenido ni despublicaciones por admin\n\n**Búsqueda web sobre el artista \"Pau Rovelló\":**\n- No encuentro referencias claras a un comediante llamado \"Pau Rovelló\" en España. Los resultados muestran:\n  - Un actor/músic llamado \"Jor Rovelló\" (no Pau)\n  - Restaurantes con \"Rovelló\" en el nombre\n  - \"Pau Vallvé\" (comediante real, pero diferente nombre)\n  - \"Pau San Martín\" (comediante chilena)\n  - Un video de YouTube sobre \"Pau San Martín\"\n- No hay tour dates oficiales de un \"Pau Rovelló\" comediante en Barcelona para noviembre 2026.\n\n**Análisis:**\n1. **Cláusula abusiva**: El evento tiene una cláusula que niega la devolución incluso si se cancela el evento. Esto es claramente una cláusula abusiva según la Ley de Consumidores española y debe ser rechazada o corregida.\n\n2. **Artista no verificado**: No encuentro evidencia de que exista un comediante llamado \"Pau Rovelló\" en España. Los resultados de búsqueda muestran nombres similares pero diferentes (Pau Vallvé, Jor Rovelló, Pau San Martín). Esto podría indicar:\n   - Un artista ficticio o inventado\n   - Una copia del nombre de otro artista\n   - Falta de verificación por parte del organizador\n\n3. **Organizador con buen historial**: El organizador \"Comedia en Vena\" tiene un historial limpio (14 eventos, 0 cancelados, sin informes de contenido), pero esto no compensa los problemas del evento específico.\n\n**Decisión:**\nDebo rechazar este evento debido a:\n- La cláusula abusiva clara (negación de devolución incluso en cancelación)\n- La falta de verificación del artista \"Pau Rovelló\" - no existe como comediante conocido en España según las búsquedas web\n\nLa combinación de una cláusula abusiva y un artista que no parece existir públicamente es suficiente para rechazar el evento.",
+          "toolCalls": [
+            {
+              "id": "3ieIP7iRDN9rDHyZwlCluX0C2rm735Vb",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El evento debe ser rechazado por dos motivos principales: 1) Cláusula abusiva en las condiciones que niega la devolución del dinero incluso si se cancela el evento, lo cual viola la normativa de consumo española. 2) Falta de verificación del artista \\\"Pau Rovelló\\\" - las búsquedas web no muestran evidencia de un comediante con este nombre en España; los resultados muestran artistas similares pero diferentes (Pau Vallvé, Jor Rovelló, Pau San Martín). El organizador tiene buen historial, pero estos problemas específicos son suficientes para rechazar.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones del evento contienen una cláusula abusiva: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esto niega la devolución incluso en caso de cancelación, lo cual es ilegal según la normativa de consumo española.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Evento Monólogos del jueves con Pau Rovelló\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No se encuentra evidencia de un comediante llamado 'Pau Rovelló' en España. Las búsquedas web muestran artistas similares pero diferentes: Pau Vallvé (comediante real), Jor Rovelló (actor/músic), y Pau San Martín (comediante chilena). No hay tour dates oficiales ni presencia pública verificable de un comediante con este nombre.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.filmaffinity.com/ie/film828276.html\",\"title\":\"Rovelló. Un Nadal sense Noel (2007) - Filmaffinity\"},{\"url\":\"https://www.instagram.com/popular/comediante-espa%C3%B1oles\",\"title\":\"Comediante Españoles - Instagram\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 10328,
+          "outputTokens": 1372
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "54682eb608c39c0896a0a3b80f4b9ade333eb8180fedb9293c09cc583b7e78b0",
+      "provider": "Tavily",
+      "query": "Sala Apolo Barcelona aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/sala-apolo",
+            "title": "Sala Apolo - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nSala Apolo\n\nSalas de Conciertos Pop / Rock Aforo: 750-1.500\n\n# Sala Apolo\n\nBarcelona / Barcelona\n\n## Descripción [...] Sala Principal. Por ella han pasado grandes artistas de la música nacional e internacional. Ahora cuenta con una capacidad de 1300 personas y una acústica mejorada.\n\nLa 2 de Apolo. Después de la reforma se ha quedado en 575 metros cuadrados, lo que se traduce en 800 personas de aforo, con posibilidad de reducirlo a 400.\n\nLa 3 de Apolo. Una sala polivalente "
+          },
+          {
+            "url": "https://www.timeout.es/barcelona/es/musica/sala-apolo",
+            "title": "Apolo, un clásico de la noche de Barcelona",
+            "snippet": "Cuatro. La sala principal, la histórica, con capacidad para 1.300 personas en concierto de pie; La (2), de construcción mucho más moderna, con capacidad para 800 personas en concierto; La (3) con un aforo de 300 personas en concierto y con un patio al aire libre; y la CINC, la pequeña de la familia, donde caben alrededor de 100 personas.\n\n## ¿Qué música ponen en Apolo? [...] PreviousNext\n\n   /7\n3. Foto: Sala Apolo | Sala Apolo\n\n   PreviousNext\n\n   /7\n4. Foto: Óscar García | Sala Apolo\n\n   Previo"
+          },
+          {
+            "url": "https://www.ctickets.es/recintos/ficha/220-sala-apolo-barcelona",
+            "title": "Sala Apolo - Barcelona - Canal Oficial de venta de entradas",
+            "snippet": "La Sala Apolo es uno de los locales nocturnos más míticos de Barcelona. Con más de 25 años de historia, ha sido, junto a La Paloma, el local de referencia para ir a bailar. Sea cual fuere el estilo de música que estuviera de moda en el momento, “el Apolo” los ha vivido todos. Actualmente funciona de forma simultánea como sala de conciertos y club de baile. Además, hace un año que estrenó una sala adyacente (la ). Con 1100 y 400 personas de capacidad respectivamente, por Apolo pasan algunos de [."
+          },
+          {
+            "url": "https://qconciertos.es/salas/sala-apolo-barcelona-barcelona",
+            "title": "Sala Apolo Barcelona (Barcelona)",
+            "snippet": "Aunque el aforo no está especificado, La 2 de Apolo es significativamente más pequeña que la Sala Apolo principal, lo que contribuye a su ambiente de club más exclusivo y personal. Es una sala de aforo medio, ideal para conciertos donde se busca la interacción directa con la banda. El ambiente es joven, alternativo y muy enérgico. Es recomendable llegar con tiempo si quieres asegurarte un buen sitio cerca del escenario, ya que la sala se llena rápidamente en los conciertos más populares. [...] #"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Sala_Apolo",
+            "title": "Sala Apolo - Wikipedia, la enciclopedia libre",
+            "snippet": "simultánea, como sala de conciertos y club de baile nocturno con una capacidad para albergar, entre las tres salas, a 2900 personas. [...] La Sala Apolo es una discoteca y sala de concertos situada en Barcelona, concretamente en el barrio de Pueblo Seco. Nacida en 1943 como sala de baile, ha sido junto a La Paloma?action=edit&redlink=1 \"La Paloma (Barcelona) (aún no redactado)\") uno de los lugares de referencia en la escena nocturna de la ciudad. En sus orígenes, fue un parque de atracciones y a"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e0b912966bdd88aa3f5f6a002e49a936597721b2b8cd8d5b5c4e2cbc23f7d66f",
+      "provider": "Tavily",
+      "query": "Pau Rovelló comedia stand-up tour dates 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.tomaticket.es/en-es/artista/standup-comedy/zaragoza",
+            "title": "STAND-UP COMEDY tour dates 2025 2026. STAND-UP COMEDY tickets and concerts zaragoza ;)",
+            "snippet": "Álava - Albacete - Alicante - Almería - Asturias - Ávila - Badajoz - Barcelona - Bizkaia - Burgos - Cáceres - Cádiz - Cantabria - Castellón - Castilla La Mancha - Ceuta - Ciudad Real - Córdoba - Cuenca - El Hierro - Fuerteventura - Galicia - Gipuzkoa - Girona - Gran Canaria - Granada - Guadalajara - Huelva - Huesca - Islas Baleares - Jaén - La Coruña - La Gomera - La Palma - La Rioja - Lanzarote - León - Lleida - Lugo - Madrid - Málaga - Melilla - Murcia - Navarra - Ourense - Palencia - [...] - "
+          },
+          {
+            "url": "https://www.tomaticket.es/en-es/artista/standup-comedy/valencia",
+            "title": "STAND-UP COMEDY tour dates 2025 2026. STAND-UP COMEDY tickets and concerts valencia ;)",
+            "snippet": "Álava - Albacete - Alicante - Almería - Asturias - Ávila - Badajoz - Barcelona - Bizkaia - Burgos - Cáceres - Cádiz - Cantabria - Castellón - Castilla La Mancha - Ceuta - Ciudad Real - Córdoba - Cuenca - El Hierro - Fuerteventura - Galicia - Gipuzkoa - Girona - Gran Canaria - Granada - Guadalajara - Huelva - Huesca - Islas Baleares - Jaén - La Coruña - La Gomera - La Palma - La Rioja - Lanzarote - León - Lleida - Lugo - Madrid - Málaga - Melilla - Murcia - Navarra - Ourense - Palencia - [...] - "
+          },
+          {
+            "url": "https://www.tomaticket.es/en-es/artista/standup-comedy/alicante",
+            "title": "STAND-UP COMEDY tour dates 2026 2027. STAND-UP COMEDY tickets and concerts alicante ;)",
+            "snippet": "Álava - Albacete - Almería - Asturias - Ávila - Badajoz - Barcelona - Bizkaia - Burgos - Cáceres - Cádiz - Cantabria - Castellón - Castilla La Mancha - Ceuta - Ciudad Real - Córdoba - Cuenca - El Hierro - Fuerteventura - Galicia - Gipuzkoa - Girona - Gran Canaria - Granada - Guadalajara - Huelva - Huesca - Islas Baleares - Jaén - La Coruña - La Gomera - La Palma - La Rioja - Lanzarote - León - Lleida - Lugo - Madrid - Málaga - Melilla - Murcia - Navarra - Ourense - Palencia - Pontevedra - [...] "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "8b473eccc3606bbe272287318fe11fdd8ff1a0d576916d0504e962ecf080cc4a",
+      "provider": "Tavily",
+      "query": "Pau Rovelló comediante Barcelona Sala Apolo 24 noviembre 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/sala_apolo?hl=en",
+            "title": "Sala Apolo (@sala_apolo) • Instagram photos and videos",
+            "snippet": "Photo by Sala Apolo on October 29, 2026.\n\nPhoto by Sala Apolo on October 29, 2026.\n\nPhoto by Sala Apolo on October 28, 2026. May be an image of text.\n\nPhoto by Sala Apolo on October 27, 2026. May be an image of text.\n\nVideo by Sala Apolo on October 27, 2026. May be an image of microphone and text.\n\nPhoto by Sala Apolo on October 27, 2026.\n\nShow more posts from sala\\_apolo [...] FAQs\n sala_apolo's highlight story picture\n\n  SAFE SPACE\n\nPhoto by Sala Apolo on November 02, 2026.\n\nPhoto by Sala Apol"
+          },
+          {
+            "url": "https://dice.fm/venue/sala-apolo-naaq?lng=es",
+            "title": "Entradas y eventos para SALA APOLO - Barcelona, Spain",
+            "snippet": "## Sobre la sala\n\nDirección\n:   Carrer Nou de la Rambla, 113, 08004 Barcelona, Spain\n\nRedes sociales\n\n## Galería [...] # SALA APOLO\n\n## 154,3 mil seguidorxs\n\nMost followed venue in Barcelona\n\n### Todos los eventos\n\n de Milkshakejue, 5 nov\n\nLa (2) de ApoloBarcelona\n\nDesde 10 €\n\n de ApoloBarcelona\n\n27,70 €\n\n de ApoloBarcelona\n\nDesde 10 €\n\n de ApoloBarcelona\n\n33,50 €\n\n y Rebolledo (Anti)dom, 15 nov\n\nSALA APOLOBarcelona\n\n19,51 €\n\n de ApoloBarcelona\n\n31 €\n\n de ApoloBarcelona\n\nDesde 18 €\n\n de ApoloBar"
+          },
+          {
+            "url": "https://www.sala-apolo.com/es/agenda",
+            "title": "Agenda | Sala Apolo",
+            "snippet": "Nuestro sitio web utiliza cookies propias y de terceros para personalizar la navegación y mejorar sus servicios mediante el análisis de los hábitos de navegación. Si continua navegando, usted acepta su uso de conformidad con nuestra Política de cookies.\n\nNingún evento encontrado   1 Evento encontrado   Eventos encontrados\n\nEspañol\n\nCatalà English\n\n Agenda\n Ciclos\n Clubs\n Art Meets Apolo\n CineClub 113\n Información [...] Concierto · Sala Apolo · 10:30  MIRA WEEK: MIRA.exe\n\n Entradas\n\nConciertos  G"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ccfbd1a28f06b949fc63eeee5202dd5771898328102ef3da085f28b40dd18616",
+      "provider": "Tavily",
+      "query": "Pau Rovelló comediante 2026 tour dates",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.tomaticket.es/es-es/artista/pau-sala/madrid",
+            "title": "Pau Sala fechas de gira 2026 2027. Pau Sala entradas y conciertos madrid ;)",
+            "snippet": "Tendencias\n  + Tenerife Peñon Fest 2026\n  + WAH en Madrid\n  + Sala Galileo Galilei\n  + Huellas Music Fest en Madrid\n  + La Reina del Flow en Tenerife\n Parques\n  + Disneyland Paris\n  + Siam Park\n  + Parque Warner\n  + Loro Parque\n  + Port Aventura\n  + Cueva del Soplao\n  + Forestal Park\n  + Oasis Wildlife\n Cine\n Agenda mensual\n  + Mayo de 2026\n  + Junio de 2026\n  + Julio de 2026\n  + Agosto de 2026\n  + Septiembre de 2026\n  + Octubre de 2026\n Tipo de evento\n  + Museos\n  + Candlelight\n  + Musicales [."
+          },
+          {
+            "url": "https://www.eventworld.co/pau-vallve-tickets",
+            "title": "Pau Vallvé Tickets, 2026–2027 Concert Tour Dates",
+            "snippet": "Log in Sign up\n\nPau Vallvé\n\n# Pau Vallvé Tickets & 2026–2027 Tour Dates\n\nOn tour: Yes\n\n1 upcoming concert\n\nFollow Pau Vallvé to keep their upcoming dates at hand.\n\nOn tour: Yes\n\n1 upcoming concert\n\nFollow\n\n## Concerts & Tour Dates\n\n1\n\nPau Vallvé is currently touring in 1 country and has 1 upcoming date.  Their next tour date is at Razzmatazz 1 in Barcelona.\n\nNo events match your filters\n\n### All upcoming dates\n\nThu\n\n18\n\nMar 27\n\nBarcelona, Spain\n\nRazzmatazz 1\n\n9:00 PM\n\nTickets [...] ### \n\nPick a "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=drgFMHpI0e4",
+            "title": "Pau San Martín, comediante: \"El chileno se refugia mucho en su humor\"",
+            "snippet": "# Pau San Martín, comediante: \"El chileno se refugia mucho en su humor\"\n## Radio Usach\n32500 subscribers\n16 likes\n\n### Description\n305 views\nPosted: 23 Feb 2026\nEn Extensión Línea Uno, conversamos con la comediante Paula San Martín, quien se encuentra realizando su gira de verano en distintas ciudades del país.\n\nDurante la entrevista abordamos su visión de la comedia, cómo ha sido cultivar este oficio y sus impresiones respecto al humor en el Festival de Viña del Mar 2026."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "43d904ea4677e20af9274d6fd9d56450e929d5222c7d8e59ca8f398fd01284b6",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comediante stand-up Spain",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.filmaffinity.com/ie/film828276.html",
+            "title": "Rovelló. Un Nadal sense Noel (2007) - Filmaffinity",
+            "snippet": "Rate this movie\n\nAdd to lists\n\nOriginal title\n:   Rovelló. Un Nadal sense Noel aka\n\nAKA\n:    Rovelló. Un Nadal sense Noel\n\nYear\n:   2007\n\nRunning time\n:   70 min.\n\nCountry\n:   Spain Spain\n\nDirector\n:   Antoni D'Ocón\n\nScreenwriter\n:   Antoni D'Ocón, Ramón Herrero\n\nCast\n:   Animation\n\nMusic\n:   Theo Jaskolkowski\n\nCinematography\n:   Animation\n\nProducer\n:   D'Ocon Films\n\nGenre\n:   Animation. Comedy. Kids | Animals. Dogs/Wolves. Christmas\n\nMovie Groups\n:   Scruff [...] Search Suggest\n\nNot results fou"
+          },
+          {
+            "url": "https://www.instagram.com/popular/comediante-espa%C3%B1oles",
+            "title": "Comediante Españoles",
+            "snippet": "Por fin me atreví a hacer stand-up en español. Para ser la primera vez fue muy bien. Y, por supuesto, tuve que reírme de los catalanes. Y sin querer, también de los colombianos. Me reí aún más de los españoles, pero el vídeo duraría demasiado.\n\n#standup #comedía #comediaenespañol #comico #cómico #standupcomedy #comédia #comedia #comediante #standupespañol #catalan #catalán #català\n\n553 [...] 553\n\nPor fin me atreví a hacer stand-up en español. Para ser la primera vez fue muy bien. Y, por supuesto"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=drgFMHpI0e4",
+            "title": "Pau San Martín, comediante: \"El chileno se refugia mucho en su humor\"",
+            "snippet": "Lisboa, Berlín, eh Barcelona, Madrid y es muy bacán porque, claro, el show es\nprincipalmente para chileno y gente que en este caso escucha media semana que el\nprograma que tengo con Socía, eh, ese era como nuestro público más fuerte,\npero igual pasaban cosas chistosas en España. Iba gente como por ver comedia,\ncachá, se encontraba con estos chilenos, no entendían mucho, pero eh funcionaba\nigual. Y me llamó la atención que en Londres\ny perdón, iban muchas pololas con sus pololos eh británicos. [."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f96e0c56ae33119a91edb52a39f259ada7cb778c642cd6ba5689ed4d429d0360",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comediante Barcelona 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.linkedin.com/in/jor-rovelló-a6735278",
+            "title": "Jor Rovelló",
+            "snippet": "# Jor Rovelló\n\nHeadline: actor i músic\nCurrent role: Actor I Músic\nSeniority: Specialist, Other\nLocation: Greater Barcelona Metropolitan Area Spain\nLinkedIn:  · 0 followers\n\n## Experience\n- actor i músic at companyia jordi pujol\n\n## Skills\nactor"
+          },
+          {
+            "url": "https://menusdeldia.es/esparreguera/el-rovello-bar-restaurant",
+            "title": "El Rovelló bar restaurant — menú del día en Esparreguera",
+            "snippet": "El Rovelló bar restaurant es un restaurante de cocina española en Esparreguera, en la provincia de Barcelona.\n\nMientras tanto, cerca de aquí ya puedes ver el menú del día de Katán Restaurant y Masia Can Cortès. Por ahora no tenemos el menú del día de El Rovelló bar restaurant. [...] Los restaurantes con menú del día más cercanos a El Rovelló bar restaurant son: Katán Restaurant (Terrassa, a 14,6 km), Masia Can Cortès (Sant Cugat del Vallès, a 20,1 km), Més de Vi (Barcelona, a 20,8 km). [...] ## "
+          },
+          {
+            "url": "https://www.linkedin.com/company/joaquin-rovello-montalban",
+            "title": "Joaquin Rovello Montalban",
+            "snippet": "# Joaquin Rovello Montalban\n\nLinkedIn:  · 0 followers\nIndustry: Medical Practices\nHeadquarters: BARCELONA, Spain\n\n## Employees\n- Now: 0"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "2038444f167ed3605b8dda8e56ac6deb9458665cf63b402121925eea86886904",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comedia stand-up Barcelona Sala Apolo noviembre 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/sala_apolo?hl=en",
+            "title": "Sala Apolo (@sala_apolo) • Instagram photos and videos",
+            "snippet": "FAQs\n sala_apolo's highlight story picture\n\n  SAFE SPACE\n\nPhoto by Sala Apolo on November 02, 2026.\n\nPhoto by Sala Apolo on November 02, 2026. May be an image of text.\n\nPhoto by In-Edit Festival on November 02, 2026. May be an image of poster and text.\n\nVideo by Sala Apolo on October 30, 2026. May be an illustration of poster and text.\n\nPhoto by Nitsa Club on October 30, 2026.\n\nVideo by DIABLADA on October 30, 2026. May be an image of concert and text. [...] Photo by Sala Apolo on October 29, 20"
+          },
+          {
+            "url": "https://www.sala-apolo.com/en/event/27e-festival-mil-lenni-the-divine-comedy-6502",
+            "title": "Concert of The Divine Comedy in Sala Apolo - 5th March 206 | Sala Apolo",
+            "snippet": "Agenda\n Cycles\n clubs\n Art Meets Apolo\n CineClub 113\n + Contact\n  + Noticias\n  + Nosotros\n  + LiveEurope\n  + Faqs\n  + Apolo, Rules\n  + They have passed through Apollo\n English\n\n  Español Català\n\n27è Festival Mil·lenni - The Divine Comedy\n\n   Thu. 05. Mar'26 19:30 Sala Apolo  \n\n# 27th Festival Mil·lenni - The Divine Comedy\n\n## Concert of The Divine Comedy in Barcelona - 5th March 2026 [...] Spotify Instagram\n\n### Schedules\n\n19:30 Doors\n\n20:30 Start\n\n### Minor Entry\n\nChildren under 16 must be acco"
+          },
+          {
+            "url": "https://dice.fm/venue/sala-apolo-naaq?lng=es",
+            "title": "Entradas y eventos para SALA APOLO - Barcelona, Spain",
+            "snippet": "# SALA APOLO\n\n## 154,3 mil seguidorxs\n\nMost followed venue in Barcelona\n\n### Todos los eventos\n\n de Milkshakejue, 5 nov\n\nLa (2) de ApoloBarcelona\n\nDesde 10 €\n\n de ApoloBarcelona\n\n27,70 €\n\n de ApoloBarcelona\n\nDesde 10 €\n\n de ApoloBarcelona\n\n33,50 €\n\n y Rebolledo (Anti)dom, 15 nov\n\nSALA APOLOBarcelona\n\n19,51 €\n\n de ApoloBarcelona\n\n31 €\n\n de ApoloBarcelona\n\nDesde 18 €\n\n de ApoloBarcelona\n\n28 €\n\n de ApoloBarcelona\n\nDesde 16,70 €\n\n## Sobre la sala [...] ## Sobre la sala\n\nDirección\n:   Carrer Nou de l"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "6760c94688fa4bfd4d2af040ee7aa61f6c249c1dc43a05c3afc1fb087f432206",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comediante stand-up tour 2026 Barcelona",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://palausantjordi.barcelona/en/pau-vallve",
+            "title": "Pau Vallvé | Palau Sant Jordi",
+            "snippet": "To create “Agorafília“, Pau Vallvé stepped out of his comfort zone, experimenting in ways he never had before — and the result was nothing short of exceptional. On April 25th, 2026, he will celebrate this milestone in style, performing for the first time ever at the Sant Jordi Club! [...] With sold-out shows in numerous cities and an enthusiastic reception from both fans and critics, the “Agorafília“ tour has become one of the most celebrated chapters in Vallvé’s career. And it couldn’t end on a"
+          },
+          {
+            "url": "https://thecomedyclubhouse.es/all-events",
+            "title": "All Events - The Comedy Clubhouse",
+            "snippet": "##### Fat Goose\n\n Free\n In English\n Open Mic\n Stand-Up Comedy\n\nBarcelona’s most unpredictable English comedy open mic night.\n\nThe Clubhouse: Laietana\n\nGet Tickets ➟\n\nFree\n\nFacebook Big Mic (1920 x 1080 px) (2) – Kim Skinner\n\nNov\n\n03\n\n🗓️\n\nTuesday 03 November\n\n21:00-22:45\n\n##### Big Mic Energy\n\n Free\n In English\n Stand-Up Comedy\n\nOpen mic for women and non-binary comedians and newbies.\n\nThe Clubhouse: Laietana\n\nGet Tickets ➟\n\nFree\n\nWhatsApp Image 2026-10-30 at 23.18.17\n\nNov\n\n04\n\n🗓️ [...] Skip to"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DTBsP4tCLXi",
+            "title": "Instagram",
+            "snippet": "englishcomedyinbarcelona's profile picture\nVideo by English Comedy in Barcelona on January 02, 2026.\nenglishcomedyinbarcelona's profile picture\nenglishcomedyinbarcelona's profile picture\n\n## No comments yet. [...] Video by Craft Barcelona on October 28, 2026. May be an image of guitar and text.\nPhoto by Punchline Passport on October 27, 2026. May be an image of poster and text.\nPhoto by English Comedy in Barcelona on October 26, 2026. May be an image of pasta, poster, magazine, concert and text."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "3558efdd13cad265b17ea3cc67ed1c0bc66f1511eac4daeae22f5eefae23df98",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comediante stand-up 2026 tour dates Spain",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/rogierbak/posts/espa%C3%B1a-this-weektickets-in-the-bio-or-at-rogierbakcom-come-see-the-show-por-favo/1774249511373537",
+            "title": "Rogier Bak stand-up comedy tour in Spain October 2026",
+            "snippet": "Barcelona! I'll be at the Comedy Clubhouse November 8-10, as part of the Barcelona Fringe Festival! Come out! I've been on HBOmax, Netflix, the"
+          },
+          {
+            "url": "https://www.songkick.com/artists/1947543-pau-vallve/calendar",
+            "title": "Pau Vallvé Full Tour Schedule 2026 & 2027, Tour Dates & Concerts – Songkick",
+            "snippet": "Search for events or artists\n\nSongkick\nShow navigation\nLog in\nsearch\nspotify icon\n\n# Pau Vallvé tour dates 2027\n\nPau Vallvé is currently touring across 1 country and has 1 upcoming concert.\n\nThe final concert of the tour will be at Copérnico in Madrid.\n\n## Currently touring across\n\nPau Vallvé Concert Tickets - 2026 Tour Dates.\n\n## Upcoming concerts (1) See nearest concert\n\nPau Vallvé Concert Tickets - 2026 Tour Dates\n\n## Past concerts [...] ## Past concerts\n\nPau Vallvé Concert Tickets - 2026 Tou"
+          },
+          {
+            "url": "https://www.paulyshore.com/tour-dates",
+            "title": "Tour Dates — PAULY SHORE",
+            "snippet": "Jan\n\n22\n\nto Jan 23\n\n# Seattle, WA\n\n Emerald City Comedy Club (map)\n Google Calendar ICS\n\nGET TICKETS\n\n View Event →\n\nOct\n\n5\n\n10:00 PM22:00\n\n# Las Vegas, NV\n\n Laugh Factory Las Vegas (map)\n Google Calendar ICS\n\nGET TICKETS\n\n View Event →\n\nSep\n\n25\n\nto Sep 27\n\n# Austin, TX\n\n Comedy Mothership (map)\n Google Calendar ICS\n\nGET TICKETS\n\n View Event →\n\nSep\n\n18\n\nto Sep 20\n\n# Atlanta, GA\n\n Helium Atlanta (map)\n Google Calendar ICS\n\nGET TICKETS\n\n View Event →\n\nAug\n\n22\n\n7:00 PM19:00\n\n# Virginia Beach, VA [."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "bfc4c8220e95b95c29d97bf12a9c8a476bce9af877d7faf3950be3e852785257",
+      "provider": "Tavily",
+      "query": "\"Pau Rovelló\" comediante stand-up Barcelona Sala Apolo 24 noviembre 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/sala_apolo?hl=en",
+            "title": "Sala Apolo (@sala_apolo) • Instagram photos and videos",
+            "snippet": "Photo by Sala Apolo on October 29, 2026.\n\nPhoto by Sala Apolo on October 29, 2026.\n\nPhoto by Sala Apolo on October 28, 2026. May be an image of text.\n\nPhoto by Sala Apolo on October 27, 2026. May be an image of text.\n\nVideo by Sala Apolo on October 27, 2026. May be an image of microphone and text.\n\nPhoto by Sala Apolo on October 27, 2026.\n\nShow more posts from sala\\_apolo [...] FAQs\n sala_apolo's highlight story picture\n\n  SAFE SPACE\n\nPhoto by Sala Apolo on November 02, 2026.\n\nPhoto by Sala Apol"
+          },
+          {
+            "url": "https://www.sala-apolo.com/es/evento/27-festival-mil-lenni-the-divine-comedy-6502",
+            "title": "Concierto de The Divine Comedy en Sala Apolo - 5 de marzo 2026 | Sala Apolo",
+            "snippet": "Agenda\n Ciclos\n Clubs\n Art Meets Apolo\n CineClub 113\n + Contacto\n  + Noticias\n  + Nosotros\n  + LiveEurope\n  + Faqs\n  + Apolo, Rules\n  + Han pasado por Apolo\n Español\n\n  Català English\n\n27th Festival Mil·lenni - The Divine Comedy\n\n   Jue. 05. Mar'26 19:30 Sala Apolo  \n\n# 27º Festival Mil·lenni - The Divine Comedy\n\n## Concierto de The Divine Comedy en Barcelona - 5 de marzo 2026 [...] Nuestro sitio web utiliza cookies propias y de terceros para personalizar la navegación y mejorar sus servicios me"
+          },
+          {
+            "url": "https://www.sala-apolo.com/en/event/pablopablo-6822",
+            "title": "Concert of pablopablo at Sala Apolo - 7th March 2026 | Sala Apolo",
+            "snippet": "creative journey that takes on new life on stage, accompanied by his bandmates Lyle Burton (drums) and Simeon May(saxophone). [...] Our website uses its own and third-party cookies to personalize navigation and improve its services by analyzing browsing habits. If you continue browsing, you accept its use in accordance with our Cookies.\n\nNo Event Found   1 Event found   Events found\n\nEnglish\n\nEspañol Català\n\n Agenda\n Cycles\n clubs\n Art Meets Apolo\n CineClub 113\n Info [...] Sat. 07. Nov\n\n### Apol"
+          }
+        ]
       }
     }
   ]

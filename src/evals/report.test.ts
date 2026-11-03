@@ -21,6 +21,7 @@ const scored: CaseResult = {
     autonomy: "escalated",
     confidence: 0.8,
     reasons: ["confidence 0.8 below 0.85", "a | pipe"],
+    authoredWeb: false,
     venue: [
       { check: "venue_exists", verdict: "pass" },
       { check: "venue_capacity", verdict: "unknown" },

@@ -16,6 +16,7 @@ import {
   planHistory,
   type HistoryEntry,
 } from "./history.js";
+import { createAuthoredSearch } from "../search/authored.js";
 import { fakeVenueFetch } from "../venue/fake-venue-fetch.js";
 import { recordCase, replaySet } from "./runner.js";
 import type { RecordingSet } from "./store.js";
@@ -54,6 +55,7 @@ it("fails the check on moved metrics until an entry with a note is appended", as
         longitude: -4.7245,
         capacity: 500,
       }),
+      search: createAuthoredSearch([]),
     },
   );
   if (recording === null || toolRecording === null) {
