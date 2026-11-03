@@ -57,6 +57,13 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
   - _Why:_ the 9 cases that need external tools are recorded but not gated.
   - _Evidence:_ their 26.9 % auto-approved fraud is the baseline that will show whether #7 works,
     and the argument for building it next.
+- **Cut the tools to the measured risk.**
+  - _Why:_ two external tools instead of seven. Venue checks run in code and can be required for
+    an auto-approval. A sourced web search can only hold back, never let through. Two free
+    providers, one key, no card.
+  - _Evidence:_ every auto-approved fraud in the baseline was an external case; capacity data
+    covers 0.6 % of Spanish venues in OSM, hence the exposure cap.
+  - [ADR 0015](adr/0015-external-evidence-venue-checks-and-sourced-search.md)
 
 ## Integrate by contract
 
