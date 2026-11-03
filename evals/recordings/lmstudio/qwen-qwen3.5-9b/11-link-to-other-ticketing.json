@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "08e25de943570ae75ffbce9b0732bacfaa7a4c11391fa1d7ffa6d91d6597428b",
-      "latencyMs": 2510,
+      "requestHash": "69248a975853b66370096120c2819eac5680b4023e2466848071f91f8f5dc4f1",
+      "latencyMs": 2603,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "lSsEMKCEvaPRreiRgBqsjZ9DuBFCJXb3",
+              "id": "TfD85cl8vlYoVCNeZQjhnvDT7U8wtaKA",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3072,
+          "inputTokens": 3157,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "1322043f006a878b9f7eda1caf4b499f85837079819627ed802e0455b841b1e6",
-      "latencyMs": 1524,
+      "requestHash": "3335168b380c977a80fb227a8019733dd6ceb5fcd3331b9a1daf3c39ad3554ab",
+      "latencyMs": 1523,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Z8hjmyEBpQShp3kydjOr9GY2Ds60RUwt",
+              "id": "fR1zIHBn88jf4s6FD5K8zdL6yu0S4sNU",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\",\"windowDays\":60}"
             }
@@ -44,52 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3465,
+          "inputTokens": 3550,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "5a31f2afa669a4cf90ea41ee8863b069f9589512caecbf4cecdd86f2d347f474",
-      "latencyMs": 1545,
+      "requestHash": "04a4b32cb4c071ad5487bc5b2645275d7c78dbd89f4c4f121d4b80a7e64c51e1",
+      "latencyMs": 40127,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos determinísticos (ya autorizados):\n- **Código postal**: Pasa (33003 corresponde a Asturias).\n- **Pago fuera de plataforma**: Pasa.\n- **Enlace externo de ticketing**: Advertencia por el uso de `bit.ly/xana-invierno-entradas` en la descripción. No es una señal de fraude, pero merece atención.\n- **Términos abusivos**: Pasa (se permite devolución).\n- **Alcohol a menores**: Pasa.\n- **Inyección de prompt**: Pasa.\n- **Precios vs sanity**: Pasa.\n- **Gastos de gestión**: Pasa.\n- **Sesiones solapadas**: Pasa.\n- **Timing de sesiones**: Pasa.\n- **Precio vs benchmark**: Pasa (ningún precio supera 3 veces el p90).\n- **Existencia del recinto**: Pasa (Teatro Campoamor existe en OpenStreetMap).\n- **Aforo del recinto**: Desconocido (no hay datos públicos de aforo para Teatro Campoamor; la sesión con más entradas pone a la venta 450).\n\n### Contexto del organizador:\n- **Nombre**: Norte Bravo Conciertos.\n- **Estado**: Aprobado.\n- **Cuenta**: Creada en mayo de 2024 (930 días), email verificado.\n- **Datos fiscales**: CIF presente y con checksum válido, dirección completa.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido ni recomendaciones previas.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n\n### Eventos similares:\nNo hay eventos similares en otras organizadoras en la provincia de Asturias con título parecido cerca de las fechas del evento.\n\n### Análisis:\n- El enlace `bit.ly` es una advertencia leve, pero no un fallo. Podría ser simplemente para redirigir a la ticketera oficial sin mostrar el URL largo. No hay evidencia de que sea un intento de evadir la plataforma o de phishing.\n- El aforo del recinto es desconocido, pero la venta de 450 entradas no parece excesiva dado que no tenemos referencia externa. No hay señal de fraude aquí.\n- El organizador tiene un historial limpio y datos fiscales válidos.\n\n### Decisión:\nNo hay evidencia de fraude ni ilegalidad. La única advertencia es el enlace externo, que no es una señal de rechazo por sí solo. Por tanto, recomiendo **aprobar** el evento con confianza media-alta.",
           "toolCalls": [
             {
-              "id": "P2z5a1uCI0bpx6TnSsBeLoFfGOzHLbxv",
-              "name": "get_price_benchmark",
-              "argumentsJson": "{\"genre\":\"rock\",\"province\":\"Asturias\",\"capacityBand\":\"lt300\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3606,
-          "outputTokens": 57
-        }
-      }
-    },
-    {
-      "requestHash": "398423c6fb5ecab952e93884cea893a3d74faaf8cb8038cd551403f3ee22f428",
-      "latencyMs": 29108,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Norte Bravo Conciertos):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales presentes y con checksum válido.\n- Historial sólido: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Equipo activo (1 dueño, 1 manager, 2 scanners).\n- No hay otros organizadores bajo el mismo propietario.\n\n**Evento:**\n- Título y descripción coherentes con una gira de rock en Oviedo.\n- Precio de entrada general: 1600 céntimos (16€), sin VIPs que cuesten menos.\n- Comisión de servicio: 100 céntimos fijos, dentro del 20% del precio.\n- Condiciones claras: devolución en caso de cancelación, sin cambios de titular.\n- Sin pagos fuera de plataforma ni enlaces a ticketeras externas (aunque hay un enlace bit.ly en la descripción, lo cual es una advertencia leve).\n\n**Verificación de lugar:**\n- Teatro Campoamor existe en Oviedo (OpenStreetMap lo confirma).\n- Aforo desconocido, pero la venta de 450 entradas no parece excesiva.\n\n**Hallazgos clave:**\n1. **Enlace bit.ly en la descripción**: Advertencia leve por posible redirección a otra ticketera o acortador de URL. No es una señal de fraude per se, pero merece atención.\n2. **Aforo del Teatro Campoamor desconocido**: No hay datos públicos fiables sobre su capacidad máxima. Sin embargo, 450 entradas no parecen excesivas para un teatro de esa categoría.\n\n**Conclusión:**\nNo hay evidencia de fraude, ilegalidad o contenido inapropiado. El organizador es sólido y el evento parece legítimo. La única señal leve es el enlace bit.ly, que podría ser inocente (por ejemplo, una página de la propia ticketera). No justifica una rechazo ni una solicitud de información adicional en este momento.\n\n**Recomendación:** APROBAR",
-          "toolCalls": [
-            {
-              "id": "tpHYViMCCsPpwQlWA1q6rZs7XcbLkwPr",
+              "id": "A88QksAhNBtYM9UOS71AiUWqTpDOuCds",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento y el organizador presentan una imagen sólida y legítima. El organizador \\\"Norte Bravo Conciertos\\\" tiene una cuenta aprobada desde 2024, datos fiscales válidos, historial positivo (14 eventos publicados, sin cancelaciones ni denuncias) y equipo activo. El evento es coherente con su género (rock), tiene precios razonables (16€ general), comisiones dentro de lo normal y condiciones claras de devolución. La única señal leve es el enlace bit.ly en la descripción, que podría ser un acortador inocente o una redirección a la ticketera oficial; no indica fraude per se. El Teatro Campoamor existe y 450 entradas no parecen excesivas dado el aforo desconocido. No hay indicios de clonación (no hay eventos similares en la provincia). Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, datos fiscales presentes, cuenta de 930 días, email verificado.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_935780b688\",\"title\":\"Norte Bravo Conciertos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_935780b688\",\"title\":\"Norte Bravo Conciertos\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción incluye un enlace bit.ly/xana-invierno-entradas que podría redirigir a otra ticketera o acortador de URL.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_36c9c3f3cb.jpg\",\"title\":\"Evento Xana Rock\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo del Teatro Campoamor no disponible en Wikidata ni OpenStreetMap; 450 entradas a la venta no parecen excesivas.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/11128109\",\"title\":\"OpenStreetMap: Teatro Campoamor\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento cumple con los requisitos básicos: recinto verificado, precios razonables, sin términos abusivos, sin pago fuera de plataforma y sin contenido ilegal. El organizador tiene un historial limpio, datos fiscales válidos y cuenta aprobada. La única advertencia es el uso de un enlace acortado (bit.ly) en la descripción, que no indica fraude pero merece atención. No hay eventos similares que sugieran clonación. Se aprueba con confianza media-alta.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 33003 corresponde a Asturias.\",\"confidence\":1,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"El texto enlaza a otra ticketera o a un acortador de URL: «bit.ly/xana-invierno-entradas» en la descripción.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://xana-rock-gira-de-invierno.example.test\",\"title\":\"Evento Xana Rock\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Asturias, aforo 300to1000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Campoamor» figura en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/11128109\",\"title\":\"OpenStreetMap: Teatro Campoamor (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Teatro Campoamor»; la sesión con más entradas pone a la venta 450.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en otras organizadoras en Asturias cerca de las fechas del evento.\",\"confidence\":1,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3787,
-          "outputTokens": 1139
+          "inputTokens": 3691,
+          "outputTokens": 1568
         }
       }
     }

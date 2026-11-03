@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "9f26c0bcedb5e5e14571be985bed432a39944e8879bf8b2bc50f412ca5b5c122",
-      "latencyMs": 2558,
+      "requestHash": "eca2b13c95e8dc379997303cd463a3fb7d07f97fe7b64871467bf6079b41e663",
+      "latencyMs": 2545,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "psOlCdtSl5xplc65PNIHFF8jTPo9ioMk",
+              "id": "8eYSGHUVOZklFJprgXNLQq8h14pJLy57",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_9f3669c2c6\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3047,
+          "inputTokens": 3151,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "150e513dad935ec968d8d4bc03769726cda283a7978fe45e7c6999742589cfb4",
-      "latencyMs": 1499,
+      "requestHash": "205ce7848f058eafe2cb1632d4b17426a51dcf89d48ca8cf9c6a4ae5493cef9c",
+      "latencyMs": 1544,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "TsGk0TRx6bQ1ONSKVaYu2Nljds4GERJN",
+              "id": "agfriI0OEUBpQi8PwC8Jy3HTOEn5Uv8e",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_37bff18a82\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3438,
+          "inputTokens": 3542,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "0cf15bc79670e747d6ec2f52a5704713c513fb6b39f3efa55a8b0d6a691ed593",
-      "latencyMs": 32663,
+      "requestHash": "4c49bb5570a95ce2f601a98e40d4872a6559555cfe87bf4c4dc86769764468e2",
+      "latencyMs": 42690,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y al organizador. Aquí está mi análisis:\n\n**Organizador (Patio Andalusí Producciones):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales presentes y con checksum válido.\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Sin otros organizadores bajo la misma cuenta.\n- No hay cambios sustanciales ni despublicaciones por admin.\n\n**Evento:**\n- Título y descripción coherentes con el género (jazz y copla).\n- Precio de entrada (95000 céntimos = 95€) parece razonable para Córdoba según benchmarks del género jazz en salas de ~300 aforos.\n- Gastos de gestión fijos de 100 céntimos (1€), muy por debajo del umbral del 20%.\n- Condiciones claras: devolución en caso de cancelación, sin cambios de titular.\n- No hay pagos fuera de plataforma ni enlaces externos sospechosos.\n- Sesión programada para el 24 de noviembre de 2026 (no inminente ni lejana).\n- Recinto \"Sala Hangar\" verificado en OpenStreetMap como bar a 3 m de las coordenadas del evento.\n- Aforo desconocido, pero la venta es de 280 entradas, lo cual no parece excesivo dado que el recinto es un bar (probablemente con capacidad limitada).\n\n**Hallazgos clave:**\n- No hay eventos similares en Córdoba en los últimos 60 días.\n- No hay duplicados exactos con otros organizadores.\n- El texto de la descripción no parece copiado (no hay indicios de plagio).\n- Las imágenes no muestran marcas de otras ticketeras ni códigos QR sospechosos (aunque no tengo acceso directo a las imágenes, el campo `imageUrls` está vacío en los datos proporcionados).\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o comportamiento sospechoso. El evento parece legítimo y bien estructurado. El organizador tiene un historial sólido y los datos fiscales son válidos.\n\nRecomendación: **approve** con confianza alta.",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: Pass (el código postal 14006 corresponde a Córdoba).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **venue_exists**: Pass (el recinto \"Sala Hangar\" existe en OpenStreetMap).\n- **venue_capacity**: Unknown (no hay datos públicos del aforo, pero la sesión con más entradas pone a la venta 280).\n\n### Hallazgo de precio:\n- **price_benchmark**: Warn (la entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300. El umbral es 3 veces). Esto es una señal de alerta, pero no necesariamente fraudulenta; podría ser un error o una decisión comercial.\n\n### Contexto del organizador:\n- **Patio Andalusí Producciones**: Organizador aprobado desde mayo de 2024, con 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido. No tiene otros organizadores asociados. La cuenta del propietario tiene 930 días de antigüedad y el email está verificado.\n- **Historial**: Sin cambios sustanciales, sin despublicaciones por admin, sin reportes de contenido y sin revisiones anteriores como agente.\n\n### Eventos similares:\n- No hay eventos similares en los últimos 60 días en la misma provincia con un título parecido, lo que descarta la posibilidad de clonación.\n\n### Análisis:\n- El precio de la entrada (950,00 €) es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento; podría ser una decisión comercial o un error. No hay evidencia de fraude ni ilegalidad.\n- El organizador tiene un historial limpio y está aprobado.\n- No hay señales de clonación, pagos fuera de la plataforma, términos abusivos, etc.\n\n### Decisión:\nDado que el único hallazgo es una advertencia sobre el precio (que no es fraudulento por sí mismo) y el organizador tiene un historial limpio, recomiendo **aprobar** el evento. Sin embargo, debido a la desviación significativa del precio respecto al benchmark, podría ser útil añadir una nota en el razonamiento para que el admin esté informado.\n\n### Razonamiento (en español):\nEl evento \"Trío Azahar: jazz y copla\" ha sido revisado exhaustivamente. El organizador \"Patio Andalusí Producciones\" tiene un historial limpio, con 14 eventos publicados y sin cancelaciones ni reportes de contenido. No hay señales de fraude, clonación, pagos fuera de la plataforma, términos abusivos, etc. La única señal es una advertencia sobre el precio de la entrada (950,00 €), que es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento y podría ser una decisión comercial o un error. Se recomienda aprobar el evento, pero informando al admin sobre la desviación del precio.\n\n### Hallazgos:\n1. **price_benchmark**: Warn (la entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300). Confianza: 0.8.\n2. **organizer_identity**: Pass (el organizador está aprobado, con tax ID válido y cuenta antigua). Confianza: 0.9.\n3. **organizer_history**: Pass (sin cancelaciones, reportes de contenido o despublicaciones por admin). Confianza: 0.9.\n4. **similar_event**: Pass (no hay eventos similares en los últimos 60 días). Confianza: 0.95.\n\n### Decisión final:\n**Aprobar** el evento con una nota sobre la desviación del precio.",
           "toolCalls": [
             {
-              "id": "YZeuZ42UN7MYYKACv1U7S0ueIhPBqF6Y",
+              "id": "fwdVu6wqeHRPOokv1a6s6suSGLlkDJOj",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento y el organizador presentan una imagen limpia y coherente. El organizador Patio Andalusí Producciones cuenta con una cuenta aprobada desde 2024, datos fiscales válidos y un historial de 14 eventos publicados sin cancelaciones ni denuncias. El evento \\\"Trío Azahar: jazz y copla\\\" tiene condiciones claras, precios razonables para el género en Córdoba, gastos de gestión bajos y una sesión programada con suficiente antelación. El recinto Sala Hangar ha sido verificado en OpenStreetMap. No hay eventos similares recientes ni duplicados detectados. Todos los checks determinísticos han pasado o son desconocidos sin señales negativas.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, email verificado.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_9f3669c2c6\",\"title\":\"Patio Andalusí Producciones\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones, denuncias o despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_9f3669c2c6\",\"title\":\"Patio Andalusí Producciones\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Sala Hangar verificado en OpenStreetMap como amenity=bar a 3 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3787471847\",\"title\":\"OpenStreetMap: Sala Hangar (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 14006 corresponde a Córdoba.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Precio de entrada (95€) razonable para jazz en Córdoba; sin entradas VIP más baratas que la general.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Gastos de gestión fijos de 1€ (100 céntimos), muy por debajo del 20% del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Sesión programada para el 24 de noviembre de 2026, no inminente ni lejana.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en Córdoba en los últimos 60 días.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento \\\"Trío Azahar: jazz y copla\\\" ha sido revisado exhaustivamente. El organizador \\\"Patio Andalusí Producciones\\\" tiene un historial limpio, con 14 eventos publicados y sin cancelaciones ni reportes de contenido. No hay señales de fraude, clonación, pagos fuera de la plataforma, términos abusivos, etc. La única señal es una advertencia sobre el precio de la entrada (950,00 €), que es significativamente más alto que el promedio del mercado para conciertos de jazz en Córdoba con aforo <300. Sin embargo, esto no es necesariamente fraudulento y podría ser una decisión comercial o un error. Se recomienda aprobar el evento, pero informando al admin sobre la desviación del precio.\",\"findings\":[{\"check\":\"price_benchmark\",\"verdict\":\"warn\",\"detail\":\"La entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba para jazz con aforo <300. El umbral es 3 veces.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/benchmarks/jazz/cordoba/lt300\",\"title\":\"Benchmark de precios: Jazz, Córdoba, lt300\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador está aprobado, con tax ID válido y cuenta antigua (930 días).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizers/org_9f3669c2c6\",\"title\":\"Patio Andalusí Producciones\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin cancelaciones, reportes de contenido o despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizers/org_9f3669c2c6/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en los últimos 60 días.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3574,
-          "outputTokens": 1266
+          "inputTokens": 3678,
+          "outputTokens": 1663
         }
       }
     }

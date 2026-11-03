@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "c5972b4cf41331ab276bba98b32d668ea6de306102074b2fc3466e50f8978f82",
-      "latencyMs": 1542,
+      "requestHash": "e27204cf4c1bf7a7ed0c699e08f59222050f5bcbba8f1ef3dbc87d660610392d",
+      "latencyMs": 2572,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "1Qi25bOfTb0Vi1Hrkh3MhBpUopday6uw",
+              "id": "axDeQdn5zQrT6nKR8ZwDy7tKrAYUQCWE",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f032e3a64e\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3026,
+          "inputTokens": 3111,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "b99244951770eefd93dda5dcbfcb52757ad75abad847ccfbd7286fe9c4340eca",
-      "latencyMs": 1485,
+      "requestHash": "099689c5fd7b5dbc70adb7294c58bc80b7d18be6d5cb5ea49b78260bc38bbeb7",
+      "latencyMs": 1481,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "dJoQnSa0IiETKKyanKGxrlKSHGvOjylz",
+              "id": "NUIzILzAeiFZAMIsw2e8jd8p6jPQw4LQ",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_bd0d54bb69\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3401,
+          "inputTokens": 3486,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "4ac522a04da2eb48ce0f37d276ea18d6bf43a1f7ea6468aa3fc52c878ac7398a",
-      "latencyMs": 24543,
+      "requestHash": "d2526190194859cb21a71e9022ac86b373d2448d790c37c427c2d4cb2e1665b9",
+      "latencyMs": 29982,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Granate Directo):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales válidos (CIF con checksum correcto).\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\n- Equipo activo (1 dueño, 1 manager, 2 scanners).\n- No hay otros organizadores bajo el mismo dueño.\n\n**Evento:**\n- Título y descripción coherentes con un evento de rock en Granada.\n- Precio de entrada general: 2400 céntimos (24€), dentro de lo razonable para rock en Granada.\n- Comisión de servicio fija de 100 céntimos, por debajo del 20%.\n- Condiciones claras: devolución en cancelación, sin cambios de titular.\n- Sin pagos fuera de plataforma ni enlaces externos.\n- Recinto \"Sala Planta Baja\" existe en OpenStreetMap como nightclub a 3 m de las coordenadas.\n- No hay eventos similares detectados en la provincia en el mismo periodo.\n\n**Punto pendiente:**\n- El aforo del recinto no está disponible en Wikidata ni OpenStreetMap, pero la sesión con más entradas (700) no parece excesiva para un nightclub pequeño; es una advertencia leve pero no un fallo claro.\n\nNo hay señales de fraude, contenido ilegal, clonación o prácticas abusivas. El organizador tiene buena reputación y el evento cumple los requisitos básicos.\n\n**Recomendación:** APROBAR con confianza media-alta.",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento mis hallazgos:\n\n### Hallazgos sobre el organizador (Granate Directo):\n- **Identidad fiscal**: El nombre legal \"Granate Directo S.L.\" está presente, con un CIF válido y una dirección en Granada. La cuenta tiene 930 días de antigüedad y el correo electrónico está verificado.\n- **Historial**: Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador. No ha tenido revisiones anteriores como agente.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres.\n\n### Hallazgos sobre el evento:\n- **Precio**: El precio de la entrada general es de 2400 céntimos (24 €), lo cual está dentro del rango normal para conciertos de rock en Granada con aforo entre 300 y 1000. No supera el p90 (35,00 €) de eventos comparables.\n- **Gastos de gestión**: Son fijos de 100 céntimos (1 €), lo cual no supera el 20% del precio de la entrada.\n- **Sesiones**: La sesión está programada para el 24 de noviembre de 2026, con puertas a las 9:00 y finalización a las 13:00. No hay solapamientos ni fechas inminentes o lejanas.\n- **Condiciones**: Se permite la devolución en caso de cancelación y no se admiten cambios de titularidad. No hay términos abusivos.\n- **Pago**: No se pide pagar fuera de la plataforma.\n- **Enlaces externos**: No hay enlaces a otras ticketeras ni acortadores de URL.\n- **Contenido**: No hay alcohol para menores, ni contenido ilegal, ni texto copiado, ni imágenes con marcas de otras ticketeras.\n- **Aforo del recinto**: El \"Sala Planta Baja\" existe en OpenStreetMap como un nightclub a 3 metros de las coordenadas del evento. Sin embargo, el aforo no está disponible en Wikidata ni OpenStreetMap. La sesión con más entradas pone a la venta 700 entradas, pero esto no es necesariamente una señal de fraude, ya que podría ser un error o una estimación.\n\n### Hallazgos sobre eventos similares:\nNo hay eventos similares publicados por otros organizadores en la misma provincia con un título similar cerca de las fechas del evento.\n\n### Conclusión:\nNo hay evidencia de fraude ni ilegalidad. El único punto de atención es el aforo desconocido del recinto, pero esto no es una señal clara de fraude y podría explicarse por la falta de datos públicos. Por lo tanto, recomiendo aprobar el evento.",
           "toolCalls": [
             {
-              "id": "wEUoF0ftcCpiHrZEjH4e8n9ofNvHgsgW",
+              "id": "3wxfgKa9Qs6KyLrCz0JfUv9R0y9GuBl5",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El organizador Granate Directo tiene una cuenta aprobada desde 2024, datos fiscales válidos y un historial limpio (14 eventos publicados, sin cancelaciones ni denuncias). El evento cumple con todos los requisitos de seguridad: precio razonable, comisiones dentro de lo normal, condiciones claras de devolución, sin pagos fuera de plataforma ni enlaces externos. El recinto existe en OpenStreetMap como nightclub. No hay eventos similares detectados que sugieran clonación. La única duda es el aforo del recinto (no disponible en fuentes públicas), pero la capacidad vendida (700) no parece excesiva para un club pequeño, por lo que se considera una advertencia leve, no un fallo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, cuenta de 930 días, sin otros organizadores bajo el mismo dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap como nightclub a 3 m de las coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5691935477\",\"title\":\"OpenStreetMap: Sala Planta Baja\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia Granada en los últimos 60 días.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo desconocido en Wikidata/OpenStreetMap; capacidad vendida (700) no parece excesiva para un club pequeño.\",\"confidence\":0.6,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Granate Directo\\\" tiene una identidad fiscal válida, un historial limpio y no ha tenido problemas anteriores. El evento cumple con todas las condiciones de la plataforma, incluyendo precios razonables, gastos de gestión adecuados y fechas de sesión apropiadas. No hay evidencia de fraude ni ilegalidad. El aforo del recinto es desconocido, pero esto no es una señal clara de fraude y podría explicarse por la falta de datos públicos. Por lo tanto, recomiendo aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene un nombre legal válido, CIF correcto, dirección en Granada y cuenta con 930 días de antigüedad.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.com/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.com/organizer/org_f032e3a64e\",\"title\":\"Granate Directo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del recinto no está disponible en Wikidata ni OpenStreetMap. La sesión con más entradas pone a la venta 700 entradas, pero esto no es necesariamente una señal de fraude.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5691935477\",\"title\":\"OpenStreetMap: Sala Planta Baja (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares publicados por otros organizadores en la misma provincia con un título similar cerca de las fechas del evento.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3532,
-          "outputTokens": 944
+          "inputTokens": 3617,
+          "outputTokens": 1158
         }
       }
     }

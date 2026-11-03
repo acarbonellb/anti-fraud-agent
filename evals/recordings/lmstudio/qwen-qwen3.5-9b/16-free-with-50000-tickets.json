@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "8a5029e48f0a739393a8d290b23f11ab8ed005dca1aaa9ff4f8dd323b9568b9c",
-      "latencyMs": 2561,
+      "requestHash": "ae5692099b38e021caea0c6f439fc219b92a3dbd0382a132a8cdb86d9816b4b4",
+      "latencyMs": 2568,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "b6winasB6MkO8923sbJ0GkhchA54cDAU",
+              "id": "VWz0MjCJKqOqx6xRdHJpdRmREvy3xTle",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3029,
+          "inputTokens": 3111,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "590337f1ee6c14ef61bde6b46fe2a13a5e1ae988741f548f61272f0797517834",
-      "latencyMs": 1508,
+      "requestHash": "1d0876fdb66076b6a9351437ea0a59cd3e49f10be83c667cc7738c587f1aeec9",
+      "latencyMs": 1611,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "KofiNqyeg0wM3gGPbt4zj6uxnIJIIAOX",
+              "id": "laozd6E2DQuKteWPlFIuiZGHF31Qvsml",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":60}"
             }
@@ -44,30 +44,46 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3409,
+          "inputTokens": 3491,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "a8391785e9c9eee6e8af024f262824a959d94415745d9dfab16859c04cee3fbd",
-      "latencyMs": 37806,
+      "requestHash": "8b3d6f762b492bc27b19b33d81d71f2f82c79e2437a1f4a1ef279f951179db0e",
+      "latencyMs": 27421,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento mi análisis:\n\n### Análisis de hallazgos deterministas y de venue:\n- **postal_code_province**: Pass (el código postal 45001 corresponde a Toledo).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces externos a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devolución en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (no hay entradas VIP más baratas que las generales, aunque todas son gratuitas).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio; en este caso, es 0).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **venue_exists**: Pass (el recinto \"Sala Pícaro\" existe en OpenStreetMap cerca de las coordenadas del evento).\n- **venue_capacity**: Unknown (no hay información sobre el aforo real del recinto, pero la sesión con más entradas pone a la venta 50.000, lo cual es sospechosamente alto para un local tipo \"pub\").\n\n### Contexto del organizador:\n- **Organizador**: \"Pulso Industrial\", una promotora de conciertos y espectáculos en Toledo.\n- **Estado**: Aprobado.\n- **Datos fiscales**: Presentes y con checksum válido (CIF).\n- **Dirección**: Presente, ciudad Toledo, código postal 45007.\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n\n### Hallazgos adicionales:\n- No hay eventos similares en la provincia de Toledo con títulos parecidos en las próximas 60 días (no hay clones).\n- El evento es gratuito (\"entrada gratuita con inscripción\"), lo cual es consistente con el género \"electronica\" y el título \"Rave gratuita de doce horas\".\n\n### Señales de alerta:\n1. **Aforo sospechosamente alto**: La sesión tiene una capacidad de 50.000 entradas, pero el recinto \"Sala Pícaro\" parece ser un local pequeño (amenity=pub en OpenStreetMap). Esto podría indicar un intento de inflar la demanda o un error en la configuración del evento.\n2. **Aforo desconocido**: No hay información sobre el aforo real del recinto, lo cual es una señal de advertencia.\n\n### Decisión:\nDado que el aforo de 50.000 entradas es claramente incompatible con la capacidad real de un local tipo \"pub\", y no hay información sobre el aforo real del recinto, considero que esto podría ser una señal de fraude o error grave. Sin embargo, también podría ser un error administrativo (por ejemplo, copiar un valor por defecto).\n\nPor lo tanto, recomiendo **request_info** para aclarar:\n- ¿Cuál es la capacidad real del recinto \"Sala Pícaro\"?\n- ¿Por qué se ha configurado una capacidad de 50.000 entradas para un evento gratuito en un local pequeño?\n\n### Rationale (en español):\nEl evento parece legítimo en términos generales, pero el aforo configurado (50.000 entradas) es sospechosamente alto para un recinto tipo \"pub\". Esto podría indicar un error administrativo o un intento de inflar la demanda. Se requiere información adicional sobre la capacidad real del recinto y la justificación del aforo configurado.\n\n### Hallazgos:\n1. **venue_capacity**: Unknown (no hay información sobre el aforo real del recinto, pero la sesión con más entradas pone a la venta 50.000).\n2. **capacity_far_above_venue**: Warn (el aforo configurado es sospechosamente alto para un local tipo \"pub\").\n\n### Fuentes:\n- OpenStreetMap: https://www.openstreetmap.org/node/2648637532 (Sala Pícaro, amenity=pub).",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos (ya autorizados):\n- **Código postal**: 45001 corresponde a Toledo (pass).\n- **Pago fuera de plataforma**: No hay solicitud de pago externo (pass).\n- **Enlaces externos a ticketeras**: Ninguno (pass).\n- **Términos abusivos**: Las condiciones permiten la devolución en caso de cancelación (pass).\n- **Alcohol para menores**: No se ofrece alcohol a menores (pass).\n- **Prompt injection**: No hay intentos de instruir al revisor (pass).\n- **Precios VIP vs general**: Ninguna entrada VIP cuesta menos que una general (pass).\n- **Gastos de gestión**: No superan el 20% del precio (pass).\n- **Sesiones solapadas**: No hay solapamientos (pass).\n- **Fechas de sesiones**: No son inminentes ni lejanas (pass).\n- **Precio vs benchmark**: Ningún precio supera 3 veces el p90 (35,00 €) para eventos comparables en Toledo (pass).\n- **Existencia del recinto**: \"Sala Pícaro\" existe en OpenStreetMap como amenity=pub a 2 m de las coordenadas del evento (pass).\n- **Aforo del recinto**: Desconocido (unknown), pero la sesión con más entradas pone a la venta 50.000, lo cual es sospechoso dado que el recinto parece ser un pub pequeño.\n\n### Contexto del organizador:\n- **Organizador**: \"Pulso Industrial\", aprobado desde mayo de 2024.\n- **Datos fiscales**: CIF válido y dirección presente en Toledo (pass).\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\n- **Equipo**: Estructura sólida con 1 dueño, 1 manager y 2 scanners.\n\n### Hallazgo crítico:\n- **Aforo vs capacidad a la venta**: El evento pone a la venta 50.000 entradas para una sesión en un recinto que parece ser un pub pequeño (amenity=pub). Esto es altamente sospechoso y podría indicar una sobreestimación de la capacidad del recinto, lo cual es un riesgo significativo.\n\n### Recomendación:\nDado que el aforo del recinto es desconocido y la venta de 50.000 entradas para un pub pequeño es inusual, recomiendo solicitar información adicional para verificar la capacidad real del recinto y asegurar que no hay una sobreestimación de la capacidad. Esto podría ser una señal de fraude o error administrativo.\n\n### Decisión:\n**request_info** con las siguientes preguntas en español:\n1. ¿Cuál es la capacidad real del recinto \"Sala Pícaro\"?\n2. ¿Por qué se ponen a la venta 50.000 entradas para un evento en un pub pequeño?\n3. ¿Existe algún acuerdo especial o justificación para esta capacidad de entrada?\n\n### Rationale (en español):\nEl evento tiene varios aspectos positivos: el organizador es aprobado, los datos fiscales son válidos, no hay reportes de contenido y las condiciones son razonables. Sin embargo, la venta de 50.000 entradas para un recinto que parece ser un pub pequeño es altamente sospechosa y podría indicar una sobreestimación de la capacidad del recinto. Esto requiere información adicional para verificar la capacidad real del recinto y asegurar que no hay una sobreestimación de la capacidad.\n\n### Hallazgos:\n- **check**: \"venue_capacity\", **verdict**: \"warn\", **detail**: \"La sesión con más entradas pone a la venta 50.000, pero el recinto parece ser un pub pequeño (amenity=pub) con aforo desconocido.\", **confidence**: 0.8, **sources**: [{\"url\": \"https://www.openstreetmap.org/node/2648637532\", \"title\": \"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]\n\n### InfoRequest:\n- **questions**: [\"¿Cuál es la capacidad real del recinto 'Sala Pícaro'?\", \"¿Por qué se ponen a la venta 50.000 entradas para un evento en un pub pequeño?\", \"¿Existe algún acuerdo especial o justificación para esta capacidad de entrada?\"]\n- **draft**: \"El evento tiene varios aspectos positivos, pero la venta de 50.000 entradas para un recinto que parece ser un pub pequeño es altamente sospechosa y podría indicar una sobreestimación de la capacidad del recinto. Esto requiere información adicional para verificar la capacidad real del recinto y asegurar que no hay una sobreestimación de la capacidad.\"\n\n### Decisión final:\n**request_info** con las preguntas anteriores.",
+          "toolCalls": []
+        },
+        "stopReason": "end",
+        "usage": {
+          "inputTokens": 3626,
+          "outputTokens": 1071
+        }
+      }
+    },
+    {
+      "requestHash": "b2c3e5ca505b25129d0b36107e4452ca97698153228787a655e9324fe309e2b8",
+      "latencyMs": 12851,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
           "toolCalls": [
             {
-              "id": "pPN7fl6Y1PDpGNxDZUoELqHKhnIkum5j",
+              "id": "PnghHD8Os0wYeCDbaG4qMnBFXUHo0Sop",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El evento parece legítimo en términos generales, pero el aforo configurado (50.000 entradas) es sospechosamente alto para un recinto tipo \\\"pub\\\". Esto podría indicar un error administrativo o un intento de inflar la demanda. Se requiere información adicional sobre la capacidad real del recinto y la justificación del aforo configurado.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro»; la sesión con más entradas pone a la venta 50.000.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"warn\",\"detail\":\"El aforo configurado (50.000 entradas) es sospechosamente alto para un local tipo «pub» según OpenStreetMap.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad real del recinto «Sala Pícaro»?\",\"¿Por qué se ha configurado una capacidad de 50.000 entradas para un evento gratuito en un local pequeño?\"],\"draft\":\"El evento parece legítimo, pero el aforo configurado (50.000 entradas) es sospechosamente alto para un recinto tipo «pub». Se requiere información adicional sobre la capacidad real del recinto y la justificación del aforo configurado.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.8,\"rationale\":\"El evento tiene varios aspectos positivos: el organizador \\\"Pulso Industrial\\\" es aprobado desde mayo de 2024, los datos fiscales son válidos (CIF válido), no hay reportes de contenido y las condiciones son razonables. Sin embargo, la venta de 50.000 entradas para un recinto que parece ser un pub pequeño (amenity=pub) es altamente sospechosa y podría indicar una sobreestimación de la capacidad del recinto. Esto requiere información adicional para verificar la capacidad real del recinto y asegurar que no hay una sobreestimación de la capacidad, lo cual podría ser una señal de fraude o error administrativo.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"La sesión con más entradas pone a la venta 50.000, pero el recinto parece ser un pub pequeño (amenity=pub) con aforo desconocido.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad real del recinto 'Sala Pícaro'?\",\"¿Por qué se ponen a la venta 50.000 entradas para un evento en un pub pequeño?\",\"¿Existe algún acuerdo especial o justificación para esta capacidad de entrada?\"],\"draft\":\"El evento tiene varios aspectos positivos, pero la venta de 50.000 entradas para un recinto que parece ser un pub pequeño es altamente sospechosa y podría indicar una sobreestimación de la capacidad del recinto. Esto requiere información adicional para verificar la capacidad real del recinto y asegurar que no hay una sobreestimación de la capacidad.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3544,
-          "outputTokens": 1462
+          "inputTokens": 4707,
+          "outputTokens": 469
         }
       }
     }

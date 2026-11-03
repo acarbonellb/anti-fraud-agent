@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "fec795a64813b4942e2c4df9569e4daad038ea85e1546430fb5c0403daf25c1a",
-      "latencyMs": 2625,
+      "requestHash": "05fda2ad05eca28d4a3dd8642ed0e37783517397e21e530523c53a5a3d530b06",
+      "latencyMs": 2640,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "qwyMCibhoOQsOA5SfNJzk0wWqxkyKc6O",
+              "id": "CAh66VCwLYbRFiMxchB8lLGf6NYbWPim",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c68156293b\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3043,
+          "inputTokens": 3131,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "3f5205b4cd1bdf5c7e1d9ba177f0f491c512a9412eaa034284a60ba431bf368c",
-      "latencyMs": 1535,
+      "requestHash": "a16706a25d9211d68573c6bc91d3293dea42ca236f581cc72fc71364b9be5cab",
+      "latencyMs": 1489,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "YZMdbAxmP5wN7BaW9Aw0LZbU375cqCfb",
+              "id": "MTM5MYO02wFSyYRXFhQXXnVXorqeAUBE",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3426,
+          "inputTokens": 3514,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "a61553513a79c102aa218ee87acedd20de3e98333bddfb43c2cb52aa1b21d526",
-      "latencyMs": 35780,
+      "requestHash": "7b567ef8a26b936ce499acac014a96baf7e302d4f08791c6dcf4a12ca50486b6",
+      "latencyMs": 50511,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y al organizador. Aquí está mi análisis:\n\n**Organizador (org_c68156293b - Alborada Conciertos):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales presentes y con checksum válido.\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Sin revisiones previas de agentes ni cambios sustanciales.\n- Equipo estable (1 dueño, 1 manager, 2 scanners).\n\n**Evento (evt_249509afef - \"Concierto al amanecer\"):**\n- Título y descripción coherentes con el género clásico.\n- Artista: Orquesta Brisa del Cantábrico (con foto).\n- Precio de entrada general: 15€ (1500 céntimos), sin entradas VIP más baratas.\n- Gastos de gestión fijos de 1€, dentro del 20%.\n- Condiciones aceptables: se devuelve el importe en caso de cancelación, sin cambios de titularidad.\n- No hay pagos fuera de la plataforma ni enlaces a otras ticketeras.\n- Sin contenido para adultos o alcohol dirigido a menores.\n- Sin texto copiado ni inyección de prompts.\n\n**Hallazgos determinísticos y de venue:**\n- Código postal 39012 corresponde a Cantabria: **pass**.\n- Pago fuera de plataforma: **pass**.\n- Enlaces externos a ticketeras: **pass**.\n- Términos abusivos: **pass**.\n- Alcohol para menores: **pass**.\n- Prompt injection: **pass**.\n- Sanity de precios (VIP vs general): **pass**.\n- Gastos de gestión: **pass**.\n- Sesiones no solapadas: **pass**.\n- Timing de sesión: **warn** (la primera sesión empieza menos de 12h después de publicarse). Esto es una advertencia, pero no un fallo.\n- Venue existe: **pass** (Escenario Santander en OpenStreetMap).\n- Venue capacity: **unknown** (no hay aforo público para el recinto).\n\n**Búsqueda de eventos similares:**\n- No se encontraron eventos similares en la provincia de Cantabria con títulos parecidos cerca de las fechas del evento. Esto descarta clonación o duplicación exacta por otro organizador.\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad ni contenido problemático. El único punto a considerar es el timing de la sesión (menos de 12h después de publicar), pero esto es una advertencia leve y no un motivo para rechazar. El organizador tiene un historial sólido y los datos fiscales son válidos.\n\n**Recomendación:** APROBAR con confianza media-alta, dado que el evento cumple con todos los requisitos básicos y no hay indicios de fraude.",
+          "content": "He revisado el evento `evt_249509afef` (\"Concierto al amanecer\") y su contexto. A continuación, presento mi análisis y recomendación:\n\n### Análisis de los hallazgos deterministas y del lugar:\n- **Código postal y provincia**: El código postal 39012 corresponde a Cantabria (verificado).\n- **Pago fuera de la plataforma**: No hay indicaciones de pago fuera de la plataforma.\n- **Enlaces externos a ticketeras o acortadores**: No se detectan.\n- **Términos abusivos**: Las condiciones permiten la devolución en caso de cancelación.\n- **Alcohol para menores**: No se ofrece alcohol a menores.\n- **Inyección de prompts**: Los textos no intentan dar instrucciones al revisor.\n- **Precios VIP vs general**: Ninguna entrada VIP cuesta menos que una general.\n- **Gastos de gestión**: No superan el 20% del precio.\n- **Sesiones solapadas**: Las sesiones no se solapan.\n- **Tiempo de sesión**: La primera sesión (3/11/26, 9:00) empieza menos de 12 horas después de publicarse (verificado).\n- **Precio vs benchmark**: Ningún precio supera 3 veces el p90 (35,00 €) de eventos comparables.\n- **Existencia del lugar**: El recinto \"Escenario Santander\" figura en OpenStreetMap como un centro artístico a menos de 200 m de las coordenadas del evento.\n- **Capacidad del lugar**: Desconocida (ni Wikidata ni OpenStreetMap publican el aforo). La sesión con más entradas pone a la venta 3.000.\n\n### Contexto del organizador:\n- **Organizador**: \"Alborada Conciertos\" (org_c68156293b), aprobado, creado en mayo de 2024.\n- **Datos fiscales**: Nombre legal \"Alborada Conciertos S.L.\", CIF presente y con checksum válido.\n- **Dirección**: Presente, ciudad Santander, código postal 39004.\n- **Propietario**: Cuenta activa desde hace 930 días, correo verificado, sin otros organizadores.\n- **Equipo**: 1 propietario, 1 gerente, 2 escáneres.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 cambios sustanciales, 0 reportes de contenido, sin revisiones anteriores.\n\n### Eventos similares:\nNo se han encontrado eventos similares en la misma provincia con un título parecido cerca de las fechas del evento.\n\n### Observaciones adicionales:\n- **Capacidad del lugar**: Aunque el aforo no está disponible públicamente, la venta de 3.000 entradas podría ser una señal de alerta si el lugar es pequeño. Sin embargo, esto no es concluyente sin más datos.\n- **Tiempo de sesión**: La primera sesión empieza menos de 12 horas después de publicarse, lo cual es un poco inusual pero no necesariamente fraudulento.\n\n### Conclusión:\nNo hay evidencia clara de fraude o ilegalidad. El organizador tiene un historial limpio, los datos fiscales son válidos, y el lugar existe. La única señal leve es la venta de 3.000 entradas en un lugar con aforo desconocido, pero esto no es concluyente sin más información.\n\n### Recomendación:\n**Aprobar** el evento con una confianza baja (0.6), dado que no hay señales claras de fraude y las señales leves son explicables por circunstancias normales.",
           "toolCalls": [
             {
-              "id": "KX5XTq9ZkFkZHabU6WxmFn6YdEk0JPCz",
+              "id": "ODjzl5J0OVmwZLXC5jmud7cu30AN9W2s",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento \\\"Concierto al amanecer\\\" con Orquesta Brisa del Cantábrico cumple con todos los requisitos de la plataforma. El organizador Alborada Conciertos tiene un historial limpio, datos fiscales válidos y cuenta con un equipo estable. No hay señales de fraude, clonación ni contenido problemático. La única advertencia es el timing de la sesión (menos de 12h después de publicar), pero esto no constituye un motivo de rechazo. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde mayo 2024, datos fiscales válidos (CIF con checksum correcto), email verificado.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Perfil de organizador Alborada Conciertos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_c68156293b\",\"title\":\"Historial de eventos\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Escenario Santander figura en OpenStreetMap como amenity=arts_centre a 1m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"Código postal 39012 corresponde a Cantabria.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Precio de entrada general (15€) coherente con el género clásico y sin entradas VIP más baratas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Gastos de gestión fijos de 1€, dentro del 20% del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La primera sesión (3/11/26, 9:00) empieza menos de 12h después de publicarse (2/11/26, 22:00).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Cantabria con títulos parecidos cerca de las fechas.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.6,\"rationale\":\"El evento \\\"Concierto al amanecer\\\" con la Orquesta Brisa del Cantábrico ha sido revisado exhaustivamente. No hay evidencia de fraude o ilegalidad: el organizador \\\"Alborada Conciertos\\\" tiene un historial limpio, datos fiscales válidos, y el lugar \\\"Escenario Santander\\\" existe en OpenStreetMap. La venta de 3.000 entradas en un lugar con aforo desconocido es una señal leve pero no concluyente. La primera sesión empieza menos de 12 horas después de publicarse, lo cual es inusual pero no necesariamente fraudulento. Se recomienda aprobar el evento con confianza baja (0.6).\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 39012 corresponde a Cantabria.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La primera sesión (3/11/26, 9:00) empieza menos de 12 h después de publicarse.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género clasica, Cantabria, aforo 1000to5000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Escenario Santander» figura en OpenStreetMap como amenity=arts_centre a 1 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Escenario Santander»; la sesión con más entradas pone a la venta 3.000.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado, datos fiscales válidos, cuenta activa desde hace 930 días, sin otros organizadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, sin revisiones anteriores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se han encontrado eventos similares en la misma provincia con un título parecido cerca de las fechas del evento.\",\"confidence\":1,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3560,
-          "outputTokens": 1362
+          "inputTokens": 3648,
+          "outputTokens": 1970
         }
       }
     }

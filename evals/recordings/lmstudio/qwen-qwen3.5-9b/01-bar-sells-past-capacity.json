@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "47b1b77514757fd52258308eb22c254310de271a8f365f69f3d308cb2a1a6fd9",
-      "latencyMs": 2898,
+      "requestHash": "ac96814317d01e8111af90f847c5bc22d96fc209606baf18ffb06824b114febd",
+      "latencyMs": 3170,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "IZrYDaE3xapSrwNmokELbUoK4lLWBXZP",
+              "id": "0J8z9f91EWWD5aMiWTdQPXTRrsXtLHE1",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_1c0d565186\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3102,
+          "inputTokens": 3189,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "f269fac29ab97e2d492ea6a812a32667167b032561f06aa97015ed3c27aed40a",
-      "latencyMs": 1872,
+      "requestHash": "7556165b5e54e556c7eed83cbeda64adea7b85dfa813574d223755f8b6ab2043",
+      "latencyMs": 1836,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "IteKRHw44yJhGYSVBWmCp0y75xiBubgR",
+              "id": "A7MpO3nixiF2WaHpL2dFz63kDbv3uvdW",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_9fb0d56ae2\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3492,
+          "inputTokens": 3579,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "a28174692ca2b2a4f6b8f4d8412ba6cfb0088819347c7433264c55f74b96598e",
-      "latencyMs": 48880,
+      "requestHash": "d491b8ff47492051096a6301399548b15c157773d41ffb03ed14688108f5d8b0",
+      "latencyMs": 36561,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_9fb0d56ae2` (\"Fiesta de fin de temporada\") y su organizador \"Garbanzo Negro Eventos\". A continuación, presento mi análisis basado en los datos disponibles:\n\n### Análisis del contexto del organizador:\n- **Organizador**: \"Garbanzo Negro Eventos\", con nombre legal \"Garbanzo Negro Eventos S.L.\".\n- **Estado**: Aprobado desde mayo de 2024.\n- **Datos fiscales**: Presente y con checksum válido (CIF).\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- **Equipo**: 1 propietario, 1 gerente y 2 escáneres.\n- **Otros organizadores**: Ninguno asociado al propietario.\n\n### Análisis del evento:\n- **Título**: \"Fiesta de fin de temporada\".\n- **Descripción**: Evento en un bar del centro con DJ residente.\n- **Género**: Electrónica.\n- **Artista**: DJ Morcuera (headliner).\n- **Sesión única**: 24 de noviembre de 2026, de 10:00 a 16:00.\n- **Entrada General**: Precio de 1200 céntimos (12€), con capacidad de 2000 y 35 vendidas.\n- **Gastos de gestión**: 100 céntimos (fijos).\n\n### Deterministic checks (ya realizados):\n- Todos los checks determinísticos pasaron, excepto uno:\n  - **`capacity_far_above_venue`**: Falló porque el evento pone a la venta 2.000 entradas para un local con aforo de 140 según OpenStreetMap (umbral: 2 veces). Esto es una señal grave de fraude o error.\n\n### Venue checks (ya realizados):\n- **`venue_exists`**: Pasó. El recinto \"Masquevinos\" existe en OpenStreetMap como un pub a 5 m de las coordenadas del evento.\n- **`capacity_far_above_venue`**: Falló, como se mencionó arriba.\n\n### Similar events:\n- No hay eventos similares de otros organizadores en la misma provincia y fechas cercanas.\n\n### Conclusión:\nLa única señal de alerta es el aforo excesivo (2.000 entradas para un local de 140 personas). Esto podría deberse a:\n1. **Fraude**: El organizador intenta vender más entradas de las que el local puede soportar, lo cual es ilegal y peligroso.\n2. **Error**: El organizador no conoce el aforo real del local o ha cometido un error al configurar la capacidad en la plataforma.\n\nDado que este es un hallazgo grave (`capacity_far_above_venue`), y no hay evidencia de fraude adicional (el organizador tiene buena reputación, datos fiscales válidos, etc.), mi recomendación es **solicitar información** para aclarar esta discrepancia antes de aprobar o rechazar el evento.\n\n### Recomendación:\n- **Decisión**: `request_info`\n- **Confianza**: 0.7 (media-alta, dado que solo hay una señal de alerta grave).\n- **Razonamiento**: Necesito saber por qué el organizador ha configurado un aforo tan superior al real del local. ¿Es un error? ¿El local tiene una capacidad diferente a la publicada en OpenStreetMap?\n\n### Hallazgos:\n1. **`capacity_far_above_venue`**: Falló. El evento pone a la venta 2.000 entradas para un local de 140 personas (umbral: 2 veces).\n   - **Confianza**: 0.95 (fuerte, basado en OpenStreetMap).\n   - **Detalle**: \"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces).\"\n   - **Fuentes**: [OpenStreetMap](https://www.openstreetmap.org/node/5136054925).\n\n### Preguntas para solicitar información:\n- ¿Por qué el evento tiene un aforo de 2.000 entradas cuando el local \"Masquevinos\" tiene un aforo de 140 personas según OpenStreetMap?\n- ¿El organizador ha verificado la capacidad real del local o hay alguna razón para justificar este aforo superior?\n\n### Borrador del mensaje en español:\n\"Se requiere información adicional sobre el aforo del evento. El recinto 'Masquevinos' tiene un aforo de 140 personas según OpenStreetMap, pero el evento pone a la venta 2.000 entradas (14,3 veces el aforo real). Esto es una señal grave de fraude o error. Por favor, aclare por qué se ha configurado este aforo tan superior al real.\"",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos (ya verificados):\n- **postal_code_province**: Pass - El código postal 18001 corresponde a Granada.\n- **off_platform_payment**: Pass - No se pide pagar fuera de la plataforma.\n- **external_ticketing_link**: Pass - No hay enlaces a otras ticketeras ni acortadores.\n- **abusive_terms**: Pass - Las condiciones no niegan la devolución en caso de cancelación.\n- **minors_alcohol**: Pass - No se ofrece alcohol a menores.\n- **prompt_injection**: Pass - No hay intentos de dar instrucciones al revisor.\n- **price_sanity**: Pass - Ninguna entrada VIP cuesta menos que una general.\n- **service_fee**: Pass - Los gastos de gestión no superan el 20% del precio.\n- **session_dates**: Pass - Las sesiones no se solapan.\n- **session_timing**: Pass - Las fechas de las sesiones no son inminentes ni lejanas.\n- **price_benchmark**: Pass - Ningún precio supera 3 veces el p90 (35,00 €) de eventos comparables.\n- **venue_exists**: Pass - El recinto \"Masquevinos\" existe en OpenStreetMap.\n- **capacity_far_above_venue**: Fail - Señal grave: se ponen a la venta 2.000 entradas para un local con aforo de 140 (umbral: 2 veces).\n\n### Contexto del organizador:\n- **Garbanzo Negro Eventos** es una promotora aprobada desde mayo de 2024, con datos fiscales válidos y cuenta activa (930 días).\n- Tiene 14 eventos publicados, 12 finalizados y sin cancelaciones ni reportes de contenido.\n- No hay antecedentes de despublicaciones por admin ni recomendaciones previas.\n\n### Eventos similares:\nNo se encontraron eventos similares en la provincia de Granada con títulos parecidos cerca de las fechas del evento.\n\n### Análisis:\nEl único hallazgo crítico es **capacity_far_above_venue** (fail), que indica que el evento pone a la venta 2.000 entradas para un local con aforo real de 140, lo cual es 14 veces superior al umbral de seguridad (2 veces). Esto es una señal grave de posible fraude o error masivo en la configuración del evento.\n\nNo obstante, el organizador tiene buena reputación (aprobado, sin reportes, fiscalidad válida), y no hay indicios de otras irregularidades (no pide pagos fuera de plataforma, no usa enlaces externos, etc.). Podría tratarse de un error de configuración (por ejemplo, copiar una plantilla con aforo incorrecto) o de una práctica fraudulenta.\n\nDado que el hallazgo es grave pero aislado, y el organizador parece legítimo, lo más prudente es solicitar información para aclarar si hubo un error técnico o intencional.\n\n### Recomendación:\n**request_info** con bajo-medio nivel de confianza (0.6), pidiendo al organizador que explique la discrepancia entre el aforo real del local y las entradas a la venta, y confirmar que no se trata de una práctica fraudulenta.",
           "toolCalls": [
             {
-              "id": "pMDo3drIxtGW9rR8iY9fdvhIxpQG3AzZ",
+              "id": "jf8wAl03JtJf6gRuUEfYdd17pV4O3I6R",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El evento \\\"Fiesta de fin de temporada\\\" tiene una señal grave de fraude o error: el aforo configurado (2.000 entradas) es 14,3 veces superior al aforo real del local \\\"Masquevinos\\\" (140 personas según OpenStreetMap). Esto podría ser un intento de fraude o un error de configuración. El organizador tiene buena reputación y datos fiscales válidos, pero necesito aclarar esta discrepancia antes de aprobar o rechazar el evento.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué el evento tiene un aforo de 2.000 entradas cuando el local \\\"Masquevinos\\\" tiene un aforo de 140 personas según OpenStreetMap?\",\"¿El organizador ha verificado la capacidad real del local o hay alguna razón para justificar este aforo superior?\"],\"draft\":\"Se requiere información adicional sobre el aforo del evento. El recinto 'Masquevinos' tiene un aforo de 140 personas según OpenStreetMap, pero el evento pone a la venta 2.000 entradas (14,3 veces el aforo real). Esto es una señal grave de fraude o error. Por favor, aclare por qué se ha configurado este aforo tan superior al real.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento presenta un hallazgo grave: capacity_far_above_venue (fail), ya que se ponen a la venta 2.000 entradas para un local con aforo real de 140 (umbral de seguridad: 2 veces). Esto es una señal clara de posible fraude o error técnico. El organizador (Garbanzo Negro Eventos) tiene buena reputación (aprobado, sin reportes, fiscalidad válida), pero la discrepancia en el aforo requiere aclaración antes de aprobar. No hay otros hallazgos negativos ni indicios de fraude adicional. Se solicita información para determinar si hubo un error de configuración o una práctica fraudulenta.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-17, con datos fiscales válidos y cuenta activa (930 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Granada con títulos parecidos cerca de las fechas del evento.\",\"confidence\":0.85,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué el evento pone a la venta 2.000 entradas para un local con aforo real de 140? ¿Se trata de un error de configuración o de una práctica intencional?\",\"¿Podéis confirmar que no se trata de una práctica fraudulenta (por ejemplo, vender más entradas del aforo real)?\",\"¿Tenéis documentación que justifique el aforo declarado en la plataforma?\"],\"draft\":\"Solicitamos al organizador que aclare la discrepancia entre el aforo real del local (140) y las entradas a la venta (2.000), así como que confirme que no se trata de una práctica fraudulenta.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3630,
-          "outputTokens": 1578
+          "inputTokens": 3717,
+          "outputTokens": 1386
         }
       }
     }

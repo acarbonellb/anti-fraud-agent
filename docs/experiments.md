@@ -95,3 +95,36 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   Satella's benchmark, so case 13 escalates on evidence and not on the model's mood. ADR 0012
   already expects 13 to escalate as a heuristic. That needs the author's go-ahead and a new
   history entry.
+
+## E003 — A price heuristic against the benchmark closes case 13
+
+- **Hypothesis:** case 13 escalates on a deterministic `warn`, whatever the model proposes, and
+  the gated auto-approved fraud rate returns to 0. No other case trips the check: only case 13
+  has a price above 3× its benchmark's p90.
+- **Change** (#24, ADR 0012 amendment): `price_benchmark` asks Satella for the price benchmark of
+  the event's genre, province and capacity band, in code before the model, and warns on a ticket
+  above 3× the p90. The check vocabulary gains `price_benchmark`, so every case was recorded
+  again.
+- **Before → after** (E002 → E003): gated: 57.7 % → 53.8 % accuracy, 38.1 % → 33.3 %
+  approved-fraud rate, **4.8 % → 0.0 % auto-approved fraud rate**, autonomy accuracy 73.1 % →
+  80.8 %, Brier 0.357 → 0.335. All cases: 48.4 % → 48.4 % accuracy, 7.7 % → 3.8 % auto-approved
+  fraud rate (08 only), Brier 0.415 → 0.386.
+- **What went wrong or surprised:**
+  - **It worked the way it was meant to.** The model still approves 13, at 0.85. The policy
+    escalates it because the code flagged the price, not because the model hesitated.
+  - **The all-cases rate already reaches the level the ADR expected only after `webSearch`.**
+    Only 08 (copied text) still resolves on its own. 09, the expected known gap, now escalates on
+    the exposure cap.
+  - **Case 07 regressed with no change of its own.** A clone with the same title, date and venue
+    as another organizer's event went from `reject` + `auto_resolved` to `request_info` at 0.70.
+    The only change in its request is the check vocabulary. The model is sensitive to small
+    changes in its tools. One run per case can't tell drift from noise.
+  - **01 still escalates** (`request_info` at 0.60) despite the sourced capacity `fail`, as in
+    E002.
+  - **03 and 14 resolve on their own again** at 0.85, right at the threshold. Calibration
+    decides them, not evidence.
+- **Decision:** keep. Next:
+  - a deterministic check for an exact clone (same title, date and venue as another organizer's
+    event), which `find_similar_events` already makes computable: case 07 shouldn't depend on
+    the model either;
+  - several runs per case before reading a single case's change as a regression.

@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "965c36c533f67c3b43097e75e7f39e44b4090237d14d7089248ebb0e25319d20",
-      "latencyMs": 2561,
+      "requestHash": "863149d056570bf7ed4f214ffbbd564a93d956a4b73a7aa4289bd6d961242c45",
+      "latencyMs": 2525,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "0ygB535YgkuJFjN3A4jJn7epwOSG4hVu",
+              "id": "nMw3kbhtEuJBIfCiuAkHfJ4tQzwaKxv4",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_bb1ae3fe05\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3118,
+          "inputTokens": 3205,
           "outputTokens": 38
         }
       }
     },
     {
-      "requestHash": "5f83de1eed98abf9389552011e9e76ba9808cdb6a0ddb043e642a9ac5217b0d1",
-      "latencyMs": 1582,
+      "requestHash": "a8409c413850878229729b996cd794a438ab42b01599034348b8e53ee2a0088b",
+      "latencyMs": 1595,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "MMxHbPQK6azyopbVZmKjjE6lhOUQHC1Q",
+              "id": "Pquz1NpXf6C9xIogdx31biQs5hHsUGyf",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_59120c058b\",\"windowDays\":60}"
             }
@@ -44,30 +44,46 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3521,
+          "inputTokens": 3608,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "d05645b9f8566c98e3543478bbf129cfc2ff0a8cf98cd01e1403f9587822aa22",
-      "latencyMs": 29270,
+      "requestHash": "e5af5f49459ee0d3320240ddef863e0a74399a78655694f50aa7ff26aa7dc485",
+      "latencyMs": 14068,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_59120c058b` (\"La Ruta Lenta presenta Kilómetro Cero\") y su organizador \"Campo Grande Música\". A continuación, presento los hallazgos:\n\n### 1. **Organizador (Campo Grande Música)**\n- **Estado:** Aprobado desde mayo de 2024.\n- **Datos fiscales:** Nombre legal presente, CIF válido y dirección verificada.\n- **Historial:** 14 eventos publicados, 12 finalizados sin cancelaciones ni denuncias por contenido. No hay cambios sustanciales ni despublicaciones por admin.\n- **Equipo:** Estructura sólida (1 dueño, 1 manager, 2 scanners).\n- **Web y redes sociales:** Web propia y presencia en Instagram/Facebook verificada.\n\n### 2. **Evento**\n- **Título y descripción:** Coherentes con el género indie y la banda \"La Ruta Lenta\".\n- **Artistas:** \"La Ruta Lenta\" (headliner) y \"Mar de Trigo\" (apoyo). No hay indicios de que los artistas estén anunciados en otras fechas o lugares.\n- **Fecha:** 24 de noviembre de 2026, con puertas a las 9:00 y sesión hasta las 13:00. No es inminente ni lejana.\n- **Precio:** Entrada general a 18€ (1800 céntimos), dentro del rango razonable para el género indie en Galicia.\n- **Gastos de gestión:** 1€ fijo, muy por debajo del 20% del precio.\n- **Condiciones:** Permiten devolución en caso de cancelación y no niegan cambios de titularidad.\n- **Pago:** No hay solicitudes de pago fuera de la plataforma ni enlaces a otras ticketeras.\n- **Imagen y texto:** Sin QR, códigos de teléfono o textos copiados.\n\n### 3. **Sala (Auditorio Reveriano Soutullo)**\n- **Existencia:** Verificada en OpenStreetMap como teatro con capacidad de 400 personas.\n- **Capacidad:** El evento vende 350 entradas, dentro del aforo real.\n- **Ubicación:** Coordenadas y código postal consistentes con la provincia de Pontevedra.\n\n### 4. **Eventos similares**\nNo se encontraron eventos similares en la misma provincia con fechas cercanas, lo que descarta clonación o duplicidad.\n\n### Conclusión\nNo hay señales de fraude, ilegalidad ni irregularidades. El evento cumple con todos los criterios de seguridad y coherencia. La recomendación es **aprobar**.",
+          "content": "He revisado el evento `evt_59120c058b` (\"La Ruta Lenta presenta Kilómetro Cero\") y su organizador \"Campo Grande Música\". A continuación, presento los hallazgos:\n\n### 1. **Organizador (Campo Grande Música)**\n- **Estado:** Aprobado desde mayo de 2024.\n- **Datos fiscales:** Nombre legal presente, CIF válido y dirección verificada.\n- **Historial:** 14 eventos publicados, 12 finalizados sin cancelaciones ni denuncias por contenido. No hay cambios sustanciales ni despublicaciones por admin.\n- **Equipo:** Estructura sólida (1 dueño, 1 manager, 2 scanners).\n- **Web y redes sociales:** Web propia y presencia en Instagram/Facebook verificada.\n\n### 2. **Evento**\n- **Título y descripción:** Coherentes con un lanzamiento de disco en directo de \"La Ruta Lenta\" con banda completa y apertura de \"Mar de Trigo\".\n- **Fecha:** 24 de noviembre de 2026 (no inminente ni lejana).\n- **Sala:** Auditorio Reveriano Soutullo, Ponteareas (Pontevedra), aforo compatible (350 entradas vs. capacidad real de 400 según OpenStreetMap).\n- **Precio:** 18,00 € para entrada general, dentro del percentil p90 de eventos indie en la provincia (35,00 €). Sin VIPs ni precios absurdos.\n- **Gastos de gestión:** Fijos a 1,00 €, bien por debajo del 20% del precio.\n- **Condiciones:** Permiten devolución en caso de cancelación y no niegan cambios de titularidad.\n- **Pagos:** Solo a través de la plataforma (sin Bizum, transferencias ni enlaces externos).\n- **Contenido:** Sin alcohol para menores, sin contenido ilegal o adulto.\n\n### 3. **Similitudes con otros eventos**\nNo se han encontrado eventos similares en la provincia durante los próximos 60 días, lo que descarta clonación o duplicidad.\n\n### 4. **Conclusión**\nTodos los controles determinísticos y de sala han pasado. El organizador tiene un historial limpio y datos fiscales válidos. No hay señales de fraude, ilegalidad ni prácticas abusivas.\n\n**Recomendación:** APROBAR el evento con confianza alta (0.95).",
+          "toolCalls": []
+        },
+        "stopReason": "end",
+        "usage": {
+          "inputTokens": 3744,
+          "outputTokens": 540
+        }
+      }
+    },
+    {
+      "requestHash": "a4ef229817136f9ff8f8147797fe0891363ad6b3d6e81ea8d38d5aea90ae0643",
+      "latencyMs": 17423,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
           "toolCalls": [
             {
-              "id": "xglTyjmQ5EpIfYLn4ZFvkD76vRdFHttw",
+              "id": "2VRBVa7zXlQKK61gEXKa3zUISMEzg3vv",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"La Ruta Lenta presenta Kilómetro Cero\\\" ha sido revisado exhaustivamente. El organizador \\\"Campo Grande Música\\\" tiene un historial sólido (14 eventos publicados, 12 finalizados sin cancelaciones), datos fiscales válidos y presencia web verificada. El evento cumple con todos los criterios de seguridad: precio razonable (18€), gastos de gestión bajos (1€), condiciones justas (devolución en caso de cancelación), sala verificada (Auditorio Reveriano Soutullo, capacidad 400) y sin indicios de clonación o fraude. No hay señales de riesgo. Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, dirección verificada y equipo estable.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://campogrande-musica.example.test\",\"title\":\"Campo Grande Música\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones ni denuncias.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Auditorio Reveriano Soutullo verificado en OpenStreetMap como teatro con capacidad de 400 personas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap: Auditorio Reveriano Soutullo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"El evento vende 350 entradas, dentro del aforo real de 400.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"La Ruta Lenta presenta Kilómetro Cero\\\" ha sido revisado exhaustivamente. El organizador \\\"Campo Grande Música\\\" cuenta con un historial limpio (14 eventos publicados, 12 finalizados sin cancelaciones), datos fiscales válidos y una estructura de equipo sólida. No hay señales de fraude, clonación o prácticas abusivas. Todos los controles determinísticos (precio, aforo, fechas, pagos, condiciones) han pasado, y la sala \\\"Auditorio Reveriano Soutullo\\\" ha sido verificada en OpenStreetMap con capacidad compatible. No se encontraron eventos similares recientes que sugieran duplicidad. Se recomienda aprobar el evento con confianza alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, dirección verificada y datos fiscales completos.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://campogrande-musica.example.test\",\"title\":\"Campo Grande Música\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones ni denuncias. Sin despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Auditorio Reveriano Soutullo verificado en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap: Auditorio Reveriano Soutullo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo compatible: 350 entradas vs. capacidad real de 400 según OpenStreetMap.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 18,00 € está dentro del percentil p90 (35,00 €) para eventos indie en Pontevedra.\",\"confidence\":0.92,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia durante los próximos 60 días.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3657,
-          "outputTokens": 1133
+          "inputTokens": 4294,
+          "outputTokens": 645
         }
       }
     }

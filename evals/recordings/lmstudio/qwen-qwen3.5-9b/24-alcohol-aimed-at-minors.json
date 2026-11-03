@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "6adaae19a408186d8791e9fb44d3b39a472d68eb880b20166e95ca5344fef9be",
-      "latencyMs": 2687,
+      "requestHash": "71b4599f3ee78e2ed181deabb59b7f46ecb0ef895f17c1e4fec2fbd7bd15f3e7",
+      "latencyMs": 2557,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "ILrdLl1VnfWFSmWFm7pbwmhQPoDh0t9W",
+              "id": "67OKqTUA0csDssfKyd4bmeihzan8Lso1",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c8cafdb37b\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3081,
+          "inputTokens": 3167,
           "outputTokens": 38
         }
       }
     },
     {
-      "requestHash": "6434009ffec93dc7d038e640409d3452e5a343c308664532df1517b31853a6f3",
-      "latencyMs": 1566,
+      "requestHash": "ce8cdcb0c266117523bd18818555fe7e720b86327c6701fe0e49d6376a744fcd",
+      "latencyMs": 1573,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "NAKrXs4p1XR1UgYvSNnd7UjYcpmFgTsh",
+              "id": "cKCwOAFOP7la8mjIz6bW1RYkkiZQ0ZAT",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_1551f43933\",\"windowDays\":60}"
             }
@@ -44,74 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3466,
+          "inputTokens": 3552,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "38b7006488d801b178987627306c3c4e1b3e368a979eb11b8410a6baebe4bcc6",
-      "latencyMs": 1614,
+      "requestHash": "6121a2a4d22cffe7d1a13f8af1779855b8bfa6740a935e3d2267bf53bdbc99ea",
+      "latencyMs": 42102,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento `evt_1551f43933` (\"Botellón +14 de fin de curso\") y su contexto. A continuación presento mi análisis y recomendación:\n\n### Análisis de hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: pass (el código postal 23004 corresponde a Jaén).\n- **off_platform_payment**: pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: pass (no hay enlaces externos a otras ticketeras ni acortadores).\n- **abusive_terms**: pass (las condiciones permiten devolución en caso de cancelación).\n- **minors_alcohol**: **fail** (el título y descripción ofrecen alcohol a menores de edad: \"Botellón +14\" y \"cervezas +14\"). Esta es una violación clara de la política de contenido para menores.\n- **prompt_injection**: pass (no hay intentos de instruir al revisor).\n- **price_sanity**: pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: pass (las sesiones no se solapan).\n- **session_timing**: pass (las fechas no son inminentes ni lejanas).\n- **price_benchmark**: pass (ningún precio supera 3 veces el p90 de eventos comparables).\n- **venue_exists**: pass (el recinto \"Darymelia\" existe en OpenStreetMap cerca de las coordenadas del evento).\n- **venue_capacity**: unknown (no hay información pública sobre el aforo del recinto, pero la sesión con más entradas pone a la venta 800 entradas).\n\n### Contexto del organizador:\n- El organizador \"Juerga Joven Producciones\" tiene un estado de cuenta \"approved\", con datos fiscales válidos y una cuenta activa desde mayo de 2024.\n- Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones ni publicaciones no deseadas por administradores.\n- No hay informes de contenido previo ni recomendaciones anteriores.\n\n### Hallazgos adicionales:\n- **similar_event**: No se encontraron eventos similares en la misma provincia con fechas cercanas, lo que descarta la posibilidad de clonación.\n\n### Decisión:\nEl evento presenta una falla clara en el check `minors_alcohol`, ya que ofrece alcohol a menores de edad (título \"Botellón +14\" y descripción \"cervezas +14\"). Esto es una violación directa de las políticas de contenido para menores, independientemente de la edad indicada. No hay evidencia de fraude ni ilegalidad adicional, pero la falla en este aspecto es suficiente para rechazar el evento.\n\n### Recomendación:\n**Rechazar** el evento debido a la oferta de alcohol a menores de edad, que es una violación clara de las políticas de contenido.",
           "toolCalls": [
             {
-              "id": "Qyl7X8sk4LjhFWVdbDysxpOvufCEhIds",
-              "name": "get_price_benchmark",
-              "argumentsJson": "{\"genre\":\"fiesta\",\"province\":\"Jaén\",\"capacityBand\":\"lt300\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3604,
-          "outputTokens": 58
-        }
-      }
-    },
-    {
-      "requestHash": "cba18aaeea4f50c11717bb5aa986204e8d72c6522d414b068c6eb6516bb6dea1",
-      "latencyMs": 1733,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "L4A1IOwykfL0sFq3lHxGucWifFM1jvqu",
-              "name": "get_price_benchmark",
-              "argumentsJson": "{\"genre\":\"fiesta\",\"province\":\"Jaén\",\"capacityBand\":\"300to1000\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3782,
-          "outputTokens": 62
-        }
-      }
-    },
-    {
-      "requestHash": "ed8c800afa7e0e29685edc03119d0ede0fbeaa77d2d1b1515a69b1d207d62745",
-      "latencyMs": 28021,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento `evt_1551f43933` y el contexto del organizador. A continuación, presento los hallazgos clave:\n\n### Hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: pass (el código postal 23004 corresponde a Jaén).\n- **off_platform_payment**: pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: pass (no hay enlaces externos a otras ticketeras ni acortadores).\n- **abusive_terms**: pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: **fail** (el evento ofrece alcohol a menores de edad: título \"Botellón +14\" y descripción menciona \"cervezas +14\").\n- **prompt_injection**: pass (no hay intentos de instruir al revisor).\n- **price_sanity**: pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: pass (las sesiones no se solapan).\n- **session_timing**: pass (las fechas no son inminentes ni lejanas).\n- **venue_exists**: pass (el recinto \"Darymelia\" existe en OpenStreetMap).\n- **venue_capacity**: unknown (no hay información de aforo en Wikidata ni OpenStreetMap).\n\n### Contexto del organizador:\n- **Organizador**: Juerga Joven Producciones, aprobado desde mayo de 2024.\n- **Fiscal**: CIF válido y dirección presente.\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\n- **Equipo**: 1 propietario, 1 manager, 2 scanners.\n\n### Eventos similares:\n- No hay eventos similares en la provincia de Jaén con fechas cercanas.\n\n### Precio de referencia:\n- Para fiestas en Jaén con capacidad entre 300 y 1000, el precio medio (p50) es de 1800 céntimos (18€), con un rango de 10€ a 80€. El evento tiene una entrada general a 10€, lo cual está en el límite inferior pero no es inusual para este tipo de eventos.\n\n### Análisis del hallazgo crítico:\n- **minors_alcohol**: El evento ofrece alcohol a menores de edad, lo cual es un fallo grave según las políticas de la plataforma. Aunque el título y la descripción indican \"+14\", esto no justifica la venta de alcohol a menores de 18 años (la mayoría de edad en España). Este hallazgo debe ser considerado como un **fail** crítico.\n\n### Conclusión:\nDado que hay un fallo claro en la política de alcohol y menores, el evento debe ser rechazado. No hay evidencia de fraude ni ilegalidad adicional, pero el fallo en la política de alcohol es suficiente para rechazar el evento.\n\n### Recomendación:\n- **Decisión**: reject\n- **Confianza**: 0.9 (alto, debido al fallo claro en la política de alcohol y menores).\n- **Razonamiento**: El evento ofrece alcohol a menores de edad, lo cual viola las políticas de la plataforma. Este hallazgo es crítico y no puede ser ignorado.",
-          "toolCalls": [
-            {
-              "id": "AnMAKjE911jTvaWNtpJCZ9XLrkK9feHk",
+              "id": "psn2Mz9GIouip2ke42ZOzaltVCAfjyFc",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento \\\"Botellón +14 de fin de curso\\\" debe ser rechazado debido a un fallo crítico en la política de alcohol y menores. El título y la descripción del evento indican que está dirigido a personas mayores de 14 años (\\\"+14\\\") y menciona la venta de cervezas, lo cual implica la oferta de alcohol a menores de edad. En España, la mayoría de edad es 18 años, y la venta de alcohol a menores de 18 años está prohibida por ley. Este hallazgo es un fallo grave según las políticas de la plataforma y no puede ser ignorado. No hay evidencia de fraude ni ilegalidad adicional, pero el fallo en la política de alcohol y menores es suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El evento ofrece alcohol a menores de edad: título «Botellón +14» y descripción menciona «cervezas … +14», lo cual implica la venta de alcohol a personas menores de 18 años.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_1551f43933.jpg\",\"title\":\"Cobertura del evento\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Botellón +14 de fin de curso\\\" presenta una falla clara en el check minors_alcohol: ofrece alcohol a menores de edad (título \\\"Botellón +14\\\" y descripción \\\"cervezas +14\\\"). Esto es una violación directa de las políticas de contenido para menores, independientemente de la edad indicada. No hay evidencia de fraude ni ilegalidad adicional, pero esta falla es suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El título y descripción ofrecen alcohol a menores de edad: «Botellón … +14» en el título; «cervezas … +14» en la descripción.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_1551f43933.jpg\",\"title\":\"Cobertura del evento\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 23004 corresponde a Jaén.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género fiesta, Jaén, aforo 300to1000).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Darymelia» figura en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/539737386\",\"title\":\"OpenStreetMap: Darymelia (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Darymelia»; la sesión con más entradas pone a la venta 800.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3977,
-          "outputTokens": 1076
+          "inputTokens": 3690,
+          "outputTokens": 1634
         }
       }
     }

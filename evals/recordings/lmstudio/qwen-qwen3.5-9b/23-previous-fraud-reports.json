@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "01e0b70057555542aa49d58440b5283c2e3b834515482d5cfb43bae86fca2f90",
-      "latencyMs": 2592,
+      "requestHash": "68acae3eddee5994d12cc1e59d738fcf2a9a71c45e3180e9eea9b189665cf22d",
+      "latencyMs": 2496,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "NQogaXHWUoRSmRIMJiOcERNm9bxFmipI",
+              "id": "wDPTIEjo9Pa2joVkQaTIIOBEEHuVoqTT",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_090fb3c94c\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3076,
+          "inputTokens": 3165,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "fd739074458c8ef8034c37876f1799a8d16309f44e0f182219215c4a088a377c",
-      "latencyMs": 1571,
+      "requestHash": "2c14427f081b3f2e5782ded4f574eecf29d27c943ee8cb15ab6a72dbfaadf2a8",
+      "latencyMs": 1568,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "59x5OJMLjJfdgkT3dqp1EFEGsxMHTaQS",
+              "id": "Pckjsok0jMK6uxilvJxzY7AtrzUNolJk",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_031108c163\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3484,
+          "inputTokens": 3573,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "54f2708c404c81e438fbcb8d8dc1c3ed8b1e59b13791177457cc204c4f22b5f8",
-      "latencyMs": 31379,
+      "requestHash": "6a8bfddbc59ffe544860c1029117e9b052bc99ec49ebe97fe2bcfece2db1bc1a",
+      "latencyMs": 34353,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_031108c163` (\"Tributo a los grandes del rock de los 80\") y su organizador \"Ritmo Total Eventos\". A continuación, presento mi análisis basado en la información disponible:\n\n### Análisis del Organizador\n- **Estado**: El organizador tiene estado \"approved\" y cuenta con una CIF válida.\n- **Historial**: Ha publicado 5 eventos, cancelado 2 y finalizado 3. No hay eventos despublicados por administradores ni cambios sustanciales.\n- **Reportes de contenido**: Hay 3 reportes en la categoría \"fraud\" que ya han sido gestionados (\"actioned\") y 1 en la categoría \"other\" que ha sido descartado (\"dismissed\"). Esto indica que el organizador ha tenido problemas previos, pero no hay indicios actuales de fraude.\n- **Equipo**: Tiene un equipo con roles definidos (owner, manager, scanner), lo que sugiere una estructura operativa adecuada.\n\n### Análisis del Evento\n- **Título y descripción**: El evento es un tributo al rock de los 80 con dos bandas tributo. La descripción es coherente con el género.\n- **Fecha y sesión**: La sesión está programada para el 24 de noviembre de 2026, con puertas a las 9:00 y final a las 13:00. No hay solapamientos ni fechas inminentes o lejanas.\n- **Precio y tarifas**: El precio de la entrada general es de 20€ (2000 céntimos) y la tarifa de servicio es fija de 1€. Los precios están dentro de los límites razonables según el benchmark del género \"rock\" en la provincia de Illes Balears.\n- **Lugar**: El recinto \"Es Gremi\" existe en OpenStreetMap como un local nocturno a pocos metros de las coordenadas proporcionadas. No hay información sobre su capacidad, pero la sesión con más entradas pone a la venta 500 localidades, lo cual parece razonable para un local nocturno.\n- **Términos y condiciones**: Las condiciones permiten la devolución en caso de cancelación y no admiten cambios de titularidad, lo cual es estándar.\n- **Pago y enlaces**: No hay solicitudes de pago fuera de la plataforma ni enlaces a otras ticketeras o acortadores.\n\n### Verificación de Similitudes\nNo se han encontrado eventos similares publicados por otros organizadores en las proximidades de la fecha del evento, lo que descarta la posibilidad de un clon o copia.\n\n### Conclusión\nEl evento parece legítimo y no presenta señales de fraude o ilegalidad. Aunque el organizador ha tenido reportes previos de fraude, estos ya han sido gestionados y no hay indicios actuales de problemas. La capacidad del recinto es desconocida, pero la venta de 500 entradas no parece excesiva para un local nocturno.\n\n### Recomendación\nDado que no hay evidencia de fraude o ilegalidad, y los controles determinísticos y de lugar han pasado, mi recomendación es **aprobar** el evento.",
+          "content": "He revisado el evento `evt_031108c163` (\"Tributo a los grandes del rock de los 80\") y su organizador `org_090fb3c94c` (\"Ritmo Total Eventos\"). A continuación, presento mi análisis basado en la información disponible:\n\n### Análisis del Organizador\n- **Estado**: El organizador tiene estado \"approved\" y cuenta con datos fiscales válidos (CIF con checksum correcto).\n- **Historial**: Ha publicado 5 eventos, cancelado 2 y finalizado 3. No hay eventos despublicados por administradores ni cambios sustanciales.\n- **Reportes de contenido**: Hay 3 reportes en la categoría \"fraud\" que ya han sido gestionados (\"actioned\") y 1 en la categoría \"other\" que ha sido descartado (\"dismissed\"). Esto indica que el organizador ha tenido incidentes pasados, pero no hay indicios actuales de fraude.\n- **Equipo**: Cuenta con un propietario, un gerente y dos escáneres, lo que sugiere una estructura operativa sólida.\n\n### Análisis del Evento\n- **Título y descripción**: El evento es un tributo al rock de los 80 con tres bandas. La descripción parece coherente con el género.\n- **Artistas**: \"Neón Eterno\" (headliner) y \"Los Casetes\". Ambos tienen fotos asociadas.\n- **Precio**: La entrada general cuesta 20€ (2000 céntimos), lo cual es razonable para un evento de rock en Illes Balears según el benchmark (p90 de 35€).\n- **Gastos de gestión**: Son fijos a 1€, lo que representa menos del 20% del precio, cumpliendo con los estándares.\n- **Condiciones**: No niegan la devolución en caso de cancelación y no ofrecen alcohol a menores.\n- **Sesiones**: Una sola sesión el 24 de noviembre de 2026, sin solapamientos ni fechas inminentes o lejanas.\n- **Ubicación**: El recinto \"Es Gremi\" existe en OpenStreetMap como un nightclub cerca de las coordenadas proporcionadas. Sin embargo, el aforo no está disponible en Wikidata ni OpenStreetMap, lo que genera una incertidumbre sobre la capacidad real del lugar (la sesión pone a la venta 500 entradas).\n\n### Hallazgos Adicionales\n- **Eventos similares**: No se han encontrado eventos similares de otros organizadores en las proximidades, lo que descarta la posibilidad de clonación.\n- **Pago fuera de plataforma**: No hay indicios de pago fuera de la plataforma (Bizum, transferencia, etc.).\n- **Enlaces externos a ticketeras**: No hay enlaces a otras ticketeras ni acortadores de URL.\n\n### Conclusión\nEl evento parece legítimo y coherente con las prácticas habituales del sector. Sin embargo, existe una incertidumbre sobre el aforo del recinto \"Es Gremi\", ya que no se puede verificar su capacidad real. Esto podría ser un problema si el número de entradas a la venta (500) supera la capacidad real del lugar, pero también podría ser simplemente una falta de información pública.\n\nDado que no hay indicios claros de fraude o ilegalidad, y considerando que el organizador tiene un historial mixto pero gestionado adecuadamente, mi recomendación es **aprobar** el evento con una confianza moderada (0.7), ya que la única duda restante es sobre el aforo, que podría ser resuelto con más información si fuera necesario.\n\n### Recomendación\n- **Decisión**: `approve`\n- **Confianza**: 0.7\n- **Razonamiento**: El evento cumple con los estándares de precios, condiciones y ubicación. No hay indicios de fraude o ilegalidad. La única duda es sobre el aforo del recinto, pero no hay evidencia de que esto sea un problema grave en este momento.",
           "toolCalls": [
             {
-              "id": "VDgJyYA5KHnMwAJ5wKkFI5mIcXfTs6fJ",
+              "id": "YatFD6ZZjS1zHvpdZwbrsq3oSuXHn7zC",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.9,\"rationale\":\"El evento \\\"Tributo a los grandes del rock de los 80\\\" es legítimo y no presenta señales de fraude o ilegalidad. El organizador \\\"Ritmo Total Eventos\\\" tiene estado aprobado, CIF válida y estructura operativa adecuada. Aunque ha tenido reportes previos de fraude gestionados, no hay indicios actuales de problemas. Los controles determinísticos (pago, enlaces, términos, precios, etc.) han pasado, el recinto existe en OpenStreetMap y la venta de 500 entradas parece razonable para un local nocturno. No se han encontrado eventos similares que sugieran clonación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con estado aprobado, CIF válida y estructura operativa adecuada.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c\",\"title\":\"Ritmo Total Eventos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Organizador con 3 reportes de fraude gestionados y 1 descartado. Sin indicios actuales de problemas.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Capacidad desconocida para el recinto 'Es Gremi', pero la venta de 500 entradas parece razonable.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/386615333\",\"title\":\"OpenStreetMap: es Gremi\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se han encontrado eventos similares que sugieran clonación.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.7,\"rationale\":\"El evento \\\"Tributo a los grandes del rock de los 80\\\" cumple con los estándares de precios, condiciones y ubicación. No hay indicios de fraude o ilegalidad. La única duda es sobre el aforo del recinto \\\"Es Gremi\\\", pero no hay evidencia de que esto sea un problema grave en este momento. El organizador tiene un historial mixto pero gestionado adecuadamente.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con datos fiscales válidos y estado 'approved'.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c\",\"title\":\"Ritmo Total Eventos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Organizador con 3 reportes de fraude gestionados y 1 reporte 'other' descartado.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/organizer/org_090fb3c94c\",\"title\":\"Ritmo Total Eventos\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «es Gremi».\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/386615333\",\"title\":\"OpenStreetMap: es Gremi (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en las proximidades.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3622,
-          "outputTokens": 1179
+          "inputTokens": 3711,
+          "outputTokens": 1331
         }
       }
     }

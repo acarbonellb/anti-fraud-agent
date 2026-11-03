@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v3",
-  "clock": "2026-11-03T12:25:00.000Z",
+  "clock": "2026-11-03T12:57:00.000Z",
   "calls": [
     {
-      "requestHash": "7e4ad286cda25f31e52e5d497c1f02c6dd36205bd52e3d62ea5eaf79fbe94a9f",
-      "latencyMs": 1667,
+      "requestHash": "1e62043a4195017c6ba6fdbfd38c6aa7a64b46091f954fad42df20cd9381777f",
+      "latencyMs": 3027,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "VF66ip3UOYDigGtf0vaTP5pP7bDdTBnZ",
+              "id": "8NHh5C7UTSJZfLDQmYaeu2FUHLNkSQui",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c301c6a2f4\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3101,
+          "inputTokens": 3187,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "6955cd31fe6d44eacf40df15399b2c50253552388a1c83850785f72ea0e0f529",
-      "latencyMs": 1784,
+      "requestHash": "59faa14826b2b91a3ba85919267aa091c07c4d71a147bbbb30b614a51de45ae5",
+      "latencyMs": 1498,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "AMAPGQQek7LVZt8qRX9CqUzn9ifNcKtI",
+              "id": "t327Z1w9JLkZSFdSTE0nnrwgzBKk2ByG",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_c6ca54cd26\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3494,
+          "inputTokens": 3580,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "acb946ca71f7ec1eafaedcb00d76ac587900bb0a8bb51f17f6d208537ae5a463",
-      "latencyMs": 60962,
+      "requestHash": "1ff1889fb2f970070473fd9995a70da04e78f44f45795a2215ba577976bdc224",
+      "latencyMs": 49691,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_c6ca54cd26` (\"Hiru Haize en directo\") y su contexto. A continuación, presento mi análisis y recomendación:\n\n### Análisis de los hallazgos deterministas y del venue:\n- **postal_code_province**: Pass (el código postal 28012 corresponde a Madrid).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **venue_exists**: Pass (el recinto \"Teatro Albéniz\" existe en OpenStreetMap).\n- **venue_capacity**: Warn (la capacidad de venta es 1,2 veces el aforo oficial de OpenStreetMap; esto puede tener explicación legítima, como una terraza o un aforo ampliado).\n\n### Contexto del organizador:\n- **Organizador**: \"Itsasargi Kontzertuak\" (nombre en euskera que significa \"Conciertos de la tormenta\").\n- **Estado**: Aprobado.\n- **Creado**: 17 de mayo de 2024.\n- **Descripción**: Promotora de conciertos y espectáculos en Madrid.\n- **Datos fiscales**: Presentes y con checksum válido (CIF).\n- **Propietario**: Cuenta activa desde hace 930 días, correo verificado, sin otros organizadores.\n- **Equipo**: 1 propietario, 1 manager, 2 scanners.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones anteriores como agente.\n\n### Búsqueda de eventos similares:\nNo se encontraron eventos similares en los últimos 60 días en la misma provincia con un título parecido. Esto descarta la posibilidad de clonación o duplicidad exacta con otro organizador.\n\n### Observaciones adicionales:\n- El nombre del organizador (\"Itsasargi Kontzertuak\") y el título del evento (\"Hiru Haize en directo\") están en euskera, lo cual es coherente con la descripción de la promotora como \"promotora de conciertos y espectáculos en Madrid\". No hay indicios de impersonación de un promoter conocido.\n- El aforo de venta (1.100 entradas) es ligeramente superior al aforo oficial del teatro (898), pero esto puede explicarse por una terraza o un aforo ampliado, como indica el hallazgo \"warn\" en `venue_capacity`.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas abusivas. El único hallazgo es un \"warn\" sobre la capacidad del venue, pero este tiene una explicación plausible (terraza o aforo ampliado). El organizador tiene un historial limpio y datos fiscales válidos.\n\n### Recomendación:\n**Aprobar** el evento con una confianza alta (0.95), ya que todos los hallazgos deterministas son \"pass\" o \"warn\" con explicaciones legítimas, y no hay señales de fraude ni ilegalidad.",
+          "content": "He revisado el evento `evt_c6ca54cd26` (\"Hiru Haize en directo\") y su contexto. A continuación presento mi análisis y recomendación:\n\n### Análisis de los hallazgos determinísticos y del venue:\n- **postal_code_province**: Pass (el código postal 28012 corresponde a Madrid).\n- **off_platform_payment**: Pass (no hay solicitud de pago fuera de la plataforma).\n- **external_ticketing_link**: Pass (no hay enlaces a otras ticketeras ni acortadores).\n- **abusive_terms**: Pass (las condiciones permiten devoluciones en caso de cancelación).\n- **minors_alcohol**: Pass (no se ofrece alcohol a menores).\n- **prompt_injection**: Pass (no hay intentos de instruir al revisor).\n- **price_sanity**: Pass (ninguna entrada VIP cuesta menos que una general).\n- **service_fee**: Pass (los gastos de gestión no superan el 20% del precio).\n- **session_dates**: Pass (las sesiones no se solapan).\n- **session_timing**: Pass (las fechas no son inminentes ni lejanas).\n- **price_benchmark**: Pass (ningún precio supera 3 veces el p90 de eventos comparables).\n- **venue_exists**: Pass (el recinto \"Teatro Albéniz\" existe en OpenStreetMap cerca de las coordenadas del evento).\n- **venue_capacity**: Warn (el aforo a la venta es 1.2 veces el aforo oficial de OpenStreetMap, lo cual puede tener explicación como una terraza o aforo ampliado).\n\n### Contexto del organizador:\n- **Organizador**: \"Itsasargi Kontzertuak\" (nombre en euskera que significa \"Conciertos de Itsasargi\").\n- **Estado**: Aprobado.\n- **Creado**: 17 de mayo de 2024.\n- **Descripción**: Promotora de conciertos y espectáculos en Madrid.\n- **Datos fiscales**: Presentes y con checksum válido (CIF).\n- **Propietario**: Cuenta de 930 días, email verificado, sin otros organizadores.\n- **Equipo**: 1 propietario, 1 manager, 2 scanners.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones anteriores como agente.\n\n### Hallazgos adicionales:\n- No hay eventos similares en los últimos 60 días (no hay clones).\n- El nombre del organizador (\"Itsasargi Kontzertuak\") y el título del evento (\"Hiru Haize en directo\") están en euskera, lo cual es consistente con la descripción de la promotora. No hay señales de impersonación de un promoter conocido.\n\n### Evaluación del hallazgo \"venue_capacity\":\nEl aforo a la venta (1.100) es 1.2 veces el aforo oficial de OpenStreetMap (898). Esto puede tener explicaciones inocentes, como una terraza adicional o un aforo ampliado autorizado. No hay señal de fraude aquí.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas abusivas. El evento parece legítimo, con un organizador histórico y fiscalmente correcto. El hallazgo de \"venue_capacity\" es solo una advertencia, no un fallo.\n\n**Recomendación**: APROBAR.",
           "toolCalls": [
             {
-              "id": "3WFiGWpiydUmgfvSYnalYOGvphTjoIYK",
+              "id": "CiCzB6rwxEJRpWms7wQsn5L6zxS9bj2l",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Hiru Haize en directo\\\" ha sido revisado exhaustivamente. Todos los hallazgos deterministas son \\\"pass\\\" o \\\"warn\\\" con explicaciones legítimas (por ejemplo, el aforo de venta es ligeramente superior al oficial debido a una terraza o aforo ampliado). El organizador \\\"Itsasargi Kontzertuak\\\" tiene un historial limpio, datos fiscales válidos y no hay indicios de fraude, ilegalidad o prácticas abusivas. No se encontraron eventos similares que sugieran clonación. Se recomienda aprobar el evento con confianza alta (0.95).\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 28012 corresponde a Madrid.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Albéniz» figura en OpenStreetMap como amenity=theatre a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 1.100, 1,2 veces el aforo de 898 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Entre 1 y 2 veces puede tener explicación (una terraza, un aforo ampliado).\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado con datos fiscales válidos y cuenta activa desde 2024-05-17.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días en la misma provincia.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Hiru Haize en directo\\\" es legítimo: organizador histórico y fiscalmente correcto, recinto verificado, precios y gastos de gestión razonables, sin señales de fraude o ilegalidad. El hallazgo de venue_capacity (aforo a la venta 1.2 veces el oficial) tiene explicación inocente (terraza o aforo ampliado). No hay clones ni eventos similares recientes.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 28012 corresponde a Madrid.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Madrid, aforo 1000to5000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Albéniz» figura en OpenStreetMap como amenity=theatre a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 1.100, 1,2 veces el aforo de 898 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Entre 1 y 2 veces puede tener explicación (una terraza, un aforo ampliado).\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador histórico (930 días), fiscalidad correcta (CIF con checksum válido), sin otros organizadores del propietario.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido, 0 revisiones anteriores como agente.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en los últimos 60 días (no hay clones).\",\"confidence\":1,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3627,
-          "outputTokens": 1948
+          "inputTokens": 3713,
+          "outputTokens": 1926
         }
       }
     }
