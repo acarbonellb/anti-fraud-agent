@@ -16,8 +16,10 @@
  *   `rule` system finding, and confidence is at the threshold: the request is
  *   mechanical, anyone can verify it with the rule.
  * - `reject` resolves on its own only on a hard signal: a `fail` from a
- *   hard-signal check that is a `rule` system finding or carries a source
- *   (a model finding, or a venue finding backed by OSM or Wikidata).
+ *   hard-signal check that is a `rule` system finding or carries a source.
+ *   A venue finding's source is OSM or Wikidata. A model finding's source
+ *   counts only if a tool retrieved that URL in this run (`web_search`):
+ *   one the model wrote itself is a claim.
  * - Everything else is escalated.
  *
  * External evidence (ADR 0015) tightens two of those:
@@ -81,6 +83,8 @@ export interface AutonomyInput {
   confidence: number;
   systemFindings: readonly SystemFinding[];
   modelFindings: readonly Finding[];
+  /** URLs the run's tools retrieved; see `sourced`. */
+  retrievedUrls: ReadonlySet<string>;
   autoApproveThreshold: number;
 }
 
@@ -151,7 +155,7 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
         (finding) =>
           finding.verdict === "fail" &&
           HARD_SIGNAL_CHECKS.has(finding.check) &&
-          finding.sources.length > 0,
+          sourced(finding, input.retrievedUrls),
       ),
     ];
     return hardSignals.length > 0
@@ -220,6 +224,14 @@ function venueGaps(
           ]
         : []),
   ];
+}
+
+/** A model finding backed by a page a tool actually retrieved in this run. */
+function sourced(
+  finding: Finding,
+  retrievedUrls: ReadonlySet<string>,
+): boolean {
+  return finding.sources.some((source) => retrievedUrls.has(source.url));
 }
 
 function checks(findings: readonly Finding[]): string {

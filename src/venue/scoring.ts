@@ -13,6 +13,7 @@
 import type { EventReviewContext, Finding } from "../satella-client/schemas.js";
 import type { CheckId } from "../agent/checks.js";
 import type { SystemFinding } from "../checks/types.js";
+import type { SearchFailure, SearchResult } from "../search/types.js";
 import type { ProviderFailure, VenueProvider } from "./http.js";
 import { osmUrl, type Place, type PointPlace } from "./nominatim.js";
 import { itemUrl } from "./wikidata.js";
@@ -227,12 +228,21 @@ export interface CapacityEvidence {
   match: Match | null;
   /** Null when the place has no `wikidata` tag. */
   wikidata: Outcome<number | null> | null;
+  /**
+   * The web search fallback, asked only when neither Wikidata nor OSM
+   * publishes a capacity, and when a search provider is configured.
+   */
+  web: WebCapacitySearch | null;
   maxTicketsOnSale: number;
 }
 
+export type WebCapacitySearch =
+  | { ok: true; results: readonly SearchResult[] }
+  | { ok: false; failure: SearchFailure };
+
 /** `estimateVenueCapacity` (ADR 0015 point 4), compared per session. */
 export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
-  const { venue, match, wikidata, maxTicketsOnSale: tickets } = evidence;
+  const { venue, match, wikidata, web, maxTicketsOnSale: tickets } = evidence;
   const onSale = `la sesión con más entradas pone a la venta ${count(tickets)}`;
   if (match === null) {
     return venueFinding(
@@ -242,14 +252,22 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
     );
   }
 
-  const known = publishedCapacity(match.place, wikidata);
+  const known =
+    publishedCapacity(match.place, wikidata) ??
+    (web?.ok ? capacityFromWeb(venue, web.results) : null);
   if (known === null) {
     const failed =
       wikidata !== null && !wikidata.ok ? ` (${failureText(wikidata)})` : "";
+    const searched =
+      web === null
+        ? ""
+        : web.ok
+          ? ", ni la búsqueda web"
+          : `, y la búsqueda web falló (${web.failure})`;
     return venueFinding(
       "venue_capacity",
       "unknown",
-      `Aforo desconocido: ni Wikidata${failed} ni OpenStreetMap publican el aforo de «${placeName(match.place, venue)}»; ${onSale}.`,
+      `Aforo desconocido: ni Wikidata${failed} ni OpenStreetMap publican el aforo de «${placeName(match.place, venue)}»${searched}; ${onSale}.`,
     );
   }
 
@@ -280,8 +298,8 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
   );
 }
 
-/** Wikidata first, then the OSM tag (ADR 0015 point 4). */
-function publishedCapacity(
+/** Wikidata first, then the OSM tag (ADR 0015 point 4). Null: ask the web. */
+export function publishedCapacity(
   place: Place,
   wikidata: Outcome<number | null> | null,
 ): { capacity: number; source: Finding["sources"][number] } | null {
@@ -303,6 +321,60 @@ function publishedCapacity(
     };
   }
   return null;
+}
+
+/**
+ * The third step of ADR 0015 point 4: a capacity read from a search result
+ * that names the venue, with that result as the source. A number counts only
+ * next to a unit («300 personas») or right after «aforo de» or «aforo:», so a
+ * year or an address doesn't pass for one.
+ */
+export function capacityFromWeb(
+  venue: VenueToVerify,
+  results: readonly SearchResult[],
+): { capacity: number; source: Finding["sources"][number] } | null {
+  const name = fold(venue.name);
+  for (const result of results) {
+    const text = `${result.title}. ${result.snippet}`;
+    if (!fold(text).includes(name)) continue;
+    const match = CAPACITY_PATTERNS.map((pattern) => pattern.exec(text)).find(
+      (found) => found !== null,
+    );
+    const capacity = match?.[1] === undefined ? NaN : parseCount(match[1]);
+    if (capacity >= MIN_WEB_CAPACITY && capacity <= MAX_WEB_CAPACITY) {
+      return {
+        capacity,
+        source: {
+          url: result.url,
+          title: `la web (${new URL(result.url).hostname})`,
+        },
+      };
+    }
+  }
+  return null;
+}
+
+const NUMBER = String.raw`(\d{1,3}(?:[.\s]\d{3})+|\d{2,6})`;
+const CAPACITY_PATTERNS = [
+  new RegExp(
+    String.raw`(?:aforo|capacidad)\b[^.\d]{0,40}?${NUMBER}\s*(?:personas|espectadores|plazas|localidades|butacas|asistentes)\b`,
+    "iu",
+  ),
+  new RegExp(
+    String.raw`aforo(?:\s+(?:máximo|total))?\s*(?:de|:)\s*${NUMBER}\b`,
+    "iu",
+  ),
+];
+/** Outside this, a number next to «aforo» is more likely something else. */
+const MIN_WEB_CAPACITY = 20;
+const MAX_WEB_CAPACITY = 200_000;
+
+function parseCount(text: string): number {
+  return Number(text.replace(/[.\s]/g, ""));
+}
+
+function fold(text: string): string {
+  return text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
 /**

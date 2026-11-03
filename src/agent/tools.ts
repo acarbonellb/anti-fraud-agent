@@ -14,6 +14,11 @@ export interface AgentTool<Input = unknown, Output = unknown> {
   /** Web searches count against `AGENT_MAX_WEB_SEARCHES` (brief §4.2). */
   kind: "satella" | "deterministic" | "web_search" | "external";
   execute(input: Input): Promise<Output>;
+  /**
+   * URLs the output retrieved: the only sources a model finding may cite and
+   * have the policy count (ADR 0015 point 6).
+   */
+  sources?(output: Output): string[];
 }
 
 /** Erases the input type so tools of different shapes fit in one list. */

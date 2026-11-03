@@ -35,9 +35,11 @@ function decide(
   modelFindings: Finding[] = [],
   confidence = 0.95,
   subject: AutonomySubject = EVENT,
+  retrievedUrls: ReadonlySet<string> = new Set([source.url]),
 ) {
   return decideAutonomy({
     subject,
+    retrievedUrls,
     decision,
     confidence,
     systemFindings,
@@ -186,6 +188,26 @@ describe("approve needs venue evidence (ADR 0015)", () => {
   });
 });
 
+describe("web search can hold back, never let through (ADR 0015)", () => {
+  it("never counts a sourced model pass towards an approval", () => {
+    const verdict = decide(
+      "approve",
+      [rule("postal_code_province", "pass")],
+      [model("organizer_web_presence", "pass", [source])],
+    );
+    expect(verdict.autonomy).toBe("escalated");
+    expect(verdict.reasons).toContain("venue not verified (not checked)");
+  });
+
+  it("escalates an approval on a sourced model warning", () => {
+    expect(
+      decide("approve", cleanSystem, [
+        model("artist_availability", "warn", [source]),
+      ]).autonomy,
+    ).toBe("escalated");
+  });
+});
+
 describe("organizer reviews (ADR 0015)", () => {
   it.each(["approve", "reject", "request_info"] as const)(
     "never resolve on their own: %s",
@@ -223,6 +245,21 @@ describe("reject", () => {
 
   it("doesn't resolve on an unsourced heuristic hard signal", () => {
     expect(decide("reject", [capacity("fail", [])]).autonomy).toBe("escalated");
+  });
+
+  it("doesn't count a source the model wrote itself (ADR 0015)", () => {
+    const invented = {
+      url: "https://example.test/invented",
+      title: "Inventada",
+    };
+    expect(
+      decide("reject", cleanSystem, [
+        model("exact_duplicate_other_organizer", "fail", [invented]),
+      ]),
+    ).toEqual({
+      autonomy: "escalated",
+      reasons: ["rejection without a rule-based or sourced hard signal"],
+    });
   });
 
   it("resolves on its own on a sourced hard signal from the model", () => {

@@ -170,6 +170,7 @@ describe("estimateVenueCapacity", () => {
       venue,
       match: match({ wikidata: "Q1", capacity: "50" }),
       wikidata: ok(400),
+      web: null,
       maxTicketsOnSale: 350,
     });
     expect(finding.verdict).toBe("pass");
@@ -183,6 +184,7 @@ describe("estimateVenueCapacity", () => {
       venue,
       match: match({ capacity: "400" }),
       wikidata: null,
+      web: null,
       maxTicketsOnSale: 350,
     });
     expect(finding.verdict).toBe("pass");
@@ -204,6 +206,7 @@ describe("estimateVenueCapacity", () => {
         venue,
         match: match({ wikidata: "Q1", capacity: "400" }),
         wikidata,
+        web: null,
         maxTicketsOnSale: 350,
       });
       expect(finding.verdict).toBe("pass");
@@ -215,6 +218,7 @@ describe("estimateVenueCapacity", () => {
       venue,
       match: match({}),
       wikidata: null,
+      web: null,
       maxTicketsOnSale: 80,
     });
     expect(finding.check).toBe("venue_capacity");
@@ -226,6 +230,7 @@ describe("estimateVenueCapacity", () => {
       venue,
       match: null,
       wikidata: null,
+      web: null,
       maxTicketsOnSale: 80,
     });
     expect(finding.verdict).toBe("unknown");
@@ -243,6 +248,7 @@ describe("estimateVenueCapacity", () => {
         venue,
         match: match({ capacity: "400" }),
         wikidata: null,
+        web: null,
         maxTicketsOnSale: tickets,
       });
       expect(finding.check).toBe(check);
@@ -250,11 +256,75 @@ describe("estimateVenueCapacity", () => {
     },
   );
 
+  describe("from the web, the last resort", () => {
+    const result = (title: string, snippet: string) => ({
+      url: "https://salas-ejemplo.test/sala-ejemplo",
+      title,
+      snippet,
+    });
+    const fromWeb = (results: ReturnType<typeof result>[]) =>
+      scoreCapacity({
+        venue,
+        match: match({}),
+        wikidata: null,
+        web: { ok: true, results },
+        maxTicketsOnSale: 350,
+      }).finding;
+
+    it.each([
+      "Sala Ejemplo tiene un aforo de 400 personas.",
+      "Sala Ejemplo · Aforo: 400",
+      "Capacidad para 1.200 espectadores en Sala Ejemplo.",
+    ])("reads a capacity next to a unit or after «aforo»: %s", (snippet) => {
+      const finding = fromWeb([result("Sala Ejemplo", snippet)]);
+      expect(finding.verdict).toBe("pass");
+      expect(finding.sources[0]?.url).toBe(
+        "https://salas-ejemplo.test/sala-ejemplo",
+      );
+      expect(finding.detail).toContain("la web (salas-ejemplo.test)");
+    });
+
+    it.each([
+      ["a page about another venue", "Otra Sala", "Aforo de 400 personas."],
+      ["a year next to «aforo»", "Sala Ejemplo", "Aforo ampliado en 2019."],
+      ["no number at all", "Sala Ejemplo", "Aforo reducido, reserva ya."],
+    ])("ignores %s", (_, title, snippet) => {
+      expect(fromWeb([result(title, snippet)]).verdict).toBe("unknown");
+    });
+
+    it("prefers Wikidata and OSM over the web", () => {
+      const { finding } = scoreCapacity({
+        venue,
+        match: match({ capacity: "100" }),
+        wikidata: null,
+        web: {
+          ok: true,
+          results: [result("Sala Ejemplo", "Aforo de 5.000 personas.")],
+        },
+        maxTicketsOnSale: 350,
+      });
+      expect(finding.verdict).toBe("fail");
+    });
+
+    it("says when the search failed", () => {
+      const { finding } = scoreCapacity({
+        venue,
+        match: match({}),
+        wikidata: null,
+        web: { ok: false, failure: "quota_exceeded" },
+        maxTicketsOnSale: 350,
+      });
+      expect(finding.verdict).toBe("unknown");
+      expect(finding.detail).toContain("la búsqueda web falló");
+    });
+  });
+
   it("names the ratio, the capacity and its source in the detail", () => {
     const { finding } = scoreCapacity({
       venue,
       match: match({ capacity: "140" }),
       wikidata: null,
+      web: null,
       maxTicketsOnSale: 2000,
     });
     expect(finding.detail).toBe(

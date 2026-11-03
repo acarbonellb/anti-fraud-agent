@@ -4,6 +4,7 @@ import {
   establishedOrganizer,
   eventFixtures,
   IN_THREE_WEEKS,
+  pageDate,
 } from "../builders.js";
 
 const SEED = "artist-booked-elsewhere";
@@ -13,7 +14,6 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "The artist has the same date announced in another city",
   subject: "event",
-  requires: ["external"],
   expected: { decisions: ["reject"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(
@@ -48,6 +48,22 @@ export const evalCase: EvalCase = {
         },
       ],
     });
-    return eventFixtures(event, organizer);
+    const day = pageDate(event.sessions[0]?.startsAt ?? clock.toISOString());
+    return {
+      ...eventFixtures(event, organizer),
+      // Authored: the band and its tour are invented (CLAUDE.md §5).
+      web: [
+        {
+          url: "https://losbarbarosdelsur.test/gira-tierra-quemada",
+          title: "Los Bárbaros del Sur — Gira Tierra Quemada: fechas",
+          snippet: `Gira Tierra Quemada. ${day}: Bilbao, Festival Ola Norte (cabeza de cartel). Próximas fechas en Valencia y Zaragoza. Entradas solo en los enlaces de esta página.`,
+        },
+        {
+          url: "https://festivalolanorte.test/cartel",
+          title: "Festival Ola Norte — cartel por días",
+          snippet: `${day}: Los Bárbaros del Sur cierran el escenario principal a las 23:30, presentando Tierra Quemada.`,
+        },
+      ],
+    };
   },
 };

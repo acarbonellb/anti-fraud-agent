@@ -39,6 +39,13 @@ import {
 } from "./recording.js";
 import type { ReportSet } from "./report.js";
 import type { RecordingSet } from "./store.js";
+import { createAuthoredSearch } from "../search/authored.js";
+import type { WebSearch } from "../search/types.js";
+import { webSearchTool } from "../search/web-search-tool.js";
+import {
+  createRecordingSearch,
+  createReplaySearch,
+} from "./search-recording.js";
 import {
   createRecordingFetch,
   createReplayFetch,
@@ -76,6 +83,11 @@ export interface Recorded {
 export interface RecordOptions extends RunOptions {
   /** The network for the venue providers. Required, so a test can't reach it by accident. */
   fetch: Fetch;
+  /**
+   * The real web search (Tavily), for cases without authored pages.
+   * Required for the same reason.
+   */
+  search: WebSearch;
   /** Shared across cases: the providers' limits are per client. */
   throttles?: VenueThrottles;
 }
@@ -89,11 +101,13 @@ export async function recordCase(
   const prompt = options.prompt ?? REVIEW_PROMPT;
   const recorder = createRecordingProvider(provider);
   const tools = createRecordingFetch(options.fetch);
+  const searches = createRecordingSearch(options.search);
   try {
     const outcome = await review(
       evalCase,
       recorder,
       tools.fetch,
+      searches.search,
       options.throttles ?? createVenueThrottles(),
       clock,
       prompt,
@@ -106,6 +120,7 @@ export async function recordCase(
       promptVersion: prompt.version,
       clock: clock.toISOString(),
       calls: recorder.calls,
+      searches: searches.calls(),
     };
     return {
       recording,
@@ -139,6 +154,7 @@ export async function replayCase(
       evalCase,
       createReplayProvider(recording),
       createReplayFetch(toolRecording),
+      createReplaySearch(recording.searches),
       REPLAY_THROTTLES,
       new Date(recording.clock),
       prompt,
@@ -194,12 +210,17 @@ async function review(
   evalCase: EvalCase,
   provider: LlmProvider,
   fetch: Fetch,
+  webSearch: WebSearch,
   throttles: VenueThrottles,
   clock: Date,
   prompt: Prompt,
   autoApproveThreshold: number,
 ): Promise<Omit<CaseOutcome, "latencyMs">> {
   const fixtures = evalCase.build(clock);
+  // Invented organizers, artists and texts have no real web: their pages are
+  // authored, and searched in code in both modes (ADR 0015 point 9).
+  const search =
+    fixtures.web === undefined ? webSearch : createAuthoredSearch(fixtures.web);
   const mock = await startMockSatella({
     fixtures: {
       events: fixtures.event === undefined ? [] : [fixtures.event],
@@ -229,7 +250,8 @@ async function review(
       provider,
       limits: runLimits,
       autoApproveThreshold,
-      venueChecks: createVenueChecks({ fetch, throttles }),
+      venueChecks: createVenueChecks({ fetch, throttles, search }),
+      extraTools: [webSearchTool(search)],
       now: () => clock,
       fence: createUntrustedFence(nonceFor(evalCase.id)),
       prompt,
@@ -241,6 +263,7 @@ async function review(
       autonomy: run.autonomy.autonomy,
       confidence: run.recommendation.confidence,
       reasons: run.autonomy.reasons,
+      authoredWeb: fixtures.web !== undefined,
       venue: run.recommendation.findings
         .filter((finding) => isVenueCheck(finding.check))
         .map((finding) => ({ check: finding.check, verdict: finding.verdict })),

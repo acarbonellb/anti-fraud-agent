@@ -71,6 +71,10 @@ fixed.
   these, because the agent already has what it needs to get them right.
 - **Recording**: the model's responses to one case, each with the hash of the request that
   produced it, plus the clock the fixtures were built from (`evals/recordings/`).
+- **Retrieved source**: a URL a tool returned in the current run (a `web_search` result). It is
+  the only kind of source the policy accepts on a model finding (ADR 0015).
+- **Authored web**: hand-written web pages for an eval case whose organizers, artists or texts
+  are invented. Every search in that case runs against them, in code (ADR 0015).
 - **Tool recording**: the venue providers' HTTP responses to one case, keyed by the hash of each
   request and shared by every model's recordings (`evals/tool-responses/`, ADR 0015).
 - **Record / replay**: `pnpm eval` runs the real model and records; `pnpm eval:replay` feeds the

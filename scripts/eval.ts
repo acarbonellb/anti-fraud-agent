@@ -3,8 +3,10 @@
  *
  *   pnpm eval [case…] [--note "<what changed>"]
  *                              record with the configured model (AGENT_LLM_*;
- *                              LM Studio by default, free) and the venue
- *                              providers (OSM, Wikidata: free), then replay all
+ *                              LM Studio by default, free), the venue
+ *                              providers (OSM, Wikidata: free) and Tavily
+ *                              (TAVILY_API_KEY: free plan credits), then
+ *                              replay all. Reads .env.
  *   pnpm eval:replay [--note "<what changed>"]
  *                              replay every recording, append to the history
  *                              and rewrite the report
@@ -24,6 +26,7 @@ import { fileURLToPath } from "node:url";
 
 import { EVAL_CASES } from "../evals/cases/index.js";
 import { loadConfig } from "../src/config/config.js";
+import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { gateFailures } from "../src/evals/gate.js";
 import {
   experimentIds,
@@ -42,6 +45,7 @@ import {
   writeToolRecording,
 } from "../src/evals/store.js";
 import { createOpenAiCompatibleProvider } from "../src/providers/openai-compatible/adapter.js";
+import { createTavilySearch } from "../src/search/tavily.js";
 import { createVenueThrottles } from "../src/venue/venue-checks.js";
 
 const RECORDINGS = fileURLToPath(
@@ -134,7 +138,15 @@ async function record(ids: readonly string[]): Promise<void> {
     console.error(`Unknown case(s): ${unknown.join(", ")}`);
     process.exit(2);
   }
+  loadLocalEnvFile();
   const config = loadConfig(process.env);
+  const { tavilyApiKey } = config.webSearch;
+  if (tavilyApiKey === undefined) {
+    console.error(
+      "✗ Recording needs TAVILY_API_KEY (in .env): the cases search the web.",
+    );
+    process.exit(2);
+  }
   const provider = createOpenAiCompatibleProvider({
     provider: config.llm.provider,
     baseUrl: config.llm.baseUrl,
@@ -157,7 +169,14 @@ async function record(ids: readonly string[]): Promise<void> {
       evalCase,
       provider,
       clock,
-      { fetch: globalThis.fetch, throttles },
+      {
+        fetch: globalThis.fetch,
+        search: createTavilySearch({
+          apiKey: tavilyApiKey,
+          fetch: globalThis.fetch,
+        }),
+        throttles,
+      },
     );
     if (recording !== null) writeRecording(RECORDINGS, evalCase, recording);
     if (toolRecording !== null) {

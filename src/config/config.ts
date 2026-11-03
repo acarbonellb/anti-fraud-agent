@@ -35,6 +35,9 @@ const envSchema = z.object({
   ),
   AGENT_LLM_MODEL: textWithDefault("qwen/qwen3.5-9b"),
   AGENT_LLM_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
+  // `webSearch` (ADR 0015 point 8). Optional: without it the agent runs
+  // without web search, and the evals can't record.
+  TAVILY_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
 });
 
 export interface Config {
@@ -50,6 +53,10 @@ export interface Config {
     model: string;
     /** Local servers need none. A secret: never logged. */
     apiKey: string | undefined;
+  };
+  webSearch: {
+    /** A secret: never logged. Undefined: no web search. */
+    tavilyApiKey: string | undefined;
   };
 }
 
@@ -101,5 +108,6 @@ export function loadConfig(
       model: parsed.AGENT_LLM_MODEL,
       apiKey: parsed.AGENT_LLM_API_KEY,
     },
+    webSearch: { tavilyApiKey: parsed.TAVILY_API_KEY },
   };
 }

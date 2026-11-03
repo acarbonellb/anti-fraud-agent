@@ -31,6 +31,7 @@ function recordingOf(...steps: [CompletionRequest, string][]): Recording {
     model: "scripted-model",
     promptVersion: "review-v2",
     clock: "2026-11-02T10:00:00.000Z",
+    searches: [],
     calls: steps.map(([req, text]) => ({
       requestHash: hashRequest(req),
       latencyMs: 10,

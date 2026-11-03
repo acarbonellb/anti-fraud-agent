@@ -183,7 +183,12 @@ function renderCase(result: CaseResult): string {
             ...outcome.reasons,
           ].join("; "),
         ];
-  return `| ${[result.caseId, result.title, ...cells].map(cell).join(" | ")} |`;
+  // Invented organizers and artists have no real web (ADR 0015 point 9).
+  const title =
+    outcome?.authoredWeb === true
+      ? `${result.title} (authored web results)`
+      : result.title;
+  return `| ${[result.caseId, title, ...cells].map(cell).join(" | ")} |`;
 }
 
 const VENUE_LABELS: Readonly<Record<string, string>> = {

@@ -1,8 +1,9 @@
 /**
  * Runs one real review on this machine, at no cost: the configured
  * OpenAI-compatible model (LM Studio by default) against the in-process
- * Satella mock and its fictitious fixtures. Only the venue checks leave the
- * machine, to OpenStreetMap and Wikidata: free, keyless open data.
+ * Satella mock and its fictitious fixtures. Only the venue checks and web
+ * search leave the machine: OpenStreetMap and Wikidata (free, keyless) and,
+ * with TAVILY_API_KEY in .env, Tavily (free plan credits).
  *
  *   pnpm review:local            # the fixture event
  *   pnpm review:local organizer  # the fixture organizer
@@ -11,6 +12,9 @@ import { randomUUID } from "node:crypto";
 
 import { reviewSubject } from "../src/agent/review.js";
 import { loadConfig } from "../src/config/config.js";
+import { loadLocalEnvFile } from "../src/config/env-file.js";
+import { createTavilySearch } from "../src/search/tavily.js";
+import { webSearchTool } from "../src/search/web-search-tool.js";
 import { createOpenAiCompatibleProvider } from "../src/providers/openai-compatible/adapter.js";
 import { createSatellaClient } from "../src/satella-client/client.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
@@ -20,7 +24,14 @@ import {
   createVenueThrottles,
 } from "../src/venue/venue-checks.js";
 
+loadLocalEnvFile();
 const config = loadConfig(process.env);
+const { tavilyApiKey } = config.webSearch;
+// Without a key the review runs without web search, as production would.
+const search =
+  tavilyApiKey === undefined
+    ? undefined
+    : createTavilySearch({ apiKey: tavilyApiKey, fetch: globalThis.fetch });
 const subject =
   process.argv[2] === "organizer"
     ? { type: "organizer" as const, id: fixtures.organizerContext.organizer.id }
@@ -58,7 +69,9 @@ try {
     venueChecks: createVenueChecks({
       fetch: globalThis.fetch,
       throttles: createVenueThrottles(),
+      ...(search === undefined ? {} : { search }),
     }),
+    extraTools: search === undefined ? [] : [webSearchTool(search)],
   });
 
   const { run, review } = result;

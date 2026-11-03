@@ -9,12 +9,13 @@ import { createHash } from "node:crypto";
 
 import { z } from "zod";
 
-import { DomainError } from "../errors.js";
 import type {
   CompletionRequest,
   CompletionResponse,
   LlmProvider,
 } from "../providers/types.js";
+import { searchCallSchema } from "./search-recording.js";
+import { StaleRecordingError } from "./stale.js";
 
 const toolCallSchema = z.object({
   id: z.string(),
@@ -50,31 +51,12 @@ export const recordingSchema = z.object({
   /** The clock the case's fixtures were built from; replay reuses it. */
   clock: z.iso.datetime(),
   calls: z.array(recordedCallSchema),
+  /** The web searches of the run (`web_search` and the capacity fallback). */
+  searches: z.array(searchCallSchema).default([]),
 });
 export type Recording = z.infer<typeof recordingSchema>;
 
-export type StaleReason =
-  | "missing_recording"
-  | "prompt_version"
-  | "request_changed"
-  | "missing_step"
-  // A tool request with no recorded response: changed, or never recorded.
-  | "missing_tool_response";
-
-/** The recording no longer matches what the code sends: re-run `pnpm eval`. */
-export class StaleRecordingError extends DomainError {
-  readonly code = "EVAL_STALE";
-
-  constructor(
-    readonly reason: StaleReason,
-    readonly step: number | null = null,
-  ) {
-    super(
-      `Stale recording: ${reason}` +
-        (step === null ? "" : ` at call ${String(step + 1)}`),
-    );
-  }
-}
+export { type StaleReason, StaleRecordingError } from "./stale.js";
 
 /** SHA-256 of the request's canonical JSON: keys sorted, so order never matters. */
 export function hashRequest(request: CompletionRequest): string {
