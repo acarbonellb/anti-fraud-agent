@@ -45,6 +45,11 @@ fixed.
 - **Rule finding / heuristic finding**: a deterministic finding that is a certain inconsistency
   anyone can verify (rule), or one that crossed a threshold still needing judgement (heuristic).
   Only rule findings let a `request_info` resolve on its own (ADR 0012).
+- **Venue checks**: `verifyVenue` and `estimateVenueCapacity`, external checks run in code before
+  the model on the review context. Their findings are system findings with sources, and an event's
+  auto-approval requires them (ADR 0015).
+- **Exposure cap**: the most tickets on sale per session (300) an event may have to resolve an
+  approval on its own while its venue's capacity is unknown (ADR 0015).
 - **Mechanical request**: a `request_info` whose every negative finding is a rule finding.
 - **Run**: one execution of the agent on one subject, with its tool trace, tokens, cost and
   latency.
@@ -60,13 +65,17 @@ fixed.
 - **Expected outcome**: the decision (or decisions: case 4 takes two, case 25 «never approve») and
   the autonomy a case should end with, from brief §5 refined by ADR 0012.
 - **External case**: a case only the external tools (#7: venue, capacity, web presence…) can
-  settle, tagged `requires: ["external"]`. It runs and is reported, but not gated.
+  settle, tagged `requires: ["external"]`. It runs and is reported, but not gated. A case loses the
+  tag with the tool that settles it (ADR 0015).
 - **Gated case**: every case that is not external. The CI gate and the **Gated** metrics count only
   these, because the agent already has what it needs to get them right.
 - **Recording**: the model's responses to one case, each with the hash of the request that
   produced it, plus the clock the fixtures were built from (`evals/recordings/`).
 - **Record / replay**: `pnpm eval` runs the real model and records; `pnpm eval:replay` feeds the
   recorded responses back through the real agent, with no model, network or cost.
+- **Fixture origin**: `recorded` (a real provider response, committed only for open data or
+  reduced to the fields the tool uses) or `authored` (written by hand, for invented organizers,
+  artists and texts) (ADR 0015).
 - **Stale recording**: one whose requests no longer match what the code sends (the prompt, a tool,
   a check or a fixture changed), or that is missing. It must be recorded again.
 - **Auto-approved fraud rate**: share of problem cases that ended in `approve` + `auto_resolved`,

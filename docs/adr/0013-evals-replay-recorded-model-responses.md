@@ -1,7 +1,7 @@
 # ADR 0013 — Offline evals replay recorded model responses, and CI gates on fraud that skips the admin
 
 - **Date:** 2026-11-02
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-03 (#7)
 - **Related:** brief §4.3, §5 and D8; ADR 0008 (local model first; the evals choose the default
   model); ADR 0012 (the autonomy policy the gate leans on); issues #6 and #7.
 
@@ -98,3 +98,10 @@ that would keep CI red on every PR, over a number the policy already contains.
 - When #7 removes the `external` tags, those cases join the gate. If their approvals still
   resolve on their own then, CI goes red until the external evidence is required for an
   auto-approval (ADR 0012, consequences).
+
+## Amendment (2026-11-03, #7): external evidence
+
+ADR 0015 refines point 5: each external case loses its tag with the tool that settles it (venue
+checks: 01, 02, 04, N5; `webSearch`: 05, 06, 08, 20), and case 09 stays external as a known gap.
+External tool responses are recorded at the provider boundary with the same request hash and
+staleness.

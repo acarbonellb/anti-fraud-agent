@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-03 (#7)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7 and #18.
 
 ## Context
@@ -91,3 +91,9 @@ be measured, provided the rule is written down and each finding names it.
   external checks exist (#7: venue, capacity, presence), they should become part of the
   required evidence for an auto-approval, not just the absence of negatives.
 - The prompt is now `review-v2`: it tells the model the deterministic checks already ran.
+
+## Amendment (2026-11-03, #7): external evidence
+
+ADR 0015 settles the consequence above: an event's auto-approval now requires the venue checks
+(`verifyVenue` `pass`, and capacity `pass` or unknown within the exposure cap), a `webSearch`
+finding never counts towards one, and organizer reviews always escalate.
