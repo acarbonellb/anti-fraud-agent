@@ -2,19 +2,19 @@
   "caseId": "03",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:25:00.000Z",
   "calls": [
     {
-      "requestHash": "a12f15945c3895481723f07e143f61f47cbada31c5b158d97ded63224cd33cc2",
-      "latencyMs": 1550,
+      "requestHash": "1f6935410c9399c6d25ce4b67779aa3d5432ec4e866a2391b53ee88eb73d8831",
+      "latencyMs": 1592,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "cDC3xaIg3u8oqAzh8pscJuDLgicjhSgb",
+              "id": "9LK8qmMFqHeRaCK7F0LpYJYMpcnkxm8E",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_97613611b0\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2896,
+          "inputTokens": 3124,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "96e0c51498f3029edf82ea3e68c4d87f0b1de4a47e5a3099234e70a671cdb7fd",
-      "latencyMs": 1573,
+      "requestHash": "34a90f6828de41214bad51bf530c14bc7a67c49b2f8f07a4a6b8606700d057c9",
+      "latencyMs": 2238,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "WQaKbElzBL6rjUJ5A4fVvyvCSGQHUNpu",
+              "id": "Gm8OdxVLnxvthua80kLZnVA6If3E7hVL",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_6c33a8dca1\",\"windowDays\":60}"
             }
@@ -44,52 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3289,
+          "inputTokens": 3517,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "3403d9cf0c8b2660943830856869b4532fdb5586d86fd1d351e73e62269e09b4",
-      "latencyMs": 1640,
+      "requestHash": "874e12391f61385401f18eaca1653d68fa4752968c19fe46dc4d8d3e6eb19a71",
+      "latencyMs": 24058,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos ya realizados:**\n- **postal_code_province: FAIL** - El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esta es una inconsistencia geográfica clara.\n- Todos los demás checks (venue_exists, venue_capacity, price_sanity, service_fee, session_dates, etc.) son PASS.\n\n**Contexto del organizador:**\n- Tablao Compás Producciones está aprobado y tiene 14 eventos publicados.\n- Datos fiscales válidos (CIF con checksum correcto).\n- Cuenta de 930 días, email verificado.\n- Sin reportes de contenido ni despublicaciones por admin.\n\n**Eventos similares:** Ninguno encontrado en los últimos 60 días en la misma provincia.\n\n**Análisis del hallazgo postal_code_province:**\nEsta es una inconsistencia geográfica clara: el código postal 28013 pertenece a Madrid (zona de Arganda del Rey), mientras que el evento se declara en Sevilla. Esto podría ser un error administrativo, pero también podría indicar que alguien está usando datos falsos o inconsistentes para ocultar la ubicación real del evento.\n\nDado que este es el único hallazgo negativo y no hay evidencia de fraude más grave (no hay pagos fuera de plataforma, enlaces externos, términos abusivos, etc.), y el organizador tiene un historial limpio, considero que esto merece una solicitud de información para aclarar la inconsistencia geográfica antes de aprobar.\n\n**Decisión: request_info**",
           "toolCalls": [
             {
-              "id": "pYlRT9Sqzhe6Ph9g9gOc2MdHHhuWnPZV",
-              "name": "get_price_benchmark",
-              "argumentsJson": "{\"genre\":\"flamenco\",\"province\":\"Sevilla\",\"capacityBand\":\"lt300\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3428,
-          "outputTokens": 59
-        }
-      }
-    },
-    {
-      "requestHash": "6984bd1b2201684b6b710f809a8310d3277cadd9ed526c872c8155ee5621afc4",
-      "latencyMs": 27394,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Error de código postal vs provincia (FAIL):** El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esto es una inconsistencia geográfica clara. Sin embargo, esto podría ser un error administrativo corregible.\n\n2. **Organizador sólido:** \n   - Tablao Compás Producciones está aprobado\n   - Cuenta con 930 días de antigüedad (más de 2 años)\n   - CIF válido y dirección presente\n   - Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido\n   - Sin otros organizadores del mismo dueño\n\n3. **Precio razonable:** 20€ para flamenco en Sevilla (capacidad <300) está dentro del rango normal (p50=18€, p90=35€).\n\n4. **Sin eventos similares detectados** en los últimos 60 días en la misma provincia con títulos parecidos.\n\n5. **Todos los checks determinísticos pasaron excepto el postal_code_province.**\n\n**Decisión:** La inconsistencia del código postal es un error administrativo, no una señal de fraude. El organizador tiene historial limpio y sólido. No hay evidencia de fraude ni ilegalidad.",
-          "toolCalls": [
-            {
-              "id": "mWy7ED3jUvAerp2wdttxELU94DY7D3Tx",
+              "id": "gsklihdFboyUKqUZjJC3lDwiyg02Z9T0",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento presenta una inconsistencia geográfica (código postal 28013 de Madrid vs provincia Sevilla), pero esto es claramente un error administrativo corregible, no una señal de fraude. El organizador \\\"Tablao Compás Producciones\\\" tiene historial sólido: aprobado desde mayo 2024, más de 900 días activos, CIF válido, sin reportes de contenido, sin eventos cancelados ni despublicados por admin. El precio (20€) está dentro del benchmark para flamenco en Sevilla. No hay eventos similares detectados que sugieran clonación. Todos los checks determinísticos pasaron excepto el postal_code_province. Se aprueba con confianza moderada dado el error de datos geográficos, pero sin señales de fraude.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"warn\",\"detail\":\"El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Posible error administrativo en el formulario.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_6c33a8dca1.jpg\",\"title\":\"Evento evt_6c33a8dca1\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-16, CIF válido, antigüedad 930 días, sin otros organizadores del dueño.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_6c33a8dca1.jpg\",\"title\":\"Evento evt_6c33a8dca1\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido, sin despublicaciones por admin.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_6c33a8dca1.jpg\",\"title\":\"Evento evt_6c33a8dca1\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en Sevilla en los últimos 60 días con títulos parecidos.\",\"confidence\":0.92,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_6c33a8dca1.jpg\",\"title\":\"Evento evt_6c33a8dca1\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Precio 20€ está dentro del benchmark para flamenco en Sevilla (p50=18€, p90=35€).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_6c33a8dca1.jpg\",\"title\":\"Evento evt_6c33a8dca1\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una inconsistencia geográfica clara: el código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esta discrepancia podría ser un error administrativo, pero también podría indicar que se está ocultando la ubicación real del evento. Dado que no hay otras señales de fraude y el organizador tiene un historial limpio, solicitamos información para aclarar esta inconsistencia antes de aprobar.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 corresponde a Madrid (zona de Arganda del Rey), pero la provincia declarada es Sevilla. Esta inconsistencia geográfica requiere aclaración.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega\"},{\"url\":\"https://es.wikipedia.org/wiki/C%C3%B3digos_postales_de_Espa%C3%B1a\",\"title\":\"Códigos postales de España\"}]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la dirección exacta del evento? ¿Por qué el código postal 28013 (Madrid) no coincide con la provincia de Sevilla declarada?\",\"¿El Teatro Lope de Vega en Avenida Honduras s/n está realmente en Sevilla o hay un error en los datos del evento?\"],\"draft\":\"Solicitamos aclaración sobre la inconsistencia geográfica entre el código postal 28013 (Madrid) y la provincia de Sevilla declarada para el evento.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3622,
-          "outputTokens": 1040
+          "inputTokens": 3656,
+          "outputTokens": 761
         }
       }
     }

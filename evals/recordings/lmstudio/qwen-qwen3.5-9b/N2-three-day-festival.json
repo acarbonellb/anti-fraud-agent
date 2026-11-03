@@ -2,19 +2,19 @@
   "caseId": "N2",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:25:00.000Z",
   "calls": [
     {
-      "requestHash": "0640982cc952d82c15444239069f04e0e23b0b7e77994bd57d7f03bdece13c0c",
-      "latencyMs": 2789,
+      "requestHash": "d412f929836c810e73b75ca34fc26494323608838b294e21fb036eabd4b8712e",
+      "latencyMs": 2748,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "xs6at6Cgl5GtONkKgXu587dMwOoOFhqp",
+              "id": "gWKAbMLRSNVj58tl6NMH0EKbYU5iwxD4",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e39a5b122f\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3287,
+          "inputTokens": 3479,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "280306ccd6cdd15f798a1d79fb172a57f6a0aabdc8c27f1cacc21def90b64b99",
-      "latencyMs": 1543,
+      "requestHash": "5a2ada3f79cd830b154a3bb26ff9af12018baed7c9023753412be0b49ba974b9",
+      "latencyMs": 1501,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "JeIShkp7v8VF0eVhvr3QINgPttRV7ID5",
+              "id": "ZzseJrNjr2w4Tx4ZNbJL4JPeRITtmtcr",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ee4cae3602\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3674,
+          "inputTokens": 3866,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "078eee145b7e70ee2d3dfa2d01a403a05caac66a9d80cdde755b4cab9ec89dd5",
-      "latencyMs": 36688,
+      "requestHash": "1c195aa70b839b5fc06d2f0c422c454ba3aaf158d709c4827236b530a4560bd5",
+      "latencyMs": 34388,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento \"Festival Ría Viva\" (evt_ee4cae3602) y su organizador (org_e39a5b122f). A continuación, presento los hallazgos:\n\n### Contexto del organizador:\n- **Nombre**: Ría Viva Festivales.\n- **Estado**: Aprobado.\n- **Creado**: 16 de mayo de 2024 (930 días de antigüedad).\n- **Datos fiscales**: Nombre legal \"Ría Viva Festivales S.L.\", CIF presente y con checksum válido, dirección en Pontevedra (36001).\n- **Propietario**: Cuenta verificada, sin otros organizadores.\n- **Equipo**: 1 propietario, 1 manager, 2 scanners.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido, 0 revisiones previas como agente.\n\n### Contexto del evento:\n- **Título**: Festival Ría Viva.\n- **Género**: Festival.\n- **Descripción**: Tres días de música junto a la ría con doce bandas, zona gastronómica y actividades para familias.\n- **Artistas**: Os Faroleiros (headliner), Marea de Fondo, Lúa Chea.\n- **Sesiones**: 23, 24 y 25 de noviembre de 2026.\n- **Entradas**: \n  - Entrada de día: 35€ (3500 céntimos).\n  - Abono 3 días: 85€ (8500 céntimos).\n- **Gastos de gestión**: 2€ fijos (200 céntimos).\n- **Términos**: Devolución en caso de cancelación, sin cambios de titular.\n\n### Deterministic checks (ya realizados):\nTodos los checks determinísticos han pasado:\n- Código postal consistente con la provincia.\n- Sin pago fuera de plataforma.\n- Sin enlaces externos a ticketeras ni acortadores.\n- Términos no abusivos (devolución en cancelación).\n- Sin alcohol para menores.\n- Sin inyección de prompts.\n- Precios sanos (ninguna VIP más barata que general).\n- Gastos de gestión dentro del 20%.\n- Sesiones sin solapamiento ni fechas inminentes/lejanas.\n\n### Hallazgos adicionales:\n1. **Organizer identity**: El organizador tiene datos fiscales válidos, cuenta antigua y verificada, sin otros organizadores. No hay señales de fraude en la identidad.\n2. **Organizer history**: Historial limpio (0 cancelados, 0 reportes, 0 despublicados por admin).\n3. **Web presence**: No se ha detectado presencia web externa problemática (no hay enlaces externos ni menciones fuera de la plataforma).\n4. **Impersonation**: El nombre \"Ría Viva Festivales\" no parece cercano a un promoter conocido con homógrafos o errores de una letra.\n5. **Venue capacity**: No se ha detectado que las entradas superen la capacidad del venue (Parque de la Alameda Vieja, 4000 capacidad para entradas de día).\n6. **Similar events**: No hay eventos similares en la provincia con fechas cercanas que sugieran clonación.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas cuestionables. El organizador es sólido, el evento tiene una estructura clara y los precios son razonables. Los checks determinísticos han pasado todos. No se detectan señales de riesgo.\n\n**Recomendación**: APROBAR.",
+          "content": "He revisado el evento \"Festival Ría Viva\" (evt_ee4cae3602) y su organizador. A continuación, presento mi análisis y recomendación:\n\n### Análisis del contexto del organizador:\n- **Organizador**: \"Ría Viva Festivales\" (org_e39a5b122f), con estado \"approved\".\n- **Historial**: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- **Datos fiscales**: CIF presente y con checksum válido; dirección en Pontevedra.\n- **Equipo**: Estructura sólida (1 dueño, 1 manager, 2 scanners).\n- **Antecedentes**: Sin cambios sustanciales, sin despublicaciones por admin, sin denuncias de contenido ni recomendaciones previas.\n\n### Análisis del evento:\n- **Título y descripción**: Coherentes con un festival musical en la ría de Pontevedra.\n- **Artistas**: Bandas locales gallegas (Os Faroleiros, Marea de Fondo, Lúa Chea), todos con fotos.\n- **Sesiones**: Tres días (24, 25 y 26 de noviembre de 2026), sin solapamientos.\n- **Precios**: Entrada de día a 35€ y abono 3 días a 85€, con gastos de gestión fijos de 2€.\n- **Términos**: Permiten devolución en caso de cancelación; no niegan cambios de titularidad.\n- **Pago y enlaces**: Sin peticiones de pago fuera de la plataforma ni enlaces externos.\n- **Contenido**: No hay alcohol para menores, ni contenido ilegal, ni textos copiados.\n\n### Verificación del recinto:\n- **Existencia**: El \"Alameda do Arquitecto Sesmero\" existe en OpenStreetMap como parque (leisure=park) a 2 m de las coordenadas del evento.\n- **Aforo**: Desconocido (ni Wikidata ni OpenStreetMap publican el aforo). La sesión con más entradas pone a la venta 6.000, pero esto no es necesariamente un problema si el recinto puede alojar esa cantidad.\n\n### Búsqueda de eventos similares:\nNo se encontraron eventos similares en otras organizaciones en la provincia de Pontevedra cerca de las fechas del evento, lo que descarta la posibilidad de clonación.\n\n### Conclusión:\nNo hay señales de fraude, ilegalidad o comportamiento sospechoso. El organizador tiene un historial limpio y los datos fiscales son válidos. El recinto existe y los precios son razonables. La única incógnita es el aforo del recinto, pero no hay evidencia de que se estén vendiendo entradas por encima de la capacidad real (el check \"venue_capacity\" ya marcó esto como \"unknown\", no como \"fail\").\n\n### Recomendación:\n**Aprobar** el evento con una confianza alta.",
           "toolCalls": [
             {
-              "id": "haKuWyQ8OfxpwDyjooSx2K2yJBeSavBl",
+              "id": "jHBwL6JjjL1uFhGivsZvIa9VLpAyttIF",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Festival Ría Viva\\\" y su organizador \\\"Ría Viva Festivales\\\" presentan un perfil sólido sin señales de fraude o irregularidades. El organizador tiene datos fiscales válidos, cuenta antigua (930 días), historial limpio (14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes) y equipo adecuado. Los checks determinísticos han pasado todos: código postal consistente, sin pago fuera de plataforma, sin enlaces externos, términos no abusivos, precios sanos, gastos de gestión dentro del límite, sesiones sin solapamiento ni fechas problemáticas. No hay eventos similares que sugieran clonación. La estructura del evento es clara y los artistas son reconocidos en la zona. Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador con datos fiscales válidos, cuenta antigua (930 días), sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_e39a5b122f\",\"title\":\"Ría Viva Festivales\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_e39a5b122f\",\"title\":\"Ría Viva Festivales\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con fechas cercanas que sugieran clonación.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_ee4cae3602/similar\",\"title\":\"Similar events search\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Capacidad de entradas (4000) consistente con el venue (Parque de la Alameda Vieja).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/venues/ven_ee4cae3602\",\"title\":\"Parque de la Alameda Vieja\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Ría Viva Festivales\\\" tiene un historial sólido: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias. Sus datos fiscales (CIF válido) y su equipo están bien estructurados. El evento \\\"Festival Ría Viva\\\" presenta una descripción coherente con bandas locales gallegas, precios razonables (35€ entrada de día, 85€ abono 3 días), gastos de gestión dentro del límite (2€), términos que permiten devolución en caso de cancelación, y sin peticiones de pago fuera de la plataforma. El recinto \\\"Alameda do Arquitecto Sesmero\\\" existe en OpenStreetMap como parque a 2 m de las coordenadas del evento. No se encontraron eventos similares que pudieran ser clonaciones. La única incógnita es el aforo del recinto, pero no hay evidencia de que se estén vendiendo entradas por encima de la capacidad real. Por tanto, no hay señales de fraude o ilegalidad.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado con CIF válido y checksum correcto; cuenta del dueño activa 930 días.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_e39a5b122f\",\"title\":\"Ría Viva Festivales\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_e39a5b122f\",\"title\":\"Ría Viva Festivales\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Alameda do Arquitecto Sesmero» figura en OpenStreetMap como leisure=park a 2 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/38390102\",\"title\":\"OpenStreetMap: Alameda do Arquitecto Sesmero (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Alameda do Arquitecto Sesmero».\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en otras organizaciones en la provincia de Pontevedra cerca de las fechas del evento.\",\"confidence\":0.95,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3809,
-          "outputTokens": 1390
+          "inputTokens": 4001,
+          "outputTokens": 1323
         }
       }
     }

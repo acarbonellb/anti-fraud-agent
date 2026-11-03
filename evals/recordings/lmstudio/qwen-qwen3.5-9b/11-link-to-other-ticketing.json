@@ -2,19 +2,19 @@
   "caseId": "11",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:25:00.000Z",
   "calls": [
     {
-      "requestHash": "9cc24d8c1b8e8360e9608a2d4aec2abaf2ddfe639c2d66742a654aea35e11df4",
-      "latencyMs": 2615,
+      "requestHash": "08e25de943570ae75ffbce9b0732bacfaa7a4c11391fa1d7ffa6d91d6597428b",
+      "latencyMs": 2510,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "PUr34lsYhHEBiw1ayCFxqwAuQ0pCdvwN",
+              "id": "lSsEMKCEvaPRreiRgBqsjZ9DuBFCJXb3",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2899,
+          "inputTokens": 3072,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "fe2b3c43a19c950d0191660b775fc0a72d82a965311ac0392ee037732bb96979",
-      "latencyMs": 1575,
+      "requestHash": "1322043f006a878b9f7eda1caf4b499f85837079819627ed802e0455b841b1e6",
+      "latencyMs": 1524,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "jDFG0hHw822fDy68sXkJ4WSkLKX85tbU",
+              "id": "Z8hjmyEBpQShp3kydjOr9GY2Ds60RUwt",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\",\"windowDays\":60}"
             }
@@ -44,30 +44,52 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3292,
+          "inputTokens": 3465,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "4402536149e342a5a05c51a2d644b9b06e6d325ba4993143d597d506af1d19c4",
-      "latencyMs": 28946,
+      "requestHash": "5a31f2afa669a4cf90ea41ee8863b069f9589512caecbf4cecdd86f2d347f474",
+      "latencyMs": 1545,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Norte Bravo Conciertos):**\n- Estado: approved\n- Creado en 2024, cuenta con 930 días de antigüedad\n- Datos fiscales presentes y con checksum válido\n- No tiene otros organizadores asociados\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido\n- Equipo completo (owner, manager, scanners)\n\n**Evento:**\n- Título: \"Xana Rock: gira de invierno\"\n- Género: rock\n- Fecha: 23 de noviembre de 2026\n- Sala El Hórreo Eléctrico en Oviedo, Asturias\n- Precio de entrada general: 1600 céntimos (16€)\n- Comisión de servicio: 100 céntimos (fija)\n\n**Deterministic checks:** Todos los controles determinísticos han pasado o tienen advertencia leve:\n- postal_code_province: pass\n- off_platform_payment: pass\n- external_ticketing_link: warn (bit.ly en la descripción - esto es una advertencia, no un fallo)\n- abusive_terms: pass\n- minors_alcohol: pass\n- prompt_injection: pass\n- price_sanity: pass\n- service_fee: pass\n- session_dates: pass\n- session_timing: pass\n\n**Hallazgos adicionales:**\n- No hay eventos similares en la provincia con fechas cercanas (find_similar_events devolvió vacío)\n- El organizador tiene buena reputación y historial limpio\n- La URL bit.ly es una advertencia leve pero no un fallo, ya que muchas páginas usan acortadores de URL para enlaces a otras ticketeras\n\n**Conclusión:**\nNo hay evidencia de fraude, contenido ilegal o prácticas sospechosas. El único punto de atención es el uso de un enlace acortado (bit.ly), pero esto es común y no necesariamente indica fraude. El organizador es legítimo y tiene buen historial.\n\nRecomendación: **approve** con confianza moderada-alta.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "Y4feVtCEPmEGRkJeFuLh4MvpN7lYc1lz",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento y el organizador presentan una imagen limpia sin señales de fraude. El organizador Norte Bravo Conciertos tiene 930 días de antigüedad, datos fiscales válidos, historial positivo (14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias), y equipo completo. Todos los controles determinísticos han pasado o tienen advertencias leves. No hay eventos similares que sugieran clonación. La única observación es el uso de un enlace acortado bit.ly en la descripción, pero esto es común y no constituye fraude por sí mismo. El precio (16€) y la comisión (100 céntimos) son razonables. Se aprueba con confianza moderada-alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, email verificado, sin otros organizadores asociados.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_935780b688\",\"title\":\"Norte Bravo Conciertos - Perfil\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 denuncias de contenido, 0 revisiones previas como agente.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_935780b688\",\"title\":\"Norte Bravo Conciertos - Historial\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Asturias con fechas cercanas (ventana de 60 días).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_36c9c3f3cb/similar\",\"title\":\"Eventos similares\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción contiene un enlace acortado bit.ly/xana-invierno-entradas. Esto es una advertencia leve pero no un fallo, ya que el uso de acortadores de URL es común y no necesariamente indica fraude.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_36c9c3f3cb\",\"title\":\"Xana Rock: gira de invierno\"}]}]}"
+              "id": "P2z5a1uCI0bpx6TnSsBeLoFfGOzHLbxv",
+              "name": "get_price_benchmark",
+              "argumentsJson": "{\"genre\":\"rock\",\"province\":\"Asturias\",\"capacityBand\":\"lt300\"}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3433,
-          "outputTokens": 1103
+          "inputTokens": 3606,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "398423c6fb5ecab952e93884cea893a3d74faaf8cb8038cd551403f3ee22f428",
+      "latencyMs": 29108,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Norte Bravo Conciertos):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales presentes y con checksum válido.\n- Historial sólido: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Equipo activo (1 dueño, 1 manager, 2 scanners).\n- No hay otros organizadores bajo el mismo propietario.\n\n**Evento:**\n- Título y descripción coherentes con una gira de rock en Oviedo.\n- Precio de entrada general: 1600 céntimos (16€), sin VIPs que cuesten menos.\n- Comisión de servicio: 100 céntimos fijos, dentro del 20% del precio.\n- Condiciones claras: devolución en caso de cancelación, sin cambios de titular.\n- Sin pagos fuera de plataforma ni enlaces a ticketeras externas (aunque hay un enlace bit.ly en la descripción, lo cual es una advertencia leve).\n\n**Verificación de lugar:**\n- Teatro Campoamor existe en Oviedo (OpenStreetMap lo confirma).\n- Aforo desconocido, pero la venta de 450 entradas no parece excesiva.\n\n**Hallazgos clave:**\n1. **Enlace bit.ly en la descripción**: Advertencia leve por posible redirección a otra ticketera o acortador de URL. No es una señal de fraude per se, pero merece atención.\n2. **Aforo del Teatro Campoamor desconocido**: No hay datos públicos fiables sobre su capacidad máxima. Sin embargo, 450 entradas no parecen excesivas para un teatro de esa categoría.\n\n**Conclusión:**\nNo hay evidencia de fraude, ilegalidad o contenido inapropiado. El organizador es sólido y el evento parece legítimo. La única señal leve es el enlace bit.ly, que podría ser inocente (por ejemplo, una página de la propia ticketera). No justifica una rechazo ni una solicitud de información adicional en este momento.\n\n**Recomendación:** APROBAR",
+          "toolCalls": [
+            {
+              "id": "tpHYViMCCsPpwQlWA1q6rZs7XcbLkwPr",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento y el organizador presentan una imagen sólida y legítima. El organizador \\\"Norte Bravo Conciertos\\\" tiene una cuenta aprobada desde 2024, datos fiscales válidos, historial positivo (14 eventos publicados, sin cancelaciones ni denuncias) y equipo activo. El evento es coherente con su género (rock), tiene precios razonables (16€ general), comisiones dentro de lo normal y condiciones claras de devolución. La única señal leve es el enlace bit.ly en la descripción, que podría ser un acortador inocente o una redirección a la ticketera oficial; no indica fraude per se. El Teatro Campoamor existe y 450 entradas no parecen excesivas dado el aforo desconocido. No hay indicios de clonación (no hay eventos similares en la provincia). Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, datos fiscales presentes, cuenta de 930 días, email verificado.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_935780b688\",\"title\":\"Norte Bravo Conciertos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/organizer/org_935780b688\",\"title\":\"Norte Bravo Conciertos\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción incluye un enlace bit.ly/xana-invierno-entradas que podría redirigir a otra ticketera o acortador de URL.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_36c9c3f3cb.jpg\",\"title\":\"Evento Xana Rock\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo del Teatro Campoamor no disponible en Wikidata ni OpenStreetMap; 450 entradas a la venta no parecen excesivas.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/11128109\",\"title\":\"OpenStreetMap: Teatro Campoamor\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3787,
+          "outputTokens": 1139
         }
       }
     }

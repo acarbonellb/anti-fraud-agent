@@ -169,10 +169,14 @@ depends on it would mostly yield `unknown`, and the recordings would show that, 
 3. **Unchanged:** both verdicts stay heuristics (OSM data can be wrong), and a failure of the
    lookup is `unknown` with a `detail` that says so.
 
-Point 7 also overrides ADR 0012 point 3 for organizers: a mechanical `request_info` about an
-organizer (case 22, a wrong tax-id checksum) now escalates too. The case keeps the brief's
-expected `auto_resolved`, so the eval reports the cost of the rule instead of hiding it.
-
 Rejected: keeping Overpass with retries (point 2 forbids unbounded retries, and a review would
 wait on an overloaded server); running our own Overpass instance (an operation to run for two
 heuristics, deferred to the scheduled agent, #8, if volume grows).
+
+## Amendment (2026-11-03, #24): organizer requests escalate too
+
+Point 7 overrides ADR 0012 point 3 for organizers: a mechanical `request_info` about an
+organizer (case 22, a wrong tax-id checksum) now escalates too, as #24 asks ("An organizer
+review never resolves on its own"). The case keeps the brief's expected `auto_resolved`, so the
+eval reports what the rule costs instead of hiding it. Whether a rule finding about an organizer
+should resolve a request on its own again is open: it is the one place the two ADRs disagree.

@@ -2,19 +2,19 @@
   "caseId": "N5",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:25:00.000Z",
   "calls": [
     {
-      "requestHash": "02a0d1842ddb5696aa90bae49521f69513ddef221cd60ffbf86ec6087651073a",
-      "latencyMs": 2669,
+      "requestHash": "093939db6d58dd67e25cbc6bfafef61f65708c42fe348ebe8ef36927fec84b74",
+      "latencyMs": 2534,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "HSiKe90qwA18tQ0tK2RSStotH8gLoO9T",
+              "id": "PrPxU7sdv8gGIxZgvt61PmgrYRHv9vwp",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_003766f918\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2858,
+          "inputTokens": 2973,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "b2902b064135e1ab643925054dc831fd3286f393723ab22141ae3823abf0b6d9",
-      "latencyMs": 1556,
+      "requestHash": "1d51c844fbca49a6304ef79db153e443d62b50eda8c52bf7fb11875d3273771e",
+      "latencyMs": 1555,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "jSKJe4nC0vpBKi1SQeoShz5VXFQrR0pa",
+              "id": "R6zRVp9mIydaBTZmgADvFI3FdTDCYUxx",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3242,
+          "inputTokens": 3357,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "375772b211aa4b86ce89402a6ffe82ef31d826e63fb740090e69dc2e0b4cc39c",
-      "latencyMs": 47537,
+      "requestHash": "8e39623b108281b6488cc45bac3633cf236b20e87a3ba14f73a8d4673230e36a",
+      "latencyMs": 32976,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos sobre el organizador (org_003766f918 - Guadiana Directo):\n- **Identidad fiscal**: El nombre legal \"Guadiana Directo S.L.\" está presente y el CIF tiene un checksum válido. La dirección también está presente.\n- **Edad de la cuenta**: 930 días (aproximadamente 2 años y medio), lo cual es razonable para una promotora establecida.\n- **Historial**: Ha publicado 14 eventos, de los cuales 12 han finalizado sin cancelaciones. No hay informes de contenido ni despublicaciones por parte del administrador.\n- **Equipo**: Tiene un propietario, un gerente y dos escáneres, lo que sugiere una estructura operativa sólida.\n- **Otros organizadores**: El propietario no tiene otros organizadores asociados, lo que reduce el riesgo de duplicidad o fraude.\n\n### Hallazgos sobre el evento (evt_8a3417cf99 - Inauguración de Espacio Tinta):\n- **Ubicación**: El código postal 06800 corresponde a Badajoz, y la dirección del venue es consistente con esta provincia.\n- **Pago fuera de plataforma**: No hay solicitudes de pago fuera de la plataforma.\n- **Enlaces externos**: No hay enlaces a otras ticketeras ni acortadores de URL.\n- **Términos abusivos**: Las condiciones no niegan la devolución en caso de cancelación.\n- **Contenido para menores**: No se ofrece alcohol a menores.\n- **Inyección de prompts**: Los textos no intentan dar instrucciones al revisor.\n- **Precios**: Ninguna entrada VIP cuesta menos que una general, y los precios están dentro de la normalidad.\n- **Gastos de gestión**: No superan el 20% del precio.\n- **Sesiones**: Las sesiones no se solapan y las fechas no son inminentes ni lejanas.\n\n### Eventos similares:\nNo se han encontrado eventos similares en la misma provincia con un título parecido cerca de las fechas del evento, lo que descarta la posibilidad de clonación.\n\n### Conclusión:\nNo hay evidencia de fraude, ilegalidad o prácticas sospechosas. El organizador tiene un historial sólido y el evento cumple con todos los requisitos de la plataforma. Por lo tanto, mi recomendación es **aprobar** el evento.",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Guadiana Directo):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales válidos (CIF con checksum correcto).\n- Historial sólido: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\n- Equipo activo y sin cambios sustanciales recientes.\n\n**Evento:**\n- Título y descripción coherentes con una inauguración de sala en polígono industrial.\n- Artista \"Los Lagartos Azules\" (banda emergente) como headliner.\n- Precio de entrada: 1200 céntimos (12€), aforos razonables (300 entradas).\n- Gastos de gestión del 8,3% (dentro de lo normal).\n- Términos aceptables (devolución en cancelación, sin cambios de titular).\n- Sin señales de pago fuera de plataforma, enlaces externos o términos abusivos.\n\n**Hallazgos determinísticos y de venue:**\n- Código postal 06800 corresponde a Badajoz: **pass**.\n- OpenStreetMap no tiene ningún recinto llamado \"Espacio Tinta\" en Mérida: **unknown** (verificación pendiente).\n- Aforo desconocido porque el recinto no está verificado: **unknown**.\n\n**Hallazgos adicionales:**\n- No hay eventos similares de otros organizadores en la provincia con fechas cercanas: **pass** (no hay clones).\n- El organizador tiene buena reputación y no hay señales de fraude.\n\n**Decisión:**\nLa única duda es si el recinto \"Espacio Tinta\" existe realmente en la dirección indicada. OpenStreetMap no lo muestra, pero eso puede deberse a que es un local nuevo o poco documentado. No hay evidencia de fraude ni ilegalidad. Sin embargo, dado que dos checks críticos (venue_exists y venue_capacity) son \"unknown\", y el evento es una inauguración de sala nueva, sería prudente pedir información para confirmar la existencia del recinto y su capacidad real antes de aprobarlo definitivamente.\n\n**Recomendación:** request_info\n\nRationale en español:\nEl organizador tiene un historial sólido y datos fiscales válidos. El evento parece legítimo, pero no podemos verificar la existencia del recinto \"Espacio Tinta\" ni su aforo porque OpenStreetMap no lo muestra. Dado que es una inauguración de sala nueva, es posible que el local aún no esté documentado en mapas públicos. Para evitar aprobar un evento en un recinto inexistente o con capacidad falsa, solicitamos información adicional.",
           "toolCalls": [
             {
-              "id": "oCrOTPY6Jc7Ic79B2gVdmzV5vNOzopnp",
+              "id": "CSorkiDZ69EqBbNhWGpqVYw1yw2wvcuF",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El organizador \\\"Guadiana Directo\\\" tiene un historial sólido: cuenta con 14 eventos publicados (12 finalizados sin cancelaciones), fiscalidad verificada, y una estructura operativa estable. El evento \\\"Inauguración de Espacio Tinta\\\" cumple con todos los requisitos de la plataforma: ubicación consistente, precios razonables, términos adecuados, y sin señales de fraude o ilegalidad. No hay eventos similares que sugieran clonación. Se recomienda aprobar el evento.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene fiscalidad verificada, CIF válido y cuenta establecida (930 días).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.com/organizers/org_003766f918\",\"title\":\"Guadiana Directo - Perfil\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial de 14 eventos publicados, 12 finalizados sin cancelaciones. Sin informes de contenido ni despublicaciones.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.com/organizers/org_003766f918\",\"title\":\"Guadiana Directo - Historial\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia con un título parecido cerca de las fechas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99/similar\",\"title\":\"Eventos similares\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 06800 corresponde a Badajoz.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20% del precio.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":1,\"sources\":[{\"url\":\"https://platform.example.com/events/evt_8a3417cf99\",\"title\":\"Evento - Inauguración de Espacio Tinta\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.85,\"rationale\":\"El organizador Guadiana Directo tiene un historial sólido (14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias), datos fiscales válidos y cuenta activa desde 2024. El evento parece legítimo: precio razonable (12€), gastos de gestión del 8,3%, términos aceptables (devolución en cancelación), sin señales de fraude. Sin embargo, dos checks críticos son \\\"unknown\\\": venue_exists y venue_capacity, porque OpenStreetMap no muestra ningún recinto llamado \\\"Espacio Tinta\\\" en Mérida. Dado que es una inauguración de sala nueva, es posible que el local aún no esté documentado en mapas públicos, pero también podría ser un recinto ficticio o con capacidad falsa. Para evitar aprobar un evento en un recinto inexistente o con aforo inflado, solicitamos información adicional para confirmar la existencia del recinto y su capacidad real.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida; verificación pendiente.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/search?query=Espacio+Tinta+Mérida\",\"title\":\"OpenStreetMap - Espacio Tinta Mérida\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido porque el recinto no está verificado en OpenStreetMap; la sesión pone a la venta 300 entradas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/search?query=Espacio+Tinta+Mérida\",\"title\":\"OpenStreetMap - Espacio Tinta Mérida\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, sin denuncias ni cambios sustanciales.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.com/organizers/org_003766f918\",\"title\":\"Guadiana Directo - Perfil\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en Badajoz con fechas cercanas.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar que el recinto «Espacio Tinta» existe físicamente en la dirección Polígono Industrial El Prado Nuevo, nave 12, Mérida?\",\"¿Cuál es la capacidad real del recinto y cómo se ha determinado?\"],\"draft\":\"Solicitamos confirmación de la existencia física del recinto Espacio Tinta y su capacidad real, ya que OpenStreetMap no lo muestra. Esto es crucial para evitar aprobar un evento en un recinto inexistente o con aforo falso.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3375,
-          "outputTokens": 1808
+          "inputTokens": 3490,
+          "outputTokens": 1290
         }
       }
     }

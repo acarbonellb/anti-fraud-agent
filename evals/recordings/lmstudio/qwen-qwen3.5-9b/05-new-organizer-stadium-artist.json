@@ -2,19 +2,19 @@
   "caseId": "05",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v2",
-  "clock": "2026-11-02T10:21:00.000Z",
+  "promptVersion": "review-v3",
+  "clock": "2026-11-03T12:25:00.000Z",
   "calls": [
     {
-      "requestHash": "e08b0ce4ca2b3f2906a924bc078fad457a564e89becfcfb09ced4fb349088f03",
-      "latencyMs": 2476,
+      "requestHash": "5d083e2c69e457b7a5f67313b690e58ac45b30cf3ae933ba52292c7cf67f2915",
+      "latencyMs": 3079,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "iQ7Kr7WnQdjUceIit52XIteQccyz6yeU",
+              "id": "3nhw4oO9bORQ0P9Oyo68sIEyE36PLkuj",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2865,
+          "inputTokens": 3041,
           "outputTokens": 39
         }
       }
     },
     {
-      "requestHash": "64863232d9c7b24c37f3d86db1a10ac84e1c691e018be7578e7ec30c1c96dbed",
-      "latencyMs": 1601,
+      "requestHash": "02ca451ba961e9902b687230c2c612f26265195211241cb305ea59ebfabf4da0",
+      "latencyMs": 1739,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "5U7bWKONhseCWpaZwJXCwjnRLjuz35YJ",
+              "id": "c7yTJHLrAaHNoKqkjCMMxFX3dK20hsgd",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
             }
@@ -44,30 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3229,
+          "inputTokens": 3405,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "748640f4cef9581669836a401329efa23b9d87f9120cc8054867ab75eec20f70",
-      "latencyMs": 27508,
+      "requestHash": "2101ff47f6541ec6c854d174280e33a7ab3fe1eef516b87278a1f3c48e42e595",
+      "latencyMs": 51722,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Datos clave:**\n- **Organizador:** \"Estrellas Cercanas Live\" (org_4f35bcdaf2)\n  - Estado: approved\n  - Creado: 2026-10-27 (hace 7 días)\n  - Fiscal: NIF presente y checksum válido\n  - Dirección: Murcia, 30001 (coincide con el evento)\n  - Historial: 1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas\n  - Equipo: 1 dueño, 1 manager, 2 scanners\n\n- **Evento:** \"Valeria Montecristo en concierto íntimo\"\n  - Fecha: 2026-11-23 (en el futuro, no inminente)\n  - Sala: Sala Pequeño Búho, Murcia\n  - Precio: 15€ (general), tarifa fija de 1€\n  - Descripción: \"La artista que llena estadios en toda Latinoamérica...\"\n\n**Puntos a considerar:**\n\n1. **Organizador nuevo pero verificado:**\n   - Cuenta de 7 días, pero fiscalidad correcta (NIF válido)\n   - Sin historial negativo (0 reportes, sin cambios sustanciales)\n   - Equipo con múltiples roles (scanner x2)\n\n2. **Evento coherente:**\n   - Todos los checks determinísticos pasaron\n   - Precio y tarifa de servicio razonables\n   - Fecha no inminente ni lejana\n   - Sin pagos fuera de plataforma, sin enlaces externos\n\n3. **Posible señal leve:**\n   - Descripción: \"La artista que llena estadios en toda Latinoamérica\" para un concierto íntimo en una sala pequeña podría ser marketing exagerado, pero no es fraude por sí mismo.\n   - No hay eventos similares detectados (no es clon).\n\n**Conclusión:**\nNo hay evidencia de fraude, ilegalidad o comportamiento sospeoso. El organizador es nuevo pero verificado fiscalmente, con historial limpio. El evento cumple todos los requisitos técnicos y de contenido. La descripción del artista puede ser marketing, no una señal de alerta.\n\nRecomiendo **aprobar** el evento.",
+          "content": "He revisado el evento y el contexto del organizador. A continuación, presento los hallazgos:\n\n### Hallazgos determinísticos y de venue (ya autorizados):\n- Código postal 30009 corresponde a Murcia: **pass**.\n- No hay pago fuera de la plataforma: **pass**.\n- No hay enlaces externos a otras ticketeras ni acortadores: **pass**.\n- Términos no niegan la devolución en caso de cancelación: **pass**.\n- No hay alcohol para menores: **pass**.\n- No hay inyección de prompts: **pass**.\n- Ninguna entrada VIP cuesta menos que una general: **pass**.\n- Gastos de gestión no superan el 20% del precio: **pass**.\n- Las sesiones no se solapan: **pass**.\n- Las fechas de las sesiones no son inminentes ni lejanas: **pass**.\n- El recinto \"Garaje Beat Club\" existe en OpenStreetMap como amenity=nightclub a 5 m de las coordenadas del evento: **pass**.\n- Aforo desconocido (ni Wikidata ni OpenStreetMap publican el aforo): **unknown** (la sesión con más entradas pone a la venta 250).\n\n### Contexto del organizador:\n- Nombre: \"Estrellas Cercanas Live\", slug \"estrellas-cercanas-live\".\n- Estado: \"approved\".\n- Creado: 2026-10-28 (7 días antes del evento, lo cual es reciente pero no necesariamente sospechoso).\n- Fiscal: NIF presente y con checksum válido; dirección presente en Murcia.\n- Propietario: cuenta de 7 días, email verificado, sin otros organizadores.\n- Equipo: 1 dueño, 1 manager, 2 scanners.\n- Historial: 1 evento publicado, 0 cancelados, 0 finalizados, 0 despublicados por admin, 0 cambios sustanciales, 0 reportes de contenido, 0 revisiones anteriores de agente.\n\n### Eventos similares:\n- No hay eventos similares en la misma provincia con título parecido cerca de las fechas del evento: **[]**.\n\n### Análisis:\n1. **Organizador nuevo pero aprobado**: El organizador fue creado hace 7 días y ya tiene estado \"approved\". Esto podría ser sospechoso, pero no es una señal de fraude por sí mismo. No hay historial de eventos anteriores ni reportes de contenido.\n2. **Fiscalidad**: El NIF está presente y con checksum válido; la dirección es consistente con Murcia (30001). No hay señales de identidad falsa.\n3. **Evento**: \n   - Título: \"Valeria Montecristo en concierto íntimo\".\n   - Descripción: \"La artista que llena estadios en toda Latinoamérica, por primera vez en una sala pequeña. Plazas muy limitadas.\" (puede ser exagerado, pero no necesariamente fraudulento).\n   - Precio de entrada general: 1500 céntimos (15€), con capacidad de 250 entradas.\n   - Gastos de gestión: 100 céntimos (fijo), lo cual es razonable.\n   - Términos: permiten la devolución en caso de cancelación, no hay abusos.\n   - Recinto: \"Garaje Beat Club\" existe en OpenStreetMap como nightclub a 5 m de las coordenadas del evento. El aforo no está disponible públicamente, pero la venta de 250 entradas es plausible para un local pequeño.\n4. **Fechas**: La sesión está programada para el 24 de noviembre de 2026 (no inminente ni lejana).\n5. **Imágenes y textos**: No hay imágenes con marcas de otras ticketeras, códigos QR o números de teléfono. No hay texto copiado de otros sitios (no se ha verificado originalidad del texto, pero no hay señales obvias de plagio).\n\n### Señales de alerta:\n- El organizador es nuevo (7 días) y ya tiene un evento publicado. Esto podría ser normal, pero merece atención adicional si hubiera más eventos o reportes.\n- La descripción del artista (\"llena estadios en toda Latinoamérica\") puede ser exagerada, pero no es necesariamente fraudulenta.\n- No hay información sobre la disponibilidad del artista (no se ha verificado si Valeria Montecristo tiene otra fecha anunciada).\n\n### Conclusión:\nNo hay evidencia clara de fraude o ilegalidad. El evento parece legítimo, aunque el organizador es nuevo. Sin embargo, dado que el organizador es reciente y no hay historial previo, podría ser prudente solicitar más información para confirmar la autenticidad del artista y la organización del evento.\n\n### Recomendación:\n**request_info** con las siguientes preguntas en español:\n1. ¿Podría proporcionar documentación que confirme la disponibilidad de la artista Valeria Montecristo para esta fecha (por ejemplo, contrato o confirmación de representación)?\n2. ¿Cuál es el aforo real del recinto \"Garaje Beat Club\" y cómo se ha determinado la capacidad de venta de 250 entradas?\n3. ¿Hay alguna otra fecha anunciada para Valeria Montecristo en otras ciudades o países que pueda afectar a esta presentación?\n\nRationale (en español):\nEl evento parece legítimo, pero el organizador es nuevo (7 días) y no tiene historial previo. Aunque las verificaciones determinísticas y de venue han pasado, la falta de información sobre la disponibilidad del artista y el aforo real del recinto sugiere que sería prudente solicitar más detalles para confirmar la autenticidad del evento antes de aprobarlo.",
           "toolCalls": [
             {
-              "id": "aAYD5lArAStsAHbenClLThcbiYuCXaCT",
+              "id": "0zoyJKDZI31nyFKEtqyGny4ZJF7HMPiG",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento cumple todos los requisitos de la plataforma. El organizador \\\"Estrellas Cercanas Live\\\" es nuevo (7 días) pero fiscalmente verificado con NIF válido, sin historial negativo y con equipo adecuado. Todos los checks determinísticos pasaron: postal code correcto, sin pagos fuera de plataforma, sin enlaces externos, términos no abusivos, sin contenido para menores, sin inyección de prompts, precios sanos, tarifa de servicio dentro del límite, sesiones no solapadas ni mal temporizadas. No hay eventos similares detectados (no es clon). La descripción del artista (\\\"llena estadios en Latinoamérica\\\") es marketing, no fraude. Sin señales de alerta que requieran más investigación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador fiscalmente verificado con NIF válido, cuenta nueva pero sin irregularidades.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2\",\"title\":\"Estrellas Cercanas Live\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"1 evento publicado, 0 cancelados, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.example.test/organizers/org_4f35bcdaf2/history\",\"title\":\"Historial del organizador\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares detectados en la provincia de Murcia con fechas cercanas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/events/evt_46a35e8461/similar\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Capacidad de 250 entradas coherente con una sala pequeña.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.example.test/venues/ven_46a35e8461\",\"title\":\"Sala Pequeño Búho\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El evento parece legítimo, pero el organizador es nuevo (7 días) y no tiene historial previo. Aunque las verificaciones determinísticas y de venue han pasado, la falta de información sobre la disponibilidad del artista y el aforo real del recinto sugiere que sería prudente solicitar más detalles para confirmar la autenticidad del evento antes de aprobarlo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"NIF presente con checksum válido; dirección consistente con Murcia.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://example.test/organizer/org_4f35bcdaf2\",\"title\":\"Organizador: Estrellas Cercanas Live\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Organizador nuevo (7 días) con 1 evento publicado, sin historial previo ni reportes de contenido.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://example.test/organizer/org_4f35bcdaf2\",\"title\":\"Organizador: Estrellas Cercanas Live\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se ha verificado si la artista Valeria Montecristo tiene otras fechas anunciadas.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Garaje Beat Club»; la sesión con más entradas pone a la venta 250.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/4648208796\",\"title\":\"OpenStreetMap: Garaje Beat Club (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia con título parecido cerca de las fechas del evento.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podría proporcionar documentación que confirme la disponibilidad de la artista Valeria Montecristo para esta fecha (por ejemplo, contrato o confirmación de representación)?\",\"¿Cuál es el aforo real del recinto «Garaje Beat Club» y cómo se ha determinado la capacidad de venta de 250 entradas?\",\"¿Hay alguna otra fecha anunciada para Valeria Montecristo en otras ciudades o países que pueda afectar a esta presentación?\"],\"draft\":\"El evento parece legítimo, pero el organizador es nuevo (7 días) y no tiene historial previo. Aunque las verificaciones determinísticas y de venue han pasado, la falta de información sobre la disponibilidad del artista y el aforo real del recinto sugiere que sería prudente solicitar más detalles para confirmar la autenticidad del evento antes de aprobarlo.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3363,
-          "outputTokens": 1049
+          "inputTokens": 3539,
+          "outputTokens": 1936
         }
       }
     }
