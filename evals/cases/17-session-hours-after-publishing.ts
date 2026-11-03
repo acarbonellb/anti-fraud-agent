@@ -25,7 +25,7 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Concierto al amanecer en Escenario Santander",
+      title: "Concierto al amanecer",
       description: "Concierto al amanecer con Orquesta Brisa del Cantábrico.",
       genre: "clasica",
       artists: [{ name: "Orquesta Brisa del Cantábrico" }],

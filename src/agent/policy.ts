@@ -140,6 +140,8 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
       ...systemNegatives
         .filter(
           (item) =>
+            // A heuristic counts only with a source anyone can open: today,
+            // the capacity check backed by OSM or Wikidata (ADR 0015 point 4).
             (item.certainty === "rule" || item.finding.sources.length > 0) &&
             item.finding.verdict === "fail" &&
             HARD_SIGNAL_CHECKS.has(item.finding.check),

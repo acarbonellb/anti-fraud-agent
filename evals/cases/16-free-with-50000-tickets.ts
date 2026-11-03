@@ -24,7 +24,7 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Rave gratuita en Sala Pícaro",
+      title: "Rave gratuita de doce horas",
       description:
         "Doce horas de techno en la sala. Entrada gratuita con inscripción.",
       genre: "electronica",

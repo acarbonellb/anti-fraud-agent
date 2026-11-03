@@ -15,6 +15,7 @@ import {
 const venue: VenueToVerify = {
   name: "Sala Ejemplo",
   city: "Granada",
+  country: "ES",
   latitude: 37.1751633,
   longitude: -3.5987706,
 };
@@ -119,17 +120,31 @@ describe("verifyVenue", () => {
     [
       "outside every municipality, at sea",
       at({ category: "boundary", type: "administrative", locality: null }),
+      "en el mar",
     ],
-    ["on a body of water", at({ category: "natural", type: "water" })],
-    ["where Nominatim finds nothing at all", null],
-  ])("fails when the coordinates fall %s", (_, point) => {
-    const { finding } = scoreVenue({
-      venue,
-      places: ok([]),
-      point: ok(point),
-    });
+    [
+      "on a body of water",
+      at({ category: "natural", type: "water" }),
+      "sobre una masa de agua",
+    ],
+  ])("fails when the coordinates fall %s", (_, point, text) => {
+    const { finding } = scoreVenue({ venue, places: ok([]), point: ok(point) });
     expect(finding.verdict).toBe("fail");
-    expect(finding.detail).toContain("caen en el agua");
+    expect(finding.detail).toContain(text);
+  });
+
+  it("doesn't read the sea into a missing municipality outside Spain", () => {
+    const { finding } = scoreVenue({
+      venue: { ...venue, country: "PT" },
+      places: ok([]),
+      point: ok(at({ category: "boundary", locality: null })),
+    });
+    expect(finding.verdict).toBe("unknown");
+  });
+
+  it("stays unknown when Nominatim finds nothing at the point", () => {
+    const { finding } = scoreVenue({ venue, places: ok([]), point: ok(null) });
+    expect(finding.verdict).toBe("unknown");
   });
 
   it("says which provider failed and stays unknown", () => {

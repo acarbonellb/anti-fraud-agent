@@ -24,7 +24,7 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Cabaret de invierno en Sala La Planeta",
+      title: "Cabaret de invierno",
       description:
         "Números de cabaret, música en directo y humor en una noche de invierno.",
       genre: "cabaret",

@@ -24,7 +24,7 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Acústico en el Gran Teatro Falla",
+      title: "Acústico de Marina Escalante",
       description:
         "Concierto acústico de Marina Escalante frente al mar. Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista.",
       genre: "pop",

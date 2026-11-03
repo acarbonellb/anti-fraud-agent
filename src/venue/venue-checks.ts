@@ -14,11 +14,16 @@ import {
   type Outcome,
   scoreCapacity,
   scoreVenue,
+  venueFinding,
   type VenueToVerify,
   verifiedMatch,
 } from "./scoring.js";
 import { createThrottle, type Throttle } from "./throttle.js";
-import { createWikidata, isItemId } from "./wikidata.js";
+import {
+  createWikidata,
+  isItemId,
+  WIKIDATA_MIN_INTERVAL_MS,
+} from "./wikidata.js";
 
 /** Runs the venue checks on one event. */
 export type VenueChecks = (
@@ -36,11 +41,11 @@ export interface VenueThrottles {
   wikidata: Throttle;
 }
 
-/** One set per process. Wikidata asks for no rate, only restraint. */
+/** One set per process: each provider's limit is per client. */
 export function createVenueThrottles(): VenueThrottles {
   return {
     nominatim: createThrottle(NOMINATIM_MIN_INTERVAL_MS),
-    wikidata: createThrottle(NOMINATIM_MIN_INTERVAL_MS),
+    wikidata: createThrottle(WIKIDATA_MIN_INTERVAL_MS),
   };
 }
 
@@ -48,16 +53,11 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
   return async (context) => {
     if (context.venue === null) {
       return [
-        {
-          certainty: "heuristic",
-          finding: {
-            check: "venue_exists",
-            verdict: "unknown",
-            detail: "El evento no tiene recinto: no se puede verificar.",
-            confidence: 1,
-            sources: [],
-          },
-        },
+        venueFinding(
+          "venue_exists",
+          "unknown",
+          "El evento no tiene recinto: no se puede verificar.",
+        ),
       ];
     }
     // Fresh providers per run: their memo is what keeps a run from repeating
@@ -74,6 +74,7 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
     const venue: VenueToVerify = {
       name: context.venue.name,
       city: context.venue.city,
+      country: context.venue.country,
       latitude: context.venue.latitude,
       longitude: context.venue.longitude,
     };

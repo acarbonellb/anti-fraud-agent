@@ -24,7 +24,7 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Fiesta de fin de temporada en Masquevinos",
+      title: "Fiesta de fin de temporada",
       description:
         "La fiesta de cierre de temporada en el bar de siempre del centro. DJ residente toda la noche.",
       genre: "electronica",

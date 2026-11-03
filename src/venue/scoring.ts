@@ -11,6 +11,7 @@
  * The thresholds are provisional until the evals tune them.
  */
 import type { EventReviewContext, Finding } from "../satella-client/schemas.js";
+import type { CheckId } from "../agent/checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { ProviderFailure, VenueProvider } from "./http.js";
 import { osmUrl, type Place, type PointPlace } from "./nominatim.js";
@@ -82,6 +83,8 @@ export type Outcome<T> =
 export interface VenueToVerify {
   name: string;
   city: string;
+  /** ISO 3166-1 alpha-2, e.g. `ES`. */
+  country: string;
   latitude: number | null;
   longitude: number | null;
 }
@@ -160,24 +163,28 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
     );
   }
 
-  const nearest = nearestVenue(venue, places.value);
-  if (nearest !== null && nearest.distanceM <= VENUE_MAX_DISTANCE_M) {
+  const verified = verifiedMatch(venue, places.value);
+  if (verified !== null) {
     return finding(
       "pass",
-      `Recinto verificado: «${placeName(nearest.place, venue)}» figura en OpenStreetMap como ${typeText(nearest.place)} a ${metres(nearest.distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
-      [osmSource(nearest.place, venue)],
+      `Recinto verificado: «${placeName(verified.place, venue)}» figura en OpenStreetMap como ${typeText(verified.place)} a ${metres(verified.distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
+      [osmSource(verified.place, venue)],
     );
   }
+  const nearest = nearestVenue(venue, places.value);
 
-  if (point?.ok) {
-    const at = point.value;
+  // Nothing found at all proves nothing: it stays `unknown` below.
+  const at = point?.ok ? point.value : null;
+  if (at !== null) {
     const water =
-      at !== null &&
-      (WATER.has(`${at.category}=${at.type}`) || at.category === "waterway");
-    if (at?.locality == null || water) {
+      WATER.has(`${at.category}=${at.type}`) || at.category === "waterway";
+    // Spanish municipalities end at the coast, so a point in none of them is
+    // at sea; elsewhere that doesn't follow.
+    const atSea = at.locality === null && venue.country === "ES";
+    if (water || atSea) {
       return finding(
         "fail",
-        `Heurística de recinto: las coordenadas del evento caen en el agua según OpenStreetMap (${water ? "sobre una masa de agua" : "fuera de todo término municipal"}), y OpenStreetMap no tiene el recinto «${venue.name}» en esas coordenadas. Los datos de OSM pueden contener errores.`,
+        `Heurística de recinto: según OpenStreetMap, las coordenadas del evento caen ${water ? "sobre una masa de agua" : "fuera de todo término municipal, es decir, en el mar"}, y OpenStreetMap no tiene el recinto «${venue.name}» en esas coordenadas. Los datos de OSM pueden contener errores.`,
         [pointSource(venue)],
       );
     }
@@ -353,8 +360,8 @@ export function failureText(outcome: {
   return `${PROVIDER_NAMES[outcome.provider]} ${FAILURE_TEXT[outcome.failure]}; sin datos no se da nada por bueno`;
 }
 
-function venueFinding(
-  check: string,
+export function venueFinding(
+  check: VenueCheck,
   verdict: Finding["verdict"],
   detail: string,
   sources: Finding["sources"] = [],
@@ -368,11 +375,16 @@ function venueFinding(
 }
 
 /** The checks the venue findings settle. */
-export const VENUE_CHECKS: readonly string[] = [
+export const VENUE_CHECKS = [
   "venue_exists",
   "venue_capacity",
   "capacity_far_above_venue",
-];
+] as const satisfies readonly CheckId[];
+export type VenueCheck = (typeof VENUE_CHECKS)[number];
+
+export function isVenueCheck(check: string): check is VenueCheck {
+  return (VENUE_CHECKS as readonly string[]).includes(check);
+}
 
 function osmSource(place: Place, venue: VenueToVerify) {
   return {

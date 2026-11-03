@@ -8,6 +8,11 @@ import { type Fetch, requestJson, VenueProviderError } from "./http.js";
 import type { Throttle } from "./throttle.js";
 
 export const WIKIDATA_SPARQL_URL = "https://query.wikidata.org/sparql";
+/**
+ * Wikidata states no fixed rate, only restraint and a descriptive
+ * User-Agent; one request per second is well within it.
+ */
+export const WIKIDATA_MIN_INTERVAL_MS = 1000;
 
 const responseSchema = z.object({
   results: z.object({

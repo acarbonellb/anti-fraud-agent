@@ -20,7 +20,7 @@ import { createUntrustedFence } from "../agent/untrusted.js";
 import { loadConfig } from "../config/config.js";
 import { DomainError } from "../errors.js";
 import type { Fetch } from "../venue/http.js";
-import { VENUE_CHECKS } from "../venue/scoring.js";
+import { isVenueCheck } from "../venue/scoring.js";
 import { noThrottle } from "../venue/throttle.js";
 import {
   createVenueChecks,
@@ -242,7 +242,7 @@ async function review(
       confidence: run.recommendation.confidence,
       reasons: run.autonomy.reasons,
       venue: run.recommendation.findings
-        .filter((finding) => VENUE_CHECKS.includes(finding.check))
+        .filter((finding) => isVenueCheck(finding.check))
         .map((finding) => ({ check: finding.check, verdict: finding.verdict })),
       endedBy: run.endedBy,
       inputTokens: run.usage.inputTokens,
