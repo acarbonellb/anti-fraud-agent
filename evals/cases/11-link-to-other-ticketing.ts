@@ -30,13 +30,13 @@ export const evalCase: EvalCase = {
       genre: "rock",
       artists: [{ name: "Xana Rock" }],
       venue: {
-        name: "Sala El Hórreo Eléctrico",
-        address: "Calle del Rosal Alto 17",
+        name: "Teatro Campoamor",
+        address: "Calle Pelayo s/n",
         city: "Oviedo",
         province: "Asturias",
         postalCode: "33003",
-        latitude: 43.3619,
-        longitude: -5.8494,
+        latitude: 43.3631,
+        longitude: -5.8478,
       },
       sessions: [
         {

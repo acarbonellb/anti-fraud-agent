@@ -32,13 +32,13 @@ export const evalCase: EvalCase = {
         "Compañía Hilo Fino estrena su nueva obra de teatro. Dos funciones el mismo día.",
       genre: "teatro",
       venue: {
-        name: "Teatro Burgo Viejo",
-        address: "Calle de la Estafeta Nueva 15",
+        name: "Zentral",
+        address: "Plaza de Burgos s/n",
         city: "Pamplona",
         province: "Navarra",
         postalCode: "31001",
-        latitude: 42.8169,
-        longitude: -1.6432,
+        latitude: 42.8188,
+        longitude: -1.6443,
       },
       sessions: [
         { startsInHours: IN_THREE_WEEKS, durationHours: 2, ticketTypes },

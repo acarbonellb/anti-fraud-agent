@@ -21,6 +21,10 @@ const scored: CaseResult = {
     autonomy: "escalated",
     confidence: 0.8,
     reasons: ["confidence 0.8 below 0.85", "a | pipe"],
+    venue: [
+      { check: "venue_exists", verdict: "pass" },
+      { check: "venue_capacity", verdict: "unknown" },
+    ],
     endedBy: "submitted",
     inputTokens: 12_345,
     outputTokens: 678,
@@ -67,10 +71,10 @@ it("shows the metrics of each provider and model", () => {
 it("lists each case with expected versus actual and the policy's reasons", () => {
   const report = renderReport([set]);
   expect(report).toContain(
-    "| 03 | Madrid postal code with province Sevilla | ✅ request_info | ❌ auto_resolved → escalated | 0.80 | confidence 0.8 below 0.85; a \\| pipe |",
+    "| 03 | Madrid postal code with province Sevilla | ✅ request_info | ❌ auto_resolved → escalated | 0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85; a \\| pipe |",
   );
   expect(report).toContain(
-    "| 01 | Bar of 150 selling 2,000 tickets | — reject | — auto_resolved | — | stale: request_changed |",
+    "| 01 | Bar of 150 selling 2,000 tickets | — reject | — auto_resolved | — | — | stale: request_changed |",
   );
 });
 

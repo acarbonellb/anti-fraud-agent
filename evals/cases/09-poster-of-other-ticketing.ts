@@ -35,13 +35,13 @@ export const evalCase: EvalCase = {
         `https://images.example.test/posters/${stableId("img", SEED)}.jpg`,
       ],
       venue: {
-        name: "Pabellón Las Mallatas",
-        address: "Avenida de los Pirineos Altos 2",
+        name: "Palacio de los Deportes",
+        address: "Calle de San Jorge s/n",
         city: "Huesca",
         province: "Huesca",
-        postalCode: "22002",
-        latitude: 42.1401,
-        longitude: -0.4089,
+        postalCode: "22004",
+        latitude: 42.1343,
+        longitude: -0.4217,
       },
       sessions: [
         {

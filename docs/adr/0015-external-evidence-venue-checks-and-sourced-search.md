@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-03 (#24)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -148,3 +148,31 @@ ADR 0012 already counts a model `pass` for nothing. It left external evidence fo
   mixed-script check, without search. That is left open.
 - The 300-ticket exposure cap and the capacity factors are thresholds the evals should tune, like
   ADR 0012's.
+
+## Amendment (2026-11-03, #24): Nominatim's reverse lookup replaces Overpass
+
+Point 8 named Overpass for what lies at the event's coordinates (building tags, water). While
+#24 was built, on 2026-11-03, every public Overpass instance tried (`overpass-api.de`,
+`overpass.private.coffee`, `overpass.kumi.systems`, `maps.mail.ru`) answered `502 … at capacity`
+or timed out, and the main one asks automated clients to run their own instance. A check that
+depends on it would mostly yield `unknown`, and the recordings would show that, not the agent.
+
+1. **Nominatim's `reverse` (zoom 18, with the address) answers the same two questions**, and is
+   asked only when the name search doesn't verify the venue:
+   - a `building` of a residential type (`apartments`, `house`, `residential`…) is the
+     residential `fail` of point 3;
+   - no city, town, village or municipality in the address, a water feature, or nothing found
+     at all is the "in water" `fail`. Spanish municipalities end at the coast, so a point at sea
+     resolves to the country only (case 04 does).
+2. **One OSM provider instead of two.** Both calls share Nominatim's throttle (1 request per
+   second) and the run's memo, so the usage policy of point 8 covers them.
+3. **Unchanged:** both verdicts stay heuristics (OSM data can be wrong), and a failure of the
+   lookup is `unknown` with a `detail` that says so.
+
+Point 7 also overrides ADR 0012 point 3 for organizers: a mechanical `request_info` about an
+organizer (case 22, a wrong tax-id checksum) now escalates too. The case keeps the brief's
+expected `auto_resolved`, so the eval reports the cost of the rule instead of hiding it.
+
+Rejected: keeping Overpass with retries (point 2 forbids unbounded retries, and a review would
+wait on an overloaded server); running our own Overpass instance (an operation to run for two
+heuristics, deferred to the scheduled agent, #8, if volume grows).

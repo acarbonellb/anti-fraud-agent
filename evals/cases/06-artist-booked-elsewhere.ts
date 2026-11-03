@@ -31,13 +31,13 @@ export const evalCase: EvalCase = {
       genre: "rock",
       artists: [{ name: "Los Bárbaros del Sur" }],
       venue: {
-        name: "Sala Albaicín Sónico",
-        address: "Camino de la Fuente Nueva 30",
+        name: "Sala Planta Baja",
+        address: "Calle Horno de Abad 11",
         city: "Granada",
         province: "Granada",
-        postalCode: "18009",
-        latitude: 37.1795,
-        longitude: -3.5986,
+        postalCode: "18002",
+        latitude: 37.1763,
+        longitude: -3.6042,
       },
       sessions: [
         {

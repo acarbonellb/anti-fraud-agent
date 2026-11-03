@@ -5,7 +5,7 @@
  */
 import { type HistoryEntry, sameSet, setName } from "./history.js";
 import { computeMetrics, type Metrics } from "./metrics.js";
-import { type CaseResult, caseOrder } from "./types.js";
+import { type CaseOutcome, type CaseResult, caseOrder } from "./types.js";
 
 export interface ReportSet {
   provider: string;
@@ -148,8 +148,8 @@ function caseTable(heading: string, results: readonly CaseResult[]): string[] {
   return [
     `### ${heading}`,
     "",
-    "| Case | Subject | Decision | Autonomy | Confidence | Policy reasons |",
-    "| --- | --- | --- | --- | --- | --- |",
+    "| Case | Subject | Decision | Autonomy | Confidence | Venue | Policy reasons |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
     ...results.map(renderCase),
     "",
   ];
@@ -164,6 +164,7 @@ function renderCase(result: CaseResult): string {
           `— ${expectedDecision}`,
           `— ${result.expected.autonomy}`,
           "—",
+          "—",
           result.failure ?? "—",
         ]
       : [
@@ -174,6 +175,7 @@ function renderCase(result: CaseResult): string {
             ? `✅ ${outcome.autonomy}`
             : `❌ ${result.expected.autonomy} → ${outcome.autonomy}`,
           outcome.confidence.toFixed(2),
+          venueCell(outcome.venue),
           [
             ...(outcome.endedBy === "submitted"
               ? []
@@ -182,6 +184,20 @@ function renderCase(result: CaseResult): string {
           ].join("; "),
         ];
   return `| ${[result.caseId, result.title, ...cells].map(cell).join(" | ")} |`;
+}
+
+const VENUE_LABELS: Readonly<Record<string, string>> = {
+  venue_exists: "venue",
+  venue_capacity: "capacity",
+  capacity_far_above_venue: "capacity ≥ 2×",
+};
+
+/** The venue checks' verdicts (ADR 0015); organizers have none. */
+function venueCell(venue: CaseOutcome["venue"]): string {
+  if (venue.length === 0) return "—";
+  return venue
+    .map(({ check, verdict }) => `${VENUE_LABELS[check] ?? check} ${verdict}`)
+    .join(" · ");
 }
 
 function compare(a: string, b: string): number {

@@ -1,9 +1,11 @@
 // Checks the brief §5 dataset as built: all 31 cases are there, each named
 // by its file; their contexts parse with the contract schemas at any clock;
 // no field leaks the answer; and each fixture triggers exactly the
-// deterministic findings it is meant to, so a case tests the agent and not a
-// typo in its fixture. Fakes nothing: builds every case and runs the checks.
+// deterministic and venue findings it is meant to, so a case tests the agent
+// and not a typo in its fixture. Fakes nothing but the network: the venue
+// checks replay the recorded provider responses.
 import { readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
@@ -15,6 +17,10 @@ import {
   priceBenchmarkSchema,
   similarEventSchema,
 } from "../../src/satella-client/schemas.js";
+import { loadToolRecordings } from "../../src/evals/store.js";
+import { createReplayFetch } from "../../src/evals/tool-recording.js";
+import { noThrottle } from "../../src/venue/throttle.js";
+import { createVenueChecks } from "../../src/venue/venue-checks.js";
 import { EVAL_CASES } from "./index.js";
 
 const CLOCKS = [
@@ -39,10 +45,12 @@ it("holds the 31 cases of brief §5 in order, one file each", () => {
   expect(files).toEqual(EVAL_CASES.map((c) => `${c.id}-${c.slug}.ts`).sort());
 });
 
-it("tags the cases that need the external tools (#7)", () => {
+// The venue checks settle 01, 02, 04 and N5; `webSearch` will settle the
+// rest but 09, the known gap (ADR 0015 point 10).
+it("tags the cases that need external tools not built yet (#7)", () => {
   expect(
     EVAL_CASES.filter((c) => c.requires?.includes("external")).map((c) => c.id),
-  ).toEqual(["01", "02", "04", "05", "06", "08", "09", "20", "N5"]);
+  ).toEqual(["05", "06", "08", "09", "20"]);
 });
 
 describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(
@@ -119,6 +127,44 @@ it.each(EVAL_CASES.map((c) => [c.id, c] as const))(
       .filter(({ finding }) => finding.verdict !== "pass")
       .map(({ certainty, finding }) => `${certainty} ${finding.check}`);
     expect(flagged).toEqual(EXPECTED_FLAGS[id] ?? []);
+  },
+);
+
+// What the venue checks find in each event case, replayed from the recorded
+// OSM and Wikidata responses (ADR 0015): no network. Every other event case
+// is a verified venue of unknown capacity.
+const EXPECTED_VENUE: Record<string, string[]> = {
+  "01": ["venue_exists pass", "capacity_far_above_venue fail"],
+  "02": ["venue_exists pass", "venue_capacity warn"],
+  "03": ["venue_exists pass", "venue_capacity pass"],
+  "04": ["venue_exists fail", "venue_capacity unknown"],
+  "15": ["venue_exists pass", "venue_capacity pass"],
+  "18": ["venue_exists pass", "venue_capacity pass"],
+  N1: ["venue_exists pass", "venue_capacity pass"],
+  N5: ["venue_exists unknown", "venue_capacity unknown"],
+};
+const TOOL_RESPONSES = loadToolRecordings(
+  fileURLToPath(new URL("../tool-responses", import.meta.url)),
+);
+
+it.each(
+  EVAL_CASES.filter((c) => c.subject === "event").map(
+    (c) => [c.id, c] as const,
+  ),
+)(
+  "case %s gets its venue verdicts from the recorded responses",
+  async (id, evalCase) => {
+    const { event } = evalCase.build(CLOCKS[0] ?? new Date());
+    if (event === undefined) throw new Error("an event case without an event");
+    const findings = await createVenueChecks({
+      fetch: createReplayFetch(TOOL_RESPONSES.get(id) ?? null),
+      throttles: { nominatim: noThrottle, wikidata: noThrottle },
+    })(event);
+    expect(
+      findings.map(({ finding }) => `${finding.check} ${finding.verdict}`),
+    ).toEqual(
+      EXPECTED_VENUE[id] ?? ["venue_exists pass", "venue_capacity unknown"],
+    );
   },
 );
 

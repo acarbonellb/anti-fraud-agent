@@ -13,7 +13,6 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "New venue with no web presence but a verifiable commercial address",
   subject: "event",
-  requires: ["external"],
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(

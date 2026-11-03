@@ -30,13 +30,13 @@ export const evalCase: EvalCase = {
       genre: "indie",
       artists: [{ name: "Las Ardillas Rojas" }],
       venue: {
-        name: "Sala Cartuja Sónica",
-        address: "Calle de la Calzada Vieja 40",
+        name: "Teatro Principal",
+        address: "Paseo del Espolón s/n",
         city: "Burgos",
         province: "Burgos",
         postalCode: "09003",
-        latitude: 42.3439,
-        longitude: -3.6969,
+        latitude: 42.3406,
+        longitude: -3.7002,
       },
       sessions: [
         {

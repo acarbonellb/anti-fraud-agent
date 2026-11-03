@@ -1,8 +1,9 @@
 // Checks reviewSubject end to end against the Satella mock: the context is
-// read, the loop runs, the recommendation lands in Satella with the policy's
-// autonomy, and a subject that changes during the review is re-reviewed
-// instead of retried. Fakes Satella with the mock server and the model with
-// the scripted provider.
+// read, the deterministic and venue checks run, the loop runs, the
+// recommendation lands in Satella with the policy's autonomy, and a subject
+// that changes during the review is re-reviewed instead of retried. Fakes
+// Satella with the mock server, the model with the scripted provider and the
+// venue checks with canned findings.
 import { afterEach, beforeEach, expect, it } from "vitest";
 
 import {
@@ -17,6 +18,8 @@ import {
   startMockSatella,
 } from "../satella-client/mock-server.js";
 import { PROMPT_VERSION } from "./prompt.js";
+import type { SystemFinding } from "../checks/types.js";
+import type { VenueChecks } from "../venue/venue-checks.js";
 import { reviewSubject } from "./review.js";
 
 const TOKEN = "token";
@@ -52,7 +55,24 @@ const approval = {
   ],
 };
 
-function review(provider: LlmProvider) {
+const COVERS = ["venue_exists", "venue_capacity", "capacity_far_above_venue"];
+const osm = { url: "https://www.openstreetmap.org/node/1", title: "OSM" };
+const venueFinding = (
+  check: string,
+  verdict: "pass" | "fail",
+  detail: string,
+): SystemFinding => ({
+  certainty: "heuristic",
+  finding: { check, verdict, detail, confidence: 1, sources: [osm] },
+  covers: COVERS,
+});
+const verifiedVenue: VenueChecks = () =>
+  Promise.resolve([
+    venueFinding("venue_exists", "pass", "Recinto verificado."),
+    venueFinding("venue_capacity", "pass", "Aforo compatible."),
+  ]);
+
+function review(provider: LlmProvider, venueChecks = verifiedVenue) {
   return reviewSubject({
     subject: { type: "event", id: "evt_0001" },
     runId: "run-1",
@@ -64,6 +84,7 @@ function review(provider: LlmProvider) {
     provider,
     limits: { maxToolCalls: 10, maxTokens: 100_000, maxWebSearches: 2 },
     autoApproveThreshold: 0.85,
+    venueChecks,
   });
 }
 
@@ -95,6 +116,76 @@ it("reviews an event and submits the recommendation to Satella", async () => {
   expect(result.review.findings.map((finding) => finding.check)).toContain(
     "postal_code_province",
   );
+});
+
+it("shows the venue findings to the model fenced, and they win over the model's", async () => {
+  const farAbove = venueFinding(
+    "capacity_far_above_venue",
+    "fail",
+    "Señal grave de aforo: 14,3 veces el aforo.",
+  );
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", {
+      ...approval,
+      findings: [
+        {
+          check: "venue_capacity",
+          verdict: "pass",
+          detail: "Cabe.",
+          confidence: 0.9,
+          sources: [],
+        },
+      ],
+    }),
+  ]);
+
+  const result = await review(provider, () =>
+    Promise.resolve([
+      venueFinding("venue_exists", "pass", "Recinto verificado."),
+      farAbove,
+    ]),
+  );
+
+  const user = provider.requests[0]?.messages[1]?.content ?? "";
+  const fenced = user.slice(user.indexOf('source="deterministic_checks"'));
+  expect(fenced).toContain("14,3 veces el aforo");
+  expect(fenced).toContain(osm.url);
+  const venueChecks = result.review.findings.filter((finding) =>
+    COVERS.includes(finding.check),
+  );
+  expect(venueChecks.map((finding) => finding.verdict)).toEqual([
+    "pass",
+    "fail",
+  ]);
+  expect(result.review.autonomy).toBe("escalated");
+});
+
+it("never runs the venue checks on an organizer, and escalates it", async () => {
+  let ran = false;
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+  const result = await reviewSubject({
+    subject: {
+      type: "organizer",
+      id: fixtures.organizerContext.organizer.id,
+    },
+    runId: "run-2",
+    satella: createSatellaClient({
+      baseUrl: mock.baseUrl,
+      getAccessToken: () => Promise.resolve(TOKEN),
+      correlationId: "run-2",
+    }),
+    provider,
+    limits: { maxToolCalls: 10, maxTokens: 100_000, maxWebSearches: 2 },
+    autoApproveThreshold: 0.85,
+    venueChecks: () => {
+      ran = true;
+      return Promise.resolve([]);
+    },
+  });
+  expect(ran).toBe(false);
+  expect(result.review.autonomy).toBe("escalated");
 });
 
 it("re-reviews when the event changes during the review", async () => {

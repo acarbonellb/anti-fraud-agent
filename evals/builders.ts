@@ -2,7 +2,9 @@
  * Builders for the eval cases' Satella fixtures. Every date is relative to
  * the run's clock (CODING_STANDARDS «Time-relative fixtures»), ids are
  * hashes of the case's seed so nothing in a subject hints at its case, and
- * every organizer, artist and venue is invented (CLAUDE.md §5).
+ * every organizer and artist is invented (CLAUDE.md §5). Venues are real, so
+ * the venue checks can verify them (ADR 0015), except where not existing is
+ * the case's point (04, N5).
  */
 import { createHash } from "node:crypto";
 

@@ -24,19 +24,19 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Acústico en La Caleta Vieja",
+      title: "Acústico en el Gran Teatro Falla",
       description:
         "Concierto acústico de Marina Escalante frente al mar. Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista.",
       genre: "pop",
       artists: [{ name: "Marina Escalante" }],
       venue: {
-        name: "La Caleta Vieja",
-        address: "Paseo de los Baluartes 9",
+        name: "Gran Teatro Falla",
+        address: "Plaza de Falla s/n",
         city: "Cádiz",
         province: "Cádiz",
-        postalCode: "11002",
-        latitude: 36.5323,
-        longitude: -6.3046,
+        postalCode: "11003",
+        latitude: 36.5337,
+        longitude: -6.3024,
       },
       sessions: [
         {

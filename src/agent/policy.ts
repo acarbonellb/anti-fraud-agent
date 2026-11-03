@@ -16,8 +16,17 @@
  *   `rule` system finding, and confidence is at the threshold: the request is
  *   mechanical, anyone can verify it with the rule.
  * - `reject` resolves on its own only on a hard signal: a `fail` from a
- *   hard-signal check that is a `rule` system finding or carries a source.
+ *   hard-signal check that is a `rule` system finding or carries a source
+ *   (a model finding, or a venue finding backed by OSM or Wikidata).
  * - Everything else is escalated.
+ *
+ * External evidence (ADR 0015) tightens two of those:
+ *
+ * - an event's `approve` also needs venue evidence: the venue verified, and
+ *   its capacity verified or, when no one publishes it, at most
+ *   `EXPOSURE_CAP_TICKETS` on sale in any session;
+ * - an organizer review never resolves on its own: no structured evidence
+ *   backs a new organizer.
  *
  * In Satella only an auto-resolved approval skips the admin; the autonomy of
  * the rest is recorded and shown, which is what lets the policy be measured
@@ -42,7 +51,23 @@ export const HARD_SIGNAL_CHECKS: ReadonlySet<string> = new Set<CheckId>([
   "capacity_far_above_venue",
 ]);
 
+/**
+ * Tickets on sale per session an approval may risk on a verified venue of
+ * unknown capacity: the smallest `capacityBand` (ADR 0015 point 5).
+ * Provisional until the evals tune it.
+ */
+export const EXPOSURE_CAP_TICKETS = 300;
+
 export type Autonomy = "auto_resolved" | "escalated";
+
+/** What the policy needs to know about the subject beyond the findings. */
+export type AutonomySubject =
+  | { type: "organizer" }
+  | {
+      type: "event";
+      /** From the same function the capacity check reads. */
+      maxTicketsOnSale: number;
+    };
 
 export interface AutonomyVerdict {
   autonomy: Autonomy;
@@ -51,6 +76,7 @@ export interface AutonomyVerdict {
 }
 
 export interface AutonomyInput {
+  subject: AutonomySubject;
   decision: Decision;
   confidence: number;
   systemFindings: readonly SystemFinding[];
@@ -63,6 +89,12 @@ const isNegative = (finding: Finding) =>
 
 export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
   const { decision, confidence, autoApproveThreshold } = input;
+  if (input.subject.type === "organizer") {
+    return {
+      autonomy: "escalated",
+      reasons: ["organizer reviews always escalate (ADR 0015)"],
+    };
+  }
   const systemNegatives = input.systemFindings.filter((item) =>
     isNegative(item.finding),
   );
@@ -95,6 +127,7 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
       ...(modelWarns.length > 1
         ? [`more than one warning (${String(modelWarns.length)})`]
         : []),
+      ...venueGaps(input.systemFindings, input.subject.maxTicketsOnSale),
       ...lowConfidence,
     ];
     return reasons.length === 0
@@ -107,7 +140,7 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
       ...systemNegatives
         .filter(
           (item) =>
-            item.certainty === "rule" &&
+            (item.certainty === "rule" || item.finding.sources.length > 0) &&
             item.finding.verdict === "fail" &&
             HARD_SIGNAL_CHECKS.has(item.finding.check),
         )
@@ -158,6 +191,33 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
         ],
       }
     : { autonomy: "escalated", reasons };
+}
+
+/**
+ * What an approval lacks in venue evidence. Negative venue findings are
+ * already reasons as negatives; this adds the missing positives.
+ */
+function venueGaps(
+  systemFindings: readonly SystemFinding[],
+  maxTicketsOnSale: number,
+): string[] {
+  const verdictOf = (...names: string[]) =>
+    systemFindings.find((item) => names.includes(item.finding.check))?.finding
+      .verdict;
+  const venue = verdictOf("venue_exists");
+  const capacity = verdictOf("venue_capacity", "capacity_far_above_venue");
+  return [
+    ...(venue === "pass" || venue === "fail" || venue === "warn"
+      ? []
+      : [`venue not verified (${venue ?? "not checked"})`]),
+    ...(capacity === undefined
+      ? ["venue capacity not checked"]
+      : capacity === "unknown" && maxTicketsOnSale > EXPOSURE_CAP_TICKETS
+        ? [
+            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(EXPOSURE_CAP_TICKETS)}`,
+          ]
+        : []),
+  ];
 }
 
 function checks(findings: readonly Finding[]): string {

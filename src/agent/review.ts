@@ -1,16 +1,24 @@
 /**
  * Reviews one subject end to end: read its context from Satella, run the
- * loop, submit the recommendation. Satella's `409 STALE_SUBJECT` means the
+ * deterministic and venue checks, run the loop, submit the recommendation. Satella's `409 STALE_SUBJECT` means the
  * subject changed during the review: re-review the new version, never retry
  * the old recommendation (CLAUDE.md §4).
  */
 import { runEventChecks } from "../checks/event-checks.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
+import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
-import type { Subject } from "../satella-client/schemas.js";
+import type {
+  EventReviewContext,
+  OrganizerReviewContext,
+  Subject,
+} from "../satella-client/schemas.js";
+import { maxTicketsOnSale } from "../venue/scoring.js";
+import type { VenueChecks } from "../venue/venue-checks.js";
 import { type RunLimits, type RunResult, runReview } from "./loop.js";
+import type { AutonomySubject } from "./policy.js";
 import type { Prompt } from "./prompt.js";
 import { satellaTools } from "./satella-tools.js";
 import type { AnyAgentTool } from "./tools.js";
@@ -23,6 +31,8 @@ export interface ReviewSubjectInput {
   provider: LlmProvider;
   limits: RunLimits;
   autoApproveThreshold: number;
+  /** For events, before the model (ADR 0015 point 2). */
+  venueChecks: VenueChecks;
   /** Tools beyond Satella's own (deterministic checks, web research). */
   extraTools?: readonly AnyAgentTool[];
   /** Re-reviews after a stale subject before giving up. */
@@ -51,16 +61,10 @@ export async function reviewSubject(
 
   for (let attempt = 1; ; attempt += 1) {
     const now = input.now?.() ?? new Date();
-    const { context, systemFindings } =
+    const { context, systemFindings, autonomySubject } =
       subject.type === "event"
-        ? await satella.getEventContext(subject.id).then((ctx) => ({
-            context: ctx,
-            systemFindings: runEventChecks(ctx, now),
-          }))
-        : await satella.getOrganizerContext(subject.id).then((ctx) => ({
-            context: ctx,
-            systemFindings: runOrganizerChecks(ctx),
-          }));
+        ? await prepareEvent(input, subject.id, now)
+        : await prepareOrganizer(input, subject.id);
 
     const run = await runReview({
       provider: input.provider,
@@ -68,6 +72,7 @@ export async function reviewSubject(
       limits: input.limits,
       autoApproveThreshold: input.autoApproveThreshold,
       task: `${subject.type} ${subject.id}`,
+      subject: autonomySubject,
       context,
       systemFindings,
       ...(input.fence === undefined ? {} : { fence: input.fence }),
@@ -100,4 +105,41 @@ export async function reviewSubject(
       if (!stale || attempt >= maxAttempts) throw error;
     }
   }
+}
+
+interface Prepared {
+  context: EventReviewContext | OrganizerReviewContext;
+  systemFindings: SystemFinding[];
+  autonomySubject: AutonomySubject;
+}
+
+async function prepareEvent(
+  input: ReviewSubjectInput,
+  id: string,
+  now: Date,
+): Promise<Prepared> {
+  const context = await input.satella.getEventContext(id);
+  return {
+    context,
+    systemFindings: [
+      ...runEventChecks(context, now),
+      ...(await input.venueChecks(context)),
+    ],
+    autonomySubject: {
+      type: "event",
+      maxTicketsOnSale: maxTicketsOnSale(context),
+    },
+  };
+}
+
+async function prepareOrganizer(
+  input: ReviewSubjectInput,
+  id: string,
+): Promise<Prepared> {
+  const context = await input.satella.getOrganizerContext(id);
+  return {
+    context,
+    systemFindings: runOrganizerChecks(context),
+    autonomySubject: { type: "organizer" },
+  };
 }

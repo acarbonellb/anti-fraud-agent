@@ -1,7 +1,8 @@
 /**
  * Runs one real review on this machine, at no cost: the configured
  * OpenAI-compatible model (LM Studio by default) against the in-process
- * Satella mock and its fictitious fixtures. Nothing leaves the machine.
+ * Satella mock and its fictitious fixtures. Only the venue checks leave the
+ * machine, to OpenStreetMap and Wikidata: free, keyless open data.
  *
  *   pnpm review:local            # the fixture event
  *   pnpm review:local organizer  # the fixture organizer
@@ -14,6 +15,10 @@ import { createOpenAiCompatibleProvider } from "../src/providers/openai-compatib
 import { createSatellaClient } from "../src/satella-client/client.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
 import { startMockSatella } from "../src/satella-client/mock-server.js";
+import {
+  createVenueChecks,
+  createVenueThrottles,
+} from "../src/venue/venue-checks.js";
 
 const config = loadConfig(process.env);
 const subject =
@@ -50,6 +55,10 @@ try {
     }),
     limits: config.runLimits,
     autoApproveThreshold: config.autoApproveThreshold,
+    venueChecks: createVenueChecks({
+      fetch: globalThis.fetch,
+      throttles: createVenueThrottles(),
+    }),
   });
 
   const { run, review } = result;

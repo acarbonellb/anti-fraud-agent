@@ -30,13 +30,13 @@ export const evalCase: EvalCase = {
       genre: "fiesta",
       artists: [{ name: "DJ Olivo" }],
       venue: {
-        name: "Explanada del Recinto Joven",
-        address: "Avenida de los Olivares 3",
+        name: "Teatro Darymelia",
+        address: "Calle Colón 6",
         city: "Jaén",
         province: "Jaén",
-        postalCode: "23001",
-        latitude: 37.7796,
-        longitude: -3.7849,
+        postalCode: "23004",
+        latitude: 37.7665,
+        longitude: -3.7914,
       },
       sessions: [
         {

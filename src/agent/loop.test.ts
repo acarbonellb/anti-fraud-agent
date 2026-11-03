@@ -12,7 +12,7 @@ import {
   sayText,
 } from "../providers/scripted-provider.js";
 import type { CompletionResponse } from "../providers/types.js";
-import { systemFinding } from "../checks/types.js";
+import { type SystemFinding, systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";
 import { defineTool } from "./tools.js";
 import { createUntrustedFence } from "./untrusted.js";
@@ -63,6 +63,23 @@ const approval = {
   ],
 };
 
+/** What the venue checks find for a verified venue of unknown capacity. */
+const venueVerified: SystemFinding[] = [
+  {
+    ...systemFinding(
+      "heuristic",
+      "venue_exists",
+      "pass",
+      "Recinto verificado.",
+    ),
+    covers: ["venue_exists", "venue_capacity", "capacity_far_above_venue"],
+  },
+  {
+    ...systemFinding("heuristic", "venue_capacity", "unknown", "Sin aforo."),
+    covers: ["venue_exists", "venue_capacity", "capacity_far_above_venue"],
+  },
+];
+
 function run(
   script: CompletionResponse[],
   overrides: Partial<RunReviewInput> = {},
@@ -74,7 +91,9 @@ function run(
     limits: LIMITS,
     autoApproveThreshold: 0.85,
     task: "event evt_0001",
+    subject: { type: "event", maxTicketsOnSale: 100 },
     context: { event: { title: "Noche de jazz" } },
+    systemFindings: venueVerified,
     fence: createUntrustedFence("n0nce"),
     ...overrides,
   });
@@ -251,6 +270,51 @@ describe("deterministic findings", () => {
       ),
     ).toEqual([postalCodeFail.finding]);
     expect(outcome.autonomy.autonomy).toBe("escalated");
+  });
+
+  it("drops a model finding on any check a system finding covers, and shows its sources", async () => {
+    const farAbove: SystemFinding = {
+      certainty: "heuristic",
+      finding: {
+        check: "capacity_far_above_venue",
+        verdict: "fail",
+        detail: "Señal grave de aforo.",
+        confidence: 1,
+        sources: [
+          { url: "https://www.openstreetmap.org/node/1", title: "OSM" },
+        ],
+      },
+      covers: ["venue_exists", "venue_capacity", "capacity_far_above_venue"],
+    };
+    const { provider, result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          decision: "reject",
+          findings: [
+            {
+              check: "venue_capacity",
+              verdict: "pass",
+              detail: "Cabe todo el mundo.",
+              confidence: 1,
+              sources: [],
+            },
+          ],
+        }),
+      ],
+      { systemFindings: [farAbove] },
+    );
+
+    const outcome = await result;
+
+    expect(outcome.recommendation.findings).toEqual([farAbove.finding]);
+    expect(outcome.autonomy).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["hard signals: capacity_far_above_venue"],
+    });
+    expect(provider.requests[0]?.messages[1]?.content).toContain(
+      "https://www.openstreetmap.org/node/1",
+    );
   });
 
   it("keeps them in the fallback when a limit ends the run", async () => {

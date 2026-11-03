@@ -25,21 +25,20 @@ export const evalCase: EvalCase = {
     );
     const event = buildEvent(clock, organizer.organizer.id, {
       seed: SEED,
-      title: "Concierto al amanecer en el Muelle Grande",
-      description:
-        "Concierto al aire libre al amanecer con Orquesta Brisa del Cantábrico.",
+      title: "Concierto al amanecer en Escenario Santander",
+      description: "Concierto al amanecer con Orquesta Brisa del Cantábrico.",
       genre: "clasica",
       artists: [{ name: "Orquesta Brisa del Cantábrico" }],
       // 23:00 the night before, Madrid time, for 09:00 the next morning.
       publishedHoursAgo: madridTime(clock, -1, 23),
       venue: {
-        name: "Explanada del Muelle Grande",
-        address: "Paseo del Muelle Grande s/n",
+        name: "Escenario Santander",
+        address: "Avenida de la Constitución 39",
         city: "Santander",
         province: "Cantabria",
-        postalCode: "39004",
-        latitude: 43.4607,
-        longitude: -3.8011,
+        postalCode: "39012",
+        latitude: 43.4733,
+        longitude: -3.8066,
       },
       sessions: [
         {

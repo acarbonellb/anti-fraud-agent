@@ -17,14 +17,15 @@ export const evalCase: EvalCase = {
   expected: { decisions: ["approve"], autonomy: "auto_resolved" },
   build(clock) {
     // The contract has no website field: an organizer shows it, if at all,
-    // in its description. Verifying it is #7's job.
+    // in its description. Verifying it is `webSearch`'s job (#7). The room is
+    // real and OpenStreetMap publishes its capacity of 400.
     const organizer = buildOrganizer(clock, {
       seed: `${SEED}:organizer`,
       name: "Campo Grande Música",
       description:
-        "Promotora de conciertos en Valladolid desde 2015. Web: https://campogrande-musica.example.test · Instagram y Facebook: @campograndemusica.",
-      city: "Valladolid",
-      postalCode: "47003",
+        "Promotora de conciertos en el sur de Pontevedra desde 2015. Web: https://campogrande-musica.example.test · Instagram y Facebook: @campograndemusica.",
+      city: "Ponteareas",
+      postalCode: "36860",
       createdDaysAgo: 900,
       events: { published: 14, cancelled: 0, ended: 12 },
     });
@@ -36,13 +37,13 @@ export const evalCase: EvalCase = {
       genre: "indie",
       artists: [{ name: "La Ruta Lenta" }, { name: "Mar de Trigo" }],
       venue: {
-        name: "Sala Marmota",
-        address: "Calle de los Tintes Viejos 9",
-        city: "Valladolid",
-        province: "Valladolid",
-        postalCode: "47003",
-        latitude: 41.6488,
-        longitude: -4.7286,
+        name: "Auditorio Reveriano Soutullo",
+        address: "Rúa da Estrada s/n",
+        city: "Ponteareas",
+        province: "Pontevedra",
+        postalCode: "36860",
+        latitude: 42.1743,
+        longitude: -8.5066,
       },
       sessions: [
         {

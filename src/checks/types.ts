@@ -9,6 +9,12 @@ import type { Finding } from "../satella-client/schemas.js";
 export interface SystemFinding {
   finding: Finding;
   certainty: "rule" | "heuristic";
+  /**
+   * Other checks this finding settles, when one check can end under several
+   * names (the capacity check ends as `venue_capacity` or
+   * `capacity_far_above_venue`). A model finding on any of them is dropped.
+   */
+  covers?: readonly string[];
 }
 
 export function systemFinding(

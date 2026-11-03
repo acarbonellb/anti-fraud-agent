@@ -32,13 +32,13 @@ export const evalCase: EvalCase = {
         "No se devolverá el dinero aunque se cancele el evento por cualquier motivo. La entrada es personal.",
       artists: [{ name: "Pau Rovelló" }],
       venue: {
-        name: "Teatret del Pla",
-        address: "Carrer de la Riera Fonda 25",
+        name: "Sala Apolo",
+        address: "Carrer Nou de la Rambla 113",
         city: "Barcelona",
         province: "Barcelona",
-        postalCode: "08012",
-        latitude: 41.4036,
-        longitude: 2.1561,
+        postalCode: "08001",
+        latitude: 41.3744,
+        longitude: 2.1696,
       },
       sessions: [
         {
