@@ -1,7 +1,9 @@
 /**
  * The agent loop: model ↔ tools until the model submits a recommendation or a
  * run limit is reached (brief §4.2). Limits are enforced here, not in the
- * prompt; reaching one escalates with the reason recorded.
+ * prompt; reaching one escalates with the reason recorded. The web-search
+ * budget is the soft one: a search past it isn't run, and the model still
+ * decides with what it found (#31).
  */
 import type { z } from "zod";
 
@@ -31,11 +33,7 @@ export interface RunLimits {
 }
 
 export type RunEnd =
-  | "submitted"
-  | "max_tool_calls"
-  | "max_tokens"
-  | "max_web_searches"
-  | "no_submission";
+  "submitted" | "max_tool_calls" | "max_tokens" | "no_submission";
 
 export interface TraceEntry {
   tool: string;
@@ -136,6 +134,10 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   // cite as a source and have the policy count (ADR 0015 point 6).
   const retrievedUrls = new Set<string>();
   let nudges = 0;
+  // A search past the budget means the model wanted more evidence than it
+  // got: its decision stands, but a person has to look.
+  let searchBudgetSpent = false;
+  const askedBefore = new Set<string>();
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
     const base = proposal ?? limitFallback(endedBy);
@@ -159,15 +161,18 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       // A run that didn't finish never resolves on its own.
       autonomy:
         endedBy === "submitted"
-          ? decideAutonomy({
-              subject: input.subject,
-              decision: recommendation.decision,
-              confidence: recommendation.confidence,
-              systemFindings,
-              modelFindings,
-              retrievedUrls,
-              autoApproveThreshold: input.autoApproveThreshold,
-            })
+          ? withSearchBudget(
+              decideAutonomy({
+                subject: input.subject,
+                decision: recommendation.decision,
+                confidence: recommendation.confidence,
+                systemFindings,
+                modelFindings,
+                retrievedUrls,
+                autoApproveThreshold: input.autoApproveThreshold,
+              }),
+              searchBudgetSpent,
+            )
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
       usage,
       toolCalls,
@@ -220,18 +225,33 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
 
       if (toolCalls >= limits.maxToolCalls) return finish("max_tool_calls");
       toolCalls += 1;
-      if (tool.kind === "web_search") {
-        if (webSearches >= limits.maxWebSearches) {
-          return finish("max_web_searches");
-        }
-        webSearches += 1;
-      }
 
       const args = parseArguments(call, tool.input);
       if (!args.ok) {
         trace.push({ tool: call.name, ok: false, error: "INVALID_INPUT" });
         messages.push(toolResult(call, args.message));
         continue;
+      }
+
+      const repeatKey = tool.repeatKey?.(args.value);
+      if (repeatKey !== undefined) {
+        const key = `${tool.name}:${repeatKey}`;
+        if (askedBefore.has(key)) {
+          trace.push({ tool: call.name, ok: false, error: "REPEATED_CALL" });
+          messages.push(toolResult(call, REPEATED_CALL));
+          continue;
+        }
+        askedBefore.add(key);
+      }
+
+      if (tool.kind === "web_search") {
+        if (webSearches >= limits.maxWebSearches) {
+          searchBudgetSpent = true;
+          trace.push({ tool: call.name, ok: false, error: "BUDGET_SPENT" });
+          messages.push(toolResult(call, BUDGET_SPENT));
+          continue;
+        }
+        webSearches += 1;
       }
 
       try {
@@ -246,6 +266,24 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       }
     }
   }
+}
+
+const REPEATED_CALL =
+  "Already searched with these words in this review; its results are above. Search for something else or decide.";
+const BUDGET_SPENT = `No searches left in this review. Decide with the evidence you have and call ${SUBMIT_TOOL.name}.`;
+
+function withSearchBudget(
+  verdict: AutonomyVerdict,
+  budgetSpent: boolean,
+): AutonomyVerdict {
+  if (!budgetSpent) return verdict;
+  return {
+    autonomy: "escalated",
+    reasons: [
+      "web search budget spent",
+      ...(verdict.autonomy === "escalated" ? verdict.reasons : []),
+    ],
+  };
 }
 
 type Parsed<T> = { ok: true; value: T } | { ok: false; message: string };

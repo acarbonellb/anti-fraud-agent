@@ -10,7 +10,7 @@ describe("loadConfig", () => {
     expect(loadConfig({}).runLimits).toEqual({
       maxToolCalls: 30,
       maxTokens: 200_000,
-      maxWebSearches: 10,
+      maxWebSearches: 4,
     });
   });
 

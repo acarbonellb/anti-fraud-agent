@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -200,3 +200,32 @@ should resolve a request on its own again is open: it is the one place the two A
 4. **The capacity fallback reads a number only from a page that names the venue**, and only next
    to a unit («400 personas») or right after «aforo de» or «aforo:». The page is the finding's
    source. It runs only when Wikidata and OSM publish nothing, and only for a verified venue.
+
+## Amendment (2026-11-04, #31): the search budget is soft, and repeats are refused
+
+Refines point 6's bound on searches. In E004 a review cost about 39.6k input tokens instead of
+about 10.4k. The whole conversation is sent again on every step, so each search costs more than
+the last. Seven of the 31 cases spent all 10 searches, mostly rewording one query (case 14 sent
+the same query three times). The 11th search ended the run, so the model's decision was lost
+and replaced by a `request_info` at confidence 0.
+
+1. **A search past `AGENT_MAX_WEB_SEARCHES` is refused, not run, and the run goes on.** The model
+   is told no searches are left and decides with what it found. The run still escalates, with
+   the reason «web search budget spent» before any reason the policy gives. The rule that
+   reaching a limit escalates still holds; only the run's work is kept. Tool calls and tokens
+   stay hard limits.
+2. **The default budget drops from 10 to 4.** That is cheap now that spending it no longer ends
+   the run.
+3. **A repeated query is answered from the run, not searched.** A query with the same words as an
+   earlier one (lowercased, without accents, punctuation or word order) gets "already searched"
+   instead of results. It spends no search and no credit, and it still counts as a tool call. It
+   doesn't catch near-misses such as an added word: those spend the budget.
+4. **Each search gives the model 3 results by default, with 300-character snippets.** It used to
+   give 5 results with 500 characters. The recorded search keeps 500 characters (amendment #25,
+   point 2): the capacity fallback reads its number from the longer text.
+
+Rejected:
+
+- **A lower hard limit:** it would end more runs and lose more decisions.
+- **Fuzzy matching of repeats** (word overlap): it would refuse a search that adds the word that
+  matters, such as a city or a date.
