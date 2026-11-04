@@ -1,0 +1,213 @@
+{
+  "caseId": "06",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "f6f848aa8ae20c4d8d701602cdad22d9ad51f1edddba4396c50b539a80f16103",
+      "latencyMs": 1431,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01SKsau2WU86msYB6U7Xby73",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_f032e3a64e\"}"
+            },
+            {
+              "id": "toolu_01BGxMkvpmBoS1xD1iroHjJU",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_bd0d54bb69\"}"
+            },
+            {
+              "id": "toolu_016fFSCdxvcJZQxoEQ174YRD",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Los Bárbaros del Sur gira Tierra Quemada 2026 Granada\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSmwYKEAgTGAI4AUIIdGhpbmtpbmcSDNq6Itp+ceukV2o2AxoM1Ky26dyuvKWu0BFyIjAYF/nn9u4zDeH5fkOf/iXOL0juYKvWFIgNG9GKu6nzVcbglZ3woSIwKdi7Sbg+jgsquAUlUv6VQfKYvhmXAvVi6zfuB02wPYrfeuDt31FKqS8ST659MN0ohVw+01mZmIxMa9gcfsu43vAMN29LuoDIw75OkFqua9YtMQxOm4GIZpccMpNpqTRTeiFvN5kQ3RvxjYZwF3uSwcz4mZL2NIA+ekGjRUy1DXEjgqz5m5toB+gJCNCVIbBxCZ6Kzb30rbSwX1zOzR0tesPjejw2BlKMUqN8zul8cmlQqYookmfhd2+WUugCnhRCqf5oiu/i9oJYquS4a+qNcitqOMYJCrP9f8tURlm3tWSjZi1/WAPMrjpr72yzYCWGNnoXO6yleWRARKwAtuoUMePWi6FFkzZ7cGgcEY5hyk2gqJWAXqv8ZnICwe95ge0mjpVTc/hb1djZqvV0N6D4Uunp+oj2KxNMu0gvqELhQU0mkKM0mXcsk9U3rEhOwxS0l8kD2Y1d7M7Z8M8Ysd8/4cngDyyWeKE6mTlN4PK/esg86ur2CS7dn31a7HkKakXRzN9tN9v4ccD+hG9lbZkgv9oH0dxhd+FQx9lFjUzJxK9KDC4+3ujbIPOjr1fwg3tRi3aDHafR3JuMoEZE0HjA/rrrHTih4iNQouEtWvsa5zhqMVDirMoZwpgfgiOqchve5Py/C4JVIh2EgZGszEk1rSyuJP6FRddUNgC367V/9ObIl6mCyCxgaNEy8UiUB8izG2QkYyvRWKVNtPbEOxaJz41DsxLs3XznhAQnWvwe6VXYPcMFhXgWl7oHuawxIPG6hmvqOXGrrN4yleqMxRd7mEn68qA3gr6XX9bv/DCX0pVLbMgwrSjMm4VaxqTuy/ETCnIGdskcAU6ymnGhj8bkCsdFLBIC2cinXH7mpWl3kRfk3NxgL8ehRb+F1Mg+YqtP2nf64DWnbqiuPe4Y1BgFnjBJBde4phAvCzHLUobogzEht2AYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01SKsau2WU86msYB6U7Xby73",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_f032e3a64e"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01BGxMkvpmBoS1xD1iroHjJU",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_bd0d54bb69"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016fFSCdxvcJZQxoEQ174YRD",
+              "name": "web_search",
+              "input": {
+                "query": "Los Bárbaros del Sur gira Tierra Quemada 2026 Granada",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4855,
+          "outputTokens": 280,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4851
+        }
+      }
+    },
+    {
+      "requestHash": "968e805f87e30c926aac17eec98cc0e35a0a22d5c1694490e5525ed0390e983c",
+      "latencyMs": 10576,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_012CFTfUmJrDh9zi9D5mjDzS",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Granate Directo S.L.) parece legítimo: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones, sin reportes ni retiradas por admin. Los controles deterministas y de recinto (existencia del local en OSM) pasan, y no hay eventos similares de otros organizadores. Sin embargo, la búsqueda web muestra que la web oficial del artista y el cartel del Festival Ola Norte sitúan a Los Bárbaros del Sur el 25 de noviembre de 2026 en Bilbao (cabeza de cartel, 23:30), la misma fecha de la sesión de Granada (25/11/2026, 13:00 UTC). Es un conflicto de disponibilidad del artista que no está explicado en la ficha. Puede tener una explicación inocente (error de fecha, un bolo distinto, un cartel desactualizado), pero hasta que se aclare no se puede aprobar. El aforo del local es desconocido y se ponen a la venta 700 entradas sin dato que lo respalde. Tampoco hay teloneros confirmados. Recomiendo pedir al organizador la confirmación contractual del artista para esa fecha y el aforo del recinto; no hay indicios de fraude claros para rechazar.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La web oficial del artista indica que el 25/11/2026 toca en Bilbao (Festival Ola Norte, cabeza de cartel). El cartel del festival confirma a Los Bárbaros del Sur ese mismo día a las 23:30. La sesión de Granada es el mismo día (13:00-16:00 UTC). Hay un conflicto de fecha que el evento no explica.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://losbarbarosdelsur.test/gira-tierra-quemada\",\"title\":\"Los Bárbaros del Sur — Gira Tierra Quemada: fechas\"},{\"url\":\"https://festivalolanorte.test/cartel\",\"title\":\"Festival Ola Norte — cartel por días\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El aforo del local no está publicado en OSM ni en Wikidata, y no hay dato de búsqueda web. Se ponen a la venta 700 entradas (60 vendidas) sin que pueda verificarse que caben en el recinto.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Granate Directo S.L., CIF con checksum válido, dirección en Granada, cuenta de 930 días con email verificado. No tiene otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se buscó la presencia web de la promotora fuera de la plataforma; la búsqueda se centró en el artista. No se pudo confirmar la promotora.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 24 € dentro del rango de comparables (p90 35 €).\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se comprobó si la descripción está copiada; el texto es muy breve y genérico.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"La descripción no menciona teloneros confirmados ('por confirmar') ni detalles del recinto o del horario de puertas más allá de la sesión.\",\"confidence\":0.4,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Confirmación escrita (contrato o carta de la agencia del artista) de la actuación de Los Bárbaros del Sur en la Sala Planta Baja de Granada el 25/11/2026.\",\"Explicación del conflicto: la web oficial del artista y el Festival Ola Norte de Bilbao sitúan al grupo el mismo día (25/11/2026).\",\"Aforo oficial de la Sala Planta Baja y justificación de las 700 entradas puestas a la venta.\",\"Nombre de los teloneros o confirmación de que el evento se celebra sin ellos.\",\"Datos de contacto de la promotora y de la persona responsable del evento.\"],\"draft\":\"Hola, hemos recibido vuestro evento «Los Bárbaros del Sur: gira Tierra Quemada» (Sala Planta Baja, Granada, 25/11/2026) y necesitamos verificar algunos datos antes de publicarlo. La web oficial del artista y el cartel del Festival Ola Norte (Bilbao) indican que el grupo actúa ese mismo día en Bilbao. ¿Podéis enviarnos la confirmación de la actuación en Granada (contrato o carta de la agencia), la explicación de esa fecha, el aforo oficial del local y los datos de contacto de la promotora? Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSoA0KEAgTGAI4AUIIdGhpbmtpbmcSDFEslnlhXp0K8kfLthoMyLHzBr8atYM+/rABIjCP+Ae2gunCDR6D8qvyYHRb/tDhLNB6D7iOl04BWas2kktcW8lQVVFnemglGV8DcloqvQwnzFiGEvsjPSejL5UMl2kPKsxUeSWPJNIDBaE6Odz9wnKxwArekHkqZLQ0BD07HpGHnGeHLIgstouwPlm0zjBadC4SdFEZBKcmApPF5V+t2u76pSBjwoQQlr1oV63ehPU/Pte9nz3Tst9t9Ah4gCkVgsiG/dFpiNHv/B13EhC00mvMMiL48W2kGt2FLR5ShJGFV5qWVRNxo8o4dOFydSNUyz7RPvhMmetOOeNxg2Wo3Ang1ApdVmGOmYgEHFNjLdDilam1UeG3zPI7+vIoU3IukI6G6pHWppQpRi3pRIcZ1PwwEqoSlX5CVEJc4jxqhmt2xBrDKKJf3ZsLT6CG0Akqw4iKtF/gzXxxE3+nRZ83y7HA8MBGSqk7UzU/sM5TY/oV/CJxluvE9yWeAGi8nFSVs/GAvwk5imsJK7w1m2C+zomWoHevM3CDaARYldlkPhVGTRJCyH1BYdzTWKkA5vhM5pcth6hGiuDTENxBucPDL0KjyUAJvAFp941ZYCcw+XWN/Q4lzDJ9WtUuObTYVgPIPitvo4V7Meapx2t4k5Q+wTEYWcOUzVLxVFGW0a8DlayAWisXi+Lchpb58km61sXenhmdzEtZ/iSrwiPMDuE0QUng9jiq7Ewp6Qw1NkRhiyQ2bdN/nFu6Vd0sCfqOMwQLypea5imkARkgWF0fIftYT2x1ksC3AF6k6iw8jWQadrkCBVkj5IfEd6HuXLhSOkX+kI4amoILQfuiadChqlkaHVPk3pASe3tf0bLcu6VvXvJR3xRDzoFz4tAZJCYBTAZM1Xf0S+VmWwDxSTLCbdRlhgO7lFxpyBya3TNT4o7SGDqBAbZiEj15GJwNTade5AgBkmvbsDLsocEWbZiZwWbpTw+hFCg3WtQUGwc2opPhV6HSlJwLdFyZaJFeoX5a3gaH8E9NxUuqMhRP1sPWk6ThuhTAUNue/VY9B7nDExSBBVduqa7TLY98gaPa0AT4/H0GndztzNoyEKOWqxJdXbLh8bElVKMFtVB8qZKIfIQY4riUW0HmOQL7wUKbJIPOSPdf9qChG3Pc5y3i7/S/vXuBsj7elTnvNJ9S3PGKDSldFgzQ5EEEB6lgQemzzhmvRafPqUJ1qWcu0uHJbEFe2XacktY2y/2OCuXUPtjQ/8cTC1MQaaM8QfLNTkz4w0YJqaJ4zAnHaOAHybFiCMEccoB2rYrmQtdY4SoT1JCoY6G9V1coo/bhUpmZSw+hz4cpCOHK1rG8m2UHBLkdeUoGQ/8nbQtftmhTbxEUR0KCHRonITp9/Np9p9gtsmpNTDgqr8MU7XHBe0Nq4qU3iYhZiIvMJSgRSRkKgpK3p2oatK0KvfOqLHxWCpnIIW/QF6IezPAk19gAgRo6uFP/8Ds1Nk5Nn6j5I7kzluHxojIcNBbNvE75YRn+/pbQPSPv7ZFpOxwekr6+FppGhRSegHP06vrbqNtvvoolvY6PrK6M7lWmC1iM7U2TLlA+RAObrnBAgm0D8o4ypVWA/+Tc37hlPRpJr0NveUHI4Xe+ugsWe/gUagP1Ti6UBnWV+KdSU7yX11+onhs7Sv0/LrKkMUbmEqYN+OLfto16iLaV8Lz6QMiWKfnJoOxPghf8B6ia8+Ve2zYCglB8+C14E4Jp9xw657YrvFVFM4B2UrXMC9c3ebInkMkUNqr+U0czhS5vbuRG5OKsUMB7v14XMCJuiO2LxGgZRAMznFN5iM3sqXe8BPGLBRms3y2tgfTdYH25qrMuh8KrUY39dPbeTiWsVms/zRUSX7Ry6Ac738FsSP25s1rK58pUA1sooG8kT3xMu2p+KWdNTXveZQpO23db01rfHV2VSdCwfeZh6IK5c0Jpu/JhMJiqUse4U0QJGa0rnVNx7x3cufQKhXUJlpU3KCIH8y9/pzGD8Qjx8KN1WP4qufvMf8Ntfzj5weVWXdxOeqYWtwrBiV5G5iUt5Mx3Eo0sa9Jzu/WgGoSLzg4XHbB9gQQBMyQSKf7/AoX/G4n1iPFd66wo0NW03riRPUzYOc+BazgcU3xgrHDNJTj61x4vq5ws6QBISVsp1F6Brq2OsV2trszxGCJsrb3MirWqtkFWy2qABZr92N9GEsE73NficI632a196dCYyQS6lhyBXGR5GAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012CFTfUmJrDh9zi9D5mjDzS",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El organizador (Granate Directo S.L.) parece legítimo: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones, sin reportes ni retiradas por admin. Los controles deterministas y de recinto (existencia del local en OSM) pasan, y no hay eventos similares de otros organizadores. Sin embargo, la búsqueda web muestra que la web oficial del artista y el cartel del Festival Ola Norte sitúan a Los Bárbaros del Sur el 25 de noviembre de 2026 en Bilbao (cabeza de cartel, 23:30), la misma fecha de la sesión de Granada (25/11/2026, 13:00 UTC). Es un conflicto de disponibilidad del artista que no está explicado en la ficha. Puede tener una explicación inocente (error de fecha, un bolo distinto, un cartel desactualizado), pero hasta que se aclare no se puede aprobar. El aforo del local es desconocido y se ponen a la venta 700 entradas sin dato que lo respalde. Tampoco hay teloneros confirmados. Recomiendo pedir al organizador la confirmación contractual del artista para esa fecha y el aforo del recinto; no hay indicios de fraude claros para rechazar.",
+                "findings": [
+                  {
+                    "check": "artist_availability",
+                    "verdict": "fail",
+                    "detail": "La web oficial del artista indica que el 25/11/2026 toca en Bilbao (Festival Ola Norte, cabeza de cartel). El cartel del festival confirma a Los Bárbaros del Sur ese mismo día a las 23:30. La sesión de Granada es el mismo día (13:00-16:00 UTC). Hay un conflicto de fecha que el evento no explica.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://losbarbarosdelsur.test/gira-tierra-quemada",
+                        "title": "Los Bárbaros del Sur — Gira Tierra Quemada: fechas"
+                      },
+                      {
+                        "url": "https://festivalolanorte.test/cartel",
+                        "title": "Festival Ola Norte — cartel por días"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "warn",
+                    "detail": "El aforo del local no está publicado en OSM ni en Wikidata, y no hay dato de búsqueda web. Se ponen a la venta 700 entradas (60 vendidas) sin que pueda verificarse que caben en el recinto.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Granate Directo S.L., CIF con checksum válido, dirección en Granada, cuenta de 930 días con email verificado. No tiene otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se buscó la presencia web de la promotora fuera de la plataforma; la búsqueda se centró en el artista. No se pudo confirmar la promotora.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 24 € dentro del rango de comparables (p90 35 €).",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se comprobó si la descripción está copiada; el texto es muy breve y genérico.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "other",
+                    "verdict": "warn",
+                    "detail": "La descripción no menciona teloneros confirmados ('por confirmar') ni detalles del recinto o del horario de puertas más allá de la sesión.",
+                    "confidence": 0.4,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "Confirmación escrita (contrato o carta de la agencia del artista) de la actuación de Los Bárbaros del Sur en la Sala Planta Baja de Granada el 25/11/2026.",
+                    "Explicación del conflicto: la web oficial del artista y el Festival Ola Norte de Bilbao sitúan al grupo el mismo día (25/11/2026).",
+                    "Aforo oficial de la Sala Planta Baja y justificación de las 700 entradas puestas a la venta.",
+                    "Nombre de los teloneros o confirmación de que el evento se celebra sin ellos.",
+                    "Datos de contacto de la promotora y de la persona responsable del evento."
+                  ],
+                  "draft": "Hola, hemos recibido vuestro evento «Los Bárbaros del Sur: gira Tierra Quemada» (Sala Planta Baja, Granada, 25/11/2026) y necesitamos verificar algunos datos antes de publicarlo. La web oficial del artista y el cartel del Festival Ola Norte (Bilbao) indican que el grupo actúa ese mismo día en Bilbao. ¿Podéis enviarnos la confirmación de la actuación en Granada (contrato o carta de la agencia), la explicación de esa fecha, el aforo oficial del local y los datos de contacto de la promotora? Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6059,
+          "outputTokens": 2373,
+          "cacheReadInputTokens": 4851,
+          "cacheWriteInputTokens": 1206
+        }
+      }
+    }
+  ],
+  "searches": []
+}

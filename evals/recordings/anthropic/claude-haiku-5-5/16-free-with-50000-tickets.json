@@ -1,0 +1,271 @@
+{
+  "caseId": "16",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "1ffd8dc86d21bf3aeade3286c2ffef561309cb7adca5335a4adb0ed94914946a",
+      "latencyMs": 1530,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01ReAdaJ2cHHc17fu8qEjmP8",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
+            },
+            {
+              "id": "toolu_01XFKZSML4f2QrMdhAfR4M27",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01L8wVnusuUKS4ezkASRt8Mn",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Kolektiv Arena techno Toledo Sala Pícaro 2026\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSzAUKEAgTGAI4AUIIdGhpbmtpbmcSDNBW/GL9/rP9DylRnxoMiLfC1j04y4ri16dCIjDV+bankwH2Bz/OgPlGtDz6t0Be6pF8wiWT5xbKv+e0juw1f285nxxrhfDKCAKODokq6QSzCe4+ROo6rjEKPRpQ0kbgnrVSgxFc5hRRMGxxE5//ZpGjk9h7z/QOWoxiisA2wNEFvns6tW5QTLa80E6ebDhT1NSoIWzPvM0TyX8+gIgx1yMTlE2GC3GLoli0MjwkuE/LAb76ChbSMTeMrNUiYBV3jMYiNxu7bfCqjnRsYpSNj/IoqUt5l3gzOfGSgAgmiJ//0A18EFBg0pT8S6QdZEQ8zTJG76oT3siAWwtjV7lUSPRPoBG69RJWvQ5CTD7Zk1SzyN7novewSOH1tliWRzPNh5MAT4XApB6INgkz9xUuUlmsNVG0u1Fk278t4VebmcGrgt3H96Q9JXvAiItqz3eEc6PBUpf1RNFUQSg/uA2bI5fI7uzuVhP8iZ1oPhgjUiYkecO+D8Y0sh+lhaBqPhlm4U6EkbwNnjrlWEPdyzv3q53l3TsYzrl+LePiepE/eeChq5/fVdXnJUP8I7l8UkBMjW7iGlj/2v61QwxngYILvZOpHQvTXmLwEIQrvJdEkypMEtO0UMpw7aufMbhSKNEKVD2mBElbMNylJiKoSEsE5EHxQPMZ8u84+f0jr1zUAMbBjqJhwtGa8VZs9aPTQDCplHWlLHMyF+Q8xEqJQUgNl9x9djXLwLHl4MMT1hTLJboGFmaff0ncQ6/tO/XSm3uEDWZGQNcn26ET6EVMc/E23IZt6vascp1HM/vp1KpquSr9ZDrHL1D9U1YGJTfgY23tHRo+wqsP2gb15wGHa0OaHwjhwzB5VHV1s3DslmL9sEVddgHFnU5gG/k98rckrRetzG5mUeP4kRvzI1NsWJJ3QjsCB4iLgw2HgBgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01ReAdaJ2cHHc17fu8qEjmP8",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_8512b0049b"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01XFKZSML4f2QrMdhAfR4M27",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_5fc2399015",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01L8wVnusuUKS4ezkASRt8Mn",
+              "name": "web_search",
+              "input": {
+                "query": "Kolektiv Arena techno Toledo Sala Pícaro 2026",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4846,
+          "outputTokens": 274,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4842
+        }
+      }
+    },
+    {
+      "requestHash": "a7a795d799e0bdbfb9f6e2cef7865e543bd158de35ca557d782c681946d02477",
+      "latencyMs": 10876,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_0118We2BWBGTkJxXAD2iw7tT",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento es una rave gratuita de 12 horas en la Sala Pícaro (Toledo), con una sola entrada \\\"General\\\" de 0 € y capacidad declarada de 50.000 personas, frente a un aforo publicado de 150 en la web de la sala. Es la señal más grave: 333 veces el aforo. Sin embargo, el organizador (Pulso Industrial S.L.) tiene 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por administración ni reportes, y no encontré clones ni eventos similares en la ventana de 30 días. Puede tratarse de un error de configuración (por ejemplo, un dígito de más) o de un aforo genérico sin relación con el recinto, por lo que no hay base para rechazar por fraude. Tampoco pude confirmar al artista: la búsqueda de \\\"Kolektiv Arena\\\" no devolvió resultados propios del grupo. Antes de decidir hay que aclarar el aforo real y de dónde sale la cifra de 50.000, así como la identidad del artista y el sistema de inscripción gratuita. Si no hay una explicación razonable, la recomendación pasaría a rechazo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Pulso Industrial S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se buscó presencia web propia del organizador fuera de la plataforma en esta revisión; la búsqueda se centró en el artista y el recinto.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devolvió eventos parecidos de otros organizadores en la ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"50.000 entradas puestas a la venta frente a un aforo de 150 publicado por salasdeconciertos.com (333 veces). Es una señal grave que requiere explicación del organizador.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda de 'Kolektiv Arena' en Toledo no devolvió ninguna fecha ni página del artista. Los resultados encontrados corresponden a otros artistas en el mismo recinto. No se puede confirmar ni descartar que el artista exista o tenga la fecha anunciada en otro sitio.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://concerts50.com/show/vangoura-in-toledo-tickets-nov-20-2026\",\"title\":\"vangoura Toledo Tickets - Sala Pícaro Toledo | Nov 20, 2026\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio 0 € dentro de los márgenes del benchmark (ningún precio supera 3 veces el p90 de 35 €). Un evento gratuito no compromete el cobro, pero conviene confirmar que la inscripción no oculta un cobro posterior.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se buscó si la descripción (muy breve) está copiada de otra web.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real de la sala para este evento y por qué figuran 50.000 entradas en la venta, cuando la web de la sala indica 150 plazas?\",\"¿Confirmáis la reserva de la Sala Pícaro para el 25 de noviembre de 2026 (con contrato o confirmación del recinto)?\",\"¿Quién es Kolektiv Arena? Indicad enlaces verificables (redes, web, fechas anteriores) y si el artista tiene otra fecha anunciada el mismo día.\",\"¿Cómo funciona la inscripción gratuita? Indicad si hay algún cobro, registro de datos o reventa de entradas asociada.\",\"¿Cuántas entradas quedan realmente disponibles y en qué límite de aforo se basa la venta?\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas». Antes de poder publicarlo necesitamos aclarar algunos puntos: el número de entradas puestas a la venta (50.000) es muy superior al aforo de la sala (150 plazas según su web). Por favor, indicadnos el aforo real previsto y la razón de esa cifra. También necesitamos confirmar la reserva del recinto para el 25/11/2026, y datos verificables sobre el artista Kolektiv Arena (enlaces, redes o fechas anteriores). Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_0118We2BWBGTkJxXAD2iw7tT",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento es una rave gratuita de 12 horas en la Sala Pícaro (Toledo), con una sola entrada \"General\" de 0 € y capacidad declarada de 50.000 personas, frente a un aforo publicado de 150 en la web de la sala. Es la señal más grave: 333 veces el aforo. Sin embargo, el organizador (Pulso Industrial S.L.) tiene 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por administración ni reportes, y no encontré clones ni eventos similares en la ventana de 30 días. Puede tratarse de un error de configuración (por ejemplo, un dígito de más) o de un aforo genérico sin relación con el recinto, por lo que no hay base para rechazar por fraude. Tampoco pude confirmar al artista: la búsqueda de \"Kolektiv Arena\" no devolvió resultados propios del grupo. Antes de decidir hay que aclarar el aforo real y de dónde sale la cifra de 50.000, así como la identidad del artista y el sistema de inscripción gratuita. Si no hay una explicación razonable, la recomendación pasaría a rechazo.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Pulso Industrial S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se buscó presencia web propia del organizador fuera de la plataforma en esta revisión; la búsqueda se centró en el artista y el recinto.",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "find_similar_events no devolvió eventos parecidos de otros organizadores en la ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "fail",
+                    "detail": "50.000 entradas puestas a la venta frente a un aforo de 150 publicado por salasdeconciertos.com (333 veces). Es una señal grave que requiere explicación del organizador.",
+                    "confidence": 0.85,
+                    "sources": [
+                      {
+                        "url": "https://salasdeconciertos.com/salas/sala-picaro",
+                        "title": "la web (salasdeconciertos.com)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda de 'Kolektiv Arena' en Toledo no devolvió ninguna fecha ni página del artista. Los resultados encontrados corresponden a otros artistas en el mismo recinto. No se puede confirmar ni descartar que el artista exista o tenga la fecha anunciada en otro sitio.",
+                    "confidence": 0.3,
+                    "sources": [
+                      {
+                        "url": "https://concerts50.com/show/vangoura-in-toledo-tickets-nov-20-2026",
+                        "title": "vangoura Toledo Tickets - Sala Pícaro Toledo | Nov 20, 2026"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio 0 € dentro de los márgenes del benchmark (ningún precio supera 3 veces el p90 de 35 €). Un evento gratuito no compromete el cobro, pero conviene confirmar que la inscripción no oculta un cobro posterior.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se buscó si la descripción (muy breve) está copiada de otra web.",
+                    "confidence": 0.2,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Cuál es el aforo real de la sala para este evento y por qué figuran 50.000 entradas en la venta, cuando la web de la sala indica 150 plazas?",
+                    "¿Confirmáis la reserva de la Sala Pícaro para el 25 de noviembre de 2026 (con contrato o confirmación del recinto)?",
+                    "¿Quién es Kolektiv Arena? Indicad enlaces verificables (redes, web, fechas anteriores) y si el artista tiene otra fecha anunciada el mismo día.",
+                    "¿Cómo funciona la inscripción gratuita? Indicad si hay algún cobro, registro de datos o reventa de entradas asociada.",
+                    "¿Cuántas entradas quedan realmente disponibles y en qué límite de aforo se basa la venta?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas». Antes de poder publicarlo necesitamos aclarar algunos puntos: el número de entradas puestas a la venta (50.000) es muy superior al aforo de la sala (150 plazas según su web). Por favor, indicadnos el aforo real previsto y la razón de esa cifra. También necesitamos confirmar la reserva del recinto para el 25/11/2026, y datos verificables sobre el artista Kolektiv Arena (enlaces, redes o fechas anteriores). Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6554,
+          "outputTokens": 2409,
+          "cacheReadInputTokens": 4842,
+          "cacheWriteInputTokens": 1710
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "d3dca92bdb2373e70792137e2aa216f97637d0f74d8f81e1ed55c48b8949af77",
+      "provider": "Tavily",
+      "query": "Sala Pícaro Toledo aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://salasdeconciertos.com/salas/sala-picaro",
+            "title": "Sala Pícaro – ACCES",
+            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
+          },
+          {
+            "url": "https://qconciertos.es/salas/sala-picaro",
+            "title": "Sala Pícaro",
+            "snippet": "### Ubicación\n\nLa Sala Pícaro se encuentra en Calle Cadenas, 45001, en Toledo. Su localización en el casco antiguo, a pocos pasos de los principales puntos de interés turístico, la convierte en una parada obligatoria para quienes buscan ocio nocturno de calidad tras un día de turismo. Estar en el corazón de la ciudad imperial le confiere un encanto histórico inigualable.\n\n### Aforo y Ambiente [...] El aforo de la Sala Pícaro no está especificado, pero se trata de una sala de formato pequeño, lo "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
+            "title": "Instagram",
+            "snippet": "Photo by Sala Pícaro on September 28, 2026. May be an image of poster and text.\n\nPhoto by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026. [..."
+          },
+          {
+            "url": "https://sala.picarotoledo.com",
+            "title": "sala picaro – tu sala de conciertos en toledo",
+            "snippet": "925 221 301\n\nZONA PROFESIONAL\n\nContratacion & Producción\n\nRider Sala\n\nEventos Privados\n\nTienes preguntas?  Info / FAQs\n\nNos sigues en redes?\n\nbanner inaem null “ACCES”/ null “INAEM”/"
+          },
+          {
+            "url": "https://www.instagram.com/salapicaro.toledo?hl=en",
+            "title": "Sala Pícaro (@salapicaro.toledo) • Instagram photos and videos",
+            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nPhoto by Sala Pícaro on May 27, 2026. [...]"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ae64452eed1fc18600486e9c2c21e30d094009d310c9d03ad56fd233e61d949a",
+      "provider": "Tavily",
+      "query": "Kolektiv Arena techno Toledo Sala Pícaro 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.jambase.com/show/cora-yako-sala-picaro-20261009",
+            "title": "Cora Yako, Sala Pícaro, Oct 9, 2026, Toledo, Spain",
+            "snippet": "Eme DJ\n\n  Thu • Nov 5, 2026 • 11:59 pm #### Eme DJ  Siroco \n  + Madrid, Spain\n\n  Tickets & Info\n Parquesvr\n\n  Thu • Nov 19, 2026 #### Parquesvr  La Riviera \n  + La Riviera, Spain\n\n  Tickets & Info\n Parquesvr\n\n  Fri • Nov 20, 2026 #### Parquesvr  La Riviera \n  + La Riviera, Spain\n\n  Tickets & Info\n Planta Industrial\n\n  Tue • Dec 1, 2026 #### Planta Industrial  Sala UNI Madrid \n  + Madrid, Spain\n\n  Tickets & Info\n KARLAN\n\n  Wed • Dec 9, 2026 #### KARLAN  Cadavra \n  + Madrid, Spain [...] |  |  |\n -"
+          },
+          {
+            "url": "https://concerts50.com/show/vangoura-in-toledo-tickets-nov-20-2026",
+            "title": "vangoura Toledo Tickets - Sala Pícaro Toledo | Nov 20, 2026",
+            "snippet": "Attend the vangoura concert in Toledo at Sala Pícaro Toledo on Friday, November 20, 2026, at 8:30 PM. Get your tickets now!\n\n### Videos\n\n### Top Tracks\n\n## Venue Info\n\n### Sala Pícaro Toledo\n\nC. Cadenas, 6, 45001 Toledo, Spain\n\nsala.picarotoledo.com\n\n+34 925 22 13 01\n\n## More Upcoming vangoura Concerts [...] # vangoura\n\nNov 20, 2026 at 20:30   ·   Sala Pícaro Toledo, Toledo Sala Pícaro Toledo, Toledo\n\nvangoura\n\nNov 20\n\nvangoura\n\n Copy to clipboard\n\n## vangoura Tickets\n\n|  |  |\n --- |\n| Entradas."
+          },
+          {
+            "url": "https://www.instagram.com/p/De1DwLHoL_I",
+            "title": "Instagram",
+            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nSee more posts\n\n---"
+          }
+        ]
+      }
+    }
+  ]
+}

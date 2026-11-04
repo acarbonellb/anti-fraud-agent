@@ -1,9 +1,10 @@
 /**
  * The offline evals (brief §4.3 and §5, issue #6).
  *
- *   pnpm eval [case…] [--note "<what changed>"]
+ *   pnpm eval [case…] [--note "<what changed>"] [--paid]
  *                              record with the configured model (AGENT_LLM_*;
- *                              LM Studio by default, free), the venue
+ *                              LM Studio by default, free; a paid provider
+ *                              only with --paid), the venue
  *                              providers (OSM, Wikidata: free) and Tavily
  *                              (TAVILY_API_KEY: free plan credits), then
  *                              replay all. Reads .env.
@@ -19,7 +20,9 @@
  * Both writing modes append one history entry per set whose metrics or prompt
  * versions moved, and then require `--note` (#21, ADR 0014).
  *
- * A paid provider records only with the author's go-ahead (CLAUDE.md §8).
+ * A paid provider records only with the author's go-ahead (CLAUDE.md §8):
+ * `--paid` makes that go-ahead explicit, so a `.env` left on `anthropic`
+ * never spends by accident.
  */
 import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -44,7 +47,10 @@ import {
   writeRecording,
   writeToolRecording,
 } from "../src/evals/store.js";
-import { createOpenAiCompatibleProvider } from "../src/providers/openai-compatible/adapter.js";
+import {
+  createConfiguredProvider,
+  PAID_PROVIDERS,
+} from "../src/providers/from-config.js";
 import { createTavilySearch } from "../src/search/tavily.js";
 import { createVenueThrottles } from "../src/venue/venue-checks.js";
 
@@ -65,6 +71,7 @@ const EXPERIMENTS = fileURLToPath(
 const args = process.argv.slice(2);
 const replayOnly = args.includes("--replay");
 const check = args.includes("--check");
+const paid = args.includes("--paid");
 const noteAt = args.indexOf("--note");
 const note = noteAt === -1 ? undefined : args[noteAt + 1];
 if (noteAt !== -1 && (note === undefined || note.startsWith("--"))) {
@@ -147,19 +154,23 @@ async function record(ids: readonly string[]): Promise<void> {
     );
     process.exit(2);
   }
-  const provider = createOpenAiCompatibleProvider({
-    provider: config.llm.provider,
-    baseUrl: config.llm.baseUrl,
-    model: config.llm.model,
-    ...(config.llm.apiKey === undefined ? {} : { apiKey: config.llm.apiKey }),
-  });
+  if (PAID_PROVIDERS.has(config.llm.provider) && !paid) {
+    console.error(
+      `✗ ${config.llm.provider} bills per token: pass --paid to record (CLAUDE.md §8).`,
+    );
+    process.exit(2);
+  }
+  const provider = createConfiguredProvider(config.llm);
   // One clock for the whole run, to the minute; each recording keeps it.
   const clock = new Date(Math.floor(Date.now() / 60_000) * 60_000);
   const cases = EVAL_CASES.filter(
     (c) => ids.length === 0 || ids.includes(c.id),
   );
   console.log(
-    `Recording ${String(cases.length)} case(s) with ${provider.provider}/${provider.model}…`,
+    `Recording ${String(cases.length)} case(s) with ${provider.provider}/${provider.model}` +
+      (PAID_PROVIDERS.has(provider.provider)
+        ? ` (effort ${config.llm.effort})…`
+        : "…"),
   );
   // The venue providers are free and keyless (OSM, Wikidata); one set of
   // throttles keeps Nominatim at 1 request per second across cases.

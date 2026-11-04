@@ -28,11 +28,15 @@ const completionResponseSchema = z.object({
     role: z.literal("assistant"),
     content: z.string().nullable(),
     toolCalls: z.array(toolCallSchema),
+    // Kept as recorded: the next request echoes it, and its hash with it.
+    providerContent: z.array(z.unknown()).optional(),
   }),
-  stopReason: z.enum(["tool_calls", "end", "max_tokens", "other"]),
+  stopReason: z.enum(["tool_calls", "end", "max_tokens", "refusal", "other"]),
   usage: z.object({
     inputTokens: z.number().int().nonnegative(),
     outputTokens: z.number().int().nonnegative(),
+    cacheReadInputTokens: z.number().int().nonnegative().optional(),
+    cacheWriteInputTokens: z.number().int().nonnegative().optional(),
   }),
 });
 

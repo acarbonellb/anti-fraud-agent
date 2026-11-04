@@ -1,0 +1,306 @@
+{
+  "caseId": "17",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "70715c3e3e71cf25480b76b44357005ed892bdf9ceed9eb0e26ac1c7ac4dab30",
+      "latencyMs": 1661,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01NqUZC3x7WiFrgXsz1iF4Ry",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_c68156293b\"}"
+            },
+            {
+              "id": "toolu_0176imQCooDoSsT65SKK8ZwA",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01CVMstoVMTwr914NrecfRKs",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Orquesta Brisa del Cantábrico concierto Santander\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSwQUKEAgTGAI4AUIIdGhpbmtpbmcSDBKb5uAZO/KCJ3kUHRoMztnx2wNttzPhaofIIjDJ/Xd7cG8E3tzpwPcV8jjz8OuiB6Vp/HdXv4L8tTA679UbSSUuTmTDtsE0mc/JFwoq3gQ/ML6MTwxjRxDq958U/Wf0YCbOALInf6SnhewKAIDm4Js7JtiUrYDW4zyzwzVvI+q3S8Rq5wTwaXmhMwjlOH6vxEpR2nwkqwORECrPKLrZ0/A5eql74e0xsm+T746rcnRpPmjmkAjdpbQ7ydsldG/TXpOgiiAw1H9Ty9u3fKlRrqMcEhcPiuKASU6rGw1bg2M8jmsjWK+u82A2U5eZH1FCLIckuFJDp2FKT5TKPutPSiFKMnSTLV52gOO6jnrJDtxqKVzS3FeKkkFd8Sys2/c3x+C+RV5l7AL/TUZ210X4J3qFwLPpiprMCYdfO78jEtKhgE+DqwWxlHapGfSCJf/9+X2ieZ9j42ntQ+6f/FBOIZSUKHVOUtSH/5dTQZs1LW1ybnR6t4M93FKQDMAP5Ihcy23qpgbaaik4IFUJrhdCDAlqEgMfd7apc15DhvVA5XKCLvA5VBlHR8KQl9Gf3zf17YPqncqxjn0YLmszKtROtr5XwUXKynhyc0Z0XZfjWA05LjTTOSphV09Jldvu2Zjv469TBGBv9ENCg07z2axOElC5SiFVBYJz7ANnNNyXcnQ7P4emocRMlGES9MGQCn4pmjc+8RpGNcf+ExEG0HG0JSXDP9B8N94S4UuTt12CqQmXxwE9NvxJCd3+BoGpiMbNXjAaqDuxq+Zq3A6GOsUPAw2hbROZW+sSsN+Ym2AHNXCSQ4IVhJQEbOmO59YGPvK4tXyvRESOSTklR8HFFs8A/3y5sYn3SXi/QHy39lWzdy/JjW4VB4y4JnC3AxdmPiBbt/SBfVgp7/YHIRgalMkYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01NqUZC3x7WiFrgXsz1iF4Ry",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_c68156293b"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_0176imQCooDoSsT65SKK8ZwA",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_249509afef",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01CVMstoVMTwr914NrecfRKs",
+              "name": "web_search",
+              "input": {
+                "query": "Orquesta Brisa del Cantábrico concierto Santander",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4870,
+          "outputTokens": 264,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4866
+        }
+      }
+    },
+    {
+      "requestHash": "d5c8c517afd59d3e38d6a485617ef030d30d5b71ce4367998c1b8b29dbf68a0c",
+      "latencyMs": 11957,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01FD2VtosZVv3byHD2rw87T2",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento \\\"Concierto al amanecer\\\" (evt_249509afef) tiene una señal grave de aforo: pone a la venta 3.000 entradas en una sesión, 4 veces el aforo de 750 que publica la web del recinto (comprobación automática, fallo). Además, la primera sesión es el 4/11/2026 a las 9:00 y el evento se publicó apenas 10 horas antes, así que la venta está activa con una función inminente. El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin reportes ni retiradas por admin) tiene un historial limpio y los demás checks de precios, tarifas, condiciones, pagos y recinto pasan. No he encontrado clones ni eventos similares. La artista \\\"Orquesta Brisa del Cantábrico\\\" no aparece en la búsqueda web; sólo existe una \\\"Orquesta Sinfónica del Cantábrico\\\" (OSCAN), que es otra formación, así que no puedo confirmar que la artista exista ni que su actuación esté confirmada. Ante un fallo de aforo con historial limpio, puede haber una explicación inocente (aforo al aire libre, dato desactualizado de la web del recinto), por lo que recomiendo pedir información antes de decidir, con prioridad por la fecha inminente.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"3.000 entradas a la venta en la sesión principal frente a un aforo publicado de 750 en la web del recinto (4,0 veces). Señal fuerte, aunque el dato del recinto podría estar desactualizado o referirse sólo a sala cerrada.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/escenario-santander\",\"title\":\"la web (www.salasdeconcierto.net)\"}]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La primera sesión empieza unas 10 horas después de la publicación (publicado 3/11/2026 22:00 UTC; sesión 4/11/2026 08:00 UTC). Función inminente con venta activa.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con 14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con checksum válido, dirección y ciudad presentes, cuenta de 930 días, email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos de otros organizadores con título similar en la ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda no encontró 'Orquesta Brisa del Cantábrico'. Sólo aparece la Orquesta Sinfónica del Cantábrico (OSCAN), otra formación, con sus propios conciertos. No se puede confirmar la existencia de la artista ni la fecha anunciada.\",\"confidence\":0.4,\"sources\":[{\"url\":\"https://oscan.es/evento/concierto-orquesta-sinfonica-del-cantabrico-bajo-cielo-mar-del-plata\",\"title\":\"Concierto Orquesta Sinfónica del Cantábrico: Bajo el Cielo de Mar del Plata\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se buscó presencia web del organizador por separado; el nombre de la artista no devolvió resultados verificables.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 15 € dentro del benchmark (p90 35 €) para clásica en Cantabria, aforo 1000-5000.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real del recinto para este concierto? La web pública de Escenario Santander indica 750 plazas; ¿hay una zona exterior o un montaje distinto que justifique 3.000 entradas?\",\"¿Confirmación del contrato o carta de la artista Orquesta Brisa del Cantábrico para el 4/11/2026 (nombre legal, fiscal y datos de contacto)?\",\"¿Cuál es el nombre oficial de la formación y su relación con la promotora?\",\"¿Por qué la sesión se publicó con menos de 12 horas de antelación y qué plan hay para la venta si el aforo se reduce?\"],\"draft\":\"Hola, hemos revisado el evento «Concierto al amanecer» y necesitamos algunos datos antes de poder publicarlo: 1) El recinto Escenario Santander figura con un aforo de 750 plazas, pero el evento pone a la venta 3.000 entradas para la sesión del 4/11/2026. ¿Podéis explicar el aforo real previsto (por ejemplo, zona exterior o montaje específico) y aportar documentación del recinto? 2) Necesitamos la confirmación de la actuación de la Orquesta Brisa del Cantábrico para esa fecha (contrato o carta de la formación, con nombre fiscal y datos de contacto). No hemos encontrado información pública sobre esta formación. 3) Por favor, confirmad el nombre oficial de la formación y vuestra relación con ella. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQStBAKEAgTGAI4AUIIdGhpbmtpbmcSDAfcJ3YsqurEgAQh3hoMkw7H2shKEvy+Hmx6IjCCBiVc76WzoJRyBIkwC6SRbf9VrdDeY70ODsRsAO5yFoYX1ELoRDQcKWrzPR2k0Hgq0Q8qtBemk9K1yaDWO/61juLntVCNVELKbBRZrumwU6YZHuXe32a3En3cKYJBW0B/ISqKjunD/E621EKnK2w9dXEn9ahaobH8Os3FE31ABnyfJNwRm0iG2yp06JF9rE49fctzFzA7GewbOQ5rFNohjz6Z9zFUoTHpkwdnmJPhl8C1a7pQu3Ktd10nqGDzg/p1fE6yPDNs5bRy/ZQ4Wp5Ac1aXmncGSGMKd+SLOVJ44ruDiGjwX5apdAyiU3/tBk57fDLCnMiHKNQ+cVfNjXIZlb5Cvts10e+/R47hHXtOFfIXbgzIvQCoZeWqDfuEoN8jW2kYsW+0Jd64yas4jIMIdokh11nKBu2zvwitHaTdQ5sUJpf7IhIPY7skEIQ8OSufSYn1+Vl0eAdy3ywQa44Up/qPTdflwgmKxUW1x4a5zz9Gru7+us3kW594NjpubYFcpcGvyAaO47geKf6DPzBHGUDg1AlmbYXfD3biR3pzVVvtrqIvXsJvQ5TksCiGzqES1f5Z8pHuE6+a3QsoGwkryHWhUJCKNxZWTLXEzA4GMybCCVngsL+oFsaaLinfX5DueeY7RSgzUE4QljHlu4++RdGTfWgOG5NBp3YbPRXaScC2Ih2wjoc49jM23+7lZJKpJK6O5zOzwVM9Q/1QVhR5Ru8BdKprZPwgSU1Ite6VGEmVBAsBtWA8zGAQmb3pXe5SkSUYanFKxn2UNtXwqoIibs6yo7/JFAfzrfe4pQRFYlipRnR3lZxIvqD28N51ONZJe9ERBa4inFPaq9L8wcZ/J9RiWBXlbOq3rYPh3Ug3Ruqbrxwoq5bzsu8+9m6Bba1fvOLu37Mv9D8/qBVAaG5PvIakHHwh6jfCvyXnCvXzrcLQaMRczGfEKcmZRstPoYqpf5mQkbgiNpXEnImCruPUckb7e3RJiFw0YTZShQ4izkvUk++YmBJXRd1Z+FV1vJvvatYv546wP4+i8h8ZtTSfLuXolzpRoxwbUoQUoMvpH3mdTDFVGgYTrazjpw9AhmEqoj15IDzHABbKong3613u+KVWjiS3B/fmOkU9DSWp2q04Ezzx0KYfbpqOhUmA+Zxb8Y/MJ7Ho1wSICVx5KINd/q55f954Pk4gcXBy6sEoMkUI5iEciuDWe+vIcCKNfX0oHqQ3ymqeyY0vMrKyuP9wRUkXngJGMoj5nHLP3E7M5FOytnMC6oHX3wqELFVWJ6TeOcWIwraZNQZpLqamGiDvEzI7y8RcsRU6E15nLXcFC7/AG1UoV+tvT4typmFiASNpSB+mmrybAS18e/WRzEzikchq8Ro75Ds5avMqiKZkXEeeoqEVb+0QN+ZjEhrB/bKHi9ijY9VPBj0MSFNx/37VfoBuV4QIjoW77WikqEKP0N86Ge0BCa46kwZrp/V20HjTYHMhfra9iViAs0VCZQnGWB9pNtz4OuDBDhntJTLhYpHDE5/1htsL8dZKmpoKS3EMWpvvtiItpaSYbAg3QSe7OyBOoRKPuHjnpEy9/Q6wuZmQsAZHSAxo+7w2Q+CX48c27Ds0E/d5PHyk0fcS/Odtg4m0Sv60YYRhnGJ+xqWm6/l8MQuT/5yHnvTr75fBvdkkRxzolLhmJ12wQmMTIYLZFrsCO+v9IDNB06SgeBGLg3Xc8ebzcg5pbY2uIURi8MAavm5jl70vN51Y/C/ZurHt5Y24FGbK1rlGBVs7UysmZ6u7IfHt0Cz6JKXj5gV7rWbQM+wi9+ekusj/jBVwu07JxU0lgqaWAyUS1BlnIU3xQo441TkaY+aGLtXeZxTSAUuM2hx9ls5KHPUbkY3/QXno4F4OC+9k/sQWg1xxGLCFahUGQ94gTHXSzqmr0p/SNvvJEzgt74URWTVLAjAFyIbRAiuhqVp3+e+nd/brTVECz0mfOEAO0Mr9/pCEcPn4xzsmNeGFBsftS2ZOHfH8BSVvBGmJE/9lMF1indB76UwEDHz7Kgp2ZbgGZW926cImJYBBTEHR0fMz6jctAKC4akK8YuUXCoKaFduq0BF1WPXQgUiCek2MlTKUQGchhwgvz2TWqvRuzFoaMELRKm2JL2nLMb+79sqGAST4w4Dg8uP78hoP2ZoiKqdEtEVLpBAOHxa1chHW1VmRD5fDzW5n9oGBsDQ0A5VnU3qIkKB/6YUGNTwEgBOOxReAnN0to3REvNV6POQA4O8818Nx1l64xrTzCEt36dTBLmJ7pJmrjl4913q51ACVmKObqssTkwLnRnUzKbHqzgVVXVBuNjWTzE58uy9l0EoIpMdXmeM8eYQIRdLPBjsOq8WKD2UtP8Sn0Fjj6dmIDwG2IROTDMkIBpQrFqmuAdautfLePc7WbEIyQZXTE/R/hUwwZtoSfeI++RtDlHBV5/BKHlooqTl/FfIQvpoi2nuPR0QtWv/hFBbmRFnLXCgvufV3yul0gUxtLZ7ZojZ+8UdzYjfNHBM89sENYGMwgG3Rb+AQCSW/FtULUzhq8CTVFmjQHEXqFoPcqM2XWou4GU4Itm4AcAmfnXnUpxH75Br+kf2j7RaW26hRSSEVXm7OD9Mx3L1Bm9s90A7NNjHUXRvoip4i7JVfWhh1ullSNFyPYATv1KY52VPEbpchTNHsvMqtdqI78MYN2ri3PtrJ1ZGKRwDKlVh6f5pSoQpFpbiDb7qU1Qk9Ke+io4LL3TUYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01FD2VtosZVv3byHD2rw87T2",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento \"Concierto al amanecer\" (evt_249509afef) tiene una señal grave de aforo: pone a la venta 3.000 entradas en una sesión, 4 veces el aforo de 750 que publica la web del recinto (comprobación automática, fallo). Además, la primera sesión es el 4/11/2026 a las 9:00 y el evento se publicó apenas 10 horas antes, así que la venta está activa con una función inminente. El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin reportes ni retiradas por admin) tiene un historial limpio y los demás checks de precios, tarifas, condiciones, pagos y recinto pasan. No he encontrado clones ni eventos similares. La artista \"Orquesta Brisa del Cantábrico\" no aparece en la búsqueda web; sólo existe una \"Orquesta Sinfónica del Cantábrico\" (OSCAN), que es otra formación, así que no puedo confirmar que la artista exista ni que su actuación esté confirmada. Ante un fallo de aforo con historial limpio, puede haber una explicación inocente (aforo al aire libre, dato desactualizado de la web del recinto), por lo que recomiendo pedir información antes de decidir, con prioridad por la fecha inminente.",
+                "findings": [
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "fail",
+                    "detail": "3.000 entradas a la venta en la sesión principal frente a un aforo publicado de 750 en la web del recinto (4,0 veces). Señal fuerte, aunque el dato del recinto podría estar desactualizado o referirse sólo a sala cerrada.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://www.salasdeconcierto.net/es/salas/escenario-santander",
+                        "title": "la web (www.salasdeconcierto.net)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "session_timing",
+                    "verdict": "warn",
+                    "detail": "La primera sesión empieza unas 10 horas después de la publicación (publicado 3/11/2026 22:00 UTC; sesión 4/11/2026 08:00 UTC). Función inminente con venta activa.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "Organizador con 14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF con checksum válido, dirección y ciudad presentes, cuenta de 930 días, email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos de otros organizadores con título similar en la ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda no encontró 'Orquesta Brisa del Cantábrico'. Sólo aparece la Orquesta Sinfónica del Cantábrico (OSCAN), otra formación, con sus propios conciertos. No se puede confirmar la existencia de la artista ni la fecha anunciada.",
+                    "confidence": 0.4,
+                    "sources": [
+                      {
+                        "url": "https://oscan.es/evento/concierto-orquesta-sinfonica-del-cantabrico-bajo-cielo-mar-del-plata",
+                        "title": "Concierto Orquesta Sinfónica del Cantábrico: Bajo el Cielo de Mar del Plata"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se buscó presencia web del organizador por separado; el nombre de la artista no devolvió resultados verificables.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 15 € dentro del benchmark (p90 35 €) para clásica en Cantabria, aforo 1000-5000.",
+                    "confidence": 0.7,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Cuál es el aforo real del recinto para este concierto? La web pública de Escenario Santander indica 750 plazas; ¿hay una zona exterior o un montaje distinto que justifique 3.000 entradas?",
+                    "¿Confirmación del contrato o carta de la artista Orquesta Brisa del Cantábrico para el 4/11/2026 (nombre legal, fiscal y datos de contacto)?",
+                    "¿Cuál es el nombre oficial de la formación y su relación con la promotora?",
+                    "¿Por qué la sesión se publicó con menos de 12 horas de antelación y qué plan hay para la venta si el aforo se reduce?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Concierto al amanecer» y necesitamos algunos datos antes de poder publicarlo: 1) El recinto Escenario Santander figura con un aforo de 750 plazas, pero el evento pone a la venta 3.000 entradas para la sesión del 4/11/2026. ¿Podéis explicar el aforo real previsto (por ejemplo, zona exterior o montaje específico) y aportar documentación del recinto? 2) Necesitamos la confirmación de la actuación de la Orquesta Brisa del Cantábrico para esa fecha (contrato o carta de la formación, con nombre fiscal y datos de contacto). No hemos encontrado información pública sobre esta formación. 3) Por favor, confirmad el nombre oficial de la formación y vuestra relación con ella. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6553,
+          "outputTokens": 2646,
+          "cacheReadInputTokens": 4866,
+          "cacheWriteInputTokens": 1685
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "168692f859028ef65b9bebdaf35285c43038b948a5fa3fffbbd124dc7cbb9883",
+      "provider": "Tavily",
+      "query": "\"Concierto al amanecer con Orquesta Brisa del Cantábrico\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=jgNb6YRdb2c",
+            "title": "Concierto \"Amanecer\" para Dos Cornos y Orquesta.",
+            "snippet": "### Description\n348 views\nPosted: 2017-09-19\nLes presento el Concierto \"Amanecer\", para dúo de cornos y orquesta, compuesta en 2016 por el compositor venezolano José Luís Colmenares, y estrenada mundialmente en noviembre de ese mismo año en el Teatro de la Ópera de Maracay, estado Aragua, Venezuela. El dúo de cornos, en esa ocasión, lo conformaron el mismo José L. Colmenares y el maestro Carmelo Cacioppo: en el vídeo cornistas izquierdo y derecho respectivamente. [...] Fue en el marco del concie"
+          },
+          {
+            "url": "https://palaciofestivales.com/evento/orquesta-sinfonica-del-cantabrico-3",
+            "title": "Orquesta Sinfónica del Cantábrico OSCAN - Palacio de Festivales de Cantabria",
+            "snippet": "El concierto se enmarca también en la conmemoración del 50º aniversario del fallecimiento de Benjamin Britten. En su honor se interpretan el ‘Cantus in memoriam Benjamin Britten’ de Arvo Pärt, una pieza que transmuta el duelo en contemplación sonora a través de un lenguaje austero y esencial, y la ‘Simple symphony’ del propio Britten. Esta última, una obra juvenil de carácter transparente y vital, representa la tradición y el estilo distintivo del compositor británico, mostrando su talento [...]"
+          },
+          {
+            "url": "https://www.facebook.com/100063651725848/videos/brisas-del-amanecer-junto-a-la-rebeld%C3%ADa-banda-show/1414520660418329",
+            "title": "Brisas del Amanecer  junto a la Rebeldía Banda Show",
+            "snippet": "Brisas del Amanecer junto a la Rebeldía Banda Show. ... Que buen ambiente trae la Rebelión Orquesta . Jun 30, 2026"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=Uh5cBEUG7BE",
+            "title": "AMANECER SANDINO - Brisas del Titicaca",
+            "snippet": "### Transcript\n[0:00] [Música]\n[0:11] [Música]\n[0:17] el paraíso le vida linda puro a tu\n[0:25] izquierda amor imposible perp es inosidable\n[0:33] lindaa gigante amor\n[0:41] imposible trayéndote este corazón que nunca te suo más ahora cumplendo\n[0:50] cholita de tu tanto su trayéndote este corazón\n[1:04] cholita un canto linda cañita amor\n[1:10] impos Linda urita amor imp ahino\n[1:19] [Música]\n[1:29] [Música]\n[1:40] [Música]\n[1:48] ties mucho cariño\n[1:55] [Música]\n[2:07] [Música] [...] [2:07] ["
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=yh4kMJTJQbM",
+            "title": "Tiquy, canto vital -“Brisa de amanecer” (Canon)",
+            "snippet": "### Transcript\n[0:01] que placer produce San poder que feliz\n[0:08] será quien goe la visa de\n[0:15] amanecer vienda se produce al correr que\n[0:22] feliz será y b se de la brisa aman J el\n[0:32] aso dice San José que feliz será que de\n[0:40] la p la pias en produlce s cer que feliz\n[0:54] será de la mesa\n[1:00] J la que feliz será que Jos de la\n[1:07] prisa te amanecer [...] # Tiquy, canto vital -“Brisa de amanecer” (Canon)\n## Channel: Ximena Sarta\n427 subscribers\n5 likes\n\n### Description\n125 v"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "cf2bbcd6c4f042e7b6c58b87d0ca4eac8971bb45ef73dc3ece6a8465b2211aa1",
+      "provider": "Tavily",
+      "query": "Escenario Santander Santander aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/escenario-santander",
+            "title": "Escenario Santander - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nEscenario Santander\n\nSalas de Conciertos Pop / Rock Aforo: 750-1.500\n\n# Escenario Santander\n\nSantander / Cantabria\n\n## Descripción\n\nEscenario Santander es un espacio que reúne en un local a la vanguardia de la cultura cántabra y una sala de conciertos todo el espíritu musical a nivel nacional. Actualmente es una de las referentes en la ciudad y ofrece una agenda constante con los mejores artistas nacionales e internacionales. [...] Desde junio del año 2019 el Escenario Sant"
+          },
+          {
+            "url": "https://www.santander.es/servicios-ciudadano/areas-tematicas/musica/escenario-santander",
+            "title": "Escenario Santander | Portal Ayuntamiento Santander",
+            "snippet": "Conocedores de la rutina musical de la ciudad de Santander su filosofía es alimentar la constante programación de otras salas y abrir nuevos caminos de contenidos dentro de un espacio que disfruta de diferentes aforos, de 0 a 250 personas o de 500 a 1000 como aforo máximo. Capaz de transformarse en un club con las mejores propuestas alternativas, de vestirse como una sala lista para las artes escénicas, un cine o un mercado de vanguardia, e incluso una gran discoteca en la que disfrutar los [..."
+          },
+          {
+            "url": "https://www.taquilla.com/santander/escenario-santander",
+            "title": "Escenario Santander, Santander: Entradas y Programación 2026",
+            "snippet": "La sala principal de Escenario Santander es una sala polivalente con una capacidad máxima de 1.000 personas, adaptable a diferentes formatos según las necesidades del evento. Esta flexibilidad permite albergar desde conciertos íntimos hasta grandes espectáculos, pasando por presentaciones, cine, mercados, exposiciones y congresos. [...] +INFO\n\n### Nacho Vegas en Escenario Santander, Santander 2026\n\n Sábado, 07 Nov\n\n  + Ver más\n\n    21:30\n\n    desde 27,00€\n\n    Ver desde 27,00€\n\n    - FeverUp-log"
+          },
+          {
+            "url": "https://funksocialclub.com/recintos/escenario-santander",
+            "title": "Eventos y conciertos en Escenario Santander (Santander) - Funksocialclub",
+            "snippet": "En cuanto a capacidad, conviene matizar porque la sala es deliberadamente flexible: su espacio polivalente maneja aforos adaptables de 250, 500 y hasta 1.000 personas como máximo, lo que le permite transformarse según las necesidades de cada evento. Cuenta además con el Escenario Club, un espacio más recogido de unos 400 metros cuadrados y 250 personas dedicado a la música y el humor en formato íntimo. Esa elasticidad es justo su gran baza, capaz de pasar del concierto de club al gran [...] Para"
+          },
+          {
+            "url": "https://www.santandercreativa.com/entidades/escenario-santander",
+            "title": "Escenario Santander - Entidades - Santander Creativa",
+            "snippet": "Sala polivalente con una capacidad máxima de 1.000 personas, lo que le permite transformarse en un espacios de diferentes formatos, que va desde un gran aforo a formatos más pequeños según necesidades, permitiendo albergar diferentes propuesta artísticas: conciertos, fiestas, presentaciones, cine, mercado, sala de exposiciones, congresos, incluso grandes eventos aprovechando el gran marco donde está situada. [...] La sala cuenta con un escenario 11m. x 6m.  \nPantalla 6m x 4m  \nProyector Sanyo 50"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ca4a3464bf30040603968fce2bec847ec4bb35704bf074fb8d4ae26c4ab900d9",
+      "provider": "Tavily",
+      "query": "Orquesta Brisa del Cantábrico concierto Santander",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://oscan.es/evento/concierto-orquesta-sinfonica-del-cantabrico-bajo-cielo-mar-del-plata",
+            "title": "Concierto Orquesta Sinfónica del Cantábrico: Bajo el Cielo de Mar del Plata | Santander",
+            "snippet": "El programa es un viaje musical minuciosamente construido. Para dar vida a este exigente recorrido, este concierto de la Orquesta Sinfónica del Cantábrico contará con la participación de dos solistas cántabras de proyección internacional: Marta Cubas Hondal (acordeón y bandoneón) y Cristina Cubas Hondal (violín).\n\nLa velada sinfónica se articula en torno a tres obras fundamentales que dialogan entre sí, demostrando la madurez interpretativa de la agrupación: [...] Bajo la dirección musical de Pa"
+          },
+          {
+            "url": "https://www.todalamusica.es/la-orquesta-sinfonica-del-cantabrico-estrena-en-santander-su-primera-produccion-lirica-maria-de-buenos-aires",
+            "title": "La Orquesta Sinfónica del Cantábrico estrena en Santander su primera producción lírica: ‘María de Buenos Aires’ | Toda la Música",
+            "snippet": "La directora de la OSCAN, Paula Sumillera, e Íñigo Santacana son los responsables de la Dirección Musical y la Dirección de Escena, respectivamente. La Orquesta Sinfónica del Cantábrico acompañará a la mezzosoprano Cristina del Barrio, el barítono Juan Laborería y el actor Daniel de la Hoz, que interpretarán a los personajes principales. Pablo Escobedo, Aroa Gómez, Marta Irizibar y Laura de la Calle completan el elenco de la obra. [...] La OSCAN cuenta con el patrocinio de la Universidad Europea"
+          },
+          {
+            "url": "https://www.santandercreativa.com/eventos/concierto-de-la-orquesta-sinfonica-del-cantabrico",
+            "title": "Concierto de la Orquesta Sinfónica del Cantábrico - Santander Creativa",
+            "snippet": "Horario: 19:30h\n\nLugar: Palacio de Festivales de Cantabria\n\nOrganiza: Palacio de Festivales de Cantabria\n\nPrecio: Desde 12€, precio según ubicación\n\n\"> Cómo llegar\n\n##### Concierto de la Orquesta Sinfónica del Cantábrico\n\nReservar\n\nHorario\n\n##### Horario de Concierto de la Orquesta Sinfónica del Cantábrico\n\n19:30h\n\n3/12/2026\n\n19:30 h\n\nAñadir al calendario"
+          }
+        ]
+      }
+    }
+  ]
+}

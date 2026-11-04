@@ -344,3 +344,29 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   sentence still returns pages (Instagram reels, YouTube videos) that share some of its words,
   which is why a result must hold the whole sentence.
 - **Decision:** keep.
+
+## E013 — Claude Haiku 5.5 on the same prompt and cases
+
+- **Hypothesis** (#30, from #15): a larger model raises gated accuracy above the latest qwen entry
+  (E012: 73.3 %) and lowers the approved-fraud rate (E012: 4.0 %), with the gated auto-approved
+  fraud rate still at 0. If accuracy doesn't move, the remaining errors (#29) are design limits.
+- **Change** (#30): a new Anthropic adapter on the official SDK; `claude-haiku-5-5` with adaptive
+  thinking at effort `medium`, automatic prompt caching and no sampling parameters (the API
+  rejects them). Same prompt (`review-v5`), cases, checks and policy as E012. One recording pass
+  of the 31 cases; the venue responses (OpenStreetMap) were re-recorded with it and drifted only
+  in ids and tags, which the qwen set still replays against unchanged.
+- **Before → after** (E012 qwen → E013 Haiku), gated, 30 cases: **accuracy 73.3 % → 90.0 %**,
+  **approved-fraud rate 4.0 % → 0.0 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  70.0 % → 83.3 %, **autonomy accuracy 76.7 % → 70.0 %**, Brier 0.195 → 0.130. Mean tokens in /
+  out about 28,000 / 1,400 → 13,700 / 2,400 (half the steps: 76 model calls against 195; the
+  output includes thinking). Mean model latency 39.3 s → 11.4 s. Cost of the pass: about
+  **$0.064, $0.002 per review** (54 % of the input read from cache); 56 Tavily searches against 112.
+- **What went wrong or surprised:** Haiku is right more often but sure less often. Its
+  confidence clusters at 0.60–0.80, below the 0.85 auto-approve threshold, so three legitimate
+  events (N2–N4) are approved correctly but escalate, and 01 asks for information where qwen
+  rejected on its own. The errors moved: qwen's were rejections where a question was expected
+  (12, 14, 17, 18); Haiku's are questions where a rejection was expected (01, 06; 21 fails on both). This is
+  one pass with a model whose sampling can't be pinned, so case-level differences may be noise.
+- **Decision:** provisional. Haiku leads on what matters most (accuracy, approved fraud,
+  calibration) at a negligible cost; the default model changes (ADR 0008 point 5) only after
+  repeated runs confirm the gap, and the threshold isn't lowered to chase autonomy on one pass.

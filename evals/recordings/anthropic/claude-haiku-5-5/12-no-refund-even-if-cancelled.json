@@ -1,0 +1,238 @@
+{
+  "caseId": "12",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "8081b781d5ebb4bbb96ce30db4027ce3efbceb8145dbebd278e71e18cba92c0a",
+      "latencyMs": 1190,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01PTP319Hbu5a2XYF46n6qQH",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
+            },
+            {
+              "id": "toolu_01Fs1oNfTXXEVF7pXNuqxg9w",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_d11830d06b\",\"windowDays\":30}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSjQYKEAgTGAI4AUIIdGhpbmtpbmcSDBEbdkZYAXjtQ9+g9xoMEkUNSKPC5CK27LxbIjBK+A2BduvvR1gzpAXQ7BwUGZ5enjFJbQZF1o6sC6sqGOE2eOevdYDfmuk28WvjTx4qqgXmLeHCcTpv3gk94fbNbmZd+dAKrNJeKmxiLVf5wFLEmM/pNVmYbaj/sKAPEpWRnVoT+OKbtWriag3m35vWmEYgfw7iOsuexr356E3LShjz3L3rYIaBcQQxjn6z8mZJQYAn72YXmOmmbPCam50O+72lrCkX0JBC9f3IBocW34xzPPdy4pQDdhooeNgfeAIVJZe++lQk0sAuu2geJJM5xwVZqMSDs5g+UdcAZOMf9Ncc31mBnUguseye4bD57HGyc2o529dQwoEYI5Wc+o70x/0PUjOnX37UlrH4cb0gyFnfdCopRPH/OfN4fcyeRQVk7jMw8PnUTrDpQSsLONq5iePbmqMKr1UuygST5w5OMCny8m8AKD/9oAsAwE4ZTBtmu3VokKrcBXQPNnzzD5mtN1/T9h45eMBm2FzeZFk9gpHEo74pFpJh3b/NnKtf9/nB3rebuXYUvvR9Xg/Lqy6USDc6aiA9S8LtdsJ2p+ek/OPFo5RFmW7cAVIBm5jcTS5IJBwhr9Fo+XVNgKxaTrHUozdFNtXsbJvPFL366VX9uvr8rlVr5FpGTOaCBmo6a56pZRSnDU/5W2LkOR6wuCGsFq82eTc1bhPeBzA01BafCnSfweiPjKXzVWKHZ+VZuT6F05AJIrOKtdVZd4/r4marzCSt8stOstsg/aC9mQ3JFISuihi+odQacDq103BgNXM0Y1lpZ5EM9A6sDzZR2HPmP8zIshtNepda7MUmOLCm2WgjWpy7LzrT/RtdAd0iVbnIFB/2idLmDhrqy+m8ib8vNE9jUOoQ7VyFaipbxurDiG4XO9qCmvlakh4PcYzgOjXHmdlf4CA0T3oXQzrwyWps6B1YPyRlyzDsp0ImYBFx4snWl9BIy2l8ZGpZRpM7lS2bMhASwI+ias7R610cGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01PTP319Hbu5a2XYF46n6qQH",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_24aa87dac6"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Fs1oNfTXXEVF7pXNuqxg9w",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_d11830d06b",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4888,
+          "outputTokens": 203,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4884
+        }
+      }
+    },
+    {
+      "requestHash": "8175cd699c419ea279a27c06c9008516b1c7ad402aa7a93afae4501db6b4d6b9",
+      "latencyMs": 8139,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01QnsVNDQd9vVFEPGuy9FWBq",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.8,\"rationale\":\"El evento no muestra indicios de fraude: el organizador (Comedia en Vena S.L.) tiene CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes de contenido; el recinto (Sala Apolo) existe en la ubicación indicada, el aforo es compatible, el precio (14 €) está dentro del benchmark y no hay eventos similares de otros organizadores. El único problema es la cláusula de devolución: las condiciones dicen que no se devolverá el dinero aunque se cancele el evento por cualquier motivo, lo que es una cláusula abusiva. Esto tiene una explicación inocente (plantilla copiada por error) y se puede corregir, por lo que recomiendo pedir al organizador que modifique las condiciones antes de publicar, en lugar de rechazar.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones niegan la devolución incluso si el evento se cancela («No se devolverá el dinero aunque se cancele el evento por cualquier motivo»). Debe corregirse: en caso de cancelación debe garantizarse el reembolso. Es un fallo de condiciones, no de fraude, y es subsanable.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con checksum válido, razón social Comedia en Vena S.L., dirección fiscal en Barcelona (CP 08012), email verificado y cuenta de 930 días. El propietario no tiene otras organizaciones.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se ha buscado presencia web del organizador fuera de la plataforma en esta revisión; no hay evidencia en contra.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se ha comprobado en la web si Pau Rovelló tiene la fecha anunciada en otro sitio. Pendiente de verificación.\",\"confidence\":0.3,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede modificar las condiciones del evento para garantizar la devolución del importe si el evento se cancela?\",\"¿Confirma que la fecha del 25/11/2026 en Sala Apolo está confirmada con el artista Pau Rovelló y que no se anuncia en otro lugar a la misma hora?\",\"¿Tiene algún enlace web o red social del espectáculo o de la compañía que podamos verificar?\"],\"draft\":\"Hola, hemos revisado el evento «Monólogos del jueves con Pau Rovelló» antes de su publicación. Para poder aprobarlo, necesitamos que nos ayude con lo siguiente:\\n\\n1. Las condiciones del evento indican que «no se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esto no es válido: si el evento se cancela, los compradores deben tener derecho a la devolución íntegra. Por favor, modifique el texto de las condiciones para recoger ese reembolso.\\n\\n2. Confirmación de que la sesión del 25/11/2026 en Sala Apolo está cerrada con el artista Pau Rovelló.\\n\\n3. Si dispone de web o redes sociales del espectáculo o de la empresa, indíquenos los enlaces.\\n\\nUna vez recibida la corrección, volveremos a revisar el evento. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01QnsVNDQd9vVFEPGuy9FWBq",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.8,
+                "rationale": "El evento no muestra indicios de fraude: el organizador (Comedia en Vena S.L.) tiene CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes de contenido; el recinto (Sala Apolo) existe en la ubicación indicada, el aforo es compatible, el precio (14 €) está dentro del benchmark y no hay eventos similares de otros organizadores. El único problema es la cláusula de devolución: las condiciones dicen que no se devolverá el dinero aunque se cancele el evento por cualquier motivo, lo que es una cláusula abusiva. Esto tiene una explicación inocente (plantilla copiada por error) y se puede corregir, por lo que recomiendo pedir al organizador que modifique las condiciones antes de publicar, en lugar de rechazar.",
+                "findings": [
+                  {
+                    "check": "abusive_terms",
+                    "verdict": "fail",
+                    "detail": "Las condiciones niegan la devolución incluso si el evento se cancela («No se devolverá el dinero aunque se cancele el evento por cualquier motivo»). Debe corregirse: en caso de cancelación debe garantizarse el reembolso. Es un fallo de condiciones, no de fraude, y es subsanable.",
+                    "confidence": 0.95,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF con checksum válido, razón social Comedia en Vena S.L., dirección fiscal en Barcelona (CP 08012), email verificado y cuenta de 930 días. El propietario no tiene otras organizaciones.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se ha buscado presencia web del organizador fuera de la plataforma en esta revisión; no hay evidencia en contra.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "No se ha comprobado en la web si Pau Rovelló tiene la fecha anunciada en otro sitio. Pendiente de verificación.",
+                    "confidence": 0.3,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Puede modificar las condiciones del evento para garantizar la devolución del importe si el evento se cancela?",
+                    "¿Confirma que la fecha del 25/11/2026 en Sala Apolo está confirmada con el artista Pau Rovelló y que no se anuncia en otro lugar a la misma hora?",
+                    "¿Tiene algún enlace web o red social del espectáculo o de la compañía que podamos verificar?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Monólogos del jueves con Pau Rovelló» antes de su publicación. Para poder aprobarlo, necesitamos que nos ayude con lo siguiente:\n\n1. Las condiciones del evento indican que «no se devolverá el dinero aunque se cancele el evento por cualquier motivo». Esto no es válido: si el evento se cancela, los compradores deben tener derecho a la devolución íntegra. Por favor, modifique el texto de las condiciones para recoger ese reembolso.\n\n2. Confirmación de que la sesión del 25/11/2026 en Sala Apolo está cerrada con el artista Pau Rovelló.\n\n3. Si dispone de web o redes sociales del espectáculo o de la empresa, indíquenos los enlaces.\n\nUna vez recibida la corrección, volveremos a revisar el evento. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5657,
+          "outputTokens": 1817,
+          "cacheReadInputTokens": 4884,
+          "cacheWriteInputTokens": 771
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "dc7fa54e52345554cca42080e16b2955669726ca6df8636a40d0daf77f05a321",
+      "provider": "Tavily",
+      "query": "\"Una hora de humor con Pau Rovelló y dos cómicos invitados\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=SBvwAvvFGK0",
+            "title": "THE SENSE OF HUMOR | ESDHQ+ With Onion and Bodoque | August 14, 2025",
+            "snippet": "[22:15] Oye, el día de hoy tenemos dos grandes invitados para que sigamos conversando de lo humano y lo divino. El\n[22:24] señorque y seya, por favor, que pasen, por favor.\n[22:32] Bravo, bravo.\n[22:36] Son el cebolla con el bodque son el cebolla.\n[22:43] Esa es muy buena la no supmar. Le cambió para un jajaja. Un poquito más juntos.\n[22:49] Ahí juntsen. Ah. Ah. Sí. Más para acá. Más para acá. Acá camos tres y allá solo Luchito. Más para acá. Más para acá. [...] [50:51] Sintoa más rica parece ma"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=DIqwJ1mbx3o",
+            "title": "Entre Broma y Broma | Pau San Martín",
+            "snippet": "[56:20] anteojos para que ahora eres parte del club Oye y esto lo hacen con todos su invitados sí Ah porque soy profe y soy\n[56:29] pobre No Oye qué genial Sí a ver Ábrelo par son de tu de mi gusto de tu gusto c\n[56:37] Mira no se preocupa de de que le venga al caracho no mandan cualquier cosa bueno es que con esta chaquilla nada\n[56:45] queda bien pero cuando me encanta Sí se ve bien casa renova gracias casa renova Uy tiene más [...] [51:13] hacemos acá en el sentido del humor los miembros del "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=l4SZqXP7_6Y",
+            "title": "Polilla, una vida llena de comedia en La Mesa de Trabajo",
+            "snippet": "[1:11:11] Pero es que el humor en pareja es a veces siento que el encoñe va mitad humor, mitad sexual, pero el humor es\n[1:11:19] una pareja, hijo de [ __ ] Y sobre todo estos dos que se montaban al escenario y se hacían bullying durísimo, hora y media, [risas]\n[1:11:27] o sea, era hora y media tirándose durísimo. Era ella, ¿por qué te la montaba? Ella a veces me digamos eh que porque a veces [...] [31:26] traemos a Puntilla y hacemos solo chiste y jeringa. Ojalá pu te confunde con ¿Quién es el "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=fCo2hKkCHRU",
+            "title": "Francisco Ramos chose the best Mate | Ponele Club 🤌🏻",
+            "snippet": "[14:18] final del programa estar sorteando esas entradas. Y por supuesto también tenemos el Dios las cría.\n[14:23] Dios las cría. Ay, que es acá en la casita conectora en junio celebrando el mundial. Vamos a hacer Dios las crías junto a Michel Narcisán. Estamos con\n[14:32] Ender Benavides y mira esos dos facheros que invitamos. No te la puedo que vienen el señor Gonzalo se vamos a estar acá [...] [6:16] deseos, como, por ejemplo, estar dos veces por semana, ir al mundial, acá dejamos los partido"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DULu-FejuH8?hl=en",
+            "title": "Instagram",
+            "snippet": "henrysotooficial\n\n\"Los P3n3s También Hablan:  \nCon:  \n  \n@mdeleon\\_oficial  \n  \n@karlhoffmannoficial  \n  \n@rpadillarequena y este servidor  \n  \n19, 20 7pm y 22 de febrero 6pm  \n  \n@cculturalchacao   \n  \n#teatro   \n#comédia\n\noduber16's profile picture\n\noduber16\n\nYa esos deben estar muertos 😂😂😂😂😂\n\nReply\n\nsoyirenetv's profile picture\n\nsoyirenetv\n\n@debocaquetimporta\n\n2 likes\n\nReply\n\nlugoenes's profile picture\n\nlugoenes\n\nHay que bajar la cabeza, para ver la punta del zapato. Cherry Blooson\n\nRepl"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "54682eb608c39c0896a0a3b80f4b9ade333eb8180fedb9293c09cc583b7e78b0",
+      "provider": "Tavily",
+      "query": "Sala Apolo Barcelona aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.timeout.es/barcelona/es/musica/sala-apolo",
+            "title": "Apolo, un clásico de la noche de Barcelona",
+            "snippet": "Cuatro. La sala principal, la histórica, con capacidad para 1.300 personas en concierto de pie; La (2), de construcción mucho más moderna, con capacidad para 800 personas en concierto; La (3) con un aforo de 300 personas en concierto y con un patio al aire libre; y la CINC, la pequeña de la familia, donde caben alrededor de 100 personas.\n\n## ¿Qué música ponen en Apolo? [...] PreviousNext\n\n   /7\n3. Foto: Sala Apolo | Sala Apolo\n\n   PreviousNext\n\n   /7\n4. Foto: Óscar García | Sala Apolo\n\n   Previo"
+          },
+          {
+            "url": "https://www.ctickets.es/recintos/ficha/220-sala-apolo-barcelona",
+            "title": "Sala Apolo - Barcelona - Canal Oficial de venta de entradas",
+            "snippet": "La Sala Apolo es uno de los locales nocturnos más míticos de Barcelona. Con más de 25 años de historia, ha sido, junto a La Paloma, el local de referencia para ir a bailar. Sea cual fuere el estilo de música que estuviera de moda en el momento, “el Apolo” los ha vivido todos. Actualmente funciona de forma simultánea como sala de conciertos y club de baile. Además, hace un año que estrenó una sala adyacente (la ). Con 1100 y 400 personas de capacidad respectivamente, por Apolo pasan algunos de [."
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Sala_Apolo",
+            "title": "Sala Apolo - Wikipedia, la enciclopedia libre",
+            "snippet": "simultánea, como sala de conciertos y club de baile nocturno con una capacidad para albergar, entre las tres salas, a 2900 personas. [...] La Sala Apolo es una discoteca y sala de concertos situada en Barcelona, concretamente en el barrio de Pueblo Seco. Nacida en 1943 como sala de baile, ha sido junto a La Paloma?action=edit&redlink=1 \"La Paloma (Barcelona) (aún no redactado)\") uno de los lugares de referencia en la escena nocturna de la ciudad. En sus orígenes, fue un parque de atracciones y a"
+          },
+          {
+            "url": "https://thisisbarcelona.com/music-and-festivals/concert-venues/sala-apolo",
+            "title": "Sala Apolo",
+            "snippet": "0 \n\n Català\n Español\n English\n Française\n Italiano\n\n Tickets\n\n# Sala Apolo\n\n Decades of avant-garde sound in every concert.\n\nConsorci de Turisme de Barcelona Eren Saracevic\n\n﻿\n\n##### Practical info\n\nAddress\n\nCarrer Nou de la Rambla, 113\n\n Open in Google Maps\n\nContact\n\n+34 934 414 001   info@sala-apolo.com\n\nHow to get there\n\nlogo metro\n\nMetro: L2, L3 - Paral·lel\n\nlogo bus\n\nBus: 21, 55, 121, D20, H16\n\nSchedule [...] Schedule\n\nTuesday to Saturday: 00:00 to 05:00  \nSundays: 17:00 to 05:00  \nMonday c"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/aG9dM6416ufj",
+            "title": "Sala Apolo",
+            "snippet": "# Sala Apolo\nID: aG9dM6416ufj\nWebsite: www.sala-apolo.com\nLegal name: Autopark, S.A.\nHeadquarters: Barcelona, Barcelona, Spain\nLinkedIn: www.linkedin.com/company/sala-apolo · 2,004 followers\nIndustry: Musicians\nIndustry codes: SIC 58, 581, NAICS 72, 722\nCompany type: Privately Held\nFounded: 1943 [...] ## Headcount\n- Now: 41 · +8 yearly (24.2%) · 0 quarterly · 0 monthly\n  - Southern Europe: 25\n  - Eastern Europe: 0\n  - Latin America: 0\n  - Sub Saharan Africa: 0\n  - Central Asia: 0\n  - Northern Am"
+          }
+        ]
+      }
+    }
+  ]
+}

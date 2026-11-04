@@ -49,7 +49,27 @@ describe("loadConfig", () => {
       baseUrl: "http://localhost:1234/v1",
       model: "qwen/qwen3.5-9b",
       apiKey: undefined,
+      effort: "medium",
     });
+  });
+
+  it("reads Claude's effort", () => {
+    const config = loadConfig({
+      AGENT_LLM_PROVIDER: "anthropic",
+      AGENT_LLM_MODEL: "claude-haiku-5-5",
+      AGENT_LLM_API_KEY: "sk-ant-test",
+      AGENT_LLM_EFFORT: "low",
+    });
+
+    expect(config.llm).toMatchObject({ provider: "anthropic", effort: "low" });
+  });
+
+  it("fails at startup when anthropic has no key", () => {
+    expect(() => loadConfig({ AGENT_LLM_PROVIDER: "anthropic" })).toThrow(
+      expect.objectContaining({
+        issues: [{ variable: "AGENT_LLM_API_KEY", problem: "custom" }],
+      }) as Error,
+    );
   });
 
   it("reads the model and its key from the environment", () => {
@@ -68,6 +88,7 @@ describe("loadConfig", () => {
   it.each([
     ["AGENT_AUTO_APPROVE_THRESHOLD", "1.5"],
     ["AGENT_LLM_BASE_URL", "ftp://example.test"],
+    ["AGENT_LLM_EFFORT", "extreme"],
   ])("rejects %s=%s", (variable, value) => {
     expect(() => loadConfig({ [variable]: value })).toThrow(ConfigError);
   });

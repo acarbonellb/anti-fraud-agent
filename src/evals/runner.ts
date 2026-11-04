@@ -27,13 +27,13 @@ import {
   createVenueThrottles,
   type VenueThrottles,
 } from "../venue/venue-checks.js";
+import { costMicros } from "../providers/pricing.js";
 import type { LlmProvider } from "../providers/types.js";
 import { createSatellaClient } from "../satella-client/client.js";
 import { startMockSatella } from "../satella-client/mock-server.js";
 import {
   createRecordingProvider,
   createReplayProvider,
-  type RecordedCall,
   type Recording,
   StaleRecordingError,
 } from "./recording.js";
@@ -125,7 +125,7 @@ export async function recordCase(
     return {
       recording,
       toolRecording: { caseId: evalCase.id, calls: tools.calls() },
-      result: resultOf(evalCase, withLatency(outcome, recorder.calls)),
+      result: resultOf(evalCase, fromCalls(outcome, recording)),
     };
   } catch (error) {
     return {
@@ -160,7 +160,7 @@ export async function replayCase(
       prompt,
       options.autoApproveThreshold ?? defaultThreshold,
     );
-    return resultOf(evalCase, withLatency(outcome, recording.calls));
+    return resultOf(evalCase, fromCalls(outcome, recording));
   } catch (error) {
     return failed(evalCase, error);
   }
@@ -215,7 +215,7 @@ async function review(
   clock: Date,
   prompt: Prompt,
   autoApproveThreshold: number,
-): Promise<Omit<CaseOutcome, "latencyMs">> {
+): Promise<Omit<CaseOutcome, "latencyMs" | "costMicros">> {
   const fixtures = evalCase.build(clock);
   // Invented organizers, artists and texts have no real web: their pages are
   // authored, and searched in code in both modes (ADR 0015 point 9).
@@ -304,13 +304,20 @@ function requireEvent(
   return event.event.id;
 }
 
-function withLatency(
-  outcome: Omit<CaseOutcome, "latencyMs">,
-  calls: readonly RecordedCall[],
+/** What only the recorded calls know: how long they took and what they cost. */
+function fromCalls(
+  outcome: Omit<CaseOutcome, "latencyMs" | "costMicros">,
+  recording: Pick<Recording, "provider" | "model" | "calls">,
 ): CaseOutcome {
+  const { calls } = recording;
   return {
     ...outcome,
     latencyMs: calls.reduce((total, call) => total + call.latencyMs, 0),
+    costMicros: costMicros(
+      recording.provider,
+      recording.model,
+      calls.map((call) => call.response.usage),
+    ),
   };
 }
 

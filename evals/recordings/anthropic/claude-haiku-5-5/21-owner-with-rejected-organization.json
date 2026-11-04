@@ -1,0 +1,181 @@
+{
+  "caseId": "21",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "050d3d812ccfe2f684701034e2f245f6ec3fe65f96dc73136c05f5ef8c689398",
+      "latencyMs": 1632,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01FkwLYKb9Ct4m3K42EdDPFh",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Fiestas del Levante Feliz\\\" Alicante\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSvQcKEAgTGAI4AUIIdGhpbmtpbmcSDPegPObzPgWXoX/A7xoMVh4T7fqfeWkQCOuPIjAJLxrSKvucV4rO3UdLU+cpVaTwt7RLcPdn4chz9BzF0BJU1T18EwzI9J+2nrcxpBoq2gael/KQW4Rljsbhzg9tuBwYVwP2EGgPNh9GlKJ3T1SmiBinHupF5uk+AAwBgYWqhAKtQhwS9PIoeExna/OOSvjz9OYcKT6OqsAHmop2nTGagq6d6cXPyeoVf12sD6coIevkCLFaBcIk7Vx59Uzp3rlbfYYKIf5bc7C3CTzb+OVbUQksfvgmjVLUtEtfHm7pypkScB8Fp7npC+GTU/b4rm1IfeL5tuUvx8KRy4aMO47wXHP11ipy/8PuG63z7lzDUuqlfvq3K46hzPHBdFVVM6ygevyOJQNyX4JHjHgLW5+8wEkheQZyuUj+yVLGwDmJEkFOTqEvPT3pGGacBmH3cKxbqbQFBenvqjOeQ+vcrUF7pL/NlUu7RwZlNoW5wHDAemMdbpzjfmIrfl/TaUSqQR+ltk7iItc+oRfwKKJAIMnAx04C/O0pKPg4pG1M/x3m+vyibld+JnpkZzR3AWFUSMnyS+llVNkMwUMMvQBGkKDNQfk1au24LB+1mCnP8Zzp1AN+cEpfNZIlRY1MgQ3sy9HtPY6tksNcT8DKcuh7kzvZKjoP3ENYnYGn12tMq8BM+1CunCHnrYvVNnaHjfyfkcW79RXF810IWm7O+ZEije7Sk1w8zCPho/wF+EspLg6M2XoXZR9grrmJ7J022Lex/xt/JF8vh67+LnONRZZZsCNZPPxmyIN1hUwr4mfgisyCTJqPwOjXqChlCNfGp6mkk2bZyQoNKcLvgaX59TetQ8iuLWiMKt89Mrq8AqRLFpSY1fmu7POF68WD0C3JL9222QdFTa6TsEpb+o5mydVQEiNr/jzKFYmGZMODjiwx+m2OPxtHGKTYk9d5hZUoeYW04gsWwR82Gn9F5zKyq4p2JE851mmj9yey4CZ1DcZ/PKt89laqryyTO4whHJ5ajYXdqk1S/IqMf6Knrj/SucOv8juBB0tPGvHKvH2+wmdu4yk45JezXAf7X95Vx/OEo5vRr6YImL9pd94naqAWNwBRkTeJl1qLpRsg7pCiZ0OL7+hQRHO4Po69baYy8s50OQ30hSxnp4POhgbTI2f8EVdBMq1701ZZuEfiEv7sXKeH0a3hFM7x01oXDn3J5kVrmavqkSwx8UTXDG1CCEE0Fy1JDb8oLzQQwFPLR0dkY24YAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01FkwLYKb9Ct4m3K42EdDPFh",
+              "name": "web_search",
+              "input": {
+                "query": "\"Fiestas del Levante Feliz\" Alicante",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3879,
+          "outputTokens": 194,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 3875
+        }
+      }
+    },
+    {
+      "requestHash": "9a5539c211d605699cd654e23e6150e54983b6584b4ec9c50eb8dca6984914f8",
+      "latencyMs": 9104,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_014wCr6jKAa9Mz9yYsFdwEev",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"El organizador está pendiente, tiene 75 días de antigüedad y ningún evento publicado ni historial de moderación. Los datos fiscales (CIF con dígito de control válido, dirección en Alicante) son correctos. El punto de atención es el dueño: tiene otra organización rechazada (creada el 2026-09-05). La búsqueda web no encontró una presencia propia clara de \\\"Fiestas del Levante Feliz S.L.\\\"; sólo apareció un perfil de Instagram llamado \\\"Fiesta Fm Levante Pag Oficial\\\" que usa la expresión \\\"Levante Feliz\\\" en sus publicaciones. No es concluyente, pero conviene aclarar la relación entre ambas marcas antes de aprobar. No hay señales de fraude claras, así que no recomiendo rechazar todavía. Pido información al organizador para verificar identidad y actividad real.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con dígito de control válido, dirección y ciudad (Alicante, 03001) presentes. La antigüedad de la cuenta es de 75 días. El dueño tiene el email verificado.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Sin eventos publicados, cancelados ni finalizados, sin reportes de contenido ni despublicaciones. Sin embargo, el dueño tiene otra organización rechazada, creada el 2026-09-05. Hay que revisar el motivo del rechazo.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda del nombre legal no encontró web ni perfil propio del organizador. Sólo apareció un perfil de Instagram 'Fiesta Fm Levante Pag Oficial' (@fiestafmlevante) que menciona 'Fiesta Fm Levante Feliz'. No se puede vincular con certeza al organizador.\",\"confidence\":0.4,\"sources\":[{\"url\":\"https://www.instagram.com/fiestafmlevante\",\"title\":\"Fiesta Fm Levante Pag Oficial (@fiestafmlevante) • Instagram photos and videos\"}]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"El nombre 'Fiestas del Levante Feliz' es parecido a la marca 'Fiesta FM Levante Feliz' que aparece en Instagram. No hay prueba de suplantación, pero conviene confirmar que el organizador no usa la marca de otra entidad.\",\"confidence\":0.35,\"sources\":[{\"url\":\"https://www.instagram.com/fiestafmlevante\",\"title\":\"Fiesta Fm Levante Pag Oficial (@fiestafmlevante)\"}]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"La descripción es genérica ('Organizamos fiestas y conciertos en la costa.') y no indica nombres de eventos, artistas ni salas. Tiene logo y portada. Esto no basta para evaluar la actividad real.\",\"confidence\":0.5,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Explicar el motivo del rechazo de la organización anterior del dueño (creada el 2026-09-05) y si alguno de sus responsables es el mismo.\",\"Indicar si existe alguna relación con el perfil de Instagram @fiestafmlevante ('Fiesta Fm Levante Pag Oficial') o con la marca 'Fiesta FM Levante Feliz'.\",\"Facilitar web oficial y/o redes sociales propias de la entidad, con eventos anteriores verificables.\",\"Aportar documentación que acredite la representación del dueño en Fiestas del Levante Feliz S.L. (escritura o certificado del Registro Mercantil).\",\"Describir los tipos de eventos que organizará y los recintos previstos.\"],\"draft\":\"Hola, para completar la revisión de vuestra cuenta de organizador necesitamos la siguiente información:\\n1. Motivo del rechazo de la organización anterior vinculada a vuestro titular.\\n2. Si tenéis relación con el perfil de Instagram @fiestafmlevante o con la marca 'Fiesta FM Levante Feliz'.\\n3. Web oficial y/o redes sociales propias, junto con eventos anteriores verificables.\\n4. Documentación que acredite la representación de la sociedad (escritura o certificado del Registro Mercantil).\\n5. Tipos de eventos previstos y recintos.\\nCuando recibamos la documentación, revisaremos de nuevo la solicitud. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_014wCr6jKAa9Mz9yYsFdwEev",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.5,
+                "rationale": "El organizador está pendiente, tiene 75 días de antigüedad y ningún evento publicado ni historial de moderación. Los datos fiscales (CIF con dígito de control válido, dirección en Alicante) son correctos. El punto de atención es el dueño: tiene otra organización rechazada (creada el 2026-09-05). La búsqueda web no encontró una presencia propia clara de \"Fiestas del Levante Feliz S.L.\"; sólo apareció un perfil de Instagram llamado \"Fiesta Fm Levante Pag Oficial\" que usa la expresión \"Levante Feliz\" en sus publicaciones. No es concluyente, pero conviene aclarar la relación entre ambas marcas antes de aprobar. No hay señales de fraude claras, así que no recomiendo rechazar todavía. Pido información al organizador para verificar identidad y actividad real.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF con dígito de control válido, dirección y ciudad (Alicante, 03001) presentes. La antigüedad de la cuenta es de 75 días. El dueño tiene el email verificado.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "warn",
+                    "detail": "Sin eventos publicados, cancelados ni finalizados, sin reportes de contenido ni despublicaciones. Sin embargo, el dueño tiene otra organización rechazada, creada el 2026-09-05. Hay que revisar el motivo del rechazo.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda del nombre legal no encontró web ni perfil propio del organizador. Sólo apareció un perfil de Instagram 'Fiesta Fm Levante Pag Oficial' (@fiestafmlevante) que menciona 'Fiesta Fm Levante Feliz'. No se puede vincular con certeza al organizador.",
+                    "confidence": 0.4,
+                    "sources": [
+                      {
+                        "url": "https://www.instagram.com/fiestafmlevante",
+                        "title": "Fiesta Fm Levante Pag Oficial (@fiestafmlevante) • Instagram photos and videos"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "warn",
+                    "detail": "El nombre 'Fiestas del Levante Feliz' es parecido a la marca 'Fiesta FM Levante Feliz' que aparece en Instagram. No hay prueba de suplantación, pero conviene confirmar que el organizador no usa la marca de otra entidad.",
+                    "confidence": 0.35,
+                    "sources": [
+                      {
+                        "url": "https://www.instagram.com/fiestafmlevante",
+                        "title": "Fiesta Fm Levante Pag Oficial (@fiestafmlevante)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "other",
+                    "verdict": "warn",
+                    "detail": "La descripción es genérica ('Organizamos fiestas y conciertos en la costa.') y no indica nombres de eventos, artistas ni salas. Tiene logo y portada. Esto no basta para evaluar la actividad real.",
+                    "confidence": 0.5,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "Explicar el motivo del rechazo de la organización anterior del dueño (creada el 2026-09-05) y si alguno de sus responsables es el mismo.",
+                    "Indicar si existe alguna relación con el perfil de Instagram @fiestafmlevante ('Fiesta Fm Levante Pag Oficial') o con la marca 'Fiesta FM Levante Feliz'.",
+                    "Facilitar web oficial y/o redes sociales propias de la entidad, con eventos anteriores verificables.",
+                    "Aportar documentación que acredite la representación del dueño en Fiestas del Levante Feliz S.L. (escritura o certificado del Registro Mercantil).",
+                    "Describir los tipos de eventos que organizará y los recintos previstos."
+                  ],
+                  "draft": "Hola, para completar la revisión de vuestra cuenta de organizador necesitamos la siguiente información:\n1. Motivo del rechazo de la organización anterior vinculada a vuestro titular.\n2. Si tenéis relación con el perfil de Instagram @fiestafmlevante o con la marca 'Fiesta FM Levante Feliz'.\n3. Web oficial y/o redes sociales propias, junto con eventos anteriores verificables.\n4. Documentación que acredite la representación de la sociedad (escritura o certificado del Registro Mercantil).\n5. Tipos de eventos previstos y recintos.\nCuando recibamos la documentación, revisaremos de nuevo la solicitud. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4758,
+          "outputTokens": 2071,
+          "cacheReadInputTokens": 3875,
+          "cacheWriteInputTokens": 881
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "8a9ef4e9b4de023bb54069efadd2a648f6e85624adc3fe2d1fea28cd7410d348",
+      "provider": "Tavily",
+      "query": "\"Fiestas del Levante Feliz\" Alicante",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/fiestafmlevante",
+            "title": "Fiesta Fm Levante Pag Oficial (@fiestafmlevante) • Instagram photos and videos",
+            "snippet": "Video by Fiesta Fm Levante Pag Oficial on September 06, 2026. May be an image of drink, poster and text that says 'Fiesta 2 fm Levante Feliz Lunes! iilitis Alicante 88.4 FM Elche 95.2 95.2FM FM Este es el día que hizo el SEÑOR; nos gozaremos y alegraremos en él. betal Salmo 118:24 f @fiestafmlevante'. [...] Photo by Fiesta Fm Levante Pag Oficial on August 31, 2026. May be an image of ‎text that says '‎ررا FELIZ INICIO DE fiesta fm SEMANA Levante Que Dios te Ilene de FUERZA, FUERZA SABIDURÍA y mu"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DeRS0tKCMBV",
+            "title": "Instagram",
+            "snippet": "💛💙❤️ ¡Feliz Día de la Comunitat Valenciana a todos! 🎉🌹  \n  \nHoy, 9 de octubre, Alicante celebra una de las fechas más importantes de nuestra tierra, y la tradición y el folclore han tomado la Explanada de España. 💃🏻🎶 [...] 🥁 La danza popular ha llenado de música y movimiento este emblemático paseo alicantino. Los grupos de danzas tradicionales Cresol y Postiguet, junto con la colla de gigantes y cabezudos de Alicante han protagonizado un recorrido festivo desde la Plaza del Mar hasta la "
+          },
+          {
+            "url": "https://alicanteturismo.com/fiestas/fiestas-tradicionales",
+            "title": "Fiestas tradicionales - ALICANTE City & Beach",
+            "snippet": "En pleno corazón del pintoresco Barrio de Santa Cruz, al pie del monte Benacantil, Alicante celebra durante la primera semana de mayo, una de sus fiestas más alegres y coloridas: en esta festividad, las estrechas y empinadas calles del barrio se llenan de vida con cruces adornadas por sus vecinos, que las decoran con esmero usando flores y detalles artesanales, creando un espectáculo visual que cautiva a los visitantes. [...] Ir al contenido\n\nX-twitter     Facebook     Instagram     Linkedin    "
+          }
+        ]
+      }
+    }
+  ]
+}

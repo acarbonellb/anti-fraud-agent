@@ -1,0 +1,202 @@
+{
+  "caseId": "N2",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "46507ad04d596660eb1e7acbcd6cc886ad9750e81e5eb6a95de023b70a2004a6",
+      "latencyMs": 1507,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01FDoqzYZFSesXYgdfEVea9x",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_e39a5b122f\"}"
+            },
+            {
+              "id": "toolu_01HvNJT6QzTkaP5HpKTwD9XW",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_ee4cae3602\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01KLNJK2N3Q5vn32W5QwnQ76",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Festival Ría Viva Pontevedra 2026 Os Faroleiros\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSzQUKEAgTGAI4AUIIdGhpbmtpbmcSDF87gTrOIdE4OMDJRBoMP+nHXyfJOpOMuUhIIjBkX+pVzXpl7r2lELyDNfcchI2n2CEhWiDVUAQ9hbkqlz/qB3GAgpWnRxCl1q05fRQq6gTqimcM+Ssq/aydx+zJzUYfXJYe7SCy1CEKSGaaSQHdfzqY4GUywBoPNAqg31KSh/13npbTE7f4CqXDLZBU5vPtPqGay3Ow4N+nm99Viv3RWl+mBbe6vsb0mY5/GPylWzq2B0wgiYkZY2zMujHXzqSQy1mv/EJ6A+GXxZnRT5ZtRmfLBHHrWzSk46mA9tnW3ANOl7QNwNUqmtHPDss6U6ySDzdh7BZFWpCc8RIc9iWUleqImyZvGkkWEGaXzKcgH2FZJ409LlP8SZEzQb47qzYBvpRY9JKwnelTGwGwgg0KaaGxlRpZP3NbLzQjxaf50nbhMxxW0mcWNw+Ep59kTygjylzujR5j+CqcVeu4zXa49Fo7csezX0RvLSeOUEFux+CAfbh++eba7z3/yz18x6xRbsBuw8MORyO5Tobd+YyN4gG94oaTKDPEoI6ZVQVgytYn/W4gFIuE5K97hDiHDRKc+oLTf03nIC4vrwmaRdKLTQwcXiSrhVp/wccYccHOxDbpMZ6aWBMUUDuoAUXnfa6dQmoS9o7i5RbOgHg8i2CsMWYGYhLkwxqquxJ7tW0QJbqonIM9irFKhseXtH1UAOMcNwM7AgNxWM+k1hBRwMPY+kVygQ54lhJA3TFI8Mn7bYp0S8DVHrNdYRvEMhe2u3KNpCVlAVO7j8Sm8mkSoJ5MeDMfzLfuUiUvRWOo2gPglgiz2JSyGAvvu/jhH3GBrYzyXrHsp+N58G4NRu/WMXY+Owt+K/EgBui/pty0zd9/x/UiKBsgers3o54aSS1GBjoT/J8pBMq0Q0ENXYtnErOOBIqHg2yMSi7UUeMYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01FDoqzYZFSesXYgdfEVea9x",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_e39a5b122f"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01HvNJT6QzTkaP5HpKTwD9XW",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_ee4cae3602",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01KLNJK2N3Q5vn32W5QwnQ76",
+              "name": "web_search",
+              "input": {
+                "query": "Festival Ría Viva Pontevedra 2026 Os Faroleiros",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5360,
+          "outputTokens": 277,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5356
+        }
+      }
+    },
+    {
+      "requestHash": "e660ad0e8758b6933495717614b03af714508bb0f218a285db3ddf87a204317b",
+      "latencyMs": 9042,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01GcUgDDUkeZmaN5hXzZEQDa",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.72,\"rationale\":\"El evento no muestra señales de fraude. El organizador es antiguo (930 días), tiene CIF con checksum válido, 14 eventos publicados y ninguno cancelado ni retirado por admin, sin reportes de contenido. La presencia web coincide con el evento (sitio propio y una noticia sobre la sexta edición). El recinto existe en OpenStreetMap a 2 m de las coordenadas. No hay eventos similares de otros organizadores en la ventana de 30 días. Los precios están dentro del benchmark. El único punto abierto es el aforo: no hay datos públicos del recinto y la sesión del 25 de noviembre pone a la venta 6.000 entradas en un parque al aire libre. Es un aspecto a vigilar, pero no es una señal de fraude por sí mismo. Confianza moderada por la falta de verificación del aforo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Ría Viva Festivales S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 terminados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"El sitio riaviva.test describe el mismo festival (sexta edición, 25 de noviembre de 2026, Alameda de Pontevedra, mismos artistas y abono de tres días). Una noticia independiente menciona a la organización y la edición.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://riaviva.test/\",\"title\":\"Festival Ría Viva — tres días de música junto a la ría\"},{\"url\":\"https://noticias-ejemplo.test/cultura/ria-viva-sexta-edicion\",\"title\":\"Ría Viva Festivales presenta su sexta edición\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detecta un nombre parecido a una promotora conocida. El organizador tiene historial propio.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devolvió eventos de otros organizadores con título parecido en ±30 días.\",\"confidence\":0.75,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo del recinto no publicado en Wikidata, OSM ni web. Se venden 6.000 entradas en la sesión del 25 de noviembre (4.000 de día y 2.000 de abono). Conviene pedir al organizador la capacidad del recinto y el permiso municipal.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"Los artistas aparecen en la web del propio festival, pero no se han verificado fechas de gira independientes para Os Faroleiros, Marea de Fondo ni Lúa Chea.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://riaviva.test/\",\"title\":\"Festival Ría Viva — tres días de música junto a la ría\"}]},{\"check\":\"text_originality\",\"verdict\":\"pass\",\"detail\":\"No se encontró copia literal de la descripción en las fuentes consultadas.\",\"confidence\":0.4,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01GcUgDDUkeZmaN5hXzZEQDa",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.72,
+                "rationale": "El evento no muestra señales de fraude. El organizador es antiguo (930 días), tiene CIF con checksum válido, 14 eventos publicados y ninguno cancelado ni retirado por admin, sin reportes de contenido. La presencia web coincide con el evento (sitio propio y una noticia sobre la sexta edición). El recinto existe en OpenStreetMap a 2 m de las coordenadas. No hay eventos similares de otros organizadores en la ventana de 30 días. Los precios están dentro del benchmark. El único punto abierto es el aforo: no hay datos públicos del recinto y la sesión del 25 de noviembre pone a la venta 6.000 entradas en un parque al aire libre. Es un aspecto a vigilar, pero no es una señal de fraude por sí mismo. Confianza moderada por la falta de verificación del aforo.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Ría Viva Festivales S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 terminados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, sin revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "pass",
+                    "detail": "El sitio riaviva.test describe el mismo festival (sexta edición, 25 de noviembre de 2026, Alameda de Pontevedra, mismos artistas y abono de tres días). Una noticia independiente menciona a la organización y la edición.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://riaviva.test/",
+                        "title": "Festival Ría Viva — tres días de música junto a la ría"
+                      },
+                      {
+                        "url": "https://noticias-ejemplo.test/cultura/ria-viva-sexta-edicion",
+                        "title": "Ría Viva Festivales presenta su sexta edición"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detecta un nombre parecido a una promotora conocida. El organizador tiene historial propio.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "find_similar_events no devolvió eventos de otros organizadores con título parecido en ±30 días.",
+                    "confidence": 0.75,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "Aforo del recinto no publicado en Wikidata, OSM ni web. Se venden 6.000 entradas en la sesión del 25 de noviembre (4.000 de día y 2.000 de abono). Conviene pedir al organizador la capacidad del recinto y el permiso municipal.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "warn",
+                    "detail": "Los artistas aparecen en la web del propio festival, pero no se han verificado fechas de gira independientes para Os Faroleiros, Marea de Fondo ni Lúa Chea.",
+                    "confidence": 0.3,
+                    "sources": [
+                      {
+                        "url": "https://riaviva.test/",
+                        "title": "Festival Ría Viva — tres días de música junto a la ría"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "pass",
+                    "detail": "No se encontró copia literal de la descripción en las fuentes consultadas.",
+                    "confidence": 0.4,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6577,
+          "outputTokens": 1979,
+          "cacheReadInputTokens": 5356,
+          "cacheWriteInputTokens": 1219
+        }
+      }
+    }
+  ],
+  "searches": []
+}

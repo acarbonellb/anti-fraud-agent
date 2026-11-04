@@ -69,6 +69,11 @@ export interface CaseOutcome {
   outputTokens: number;
   /** Sum of the model calls' latency, from the recording. */
   latencyMs: number;
+  /**
+   * The model calls' cost in micro-dollars, from the recorded usage at the
+   * listed prices (#30). Null for a model with no price.
+   */
+  costMicros: number | null;
 }
 
 export interface CaseResult {

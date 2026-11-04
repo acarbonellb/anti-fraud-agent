@@ -1,0 +1,346 @@
+{
+  "caseId": "18",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "42d4654f41ba39f7962f0ab82b68b2a0a3cee87b66ca50e2e1476244cc029d25",
+      "latencyMs": 1774,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_016zdo9RKM8hzEnJvNPiHzYS",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_d23a73c5fb\"}"
+            },
+            {
+              "id": "toolu_013ZEYfT1f5meBEuQLwNvsfx",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_12f51c9410\",\"windowDays\":60}"
+            },
+            {
+              "id": "toolu_018hCLy3ueKQtVRCABPCoXeD",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Viento de Cierzo gira aniversario 20 años conciertos\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS6AYKEAgTGAI4AUIIdGhpbmtpbmcSDMI1ibYx1fhKx9p5YxoMQKIYVgUx3fgwu1HAIjA4SgRUqjkfnAzP9n5JTvXsk1hBYZZcQblokORoc5fzLMIFf2yMbr56wUWXme3gwxQqhQbr5+O7AJI6ht61FA395C8ARpuE+EN0DNz5RiAKl/nTSsBwL+LZ+CcO0GvYQjtA6WG+573mWR6/2W5hEDbIwioVWl0L6aj4FrJjU8DiNg0Z6sqiLWaOsmtz0VZgzTrXJdxuIrFY/KU0ANvD+MsiY/yrW144wVIEkp0Y6EeeKnF79wpvaSikweGINm0CPt4f+U/ShYQI2Aon4Z3cw/b1FFnyDfC2jh0iWgS/RgkjhpGZesTSyKQzG3BQWUNehLXrc7bsBBwhOarn+nWb+W2iJYGxbydWeK2d4e05Z0VprUdQqtJgfhLE3jA6v8N0BezK6TQy4nJXU1gCbkVKIA+nlF7vTuVF9sqHbAfBZjxzkdAkMdPpe3rE6eVX5vZ1WIY9XlivHPdej6zcLepKdrNIxHfpjzwlZjJXhSc8upf+SKphLeSTtjZKL1axxkUdwxIltWlVaAitoQ/AEeXmODzz1CoGLetyKLtMfGm39LAybGPHXe2ODQinPbXl+uBsTpm1+ZyL6FpmX+vMAyyLg3VMCQm1VQ/AnFXmigL9AFvGWGEIVA/yLnQPNJTd2V0bP0vzrX2wQWGeNhZvCRb5LCsaKtq3nG4v3UnlKd5sbOAAbq6zS2aIpWQEOb/lYhLsFAS/DNpd1NpWSKqbE834krJCrh3YFzpc48Irq14BpJCKbLeB5a7KMZ/oPexhjry2/DYvsvjCdgGMIGI1z4rEYXKoUlUo5eD38tqZxILXsIRItDZNwDnhj85RiV/ogHgktzPSreEDOuvgl2u39yQMDGJtOA/36hkR7J6bJ338xltG9nDzoHjxK7oKzMEifw6FZSna4BUM77O0qsL/coEYQK2AJ0NjpTkeh6MpfVOtZ46z+VbVZ3GE/i6ZL481zXjOiMTEOMvySa0CJyRdHt7xbkp6UT5SHYXNjt5bBABZzEvCLHlf00eE1FxLnMZgEHCpV0IPKhcho9Yl+SQc7U0MN0SgkTEPV6jce9/tQyLsBhJtjMBOH+Fi6cm4hxIFsYKctjpLAZKQLGhGPBgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016zdo9RKM8hzEnJvNPiHzYS",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_d23a73c5fb"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_013ZEYfT1f5meBEuQLwNvsfx",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_12f51c9410",
+                "windowDays": 60
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_018hCLy3ueKQtVRCABPCoXeD",
+              "name": "web_search",
+              "input": {
+                "query": "Viento de Cierzo gira aniversario 20 años conciertos",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4915,
+          "outputTokens": 326,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4911
+        }
+      }
+    },
+    {
+      "requestHash": "fe902ca4c569b1c4f2aba38810295c70c69909b416f01d3bf8ea85084fcd6508",
+      "latencyMs": 1297,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01GsfMnQDCDBF812U9BjqTtv",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Viento de Cierzo\\\" grupo\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSkQcKEAgTGAI4AUIIdGhpbmtpbmcSDJnW2WQNS5MoUJcCTxoMb4+Wt851AfxyJH3PIjDrfEagUQ+ssFBXjPhtNjlANkksEmlqPCrNmfnrelVAYTuSmjNpffURaPyJs6YYMu0qrgZJvguZfdzJaeeotWNI7czHzkBNSfzw/esmb84tNaN1bAWDcQZNjUvKjBPvxHv8tLiD+cCZBGMlpu/fbCcNdoRH/PeE12E3QCyUZ/v4X7/PkQVKIFjNzLLDKanCZSmMXoeG8vjg/Zd8B1V1eeTrNh2JdG5OUrE6ynTpgXXpJo3BCNW329rcyi4oGwlmsohWuVlz4jvxsXiGzgOwfkTaejArNRy1X8bazo8s+bn9FSGTU3hgw2YxP5YpUqrncukMncfmHnvk3KY18g6O+X4BL8BIGv+ibwUHNDFcqpWkWDyj3JTIukZgOucXOetzROK/BalqzFMBHEvPcucZYdk6BU6brDQrDFM3nJ6ZePkYKh2u0Uu/PZlGRzMlWlGcGV6BdhjiJRpFlj3899voaBQdZh/xHIBE2HB1Af4nemWzRHIy1aoXM3FPURHklmCTw+Ju1gm3FPN8alYnyVNo5bF1L6r80O9lwwInFZHBAKcElaxb0uWUvYCmNCLOhvVir8cFtnGp6P1W0R6JyeyGhj+UVGLnslqyGJfBr8IyMM7MguoNvVWygufk9dCaY0REzpf40gCqNttje2eLGiowHQclwDBvLAX/q2r9Pe9oo4v19HD2aQLQwOYaEXc12GjiI2EVha7BE6gaYOfTMJrkBZT29jdbC+VDkAhCpbPqRlPtViG2bTp/Kp3mtMxFCniWXgBmc+SYejO3JEX5iZdaCc4SLrJS56xDiklPU+jixJexkymNsn384md5ObL3n0g6xBdFlL5k77dUbDg+9VWaUKbMAkuN5sy53UTqDMu/dbSnNSzXkkHJ8t0NNMAXnDWHQe+zesVu9ZvavrCxHT0Oxa1O5V6viRMcFuD0/ZHvGAMQTmCHBlo6A+hYgilRXojy69qBxfgKpS8StnMbVyNFQpF2Kwelg1O6eIoBLYPhmbhubeBlHYk3AxUI0tDfbB3+VmpdOXI3gPF+PXG5ndy2uJTAtAzic8UsWNomMBCxlsaMuoD5xuWOAnI6AuAOhVFCjxqX4sk4VZho1qmuIx5+/mqnVTsN5tiL8n1lRCh4M17fRj2XJyMtj4QTWFN/MgY7ZhPWGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01GsfMnQDCDBF812U9BjqTtv",
+              "name": "web_search",
+              "input": {
+                "query": "\"Viento de Cierzo\" grupo",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6653,
+          "outputTokens": 166,
+          "cacheReadInputTokens": 4911,
+          "cacheWriteInputTokens": 1740
+        }
+      }
+    },
+    {
+      "requestHash": "0954ce3440ab47026987ce223e8faf5123e5575d96332b6b3ff611c9087f5ef4",
+      "latencyMs": 9355,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01Y7QFNFoVjGZaaNsmGd7sG5",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Horizonte Lejano Eventos S.L.) tiene buen historial: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes. El recinto existe y el aforo es compatible. Los controles deterministas no marcan problemas de precio, pagos, condiciones ni fechas, salvo la sesión a más de 548 días. Sin embargo, no he podido confirmar que la banda «Viento de Cierzo» exista ni tenga una gira o fecha publicada en fuentes externas: las búsquedas no devolvieron nada relevante (los resultados correspondían a otras bandas u otros usos del término). Tampoco hay eventos similares. Con una sesión en noviembre de 2029 y 2.500 entradas a la venta, conviene pedir confirmación de la contratación del artista antes de aprobar. No hay indicios de fraude claros, así que no recomiendo rechazar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF presente y con checksum válido, dirección fiscal en Logroño, cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, 0 cambios sustanciales y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se han encontrado en la búsqueda web la web, redes ni eventos previos de la promotora fuera de la plataforma. No se ha verificado la presencia externa.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detecta un nombre parecido a una promotora conocida en los datos disponibles.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la ventana de 60 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"Búsqueda de «Viento de Cierzo» sin resultados sobre la banda ni sobre gira de 20 años. Los resultados encontrados corresponden a otra banda (Viento en Contra, Guatemala) y a otros usos del término. No se puede confirmar la existencia del artista ni la fecha de 2029.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://www.sandiegouniontribune.com/2016/07/01/viento-en-contra-celebra-20-aos-en-la-msica-con-un-concierto-el-15-de-julio\",\"title\":\"Viento en Contra celebra 20 anos en la musica con un concierto el 15 de julio – San Diego Union-Tribune\"}]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La única sesión es el 3/11/2029, unos 548 días después de la publicación (4/11/2026). Es una fecha muy lejana, que requiere explicación.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo compatible según la comprobación previa (2.500 frente a 3.851).\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q7126327\",\"title\":\"Wikidata (Q7126327, CC0)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 35 € dentro del rango de referencia (p90 35 € sobre 42 eventos comparables de pop en La Rioja).\",\"confidence\":0.6,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar la contratación de la banda Viento de Cierzo para esta fecha (contrato, carta del representante o enlace a canales oficiales del artista)?\",\"¿Cuál es la razón de que la sesión sea el 3 de noviembre de 2029, tan alejada de la publicación? ¿Hay ya una fecha confirmada o es provisional?\",\"¿Puede facilitar la web oficial, redes sociales o eventos anteriores de Horizonte Lejano Eventos fuera de la plataforma?\",\"¿Cuál es el motivo del cargo fijo de 1 € por entrada y de la descripción tan breve del evento?\"],\"draft\":\"Hola,\\n\\nAntes de revisar la publicación de «Gira del aniversario de Viento de Cierzo», necesitamos algunos datos:\\n\\n1. Confirmación de la contratación de Viento de Cierzo para la fecha indicada (contrato o carta del representante, o enlace a sus canales oficiales).\\n2. Motivo de que la sesión sea el 3/11/2029. ¿La fecha está confirmada o es provisional?\\n3. Web, redes sociales o eventos anteriores de la promotora fuera de la plataforma.\\n4. Si lo considera oportuno, una descripción más detallada del evento y de las condiciones.\\n\\nCuando los recibamos, revisaremos de nuevo la publicación. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSpQkKEAgTGAI4AUIIdGhpbmtpbmcSDKZiR8vfvXen+nirYxoMBhR6OC4kLYwIeZiMIjBNw532zTolGiKXnjgt3oX2tvHYrvEyiIMZSIScnrUbqcoVrDzU80vqzSwP0MO9hBoqwggTtnXx3V61uBqwn5G1penxf8bTh1MfJDanAPVEo4xBHQDmZ/dYo7VcfU5wL4VVNMFMuZVegYe96GIGg4fAkU3RDxqHo+WOcllgos8LzUgZoCTGdziBkoQCMc3rL5gkxZ6VNtvY4VqweNplf9zm9WIOf2k+GY4brrrjeqEjrvBNYdFkTqL914P8xdiEBQPu3E03rbRs6h13ZYWiJIsabTTsq9PB2HvhbALp3ThmBDQckc9jNcdm/BeWbcZR97TfTTfNKRecn4CmG3RG5xCtodRBhbQ4fzwlAcfBhKe3KMaQcsV3gRtbg0ZokGYRiUmK2PkuFEGFXRSMm3sSctQhRhGyo0Lm6+CIBcqsCov+0U18cwXSLLEalp3je1HCK60q3bcZK1coQCe/uCpgIoiC89yVP9mj484U2Df64aOLdee4nEsOY3Mekx4YU+UJNuKRlC/UIvhPw2bjtYVctAQFvsP6s7m4L2H3Qpvay/Or6a3F6IH3st4mFMQyjm5/HUwN656en9nO6CwONo90yyUiTDNy0/j6IuXHElrCeElRQu00TqKYnjRD5NCjWIh32MSl5nkwYwbaIhsph2DQba1bW59NbcmKVWPuIp09aPlaRGLT7blKwVAOsROZXSgP3IYfOV08d6PGk5Cb/kSNbpajwXmL/4ZF7BsPi0s9a7RIiOpW1F4nkd2nCpAqxuNfPLE5KQFjqw8sCKYwR7BK6b1db/l9BwXQgeFzDJN7tWLlI9cRB6HK9P4kFJm0bII2AhzeYCqckugxyYehRhlSzxVlM1TqsqVEb0uW3qhiuOIH0a+yd15LsdNbIbyhcR3iCcSPutJ0HD80s68/VQm+lmzyYUolk6/ZaYnRuqSLV9yw+wuflr/cAGsZGcqdIFJLGisZbtABF0yXFjazTHcP1pfTYqdeNEp5wWiXr/ZYm2D6HzsDLVaNG3NOq009YmU/PYcK7z/kkSt78Rd3ktnQFpBHT+9MWrnpYS8+9zJZ8GC/JlSm1lcqCJ07LWMCps1bxx+RI3KfTvGzPU/CXrHP4XqsVAopedHIy6K6U0jqXGwMhFFacTLJbhJsOOrBVMw/FQG8lK+rpRrYZzA1U4lLovSlDaGBKsA/d2rNRL5Uc4yRGFNtTAgLm5bPIcprG2Pt+v6cTCxliebcCLDggOYMJry/H7z9Q48FEoDGEqgpN4AKmfpoTl+HDb7MNYoufe2KymlLX6S5UcNHxRXKYfl3AuBTG7TQ/jUMxV+EME8uGcX8xMIsYt3qjN1nvMuc7PIEQluEHXVW3WjatRpfA6kQMWdDw9oKDoMJF3n13k9tUaY4QPy59lWdkpOKe6TwjwGp7JcgH+BBqmW/8ZhEy4e1U7sGnfFSqjf6mNL7E88LqkZsjtz1QQxnbUh830F2ZX8p+g8ZwOaSKnKFh4P33yyqlxNcfi1DjCKA+NNjR32fPq9SEpwLW2YpGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Y7QFNFoVjGZaaNsmGd7sG5",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El organizador (Horizonte Lejano Eventos S.L.) tiene buen historial: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes. El recinto existe y el aforo es compatible. Los controles deterministas no marcan problemas de precio, pagos, condiciones ni fechas, salvo la sesión a más de 548 días. Sin embargo, no he podido confirmar que la banda «Viento de Cierzo» exista ni tenga una gira o fecha publicada en fuentes externas: las búsquedas no devolvieron nada relevante (los resultados correspondían a otras bandas u otros usos del término). Tampoco hay eventos similares. Con una sesión en noviembre de 2029 y 2.500 entradas a la venta, conviene pedir confirmación de la contratación del artista antes de aprobar. No hay indicios de fraude claros, así que no recomiendo rechazar.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF presente y con checksum válido, dirección fiscal en Logroño, cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, 0 cambios sustanciales y sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se han encontrado en la búsqueda web la web, redes ni eventos previos de la promotora fuera de la plataforma. No se ha verificado la presencia externa.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detecta un nombre parecido a una promotora conocida en los datos disponibles.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en la ventana de 60 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "Búsqueda de «Viento de Cierzo» sin resultados sobre la banda ni sobre gira de 20 años. Los resultados encontrados corresponden a otra banda (Viento en Contra, Guatemala) y a otros usos del término. No se puede confirmar la existencia del artista ni la fecha de 2029.",
+                    "confidence": 0.3,
+                    "sources": [
+                      {
+                        "url": "https://www.sandiegouniontribune.com/2016/07/01/viento-en-contra-celebra-20-aos-en-la-msica-con-un-concierto-el-15-de-julio",
+                        "title": "Viento en Contra celebra 20 anos en la musica con un concierto el 15 de julio – San Diego Union-Tribune"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "session_timing",
+                    "verdict": "warn",
+                    "detail": "La única sesión es el 3/11/2029, unos 548 días después de la publicación (4/11/2026). Es una fecha muy lejana, que requiere explicación.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "pass",
+                    "detail": "Aforo compatible según la comprobación previa (2.500 frente a 3.851).",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://www.wikidata.org/wiki/Q7126327",
+                        "title": "Wikidata (Q7126327, CC0)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 35 € dentro del rango de referencia (p90 35 € sobre 42 eventos comparables de pop en La Rioja).",
+                    "confidence": 0.6,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Puede confirmar la contratación de la banda Viento de Cierzo para esta fecha (contrato, carta del representante o enlace a canales oficiales del artista)?",
+                    "¿Cuál es la razón de que la sesión sea el 3 de noviembre de 2029, tan alejada de la publicación? ¿Hay ya una fecha confirmada o es provisional?",
+                    "¿Puede facilitar la web oficial, redes sociales o eventos anteriores de Horizonte Lejano Eventos fuera de la plataforma?",
+                    "¿Cuál es el motivo del cargo fijo de 1 € por entrada y de la descripción tan breve del evento?"
+                  ],
+                  "draft": "Hola,\n\nAntes de revisar la publicación de «Gira del aniversario de Viento de Cierzo», necesitamos algunos datos:\n\n1. Confirmación de la contratación de Viento de Cierzo para la fecha indicada (contrato o carta del representante, o enlace a sus canales oficiales).\n2. Motivo de que la sesión sea el 3/11/2029. ¿La fecha está confirmada o es provisional?\n3. Web, redes sociales o eventos anteriores de la promotora fuera de la plataforma.\n4. Si lo considera oportuno, una descripción más detallada del evento y de las condiciones.\n\nCuando los recibamos, revisaremos de nuevo la publicación. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 7524,
+          "outputTokens": 2121,
+          "cacheReadInputTokens": 6651,
+          "cacheWriteInputTokens": 871
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "2ca9afe27afc9d919fce369751e498a407b7973fffb4c02554505950b7fdb303",
+      "provider": "Tavily",
+      "query": "\"Viento de Cierzo celebra sus veinte años con un concierto especial\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.sandiegouniontribune.com/2016/07/01/viento-en-contra-celebra-20-aos-en-la-msica-con-un-concierto-el-15-de-julio",
+            "title": "Viento en Contra celebra 20 anos en la musica con un concierto el 15 de julio – San Diego Union-Tribune",
+            "snippet": "Guatemala, 30 jun (EFE).Guatemala, 30 jun (EFE). —  La banda guatemalteca Viento en Contra, considerada una de las más importante de pop rock en Centroamérica, celebrará 20 años encima de los escenarios con un icónico concierto el próximo 15 de julio, en el que harán un repaso por sus mejores éxitos. [...] En esa actuación, una de las muchas que el grupo planea tener por todo el país, interpretarán al menos 30 canciones de sus seis discos producidos, y entre ellas no faltarán los grandes éxitos,"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=cnhVqW-jG-M",
+            "title": "The band Viento en Contra celebrates 20 years with a concert on July 15.",
+            "snippet": "### Transcript\n[0:02] la banda guatemalteca viento en contra considerada una de las más importantes del pop Rock en Centroamérica celebrará sus 20 años de presentación encima de\n[0:11] los escenarios con un icónico concierto el 15 de julio Javier Ortiz batería del grupo muestra su alegría por la celebración de esta efemeride en un acto\n[0:19] en el que la acompañaron Francisco Cabrera guitarrista y vocalista y Antonio bajista [...] [0:55] convenciones tical Futura en la capital y cerveza gallo p"
+          },
+          {
+            "url": "https://www.aragonplay.es/aragoncultura/nuestra-cultura/angel-petisme-presenta-en-concierto-cierzo-25-aniversario.html",
+            "title": "Ángel Petisme presenta en concierto 'Cierzo, 25 aniversario'",
+            "snippet": "En “Cierzo, 25 aniversario”  recupera con una nueva producción y un sonido del siglo XXI, dos de sus canciones más emblemáticas: “Donde muere la carretera” y “El tranvía verde”, además de dos inéditas de aquella época Te quiero que pa qué y Otro Aragón. También aparece el poema “Blowin’in the Cierzo” en la voz del reconocido actor Josep María Pou, Premio Nacional de Teatro. Además, en la edición física se incluyen los 13 temas remasterizados y con un sonido espectacular que contenía aquel [...] "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=r1AtbOTA1vE",
+            "title": "Viento en Contra en Prensa Libre",
+            "snippet": "[13:43] bastantes felicitándolos por sus 20 años los 20 años que ustedes van a celebrar Próximamente hablemos sobre esto sabemos\n[13:50] que el 15 de julio van a ustedes hacer un concierto entonces podrían contar Así brevemente que sorpresas nos pueden adelantar qué\n[13:58] podemos esperar de ese concierto bueno en primer lugar va a ser un concierto donde donde va a estar veinte años de [...] # Viento en Contra en Prensa Libre\n## Channel: PrensaLibreOficial (verified)\n697K subscribers\n172 likes\n"
+          },
+          {
+            "url": "https://www.facebook.com/chumeltorres/posts/celebrando-20-a%C3%B1os-con-estos-conciertos-chumeltorres/122290094504263595",
+            "title": "Celebrando 20 años con estos conciertos. #chumeltorres",
+            "snippet": "Celebrando 20 años con estos conciertos. un concierto con covers de Centimllimental 😱. El cantante celebra junto a sus fans estas dos décadas"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "b3d18f765ebe1b9d9b634043fd705da16db5ad28ce614901828fed45874acf97",
+      "provider": "Tavily",
+      "query": "Viento de Cierzo gira aniversario 20 años conciertos",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.sandiegouniontribune.com/2016/07/01/viento-en-contra-celebra-20-aos-en-la-msica-con-un-concierto-el-15-de-julio",
+            "title": "Viento en Contra celebra 20 anos en la musica con un concierto el 15 de julio – San Diego Union-Tribune",
+            "snippet": "Guatemala, 30 jun (EFE).Guatemala, 30 jun (EFE). —  La banda guatemalteca Viento en Contra, considerada una de las más importante de pop rock en Centroamérica, celebrará 20 años encima de los escenarios con un icónico concierto el próximo 15 de julio, en el que harán un repaso por sus mejores éxitos. [...] El grupo también guatemalteco Influenza les cedió un espacio y, por ende, en la conmemoración de sus 20 años, debían devolver el favor: ellos actuarán como sus teloneros el próximo 15 de julio"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=cnhVqW-jG-M",
+            "title": "The band Viento en Contra celebrates 20 years with a concert on July 15.",
+            "snippet": "[0:30] también la trayectoria de toda la gente que nos ha seguido es increíble ver como gente que nos seguía con la primer canción que son en la radio siguen\n[0:38] llegando los conciertos los tres relataron como hace 20 años concretamente un 14 de junio de 1996 tuvieron su primera actuación en\n[0:47] Guatemala el grupo influencia que les ced un espacio para la celebración del acto actuará con ellos el 15 de julio como teloneros en el centro de [...] [0:55] convenciones tical Futura en la capita"
+          },
+          {
+            "url": "https://www.bandsintown.com/e/108810980-viento-en-contra-(pagina-oficial)-at-el-torito-sports-pub-and-cantina?came_from=253",
+            "title": "VIENTO EN CONTRA (PAGINA OFICIAL) Lake Worth Tickets, El Torito Sports Pub & Cantina Sep 20, 2026 | Bandsintown",
+            "snippet": "En este 2016 cumplimos 20 años de trayectoria, tenemos el privilegio de compartir con ustedes seis discos y estar en infinidad de conciertos con nuestra Gira Eterna por Guatemala, pero también hemos tenido la oportunidad de visitar Centroamérica, Estados Unidos, España y México. Gracias a ustedes y su apoyo seguimos adelante y este año estamos de estreno, ya en medios de comunicación nuestro nuevo sencillo Carta de amor. (facebook.com/vientoencontra, www.twitter.com/vientoencontra) El disco [..."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "8a19e71db3132937f2c00a3991a1b801e76bb47d2fdd19b32b9d291b48cacd40",
+      "provider": "Tavily",
+      "query": "\"Viento de Cierzo\" grupo",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://es.wikipedia.org/wiki/Cierzo",
+            "title": "Cierzo - Wikipedia, la enciclopedia libre",
+            "snippet": "es el viento pardo de componente noroeste en la parte septentrional española. En Aragón, en la Ribera de Navarra, La Rioja \"La Rioja (España)\") y en Castilla y León. Es un fuerte viento fresco y seco debido a la diferencia de presión entre el mar Cantábrico y el mar Mediterráneo.\n\n## Descripción\n\n[editar] [...] [editar]\n\nEs un viento muy frecuente en el valle del Ebro, y se puede presentar en cualquier mes del año. En el centro del valle pueden darse ráfagas de 100 km/h. La máxima observada, seg"
+          },
+          {
+            "url": "https://tracxn.com/d/companies/grupo-lalala/__r0x2VanJU9tXNmtHJwrIN_I3Xqgge1yacIilVc5Z-4w",
+            "title": "Grupo Lalala - 2026 Company Profile, Funding & Competitors - Tracxn",
+            "snippet": "| 5th | Logo for Cierzo Brewing  Cierzo Brewing 2018, Zaragoza  (Spain), Unfunded | Chain of restaurant bar serving craft beer and food  - | 19/100 |\n| 6th | Logo for Barlaplata  Barlaplata 2013, Barcelona  (Spain), Unfunded | Provider of traditional tapas and beverages in a bar setting  - | 16/100 |\n| 7th | Logo for TIPSY HAMMOCK  TIPSY HAMMOCK 2020, Maspalomas  (Spain), Deadpooled | Chain of bars  - | 14/100 | [...] Logo for BrewDog\nLogo for Grupo Lalala\nLogo for BarRa de Pintxos\nLogo for Gout"
+          },
+          {
+            "url": "https://www.mapquest.com/es/galicia/hotel-viento-del-norte-268743401",
+            "title": "Hotel Viento del Norte",
+            "snippet": "This rustic hotel is located in Porto de Espasante within the Ortigueira region of the Galician Rías Altas. This seaside town is set between Cabo Ortegal and Estaca de Vares and forms a little peninsula that extends out into the Atlantic. The comfortable rooms have private bathrooms and some of them have views of the sea and the terrace. The location of this hotel is little known and is popularly referred to as the “secret region”. In this region you will see the highest cliffs in Europe, [...] "
+          }
+        ]
+      }
+    }
+  ]
+}

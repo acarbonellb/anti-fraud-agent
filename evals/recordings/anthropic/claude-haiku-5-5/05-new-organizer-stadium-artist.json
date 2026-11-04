@@ -1,0 +1,205 @@
+{
+  "caseId": "05",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "5809d86d81506f277ca71a9418131a98df675e2b20b3e1b930c2b3d28a8e264e",
+      "latencyMs": 1764,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_012xWzRJ9bM7vM8VRyyxrcYF",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
+            },
+            {
+              "id": "toolu_01QcnBbR4tZLxkSPWyYqJ7E5",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_012mx3w9tLE6C8rabutkVjpi",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Valeria Montecristo concierto íntimo Murcia noviembre 2026\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSiAcKEAgTGAI4AUIIdGhpbmtpbmcSDJEX32BGP6wfGpUKrxoMylJpd5JuBrn3jBpIIjDKtwXWxoLQR1wykEmCK4Xb6KFhoHWD/Bz+BkqQIm/q4DzeDtmN/kC2AuNvE/HYH4wqpQYUqlfxB7BIlLIPqmdEoCB3n1PX7HLN/vHXYiSoBJ0UwDVmIwRRDEXOqmkqlg/7AHcda0465HhleZqhUNcHQyd8eBDCKnym5RU9avPVYviH7nt15Ixsv0LVF44DP1ebSfkXb0SceIzVu1jwnoGvPwh5oSSYW2lKbwjXJK5df/kKOfn/biEXLkjBJU9iOWD4X9Nrryw55QTjcRR3ANGn5FJqhO6n8PZtX89iF8ZT7kQ4CKf5dhbJA+XQ9C1nUB5suw58ZCZqAugkDxSlwo3mxrSpaX9sp8nboEt/PwngBBVBG85lOSM34VdZUoXy5SiCc5b68aWv7INv6ApiXrgMWcrfbWh9cJ6GbKm5zPTXAYEVJb6yu8NDdTpN6w3s3TIB6xlRGOHTgHzIHBp8Mb2eO2eVhh9OAaeBCIm6AMCyMMJ7BQCb4lAyjI2Z8ZyM2TcnasEb6SZgqq+NHDx9DESdF3CqnAp4B+iGLsEg1ejxMHPIivO1ZniLBKmnHFSyYNG0xoTZCGHBYb17yNaNigPhEzp0Hj1iAHR/5pQzLnbjKE4Bholu/kyO4Wcp83ua620dvtsriXXJ7DGPdDExj52fL+a8KKPYDGFY3NO1ZPNVB3c1KG6lkTe2FB6mhck6D+7ZaSdjYU3wPSU3XnoKgG1YLkINrQONclCacEpWcwEyv5lz8G8Uw5BxbaP/ubQh6GsRdmKpwecgddbt/oQUD/BdXaw6MZH2pQbbkTW8ghTSMBGJ85cuCcuGlsvImpY3mJDittBtt65UQq9rneSJUrHSxxMghbvCJ3PKViUBKP1CqlkZHT1owv5x5cNzMTBJcaMTM6+QE2ILd7YrvFZDi93zMwqeFAaA2WtuLxlqCl9GSjrakl5arSaksMyrt7NnDz8U4fSN4Cv2jKq+ET63DYo8eWy4TY7wydFr6hVfbjWJl4p1yWUJshoCCgM9mRKHLnSx8BEP7AgXXvc5n/wQEGxVjCjUImfsFn2yE8FNWhpCjnOfwd0zyJ4WFXd1ufO4J1HSLHnxzieRKwV3d56+IJYciL3YPH2rfr4DiGROc2gi7sLxAmmxn3XYGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012xWzRJ9bM7vM8VRyyxrcYF",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_4f35bcdaf2"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01QcnBbR4tZLxkSPWyYqJ7E5",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_46a35e8461",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012mx3w9tLE6C8rabutkVjpi",
+              "name": "web_search",
+              "input": {
+                "query": "Valeria Montecristo concierto íntimo Murcia noviembre 2026",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4849,
+          "outputTokens": 345,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4845
+        }
+      }
+    },
+    {
+      "requestHash": "271b9c41fb7e00d3abe83a207cc4fa32dd0999f9b873b3aeed4732ba9ac13d8c",
+      "latencyMs": 7976,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01ELGbsoC4nSe2nSJQA5rQy5",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.8,\"rationale\":\"Recomiendo rechazar el evento. La web oficial de la artista indica que su gira de estadios no incluye salas pequeñas ni conciertos acústicos, y que la venta oficial se realiza solo a través de su web. Una noticia advierte además de eventos falsos con su nombre. El evento anuncia un concierto íntimo de Valeria Montecristo en una sala de Murcia el 25/11/2026, lo que contradice esa información oficial. A esto se suma un organizador de 7 días de antigüedad, con un único evento publicado, sin razón social registrada y sin otras organizaciones verificadas. Las comprobaciones deterministas (código postal, pagos, condiciones, precios, comisiones, fechas) y la existencia del recinto han pasado. El aforo del recinto no se ha podido verificar. No hay eventos similares de otros organizadores. El conjunto apunta a un evento fraudulento que usa el nombre de la artista, por lo que no debe publicarse.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La web oficial de la artista indica que su gira «Gira Estadios» no incluye salas pequeñas ni conciertos acústicos y que la venta oficial es solo a través de su web. Un concierto íntimo en una sala de Murcia el 25/11/2026 no aparece en su gira oficial, lo que sugiere un evento no autorizado.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://valeriamontecristo.test/gira\",\"title\":\"Valeria Montecristo — Gira Estadios: todas las fechas\"}]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"Una noticia advierte de reventa y eventos falsos que usan el nombre de la artista. Esto refuerza la sospecha de fraude, aunque no prueba que este evento concreto lo sea.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios\",\"title\":\"Valeria Montecristo agota 60.000 entradas en dos horas\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"warn\",\"detail\":\"La cuenta del propietario tiene 7 días de antigüedad. El nombre fiscal legal es nulo, aunque el NIF tiene checksum válido y hay dirección. El equipo tiene 4 miembros.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Historial: 1 evento publicado, 0 cancelados, 0 despublicados por admin, sin reportes de contenido ni revisiones previas. El historial es mínimo.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no encontró una presencia verificable del organizador «Estrellas Cercanas Live» fuera de la plataforma.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"El nombre del organizador es genérico y no coincide con ningún promotor conocido en las fuentes consultadas. Su descripción («Traemos a las grandes estrellas a tu ciudad») imita el lenguaje de productoras establecidas.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del recinto no está publicado. Se ponen a la venta 250 entradas en una sala de «lt300», sin poder comprobar que quepan.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Precio de 15 € único, sin conflictos entre tipos de entrada. Ver el benchmark: está muy por debajo del p90, lo que no es una señal de fraude por sí mismo.\",\"confidence\":0.5,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01ELGbsoC4nSe2nSJQA5rQy5",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.8,
+                "rationale": "Recomiendo rechazar el evento. La web oficial de la artista indica que su gira de estadios no incluye salas pequeñas ni conciertos acústicos, y que la venta oficial se realiza solo a través de su web. Una noticia advierte además de eventos falsos con su nombre. El evento anuncia un concierto íntimo de Valeria Montecristo en una sala de Murcia el 25/11/2026, lo que contradice esa información oficial. A esto se suma un organizador de 7 días de antigüedad, con un único evento publicado, sin razón social registrada y sin otras organizaciones verificadas. Las comprobaciones deterministas (código postal, pagos, condiciones, precios, comisiones, fechas) y la existencia del recinto han pasado. El aforo del recinto no se ha podido verificar. No hay eventos similares de otros organizadores. El conjunto apunta a un evento fraudulento que usa el nombre de la artista, por lo que no debe publicarse.",
+                "findings": [
+                  {
+                    "check": "artist_availability",
+                    "verdict": "fail",
+                    "detail": "La web oficial de la artista indica que su gira «Gira Estadios» no incluye salas pequeñas ni conciertos acústicos y que la venta oficial es solo a través de su web. Un concierto íntimo en una sala de Murcia el 25/11/2026 no aparece en su gira oficial, lo que sugiere un evento no autorizado.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://valeriamontecristo.test/gira",
+                        "title": "Valeria Montecristo — Gira Estadios: todas las fechas"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "other",
+                    "verdict": "warn",
+                    "detail": "Una noticia advierte de reventa y eventos falsos que usan el nombre de la artista. Esto refuerza la sospecha de fraude, aunque no prueba que este evento concreto lo sea.",
+                    "confidence": 0.6,
+                    "sources": [
+                      {
+                        "url": "https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios",
+                        "title": "Valeria Montecristo agota 60.000 entradas en dos horas"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "warn",
+                    "detail": "La cuenta del propietario tiene 7 días de antigüedad. El nombre fiscal legal es nulo, aunque el NIF tiene checksum válido y hay dirección. El equipo tiene 4 miembros.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "warn",
+                    "detail": "Historial: 1 evento publicado, 0 cancelados, 0 despublicados por admin, sin reportes de contenido ni revisiones previas. El historial es mínimo.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda web no encontró una presencia verificable del organizador «Estrellas Cercanas Live» fuera de la plataforma.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "warn",
+                    "detail": "El nombre del organizador es genérico y no coincide con ningún promotor conocido en las fuentes consultadas. Su descripción («Traemos a las grandes estrellas a tu ciudad») imita el lenguaje de productoras establecidas.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del recinto no está publicado. Se ponen a la venta 250 entradas en una sala de «lt300», sin poder comprobar que quepan.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_sanity",
+                    "verdict": "pass",
+                    "detail": "Precio de 15 € único, sin conflictos entre tipos de entrada. Ver el benchmark: está muy por debajo del p90, lo que no es una señal de fraude por sí mismo.",
+                    "confidence": 0.5,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6143,
+          "outputTokens": 1853,
+          "cacheReadInputTokens": 4845,
+          "cacheWriteInputTokens": 1296
+        }
+      }
+    }
+  ],
+  "searches": []
+}

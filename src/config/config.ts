@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
+import type { Effort } from "../providers/anthropic/adapter.js";
 
 // An empty value in .env (`AGENT_MAX_TOKENS=`) means "unset", so it falls back
 // to the default instead of failing as 0.
@@ -17,28 +18,42 @@ const textWithDefault = (fallback: string) =>
 
 // Names mirror .env.example (env-var skill). Run limits: brief §4.2; the
 // defaults are provisional until the agent loop (#5) measures real runs.
-const envSchema = z.object({
-  AGENT_MAX_TOOL_CALLS: positiveIntWithDefault(30),
-  AGENT_MAX_TOKENS: positiveIntWithDefault(200_000),
-  AGENT_MAX_WEB_SEARCHES: positiveIntWithDefault(4),
-  // Brief §4.2; set from the evals once they exist (#6).
-  AGENT_AUTO_APPROVE_THRESHOLD: z.preprocess(
-    unsetIfEmpty,
-    z.coerce.number().min(0).max(1).default(0.85),
-  ),
-  // Phase 1 runs a local open-source model through an OpenAI-compatible
-  // server (ADR 0008); the defaults point at LM Studio on this machine.
-  AGENT_LLM_PROVIDER: textWithDefault("lmstudio"),
-  AGENT_LLM_BASE_URL: z.preprocess(
-    unsetIfEmpty,
-    z.url({ protocol: /^https?$/ }).default("http://localhost:1234/v1"),
-  ),
-  AGENT_LLM_MODEL: textWithDefault("qwen/qwen3.5-9b"),
-  AGENT_LLM_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
-  // `webSearch` (ADR 0015 point 8). Optional: without it the agent runs
-  // without web search, and the evals can't record.
-  TAVILY_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
-});
+const envSchema = z
+  .object({
+    AGENT_MAX_TOOL_CALLS: positiveIntWithDefault(30),
+    AGENT_MAX_TOKENS: positiveIntWithDefault(200_000),
+    AGENT_MAX_WEB_SEARCHES: positiveIntWithDefault(4),
+    // Brief §4.2; set from the evals once they exist (#6).
+    AGENT_AUTO_APPROVE_THRESHOLD: z.preprocess(
+      unsetIfEmpty,
+      z.coerce.number().min(0).max(1).default(0.85),
+    ),
+    // Phase 1 runs a local open-source model through an OpenAI-compatible
+    // server (ADR 0008); the defaults point at LM Studio on this machine.
+    AGENT_LLM_PROVIDER: textWithDefault("lmstudio"),
+    AGENT_LLM_BASE_URL: z.preprocess(
+      unsetIfEmpty,
+      z.url({ protocol: /^https?$/ }).default("http://localhost:1234/v1"),
+    ),
+    AGENT_LLM_MODEL: textWithDefault("qwen/qwen3.5-9b"),
+    AGENT_LLM_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
+    // How much Claude thinks (#30): set explicitly so every run records it.
+    // Read only by the `anthropic` provider.
+    AGENT_LLM_EFFORT: z.preprocess(
+      unsetIfEmpty,
+      z.enum(["low", "medium", "high", "xhigh", "max"]).default("medium"),
+    ),
+    // `webSearch` (ADR 0015 point 8). Optional: without it the agent runs
+    // without web search, and the evals can't record.
+    TAVILY_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
+  })
+  // A paid provider fails at startup without its key, not on the first call.
+  .refine(
+    (env) =>
+      env.AGENT_LLM_PROVIDER !== "anthropic" ||
+      env.AGENT_LLM_API_KEY !== undefined,
+    { path: ["AGENT_LLM_API_KEY"], message: "required by anthropic" },
+  );
 
 export interface Config {
   runLimits: {
@@ -53,6 +68,7 @@ export interface Config {
     model: string;
     /** Local servers need none. A secret: never logged. */
     apiKey: string | undefined;
+    effort: Effort;
   };
   webSearch: {
     /** A secret: never logged. Undefined: no web search. */
@@ -107,6 +123,7 @@ export function loadConfig(
       baseUrl: parsed.AGENT_LLM_BASE_URL,
       model: parsed.AGENT_LLM_MODEL,
       apiKey: parsed.AGENT_LLM_API_KEY,
+      effort: parsed.AGENT_LLM_EFFORT,
     },
     webSearch: { tavilyApiKey: parsed.TAVILY_API_KEY },
   };

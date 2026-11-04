@@ -1,0 +1,249 @@
+{
+  "caseId": "24",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "d58e97457f94212e6fd389a0d1c2372ebd83ad80957fa62b401902d3c85b9a7d",
+      "latencyMs": 1449,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01LgxdJoX8Yz5omnMiB2XxuJ",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_c8cafdb37b\"}"
+            },
+            {
+              "id": "toolu_01EnMjxYsvnS5k7FjJAghy1x",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_1551f43933\",\"windowDays\":30}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSmQYKEAgTGAI4AUIIdGhpbmtpbmcSDB78IiAhilz8F8aBbBoM9OEnDR4iMp1AEnaOIjCQwjaJCfs5bUgbCADkYfjoyZSM2xeKtGmioxAC+U/rcq9/rjLLcB9oSt3+132YFNIqtgVTmqHMrITweJe4O62dPIgOlDO/ATAdx4L65jEXSl/hUtsHsIpM9TtMca/8Fvt/CfNjB1+nn4N/iM4H8AmKRA4fObhgo/oTRgMcU4Npnb11zddhA4brWucKeF0ikRWU74qaEVBO9h78IH/6x5cDj8qElboVnTaL31tZiMfERmcPJo6io233lY4ymfQiKy+olpcbjTShxhinfRtRo/iuG7b4XTmFUZDxignvJaj5CoLHCLqVGz6G4CKCw8fwFcXQIz84DTIgnQo/Pc2AUERxdRT12HZLmaLTB9i1imB4Y1GhmTiQIKHE+sCPXLwBSTjofA9hFWKpLrO0ndLIzGW/8FwYN0ckblXBfjHYl1lsxJwNjswSP9kxxRj37iI6CKeDPUbvn7e6PN0jmodtmO1CH5oJ61BOIvBt7D57JHV0SYGAPab14iBEQ/1D72dzYI0O8NJ8NBEs2KurgjCYxcjCv9DQF0tEiLpUxBUUUitRPUoRhxn8jn6gktwFm3VE4wJ+psF2HbCCTMrMpwAPIDwzIa/i0Dkhphb5e8BHbjQc4j7tkEem7UZSsMrGVahOnWKc0Xelm2lnp7Q/XNnjlcVDXDMmqGMWIgLFUz7UuW6LceZ3kexx9n5Ou3arL/kdH00GkCaeDcQZEACkMperwz+eFiFB0qgFP9k40SUQygqGwhu+I5oO2YVjeHtJGMsy1WLOaDoDlhyxiKXabO7UBSuGvrqApsbKTgk5RdfTZwU7pjdhKvODMjl2qRMHWN+2GXzpP9OZbQHyDapRBQesfFmk0X+Ln22Ujfa3ri4D++F+yK0d3+3kWnBTCKMa6Swgp6tS2smjQKlHDJ4uLQoJGZA5QfV/K6Zsgds4d2LC5/1W8Fs8tHUhjJiMzFNj9AhTF8neugCUC4QbD0X+VkOhzClVNwYURkAmWNDUGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01LgxdJoX8Yz5omnMiB2XxuJ",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_c8cafdb37b"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01EnMjxYsvnS5k7FjJAghy1x",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_1551f43933",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4926,
+          "outputTokens": 204,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4922
+        }
+      }
+    },
+    {
+      "requestHash": "ed9f1cdcdf7f11af6dee70a13585c6d09f1a6069e467bd8e748f90a0e73a2c18",
+      "latencyMs": 10230,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01CB25Uyrc35swPUjuksG4dc",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.75,\"rationale\":\"El evento debe rechazarse por dos señales graves y sin explicación razonable. Primero, la oferta es alcohol para menores: el título dice «Botellón +14», la descripción promete «cervezas» y «barra libre hasta las 2» para público de 14 años en adelante. Ofrecer alcohol a menores de 18 es ilegal en España, y el fallo de la regla de alcohol y menores no se resuelve con un simple retoque del texto, porque es el núcleo del evento. Segundo, el aforo: la sesión pone a la venta 800 entradas en un teatro cuyo aforo publicado es de 300 (2,7 veces, según la web de la Junta de Andalucía). Esto sería una señal dura de aforo. El organizador tiene un historial limpio (cuenta de 930 días, CIF válido, 14 eventos sin incidencias ni reclamaciones), pero eso no compensa la oferta de alcohol a menores ni el aforo. No hay eventos similares de otros organizadores que indiquen clonación. Si el organizador quisiera volver a presentar el evento, tendría que eliminar el alcohol de la oferta, aclarar el aforo y corregir el texto, y en ese caso debería revisarse de nuevo desde cero.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El título («Botellón +14») y la descripción («cervezas», «barra libre hasta las 2» para +14) ofrecen alcohol a menores de 18 años. Es ilegal y el evento no puede publicarse así. Confirmado en el texto del evento.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La sesión con más entradas pone a la venta 800 frente a un aforo publicado de 300 para el Teatro Darymelia (2,7 veces). Sin explicación en la ficha. Señal dura según la comprobación determinista.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen\",\"title\":\"Agenda cultural de Andalucía: Teatro Darymelia de Jaén\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Juerga Joven Producciones S.L., CIF con checksum válido, dirección en Jaén, cuenta de 930 días y correo verificado. No aparece otra organización del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicaciones por administración, 0 reportes de contenido, sin revisiones previas de agentes.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Jaén en la ventana de 30 días. No hay indicios de clonación.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 10 € está dentro del benchmark (p90 de 35 € para fiesta en Jaén, aforo 300-1000). Aunque el precio es bajo, la barra libre incluida no aporta riesgo de precio.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se buscó la presencia web del organizador fuera de la plataforma. La revisión se centró en los fallos de alcohol a menores y de aforo, que bastan para rechazar.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se comprobó si la descripción está copiada de otra web; el texto es muy breve y no cambia la decisión.\",\"confidence\":0.3,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01CB25Uyrc35swPUjuksG4dc",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.75,
+                "rationale": "El evento debe rechazarse por dos señales graves y sin explicación razonable. Primero, la oferta es alcohol para menores: el título dice «Botellón +14», la descripción promete «cervezas» y «barra libre hasta las 2» para público de 14 años en adelante. Ofrecer alcohol a menores de 18 es ilegal en España, y el fallo de la regla de alcohol y menores no se resuelve con un simple retoque del texto, porque es el núcleo del evento. Segundo, el aforo: la sesión pone a la venta 800 entradas en un teatro cuyo aforo publicado es de 300 (2,7 veces, según la web de la Junta de Andalucía). Esto sería una señal dura de aforo. El organizador tiene un historial limpio (cuenta de 930 días, CIF válido, 14 eventos sin incidencias ni reclamaciones), pero eso no compensa la oferta de alcohol a menores ni el aforo. No hay eventos similares de otros organizadores que indiquen clonación. Si el organizador quisiera volver a presentar el evento, tendría que eliminar el alcohol de la oferta, aclarar el aforo y corregir el texto, y en ese caso debería revisarse de nuevo desde cero.",
+                "findings": [
+                  {
+                    "check": "minors_alcohol",
+                    "verdict": "fail",
+                    "detail": "El título («Botellón +14») y la descripción («cervezas», «barra libre hasta las 2» para +14) ofrecen alcohol a menores de 18 años. Es ilegal y el evento no puede publicarse así. Confirmado en el texto del evento.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "fail",
+                    "detail": "La sesión con más entradas pone a la venta 800 frente a un aforo publicado de 300 para el Teatro Darymelia (2,7 veces). Sin explicación en la ficha. Señal dura según la comprobación determinista.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
+                        "title": "Agenda cultural de Andalucía: Teatro Darymelia de Jaén"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Organizador Juerga Joven Producciones S.L., CIF con checksum válido, dirección en Jaén, cuenta de 930 días y correo verificado. No aparece otra organización del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicaciones por administración, 0 reportes de contenido, sin revisiones previas de agentes.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en Jaén en la ventana de 30 días. No hay indicios de clonación.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "El precio de 10 € está dentro del benchmark (p90 de 35 € para fiesta en Jaén, aforo 300-1000). Aunque el precio es bajo, la barra libre incluida no aporta riesgo de precio.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se buscó la presencia web del organizador fuera de la plataforma. La revisión se centró en los fallos de alcohol a menores y de aforo, que bastan para rechazar.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se comprobó si la descripción está copiada de otra web; el texto es muy breve y no cambia la decisión.",
+                    "confidence": 0.3,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5706,
+          "outputTokens": 2227,
+          "cacheReadInputTokens": 4922,
+          "cacheWriteInputTokens": 782
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "12700dce3b673f50bbd3617ccc5d393e18de88c2772353bc19a5781253935ac0",
+      "provider": "Tavily",
+      "query": "\"La fiesta de fin de curso para +14: música, cervezas y barra libre hasta las 2\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://playupanimaciones.com/ideas-fiesta-fin-curso-infantil",
+            "title": "10 ideas para una fiesta de fin de curso infantil",
+            "snippet": "fiesta fin curso\n\nEl último día de clase merece algo más que recoger mochilas y empezar la cuenta atrás para las vacaciones. Una buena fiesta de fin de curso combina juego, movimiento, música y momentos compartidos, pero también debe funcionar con el número de niños, sus edades y el espacio disponible. Estas ideas están pensadas para colegios, AMPAs y familias que buscan una celebración divertida y fácil de adaptar.\n\n## Cómo elegir las mejores ideas para una fiesta de fin de curso infantil [...]"
+          },
+          {
+            "url": "https://www.spanishdict.com/translate/fiesta%20de%20fin%20de%20curso",
+            "title": "Fiesta de fin de curso | Spanish Translator",
+            "snippet": "Translation\n\n■■■■■■■■■■■■■■\n\nTranslated byMicrosoft\n\nWord-by-word\n\n|  |  |\n --- |\n| fiesta | party |\n| de | from  of |\n| fin | end  aim |\n| de | from  of |\n| curso | year  course |\n\nExamples\n\nRandom Word\n\nRoll the dice and learn a new word now!\n\nGet a Word\n\nWant to Learn Spanish?\n\nSpanish learning for everyone. For free.\n\nTranslation\n\nThe world’s largest Spanish dictionary\n\nConjugation\n\nConjugations for every Spanish verb\n\nVocabulary\n\nLearn vocabulary faster\n\nGrammar [...] Grammar\n\nLearn every r"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=Gf8ownPmPKI",
+            "title": "Marco Hinojosa Feat. El Calle Latina - Fin De Semana",
+            "snippet": "[0:50] sigue el fin de semana Te invito conmigo vamos todos a bailar llegó el fin de semana lo que yo menos quiero es\n[0:57] quedarme en la cama mucha música me prende que no te importe nada solo vive en el presente tu cuerpo prende llamas\n[1:04] la música nos llama tú y yo moviendo los Vento hasta la\n[1:10] [Música]\n[1:11] mañana llegó el fin de semana y nos vamos de fiesta Hasta que\n[1:18] salga el sol llegó el fin de semana tú conmigo [...] [1:27] bailando la fiesta no para y sigue el fin de "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DSJH3n9kvRb",
+            "title": "Instagram",
+            "snippet": "✨🎉 La fiesta más esperada del año llega a Casa 21 🎉✨  \nEste 31 de diciembre, despide el año y recibe el 2025 en una celebración familiar llena de estilo, música y alegría.  \n  \nDisfruta de:  \n🎺 Orquesta en vivo 🍽️ Cena especial 🥂 Brindis 🎉 Cotillón 🎧 DJ toda la noche 👗 Código de vestimenta: Formal  \n  \nUna noche para disfrutar, celebrar y comenzar el nuevo año con la mejor energía latina.  \n  \n👉 Reserva hoy mismo antes de que se agoten los cupos.  \n  \n📞 Reservas: 813-863-8881 [...] 📍 "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DZWTKA4sX5q",
+            "title": "¡La fiesta llega a Jacksonville!  Este viernes 19 de junio ...",
+            "snippet": "¡La fiesta llega a Jacksonville! Este viernes 19 de junio, Cuba Libre Ultra Lounge será el punto de encuentro para todos los amantes de"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "37e8fdbc56b518baef52c69e9f5b6292cda50cab098d088fcf1cab97f0035a29",
+      "provider": "Tavily",
+      "query": "Teatro Darymelia Jaén aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-municipal-darymelia",
+            "title": "Teatro Municipal Darymelia - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Municipal Darymelia\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Municipal Darymelia\n\nJaén / Jaén\n\n## Descripción\n\nEl Teatro Municipal Darymelia se encuentra en pleno casco histórico de Jaén. Tiene una capacidad de 321 butacas y depende del Patronato de Cultura de Jaén.\n\n## Ubicación\n\nMaestra, 18, 23004   \nJaén (Jaén)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   321 personas [...] Telé"
+          },
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
+            "title": "Teatro Darymelia de Jaén",
+            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas y está enclavado en el casco histórico de Jaén.\n\nVisitable\n\nC/ Colón, s/n\n\nEnlace de compra\n\nCompra de entradas\n\nHorario de Taquilla: de martes a viernes 10:00 h. a 14:00 h. y de 18:00 h. a 21:00 h.   \nDos horas antes de la actuación en la taquilla del lugar de celebración.\n\n## 37.766676, -3.791366\n\n953 219180\n\ninformacioncultura@aytojaen.es\n\nSigue el espacio en\n\n3 Actividades\n\nCartel de Flamencos de Ronquío en Jaén \n\n19 [."
+          },
+          {
+            "url": "https://www.planomato.com/es/jaen/v/teatro-darymelia",
+            "title": "Teatro Darymelia, Jaén | Planomato",
+            "snippet": "Teatro Darymelia\n\nEl Teatro Darymelia es un antiguo cine y actual teatro de la ciudad de Jaén (España). Es Bien de Interés Cultural y se encuentra en el centro histórico de Jaén. Fue construido entre 1922 y 1927 y remodelado en los años 80 y restaurado en 1992. Tiene una capacidad de 300 o 321 butacas y acoge obras de teatro, espectáculos infantiles, musicales, conciertos y danza.\n\n## Próximos Eventos\n\nConferencia\n\nPregón de Santa Catalina\n\n08 nov\n\n### Pregón de Santa Catalina [...] Comedia negr"
+          },
+          {
+            "url": "https://erasmusu.com/es/erasmus-jaen/que-hacer/teatro-darymelia-5133",
+            "title": "Teatro Darymelia | Qué hacer en Jaén",
+            "snippet": "¿Cómo es este sitio?\n\nPropio de un teatro, tiene una fachada principal muy señorial aunque muy estilo musulmán con arcos y demás resaltados ladrillos marrones y blancos.\n\nEs un teatro pequeñito pero muy funcional. Cuenta con un aforo de trescientas butacas, tanto en la planta baja como alta a modo de palco. [...] Depende siempre de la actividad que realices. Esta en concreto fue la entrada a unos cinco euros para ver a tres agrupaciones en el certamen, lo cual no estuvo nada mal.\n\nPero como ya h"
+          },
+          {
+            "url": "https://www.jaenhoy.es/ocio/curiosa-historia-teatro-darymelia-nombre-jaen_0_2006303683.html",
+            "title": "La curiosa historia del Teatro Darymelia: una infidelidad pública y un nombre peculiar",
+            "snippet": "Desde entonces es un teatro que acoge, mayoritariamente, la puesta en escena de libretos dramáticos, además de algunos actos oficiales y conciertos de índole benéfica.\n\n      El Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas.  \n\nEl Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas. / Andalucía Film Commission [...] Abierto desde 1927, el ahora Teatro Darymelia fue bautizado así por los nombres de Daría y Amelia. / Red Jaén\n\nCada 27 de ma"
+          }
+        ]
+      }
+    }
+  ]
+}
