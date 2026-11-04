@@ -20,7 +20,7 @@ const textWithDefault = (fallback: string) =>
 const envSchema = z.object({
   AGENT_MAX_TOOL_CALLS: positiveIntWithDefault(30),
   AGENT_MAX_TOKENS: positiveIntWithDefault(200_000),
-  AGENT_MAX_WEB_SEARCHES: positiveIntWithDefault(4),
+  AGENT_MAX_WEB_SEARCHES: positiveIntWithDefault(2),
   // Brief §4.2; set from the evals once they exist (#6).
   AGENT_AUTO_APPROVE_THRESHOLD: z.preprocess(
     unsetIfEmpty,
