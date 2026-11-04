@@ -399,7 +399,8 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     one that goes stale. The committed venue responses were restored, and only N4 run 3 was
     re-recorded (about $0.002).
 - **Decision:** Haiku 5.5 is the evals' winner on accuracy and approved fraud, with ranges that
-  clear qwen's single run, at $0.0022 per review (ADR 0008 point 5). Switching the configured
-  default, which today runs keyless and free, is its own change. Next: the systematic errors
+  clear qwen's single run, at $0.0022 per review. It becomes the deployed agent's model; the
+  code's fallback stays on local qwen, so development runs keyless and free (ADR 0008 amendment,
+  #42). Next: the systematic errors
   (01, 06, 21) and Haiku's confidence band against the 0.85 threshold, as separate experiments,
   each measured over three runs.

@@ -1,7 +1,7 @@
 # ADR 0008 — A provider-neutral agent with two adapters, shipped local-model first
 
 - **Date:** 2026-11-01
-- **Status:** accepted · amendment 2026-11-04 (#30)
+- **Status:** accepted · amendment 2026-11-04 (#30) · amendment 2026-11-04 (#42)
 - **Related:** brief D8 and §4; ADR 0011 (the Satella contract); issue #5.
 
 ## Context
@@ -106,3 +106,23 @@ with an empty text and a signature, then the tool calls.
 recording stale for a limit qwen doesn't need. Also rejected: dropping thinking blocks between
 turns, which the API requires back with the tool results. Also rejected: `thinking: disabled`,
 which would give up the model's reasoning to save output tokens on a review that costs $0.002.
+
+## Amendment (2026-11-04, #42): the evals pick the deployed model; development stays local
+
+Point 5 says the evals' winner becomes the default. E014 picks Claude Haiku 5.5: gated accuracy
+86.7 % (83.3–90.0 across three runs) against qwen's 73.3 %, no approved fraud in any run, $0.0022
+per review. This amendment refines point 5: "default" means **the model the deployed agent runs**,
+not the code's fallback.
+
+1. **The deployed agent runs the evals' winner.** Its environment sets `AGENT_LLM_PROVIDER`,
+   `AGENT_LLM_MODEL` and `AGENT_LLM_EFFORT` to `anthropic`, `claude-haiku-5-5` and `medium`, with
+   the key from Secret Manager (brief §8), when deployment lands.
+2. **The code's fallback stays local.** With nothing set, `loadConfig` keeps `lmstudio` and
+   `qwen/qwen3.5-9b`: development, tests and a fresh checkout run free, with no key, and never
+   spend by accident. Paid recording still needs `--paid`.
+3. **A newer winner moves the deployed setting, not the fallback.** An experiment that beats the
+   deployed model over three runs, with ranges that don't overlap, changes the deployed
+   environment.
+
+**Rejected:** switching the code's fallback to Haiku. Every checkout would then need an Anthropic
+key to start, and anything run without one would spend money.

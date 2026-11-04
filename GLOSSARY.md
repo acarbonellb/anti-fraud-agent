@@ -68,6 +68,9 @@ fixed.
   default `medium`). Thinking is billed as output.
 - **Paid provider**: one that bills per token (`anthropic`). The scripts call it only with
   `--paid`.
+- **Deployed model**: the model the deployed agent runs, set in its environment and chosen by the
+  evals (Claude Haiku 5.5 since E014). The code's fallback with nothing set stays local qwen, so
+  development needs no key (ADR 0008 amendment, #42).
 - **Pass**: one scheduled sweep of the feed from the stored cursor.
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.
 - **Eval case**: a fixture subject with its expected decision and autonomy (brief §5).
