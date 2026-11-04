@@ -9,6 +9,7 @@ import {
   benchmarkQuery,
   priceBenchmarkCheck,
 } from "../checks/price-benchmark.js";
+import { exactCloneCheck } from "../checks/exact-clone.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
@@ -130,11 +131,19 @@ async function prepareEvent(
       if (error instanceof SatellaApiError) return null;
       throw error;
     });
+  const similar = await input.satella
+    .findSimilarEvents(id)
+    // Without them there is no clone finding; the model still has the tool.
+    .catch((error: unknown) => {
+      if (error instanceof SatellaApiError) return [];
+      throw error;
+    });
   return {
     context,
     systemFindings: [
       ...runEventChecks(context, now),
       priceBenchmarkCheck(context, benchmark),
+      ...exactCloneCheck(context, similar),
       ...(await input.venueChecks(context)),
     ],
     autonomySubject: {
