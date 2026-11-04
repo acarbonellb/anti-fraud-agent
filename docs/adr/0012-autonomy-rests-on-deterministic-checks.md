@@ -144,7 +144,8 @@ Rejected:
 
 Point 2 gains a rule, `exact_duplicate_other_organizer`. It fails when another organizer's
 published event, among the similar events Satella serves, matches on all three: title similarity
-1, the same venue name, and a session on the same day in Europe/Madrid. The agent asks Satella in
+1, the same venue name, and its first session in Satella's window on the same day, in
+Europe/Madrid, as one of the event's sessions. The agent asks Satella in
 code, before the model, as it does for the price benchmark.
 
 Why now: Satella's list of similar events carries everything the check needs. Until now only the
@@ -155,6 +156,11 @@ It only fails; a near match gives no finding. A `pass` would drop any model find
 check, since system findings win. That would include a clone the model finds on another site
 with `web_search`. The platform's list proves a clone; it can't prove originality. If Satella
 can't serve the list, there is no finding and the model still has `find_similar_events`.
+
+Limits, all false negatives, never false fails: Satella reports only the other event's first
+session in its window (7 days by default), so a clone that shares a later date is missed; days are
+compared by start, so sessions on either side of midnight don't match; title similarity 1 is
+trigram equality, which also ignores case, punctuation and word order.
 
 Rejected: **a heuristic `warn` for a near match** (similar title, same venue and day). Satella
 returns titles from a trigram similarity of 0.3. A threshold there would need cases to tune it,

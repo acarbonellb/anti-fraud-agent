@@ -19,13 +19,13 @@ export function exactCloneCheck(
   similar: readonly SimilarEvent[],
 ): SystemFinding[] {
   const sessionDays = new Set(
-    context.sessions.map((session) => madridDay(session.startsAt)),
+    context.sessions.map((session) => madridDayKey(session.startsAt)),
   );
   const clone = similar.find(
     (other) =>
       other.titleSimilarity === 1 &&
       other.sharesVenueName &&
-      sessionDays.has(madridDay(other.firstSessionInWindow)),
+      sessionDays.has(madridDayKey(other.firstSessionInWindow)),
   );
   if (clone === undefined) return [];
   return [
@@ -38,7 +38,17 @@ export function exactCloneCheck(
   ];
 }
 
-/** The calendar day in Europe/Madrid, where the admin and the venue are (CLAUDE.md §5). */
+/**
+ * The calendar day in Europe/Madrid, where the admin and the venue are
+ * (CLAUDE.md §5), as `YYYY-MM-DD`: a key that doesn't rest on display format.
+ */
+function madridDayKey(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", {
+    timeZone: "Europe/Madrid",
+  });
+}
+
+/** The same day as the admin reads it. */
 function madridDay(iso: string): string {
   return new Date(iso).toLocaleDateString("es-ES", {
     timeZone: "Europe/Madrid",

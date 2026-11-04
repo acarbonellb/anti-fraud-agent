@@ -77,6 +77,12 @@ const verifiedVenue: VenueChecks = () =>
     venueFinding("venue_capacity", "pass", "Aforo compatible."),
   ]);
 
+function firstSessionStart(): string {
+  const start = fixtures.eventContext.sessions[0]?.startsAt;
+  if (start === undefined) throw new Error("fixture without a session");
+  return start;
+}
+
 function satellaClient() {
   return createSatellaClient({
     baseUrl: mock.baseUrl,
@@ -173,7 +179,7 @@ it("shows the venue findings to the model fenced, and they win over the model's"
   expect(result.review.autonomy).toBe("escalated");
 });
 
-it("checks for an exact clone in code, before the model (#35)", async () => {
+it("rejects an exact clone on the code's rule, shown to the model first", async () => {
   await mock.close();
   const [original] = fixtures.similarEvents;
   if (original === undefined)
@@ -188,8 +194,7 @@ it("checks for an exact clone in code, before the model (#35)", async () => {
             ...original,
             title: fixtures.eventContext.event.title,
             titleSimilarity: 1,
-            firstSessionInWindow:
-              fixtures.eventContext.sessions[0]?.startsAt ?? "",
+            firstSessionInWindow: firstSessionStart(),
           },
         ],
       },
@@ -228,6 +233,13 @@ it("goes on when Satella can't serve the similar events", async () => {
   const result = await review(provider, verifiedVenue, unavailable);
 
   expect(result.review.decision).toBe("approve");
+  expect(
+    result.review.findings.filter(
+      (finding) =>
+        finding.check === "exact_duplicate_other_organizer" &&
+        finding.verdict === "fail",
+    ),
+  ).toEqual([]);
 });
 
 it("never runs the venue checks on an organizer, and escalates it", async () => {

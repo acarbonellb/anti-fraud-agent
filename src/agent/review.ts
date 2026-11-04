@@ -124,20 +124,15 @@ async function prepareEvent(
   now: Date,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
-  const benchmark = await input.satella
-    .getPriceBenchmark(benchmarkQuery(context))
+  const [benchmark, similar] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
-    .catch((error: unknown) => {
-      if (error instanceof SatellaApiError) return null;
-      throw error;
-    });
-  const similar = await input.satella
-    .findSimilarEvents(id)
+    orIfSatellaFails(
+      input.satella.getPriceBenchmark(benchmarkQuery(context)),
+      null,
+    ),
     // Without them there is no clone finding; the model still has the tool.
-    .catch((error: unknown) => {
-      if (error instanceof SatellaApiError) return [];
-      throw error;
-    });
+    orIfSatellaFails(input.satella.findSimilarEvents(id), []),
+  ]);
   return {
     context,
     systemFindings: [
@@ -163,4 +158,15 @@ async function prepareOrganizer(
     systemFindings: runOrganizerChecks(context),
     autonomySubject: { type: "organizer" },
   };
+}
+
+/** What a check gets when Satella can't answer: the review goes on without it. */
+function orIfSatellaFails<T, F>(
+  request: Promise<T>,
+  fallback: F,
+): Promise<T | F> {
+  return request.catch((error: unknown) => {
+    if (error instanceof SatellaApiError) return fallback;
+    throw error;
+  });
 }

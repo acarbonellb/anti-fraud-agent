@@ -321,5 +321,7 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   → 4.2 %, auto-approved fraud rate 0.0 % → 0.0 %, **autonomy accuracy 72.4 % → 75.9 %,
   escalation rate 72.4 % → 69.0 %**, Brier 0.198 → 0.199. Mean input tokens about 28,400 →
   28,200, since 07 searched less with the clone already found.
-- **What went wrong or surprised:** nothing. As predicted, only 07 moved.
+- **What went wrong or surprised:** as predicted, only 07 moved. Its confidence fell from 0.85
+  to 0.75, which is what nudged Brier up. A `reject` on a rule hard signal resolves whatever the
+  confidence, so 07 resolves at 0.75.
 - **Decision:** keep.
