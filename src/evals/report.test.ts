@@ -30,6 +30,7 @@ const scored: CaseResult = {
     inputTokens: 12_345,
     outputTokens: 678,
     latencyMs: 4321,
+    costMicros: 2150,
   },
   failure: null,
 };
@@ -67,6 +68,7 @@ it("shows the metrics of each provider and model", () => {
   expect(report).toContain("| Cases scored | 1 / 1 | 1 / 2 |");
   expect(report).toContain("| Brier score | 0.040 | 0.040 |");
   expect(report).toContain("| Mean latency | 4.3 s | 4.3 s |");
+  expect(report).toContain("| Mean cost per review | $0.0022 | $0.0022 |");
 });
 
 it("lists each case with expected versus actual and the policy's reasons", () => {

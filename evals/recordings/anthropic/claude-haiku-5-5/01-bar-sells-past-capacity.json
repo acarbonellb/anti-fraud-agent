@@ -1,0 +1,293 @@
+{
+  "caseId": "01",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T15:03:00.000Z",
+  "calls": [
+    {
+      "requestHash": "827bd10a7c19a337994eac4d02c295b189dbc85ccc653a0279802567461a978b",
+      "latencyMs": 1774,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_018CRpMv679cFod39cWNDRNB",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_1c0d565186\"}"
+            },
+            {
+              "id": "toolu_015Xaiyny9N4jmkK16XtpCWm",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_9fb0d56ae2\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_018n8SfEZoswJ4vq5z5yQb8x",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"DJ Morcuera Granada Masquevinos\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSyQUKEAgTGAI4AUIIdGhpbmtpbmcSDJS6SuHV6a3+gkJcrBoM87Ow5JRNx+5c9FThIjB2t9X6Zp3D7WeeTFUkTOzErDbyehToGLQWilLGYTWc7vr/uvhPamo1lsEaWldHwtcq5gQeIIcuL2N09G1KsdbzWVIlm5anUysnTt5R0FLpGVkVSRL1KJz+0JNXL2bUSuZBsD4U9cbFT2Z+7Q1W9IVESD3XbZVaNJ0/odnWDXTq/+M068GWcm7y/EtpPUSHHIdos9qJRx/3y1AsxBus2uj1p8nNnVjUQeHrdKRET4GkS/ZwNtlMs+Cu+0VXCXlSf0SWflXD6Pmh3yY5xAxYt422T3cuyus0m94iCB3p3LX7/eGKrr34cM1UveyBOStjX8iIOjJLnnvWd0IMbaYsEcgVfQo/JhmKlbS/bQQSdOdobHHH5JIXYNuZud6Rfs+KB7IgkYo2AAvDtD/TEDYYiyo+IDFQVl44VMA1EuIOsDc9Q1dcT4cvVcrh7QhuEZWfKes2B1UBsIA+4OvFL1S2OjlPeukZAHb1GPck4ZgBtzadAiDmjVAmsUT1quht0nTTDkZize/IfvQNtl4OKfVJJD0HleRV7CAGbNKkzFr97zyr0T5GkSRSS4uW9MhUDsS0OJL5uAhZEypixMxoiFBPoGrARY6rTUnRtlQNGn9BcLqjHY4A1LXmNDmDKJU++Jx9uD80F5CmTeC3JyKz9F9u2e/sn+rCkJEfCiYrhzF/YkDXrx72zZlsrty3YsxB4FkcfPWcHxik7CTQ8Wh/O0wFO/B1B/vb2qcjAeCcC0pwrUTAP+3pS2Lpukt5uXZ/sOPxBmKEgdziPZdWTyR+NCiymxb8ZxCfM+GMQrN6VGXX89q/MVwwNbX7iist2YXIVBA+Uj8Y7JE21nDzCaNFTXi/yrVNDD9L/MpvFcZVk7xVt/xORnMTQ1HpOViGaRgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_018CRpMv679cFod39cWNDRNB",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_1c0d565186"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_015Xaiyny9N4jmkK16XtpCWm",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_9fb0d56ae2",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_018n8SfEZoswJ4vq5z5yQb8x",
+              "name": "web_search",
+              "input": {
+                "query": "DJ Morcuera Granada Masquevinos",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4895,
+          "outputTokens": 269,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4891
+        }
+      }
+    },
+    {
+      "requestHash": "b4e978bf9c72683428503208c4dff75e5a54daf8c055733568b8a8ca54df827e",
+      "latencyMs": 13124,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01SuuC4Y8ANX8QLuDe4UXKyE",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento pone a la venta 2.000 entradas de pie (sesión del 25/11/2026) en Masquevinos, un bar-restaurante de Tundidores 10 (Granada) que OpenStreetMap registra con un aforo de 140. Es una señal grave de aforo (14,3 veces), aunque el dato de OSM es editable por usuarios y podría estar desactualizado, y no hay otros indicios de fraude. La organizadora (Garbanzo Negro Eventos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados y ninguno cancelado ni reportado) tiene buen historial, y no encontramos eventos clónicos ni problemas de precio, pagos externos o condiciones. Lo más prudente es no aprobar ni rechazar de forma directa: pedir a la organizadora que justifique el aforo (planos, licencia, acuerdo con el local) o que corrija el número de entradas al aforo real. No pudimos verificar la existencia de DJ Morcuera fuera de la plataforma: la búsqueda web no devolvió resultados relevantes. Tampoco se ha revisado la presencia web de la organizadora. Si la justificación no es creíble, la recomendación sería rechazar.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"2.000 entradas de pie a la venta frente a un aforo de 140 que publica OpenStreetMap para Masquevinos (14,3 veces). Es la señal más grave del caso. Puede deberse a un dato desactualizado de OSM, pero hay que pedir justificación a la organizadora.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap: Masquevinos\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"Con 35 entradas ya vendidas y 2.000 de capacidad publicada, el aforo declarado no encaja con un local de unos 140 m2 de restaurante en el centro de Granada.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap: Masquevinos\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF válido, dirección fiscal en Granada (18001), email verificado y cuenta de 930 días. Sin otras organizadoras vinculadas al propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin recomendaciones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se buscó la presencia web de la organizadora fuera de la plataforma; queda pendiente.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda 'DJ Morcuera Granada Masquevinos' no devolvió ninguna referencia al artista ni a fechas en otros sitios. No se puede confirmar que exista ni que la fecha esté libre.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otras organizadoras en la provincia en la ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 12 € dentro del rango del p90 de eventos electrónicos comparables en Granada (35 €).\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"El local existe en la dirección indicada según OSM y la búsqueda web (restaurante Mas que Vinos, Calle Tundidores 10, 18001 Granada).\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://restaurantemasquevinos.es/es\",\"title\":\"Restaurante Mas que Vinos — Vinos y brasa en Granada\"},{\"url\":\"https://routemarket.io/en/miejsce/masquevinos-granada-77b0\",\"title\":\"Masquevinos, Granada — RouteMarket\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó una suplantación clara de una promotora conocida.\",\"confidence\":0.4,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real del espacio donde se celebra el evento y en qué documento se acredita (licencia, plano, contrato con el local)?\",\"¿Por qué se han puesto a la venta 2.000 entradas de pie si OpenStreetMap registra unos 140 m2 para Masquevinos? ¿Se trata de un espacio distinto o de una zona exterior?\",\"¿Puedes confirmar el acuerdo con el local y la actuación de DJ Morcuera para el 25/11/2026 (contrato, enlace a su perfil o agencia)?\",\"Si el aforo real es menor, ¿puedes reducir el número de entradas a esa capacidad antes de aprobar el evento?\"],\"draft\":\"Hola, hemos revisado el evento «Fiesta de fin de temporada» antes de publicarlo. Antes de decidir necesitamos confirmar algunos datos. El evento pone a la venta 2.000 entradas para una sesión del 25 de noviembre de 2026 en Masquevinos (Calle Tundidores 10, Granada), pero el aforo que consta para ese local es bastante menor. ¿Puedes indicarnos el aforo real del espacio y cómo lo acreditas (licencia, plano o contrato con el local)? Si el número de entradas no corresponde al aforo, por favor ajústalo. También necesitamos confirmar la actuación de DJ Morcuera en esa fecha (contrato o perfil oficial). Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01SuuC4Y8ANX8QLuDe4UXKyE",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento pone a la venta 2.000 entradas de pie (sesión del 25/11/2026) en Masquevinos, un bar-restaurante de Tundidores 10 (Granada) que OpenStreetMap registra con un aforo de 140. Es una señal grave de aforo (14,3 veces), aunque el dato de OSM es editable por usuarios y podría estar desactualizado, y no hay otros indicios de fraude. La organizadora (Garbanzo Negro Eventos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados y ninguno cancelado ni reportado) tiene buen historial, y no encontramos eventos clónicos ni problemas de precio, pagos externos o condiciones. Lo más prudente es no aprobar ni rechazar de forma directa: pedir a la organizadora que justifique el aforo (planos, licencia, acuerdo con el local) o que corrija el número de entradas al aforo real. No pudimos verificar la existencia de DJ Morcuera fuera de la plataforma: la búsqueda web no devolvió resultados relevantes. Tampoco se ha revisado la presencia web de la organizadora. Si la justificación no es creíble, la recomendación sería rechazar.",
+                "findings": [
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "fail",
+                    "detail": "2.000 entradas de pie a la venta frente a un aforo de 140 que publica OpenStreetMap para Masquevinos (14,3 veces). Es la señal más grave del caso. Puede deberse a un dato desactualizado de OSM, pero hay que pedir justificación a la organizadora.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/node/5136054925",
+                        "title": "OpenStreetMap: Masquevinos"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "fail",
+                    "detail": "Con 35 entradas ya vendidas y 2.000 de capacidad publicada, el aforo declarado no encaja con un local de unos 140 m2 de restaurante en el centro de Granada.",
+                    "confidence": 0.6,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/node/5136054925",
+                        "title": "OpenStreetMap: Masquevinos"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF válido, dirección fiscal en Granada (18001), email verificado y cuenta de 930 días. Sin otras organizadoras vinculadas al propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin recomendaciones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se buscó la presencia web de la organizadora fuera de la plataforma; queda pendiente.",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda 'DJ Morcuera Granada Masquevinos' no devolvió ninguna referencia al artista ni a fechas en otros sitios. No se puede confirmar que exista ni que la fecha esté libre.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otras organizadoras en la provincia en la ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 12 € dentro del rango del p90 de eventos electrónicos comparables en Granada (35 €).",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "El local existe en la dirección indicada según OSM y la búsqueda web (restaurante Mas que Vinos, Calle Tundidores 10, 18001 Granada).",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://restaurantemasquevinos.es/es",
+                        "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada"
+                      },
+                      {
+                        "url": "https://routemarket.io/en/miejsce/masquevinos-granada-77b0",
+                        "title": "Masquevinos, Granada — RouteMarket"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detectó una suplantación clara de una promotora conocida.",
+                    "confidence": 0.4,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Cuál es el aforo real del espacio donde se celebra el evento y en qué documento se acredita (licencia, plano, contrato con el local)?",
+                    "¿Por qué se han puesto a la venta 2.000 entradas de pie si OpenStreetMap registra unos 140 m2 para Masquevinos? ¿Se trata de un espacio distinto o de una zona exterior?",
+                    "¿Puedes confirmar el acuerdo con el local y la actuación de DJ Morcuera para el 25/11/2026 (contrato, enlace a su perfil o agencia)?",
+                    "Si el aforo real es menor, ¿puedes reducir el número de entradas a esa capacidad antes de aprobar el evento?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Fiesta de fin de temporada» antes de publicarlo. Antes de decidir necesitamos confirmar algunos datos. El evento pone a la venta 2.000 entradas para una sesión del 25 de noviembre de 2026 en Masquevinos (Calle Tundidores 10, Granada), pero el aforo que consta para ese local es bastante menor. ¿Puedes indicarnos el aforo real del espacio y cómo lo acreditas (licencia, plano o contrato con el local)? Si el número de entradas no corresponde al aforo, por favor ajústalo. También necesitamos confirmar la actuación de DJ Morcuera en esa fecha (contrato o perfil oficial). Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6478,
+          "outputTokens": 2934,
+          "cacheReadInputTokens": 4891,
+          "cacheWriteInputTokens": 1585
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "1caea71360967beefe86dec069b98abf7e5efff583b42f2539ff7302780acff4",
+      "provider": "Tavily",
+      "query": "\"La fiesta de cierre de temporada en el bar de siempre del centro\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.elespanol.com/madrid/ocio/20250724/cierra-inesperadamente-anos-abierto-bar-conciertos-mitico-madrid-decepcionada-trt/1003743861380_0.html",
+            "title": "Cierra inesperadamente tras 43 años abierto el bar de conciertos más mítico de Madrid:  \"Estoy muy decepcionada\"",
+            "snippet": "Después de más de cuatro décadas descubriendo música y sonrisas, Café Central echa el cierre y baja la persiana. Un adiós abrupto y desgarrador que evidencia el claro momento de cambio en el que se encuentra la ciudad de Madrid, donde algunas de sus páginas más brillantes se doblan para siempre. [...] La fecha clave en la que Café Central dirá adiós será el próximo 12 de octubre. Un día en el que España suele sonreír, pero en el que Madrid llorará para siempre esta profunda pérdida para su socie"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DYWqDSdM7Tj",
+            "title": "Instagram",
+            "snippet": "El Bar De Siempre 📀 21/05/26  \n  \n...\"Yo te espero en \"El Bar De Siempre\" con las mismas ganas de verte, con la luna permanente para que no tengas que irte. Yo te espero en un mundo paralelo para que empecemos de cero y que no tengas que irte, irte de nuevo\"...  \n  \n📀 @warnerchappell\\_spain  \n📀 @altafonte\\_spain  \n🪽 @hookmanagement\\_  \n  \n⏰️ Faltan SÓLO 5 DÍAS para que \"El Bar\" abra sus puertas. PREGUARDA nuestro nuevo disco para ser el/la primerx en escucharlo. (Link bio) [...] claragonzale"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=MpX1Ih37FP0",
+            "title": "Enganchados Finales: De Bar en Bar Noche de Copas La Camioneta Palo a Palo La Fiesta / Qué Es...",
+            "snippet": "Producer: Román Ramonda\nComposer, Lyricist: L. Alba\nComposer, Lyricist: Tony Tun Tun\nComposer, Lyricist: Miguel Carrillo\nComposer, Lyricist: Javier Brizuela\nComposer, Lyricist: Jose Adrian Moyano\nComposer, Lyricist: Carlos De Piano\nComposer, Lyricist: Victor Miranda\nComposer, Lyricist: Carlos Maria\nComposer: Oscar Cipriano Fernández\nComposer: Enrique Cena\n\nAuto-generated by YouTube. [...] # Enganchados Finales: De Bar en Bar Noche de Copas La Camioneta Palo a Palo La Fiesta / Qué Es...\n## Channe"
+          },
+          {
+            "url": "https://www.instagram.com/p/DRLADD7EWQx?hl=gu",
+            "title": "Instagram",
+            "snippet": "doverbar\n\n🎉 Diciembre se viene con todo y en #DoverBar ya se siente.  \nArmá tu plan de cierre de año, elegí la mesa y reservá antes de que explote la agenda.  \n  \n📲 Escribinos al 11 2560-8945 y asegurá tu fin de año en el bar.  \n  \n#DoverBar #MonteGrande #BrindisDeFinDeAño\n\n## હજુ સુધી કોઈ કોમેન્ટ નથી.\n\nવાતચીત શરૂ કરો.\n\nપસંદ કરવા અથવા ટિપ્પણી કરવા માટે લૉગ ઇન કરો.\n\ndoverbar તરફથી વધુ પોસ્ટ\n\nPhoto by Dover Bar on August 04, 2026.\n\nPhoto by Dover Bar on June 25, 2026. [...] Photo by Dover Bar on"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DSJH3n9kvRb",
+            "title": "Formal Una noche para disfrutar, celebrar y comenzar el nuevo ...",
+            "snippet": "✨ La fiesta más esperada del año llega a Casa 21 ✨ Este 31 de diciembre, despide el año y recibe el 2025 en una celebración familiar llena"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "5b5452263917fab02535cb3222ee40bbf85707ffc7b821d30fcae3644debd41f",
+      "provider": "Tavily",
+      "query": "DJ Morcuera Granada Masquevinos",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Mas que Vinos es un restaurante de cocina andaluza y vinos en el centro de Granada, en la calle Tundidores 10 (18001). Abrimos todos los días: comida de 12:00 a 17:00 y cena de 20:30 a 00:30. [...] Dirección\n:   Calle Tundidores 10, 18001 Granada\n\nHorario\n:   Todos los días · 12:00–17:00 y 20:30–00:30\n\nCómo llegar\n:   Zona peatonal junto al Zacatín · parking de San Agustín o Puerta Real\n\nReservas\n:   +34 958 56 09 86\n\n### Antes de venir [...] Abrimos todos los días en horario partido: de 12:00 a"
+          },
+          {
+            "url": "https://routemarket.io/en/miejsce/masquevinos-granada-77b0",
+            "title": "Masquevinos, Granada — opening hours, details and map | RouteMarket",
+            "snippet": "Home › Granada\n\n# Masquevinos\n\nGranada, Spain\n\nThis popular social spot offers a special selection of wines and local snacks, distinguishing it from traditional taverns.\n\nLooking for a place for an evening drink and tapas, Masquevinos offers a selection of wines and local snacks. It is a popular spot for social gatherings in Granada. You can feel the local buzz and relax after dark. [...] Visit time: 1 h\n Opening hours: Mon–Thu 12:00–17:00 · Mar–Sep: Fri–Sat 12:00–01:00 · Sun 12:00–00:00 · Oct–F"
+          },
+          {
+            "url": "https://www.instagram.com/explore/locations/690636496/masquevinos-granada",
+            "title": "Masquevinos Granada on Instagram • Photos and Videos",
+            "snippet": "Help\n\nAPI\n\nPrivacy\n\nTerms\n\nLocations\n\nPopular\n\nInstagram Lite\n\nMeta AI\n\nMuse\n\nThreads\n\nContact Uploading & Non-Users\n\nMeta Verified\n\nEnglish\n\n© 2026 Instagram from Meta\n\nSee more from Masquevinos Granada\n\nSee photos and videos taken here and places nearby.\n\nSign up\n\nLog in [...] evening last January, almost exactly a year ago, wandering around Granada’s tapas bars 🍷 with the incredibly knowledgeable @piccavey of @spainfoodsherpas, on my very last @lonelyplanet research trip before all this. • #"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -61,6 +61,13 @@ fixed.
   search past it is refused, not run; the model still decides, and an approval escalates (ADR
   0015).
   A repeated search (same words) is answered without spending it.
+- **Provider content**: the provider's own blocks of an assistant turn (`providerContent`), opaque
+  to the loop and sent back unchanged by the adapter that produced them. Claude's thinking blocks
+  travel in it (ADR 0008 amendment).
+- **Effort**: how much Claude thinks before it answers (`AGENT_LLM_EFFORT`: `low` to `max`,
+  default `medium`). Thinking is billed as output.
+- **Paid provider**: one that bills per token (`anthropic`). The scripts call it only with
+  `--paid`.
 - **Pass**: one scheduled sweep of the feed from the stored cursor.
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.
 - **Eval case**: a fixture subject with its expected decision and autonomy (brief §5).

@@ -16,7 +16,17 @@ export interface ToolCall {
 export type ChatMessage =
   | { role: "system"; content: string }
   | { role: "user"; content: string }
-  | { role: "assistant"; content: string | null; toolCalls: ToolCall[] }
+  | {
+      role: "assistant";
+      content: string | null;
+      toolCalls: ToolCall[];
+      /**
+       * The provider's own blocks for this turn, opaque to everything but the
+       * adapter that produced them, which sends them back unchanged: Claude
+       * needs its thinking blocks echoed with the tool results.
+       */
+      providerContent?: unknown[] | undefined;
+    }
   | { role: "tool"; toolCallId: string; content: string };
 
 export interface ToolDefinition {
@@ -32,11 +42,17 @@ export interface CompletionRequest {
   maxOutputTokens: number;
 }
 
-export type StopReason = "tool_calls" | "end" | "max_tokens" | "other";
+export type StopReason =
+  "tool_calls" | "end" | "max_tokens" | "refusal" | "other";
 
 export interface TokenUsage {
+  /** Every input token the call processed, cached or not. */
   inputTokens: number;
   outputTokens: number;
+  /** The part of `inputTokens` read from the provider's prompt cache. */
+  cacheReadInputTokens?: number | undefined;
+  /** The part of `inputTokens` written to it. */
+  cacheWriteInputTokens?: number | undefined;
 }
 
 export interface CompletionResponse {

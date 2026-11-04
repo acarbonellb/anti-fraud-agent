@@ -33,6 +33,7 @@ function result(
             inputTokens: 0,
             outputTokens: 0,
             latencyMs: 0,
+            costMicros: 0,
             ...outcome,
           },
     failure: outcome === null ? "stale: missing_recording" : null,

@@ -56,6 +56,10 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
   const all = computeMetrics(results, { includeExternal: true });
   const row = (label: string, value: (metrics: Metrics) => string) =>
     `| ${label} | ${value(gated)} | ${value(all)} |`;
+  // Outside `Metrics`: the history keeps what decides an experiment, and an
+  // entry's schema never changes after it is written (ADR 0014).
+  const cost = (external: boolean) =>
+    dollars(meanCost(results.filter((result) => external || !result.external)));
 
   return [
     `## ${set.provider} / ${set.model}`,
@@ -80,6 +84,7 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
         ? "—"
         : `${(m.meanLatencyMs / 1000).toFixed(1)} s`,
     ),
+    `| Mean cost per review | ${cost(false)} | ${cost(true)} |`,
     "",
     ...historySection(history),
     ...caseTable(
@@ -203,6 +208,23 @@ function venueCell(venue: CaseOutcome["venue"]): string {
   return venue
     .map(({ check, verdict }) => `${VENUE_LABELS[check] ?? check} ${verdict}`)
     .join(" · ");
+}
+
+/** Null when a scored case has no price: an unknown cost never averages in as 0. */
+function meanCost(results: readonly CaseResult[]): number | null {
+  const costs = results.flatMap((result) =>
+    result.outcome === null ? [] : [result.outcome.costMicros],
+  );
+  if (costs.length === 0 || costs.includes(null)) return null;
+  return (
+    costs.reduce<number>((total, micros) => total + (micros ?? 0), 0) /
+    costs.length
+  );
+}
+
+/** Micro-dollars as dollars, to the hundredth of a cent. */
+function dollars(micros: number | null): string {
+  return micros === null ? "—" : `$${(micros / 1_000_000).toFixed(4)}`;
 }
 
 function compare(a: string, b: string): number {

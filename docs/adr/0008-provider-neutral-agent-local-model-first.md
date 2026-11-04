@@ -1,7 +1,7 @@
 # ADR 0008 — A provider-neutral agent with two adapters, shipped local-model first
 
 - **Date:** 2026-11-01
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-04 (#30)
 - **Related:** brief D8 and §4; ADR 0011 (the Satella contract); issue #5.
 
 ## Context
@@ -67,3 +67,42 @@ field.
   nothing leaving the machine.
 - Cost per review is measured in tokens from day one. Prices per model arrive with the paid
   providers.
+
+## Amendment (2026-11-04, #30): the Anthropic adapter, and what Claude asks of the interface
+
+Phase 2 ships the Anthropic adapter (`src/providers/anthropic/adapter.ts`) on the official
+`@anthropic-ai/sdk`, for one paid model: Claude Haiku 5.5 (`claude-haiku-5-5`). Its first
+pass is E013 (`docs/experiments.md`). It refines points 1, 3 and 4 and doesn't reverse any:
+
+1. **An assistant turn may carry the provider's own blocks (`providerContent`).** Haiku 5.5
+   thinks before it answers, and a thinking block must go back unchanged, with its signature,
+   next to the tool results. The neutral message keeps its text and tool calls and adds an opaque
+   `providerContent` that only the adapter that produced it reads. Other adapters ignore it; the
+   recordings keep it, so a replayed request hashes the same.
+2. **Thinking gets its own room.** Thinking counts toward `max_tokens`, and the loop's per-call
+   cap (4,096) was sized for the answer. The adapter adds 8,192 tokens of headroom. The loop's
+   cap stays as it is, so the qwen recordings, whose requests carry it, stay valid. The run's
+   token budget still counts every token the call reports.
+3. **No sampling parameters, effort instead.** API version 2026-10-21 rejects `temperature`, so
+   a Claude run can't be pinned: reproducibility rests on the recordings, and noise is measured
+   by repeating runs. `AGENT_LLM_EFFORT` (default `medium`) is sent explicitly so every run
+   states it.
+4. **Usage counts every input token and says which were cached.** `inputTokens` is the total
+   processed; `cacheReadInputTokens` and `cacheWriteInputTokens` are its cached parts. Automatic
+   prompt caching lets each step of a review read the steps before it.
+5. **Cost is priced per call, in integer micro-dollars** (`src/providers/pricing.ts`), because
+   Haiku's rate card depends on each prompt's length. The report shows the mean cost per review.
+   It stays out of the history entries, whose schema never changes after an entry is written
+   (ADR 0014). A local model costs 0; an unpriced model costs «unknown», never 0.
+6. **A paid provider needs `--paid`.** `pnpm eval` and `pnpm review:local` refuse to call one
+   without the flag, so a `.env` left on `anthropic` never spends by accident (CLAUDE.md §8).
+
+Point 4's «adapter tests replay recorded real responses» holds for the OpenAI-compatible
+adapter. The Anthropic adapter's test responses were written from the documented Messages API
+shape before any paid call. The first real pass (E013) confirmed that shape: a thinking block
+with an empty text and a signature, then the tool calls.
+
+**Rejected:** raising the loop's per-call cap for every provider, which would make every qwen
+recording stale for a limit qwen doesn't need. Also rejected: dropping thinking blocks between
+turns, which the API requires back with the tool results. Also rejected: `thinking: disabled`,
+which would give up the model's reasoning to save output tokens on a review that costs $0.002.
