@@ -2,19 +2,19 @@
   "caseId": "N2",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-03T19:58:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "368fc8f5ff260947cc39f7c418b075e49105ac759a6d9d24f9bd18e8fad01113",
-      "latencyMs": 1708,
+      "requestHash": "d9bd8c6844832bf8a1007c59911b73c291ce2e81b7e7a7296e637f145fefeefe",
+      "latencyMs": 3034,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "waV9l8tGaDhBF1b3tdc96DrEEEbFHuOT",
+              "id": "f5Ywlo5bdonsJTNAC1BYuLBTtS8kSeyd",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e39a5b122f\"}"
             }
@@ -22,21 +22,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3783,
+          "inputTokens": 3837,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "0980bc71f1db9518ad97c78dad6a0ae7704c7594c15e8e60e26cd6f87af9aa91",
-      "latencyMs": 1540,
+      "requestHash": "c14e0ae7e1ffd76777435d2e0c143abe544d546f0f1529908227348ca415fafb",
+      "latencyMs": 1553,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "eGdfvKZPiPZkGrliMmzocMM3qMyn6Ot5",
+              "id": "nqITW8P84zmBS75jpd2Pg82UyEWrMwup",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero Pontevedra capacity aforo\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4224,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "66758b71e168e8e111ced373b8c569b323d30d6aa2507b7b27e4724e612dcf59",
+      "latencyMs": 1520,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "oajCU5rbpibdXyGwBTcY2TbXrQOJvvVP",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity aforo OpenStreetMap Wikidata\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4462,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "a7571b6b313601ce86b9f28fc5d5fa6775d1a7db21d38849dbb3f2af048ba6b1",
+      "latencyMs": 1413,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "Xnwe3gNG6PVn7acuP1UFSsWy6C02YW1d",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ee4cae3602\",\"windowDays\":60}"
             }
@@ -44,250 +88,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4170,
+          "inputTokens": 4601,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "5d7e343e045e379ca61e1f0923da3e3f3b30ddb73f028ac10a3dab880047d3ed",
-      "latencyMs": 1398,
+      "requestHash": "4e062cb38133b887c66266aece0fd49185cecb6ab89a4f5a0c08430be33cf464",
+      "latencyMs": 27284,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "JSfGho3Z6jTrjdMTNjnrwDV3rgKJRR4U",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero Pontevedra capacity festival\",\"maxResults\":5}"
+              "id": "cGEgi6fIxqXKsIdXSxqrKVloD7o7sVu8",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento es de un organizador histórico (14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes). El recinto existe y coincide con las coordenadas. Los precios están dentro del benchmark para festivales en Pontevedra. No hay señales de fraude: no pide pago fuera, no usa enlaces externos, no tiene términos abusivos, no ofrece alcohol a menores, no intenta inyectar instrucciones al revisor. La única duda es el aforo desconocido del parque, pero la venta de 6.000 entradas para una sesión en un espacio abierto puede ser razonable si se considera capacidad real o gestión de multijornadas. No hay eventos similares que sugieran clonación. Todo indica un evento legítimo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, con CIF válido y cuenta de 930 días.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap como parque a 2 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/38390102\",\"title\":\"OpenStreetMap: Alameda do Arquitecto Sesmero (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido en Wikidata y OpenStreetMap; venta de 6.000 entradas para una sesión.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 36002 corresponde a Pontevedra.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones permiten devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (90,00 €) de 12 eventos comparables (género festival, Pontevedra, aforo gt5000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con título y fechas cercanas.\",\"confidence\":0.85,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4305,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "db1a4839972f7d473ea1a47aac0ff9c657675765e1cab2ee88279cb88d9c61fb",
-      "latencyMs": 1397,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "US5NLvJJ3JRWrJUaK9wqM2faUrmUBXGZ",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero aforo capacidad\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4542,
-          "outputTokens": 48
-        }
-      }
-    },
-    {
-      "requestHash": "2660ec9f91861f65d286aea91d872fc19b3fc114dfa89c4457b742694a834274",
-      "latencyMs": 1457,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "as9LWQknQTWXPMG9djKshU4iHgNGAadq",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4676,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "db61429843cbb91d60f336fa76f800710ced1cbde0462760dba5ab79cd8c4ad3",
-      "latencyMs": 1341,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "RzCh5BheeOJ3OAVXqJilLGa07KgSsaYn",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4915,
-          "outputTokens": 46
-        }
-      }
-    },
-    {
-      "requestHash": "63ae1101d02dad51e42905d68232f63b9a0ac7f4fb7078687a85f0acb055e8f8",
-      "latencyMs": 1568,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "LWTpYhR6hvBRaRXqzT40x210ZLB4fryW",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5047,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "1449e2445e53304d3f3bb4a30eceee139a610b7a287e193e84c79d399cb6f823",
-      "latencyMs": 1568,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "EYssZIYDOERyhZILu1mcUYrQRdFRAZQk",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5289,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "9acdddc4d3f9e76f058427d3dc8614f063fcd9f7af1511301c9ab2727eb31803",
-      "latencyMs": 1599,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "HSTIJMhthS0Ge1aEMtpfHL897FZ8KyhZ",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5531,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "432e10261d9fb98844f064e15fa647cde8c46a5f27c5d6b8a7c74fede88940ec",
-      "latencyMs": 1620,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "VUXJEHHXdtsNO4AUEFjW4GrTVKvTPwTy",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5773,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "d13f4b531096b181ab550fcb2aaee680ee9c35267fc0f4997f9799bcfeea1c51",
-      "latencyMs": 1590,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "SXww4z34sb8J0hGf15k03efuOKguYpvD",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6015,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "37824b522d43950ddd6985e450f31e27bb9e4dac551160fd49c997a21f6ef585",
-      "latencyMs": 1600,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "mMIyE5K4pcTkM6EpP4ivBmwmjT3Yp1N2",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6257,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "3752d547a8486b825cb55a2e48d75e87cb68f3a75c71cb1a5dd728c443595a65",
-      "latencyMs": 1611,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "b21MESi7ix2MJCJyRC48XExeb6nT0Qrv",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity festival 2026 Pontevedra\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6499,
-          "outputTokens": 55
+          "inputTokens": 4736,
+          "outputTokens": 1066
         }
       }
     }

@@ -2,19 +2,19 @@
   "caseId": "03",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "595f3a481a2f25e40072e00fae5f6b0f68e2b9d44b461ff809a810aac68773b0",
-      "latencyMs": 3117,
+      "requestHash": "d6d913099669d97a2c7d92ae3a133b3afc974731b90862dec903b3c25f6ffa10",
+      "latencyMs": 2873,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "p2XK4JgZg0TtrmE63jT2eiOTAKOLSmhL",
+              "id": "ThCR2OXpXmaUyL8Gd4owtpN7ia0VBtcd",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_97613611b0\"}"
             }
@@ -22,55 +22,250 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3421,
+          "inputTokens": 3475,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "8e7ce4d8291d503c57192414fe557bead83f3c36f6fa80c67a5f62ad4e98cb6f",
-      "latencyMs": 1525,
+      "requestHash": "ae277ebd2ac6061c6a876c8257c3f4ebc1a612971ae69c6de9c9aefc2c4f4d7c",
+      "latencyMs": 1559,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "bGUqVO8Xg5a9uSIALJLzViyHYIDtyX2U",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_6c33a8dca1\",\"windowDays\":60}"
+              "id": "w9Nb8ApZyd8kV7kj7x5uXGITs3qZI2jv",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco artist tour dates 2026\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3814,
-          "outputTokens": 52
+          "inputTokens": 3868,
+          "outputTokens": 54
         }
       }
     },
     {
-      "requestHash": "6de2fe449d1de533b476de1756cf1e4bca5cc8f7db1f09ac4bf890e207b745dc",
-      "latencyMs": 21475,
+      "requestHash": "4a3410624e905724f587307632fbbe4803e0e69720f3c99e110b91945690e344",
+      "latencyMs": 1382,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos ya realizados:**\n- **postal_code_province: FAIL** - El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esta es una inconsistencia geográfica clara.\n- Todos los demás checks (venue_exists, venue_capacity, price_sanity, service_fee, etc.) son PASS.\n\n**Contexto del organizador:**\n- Tablao Compás Producciones está aprobado desde mayo 2024.\n- Tiene datos fiscales válidos (CIF con checksum correcto).\n- Dirección fiscal en Sevilla con CP 41003 (consistente con Sevilla).\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\n\n**Análisis:**\nLa inconsistencia del código postal es un problema operativo pero no necesariamente fraudulento. Podría ser un error tipográfico al crear el evento (copiar CP de otro lugar o equivocación). El organizador tiene fiscalidad válida y dirección en Sevilla, lo que sugiere que la intención era correcta.\n\nNo hay señales de fraude:\n- No hay eventos similares detectados (no es clon).\n- El organizador es legítimo y con historial limpio.\n- Los precios y aforos son razonables.\n- No hay pagos fuera de plataforma ni términos abusivos.\n\n**Decisión:**\nDado que el error del CP parece ser un simple error administrativo (el organizador tiene fiscalidad en Sevilla y dirección correcta), y no hay evidencia de fraude, recomiendo **APROBAR** con una nota para corregir el CP en la plataforma.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "uvKLC6WQy0wbtqPic193zZZM2s34keEz",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento tiene una inconsistencia geográfica (CP 28013 de Madrid vs provincia Sevilla), pero el organizador Tablao Compás Producciones es legítimo: fiscalidad válida, dirección en Sevilla, historial limpio sin reportes. El error parece administrativo (posible equivocación al crear el evento). No hay señales de fraude ni ilegalidad. Se aprueba con recomendación de corregir el CP a uno de Sevilla (ej. 41003) antes del lanzamiento.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"warn\",\"detail\":\"El código postal 28013 corresponde a Madrid, pero el evento declara provincia Sevilla. El organizador tiene fiscalidad y dirección en Sevilla (CP 41003), lo que sugiere error administrativo al crear el evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-17, fiscalidad válida (CIF con checksum correcto), dirección en Sevilla, sin otros organizadores del dueño.\",\"confidence\":0.98,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido, 0 despublicaciones por admin.\",\"confidence\":0.97,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en Sevilla en los últimos 60 días (ventana: 60 días). No es clon.\",\"confidence\":0.92,\"sources\":[]}]}"
+              "id": "h0EsH2OgKlauCofPElFfURQJRsQm4YtO",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco artist\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3953,
-          "outputTokens": 848
+          "inputTokens": 4283,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "5b759d76c0ac08ff24f0d51bfb31d93a044631b216a0d0f05d38108919131a6e",
+      "latencyMs": 1459,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "CZwSWik59eR5PYKIwjvuc8RSyuFMjAbw",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4674,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "40b6373364b8b79c15c5ad4dad59e0eb6e734d0161b58d6677e111204135193f",
+      "latencyMs": 1344,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "HwYuHQAxG7oSRizth0anF30HEHdMpmER",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4761,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "d804b42c379d7e7dd3e6bcf4811ab22f47efcdd3278d577e66bc03742fff6cbb",
+      "latencyMs": 1491,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ttF9rZT6xJeqm4qvOHakoxUdivTbaZvx",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist Sevilla\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5117,
+          "outputTokens": 50
+        }
+      }
+    },
+    {
+      "requestHash": "2dce815b7947678bedbaaadef2fd43eb1d44731b74df5a1f7f0a01ca475fffbc",
+      "latencyMs": 1512,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "IjShdp6RFj9T0b2ZOWY508l4cBtQwKa7",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist name origin\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5488,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "93cccb37d2dee6aef07b4b87e6e43e9c7cd064c3501a73f37f9f89824a3e847d",
+      "latencyMs": 26635,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Problema de código postal vs provincia (ya detectado):** El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esto ya fue marcado como \"fail\" en los checks determinísticos y es un error administrativo claro.\n\n2. **Organizador:** Tablao Compás Producciones parece legítimo:\n   - Cuenta aprobada desde mayo de 2024 (930 días)\n   - Datos fiscales válidos (CIF con checksum correcto)\n   - Dirección en Sevilla con código postal 41003 (consistente)\n   - Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido\n   - Equipo completo\n\n3. **Artista \"Rocío del Aljibe\":** No he encontrado ninguna referencia a este artista en internet. Las búsquedas devolvieron resultados sobre otras artistas flamencas (Rocío Molina, Rocío Conde, Rocío Márquez, Rocío Garrido), pero ninguna con el nombre exacto \"Rocío del Aljibe\". Esto es preocupante porque:\n   - Podría ser un artista ficticio\n   - Podría ser una copia de otro evento\n   - Podría ser un intento de fraude\n\n4. **Fechas:** El evento está programado para el 24 de noviembre de 2026, lo cual es consistente con la fecha de publicación (3 de noviembre de 2026).\n\n5. **Precio y aforo:** Los precios están dentro del benchmark y el aforo es compatible con el teatro.\n\n**Decisión:**\n\nAunque el organizador parece legítimo y los checks técnicos pasan, la falta de información sobre el artista \"Rocío del Aljibe\" en internet es una señal de alerta importante. Podría tratarse de:\n- Un artista nuevo sin presencia web (menos probable para un evento flamenco profesional)\n- Un nombre inventado para fraude\n- Una copia malintencionada\n\nDado que no puedo verificar la existencia real del artista y esto es crucial para un evento cultural, necesito solicitar información adicional.",
+          "toolCalls": [
+            {
+              "id": "4P7fPX7fHWtpQFlpwPJ6675IKKJBxSfe",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El organizador Tablao Compás Producciones tiene un historial limpio y datos fiscales válidos, pero el artista \\\"Rocío del Aljibe\\\" no aparece en ninguna búsqueda web (solo resultados sobre otras artistas flamencas con nombres similares: Rocío Molina, Conde, Márquez, Garrido). Esto genera dudas sobre la autenticidad del artista. Además, hay un error administrativo en el código postal (28013 es de Madrid, no Sevilla). Solicitamos información para verificar la existencia real del artista y aclarar el error de código postal.\",\"findings\":[{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"El artista 'Rocío del Aljibe' no aparece en búsquedas web; solo resultados sobre otras artistas flamencas (Rocío Molina, Conde, Márquez, Garrido). Podría ser un nombre ficticio o mal escrito.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://rociopozo.com/en/tour-dates\",\"title\":\"Tour dates · Rocío Pozo Flamenco Dance Company\"},{\"url\":\"https://www.rociocondeflamenco.com/videos\",\"title\":\"VIDEOS | RocioCondeFlamenco\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Error administrativo que ya fue detectado en los checks determinísticos.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podría confirmar la existencia real del artista 'Rocío del Aljibe' y proporcionar enlaces a su sitio web oficial o redes sociales?\",\"¿Por qué el código postal del evento es 28013 (Madrid) cuando el recinto está en Sevilla? ¿Es un error tipográfico?\",\"¿Tiene el artista presencia en otros eventos o recitales flamencos fuera de esta plataforma?\"],\"draft\":\"Solicitamos información para verificar la autenticidad del artista y corregir el error de código postal antes de aprobar el evento.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5575,
+          "outputTokens": 1021
         }
       }
     }
   ],
-  "searches": []
+  "searches": [
+    {
+      "requestHash": "e9c9c54cd0e8a1ee75d6f04765d959b22d85971b68929a88504e177bd1b8612d",
+      "provider": "Tavily",
+      "query": "Rocío del Aljibe flamenco artist tour dates 2026",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://rociopozo.com/en/tour-dates",
+            "title": "Tour dates · Rocío Pozo Flamenco Dance Company",
+            "snippet": "1. 21 November 2026 · 19:00Si duele no es amorSalón de actos del Ayuntamiento · Alajeró (La Gomera)coming soon\n2. 22 November 2026 · 19:00De Jerez a Gran CanariaParaninfo de la ULL · La Lagunatickets\n3. 28 November 2026CandelaTeatro Juan Ramón Jiménez · Teldecoming soon\n4. 12 December 2026 · 20:00LIBERTÉTeatro Guiniguada · Las Palmas de Gran Canariatickets\n5. 30 January 2027LunaAuditorio de Los Realejos · Los Realejoscoming soon\n\n## Tickets [...] Those listed as On tour in the repertoire. LIBERT"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DdGj582IuQJ",
+            "title": "Instagram",
+            "snippet": "Photo by Love Flamenco World Tour | Espectáculo de Flamenco on September 30, 2026. May be an image of poster, magazine and text.\n\nVideo by Love Flamenco World Tour | Espectáculo de Flamenco on September 29, 2026. May be an image of clarinet, violin, tambourine, costume and text.\n\nPhoto by Love Flamenco World Tour | Espectáculo de Flamenco on September 29, 2026. May be an image of poster, magazine and text.\n\nSee more posts\n\n--- [...] Video by Love Flamenco World Tour | Espectáculo de Flamenco on "
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "4bc7aa7517cfad24bc9125b0b25f4d9b37a314cb6f6f803efc03dc634a5c878e",
+      "provider": "Tavily",
+      "query": "Rocío del Aljibe flamenco artist",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://rociomolina.net/en/caida-del-cielo-2",
+            "title": "Caida del cielo - ROCIO MOLINA",
+            "snippet": "2024 Rocío Molina. Todos los derechos reservados.\n\nPolítica de Privacidad – Aviso Legal\n\n# Caída del Cielo\n\n## SYNOPSIS\n\nThe type of flamenco that Rocío Molina proposes in Caída del Cielo has something important, she goes deep into her roots and at the same time, freely, she brings her style of flamenco face to face with other languages and ways of interpreting the scene; while being aware that flamenco is an expression of freedom, and it cannot be and should not be domesticated. [...] A big tha"
+          },
+          {
+            "url": "https://www.instagram.com/rocioconde",
+            "title": "Rocío Conde (@rocioconde) • Instagram photos and videos",
+            "snippet": "Log In\n\nSign Up\n\n 3,083 followers\n 4,044 following\n\nRocío Condeshe/her\n\nrocioconde\n\nFlamenco dancer and instructor💃🏻  \nClasses in Oakville for children and adults  \nVenezolana💛💙❤️ in Canada  \nTORONTO📍\n\n rocioconde's highlight story picture\n\n  Flamenco\n rocioconde's highlight story picture\n\n  Manuela 4 Gaza\n rocioconde's highlight story picture\n\n  Flamencura\n rocioconde's highlight story picture\n\n  Manuela\n rocioconde's highlight story picture\n\n  Pregnancy\n rocioconde's highlight story pictu"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c2c8678afa165ff2e6b61c9a7af70416a55f8c91c04ca4d4c674b3669637f9e4",
+      "provider": "Tavily",
+      "query": "\"Rocío del Aljibe\" flamenco",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.rociocondeflamenco.com/videos",
+            "title": "VIDEOS | RocioCondeFlamenco",
+            "snippet": "Ontario Arts Council logo\nProvince of Ontario logo [...] HOME\n\nBIO\n\nCLASSES\n\nGALLERY\n\nVIDEOS\n\nCONTACT\n\nMore\n\nInstagram\n\n# VIDEOS\n\nRocio Conde - Alegrias - 'De Ida y Vuelta' at Aga Khan Museum's Duende Festival (2021)\n\n### Rocio Conde - Alegrias - 'De Ida y Vuelta' at Aga Khan Museum's Duende Festival (2021)\n\nRocio Conde - Tientos (Septiembre, 2014)\n\n### Rocio Conde - Tientos (Septiembre, 2014)\n\nGuajira Flamenca - Rocio Conde - Certamen Flamenco USA 2017\n\n### Guajira Flamenca - Rocio Conde - Cert"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=rLSr7boSs1k",
+            "title": "Rocío de Dios y Rafa Ruz - 26 de marzo de 2022",
+            "snippet": "Recital Flamenco - Rocío de Dios y Rafa Ruz - 26 de marzo de 2022 en la Peña Flamenca \"Fosforito\" de Puertollano."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "13281e9282e1c24842bf9a40c6f77572304c2b3c1da80f96d379303d1b90371b",
+      "provider": "Tavily",
+      "query": "\"Rocío del Aljibe\" flamenco artist Sevilla",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/FundacionCajasol/videos/roc%C3%ADo-garrido-estren%C3%B3-en-el-teatro-cajasol-sevilla-1405-ecos-del-tiempo-el-espec/981255428143502",
+            "title": "Rocío Garrido estrenó en el Teatro Cajasol Sevilla '1405 ...",
+            "snippet": "Rocío Garrido estrenó en el Teatro Cajasol Sevilla '1405 Ecos del tiempo', el espectáculo con el que se incorporó al ciclo 'Flamenco Aparte'"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=HfoLfUN4d3Y",
+            "title": "Rocío Márquez & Fahmi Alqhai - Diálogos",
+            "snippet": "Rocío Márquez & Fahmi Alqhai - Diálogos | La Bienal de Flamenco de Sevilla 2016 @RocioMarquezOficial. Teatro Lope de Vega 1990 (Sevilla) - 1080"
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -1,7 +1,8 @@
 // Checks the agent loop through runReview: tools are called and their results
 // fed back fenced as untrusted, a valid submission ends the run with the
 // policy's autonomy (never the model's), invalid calls get a correctable
-// error, and every run limit escalates with its reason. Fakes the model with
+// error, every run limit escalates with its reason, and a search past the
+// budget or repeated is answered without running it. Fakes the model with
 // the scripted provider and tools with in-memory ones.
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -411,6 +412,42 @@ describe("sources from web search (ADR 0015)", () => {
     );
     expect((await result).autonomy.autonomy).toBe("escalated");
   });
+
+  it("doesn't take a refused search for one already answered", async () => {
+    const { provider, result } = run(
+      [
+        callTool("web_search", { query: "evento original ticketera" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("submit_recommendation", approval),
+      ],
+      { tools: [search] },
+    );
+    await result;
+    const again = provider.requests[3]?.messages.at(-1);
+    expect(again?.role === "tool" && again.content).toContain(
+      "No searches left",
+    );
+  });
+
+  it("answers a repeated search without running it or spending the budget", async () => {
+    const { provider, result } = run(
+      [
+        callTool("web_search", { query: "Evento original ticketera" }),
+        callTool("web_search", { query: '"evento original" ticketera' }),
+        callTool("submit_recommendation", rejection(page.url)),
+      ],
+      { tools: [search] },
+    );
+    const outcome = await result;
+    expect(outcome.webSearches).toBe(1);
+    expect(outcome.toolCalls).toBe(2);
+    expect(outcome.autonomy.autonomy).toBe("auto_resolved");
+    const repeat = provider.requests[2]?.messages.at(-1);
+    expect(repeat?.role === "tool" && repeat.content).toContain(
+      "Already searched",
+    );
+  });
 });
 
 describe("run limits", () => {
@@ -437,16 +474,64 @@ describe("run limits", () => {
     expect(outcome.recommendation.rationale).toContain("max_tool_calls");
   });
 
-  it("escalates when the web-search limit is reached", async () => {
-    const { result } = run([
-      callTool("web_search", { query: "a" }),
-      callTool("web_search", { query: "b" }),
-    ]);
+  it("refuses a search past the budget, lets the model decide, and escalates", async () => {
+    const queries: string[] = [];
+    const counted = defineTool({
+      ...webSearch,
+      execute: ({ query }: { query: string }) => {
+        queries.push(query);
+        return Promise.resolve({ results: [] });
+      },
+    });
+    const { provider, result } = run(
+      [
+        callTool("web_search", { query: "sala lumbre" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("submit_recommendation", approval),
+      ],
+      { tools: [counted] },
+    );
 
     const outcome = await result;
 
-    expect(outcome.endedBy).toBe("max_web_searches");
+    expect(queries).toEqual(["sala lumbre"]);
+    expect(outcome.endedBy).toBe("submitted");
     expect(outcome.webSearches).toBe(1);
+    expect(outcome.recommendation.decision).toBe("approve");
+    expect(outcome.autonomy).toEqual({
+      autonomy: "escalated",
+      reasons: ["web search budget spent"],
+    });
+    const refusal = provider.requests[2]?.messages.at(-1);
+    expect(refusal?.role === "tool" && refusal.content).toContain(
+      "No searches left",
+    );
+  });
+
+  it("lets a rejection on a hard signal resolve though the search budget was spent", async () => {
+    const offPlatform = systemFinding(
+      "rule",
+      "off_platform_payment",
+      "fail",
+      "Pide el pago por Bizum.",
+    );
+    const { result } = run(
+      [
+        callTool("web_search", { query: "sala lumbre" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("submit_recommendation", {
+          ...approval,
+          decision: "reject",
+          findings: [],
+        }),
+      ],
+      { systemFindings: [...venueVerified, offPlatform] },
+    );
+
+    expect((await result).autonomy).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["hard signals: off_platform_payment"],
+    });
   });
 
   it("escalates when the token budget is spent, even on a submission", async () => {

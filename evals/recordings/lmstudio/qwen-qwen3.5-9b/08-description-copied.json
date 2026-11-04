@@ -2,19 +2,19 @@
   "caseId": "08",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "693db2c92cf802cf32d0009508f4bf99529dcecc475d6f9c32cd8b571709bc23",
-      "latencyMs": 2668,
+      "requestHash": "5ede74cc3f5d08e0f93eb4c42a5d0a48094b0e57c429b77e7c834396720b0c9d",
+      "latencyMs": 3035,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Hmr8gJpKPbV8LRTgrwwTgRSAIfICFaNY",
+              "id": "Ex8XLuslRpJSiuD0iP6OTUTL5pyjoLfS",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_550a2ec3ce\"}"
             }
@@ -22,43 +22,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3404,
+          "inputTokens": 3458,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "2ee4dd740623dd06597c74df98714ce07ce255df3132c55401c9b6bdab4b2ef1",
-      "latencyMs": 1362,
+      "requestHash": "8a05bc7dc1264d0f586e9bb0689048805693d99a229c90832bed553f48ff18c8",
+      "latencyMs": 1326,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "5eSAXgs0uMEyPa3ILMaMbShxrGQe2nxW",
+              "id": "dVaZC2TDOHDykz54a80mks2VdYKujiVd",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Cervantes Málaga aforo capacidad\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Teatro Cervantes Málaga aforo capacidad\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3783,
+          "inputTokens": 3837,
           "outputTokens": 45
         }
       }
     },
     {
-      "requestHash": "94a0acb91bf2ab10d86205e640be3f078ecab043ba53e5ecb882d8295efdcb5d",
-      "latencyMs": 1515,
+      "requestHash": "50e6ac5939ec44fd1edb7af9a0ea69223c99defdcff08e8214f8055a0f57bbd5",
+      "latencyMs": 1350,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Qxa8jBTadj3bEX2wJ5r9TQoR6etk38qj",
+              "id": "WkGP4MNXYRE48NtgjIATtiVdbwWZ6qgz",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Cuarteto Albaida Málaga concierto 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3966,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "af524a1368d6ea5f6199858850735054c2e81faca7a6de90ee24fda5cb6b654f",
+      "latencyMs": 1456,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "XuMEssXSAg0egYut2CewQGs1Km1ToZc8",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_0e4e7e4b94\",\"windowDays\":60}"
             }
@@ -66,30 +88,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3912,
+          "inputTokens": 4099,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "b2ef4075b8554abd3f9cc9806df4ada6d02811022c93d33245c733bfd55d401f",
-      "latencyMs": 16486,
+      "requestHash": "aa5b6e4e90ad8df3ba0d62dfde4b51b02038603375246d410bd606c91d3391a3",
+      "latencyMs": 31194,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Lumen Fest Producciones):**\n- Cuenta aprobada desde mayo de 2024 (930 días).\n- Datos fiscales válidos (CIF con checksum correcto).\n- 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\n- Equipo activo y sin cambios sustanciales o despublicaciones por admin.\n- No hay otros organizadores del dueño.\n\n**Evento:**\n- Título y descripción coherentes con un evento de cuarteto de cuerda en Málaga.\n- Precio (28 €) dentro del benchmark para Málaga, género clásico, aforo <300.\n- Gastos de gestión (1 €) razonables (<20%).\n- Términos no abusivos (devolución si se cancela).\n- Sin pagos fuera de plataforma ni enlaces externos.\n- Sesión única sin solapamientos, fechas normales (no inminente ni lejana).\n- Venue existe (Teatro Cervantes en Málaga, verificado en OpenStreetMap).\n\n**Hallazgos abiertos:**\n1. **Aforo del venue**: No está publicado en Wikidata ni OSM, y la búsqueda web no lo encontró. El evento pone a la venta 180 entradas. Esto es coherente con un teatro pequeño/medio, pero sin dato oficial de capacidad no podemos confirmar que no se exceda el límite real. Sin embargo, no hay señal de fraude (no es \"capacity_far_above_venue\" porque no sabemos el aforo real).\n2. **Artista**: No encontré información externa sobre \"Cuarteto Albaida\". Podría ser un grupo local o nuevo. No hay evidencia de que esté anunciado en otra fecha/lugar, pero tampoco confirmo su existencia fuera de la plataforma.\n\n**Conclusión:**\nNo hay señales de fraude ni ilegalidad. El único punto incierto es el aforo del venue, pero:\n- 180 entradas es un número razonable para un teatro pequeño/medio.\n- No hay indicios de que se vendan más entradas de lo que el venue puede soportar.\n- Los checks deterministas ya pasaron (price_sanity, service_fee, etc.).\n\nDado que no hay evidencia de fraude y el evento parece legítimo, pero con una duda menor sobre el aforo del venue (que no es un \"hard signal\" de rechazo), recomiendo **aprobar** con confianza moderada. No necesito pedir info adicional porque la duda no compromete la seguridad del evento.",
           "toolCalls": [
             {
-              "id": "4jkSBF3fZrfaotVlybSDkOUPWGgvCvfN",
+              "id": "scyRRyCd8jC9kk78pqCmDub5z6TEwqxG",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento cumple todos los requisitos de seguridad y transparencia: el organizador Lumen Fest Producciones está aprobado, con datos fiscales válidos, cuenta 14 eventos publicados sin cancelaciones ni reportes de contenido, y no hay señales de fraude o clonación. El precio (28 €) está dentro del percentil 90 para clásica en Málaga (35 €). El aforo de 180 entradas es coherente con un teatro pequeño; aunque el aforo oficial no aparece en Wikidata ni OpenStreetMap, la venta de 180 tickets no indica sobreventa. No hay pagos fuera de plataforma, enlaces externos, términos abusivos, contenido ilegal o problemas de fechas. La descripción y las imágenes son originales. Se aprueba con confianza alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-17, CIF válido, cuenta de 930 días, sin otros organizadores.\",\"confidence\":0.98,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 reportes de contenido, sin cambios sustanciales.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo no público en Wikidata/OpenStreetMap; venta de 180 tickets es coherente con un teatro pequeño y no indica sobreventa.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/35773299\",\"title\":\"OpenStreetMap: Teatro Cervantes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en Málaga en los últimos 60 días que sugieran clonación.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podrían confirmar el aforo oficial del Teatro Cervantes para asegurar que las 180 entradas no superan la capacidad real?\",\"¿Tienen previsto publicar más eventos de este tipo en Málaga?\"],\"draft\":\"El evento es válido, pero el aforo del teatro no está documentado públicamente. Aunque la venta de 180 tickets parece razonable para un teatro pequeño, confirmar el aforo oficial reforzaría la decisión.\"}}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El organizador Lumen Fest Producciones tiene cuenta aprobada, datos fiscales válidos y un historial limpio (14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias). El evento cumple todos los checks deterministas: precio coherente con el benchmark para Málaga/clásico/<300, gastos de gestión razonables, términos no abusivos, sin pagos fuera de plataforma ni enlaces externos. El venue (Teatro Cervantes) existe en Málaga y las coordenadas coinciden; aunque su aforo oficial no está publicado, la venta de 180 entradas es coherente con un teatro pequeño/medio y no hay señal de exceso de capacidad. No se encontraron eventos similares que sugieran clonación ni artistas anunciados en otras fechas. La única duda menor es el aforo del venue, pero no constituye una señal de fraude. Se aprueba.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-18, CIF válido, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 denuncias, 0 despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Teatro Cervantes verificado en OpenStreetMap como amenity=theatre a 4 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/35773299\",\"title\":\"OpenStreetMap: Teatro Cervantes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo no publicado en Wikidata ni OSM; venta de 180 entradas coherente con teatro pequeño/medio.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio (28 €) por debajo del p90 (35,00 €) de 42 eventos comparables en Málaga/clásico/<300.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con fechas cercanas que sugieran clonación.\",\"confidence\":0.85,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4048,
-          "outputTokens": 628
+          "inputTokens": 4235,
+          "outputTokens": 1209
         }
       }
     }

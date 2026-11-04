@@ -9,8 +9,13 @@ import { z } from "zod";
 import { defineTool } from "../agent/tools.js";
 import { type WebSearch, WebSearchError } from "./types.js";
 
-/** Few results per search: each one costs context, not just a credit. */
-export const MAX_RESULTS_PER_SEARCH = 5;
+/**
+ * Few results per search: each one costs context, not just a credit, and the
+ * whole conversation is sent again on every step (#31).
+ */
+export const MAX_RESULTS_PER_SEARCH = 3;
+/** Enough of a page to judge it; the stored snippet is longer (#31). */
+export const MODEL_SNIPPET_CHARS = 300;
 
 export function webSearchTool(search: WebSearch) {
   return defineTool({
@@ -36,7 +41,12 @@ export function webSearchTool(search: WebSearch) {
           query,
           maxResults: maxResults ?? MAX_RESULTS_PER_SEARCH,
         });
-        return { results };
+        return {
+          results: results.map((result) => ({
+            ...result,
+            snippet: result.snippet.slice(0, MODEL_SNIPPET_CHARS),
+          })),
+        };
       } catch (error) {
         // The model learns search is down and can say so; the run goes on.
         if (error instanceof WebSearchError) {
@@ -46,5 +56,20 @@ export function webSearchTool(search: WebSearch) {
       }
     },
     sources: (output) => output.results.map((result) => result.url),
+    repeatKey: ({ query }) => queryKey(query),
   });
+}
+
+/**
+ * A query's words, lowercased, without accents, quotes or order: the model
+ * rewords a search by quoting it or shuffling it, and that finds nothing new.
+ */
+export function queryKey(query: string): string {
+  const words = query
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((word) => word !== "");
+  return [...new Set(words)].sort().join(" ");
 }

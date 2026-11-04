@@ -1,7 +1,8 @@
 // Checks the web search adapters: Tavily's request (bearer key, basic depth,
 // the result cap), its response reduced to url, title and snippet, and every
-// failure mapped to a typed error the tool turns into "unavailable"; and the
-// authored corpus the evals search instead, matched by the query's words.
+// failure mapped to a typed error the tool turns into "unavailable"; the
+// tool's cut of what reaches the model; and the authored corpus the evals
+// search instead, matched by the query's words.
 // Fakes `fetch` with canned Tavily responses.
 import { describe, expect, it } from "vitest";
 
@@ -131,5 +132,23 @@ describe("authored search", () => {
     expect(
       await search.search({ query: "Valeria Montecristo", maxResults: 5 }),
     ).toEqual([]);
+  });
+});
+
+describe("the web_search tool", () => {
+  it("gives the model 3 results by default, with 300-character snippets", async () => {
+    const pages = ["a", "b", "c", "d", "e"].map((id) => ({
+      url: `https://gira-ejemplo.test/${id}`,
+      title: `Gira de Los Bárbaros del Sur (${id})`,
+      snippet: "Fechas de la gira. ".repeat(40),
+    }));
+    const tool = webSearchTool(createAuthoredSearch(pages));
+    const { results } = (await tool.execute({
+      query: "Barbaros del Sur gira",
+    } as never)) as { results: { snippet: string }[] };
+    expect(results).toHaveLength(3);
+    expect(results.map((result) => result.snippet.length)).toEqual([
+      300, 300, 300,
+    ]);
   });
 });

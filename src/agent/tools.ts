@@ -19,6 +19,11 @@ export interface AgentTool<Input = unknown, Output = unknown> {
    * have the policy count (ADR 0015 point 6).
    */
   sources?(output: Output): string[];
+  /**
+   * Calls with the same key in one run ask the same thing: the loop answers
+   * a repeat without running it or spending the budget (#31).
+   */
+  repeatKey?(input: Input): string;
 }
 
 /** Erases the input type so tools of different shapes fit in one list. */

@@ -45,7 +45,7 @@ Language: code, commits, PRs, issues and docs in **English**. The agent's `ratio
 - **Dates in UTC**, presented in `Europe/Madrid`. Tests run with `TZ=UTC` to catch local-time leaks.
 - **Typed domain errors** (classes with a stable `code`) mapped at the edge; no internals leak to clients.
 - **`runId` and `correlationId`** in every log line and in the `X-Correlation-Id` header to Satella.
-- **Bounded runs:** `AGENT_MAX_TOOL_CALLS`, `AGENT_MAX_TOKENS`, `AGENT_MAX_WEB_SEARCHES`; reaching one escalates and records why (brief §4.2).
+- **Bounded runs:** `AGENT_MAX_TOOL_CALLS`, `AGENT_MAX_TOKENS`, `AGENT_MAX_WEB_SEARCHES`; reaching one escalates and records why (brief §4.2). The search budget is soft: a search past it is refused, and only an approval escalates (ADR 0015).
 - **Deterministic or sourced:** every tool is deterministic or returns its sources. External calls are recorded and replayed in evals.
 - **Metric changes are logged.** A change that moves eval metrics appends its `evals/history.jsonl` entry (`pnpm eval:replay --note "…"`) and writes its `docs/experiments.md` section in the same PR. Past entries and sections are never rewritten: a newer entry corrects them (ADR 0014).
 - **Eval fixtures are fictitious.** Organizers, promoters and artists in problem cases are invented: no case may suggest that a real person or company commits fraud. Real venues only to check that they exist and their capacity.

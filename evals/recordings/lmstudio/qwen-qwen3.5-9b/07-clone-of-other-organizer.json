@@ -2,19 +2,19 @@
   "caseId": "07",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "53583a178a9c2b1d9288c0324228709c4f51b3222bc723b9b8d5d4e174ec0dba",
-      "latencyMs": 3028,
+      "requestHash": "310b17b7bc6fe70228964f7b0528ed552802050c515220ab6bdaba1add0b9afb",
+      "latencyMs": 2885,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "FgNi6bvFsBkPjNW9TGVgG6irYBTEnwAx",
+              "id": "gGkCyawNIAaFoy3W0SEf07FhnMnEtkNQ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_11a50865f9\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3376,
+          "inputTokens": 3461,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "05c20ea4f65aa6d93dd1418fb9a470549f754e1feae4573af2efa89f50b3a183",
-      "latencyMs": 1552,
+      "requestHash": "3efd04f3f4eb7b98ccc76e723e22a5ebec9405c48410c24c392ebeb813361186",
+      "latencyMs": 1516,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "IpbuS6dm4OzEBJJTdQKqQvk2Ovc2ik2s",
+              "id": "XfTnEUMJKmJQH2UhFH0ahV1lTXfFMjiD",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_32f1e2bfa3\",\"windowDays\":60}"
             }
@@ -44,52 +44,140 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3755,
+          "inputTokens": 3840,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "640b14dfb8482faf5d4353217c6bcc6523b2f831353b072c7cac12019e15d3a4",
-      "latencyMs": 3273,
+      "requestHash": "a35aff32440905e9ab387759ac79ae0ac33f9da3db093ca217d8ecb2d0870ef6",
+      "latencyMs": 1679,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He encontrado un evento similar con el mismo título y en el mismo recinto, organizado por otro organizador. Esto es una señal de posible clonación o duplicidad exacta. Necesito verificar si ese otro evento existe y quién lo organiza para evaluar si se trata de una copia fraudulenta o de un error administrativo.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "Pz7ZyANIcslaHIuRLgjuiyEyN9vkXVAe",
+              "id": "0pf3zf6SM0Zl3YEfybWGbYujiUKCWajo",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" Teatro Liceo Salamanca\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" Teatro Liceo Salamanca 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3989,
-          "outputTokens": 121
+          "inputTokens": 4074,
+          "outputTokens": 60
         }
       }
     },
     {
-      "requestHash": "085e9111eda9d73abaa7ea2118fc1a4a6fe6203a704f63b809cbe0aae30f112e",
-      "latencyMs": 27956,
+      "requestHash": "f72dd68ca3b934dc28fdfa3a3ec09b247aad9bb2a84ac79831cf7d205f18b66d",
+      "latencyMs": 1724,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Los resultados de búsqueda web muestran eventos relacionados con zarzuela en el Teatro Liceo de Salamanca, pero no encuentro referencias específicas al título exacto \"Gran Gala de Zarzuela: La Verbena Eterna\" ni a la fecha del 24 de noviembre de 2026. Esto sugiere que podría ser un evento nuevo o una posible copia.\n\nAhora necesito verificar si el otro evento (evt_4b14cec598) es de otro organizador y si hay indicios de clonación fraudulenta. Dado que ya tengo la información del organizador actual (org_11a50865f9 - \"Escenarios Charros\"), debo investigar más sobre el evento similar para determinar si es una copia exacta o no.\n\nSin embargo, los datos determinísticos ya indican que el evento tiene un título idéntico y comparte el mismo nombre de recinto con otro organizador. Esto activa la señal de \"exact_duplicate_other_organizer\" o \"similar_event\". \n\nRevisando el contexto:\n- El evento actual es de \"Escenarios Charros\" (org_11a50865f9)\n- Hay un evento similar con el mismo título exacto en el mismo teatro\n\nEsto es una señal fuerte de posible clonación fraudulenta. Necesito verificar si este es un caso de duplicidad exacta o simplemente dos eventos legítimos con el mismo nombre (lo cual sería raro pero posible).\n\nDado que:\n1. El evento tiene un título idéntico a otro evento en la misma fecha y lugar\n2. Es organizado por un organizador diferente\n3. No hay evidencia de que sea una colaboración o transferencia legítima\n\nEsto constituye una señal de \"exact_duplicate_other_organizer\" que es una señal dura (hard signal) según las instrucciones.\n\nSin embargo, antes de rechazar, debería verificar si el otro evento existe y quién lo organiza para confirmar que es realmente un duplicado fraudulento o simplemente un error administrativo.\n\nDado que no tengo acceso directo al ID del otro evento para obtener su contexto, y los resultados de búsqueda web no muestran este título específico, considero que hay suficiente evidencia para solicitar información adicional antes de tomar una decisión definitiva.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "wdmm4fsmjXrdsfBykZUm8HmHf12Vsi25",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"Se ha detectado un evento con título idéntico (\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\") en el mismo recinto (Teatro Liceo, Salamanca) y fecha similar (24 de noviembre 2026), organizado por otro organizador. Esto activa la señal de duplicidad exacta entre organizadores diferentes, que es una señal dura según las directrices. Sin embargo, antes de rechazar definitivamente, es necesario verificar si se trata de un error administrativo, una transferencia legítima de derechos, o una copia fraudulenta. El organizador actual (Escenarios Charros) parece legítimo con datos fiscales válidos y cuenta histórica limpia, pero la duplicidad del título exacto requiere aclaración.\",\"findings\":[{\"check\":\"similar_event\",\"verdict\":\"warn\",\"detail\":\"Evento con título idéntico 'Gran Gala de Zarzuela: La Verbena Eterna' en el mismo Teatro Liceo y fecha similar (24 nov 2026), organizado por otro organizador. Posible duplicidad exacta o clonación.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://find_similar_events_result\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Escenarios Charros' (org_11a50865f9) tiene datos fiscales válidos, CIF con checksum correcto, cuenta aprobada desde 2026-10-14, sin eventos cancelados ni reportes de contenido.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Es este evento una copia exacta del evento evt_4b14cec598 organizado por otro organizador?\",\"¿Existe algún acuerdo de colaboración o transferencia de derechos entre los organizadores?\",\"¿Por qué se ha creado un evento con el mismo título y fecha en el mismo recinto?\"],\"draft\":\"Solicito información sobre la duplicidad del título exacto 'Gran Gala de Zarzuela: La Verbena Eterna' en el Teatro Liceo de Salamanca para el 24 de noviembre de 2026, organizado por otro organizador. Necesito confirmar si se trata de un error administrativo, una transferencia legítima o una copia fraudulenta.\"}}"
+              "id": "nCGptTKIiAk6MqDWHBr8x1fhQyv0qqnG",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Teatro Liceo Salamanca\\\" aforo capacidad 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4571,
-          "outputTokens": 1056
+          "inputTokens": 4691,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "17f545f4190904823a66afad2e5bbaca96cd2170abcff9b6aeadae15a530419c",
+      "latencyMs": 1552,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "EG0l11YgSvUhf34RHKrSKS11mabflNBG",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Escenarios Charros\\\" Salamanca organizador zarzuela\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5343,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "fc6a3379b85ecea4b8d13b074ddb4f7a8bce10e3dc8e4ec1a9a6a3372f2ea673",
+      "latencyMs": 1697,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "IG44OhwMk4k31osQv7FzBXpzGE0maV5w",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" 2026 Salamanca\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5789,
+          "outputTokens": 57
+        }
+      }
+    },
+    {
+      "requestHash": "c8c994902a3df9b3cc1f70c9070bc75e05fb128d8761f84f67fb0777ffcf03e5",
+      "latencyMs": 1627,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "1buEeavnYeSeW4HV7oa5K6f3ZpBCknrV",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"La Verbena Eterna\\\" zarzuela Salamanca 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6305,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "16f46836b659c64e131ef3960d70bc60239c51d75072a0e792e5b234895701e8",
+      "latencyMs": 25662,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Evento idéntico detectado**: `find_similar_events` encontró un evento con título exacto (\"Gran Gala de Zarzuela: La Verbena Eterna\"), misma fecha (2026-11-24), mismo local (\"Teatro Liceo\") y otro organizador. Esto es una señal de **clonación** o duplicidad fraudulenta.\n\n2. **Evento real existente**: Las búsquedas web muestran que existe un evento llamado \"Gran Gala de la Zarzuela\" en Salamanca el 28 de febrero de 2026, pero en el Auditorio Calatrava y organizado por \"Compañía Zarzuela y Ópera de Madrid\". No hay mención de este evento específico con el subtítulo \"La Verbena Eterna\" ni en noviembre.\n\n3. **Aforo cuestionable**: El Teatro Liceo tiene un aforo oficial de 333 butacas (según Ayuntamiento de Salamanca). La venta de 400 entradas es aproximadamente 1,2 veces el aforo real, lo que ya fue marcado como \"warn\" en los checks determinísticos.\n\n4. **Organizador nuevo**: \"Escenarios Charros\" es un organizador recién creado (50 días), con solo 1 evento publicado y sin historial de eventos anteriores ni reportes.\n\n5. **Título sospechoso**: El subtítulo \"La Verbena Eterna\" no aparece en ninguna fuente web verificada para este tipo de eventos de zarzuela en Salamanca, lo que sugiere un nombre inventado o copiado.\n\n**Conclusión**: Hay evidencia clara de clonación (evento idéntico con otro organizador), aforo por encima del real y un organizador nuevo sin historial. Esto apunta a fraude potencial.",
+          "toolCalls": [
+            {
+              "id": "Wro3KfL8bvxmNPu8pg7Icg6jJmlH9gb2",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"Evento rechazado por evidencia de clonación fraudulenta: se detectó un evento idéntico (mismo título exacto, misma fecha, mismo local) con otro organizador. Además, el aforo de 400 entradas supera el aforo oficial del Teatro Liceo (333 butacas según Ayuntamiento de Salamanca). El organizador \\\"Escenarios Charros\\\" es nuevo sin historial verificable. No se encontró referencia web al subtítulo \\\"La Verbena Eterna\\\" para este tipo de eventos en Salamanca.\",\"findings\":[{\"check\":\"similar_event\",\"verdict\":\"fail\",\"detail\":\"Evento idéntico detectado: 'Gran Gala de Zarzuela: La Verbena Eterna' con fecha 2026-11-24, mismo local Teatro Liceo y otro organizador. Señal clara de clonación.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://find_similar_events_result\",\"title\":\"find_similar_events\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"Venta de 400 entradas supera el aforo oficial del Teatro Liceo (333 butacas según Ayuntamiento de Salamanca). El evento pone a la venta más entradas que la capacidad real del recinto.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-\",\"title\":\"Ayto Salamanca: El Teatro Liceo y el Centro de las Artes Escénicas...\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Organizador 'Escenarios Charros' recién creado (50 días), sin historial de eventos anteriores ni reportes. Sin verificación externa del organizador.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"warn\",\"detail\":\"El subtítulo 'La Verbena Eterna' no aparece en ninguna fuente web verificada para eventos de zarzuela en Salamanca. Posible nombre inventado o copiado.\",\"confidence\":0.65,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6394,
+          "outputTokens": 988
         }
       }
     }
@@ -104,55 +192,133 @@
       "response": {
         "results": [
           {
-            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
-            "title": "Teatro Liceo de Salamanca",
-            "snippet": "Teatro Liceo. Aforo: 667; Ancho de boca: 1000; Fondo desde boca: 1150; Fondo desde boca: 1150; Altura de boca: 717.Read more"
-          },
-          {
-            "url": "http://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
-            "title": "Teatro Liceo | Salamanca Convention Bureau",
-            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
-          },
-          {
-            "url": "https://www.mirem.net/web/datosrecinto.php?id=854&d=t&df=3",
-            "title": "Teatro Liceo de Salamanca",
-            "snippet": "superficie total construida es de 6.390 m². SALA Aforo : 701 - Fijos: 701 - En platea: 226 - En palcos: 186 - En pisos: 289 - En Piso nº 1: 121 - En Piso nº 2: ...Read more"
-          },
-          {
-            "url": "https://cultura.jcyl.es/web/jcyl/Cultura/es/Plantilla100Directorio/1284271278992/1284236229363/1284236229363/DirectorioPadre",
-            "title": "Teatro Liceo de Salamanca - Cultura - Junta de Castilla y León",
-            "snippet": "Aforo: 732. Mapa Web. Agenda cultural. Buscador de eventos · Búsqueda por mapa · Actividades para niños · Eventos en el Camino de Santiago · Espacios culturales ...Read more"
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca",
+            "title": "Teatro Liceo Salamanca - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Liceo Salamanca\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Liceo Salamanca\n\nSalamanca / Salamanca\n\n## Ubicación\n\nPlaza del Liceo, s/n, 37002   \nSalamanca (Salamanca)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   N/D\n\nTeléfono\n:   923 28 17 16\n\nEmail\n:   entradas@infotactile.com\n\nPopularidad\n:   1.324\n\nActualizado hace unos segundos"
           },
           {
             "url": "https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-",
-            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la ...",
-            "snippet": "May 25, 2021 — En el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de ...Read more"
+            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la Música amplían su aforo y pasarán de un tercio a un 50% - Ayto Salamanca",
+            "snippet": "En el CAEM el aforo será ahora de 622 butacas y se ampliará el número de entradas a la venta para los conciertos de Fuel Fandango (4 de junio), La Oreja de Van Gogh (11 de junio) y Nil Moliner (12 de junio), entre otros.\n\nEn el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de semana: El manuscrito de indias (29 de mayo), Una Noche sin luna (5 de junio) y La RED (12 de junio). [...] El resto de espacios en los que hay"
+          },
+          {
+            "url": "https://salamanca.es/que-ver/monumentos/teatro-liceo",
+            "title": "Teatro Liceo | Turismo de Salamanca",
+            "snippet": "Reapertura:  \n El teatro fue reinaugurado por la Reina Sofía en 2002, tras ocho años cerrado al público.   \n   \n Aforo:  \n Cuenta con 333 butacas, aunque en el pasado ha tenido diferentes capacidades.   \n   \n Importancia cultural:  \n El Teatro Liceo es un referente cultural en Salamanca, y su restauración ha permitido preservar parte de la identidad de la ciudad, según Salamancahoy.   \n   \n Actividades: [...] Actividades:  \n El teatro alberga una variada programación de espectáculos, incluyendo "
+          },
+          {
+            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
+            "title": "Teatro Liceo de Salamanca",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Liceo\n\n Aforo: 667\n Ancho de boca: 1000\n Fondo desde boca: 1150\n Fondo desde boca: 1150\n Altura de boca: 717\n\nFlecha derecha SERVICIOS\n\nFlecha derecha HISTORIA [...] El edificio es de nueva planta y ocupa el solar donde se levantó en 1843 el  \n originario Teatro Liceo, del que se reproduce el diseño de la sala y la sencillez en  \n la construcción y l"
+          },
+          {
+            "url": "https://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
+            "title": "Teatro Liceo | Salamanca Convention Bureau",
+            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
           }
         ]
       }
     },
     {
-      "requestHash": "b23d1e954f7911474dda4fd1ebd3772866f000960df16163c84b68383dc1fa26",
+      "requestHash": "bad03fe60442fbf004c36a2c729cb70ab8baa2a6c60e5e5a8a9806440634d1cb",
       "provider": "Tavily",
-      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" Teatro Liceo Salamanca",
+      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" Teatro Liceo Salamanca 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://www.youtube.com/watch?v=fb0zKcQPnuE",
-            "title": "Salamanca y la singular Verbena del Paseo de la Estación",
-            "snippet": "\"La Verbena De La Paloma\" Complete Zarzuela. YouMoreTv - Cultura ... Gala Solidaria de Zarzuela 04 01 2024. Helena G S•39K views · 15:41. Go ...Read more"
+            "url": "https://conciertosensalamanca.com/eventos/Gran_Gala_de_la_Zarzuela_Salamanca_Febrero_2026.html",
+            "title": "Conciertos en Salamanca | Gran Gala de la Zarzuela - Compañía de Zarzuela y Ópera de Madrid",
+            "snippet": "SÁBADO 28 FEBRERO 2026, se celebrará en Salamanca la Gran Gala de la Zarzuela, en el Auditorio Calatrava,presentado por la Compañía Zarzuela y Ópera de Madrid, en una única sesión a las 20h...\n\nA la venta online en: Entradas Gran Gala de la Zarzuela en Salamanca\n\nLa Compañía Zarzuela y Ópera de Madrid presentará en la capital del Tormes: Antología de la Zarzuela Madrileña. [...] INFORMACIÓN CLAVE:\n\nLugar: Auditorio Calatrava\n\nC/ del Rosario 18  \n (con acceso desde Calle Escoto o Paseo de Canalej"
           },
           {
             "url": "https://www.aytosalamanca.es/en/w/la-gala-de-mayores-de-ferias-y-fiestas-ser%C3%A1-los-d%C3%ADas-13-14-y-15-de-septiembre-en-el-teatro-liceo",
-            "title": "La Gala de Mayores de Ferias y Fiestas será los días 13 ...",
-            "snippet": "Las invitaciones para asistir a esta gala se repartirán el lunes 4 de septiembre, de 9'00 a 14'00 horas, en el hall del Teatro Liceo. Será necesario presentar ...Read more"
+            "title": "La Gala de Mayores de Ferias y Fiestas será los días 13, 14 y 15 de septiembre en el Teatro Liceo - Ayto Salamanca",
+            "snippet": "Este género no ha contado prácticamente en las últimas décadas con estrenos de ningún tipo, por esta razón el estreno absoluto en Salamanca de una zarzuela apoyada en acontecimientos, circunstancias, personajes y localizaciones reales, directamente extraídas de fuentes diversas y sometidas al análisis e investigación, dotan de un valor sin precedentes a este proyecto, ha explicado el concejal de Cultura del Ayuntamiento de Salamanca.  \n   \n El compositor: Francisco José Álvarez [...] Es una zarz"
           },
           {
-            "url": "https://www.facebook.com/SalamancaVivelaES/posts/-la-mejor-magia-del-mundo-regresa-a-salamanca-para-arrancar-el-a%C3%B1o-el-teatro-lic/1476823904629814",
-            "title": "Salamanca Vívela",
-            "snippet": "Entradas: 22 €, 27 € y 30 €. 🎟️ Venta: A la venta a partir de este viernes a las 10:00 h en la taquilla del Liceo, Torre de los Anaya y en ...Read more"
+            "url": "https://culturasalamanca.sacatuentrada.es",
+            "title": "Cultura Salamanca",
+            "snippet": "Login person\n\nemail Recupera tu entrada\n\nshopping\\_cart\n\n Login person\n Recupera tu entrada email\n MI CARRITO shopping\\_cart\n\nvista\n\ndate\\_range 06 Noviembre 2026\n\nteatro\n\nLugar: TEATRO LICEO\n\nLARGO VIAJE HACIA LA NOCHE \n\nDesde 10€\n\n## LARGO VIAJE HACIA LA NOCHE\n\n### Con Carlos Hipólito, Mapi Sagaseta, Alex Villazán y Nicolás Illoro [...] Lugar: CAEM\n\nDIANA NAVARRO \n\nDesde 40€\n\n## DIANA NAVARRO\n\n### “Ya no estoy sola\" - Gira 20 aniversario\n\nPara celebrar su 20 aniversario la cantante malagueña e"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "76e523dca7f280f74dd7db381758f06d457daec005368ffc822e6f86c5e37cda",
+      "provider": "Tavily",
+      "query": "\"Teatro Liceo Salamanca\" aforo capacidad 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.tribunasalamanca.com/noticias/423771/el-teatro-liceo-sera-escenario-de-la-fase-autonomica-del-nacional-de-interpretacion-intercentros-melomano",
+            "title": "El Teatro Liceo será escenario de la fase autonómica del Nacional de Interpretación 'Intercentros Melómano' - Tribuna de Salamanca.",
+            "snippet": "12/05/2026\n\nEl montaje internacional de Grupo Puja! transformará el corazón de Salamanca en un universo de teatro aéreo, máquinas imposibles y aventuras inspiradas en Julio Verne\n\n12/05/2026\n\nEl evento contará con más de 80 eventos a cargo de 42 compañías nacionales e internacionales y más de 120 artistas del 27 al 31 de mayo en Salamanca\n\n12/05/2026\n\nLa entrada será libre hasta completar el aforo del auditorio.\n\n11/05/2026 [...] 11/05/2026\n\nSe han programado dos funciones y las entradas se pued"
+          },
+          {
+            "url": "https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-",
+            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la Música amplían su aforo y pasarán de un tercio a un 50% - Ayto Salamanca",
+            "snippet": "En el CAEM el aforo será ahora de 622 butacas y se ampliará el número de entradas a la venta para los conciertos de Fuel Fandango (4 de junio), La Oreja de Van Gogh (11 de junio) y Nil Moliner (12 de junio), entre otros.\n\nEn el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de semana: El manuscrito de indias (29 de mayo), Una Noche sin luna (5 de junio) y La RED (12 de junio). [...] El resto de espacios en los que hay"
+          },
+          {
+            "url": "https://salamanca.es/que-ver/monumentos/teatro-liceo",
+            "title": "Teatro Liceo | Turismo de Salamanca",
+            "snippet": "Reapertura:  \n El teatro fue reinaugurado por la Reina Sofía en 2002, tras ocho años cerrado al público.   \n   \n Aforo:  \n Cuenta con 333 butacas, aunque en el pasado ha tenido diferentes capacidades.   \n   \n Importancia cultural:  \n El Teatro Liceo es un referente cultural en Salamanca, y su restauración ha permitido preservar parte de la identidad de la ciudad, según Salamancahoy.   \n   \n Actividades:"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "bcea6264afde6d0a1f00cb9a9abc0d1ad5242eb168531ce29dad27c2bf1e0135",
+      "provider": "Tavily",
+      "query": "\"Escenarios Charros\" Salamanca organizador zarzuela",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=1TSGampeDus",
+            "title": "Escenas de Zarzuela en la Plaza Mayor de Salamanca",
+            "snippet": "La Orquesta Sinfónica y Coro RTVE interpreta en la Plaza Mayor de Salamanca escenas de Zarzuela con motivo del XX Aniversario Ciudad Europea"
+          },
+          {
+            "url": "https://www.tribunasalamanca.com/noticias/297801/cantar-de-amores-escenas-de-zarzuela-en-la-plaza-mayor-de-salamanca-lo-que-veremos-y-escucharemos-este-viernes",
+            "title": "'Cantar de amores. Escenas de Zarzuela' en la Plaza ...",
+            "snippet": "Jul 13, 2022 — 'Cantar de amores. Escenas de Zarzuela' en la Plaza Mayor de Salamanca: Lo que veremos y escucharemos este viernes · Una recopilación de lo mejor ...Read more"
+          },
+          {
+            "url": "https://www.instagram.com/p/Daddi78hlo5?__d=1%2B",
+            "title": "ZARAZUELA ESCENARIOS DE VERANO 10 de julio ...",
+            "snippet": "Zarzuela El Bateo (F. Chueca) Dúo Llévame a la verbena. Zarzuela Las Leandras (F. Alonso) Jota de los Ratas. Zarzuela Gran Vía (F. Chueca y J.Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "7de527f5d950dc7ab801f572ca56863e1d69e751b4edeabec45e95f4b6584b7a",
+      "provider": "Tavily",
+      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" 2026 Salamanca",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://conciertosensalamanca.com/eventos/Gran_Gala_de_la_Zarzuela_Salamanca_Febrero_2026.html",
+            "title": "Conciertos en Salamanca | Gran Gala de la Zarzuela - Compañía de Zarzuela y Ópera de Madrid",
+            "snippet": "SÁBADO 28 FEBRERO 2026, se celebrará en Salamanca la Gran Gala de la Zarzuela, en el Auditorio Calatrava,presentado por la Compañía Zarzuela y Ópera de Madrid, en una única sesión a las 20h...\n\nA la venta online en: Entradas Gran Gala de la Zarzuela en Salamanca\n\nLa Compañía Zarzuela y Ópera de Madrid presentará en la capital del Tormes: Antología de la Zarzuela Madrileña. [...] INFORMACIÓN CLAVE:\n\nLugar: Auditorio Calatrava\n\nC/ del Rosario 18  \n (con acceso desde Calle Escoto o Paseo de Canalej"
+          },
+          {
+            "url": "https://www.instagram.com/p/DUi10KKgon9",
+            "title": "Gran Gala de la Zarzuela 😍🎶 Compañía Zarzuela y Ópera ...",
+            "snippet": "Sábado 28 de Febrero a las 20h en el Auditorio Calatrava, en Salamanca. ... Los tenores acompañados de piano interpretarán los temas más conocidos ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/AngloCultural/posts/la-gala-de-zarzuela-bajo-la-direcci%C3%B3n-del-maestro-ignacio-pilone-fue-un-%C3%A9xito-at/1479912980844110",
+            "title": "La gala de Zarzuela, bajo la dirección del maestro Ignacio ...",
+            "snippet": "La gala de Zarzuela, bajo la dirección del maestro Ignacio Pilone, fue un éxito. Atentos al próximo espectáculo musical de la Temporada de"
           }
         ]
       }

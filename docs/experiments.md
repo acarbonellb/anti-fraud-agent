@@ -170,3 +170,119 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     per event, so 08 escalates on evidence and can join the gate;
   - stop the over-searching, with a lower cap or a prompt that says when to stop, measured
     against N2 and N3.
+
+## E005 — A soft search budget: fewer tokens, and the fallback no longer hides wrong decisions
+
+- **Hypothesis** (#31): mean gated input tokens fall from about 39.6k to under 20k; the gated
+  approved-fraud rate (8.3 %) and auto-approved fraud rate (0) don't get worse; accuracy stays at
+  65.5 % or above; N2 and N3 stop escalating because of the search limit.
+- **Change** (#31, ADR 0015 amendment): a search past the budget is refused and the model still
+  decides, and the run escalates; the default budget drops from 10 to 4; a repeated query (same
+  words) is answered without searching; each search gives 3 results of 300 characters instead
+  of 5 of 500. Prompt unchanged (`review-v4`).
+- **Before → after** (E004 → E005): gated: 65.5 % → 58.6 % accuracy, **8.3 % → 20.8 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.319 → 0.351. All cases:
+  61.3 % → 54.8 % accuracy, 15.4 % → 26.9 % approved-fraud rate, 3.9 % → 3.8 % auto-approved
+  fraud rate. **Mean input tokens per review: about 39,600 → 27,500 (−30 %).**
+- **What went wrong or surprised:**
+  - **E004's accuracy was partly the fallback's.** Seven runs used to end on the 11th search with
+    a stock `request_info` at confidence 0. That is the expected answer for many problem cases,
+    so a broken run scored as a right one. Now the model decides, and in 11, 15 and 23 it
+    approves fraud the fallback used to "catch". The approved-fraud rate rose because the
+    model's real decisions are now measured, not because it got worse.
+  - **The budget-spent escalation is too broad.** 12 runs hit the 4-search budget. In 01 and 10
+    it turned a `reject` resolved on a hard signal (sourced capacity, off-platform payment) into
+    an escalation. More searching can't weaken a rule-based rejection: only an approval rests
+    on the evidence the model didn't get to read.
+  - **N3 now auto-approves and N2 approves,** escalated only by the exposure cap of its
+    6,000-ticket festival (#29 item 6). Both stopped escalating because of searches.
+  - **Tokens fell, but not enough.** The model still spends every search it has, so each review
+    still has about six steps.
+- **Decision:** keep the soft budget: a run that ends on a limit should keep the model's work,
+  and the metrics should measure the model's decisions, not a fallback. Next: the budget holds
+  back only an approval (E006, replayed with no model), then a prompt that says when to stop
+  searching (E007).
+
+## E006 — The spent search budget holds back only an approval
+
+- **Hypothesis** (#31, from E005): 01 and 10 resolve their hard-signal rejections on their own
+  again; nothing else moves, since the recordings are replayed unchanged.
+- **Change** (#31, ADR 0015 amendment point 1): a run that spent its search budget escalates
+  only when it approves. A rejection or a request is weighed by the policy as usual. Replayed
+  with no model: the requests didn't change.
+- **Before → after** (E005 → E006): gated: accuracy 58.6 % → 58.6 %, approved-fraud rate
+  20.8 % → 20.8 %, auto-approved fraud rate 0.0 % → 0.0 %, **escalation rate 75.9 % →
+  65.5 %, autonomy accuracy 69.0 % → 72.4 %**.
+- **What went wrong or surprised:**
+  - 01 and 10 resolve on their hard signals again, as before E005.
+  - **17 now resolves a `reject` on its own** on the sourced `capacity_far_above_venue` signal,
+    where the dataset expects an escalated `request_info`. The policy allows a hard signal to
+    resolve a rejection (ADR 0012 point 3, ADR 0015 point 6), so this is the policy working.
+    The budget had been hiding it, the same way the old fallback hid wrong decisions in E005.
+- **Decision:** keep. Next: the prompt says when to stop searching (E007).
+
+## E007 — A prompt that says when to stop: better decisions, not fewer searches
+
+- **Hypothesis** (#31): with `review-v5` the model searches once or twice, so mean input tokens
+  fall towards 20k; decisions don't get worse.
+- **Change** (#31): prompt `review-v5`. One or two well-aimed searches usually settle a review;
+  don't search the venue, which the code already checked; a search that finds nothing is
+  evidence to record, not a reason to reword it.
+- **Before → after** (E006 → E007): gated: **58.6 % → 65.5 % accuracy, 20.8 % → 12.5 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, **Brier 0.351 → 0.253** (the
+  best so far), escalation rate 65.5 % → 72.4 %. All cases: 54.8 % → 61.3 % accuracy, 26.9 % →
+  19.2 % approved-fraud rate, 3.8 % → 3.8 % auto-approved fraud rate. Mean input tokens per
+  review: about 27,500 → 28,400.
+- **What went wrong or surprised:**
+  - **The model ignores the number.** It still makes about 4 searches per review, and 15 cases
+    try a 5th or 6th past the budget. So tokens didn't fall: the budget is what bounds them,
+    not the prompt.
+  - **But it reads what it finds better.** 02, 03, 06, 07 and 16 now get the expected decision,
+    and 21 no longer approves. Calibration improved the most: confidence follows the evidence
+    better than in any earlier entry.
+  - **Over the whole of #31 (E004 → E007):** gated accuracy 65.5 % → 65.5 %, approved-fraud rate
+    8.3 % → 12.5 %, Brier 0.319 → 0.253, mean input tokens 39,600 → 28,400 (−28 %). The
+    approved-fraud rate is higher than E004's, but E004's counted seven runs that ended on the
+    search limit as correct `request_info`s (E005). Measured on the model's own decisions, it
+    fell from 20.8 % to 12.5 %.
+  - The hypothesis of under 20k tokens wasn't met.
+  - 08 and 09 swapped places as the external case that auto-approves (the known gaps of #29,
+    items 1 and 2), so the all-cases auto-approved fraud rate stays at 3.8 %.
+- **Decision:** keep `review-v5` for its decisions. The next token cut is the budget itself: 4 →
+  2 searches, about two fewer steps per review. Measure that against N2, N3 and 06, which need a
+  search to decide. Prompt caching on a paid model (#30) cuts the price of the steps that remain.
+
+## E008 — A budget of 2 searches: fewer tokens, worse decisions (reverted)
+
+- **Hypothesis** (#31, from E007): with 2 searches instead of 4, each review has about two
+  fewer steps, so mean input tokens fall towards 20k; N2, N3 and 06, which need a search to
+  decide, still get theirs.
+- **Change** (#31): the default `AGENT_MAX_WEB_SEARCHES` drops from 4 to 2. Prompt `review-v5`.
+- **Before → after** (E007 → E008): gated: **65.5 % → 51.7 % accuracy, 12.5 % → 16.7 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, **Brier 0.253 → 0.365**,
+  autonomy accuracy 72.4 % → 65.5 %. All cases: 61.3 % → 48.4 % accuracy. **Mean input tokens
+  per review: about 28,400 → 21,100 (−26 %)**; latency 38.8 s → 34.8 s.
+- **What went wrong or surprised:**
+  - **Two searches aren't enough for this model.** It spends both on its first guesses and is
+    refused the one that would settle the case. 02 now approves fraud, 06 loses the band's other
+    date and no longer rejects, and N2 drops from approve to request_info. N4, a legitimate
+    event, escalates because its approval came with the budget spent.
+  - **Confidence stopped following the evidence:** Brier is worse than E004's. The gain of
+    E007 is lost.
+  - The token cut is real, but each saved token cost accuracy. Tokens matter for the paid
+    model, but decisions matter more.
+- **Decision:** revert to a budget of 4 and restore E007's recordings (E009). #31 ends at about
+  28k tokens (−28 % from E004). What's left of the cost is the prompt caching of the paid
+  adapter (#30): the steps that remain are mostly a prefix sent again.
+
+## E009 — Back to a budget of 4
+
+- **Hypothesis:** restoring the budget of 4 and E007's recordings gives E007's metrics back
+  exactly.
+- **Change** (#31): `AGENT_MAX_WEB_SEARCHES` defaults to 4 again; E007's recordings are restored
+  from git and replayed with no model.
+- **Before → after** (E008 → E009): gated: 51.7 % → 65.5 % accuracy, 16.7 % → 12.5 %
+  approved-fraud rate, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.365 → 0.253, mean input
+  tokens about 21,100 → 28,400. The same as E007.
+- **What went wrong or surprised:** nothing; the replay matches E007.
+- **Decision:** keep. This is where #31 ends.

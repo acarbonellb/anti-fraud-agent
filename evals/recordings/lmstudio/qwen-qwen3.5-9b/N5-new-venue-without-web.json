@@ -2,19 +2,19 @@
   "caseId": "N5",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "bbb1fe179839885357d8f88ff4d26f56208f425d3460d7fd59f4b81c799dcc58",
-      "latencyMs": 11440,
+      "requestHash": "e4bd50c2b63a3b9da285ff5f29e4cba5ed4e0f5988bf3a9fef840b4ec82e6684",
+      "latencyMs": 11404,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to review event evt_8a3417cf99. The deterministic checks have already run and provided authoritative findings. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Inauguración de Espacio Tinta\"\n- Genre: rock\n- Venue: Espacio Tinta, Polígono Industrial El Prado Nuevo, nave 12, Mérida, Badajoz\n- Artist: Los Lagartos Azules (headliner)\n- Published: 2026-11-03\n- Session date: 2026-11-24\n\n**Deterministic checks results:**\nMost checks passed (postal code, no off-platform payment, no external links, no abusive terms, no minors/alcohol issues, no prompt injection, price sanity, service fee, session dates/timing).\n\nHowever, two critical checks are **unknown**:\n1. **venue_exists**: OpenStreetMap has no venue named \"Espacio Tinta\" in Mérida\n2. **venue_capacity**: Unknown capacity since the venue wasn't verified; 300 tickets on sale\n\n**What I need to investigate:**\n- The venue existence is unknown - this is concerning but not necessarily a fail yet\n- The organizer ID is org_003766f918 - I should check their history and identity\n- The artist \"Los Lagartos Azules\" - I should verify if they exist and have tour dates\n\nLet me start by checking the organizer context to understand their history, then search for information about the venue and artist.",
+          "content": "I need to review this event carefully. Let me analyze what I have:\n\n**Event Details:**\n- Title: \"Inauguración de Espacio Tinta\"\n- Genre: rock\n- Venue: \"Espacio Tinta\" at Polígono Industrial El Prado Nuevo, nave 12, Mérida, Badajoz\n- Artist: Los Lagartos Azules (headliner)\n- Published: 2026-11-03\n- Session date: 2026-11-24 to 2026-11-25\n\n**Deterministic Checks Results:**\nMost checks passed. However, two critical checks are \"unknown\":\n1. **venue_exists**: OpenStreetMap has no venue called \"Espacio Tinta\" in Mérida\n2. **venue_capacity**: Unknown capacity since the venue wasn't verified\n\nThe deterministic check says \"Recinto sin verificar: OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida.\" This is concerning - the venue doesn't appear in OpenStreetMap at all.\n\n**Key Concerns:**\n1. The venue name \"Espacio Tinta\" is not found in OpenStreetMap for Mérida\n2. The event claims to be an \"inauguration\" of a new space, but there's no evidence this venue exists\n3. The organizer ID is org_003766f918 - I should check the organizer context\n\nLet me check the organizer context and also search for information about this venue or artist to see if they exist outside the platform.",
           "toolCalls": [
             {
-              "id": "qhdV01ut3xYB2az7cdDxIeIWaYCD93VG",
+              "id": "3qTDgvJlK8xbOg0KWz2WP2qA8Ru5RBbh",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_003766f918\"}"
             }
@@ -22,172 +22,118 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3276,
-          "outputTokens": 379
+          "inputTokens": 3330,
+          "outputTokens": 382
         }
       }
     },
     {
-      "requestHash": "375918d1053c57ef827ac7c60e0fe547c6739d65dd18cb47fda84e17d43b79c8",
-      "latencyMs": 7045,
+      "requestHash": "8e3ca61cf9f1b794d831753c5eda0b67882b7a40bdbfcf02d57db85c14d71f65",
+      "latencyMs": 7618,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Good information about the organizer:\n- Organizer name: \"Guadiana Directo\"\n- Status: approved\n- Created: 2024-05-17 (about 2 years old)\n- Fiscal data present with valid CIF checksum\n- Owner account age: 930 days (~2.5 years)\n- No other organizers owned by same person\n- History: 14 published events, 12 ended, 0 cancelled\n- No content reports\n- No previous agent reviews\n\nThis looks like a legitimate organizer with good history. Now I need to investigate the venue and artist concerns.\n\nLet me search for information about \"Espacio Tinta\" venue in Mérida and also check if the artist \"Los Lagartos Azules\" exists and has tour dates.",
+          "content": "Good information about the organizer:\n- Organizer name: \"Guadiana Directo\"\n- Status: approved\n- Account age: 930 days (about 2.5 years) - established\n- Fiscal data: CIF present and checksum valid\n- Address in Mérida, postal code 06800 (matches the event venue's postal code)\n- History: 14 published events, 12 ended, 0 cancelled - good track record\n- No content reports, no previous agent reviews\n\nThe organizer looks legitimate. However, the venue \"Espacio Tinta\" is not found in OpenStreetMap. This is a significant concern because:\n\n1. The deterministic check says the venue doesn't exist in OpenStreetMap\n2. The event is for an \"inauguration\" of this space - if it's new, it might not be on OSM yet\n3. But we need to verify if this venue actually exists at that address\n\nLet me search for information about \"Espacio Tinta Mérida\" or \"Espacio Tinta Badajoz\" to see if this venue exists outside the platform.",
           "toolCalls": [
             {
-              "id": "g7t8XjOzPKSOjFzLoyMKRpJ1dhF4kWAx",
+              "id": "ucsj6AyF6rHCQSohIeeOTwPWJr1yFkJW",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Espacio Tinta Mérida Badajoz sala conciertos\",\"maxResults\":3}"
-            },
-            {
-              "id": "iWICtHwvbuifUwaEIX4sOxDHtd9LIVga",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Los Lagartos Azules banda concierto tour dates 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3997,
-          "outputTokens": 270
+          "inputTokens": 4054,
+          "outputTokens": 289
         }
       }
     },
     {
-      "requestHash": "c5592f88323df4a57348f78e4464fecf5241dfd193a463cb035e170e9823e748",
-      "latencyMs": 4562,
+      "requestHash": "9d0d56ede23cbddb9498bae0a12b99879213df1eb4de485187f55a8344380eae",
+      "latencyMs": 4275,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search results don't show \"Espacio Tinta\" specifically. Let me search more specifically for the venue and also check if there's any information about this specific event or organizer creating a new venue.",
+          "content": "The search results don't show any \"Espacio Tinta\" venue in Mérida. I see:\n- Fundación CB has a concert cycle called \"Canciones en su tinta\" but that's not a venue name\n- Sala Trajano is mentioned as a cultural space in Mérida\n- No mention of \"Espacio Tinta\" as a venue\n\nLet me search more specifically for the address or the artist to see if there's any connection.",
           "toolCalls": [
             {
-              "id": "WvBGiQxZc04nATmsP3OTgJ3AtqVxwzeP",
+              "id": "uYlQ8YRimz0UmyNCoaZW80AzQq8AOXyS",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Tinta\\\" Mérida nave 12 polígono industrial\",\"maxResults\":3}"
-            },
-            {
-              "id": "C5F7FHMQbjSVu3aYeaMEjSnPYGUXdnxA",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Guadiana Directo Mérida organizador conciertos\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Los Lagartos Azules banda emergente concierto 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5393,
-          "outputTokens": 146
+          "inputTokens": 4805,
+          "outputTokens": 148
         }
       }
     },
     {
-      "requestHash": "642c23a278681cdf8c81d6d3972bbbd2ea2c9f56a763438117dc8e49090aed3a",
-      "latencyMs": 7009,
+      "requestHash": "09031291c015ef99ec77dfa62a335109e11ee8fea8d0647a2523aed5dbd24302",
+      "latencyMs": 4536,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Interesting findings:\n\n1. **Espacio Tinta**: The search shows an \"Espacio Tinta\" but it appears to be in La Plata, Argentina (Instagram and Facebook results show addresses in La Plata, Argentina). There's also a snippet about \"¡Próximamente nueva sucursal en Mérida!\" suggesting they plan to open a branch in Mérida. However, this doesn't confirm the venue exists at the specific address given (Polígono Industrial El Prado Nuevo, nave 12) in Mérida yet.\n\n2. **Guadiana Directo**: The search results show concerts in Mérida but don't specifically mention \"Guadiana Directo\" as an organizer. The results mention local bands like Sanguijuelas del Guadiana.\n\nLet me search more specifically for the artist \"Los Lagartos Azules\" to see if they exist and have any tour dates announced.",
+          "content": "The search results show \"Los Angeles Azules\" (a well-known cumbia band), not \"Los Lagartos Azules\". These are different bands. The artist \"Los Lagartos Azules\" doesn't appear to exist outside the platform based on these searches.\n\nLet me also check if there's any venue at that specific address in Mérida. The address is \"Polígono Industrial El Prado Nuevo, nave 12\" in Mérida. Let me search for this specific location.",
           "toolCalls": [
             {
-              "id": "DxzlJs0Eaqh3CvDKzpn4D8tUM59iZigC",
+              "id": "E4d6HxUpURmCzyh4qwbcK0UvS4QGDZxS",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Los Lagartos Azules\\\" banda rock España concierto\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Polígono Industrial El Prado Nuevo Mérida nave 12\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6651,
-          "outputTokens": 238
+          "inputTokens": 5417,
+          "outputTokens": 155
         }
       }
     },
     {
-      "requestHash": "f4ad407660038a9ea22e036f834e998f1e632520d8a0348ce1b10f19747c06f9",
-      "latencyMs": 3154,
+      "requestHash": "51a1da4fcf6df9e3f56b3453fd8b5bcf302d1de70673a2796e1e4d4863cee75c",
+      "latencyMs": 3773,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results show \"Los Lagartos\" (without \"Azules\") as a band, but I need to specifically check for \"Los Lagartos Azules\". The Instagram result shows \"Los Lagartos\" with concerts planned, but this might be a different band. Let me search more specifically.",
+          "content": "The search confirms that \"Polígono Industrial El Prado\" exists in Mérida, but I don't see any specific mention of \"nave 12\" being used as a concert venue called \"Espacio Tinta\". The results show industrial warehouse rentals and news about fires, not a music venue.\n\nLet me also check if there's any information about this specific event title or description being copied from elsewhere.",
           "toolCalls": [
             {
-              "id": "ulpSUcJ7AxPaIC5VZjiJ5yoVQM35hmNE",
+              "id": "3ntQuTTuaGRnK2QTTIMSG18lS9Ngwmzg",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Los Lagartos Azules\\\" banda concierto 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Inauguración de Espacio Tinta\\\" Mérida\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 7207,
-          "outputTokens": 112
+          "inputTokens": 5998,
+          "outputTokens": 136
         }
       }
     },
     {
-      "requestHash": "2c9d6eadc50e624b7a713b22e01929b2ddcde572f28cd27a522d33ec74744dfe",
-      "latencyMs": 6165,
+      "requestHash": "d7e9fad4d9f453129d461e1bab67c1ed419224c1b5006ea7d8ec5ae7ad3a8338",
+      "latencyMs": 38969,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results show:\n1. \"Los Angeles Azules\" (different band - cumbia group)\n2. \"Alicia y los lagartos\" (different artist)\n3. No specific results for \"Los Lagartos Azules\" as a rock band in Spain\n\nThis is concerning - I cannot find evidence that \"Los Lagartos Azules\" exists as a real band, especially not with tour dates announced for 2026 in Mérida. This could be:\n- A fictional/placeholder artist name\n- A very local unknown band\n- Potentially fraudulent\n\nLet me also check if there's any information about the venue \"Espacio Tinta\" specifically at that address in Mérida, and whether it's a new opening as claimed.",
+          "content": "Interesting! The third result shows an Instagram account \"@espaciotinta\" but it's located in \"La Plata\" (which is in Argentina, based on the address \"calle 11 1297 La Plata\"), not in Mérida, Spain. This appears to be a different venue entirely.\n\nThe first two results are about:\n1. An inauguration of a boulevard in Mérida, Venezuela (not Spain)\n2. An Instagram account for \"Espacio Tinta\" in La Plata, Argentina\n\nNone of these confirm that \"Espacio Tinta\" exists as a concert venue in Mérida, Badajoz, Spain.\n\n**Summary of findings:**\n\n1. **Venue existence**: The deterministic check says OpenStreetMap has no venue called \"Espacio Tinta\" in Mérida. Web searches also don't find any evidence of this venue existing in Mérida, Badajoz, Spain. There is an \"Espacio Tinta\" but it's in La Plata, Argentina (different location entirely).\n\n2. **Organizer**: The organizer \"Guadiana Directo\" appears legitimate - approved status, 930 days old, valid fiscal data, good history (14 published events, 12 ended, 0 cancelled).\n\n3. **Artist**: \"Los Lagartos Azules\" doesn't appear to exist outside the platform (searches show \"Los Angeles Azules\" which is a different band).\n\n4. **Event details**: The event is for an \"inauguration\" of this space, but there's no evidence the venue exists at that address.\n\n**Critical Issue:**\nThe venue \"Espacio Tinta\" does not appear to exist in Mérida, Badajoz, Spain based on:\n- OpenStreetMap verification (failed)\n- Web searches (no results for this venue in Mérida)\n- The only \"Espacio Tinta\" found is in La Plata, Argentina\n\nThis is a significant red flag. An event cannot be held at a non-existent venue. This could indicate:\n1. Fraudulent event creation\n2. Copy-paste from another location\n3. Misrepresentation\n\nGiven that the venue doesn't exist (or at least isn't verifiable), and this is an \"inauguration\" event which would typically require the venue to actually exist, I should reject this event or request more information.\n\nHowever, let me reconsider: The deterministic check says \"unknown\" for venue_exists because OSM didn't find it. But the task instructions say these findings are authoritative. The venue capacity is also \"unknown\".\n\nThe key question is: Can an event be approved if the venue isn't verified to exist?\n\nLooking at the guidelines:\n- \"venue_exists\" check is one of the deterministic checks that already ran\n- It says \"unknown\" because OSM has no record of this venue\n- The task says these findings are authoritative\n\nGiven that:\n1. The venue is not found in OpenStreetMap\n2. Web searches don't confirm its existence in Mérida, Spain\n3. The only \"Espacio Tinta\" found is in Argentina\n4. This is an inauguration event (which implies the venue should exist)\n\nThis seems like a case where I should **reject** the event because there's clear evidence the venue doesn't exist (or at least isn't verifiable), which would make it impossible to hold the event as described.\n\nWait, let me reconsider the confidence level. The deterministic check says \"unknown\" for venue_exists - this means OSM didn't find it, but that doesn't necessarily mean it doesn't exist (it could be new). However, combined with web searches finding no evidence of this venue in Mérida, Spain, and only finding one in Argentina, the evidence points to the venue not existing.\n\nActually, looking more carefully at the deterministic check results:\n- \"venue_exists\": verdict \"unknown\", detail \"Recinto sin verificar: OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida.\"\n\nThis means OSM didn't find it. The task says these findings are authoritative. So we know for sure that OSM has no record of this venue.\n\nGiven the combination of:\n1. OSM verification failed (venue not found)\n2. Web searches confirm no \"Espacio Tinta\" venue in Mérida, Spain\n3. Only an \"Espacio Tinta\" exists in Argentina\n\nThis is strong evidence that the venue doesn't exist at the claimed location. An event cannot be held at a non-existent venue.\n\nI should **reject** this event with high confidence because there's clear evidence the venue doesn't exist.\n\nLet me formulate my recommendation:",
           "toolCalls": [
             {
-              "id": "KuG4NSrU7LEwT7mpcA47kB97WgKJEIQH",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Tinta\\\" inauguración Mérida 2026 sala nueva\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 7998,
-          "outputTokens": 217
-        }
-      }
-    },
-    {
-      "requestHash": "cb2d19544d5de40ed9d0828f315a16de51b9aa6b2a5883120dad1ac1c3acc055",
-      "latencyMs": 3582,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results don't show any specific information about \"Espacio Tinta\" being inaugurated in Mérida. The results mention other venues and businesses but not this specific one.\n\nLet me also check if there are similar events or if this might be a clone event by searching for similar events with the same title.",
-          "toolCalls": [
-            {
-              "id": "AmfivqnJQZEVHgW0tX43nzsUauutTCyf",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 8566,
-          "outputTokens": 118
-        }
-      }
-    },
-    {
-      "requestHash": "b5498b22210f2dbb4b5f8f60d152c75fbc519573a7e071a58f62f940726f866a",
-      "latencyMs": 31617,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "No similar events found, which is good - no clone detection issues.\n\nNow let me summarize my findings:\n\n**Positive indicators:**\n- Organizer \"Guadiana Directo\" has a good history (14 published events, 12 ended, 0 cancelled)\n- Fiscal data is valid with proper CIF checksum\n- Account age is ~930 days (legitimate)\n- No content reports or previous agent reviews\n- All deterministic checks passed except venue-related ones\n- Postal code matches the province\n- No off-platform payment requests\n- No abusive terms, minors/alcohol issues, etc.\n\n**Concerns/Unknowns:**\n1. **Venue existence**: OpenStreetMap shows no venue named \"Espacio Tinta\" in Mérida. Web search shows an \"Espacio Tinta\" but it's in La Plata, Argentina, with a snippet about opening a branch in Mérida - but this doesn't confirm the venue exists at the specific address yet.\n2. **Venue capacity**: Unknown since venue wasn't verified; 300 tickets on sale for a new venue\n3. **Artist \"Los Lagartos Azules\"**: Cannot find evidence of this band existing online. Search results show similar names (\"Los Lagartos\", \"Los Angeles Azules\", \"Alicia y los lagartos\") but not specifically \"Los Lagartos Azules\" as a rock band in Spain.\n\nThe key issue is that the venue existence check returned \"unknown\" because OpenStreetMap has no venue with that name, and I cannot find web evidence confirming this specific venue exists at that address. The artist also cannot be verified.\n\nHowever, the organizer itself looks legitimate with good history. This could be:\n- A genuinely new venue opening (as claimed in the description \"Abrimos Espacio Tinta, una nueva sala\")\n- A very local/unknown band\n\nGiven that:\n1. The organizer has a clean history\n2. All other checks pass\n3. The venue is described as \"new\" which could explain why it's not on OpenStreetMap yet\n4. I cannot definitively prove fraud, but also cannot confirm the venue exists\n\nThis seems like a case where I should request more information to clarify the venue situation and artist availability.\n\nLet me submit a recommendation with request_info to ask about the venue verification and artist details.",
-          "toolCalls": [
-            {
-              "id": "Tp42HQLWGnWU7ep2bayCLohw8m0c3kKk",
+              "id": "SWLuKLmdhEmvy64g1HtPVNilDvCwoopG",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"Organizador \\\"Guadiana Directo\\\" tiene historial limpio (14 eventos publicados, 12 finalizados, 0 cancelados), datos fiscales válidos y sin reportes de contenido. Sin embargo, dos aspectos críticos no se pueden verificar: 1) El recinto \\\"Espacio Tinta\\\" no aparece en OpenStreetMap ni en búsquedas web específicas para Mérida (solo hay referencias a un Espacio Tinta en La Plata, Argentina con mención de posible sucursal en Mérida). 2) No existe evidencia online de la banda \\\"Los Lagartos Azules\\\" como grupo rock español. Aunque el evento describe una inauguración de nueva sala (lo que podría explicar ausencia en OSM), y el organizador parece legítimo, necesitamos clarificar si el recinto realmente existe en esa dirección y si el artista está disponible para esa fecha.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"OpenStreetMap no tiene recinto 'Espacio Tinta' en Mérida. Búsquedas web muestran Espacio Tinta en La Plata, Argentina, con mención de posible sucursal en Mérida, pero sin confirmación del local específico en Polígono Industrial El Prado Nuevo, nave 12.\",\"confidence\":0.75,\"sources\":[{\"url\":\"https://www.instagram.com/espaciotinta/reels\",\"title\":\"Espacio Tinta Instagram\"},{\"url\":\"https://www.facebook.com/espaciotintaindumentaria?locale=es_LA\",\"title\":\"Espacio Tinta Facebook\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se encuentra evidencia online de la banda 'Los Lagartos Azules' como grupo rock español. Búsquedas muestran nombres similares ('Los Lagartos', 'Los Angeles Azules', 'Alicia y los lagartos') pero no esta banda específica con fechas de gira 2026 en Mérida.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.instagram.com/loslagartosband\",\"title\":\"Los Lagartos Instagram\"},{\"url\":\"https://www.ticketmaster.com/los-angeles-azules-tickets/artist/1039844\",\"title\":\"Los Angeles Azules Ticketmaster\"}]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar que el recinto 'Espacio Tinta' existe físicamente en la dirección Polígono Industrial El Prado Nuevo, nave 12, Mérida? ¿Tiene documentación o fotos del local?\",\"¿Puede proporcionar información sobre la banda 'Los Lagartos Azules': nombre completo, origen, y confirmación de disponibilidad para el 24 de noviembre de 2026 en Mérida?\"],\"draft\":\"Organizador con historial limpio pero necesito verificar existencia del recinto nuevo y disponibilidad del artista.\"}}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El recinto «Espacio Tinta» no existe en Mérida, Badajoz según verificación de OpenStreetMap y búsquedas web. Solo se encuentra un «Espacio Tinta» en La Plata, Argentina (ubicación diferente). El evento es una «inauguración» que requiere que el recinto exista físicamente. Sin verificar el aforo del recinto y sin evidencia de su existencia en la ubicación declarada, no puede aprobarse este evento.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida. Búsquedas web confirman que el único «Espacio Tinta» existente está en La Plata, Argentina, no en Mérida, Badajoz.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.m2merida.com/Alquiler-Nave-M%C3%A9rida-POLIGONO-INDUSTRIAL-EL-PRADO-404\",\"title\":\"Alquiler de nave en Mérida\"},{\"url\":\"https://underthetree.es/cities/merida\",\"title\":\"Under The Tree - Mérida\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"El organizador «Guadiana Directo» tiene presencia web verificada y cuenta con 14 eventos publicados, 12 finalizados sin cancelaciones.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La banda «Los Lagartos Azules» no aparece en búsquedas web fuera de la plataforma; se encontró «Los Angeles Azules» que es una banda diferente.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.eventticketscenter.com/los-angeles-azules-tickets/8843/c\",\"title\":\"Los Angeles Azules Tickets\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 8765,
-          "outputTokens": 1187
+          "inputTokens": 6529,
+          "outputTokens": 1484
         }
       }
     }
@@ -202,175 +148,97 @@
       "response": {
         "results": [
           {
-            "url": "https://www.offcultura.com",
-            "title": "OffCultura: Inicio",
-            "snippet": "Eventos y exposiciones. Puedes alquilar nuestra sala para eventos, exposiciones, conferencias… Contaras con un equipo técnico y humano de primera y unas"
+            "url": "https://fundacioncb.es/eventos/concierto-ariel-rot-y-sandra-benito-canciones-en-su-tinta",
+            "title": "Concierto Ariel Rot y Sandra Benito (Canciones en su tinta) - Fundación Caja Badajoz",
+            "snippet": "Conciertos\n\nFundación CB inaugura la edición 2026 de Canciones en su tinta, ciclo creado en Badajoz en 2021 por José Manuel Díez “Duende Josele” y Fundación CB, que propone un encuentro íntimo entre música y poesía. Autoras y autores extremeños comparten escenario con creadoras y creadores nacionales para recitar, cantar y acercar al público a su universo creativo. [...] El desarrollo de los actos se llevará a cabo con los medios técnicos de los que dispone Fundación CB. Dichos medios técnicos s"
           },
           {
-            "url": "https://merida.es/59-conciertos-en-15-espacios-de-la-ciudad-en-la-tercera-edicion-del-festival-cinebeat-iii-que-une-musica-y-cine",
-            "title": "59 conciertos en 15 espacios de la ciudad, en la tercera ...",
-            "snippet": "Sep 18, 2026 — Cinebeat III ofrece 59 conciertos distribuidos en siete jornadas musicales y trece escenarios, además de proyecciones cinematográficas, ...Read more"
+            "url": "https://www.planomato.com/es/merida/v/sala-trajano",
+            "title": "Sala Trajano, Mérida | Planomato",
+            "snippet": "Sala Trajano\n\nLa Sala Trajano es un espacio cultural en Mérida, Badajoz, consolidado como referente en el teatro. Ofrece una amplia programación de espectáculos y eventos artísticos, con una atmósfera acogedora. Es conocida por promover artistas emergentes y ser un punto de encuentro para amantes del arte y la cultura. La sala cuenta con accesibilidad para sillas de ruedas y ha instalado sistemas de bucle magnético para personas con discapacidad auditiva.\n\n## Próximos Eventos\n\nCine [...] Avenida"
           },
           {
-            "url": "https://www.facebook.com/ayuntamientomerida/posts/-entre-ma%C3%B1ana-viernes-y-el-s%C3%A1bado-9-y-10-de-octubre-la-iii-edici%C3%B3n-del-cinebeat-/1543390304490668",
-            "title": "🎶 Entre mañana viernes y el sábado, 9 y 10 de octubre, la ...",
-            "snippet": "PROGRAMACIÓN Auditorio: Conciertos de percusión, guitarra, canto, jóvenes y destacados pianistas en un amplio auditorio para más de 250 ...Read more"
+            "url": "https://underthetree.es/cities/merida",
+            "title": "Open-air concerts and exciting music and light shows in exclusive locations in Mérida | Under The Tree",
+            "snippet": "## Mérida\n\nUna noche para recordar te espera en algunos de los espacios más especiales\n\n##### Palacio de Congresos de Mérida\n\nAv. del Río, s/n, 06800 Mérida, Badajoz\n\nReseñas\n\n## Lo que dice nuestra audiencia\n\nEsto es lo que nuestro público comparte después de vivir Under The Tree:  \n momentos de belleza, calma y emoción que no querían que terminaran.\n\nSentí que el tiempo se detenía durante una hora. Una belleza absoluta bajo las estrellas.\n\nMaría L.\n\n,\n\nValencia [...] Nuestros conciertos están "
           }
         ]
       }
     },
     {
-      "requestHash": "a887552adf979f673d00f2106719655756e37ebd957e8c36c62d01565cb7b5a0",
+      "requestHash": "f5bffb504c79ec95435f54252bd504b79e91838042743bd9254ce6650145ebc6",
       "provider": "Tavily",
-      "query": "Los Lagartos Azules banda concierto tour dates 2026",
+      "query": "Los Lagartos Azules banda emergente concierto 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://www.ticketmaster.com/los-angeles-azules-tickets/artist/1039844",
-            "title": "Los Angeles Azules Tickets, 2026-2027 Concert Tour Dates | Ticketmaster",
-            "snippet": "Nov20\n\n  Friday 08:30 PMFri8:30 PMLos Angeles AzulesCiudad de México, CDMX, MexicoAuditorio Nacional\n\n  Find TicketsLos Angeles Azules, Ciudad de México, CDMX, Mexico Auditorio Nacional11/20/26, 8:30 PM\n\n  Venue\n\n  Auditorio Nacional\n November 21, 2026\n\n  Nov21\n\n  Saturday 08:00 PMSat8:00 PMLos Angeles AzulesCiudad de México, CDMX, MexicoAuditorio Nacional\n\n  Find TicketsLos Angeles Azules, Ciudad de México, CDMX, Mexico Auditorio Nacional11/21/26, 8:00 PM\n\n  Venue\n\n  Auditorio Nacional [...] Yo"
+            "url": "https://www.eventticketscenter.com/los-angeles-azules-tickets/8843/c",
+            "title": "Los Angeles Azules Tickets, Concerts & 2026 Tour Dates",
+            "snippet": "Los Angeles Azules delivers a professional cumbia experience focused on their rhythmic sound and full orchestra, a style fans recognize from previous shows at the YouTube Theater. The group is set to travel across the United States in 2026, beginning February 12, 2026, at Clowes Memorial Hall in Indianapolis, IN, and running through August 22, 2026, at Allstate Arena in Rosemont, IL. Their 2026 itinerary includes a performance at the Moody Center ATX in Austin, TX, on November 8, 2026. [...] Whe"
           },
           {
-            "url": "https://remezcla.com/music/los-angeles-azules-announce-2026-cumbia-sin-fronteras-u-s-tour",
-            "title": "Los Ángeles Azules Announce 2026 Cumbia Sin Fronteras U.S. Tour",
-            "snippet": "> \n\nAfter starting their tour in Indianapolis, the group will continue in Chicago, IL (Feb. 13, 2026); St. Louis, MO (Feb. 15, 2026); Tampa, FL (Feb. 18, 2026); Miami, FL (Feb. 20, 2026); and Orlando, FL (Feb. 21, 2026). Following concerts include Atlanta, GA (Feb. 22, 2026); Charlotte, NC (Feb. 25, 2026); and Nashville, TN (Feb. 26, 2026). [...] # Los Ángeles Azules Announce 2026 Cumbia Sin Fronteras U.S. Tour\n\nBy   Jeanette Hernandez\n\nLos Ángeles Azules_Cumbia Sin Fronteras\n\nCourtesy of the ar"
+            "url": "https://www.vividseats.com/los-angeles-azules-tickets/performer/36793",
+            "title": "Los Angeles Azules Tickets & 2026 40 Anos Tour Dates | Vivid Seats",
+            "snippet": "Los Angeles Azules has blossomed into one of the top Latin Music artists in the 2026 music scene. Since getting started in 1983, with roots in Mexico City, Los Angeles Azules has displayed a unique grupera sound with a complementary gruperas inmortales vibe. Los Angeles Azules's concerts are a can't-miss experience filled with an indescribable aura. With Los Angeles Azules tickets from Vivid Seats, you can be there in person to enjoy hits like \"Amor A Primera Vista,\" \"Mi Niña Mujer\" and \"Cómo [."
           },
-          {
-            "url": "https://guitarraazul.com/events",
-            "title": "Events | Guitarra Azul Live Tour Dates",
-            "snippet": "Don’t Miss it… FULL BAND Show at this Beautiful Emmanuel Episcopal Church….A Rare intimate Concert in This Beautiful Venue! And We will Be Debuting NEW Songs by Guitarra Azul! Doors…\n\n Google Calendar\n iCalendar\n Outlook 365\n Outlook Live\n Export .ics file\n Export Outlook .ics file\n\n×\n\nScroll To Top [...] Art Gallery Kafe   127 Front St., Wood Dale, IL, United States  \n\n  Guitarra Azul LIVE Concert at this Beautiful Intimate Concert! Art Gallery Cafe is One of the Hottest Concert Venues in The W"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "f5eee1ed0bc254611329d9eeaed7cb7a6e7df2d81cbf58aa2de5f2d563604177",
-      "provider": "Tavily",
-      "query": "\"Espacio Tinta\" Mérida nave 12 polígono industrial",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/espaciotinta/reels",
-            "title": "Espacio Tinta (@espaciotinta) • Instagram photos and videos",
-            "snippet": "diseños inspirados en la naturaleza somos @isa_spampinato y Seba martes a sabados de 10 a 13 y 16 a 19 calle 11 1297 La Plata."
-          },
-          {
-            "url": "https://www.facebook.com/espaciotintaindumentaria?locale=es_LA",
-            "title": "Espacio Tinta | La Plata",
-            "snippet": "Jarros enlozados con nuestras ilustraciones de Flora Nativa Argentina. . Encontralos en la web y en el local www.espaciotinta.com.ar Calle 11 n1297 La Plata . #"
-          },
-          {
-            "url": "https://www.instagram.com/reel/Cj31LhNLyg4",
-            "title": "¡Próximamente nueva sucursal en Mérida!  Muy pronto ...",
-            "snippet": "¡Próximamente nueva sucursal en Mérida! Muy pronto abriremos una nueva sucursal en Mérida, donde tendrás a la mano todos nuestros"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "6e4720ca7ae757715b790079a76613df579fcd1a467dbfb7df120b9c105b7b52",
-      "provider": "Tavily",
-      "query": "Guadiana Directo Mérida organizador conciertos",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://conciertos.club/artistas/sanguijuelas-del-guadiana",
-            "title": "Conciertos y gira de Sanguijuelas del Guadiana en 2026 - Artistas y Grupos - Conciertos.Club",
-            "snippet": "Title: Conciertos y gira de Sanguijuelas del Guadiana en 2026 - Artistas y Grupos - Conciertos.Club\n## Sanguijuelas del Guadiana. Próximos conciertos de Sanguijuelas del Guadiana. Carlos, Juan y Víctor, tres jóvenes amigos de Casas de Don Pedro, una pequeña localidad de Badajoz, no podían imaginar cómo la música les iba a cambiar la vida en tan solo un par de años. En abril de 2024, la banda presentaba sus canciones por primera vez ante tan solo decenas de personas en un showcase en el Templo de"
-          },
-          {
-            "url": "https://www.elperiodicoextremadura.com/merida/2026/08/21/septiembre-entra-modo-concierto-total-merida-pitingo-sanguijuelas-del-guadiana-antonito-molina-camela-133545214.html",
-            "title": "CONCIERTOS MÉRIDA SEPTIEMBRE | Conciertos en Mérida en septiembre 2026: Camela, Pitingo, Antoñito Molina, DePol, Sanguijuelas del Guadiana y Delaossa",
-            "snippet": "Title: CONCIERTOS MÉRIDA SEPTIEMBRE | Conciertos en Mérida en septiembre 2026: Camela, Pitingo, Antoñito Molina, DePol, Sanguijuelas del Guadiana y Delaossa\n# Septiembre entra en modo concierto total en Mérida con seis grandes citas en once días: Camela, Pitingo, Antoñito Molina, Sanguijuelas del Guadiana... ## La capital extremeña enlaza del 2 al 12 de septiembre una potente agenda musical que arrancará junto al Acueducto de los Milagros y continuará sobre las piedras del Teatro Romano. Montaje"
-          },
-          {
-            "url": "https://www.xn--televisionextremea-30b.com/conciertos-gratuitos-en-la-feria-de-merida-con-vicco-y-sanguijuelas-del-guadiana-como-cabezas-de-cartel-flashnoticias",
-            "title": "Conciertos gratuitos en la Feria de Mérida con Vicco y Sanguijuelas del Guadiana como cabezas de cartel #FLASHNOTICIAS - Televisión Extremeña",
-            "snippet": "Title: Conciertos gratuitos en la Feria de Mérida con Vicco y Sanguijuelas del Guadiana como cabezas de cartel #FLASHNOTICIAS - Televisión Extremeña\nEl alcalde de Mérida estará presente en la audiencia del Rey Felipe VI por el Día Internacional del Patrimonio Mundial. El Ayuntamiento de Mérida obtiene un remanente positivo de tesorería de 36 millones en 2025. # Conciertos gratuitos en la Feria de Mérida con Vicco y Sanguijuelas del Guadiana como cabezas de cartel #FLASHNOTICIAS. * – Vicco y la s"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "c9af96216f6701871f9712f1b2349c7a7340c317caaaa08a3192adae81094fa0",
-      "provider": "Tavily",
-      "query": "\"Los Lagartos Azules\" banda rock España concierto",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/loslagartosband",
-            "title": "Los Lagartos (@loslagartosband)",
-            "snippet": "Teníais ganas de concierto?? Pues el viernes 13 de Diciembre en la sala Peter Rock os esperamos Teen Dwayne, Los Lagartos y Salvaje para una noche de Rock&Roll"
-          },
-          {
-            "url": "https://www.facebook.com/LosLagartosRockBand/videos/24983063177946772",
-            "title": "Los Lagartos ROCK BAND on Reels",
-            "snippet": "Este viernes 29 Raza 80ntera ‼️‼️‼️ En casa Avispones Show con lo mejor de #RockEnTuIdioma No te lo pierdas Bar Abierto 4PM   Banda ...Read more"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=lOCkjO4bfqY",
-            "title": "LOS LAGARTOS I En Vivo 🔴​ La Caja",
-            "snippet": "Presentamos en vivo a la banda peruana de pop crudo (como ellos mismos describen su música), son Los Lagartos, con que nos cautivarán"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "29f939f70ed37605d98da92099aacbb2d8682b2a7a7d0ded1afe19525ac6e6b4",
-      "provider": "Tavily",
-      "query": "\"Los Lagartos Azules\" banda concierto 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
           {
             "url": "https://www.ticketmaster.com/los-angeles-azules-tickets/artist/1039844",
             "title": "Los Angeles Azules Tickets, 2026-2027 Concert Tour Dates | Ticketmaster",
             "snippet": "Los Ángeles' most recent surge began in 2013 with the album Cómo te voy a olvidar, an updated re-recording of the group's hits with guest vocalists including Carla Morrison, Lila Downs and Ximena Sariñana. And while the band's foundation in cumbia sonidera's ratcheting guïra rhythm and lilting accordion will never disappear, Los Ángeles Azules took their music to another level in 2016 with De plaza en plaza: Cumbia sinfónica, a glorious powerhouse blend of rootsy cumbia and sophisticated [...] N"
-          },
-          {
-            "url": "https://www.songkick.com/artists/10087286-alicia-y-los-lagartos/calendar",
-            "title": "Alicia y los lagartos Full Tour Schedule 2026 & 2027, Tour Dates & Concerts – Songkick",
-            "snippet": "## Past concerts\n\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\nAlicia y los lagartos Concert Tickets - 2026 Tour Dates\n\nGet your tour dates seen everywhere.\n\nTwitter\nFacebook [...] Search for events or artists\n\nSongkick\nShow navigation\nLog in\nsearch\nspotify icon\n\n#"
-          },
-          {
-            "url": "https://www.boletosexpress.com?cat=Comedy",
-            "title": "BoletosExpress - Buy Fast & Secure Tickets for Events",
-            "snippet": "Boletos Express Logo\n\nSell Tickets  Sign In\n\nEnglish Español\n\nUSA Dominican Republic Mexico\n\n\")\n\n+ 18 Over / ID Required\n\n##### Cabros Chicos: GRACIAS AL PERREO | Thanksgiving Celebration Parrty (18+)\n\nSaturday, November 28, 2026   \nDoors: 10:00pm, Show: 10:00pm\n\nBar 13, New York, NY\n\nFind Tickets\n\nPerreo Vaquero: Mechanical Bull Night at Viva Toro Brooklyn – November 7\n\n+ 21 ID Required\n\n##### Perreo Vaquero: Mechanical Bull Night at Viva Toro Brooklyn – November 7 [...] + 21 ID Required\n\n#####"
           }
         ]
       }
     },
     {
-      "requestHash": "2d3b09ed795e53524e463cec249f813c1a258ce879703a4407ad39d16dd87ffd",
+      "requestHash": "ea353d2eeda3c5900b13715fbdd2e676364760cd1e73e4a4d5e6230b2ac889c4",
       "provider": "Tavily",
-      "query": "\"Espacio Tinta\" inauguración Mérida 2026 sala nueva",
+      "query": "Polígono Industrial El Prado Nuevo Mérida nave 12",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
+            "url": "https://www.m2merida.com/Alquiler-Nave-M%C3%A9rida-POLIGONO-INDUSTRIAL-EL-PRADO-404",
+            "title": "Alquiler de nave en Mérida, POLIGONO INDUSTRIAL EL ...",
+            "snippet": "Descripción. Nave en POLIGONO INDUSTRIAL EL PRADO, con 800 m² construidos, 1 estancias, 2 aseos, buen estado, exterior, a pie de calle.Read more"
+          },
+          {
+            "url": "https://www.facebook.com/noticiasCEX/videos/incendio-en-una-nave-de-aceite-reciclado-de-m%C3%A9rida/237854070793953",
+            "title": "Incendio en una nave de aceite reciclado de Mérida",
+            "snippet": "Arde una nave de aceite reciclado en el polígono El Prado de Mérida. El incendio se ha desatado alrededor de las 23:00 y en estos momentos los ...Read more"
+          },
+          {
+            "url": "https://www.facebook.com/noticiasCEX/posts/el-pol%C3%ADgono-industrial-el-prado-en-m%C3%A9rida-recobra-poco-a-poco-la-normalidad-desp/1356629426674532",
+            "title": "El polígono industrial El Prado, en Mérida, recobra poco a ...",
+            "snippet": "El polígono industrial El Prado, en Mérida, recobra poco a poco la normalidad después del aparatoso incendio que terminó afectando a varias"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "9ed1353865aa38b85497b75ff5308b0c8b5d0eb449c9dff730ae1a8d065d5a5a",
+      "provider": "Tavily",
+      "query": "\"Inauguración de Espacio Tinta\" Mérida",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "http://fronteradigital.com.ve/index.php/entrada/33090",
+            "title": "Diario Frontera - Apoteósica inauguración del bulevar Don Tulio Febres Cordero en Mérida",
+            "snippet": "El alcalde Jesús Araque manifestó su alegría por este nuevo espacio recuperado en el municipio Libertador con el apoyo del gobernador Jehyson Guzmán, lo que seguirán haciendo en otras áreas de la ciudad de Mérida. “No en vano lleva el eslogan “Mérida ciudad de retos”. Un reto bien grande que nos hemos planteado entre el gobernador del estado y la Alcaldía del municipio Libertador, para seguir transformando a esta Mérida en la mejor ciudad de Venezuela”. [...] Una noche llena de alegría, de satis"
+          },
+          {
             "url": "https://www.instagram.com/reel/DcuANk8BJXt",
-            "title": "30 años de Ábito.  Tres décadas de historia, estilo y ...",
-            "snippet": "Ábito celebra 30 años de trayectoria con una nueva sucursal en Galerías Mérida, reafirmando su crecimiento y abriendo un nuevo punto de"
+            "title": "Instagram",
+            "snippet": "midwoman Edited•\n\n30 años de Ábito. 🥂  \n  \nTres décadas de historia, estilo y momentos que hoy comienzan una nueva etapa. @abitolino celebra su aniversario con la apertura de su nuevo espacio en Galerías Mérida, reuniendo a quienes han sido parte de este camino.  \n  \nUna noche para brindar por todo lo que viene. ✨  \n  \n📹: @ernestohdezph  \n  \n#MidWoman #Ábito #Aniversario #Mérida\n\njaimeibiza8's profile picture\n\njaimeibiza8\n\n👏👏👏\n\nReply\n\narripat's profile picture\n\narripat [...] arripat\n\nFelici"
           },
           {
-            "url": "https://www.facebook.com/POSTAYucatanMX/videos/-la-plaza-de-la-tecnolog%C3%ADa-de-m%C3%A9rida-estren%C3%B3-una-nueva-opci%C3%B3n-de-entretenimiento/2196870241110567",
-            "title": "La Plaza de la Tecnología de Mérida estrenó una nueva ...",
-            "snippet": "La Plaza de la Tecnología de Mérida estrenó una nueva opción de entretenimiento con la apertura de una zona gamerdentro de Ma'x Café,"
-          },
-          {
-            "url": "https://www.instagram.com/p/DVb1LqbFH8a",
-            "title": "Entre historia, arquitectura y nuevas memorias por crear, ...",
-            "snippet": "Entre historia, arquitectura y nuevas memorias por crear, se llevó a cabo la inauguración de @salina.santalucia SALINA Santa Lucía,"
+            "url": "https://www.instagram.com/espaciotinta?hl=en",
+            "title": "Espacio Tinta (@espaciotinta)",
+            "snippet": "diseños inspirados en la naturaleza somos @isa_spampinato y Seba martes a sabados de 10 a 13 y 16 a 19 calle 11 1297 La Plata."
           }
         ]
       }
