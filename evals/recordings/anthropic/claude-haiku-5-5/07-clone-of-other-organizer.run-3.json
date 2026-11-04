@@ -1,0 +1,262 @@
+{
+  "caseId": "07",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "9f469a2503f51ca0b3a3426ede5ab8d2f08a22bb6a2be1e74ca57e98582f5a17",
+      "latencyMs": 1412,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_014f4iYUQvD2MgdbqP4hGZyz",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_11a50865f9\"}"
+            },
+            {
+              "id": "toolu_01Nwjy41vYVJh9NjibNkEe74",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_32f1e2bfa3\",\"windowDays\":14}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS5wYKEAgTGAI4AUIIdGhpbmtpbmcSDJbQiTGAAyy45Ey36BoMMRvS74THELslw8KSIjDb1SB2obIKmfDYOFt0880UCCEMLM2MAbamdf96rNrANmHAleAx6LPyfG2bL27ksxEqhAbedG5vWMN7i5JNB63KQR/GVZ03zeGPsEnGXTlgNq9+FPuOIPa3FY9Sbf8Jh0X8xNvXvMj1K8Ges7MF2eFU9gN0C+lg+jZAjfUe5nyuAx7j3qnLqWZOf/aSPuQ17X2jE2JLFrc/Y1+m3qo2GL2T4dNj5c491vyWgJRNn7cPZdyOnD5YBm7k6wMCDN+iAkBX+xsXeilszy1ibch7BG6oSKOppcJ2UjUZFsN8BQasgZVzSGk4Reu0xFnkqW54i8CcZz7XKoItAy51IbiJmYvlQfO46iGcD3gKrVzrZtLbRephFLK8RoqJinD7L35nEHAITZbmKHcrYmdXug2aA6DkdsDN+O+1wxgioUiFjuOpdc5zeCFd0NnaHe4lV+H7uoC5Cxm/Ad8r/9yPbRPqxQ/+W/V26r/hK+VYFbGSUuz8UkPMXlSEVLBKlSr4skGZDlvESV2AXfbUYAzExTefvWt6ul5kCELPfas5fjmAHwdSorgyHFHw3CwsA12w+0mQ64Z+6JfKQOA67QP0ro5DngbYn/aU4AUNfTUs+92Yp51jAsIxfQtyHQuF0Azd4Wad/VmA31A8i/lHyutExY40b7kF3xA9HnZNJf5iLy8mEylWPKJDNRWEnQY+eFOuYefz5zy/oWlf+khh5a00kE5UqiJGWaAQ/J17sZVem02pyFJ8dOLocFztOIPtjVfmBoJQeab02Fv1fWhuGkLA0nb2+781ELRDY0DxD/64aG9DSqpHPlwsvsoDsbjgNjfjth5rfs0wZyJ1jcFCuT2luN+zKW0zxVJDaIJyUITo3Nr2SveNpiNoHCalto31HdXjmTpNUE4I9iTcGMvsz7P/mMXX+IzYSzXWzx54wo3rtFzDbwV+7w3zaNiKvdsuUB307c6JlKY+xR3UlEhfxlP0J2mSMGtiXSkzJ2QbSmyZUKadsEULZQtho+rYwN8+ZQEmgOg5B8cD+lPjRmk3Aa82JdgU+ka0fPudmTzxoaNA22bQ5L0r/TVON0a7nxbwE1PiMIov8rNaznfnQHjCGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_014f4iYUQvD2MgdbqP4hGZyz",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_11a50865f9"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Nwjy41vYVJh9NjibNkEe74",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_32f1e2bfa3",
+                "windowDays": 14
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4983,
+          "outputTokens": 229,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4979
+        }
+      }
+    },
+    {
+      "requestHash": "0d718f7df41cf320a20b3f418dc482f168885c129235a65976571ee3463bc324",
+      "latencyMs": 7520,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_016bit6wKPvRZGFe8yLk3xGA",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.75,\"rationale\":\"Recomiendo rechazar el evento. La señal decisiva es que otro organizador (evt_4b14cec598) ya publica «Gran Gala de Zarzuela: La Verbena Eterna» en el mismo recinto (Teatro Liceo) y el mismo día (25/11/2026), con título idéntico (similitud 1). Es el patrón de un clon. El organizador es muy nuevo (50 días, solo 1 evento publicado) aunque su identidad fiscal es válida, y el aforo de la sesión (400 entradas) supera en 1,6 veces el aforo publicado del recinto (250), lo que es una señal de advertencia menor. Los precios, las condiciones, los pagos y la dirección sí pasan las comprobaciones. No he podido verificar fuera de la plataforma si la gala existe o si el otro organizador es el promotor legítimo; por eso la confianza es moderada y el administrador debería confirmar cuál de los dos eventos es el original antes de decidir.\",\"findings\":[{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"fail\",\"detail\":\"Otro organizador publica el mismo título, recinto y fecha (25/11/2026, Teatro Liceo) en evt_4b14cec598. Señal dura de clon.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"fail\",\"detail\":\"La búsqueda de eventos similares en ±14 días devuelve un único evento idéntico en título y recinto, de otro organizador.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Escenarios Charros S.L.: CIF con checksum válido, dirección presente, correo verificado. Cuenta de 50 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Historial muy corto: 1 evento publicado, sin cancelaciones, sin retiradas por administración ni reportes de contenido. Insuficiente para descartar riesgo.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se ha buscado presencia web externa del organizador; no se ha verificado su existencia fuera de la plataforma.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Teatro Liceo verificado en OpenStreetMap a 4 m de las coordenadas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/79570602\",\"title\":\"OpenStreetMap: Teatro Liceo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"400 entradas en venta frente a un aforo publicado de 250 (1,6 veces). Puede tener explicación, pero conviene revisarlo.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca\",\"title\":\"salasdeconcierto.net: Teatro Liceo Salamanca\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 35 € dentro del rango de 42 eventos comparables (p90 35 €).\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se ha comprobado si la descripción está copiada de otra web; la descripción es genérica y corta.\",\"confidence\":0.2,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016bit6wKPvRZGFe8yLk3xGA",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.75,
+                "rationale": "Recomiendo rechazar el evento. La señal decisiva es que otro organizador (evt_4b14cec598) ya publica «Gran Gala de Zarzuela: La Verbena Eterna» en el mismo recinto (Teatro Liceo) y el mismo día (25/11/2026), con título idéntico (similitud 1). Es el patrón de un clon. El organizador es muy nuevo (50 días, solo 1 evento publicado) aunque su identidad fiscal es válida, y el aforo de la sesión (400 entradas) supera en 1,6 veces el aforo publicado del recinto (250), lo que es una señal de advertencia menor. Los precios, las condiciones, los pagos y la dirección sí pasan las comprobaciones. No he podido verificar fuera de la plataforma si la gala existe o si el otro organizador es el promotor legítimo; por eso la confianza es moderada y el administrador debería confirmar cuál de los dos eventos es el original antes de decidir.",
+                "findings": [
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "fail",
+                    "detail": "Otro organizador publica el mismo título, recinto y fecha (25/11/2026, Teatro Liceo) en evt_4b14cec598. Señal dura de clon.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "fail",
+                    "detail": "La búsqueda de eventos similares en ±14 días devuelve un único evento idéntico en título y recinto, de otro organizador.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Escenarios Charros S.L.: CIF con checksum válido, dirección presente, correo verificado. Cuenta de 50 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "warn",
+                    "detail": "Historial muy corto: 1 evento publicado, sin cancelaciones, sin retiradas por administración ni reportes de contenido. Insuficiente para descartar riesgo.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se ha buscado presencia web externa del organizador; no se ha verificado su existencia fuera de la plataforma.",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "Teatro Liceo verificado en OpenStreetMap a 4 m de las coordenadas.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/way/79570602",
+                        "title": "OpenStreetMap: Teatro Liceo"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "warn",
+                    "detail": "400 entradas en venta frente a un aforo publicado de 250 (1,6 veces). Puede tener explicación, pero conviene revisarlo.",
+                    "confidence": 0.5,
+                    "sources": [
+                      {
+                        "url": "https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca",
+                        "title": "salasdeconcierto.net: Teatro Liceo Salamanca"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 35 € dentro del rango de 42 eventos comparables (p90 35 €).",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se ha comprobado si la descripción está copiada de otra web; la descripción es genérica y corta.",
+                    "confidence": 0.2,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5890,
+          "outputTokens": 1696,
+          "cacheReadInputTokens": 4979,
+          "cacheWriteInputTokens": 909
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "f6e0c03614ba83cf9abb9c953713de2380c0053a6f038dcc56e37adc001a174a",
+      "provider": "Tavily",
+      "query": "\"Los grandes títulos de la zarzuela en una gala con orquesta, coro y solistas\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.valladolid.es/es/actualidad/noticias/gran-gala-dedicada-zarzuela-conmemorara-25-anos-reapertura",
+            "title": "Una gran gala dedicada a la zarzuela conmemorará los 25 años de la reapertura del Teatro Calderón y las bodas de plata de su Coro Lírico | Portal Web del Ayuntamiento de Valladolid",
+            "snippet": "Una gala en la que se ofrecerá una selección de obras tan conocidas por los aficionados como: ‘La tempranica’, ‘Doña Francisquita’, ‘El Gato Montés’, ‘Don Gil de Alcalá’, ‘La del Soto del Parral’, ‘La Leyenda del Beso’, ‘Katiuska’, ‘Los Gavilanes’ o ‘La Tabernera del Puerto’, entre otros títulos, correspondientes a los más grandes maestros, como Guridi, Giménez, Penella, Vives, Soutullo y Vert, Fernández Caballero, Moreno Torroba, Chapí, Alonso, Guerrero, Lecuona, Arrieta, Roig, o Sorozábal. [.."
+          },
+          {
+            "url": "https://m.youtube.com/watch?v=streaUfh0kA",
+            "title": "Gala 60º aniversario de Amigos de la Ópera, con la Orquesta Sinfónica RTVE (Parte 2)",
+            "snippet": "# Gala 60º aniversario de Amigos de la Ópera, con la Orquesta Sinfónica RTVE (Parte 2)\n## Channel: Orquesta Sinfónica y Coro RTVE\n19.8K subscribers\n15 likes\n\n### Description\n594 views\nPosted: 2023-11-09\nGrandes números de ópera y zarzuela con los solistas Carmen Romeu, Carmen Solís, Angélica Mansilla,  Francisco Corujo, Antonio Gandía, José Julián Frontal y la Orquesta Sinfónica de RTVE dirigidos por Thomas Herzog. [...] La primera parte está dedicada a la zarzuela con el siguiente repertorio:\nP"
+          },
+          {
+            "url": "https://www.grupotalia.org/exito-rotundo-de-la-gala-de-zarzuela-que-clausuro-la-temporada-del-grupo-talia",
+            "title": "Éxito rotundo de la Gala de Zarzuela que clausuró la temporada del Grupo Talía en el Auditorio Nacional - Grupo Talía",
+            "snippet": "Preludios, intermedios, romanzas para tenor y coros de zarzuela componían un programa ameno, divertido, salpicado de humor y de sátira, pero también de lirismo y romanticismo. Había páginas del género grande, que son las zarzuelas de dos o más actos como Pan y Toros de Barbieri, La del Soto del Parral de Soutullo y Vert o Las golondrinas, de Usandizaga. Y se incluyeron, como no, páginas llenas de chispa del género chico (zarzuelas de un solo acto), de zarzuelas como La Gran Vía, Agua, [...] Los "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=f1m3Ts3SOr4",
+            "title": "Gran Gala de Zarzuela",
+            "snippet": "### Description\n1,988 views\nPosted: 2020-12-25\nCelebrada como colofón de la I Temporada Lírica organizada por el Gobierno de Aragón y el Ayuntamiento de Zaragoza, la Gran Gala de Zarzuela ofreció piezas de los principales autores del género, interpretadas por la  Orquesta Reino de Aragón, las voces de Ruth Iniesta (soprano) y Celso Albelo (tenor) y la dirección musical del maestro Ricardo Casero (Auditorio de Zaragoza, 17 de diciembre de 2020). [...] [6:18] amor\n[6:22] [Música]\n[6:28] bueno\n[6:3"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DRdVa8-k_IK",
+            "title": "Instagram",
+            "snippet": "inbamx\n\n🎼 Gala de zarzuela  \n  \nLos Solistas Ensamble de Bellas Artes, bajo la dirección de Christian Gohmer, ofrecerán una gala, con piezas de Giménez, Bretón, Moreno Torroba, Vives, Serrano, Alonso, Soutullo-Vert, Sorozábal, Chueca-Valverde, Penella y Chapí.  \n  \n¡No te la pierdas!  \n  \n🗓️ 30 de nov | 17 h  \n📍Palacio de Bellas Artes, Sala Principal  \n🎟️ Boletos en taquilla y en: tinyurl.com/ywbjurjw  \n$220 | $176 | $110 | $88  \n  \n#SolistasEnsamble #MúsicaINBAL"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "f01f621d0af5b09da5708295867818e1932e5c288b0e6b1ea0219cefe2ba825c",
+      "provider": "Tavily",
+      "query": "Teatro Liceo Salamanca aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca",
+            "title": "Teatro Liceo Salamanca - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Liceo Salamanca\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Liceo Salamanca\n\nSalamanca / Salamanca\n\n## Ubicación\n\nPlaza del Liceo, s/n, 37002   \nSalamanca (Salamanca)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   N/D\n\nTeléfono\n:   923 28 17 16\n\nEmail\n:   entradas@infotactile.com\n\nPopularidad\n:   1.324\n\nActualizado hace unos segundos"
+          },
+          {
+            "url": "https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-",
+            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la Música amplían su aforo y pasarán de un tercio a un 50% - Ayto Salamanca",
+            "snippet": "En el CAEM el aforo será ahora de 622 butacas y se ampliará el número de entradas a la venta para los conciertos de Fuel Fandango (4 de junio), La Oreja de Van Gogh (11 de junio) y Nil Moliner (12 de junio), entre otros.\n\nEn el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de semana: El manuscrito de indias (29 de mayo), Una Noche sin luna (5 de junio) y La RED (12 de junio). [...] El resto de espacios en los que hay"
+          },
+          {
+            "url": "https://salamanca.es/que-ver/monumentos/teatro-liceo",
+            "title": "Teatro Liceo | Turismo de Salamanca",
+            "snippet": "Reapertura:  \n El teatro fue reinaugurado por la Reina Sofía en 2002, tras ocho años cerrado al público.   \n   \n Aforo:  \n Cuenta con 333 butacas, aunque en el pasado ha tenido diferentes capacidades.   \n   \n Importancia cultural:  \n El Teatro Liceo es un referente cultural en Salamanca, y su restauración ha permitido preservar parte de la identidad de la ciudad, según Salamancahoy.   \n   \n Actividades:"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
+            "title": "Teatro Liceo de Salamanca",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Liceo\n\n Aforo: 667\n Ancho de boca: 1000\n Fondo desde boca: 1150\n Fondo desde boca: 1150\n Altura de boca: 717\n\nFlecha derecha SERVICIOS\n\nFlecha derecha HISTORIA [...] El edificio es de nueva planta y ocupa el solar donde se levantó en 1843 el  \n originario Teatro Liceo, del que se reproduce el diseño de la sala y la sencillez en  \n la construcción y l"
+          },
+          {
+            "url": "https://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
+            "title": "Teatro Liceo | Salamanca Convention Bureau",
+            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
+          }
+        ]
+      }
+    }
+  ]
+}

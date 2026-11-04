@@ -1,0 +1,327 @@
+{
+  "caseId": "11",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "6543acff7da830ca8c1ee9c9400657d417904c2e1b9f4bf2ac8ff2f736220487",
+      "latencyMs": 1700,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01Cnei7N8KB36P1VSVRH3cS6",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
+            },
+            {
+              "id": "toolu_01YHRXpzKTtiDPPTcHGWNQKm",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\"}"
+            },
+            {
+              "id": "toolu_012SmQSMgfcP8yKVWxp5At3J",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Xana Rock gira invierno 2026 Oviedo Teatro Campoamor\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS2AUKEAgTGAI4AUIIdGhpbmtpbmcSDLTdnhOVz5dsTS+yKRoMURJMuoIdizzuxHGJIjAx+Ble6BrNaGFwiRuDm0UpZVe/vBRA9F9FSBOyFFmhEj5CNonw+YpXXUG1M9xeX+Aq9QRg9zAiutvGREWFj5cfQDke0fb5pzRyOz6XV6xhK5a3soQuQyZIBTGpw+cCuebsjdzLxUv///qYQOVStC04w95k9bWSVOgxmvqWCzHa+dNNCo06C9crYA1h5dJbDiT6CWwBXnxYWVMXT8GKOUb6a6PuHGn3BuVYoQ818VwhXg8O7TuQ2nc3yKIq0gwaBKlbzKUScRpC7IucMSlE7vAFDz4pKm2/ZvxRHcvyBygw/109DS1BwqDyqIyRKIUfIr2S76NUSAkf7BhWiCZE2NZeJtZIf+R9zacCzhBo6QaOKfk0eKT8QzD2DFS9kDioBrPdj+tWecVx08pTO12WimKNsQHi01M1EYuQgkzK3Aef+7xuA/izMSRm6Gl/v0SPUtPKs/wrxCh7Omtz5XE28R/A8HKnM8SHN4ndvLlqhC3Ovb59dgLbUH+QR2/e4ma7mYmakJayn+/06rjEuK4B9YShM1w4eJ4kathbJzO7i9diL9XVOmMSpNiIr2mp2smvQpYUE3L/egx7S8oIQ+Z5LtigJNMfb5sozCOvTlF3D4nvpgHsC5GOFxy4zZOCeKoP5hWKx9olJqNnYXyz6QaJKBFc9ujK3Hvi9B9sHJWuDWaUSUCKS8qwB6v899IGvOyUvpTlQd1y7ISqS2bYACknyad+kzYz+gke21Zf2qd7V0Oh4SsX3iESPYns6m0RB3i+WvzuHXHyu/GCS4/srMwKFT1mdtXm7J7VzRr7OWY2/2CFej6XTKsrcQtOeSIZgazGnlOd7JhPgUbr8518t7cIx51vsOvSQGuxTPHDurwu4vnly0fSvejD9ljqX/u1vVd/FT3O53dyiXypSBgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Cnei7N8KB36P1VSVRH3cS6",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_935780b688"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01YHRXpzKTtiDPPTcHGWNQKm",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_36c9c3f3cb"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012SmQSMgfcP8yKVWxp5At3J",
+              "name": "web_search",
+              "input": {
+                "query": "Xana Rock gira invierno 2026 Oviedo Teatro Campoamor",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4929,
+          "outputTokens": 253,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4925
+        }
+      }
+    },
+    {
+      "requestHash": "206755385ec76d5e6432ec4b4b13135eab5fc21f4420cda0864769e133bf2495",
+      "latencyMs": 9418,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01NXRQqiUc1j7k9pJKkZqcZn",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"La organizadora (Norte Bravo Conciertos S.L.) parece legítima: CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas ni reportes, y el recinto (Teatro Campoamor, Oviedo) existe y el aforo es compatible. Los precios están dentro del percentil esperado. No hay eventos similares de otros organizadores. Sin embargo, quedan dos puntos sin resolver: (1) la descripción enlaza a un acortador de URL (bit.ly/xana-invierno-entradas) para «entradas anticipadas con descuento», algo que no encaja con la venta en la plataforma y que no tiene descuentos configurados; (2) no he podido verificar en la web que el artista «Xana Rock» tenga esta gira ni esta fecha; la búsqueda no devolvió resultados relevantes. Ninguno de los dos indica fraude de forma concluyente, por lo que se pide información antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF presente con checksum válido, domicilio en Oviedo (CP 33003), cuenta creada hace 930 días, email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retirados por administración, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no encontró presencia verificable de la promotora fuera de la plataforma ni del artista Xana Rock en esta gira. No se ha podido confirmar.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó un nombre cercano a una promotora conocida; el nombre coincide con la razón social registrada.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la misma provincia y fechas.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción usa el acortador bit.ly/xana-invierno-entradas para vender entradas anticipadas con descuento. Un acortador oculta el destino y no hay descuentos configurados en la plataforma. Hay que pedir explicación y que la venta se haga en la plataforma.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se encontró en la web la gira ni la fecha del 25 de noviembre de 2026 para Xana Rock. La búsqueda no devolvió resultados relevantes, así que la comprobación no es concluyente.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap a 5 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/11128109\",\"title\":\"OpenStreetMap: Teatro Campoamor\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Se ponen a la venta 450 entradas frente a un aforo publicado de 1.440.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/teatro-campoamor-de-oviedo\",\"title\":\"salasdeconcierto.net\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada general de 16,00 € frente a un p90 de 35,00 € en 42 eventos comparables.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se comprobó si la descripción está copiada de otra web; la búsqueda no lo cubrió.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Qué es exactamente el enlace bit.ly/xana-invierno-entradas y a qué web lleva? ¿Es una venta en otra ticketera?\",\"¿Qué descuento de entradas anticipadas se ofrece? Actualmente el evento no tiene descuentos configurados en la plataforma.\",\"¿Puede confirmar la gira de Xana Rock (fechas y recintos) con un enlace a su web oficial o a sus redes verificadas?\",\"¿Puede aportar un contrato, carta de cesión o confirmación del artista o su representante para la fecha del 25 de noviembre de 2026 en el Teatro Campoamor?\"],\"draft\":\"Hola,\\n\\nHemos recibido el evento «Xana Rock: gira de invierno» (Teatro Campoamor, 25/11/2026) y necesitamos aclarar algunos puntos antes de publicarlo:\\n\\n1. La descripción incluye el enlace bit.ly/xana-invierno-entradas para entradas anticipadas con descuento. ¿A qué web lleva y qué descuento ofrece? Las entradas deben venderse a través de la plataforma; por favor, retire el enlace externo o explique su finalidad.\\n2. ¿Puede confirmar la gira de Xana Rock con la web oficial o redes verificadas del artista?\\n3. ¿Puede aportar un documento que acredite la actuación del artista en esta fecha (contrato o confirmación de su representante)?\\n\\nUna vez recibida la información, revisaremos el evento de nuevo.\\n\\nGracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS2gkKEAgTGAI4AUIIdGhpbmtpbmcSDORoh1yZBDx97wnVixoMS4Wd++sYp5Wg+j80IjAtN5eERaQDVLHqb1xJ9FuouHGlpKQ/iruLUAYFyOjVZWJUsJhiG+CTxTSblNhAQF8q9wgd4AC7xRN3lJB20+s5jRdMqHdZ2W5MqRuDNwbzTLgyxugf6PBgrfbuvFYMiv+ealF/nXM2Z+4vYVw1DoYX3JtKUyfQpDT4Sz0NESNllxL/8072TerHZBj1BvEMJ6J//I6VWqkSqMHxGEmCEVjcB7i6W2k+SPfkm5vojEp5ja06Pr4Z5bgk6TdeRCYFlOqBQhjB5i0gvCoLfzl2DcDBy8AhOb8C/ix/Jfr+YfBojcl11txhHoKktr9usATmjqL+iCCxaFlDuOhnRtpvq6QNv/FPD+0fj1TAHclrJPgq02vPDwyZdP0xjKyoH9p69YAqCjXuGLklevo5/HKfR9LrPx/JzCtLP4B4fkTIuJSn8Re1dZXhdkz15rhAVfE4o/MSPD1hpgHLqgqYinS5l5jJZOlVIjJAqsjBs5oumRdH0kFcN7FGTbegHalm/FhTZuNlXSLndtit/A93IHwJIQ41ZIEJ25B3H+a2/GCYw3q7mLuPIHIGegzzTMO4/0yVoIB928pM6fNTy9Gd8M92BHl4JSFqZkVEmcCRQxbrr1+hMWy/4T6VpwFM+NxAi7y3GJzUnr01y9qUB/Oow4oVRLOaMhFMghkHtDHmWFW5nsiqJ3Y+lgTywAd0r1W9XJ7p4hjj1APyNGNusmJGjA6KKQ8MSQMDKhbW4sjQeE22w6/QnpWD6F+3xJB3BzgNlqcc612YSzI9sIT7eXpEAdexLIJMU1R6EVmSN51xNsT5ds6h/U+HvChvGxLrDgKEin3UlcKYRrnH8yzUUQvJE7J91mK1ytqKqnFivKXW7Xy2eSU+WLs2AKtA2Q6szO95LW4NM/24tXTiBrCdT5zMqialyEYZzN8trcO+2lLIFh74TYEqszGaxGzQjaVakSjuD7gRjk1rweO4B1Wcjg4TnF9MKXPjDtTO542YdLJdZtLxyHrvnBycq56KYoro6tDCEMwf7ZriRkzMlvlWYP2ViQEOVEiVAhHZqQr0r61zP7szzDapr3tfkPR8oWfcepA7HkMigxZyQfkeAQeZI8Jh6ObMBOfGrXoImM02sxQH0+sS+LNZpc0EGzFjSAg5hhYiu++nAlqSJ1RCuZtcmC1jyloIksuq8bKNMpIwXYgAl7ejBm3jWncC4xW2cPQBzktYTCvN28lNMYOamIz/8hOuKdl5m0xK6j3P1CKCWVoaE2bAwOlCCN5BcnGSWqBjD/zWQyi8J1+MXxldGsJeFjj/wEjx4rr0aZ8bnHDu/Zcn4fE4u1QObU+9KMLJAqAKoXdsHQzR21odfQa8D+LwmirB0oKgW9F1oEbGk1k/956SGYfpbaH/1qi64K24LoHAJvUkc0L1Yct7QSkYamq59BGwZsbwXKKEZkM4ZW++KSjvX9sjDW6+0ral7FRl3GP6C1YcbgHQiJc0uZIa+zRWAZbgUPmksTWsZDoIJfz8/HHaL5ihgYyGNLToBscXXtMM7UYKIlARZRsDXf46CP0Bz5p+zihk3VYdxt+wiWpD//dvrq/73i+r/eq8BAx3WoCNDy4YAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01NXRQqiUc1j7k9pJKkZqcZn",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "La organizadora (Norte Bravo Conciertos S.L.) parece legítima: CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas ni reportes, y el recinto (Teatro Campoamor, Oviedo) existe y el aforo es compatible. Los precios están dentro del percentil esperado. No hay eventos similares de otros organizadores. Sin embargo, quedan dos puntos sin resolver: (1) la descripción enlaza a un acortador de URL (bit.ly/xana-invierno-entradas) para «entradas anticipadas con descuento», algo que no encaja con la venta en la plataforma y que no tiene descuentos configurados; (2) no he podido verificar en la web que el artista «Xana Rock» tenga esta gira ni esta fecha; la búsqueda no devolvió resultados relevantes. Ninguno de los dos indica fraude de forma concluyente, por lo que se pide información antes de decidir.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF presente con checksum válido, domicilio en Oviedo (CP 33003), cuenta creada hace 930 días, email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retirados por administración, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda web no encontró presencia verificable de la promotora fuera de la plataforma ni del artista Xana Rock en esta gira. No se ha podido confirmar.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detectó un nombre cercano a una promotora conocida; el nombre coincide con la razón social registrada.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en la misma provincia y fechas.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "external_ticketing_link",
+                    "verdict": "warn",
+                    "detail": "La descripción usa el acortador bit.ly/xana-invierno-entradas para vender entradas anticipadas con descuento. Un acortador oculta el destino y no hay descuentos configurados en la plataforma. Hay que pedir explicación y que la venta se haga en la plataforma.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "No se encontró en la web la gira ni la fecha del 25 de noviembre de 2026 para Xana Rock. La búsqueda no devolvió resultados relevantes, así que la comprobación no es concluyente.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "Recinto verificado en OpenStreetMap a 5 m de las coordenadas del evento.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/way/11128109",
+                        "title": "OpenStreetMap: Teatro Campoamor"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "pass",
+                    "detail": "Se ponen a la venta 450 entradas frente a un aforo publicado de 1.440.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://www.salasdeconcierto.net/es/salas/teatro-campoamor-de-oviedo",
+                        "title": "salasdeconcierto.net"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Entrada general de 16,00 € frente a un p90 de 35,00 € en 42 eventos comparables.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se comprobó si la descripción está copiada de otra web; la búsqueda no lo cubrió.",
+                    "confidence": 0.2,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Qué es exactamente el enlace bit.ly/xana-invierno-entradas y a qué web lleva? ¿Es una venta en otra ticketera?",
+                    "¿Qué descuento de entradas anticipadas se ofrece? Actualmente el evento no tiene descuentos configurados en la plataforma.",
+                    "¿Puede confirmar la gira de Xana Rock (fechas y recintos) con un enlace a su web oficial o a sus redes verificadas?",
+                    "¿Puede aportar un contrato, carta de cesión o confirmación del artista o su representante para la fecha del 25 de noviembre de 2026 en el Teatro Campoamor?"
+                  ],
+                  "draft": "Hola,\n\nHemos recibido el evento «Xana Rock: gira de invierno» (Teatro Campoamor, 25/11/2026) y necesitamos aclarar algunos puntos antes de publicarlo:\n\n1. La descripción incluye el enlace bit.ly/xana-invierno-entradas para entradas anticipadas con descuento. ¿A qué web lleva y qué descuento ofrece? Las entradas deben venderse a través de la plataforma; por favor, retire el enlace externo o explique su finalidad.\n2. ¿Puede confirmar la gira de Xana Rock con la web oficial o redes verificadas del artista?\n3. ¿Puede aportar un documento que acredite la actuación del artista en esta fecha (contrato o confirmación de su representante)?\n\nUna vez recibida la información, revisaremos el evento de nuevo.\n\nGracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6572,
+          "outputTokens": 2314,
+          "cacheReadInputTokens": 4925,
+          "cacheWriteInputTokens": 1645
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "a0c5746dacef68333f20dded7bd9231164b84f4143757479aedc17e1a9f545d4",
+      "provider": "Tavily",
+      "query": "\"Xana Rock vuelve a Oviedo con su gira de invierno\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.planomato.com/es/oviedo/p/concierto-puno-dragon-oviedo",
+            "title": "Concierto de Puño Dragón en el Concurso de Rock Ciudad de Oviedo 2026: fecha y entrada libre | Planomato",
+            "snippet": "Ciclo de Conciertos y Jornadas de Piano\n\nConcierto\n\n04 nov – 23 may\n\n#### Ciclo de Conciertos y Jornadas de Piano\n\nLe Jardin des Voix: Les Arts Florissants en Oviedo\n\nConcierto\n\n06 nov\n\n#### Le Jardin des Voix: Les Arts Florissants en Oviedo\n\nConferencia 'Todo se puede entrenar' con Toni Nadal\n\nConferencia\n\n09 nov\n\n#### Conferencia 'Todo se puede entrenar' con Toni Nadal\n\nMacbeth - Ópera de Oviedo\n\nÓpera\n\n13–21 nov\n\n#### Macbeth - Ópera de Oviedo [...] ## Descripción\n\nYa tenemos los detalles de "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=reLqcHyhw4I",
+            "title": "THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING",
+            "snippet": "# THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING\n## Channel: Oviedo Press\n6.12K subscribers\n1 likes\n\n### Description\n36 views\nPosted: 2026-10-23"
+          },
+          {
+            "url": "https://www.instagram.com/p/DOleTZtCPkA",
+            "title": "Instagram",
+            "snippet": "Video by LABALLO on November 04, 2026. May be an image of card, banner, poster, magazine and text.\nPhoto by FOTKAI on November 03, 2026. May be an image of text.\nVideo by LABALLO on November 03, 2026. May be a meme of accordion, microphone, concert and text.\nPhoto by Rock4Spain on November 03, 2026. May be an image of tambourine, concert and text.\nPhoto by LABALLO on November 03, 2026. May be an image of text.\nPhoto by LABALLO on November 02, 2026. May be an image of text. [...] analaballo's pro"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DVfvhDpiCCu",
+            "title": "Instagram",
+            "snippet": "Oviedo y Soria nos vemos 10 y 11 abril. Entradas ya a venta. Link entradas en mi bio👇🎟  \n  \nViernes 10 Abril Botánico Café Teatro, Soria  \n  \n  \nSab 11 Abril Sala Gong, Oviedo  \n\nfrancappra's profile picture\n\nfrancappra\n\n😍😍\n\nReply\n\nraulvilarferrandis_'s profile picture\n\nraulvilarferrandis\\_\n\n❤️🔥 Mola 😎👌🏻\n\n1 like\n\nReply\n\nemebejar70's profile picture\n\nemebejar70\n\nla Reina 🙌🙌🙌💪💪💪\n\n2 likes\n\nReply\n\nlee_roy_cardinal_'s profile picture\n\nlee\\_roy\\_cardinal\\_\n\n❤️❤️❤️❤️❤️\n\n1 like\n\nReply [..."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "15b5fd6e54e972d435ca6af4a1f2843b9fd30c0904028a72d407cda18f8637c5",
+      "provider": "Tavily",
+      "query": "Teatro Campoamor Oviedo aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-campoamor-de-oviedo",
+            "title": "Teatro Campoamor de Oviedo - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Campoamor de Oviedo\n\nTeatros Clásica Aforo: 750-1.500\n\n# Teatro Campoamor de Oviedo\n\nOviedo / Asturias\n\n## Descripción [...] ## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   1440 personas\n\nTeléfono\n:   985 207 590\n\nEmail\n:   ayuntamiento@oviedo.es\n\nPopularidad\n:   6.958\n\n#### Enlaces\n\nWeb oficial\n\nActualizado hace unos segundos [...] ## Descripción\n\nTeatro Campoamor es un histórico recinto de propiedad municipal "
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Campoamor",
+            "title": "Teatro Campoamor - Wikipedia, la enciclopedia libre",
+            "snippet": "|  |\n| Ubicación |\n| País | EspañaBandera de España España |\n| Localidad | Oviedo |\n| Dirección | Calle Pelayo, 33003 |\n| Coordenadas | 43°21′47″N 5°50′52″O﻿ / ﻿43.363, -5.84778333: [ 43°21′47″N 5°50′52″O﻿ / ﻿43.363, -5.84778333]\"}}\" id=\"mwAw\" about=\"#mwt3\" typeof=\"mw:Extension/indicator\"> |\n| Características |\n| Tipo | Público |\n| Estilo | Neoclásico |\n| Aforo | 1491 |\n| Administrador | Ayuntamiento de Oviedo |\n| Historia |\n| Fundación | 1892 | [...] de la primera temporada de 1892 (20 funcione"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro%20Campoamor",
+            "title": "Teatro Campoamor - Wikipedia, la enciclopedia libre",
+            "snippet": "|  |\n| Ubicación |\n| País | EspañaBandera de España España |\n| Localidad | Oviedo |\n| Dirección | Calle Pelayo, 33003 |\n| Coordenadas | 43°21′47″N 5°50′52″O﻿ / ﻿43.363, -5.84778333: [ 43°21′47″N 5°50′52″O﻿ / ﻿43.363, -5.84778333]\"}}\" id=\"mwAw\" about=\"#mwt3\" typeof=\"mw:Extension/indicator\"> |\n| Características |\n| Tipo | Público |\n| Estilo | Neoclásico |\n| Aforo | 1491 |\n| Administrador | Ayuntamiento de Oviedo |\n| Historia |\n| Fundación | 1892 | [...] de la primera temporada de 1892 (20 funcione"
+          },
+          {
+            "url": "https://www.vividseats.com/teatro-campoamor-tickets/venue/50725",
+            "title": "Teatro Campoamor Tickets - Teatro Campoamor Information - Teatro Campoamor Seating Chart",
+            "snippet": "Buy Teatro Campoamor tickets from Vivid Seats for secure checkout, an interactive seat map and a 100% Buyer Guarantee that helps every fan get in and cheer on their next vivid moment.\n\n## Teatro Campoamor Overview: Helpful Information\n\n Address: Calle Diecinueve de Julio, 1 Oviedo 33002 Spain\n Venue Capacity: 1440\n\n## Frequently Asked Questions about Teatro Campoamor Tickets\n\n### What are the best cheap seats at the Teatro Campoamor? [...] Teatro Campoamor stands at Calle Diecinueve de Julio, 1 "
+          },
+          {
+            "url": "https://www.teatrocampoamor.es",
+            "title": "Teatro Campoamor | Web Oficial | Oviedo",
+            "snippet": "El Teatro Campoamor es patrimonio vivo de Oviedo y emblema cultural de España. Cada temporada renueva su compromiso con la calidad, el rigor artístico y el respeto por el público, ofreciendo propuestas que enriquecen la vida cultural de la ciudad y fomentan el encuentro a través del arte.\n\nCada representación, cada concierto, es una invitación a descubrir, sentir y compartir experiencias únicas. [...] # Bienvenidos al Teatro Campoamor\n\nEl Teatro Campoamor de Oviedo es el corazón de una ciudad en"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c3e0098b5e79a7f73e002d7d22802303cb08cf0911f0a4e7918da0aeae24d009",
+      "provider": "Tavily",
+      "query": "Xana Rock gira invierno 2026 Oviedo Teatro Campoamor",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.quehayhoy.es/events/cantajuegos-20-anos-la-gira-oviedo-2026-04",
+            "title": "CantaJuegos 20 años: La Gira. Oviedo 2026 | Qué Hay Hoy",
+            "snippet": "El elenco está compuesto por Ainhoa Abaunz, Paulino Díaz, Rodrigo Puertas, Eugenia Cabrera, Mercedes Díaz y Bárbara Velázquez.\n\nLeer más en www.turismoasturias.es\n\n## Más sobre este evento\n\nBuscamos en la web lo que esta ficha no cuenta: quién está detrás, de qué va y si hay vídeos o música.\n\nUbicación\n\nTeatro Campoamor, Oviedo  \nCalle Pelayo\n\n###### Te puede interesar [...] # CantaJuegos 20 años: La Gira. Oviedo\n\nMúsicaTeatroFamilia\n\nDomingo, 12 de abril de 2026, 17:00-18:20\n\nTeatro Campoamor, "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DDy813Tgnel",
+            "title": "Instagram",
+            "snippet": "Photo by Ópera de Oviedo on October 26, 2026. May be a meme of poster and text.\nVideo by Oviedo Filarmonía on October 25, 2026. May be an image of violin, cello and text.\nPhoto by Oviedo Filarmonía on October 25, 2026.\nPhoto by Oviedo Filarmonía on October 23, 2026.\nVideo by Oviedo Filarmonía on October 22, 2026. May be an image of poster and text.\nPhoto by Oviedo Filarmonía on October 17, 2026."
+          }
+        ]
+      }
+    }
+  ]
+}

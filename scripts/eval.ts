@@ -43,6 +43,7 @@ import {
   serializeHistory,
 } from "../src/evals/history.js";
 import { renderReport } from "../src/evals/report.js";
+import { addNewToolCalls } from "../src/evals/tool-recording.js";
 import { recordCase, replaySet } from "../src/evals/runner.js";
 import {
   loadRecordingSets,
@@ -212,7 +213,16 @@ async function record(ids: readonly string[]): Promise<void> {
       );
       if (recording !== null) writeRecording(RECORDINGS, evalCase, recording);
       if (toolRecording !== null) {
-        writeToolRecording(TOOL_RESPONSES, evalCase, toolRecording);
+        // Run 1 re-measures the venue; a repeat must not change what the
+        // runs before it replay against.
+        const kept =
+          run === 1
+            ? toolRecording
+            : addNewToolCalls(
+                loadToolRecordings(TOOL_RESPONSES).get(evalCase.id) ?? null,
+                toolRecording,
+              );
+        writeToolRecording(TOOL_RESPONSES, evalCase, kept);
       }
       const { outcome } = result;
       console.log(

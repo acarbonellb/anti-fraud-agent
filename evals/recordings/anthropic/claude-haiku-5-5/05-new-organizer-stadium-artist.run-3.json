@@ -1,0 +1,198 @@
+{
+  "caseId": "05",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "a93ee954a5b6ce54b1cd5704c57b00da1fa5fcacc02783380841bc3643998b9a",
+      "latencyMs": 1897,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01CDccMGyGJ43senCCmkputi",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
+            },
+            {
+              "id": "toolu_01VyshhEmaELwMSL5pQ8jkxS",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
+            },
+            {
+              "id": "toolu_01JdAkzer3r3rHnP5z2Gcs1y",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Valeria Montecristo concierto Murcia noviembre 2026 sala\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSrAcKEAgTGAI4AUIIdGhpbmtpbmcSDI4QBJv7VHSmNPNdlhoMolxGp+XadHStdiA1IjBx+siOypQCemYbKcFGqsTiu3gIdbtW/m8tfnr0CPkvc6g55fTImY8p4opdW/RHD0wqyQZ7xjQGDhaLJh/u0+nn5wedIWbFgfDjoakc8nm3H1LkfsABPZgWO+4Ai7G0A1Jw2mq21Ueu+8h3I/NvuxDAPo6qsNKHKQ7QTYXOtY1kjOXPJt+W2U9BOv/3LwEtVpgV24oMrA2slMo9bngE0H5Bu6ZHXtQ55JhFvuOHaTlM5hsZsJFnqyhF1zP74dGJE/0cgvm5g5VDPaVyuPi52bXs7UkTLq6Q8KWsYO3QrYcze1DefvZLhpcVyvW4/A86sOfRVY/h5WBCx33S/6Ga7TxE3LsJ+izNFtSbo3iEDhseI+B18AEmBfepJdUVxeM9U69a1pzV4RK6UKUHjkm+7ORmpdvqEYJ+1l5LDVs1F4nsUu3TPtfd8KYGqCTwa427EYVjP72TmjpcF4ksPTpP48ST6GBOStXbums0JwAp1fLj34sgZ7nU8O/mG4AZMYh5Elgm16tSX1ssW0Abv8qeBceJhWUZpwUgF60FBbMJvDshL7/cqi8DFquB2MsLLBNXpCZOPUphifh8N3zvvzJk0hKEhB+pvDIRPLmY+YGXFEZgFjN5kVYhPyYOrRD8XqzZwtnLVNjz7BINoDXUgPZakyF8n6TNw7zX3nUz8OaKjr5yCicA9Dc6SH3O27NfO79GihBPEGNSFOrhJjrmW3wcDouFCFfBwVRuzCQj/cs9HqIDzmWl/MchVINCTbN2avIBMu2CaMwQYEwr8VKYhnjbDn5AW6fU9CElQ/Xyen2mGNLbPORHHspZWcW25SV/G7/D8xB8GJj3/TBUaCYSIYjsl51wp20rq/Wuqbap58NDawY51g54dC9K/aDJfzHXhaNtF7XQ3fUhigMtDUvhM834lg3a799p66poqAzUoiitUegoHmKdhMfxCPGZ3DKLVjURBJI6AJJMV65DO4wCrqxEvCeRGILExikdQbqyjD5xpG5giyqiZjKQlmBgbpfgxH25gYSH4A3GsU8L0GbeCBncDOVj0nIHcDDRG6mtlEICo4YIBWS74brtiDu9OFB1QeIUzFRiPZ21yg21sjA7NvVwW/aV7ATr4RT49nk5oEiPALInNKrtsWcIobn6R16ZsXprvtJO/TdCCMazQNmP5KkANWYK2QC/Do5AUp8/Ifc0GAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01CDccMGyGJ43senCCmkputi",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_4f35bcdaf2"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01VyshhEmaELwMSL5pQ8jkxS",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_46a35e8461",
+                "windowDays": 60
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01JdAkzer3r3rHnP5z2Gcs1y",
+              "name": "web_search",
+              "input": {
+                "query": "Valeria Montecristo concierto Murcia noviembre 2026 sala",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4829,
+          "outputTokens": 358,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4825
+        }
+      }
+    },
+    {
+      "requestHash": "f654c53791aea8871c02a1d02025410f2db8cf785f91ffcf359ffb426bbefa85",
+      "latencyMs": 7497,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01XFAtZy58tMkvmkzsezvCe5",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"Recomiendo rechazar el evento. La artista principal, Valeria Montecristo, aparece en su web oficial de gira como \\\"Gira Estadios\\\" y declara explícitamente que la gira no incluye salas pequeñas ni conciertos acústicos y que la venta oficial es solo a través de esa web. La prensa también advierte de eventos falsos con su nombre. El evento anuncia justamente un concierto íntimo en una sala pequeña de Murcia, por lo que la fecha no encaja con la gira oficial. A esto se suma que el organizador tiene 7 días de antigüedad, un único evento publicado, sin razón social fiscal registrada y sin presencia web verificada. Los controles deterministas (códigos postales, pagos, condiciones, precios, comisiones, sesiones) pasaron, y el recinto existe en OpenStreetMap, pero el aforo es desconocido y la venta de 250 entradas no se puede contrastar. El conjunto apunta a un evento fraudulento que usa el nombre de una artista conocida.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La web oficial de la artista describe la Gira Estadios y afirma que no incluye salas pequeñas ni conciertos acústicos; el evento anuncia un concierto íntimo en sala pequeña en Murcia el 25/11/2026, que no consta en su gira oficial. Una noticia advierte además de eventos falsos con su nombre.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://valeriamontecristo.test/gira\",\"title\":\"Valeria Montecristo — Gira Estadios: todas las fechas\"},{\"url\":\"https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios\",\"title\":\"Valeria Montecristo agota 60.000 entradas en dos horas\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"warn\",\"detail\":\"Cuenta del propietario con 7 días de antigüedad, sin razón social fiscal (legalName null) aunque el NIF tiene checksum válido; el código postal fiscal (30001) es de Murcia pero distinto del del recinto (30009), lo que no es necesariamente un problema.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Solo un evento publicado, sin reportes ni despublicaciones previas, pero con historial mínimo para juzgar.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró web ni redes del organizador «Estrellas Cercanas Live» fuera de la plataforma en la búsqueda realizada; la búsqueda específica del organizador no se hizo y la descripción del organizador es genérica.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"El nombre del organizador («Estrellas Cercanas Live») es genérico y se presenta como promotor de grandes estrellas; no se comprobó suplantación de un promotor conocido concreto.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo del recinto no publicado; la venta de 250 entradas no puede contrastarse con datos externos.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en ±60 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 15 € por debajo del p90 de referencia (35 €); no es un indicio de sobreprecio.\",\"confidence\":0.6,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS5gkKEAgTGAI4AUIIdGhpbmtpbmcSDJMm6gj697sZ6NyoUBoM+ugTsXGjHBH1v69JIjA5JLpFGNquMu32myjTslXrTkIcdBqGD3uMgbqP7rJeNFpMthy2vTf3BAK4qqgKXTYqgwmSASc6yXyuad1l7WOe5niB/tn8MXWt3fodgEyEHmeb9X76V0qDkU7hTuFqD7jpLXrB0i1McdmWjlYuWpvK5Vup92c8XMPpLlN83+6c7tBUJBJ+78//knmkKreNYLVuo48zDmrhC126jak1dHv5/h8Wqzq/S472klFYxX8lc9ua4SPyY+SfOvdh9fH10WPrZ5ye096l5gg6uLIQUkvGAxiIBqyOSZGB8ijGPzt/FdgWdBQVD/O11K9BggKOwV4T90wNx+2gAlEqq/O6svne/jJWMcRmS9inzNJn4qrMXFM3kORwdUp/IkZDz0cTE/OHy5+TU1w19um2NwQdmfdjdvru1TsqRrUR3JCVClFjyO5ftW87QM/KdK1KRLsIlicl3PH2HCl/oSbiXSucKmsKGXvUPoT2jQx5+ccVHjwIJSyEWxrB7JNWE3c9Hf4qTz4IlQrzOPMI6jVp8Y7IZ3lRX8l7gBhkQHblsf7zTcWZqarv8pkzYUbv5PxjXHtQVkO1TlFzwg0WUA6F6PVbBPexi4w+SR9jj3WrVI2vKoei9K5vjpCi+2oFH0eLeDMqszkEchwrU8ntguAywbflNqfRXcHohidGouwcgDBItw/AZs+b04M0x42QFm/6aSOgo7hThOFetzljYB3LyWqduLTRQjAvmbsLucNlNafl7jbXlNZBVy3vIMjtatNY+KWTnIA/d9dkTQyPoj9N4ZJ9EWTHoz0K+K+19BWWReBjmI7R05cVxv/tpaxVKwgVdhTfUbZROt1KKxPeALIIRvl1CDIw06INZidVf8WwpMDTve9BKDKsHv84HaUb7tqK29qegRiRkVeUtd3AGIUKWItvmO6sNm7jKSFLaDdstJry7prX9WDkvUIMQz3u8MM4XNYnst4nMBS5td86fXH5wzxEyVksnv8fhJkouOMhi6uKmQMNXojEmgGmlGtA27MZtY8w2p9ezDb9zRp4k02Ooq90k8E7+LfqkJ8qbB4/TZ+Lcl5Sx3RJTYh5bCMO7lce74/sqv0hakVaxCpBZRv6nXoUY0g/9SSBvlIeN/2MU0xXgqWgTonuGwuI1YWvzT6MBG3hgNdJ8FXUS2GUCdkOvpoGGWt4H/z0+BwfHJj8w5KdqnBvQgCbr0ctSsPaonGd2gI7dl7Jz6IMTxnKZ17AdPL0trUBaCpvLkRoew1PxW1KH4iSgfbd36Yd9D0zTMhk04eG6s8ZGJCmFEV7W1YUzsPLj4q/5c/S8f83HQtg1D2wKcK+g9IkY9pDsx3Yp809j9Ig1m712zQqcqJcbKvpuaXroB4atvOaoSysvyVbcjeX8OeGOCDGWqJiqxsoFqw4tIFKJR7av8RAvM1LXRpyV7Osm5E3m04VdKj6FzYMPOrnDwTQQyC0GrWld3f2sGkjjt3yJjhX5/glgXFNVAeap3DpZXnSzEoGQ8dShtZNWLbuuSnJWLEzacdS9UghfRTiE2fNiPUoe/h/sbb6I5d3ECScDmGUq70PitTCcTgcJ41xOzi70ON3mvB3mmfMyh0RqJojK5ttBU5zMt8YAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01XFAtZy58tMkvmkzsezvCe5",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.85,
+                "rationale": "Recomiendo rechazar el evento. La artista principal, Valeria Montecristo, aparece en su web oficial de gira como \"Gira Estadios\" y declara explícitamente que la gira no incluye salas pequeñas ni conciertos acústicos y que la venta oficial es solo a través de esa web. La prensa también advierte de eventos falsos con su nombre. El evento anuncia justamente un concierto íntimo en una sala pequeña de Murcia, por lo que la fecha no encaja con la gira oficial. A esto se suma que el organizador tiene 7 días de antigüedad, un único evento publicado, sin razón social fiscal registrada y sin presencia web verificada. Los controles deterministas (códigos postales, pagos, condiciones, precios, comisiones, sesiones) pasaron, y el recinto existe en OpenStreetMap, pero el aforo es desconocido y la venta de 250 entradas no se puede contrastar. El conjunto apunta a un evento fraudulento que usa el nombre de una artista conocida.",
+                "findings": [
+                  {
+                    "check": "artist_availability",
+                    "verdict": "fail",
+                    "detail": "La web oficial de la artista describe la Gira Estadios y afirma que no incluye salas pequeñas ni conciertos acústicos; el evento anuncia un concierto íntimo en sala pequeña en Murcia el 25/11/2026, que no consta en su gira oficial. Una noticia advierte además de eventos falsos con su nombre.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://valeriamontecristo.test/gira",
+                        "title": "Valeria Montecristo — Gira Estadios: todas las fechas"
+                      },
+                      {
+                        "url": "https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios",
+                        "title": "Valeria Montecristo agota 60.000 entradas en dos horas"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "warn",
+                    "detail": "Cuenta del propietario con 7 días de antigüedad, sin razón social fiscal (legalName null) aunque el NIF tiene checksum válido; el código postal fiscal (30001) es de Murcia pero distinto del del recinto (30009), lo que no es necesariamente un problema.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "warn",
+                    "detail": "Solo un evento publicado, sin reportes ni despublicaciones previas, pero con historial mínimo para juzgar.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se encontró web ni redes del organizador «Estrellas Cercanas Live» fuera de la plataforma en la búsqueda realizada; la búsqueda específica del organizador no se hizo y la descripción del organizador es genérica.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "warn",
+                    "detail": "El nombre del organizador («Estrellas Cercanas Live») es genérico y se presenta como promotor de grandes estrellas; no se comprobó suplantación de un promotor conocido concreto.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "Aforo del recinto no publicado; la venta de 250 entradas no puede contrastarse con datos externos.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en ±60 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precio de 15 € por debajo del p90 de referencia (35 €); no es un indicio de sobreprecio.",
+                    "confidence": 0.6,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6112,
+          "outputTokens": 1637,
+          "cacheReadInputTokens": 4825,
+          "cacheWriteInputTokens": 1285
+        }
+      }
+    }
+  ],
+  "searches": []
+}

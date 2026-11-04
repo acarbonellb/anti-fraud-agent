@@ -370,3 +370,36 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
 - **Decision:** provisional. Haiku leads on what matters most (accuracy, approved fraud,
   calibration) at a negligible cost; the default model changes (ADR 0008 point 5) only after
   repeated runs confirm the gap, and the threshold isn't lowered to chase autonomy on one pass.
+
+## E014 — Claude Haiku 5.5 over three runs per case
+
+- **Hypothesis** (#42): Haiku's gated accuracy stays above qwen's E012 (73.3 %) in every run and
+  its approved-fraud rate stays at 0; case-level disagreement concentrates in the 0.60–0.80
+  confidence band.
+- **Change** (#42): runs 2 and 3 of the 31 cases recorded next to E013's run 1, each with its own
+  fence nonce; same model, effort `medium`, prompt `review-v5`, cases, checks and policy. The
+  history entry now holds means with the min–max of the decisive metrics. Cost of the two passes:
+  about $0.14 (31 cases × 2 runs, $0.0022 per review), plus one case re-recorded (below).
+- **Before → after** (E013, one run → E014, mean over three, min–max), gated, 30 cases:
+  **accuracy 90.0 % → 86.7 % (83.3–90.0)**, **approved-fraud rate 0.0 % → 0.0 % (0.0–0.0)**,
+  auto-approved fraud rate 0.0 % → 0.0 % (0.0–0.0), escalation rate 83.3 % → 85.6 %, **autonomy
+  accuracy 70.0 % → 67.8 % (66.7–70.0)**, Brier 0.130 → 0.144. Mean tokens in / out about
+  13,700 / 2,400 → 15,000 / 2,600; mean model latency 11.4 s → 12.0 s.
+- **The hypothesis holds.** The worst run's gated accuracy, 83.3 %, is 10 points above qwen's
+  73.3 %, and no run approved a gated fraud. Only two gated cases split across runs, both in the
+  band: 24 (`request_info 2/3 · reject 1/3`, 0.70–0.80) and N2 (`approve 2/3 · request_info 1/3`,
+  0.60–0.72). External case 09 approved once in three runs (escalated, so the admin would see it).
+- **What went wrong or surprised:**
+  - E013's errors are not noise. 01, 06 and 21 fail in all three runs, and N3 and N4 escalate a
+    correct approval in all three at 0.80: Haiku's underconfidence is systematic, so its autonomy
+    gap is a calibration and policy question, not a sampling one.
+  - Recording run 3 of N4, Wikidata timed out, and that response overwrote the one runs 1 and 2
+    of both models replay against: three runs went stale. Fixed in this PR. A repeat run now only
+    adds requests the case's file doesn't hold, so the repeat that saw a different response is the
+    one that goes stale. The committed venue responses were restored, and only N4 run 3 was
+    re-recorded (about $0.002).
+- **Decision:** Haiku 5.5 is the evals' winner on accuracy and approved fraud, with ranges that
+  clear qwen's single run, at $0.0022 per review (ADR 0008 point 5). Switching the configured
+  default, which today runs keyless and free, is its own change. Next: the systematic errors
+  (01, 06, 21) and Haiku's confidence band against the 0.85 threshold, as separate experiments,
+  each measured over three runs.

@@ -1,0 +1,232 @@
+{
+  "caseId": "10",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "5eebab016ebec064217c1a9c8d740dca013e14d98fd4d0804a18756a0bf61dda",
+      "latencyMs": 1683,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01Ch41eiASsMTxEXLR6dxhWM",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_f973bd9013\"}"
+            },
+            {
+              "id": "toolu_014i1dbXwVGcnteTrg6SsbEy",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_537612d9ac\",\"windowDays\":30}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSxQYKEAgTGAI4AUIIdGhpbmtpbmcSDENrTV2/X+tGbUS0ORoML66wcDXnTKRtdV2tIjBg23pR0GYbnqAMrDofMslXW2nRfRzKQG01QQ1rZWzY5s6auZVHy2q9qx7JDVi6WWoq4gXV1Cm8N/eAVk90f11uEjq+mqhFHQOvUmtPhUf7gQC0OmYO8GWlpotbDlQtWd7fjgrQXfIUmuzKfg8I0Y4SDir1QhaL6V9w0WlKDJvlbeGGGpTzeRZY5ulf+Ao7w0ohGNxWpy4rs4BY0iDtymJ2A9TSsLvMPUE5kc0FHAetOClhOlnXvwauXVb/64h5qd8Uy2QeVkPKDtbO2NDyqUjiN/sS/Qf512R0uyE0rm9jn6IMCcW56/ubu6BMYSAbYmPFK5kS66CFxbITbUt+wkmLU1YNV2BjKORNFblL8wIz6gaTCdCtu8/89jwZgCWlDipJmY8uW8w7NfnFxUYUXf2v0115T8brravHSbu3vLvPX5q+2OEms4B9vydKyh8b6Wn8YmsfyC1WBcYlLOE495jZ4H6doFHXEZSkir8Lg2cuSmfdK7NebkUN/FZdP4tZi8LLy4mgnFwyXC98ELdCMYyDvOKC/FLyNFmNtPhaZIb8AGR3/WtnEH6AjIstSvkXtLgdWyTedgrywM+ej3nTVIvlXCLRO53PXBZDjuMf9nTpyvcO15aEn6rtdqTcPHwY+dBwv4OVMOAdO3WTW0N8xwP0yLG1sJqfg7vLlmC9aiomdt/Zp8UGHY4a0vPIqLL346oo/J50P9iVOCeBcc0hns7759pssSdgYQ6U2cfXHs6jANqzSZm24iKiT8PIwfx7X1/S8r5CbmIvB8nYc52hx05XwxtK/Dyk3NkdN/81V/DMosVeK+0a8/w8VRuwujt08/tdkrdqSl8/2DlLWBMltGmKyMg2at0LhApTj0vl3c6KFsYShuYB6n8AhL08SMP9Ha0e38iu9nrR7O4KihOqRnrTwwoA2wSKJ8f3jVKfkQwf6Syvuw42VsxoFekZipZZxVEoF9FDrD+30zBGw5kC7VRyK0+l/nt7xv3vatp08Kbwj9KIL+SItpnQp5wttRuTat7vEQiy4GemG2rGlZ/owqbSCmSwp4cYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Ch41eiASsMTxEXLR6dxhWM",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_f973bd9013"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_014i1dbXwVGcnteTrg6SsbEy",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_537612d9ac",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4941,
+          "outputTokens": 216,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4937
+        }
+      }
+    },
+    {
+      "requestHash": "d82cbe3afa5706ca6931491e14b13e3dd317d1b729621b948eaf9b3d39fc3ea4",
+      "latencyMs": 8312,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_012FCoaJeB4wwQn68fvBtACL",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.8,\"rationale\":\"El evento pide pagar por Bizum al 600 000 000 fuera de la plataforma, con el nombre en el concepto para \\\"apuntarte en la lista\\\". Es una señal dura de pago fuera de la plataforma y encaja con el patrón típico de estafa: cobro directo sin pasarela, sin garantía de devolución y con un reclamo de ahorro en gastos de gestión. El organizador tiene buen historial (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni reportes), por lo que cabe una explicación inocente, por ejemplo que la descripción haya sido editada por alguien del equipo o con acceso. Aun así, el texto como está publicado es fraudulento, así que recomiendo rechazar y, si se confirma que el organizador no lo escribió, revisar quién modificó la descripción. Las demás comprobaciones (recinto, aforo, precios, fechas, condiciones de cancelación) pasan.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción pide pagar por Bizum al 600 000 000 y evitar los gastos de gestión, con el nombre en el concepto para entrar en la lista. Es un canal de pago externo a la plataforma. Señal dura.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Ruta del Duende Música S.L., CIF con checksum válido, dirección presente, cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin cambios sustanciales registrados. El historial es limpio, aunque no explica el texto de pago por Bizum.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"Hay una discrepancia entre el perfil y el evento: el evento se publicó el 4 de noviembre de 2026 y sin cambios posteriores, pero el texto de pago fuera de plataforma no encaja con el historial del organizador. Conviene confirmar si el texto fue escrito o modificado por alguien con acceso a la cuenta.\",\"confidence\":0.5,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿El organizador escribió el texto que pide pagar por Bizum al 600 000 000 y apuntar el nombre en una lista?\",\"¿Quién tiene acceso a editar la descripción del evento (propietario, gestor y escáneres)? ¿Ha habido cambios no autorizados en la cuenta?\",\"¿Las entradas se venden únicamente a través de la plataforma? ¿Existe algún canal de pago externo autorizado?\"],\"draft\":\"Hola, hemos detectado que la descripción del evento «Acústico de Marina Escalante» pide pagar por Bizum al 600 000 000 fuera de la plataforma. Por política, las entradas solo pueden pagarse a través de Satella. ¿Podéis confirmar si este texto es vuestro y si el canal de pago es oficial? Si no lo habéis escrito, revisad los accesos a la cuenta y eliminad el texto. Mientras tanto, el evento no puede seguir publicado con esta instrucción de pago.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012FCoaJeB4wwQn68fvBtACL",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.8,
+                "rationale": "El evento pide pagar por Bizum al 600 000 000 fuera de la plataforma, con el nombre en el concepto para \"apuntarte en la lista\". Es una señal dura de pago fuera de la plataforma y encaja con el patrón típico de estafa: cobro directo sin pasarela, sin garantía de devolución y con un reclamo de ahorro en gastos de gestión. El organizador tiene buen historial (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni reportes), por lo que cabe una explicación inocente, por ejemplo que la descripción haya sido editada por alguien del equipo o con acceso. Aun así, el texto como está publicado es fraudulento, así que recomiendo rechazar y, si se confirma que el organizador no lo escribió, revisar quién modificó la descripción. Las demás comprobaciones (recinto, aforo, precios, fechas, condiciones de cancelación) pasan.",
+                "findings": [
+                  {
+                    "check": "off_platform_payment",
+                    "verdict": "fail",
+                    "detail": "La descripción pide pagar por Bizum al 600 000 000 y evitar los gastos de gestión, con el nombre en el concepto para entrar en la lista. Es un canal de pago externo a la plataforma. Señal dura.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Razón social Ruta del Duende Música S.L., CIF con checksum válido, dirección presente, cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin cambios sustanciales registrados. El historial es limpio, aunque no explica el texto de pago por Bizum.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "other",
+                    "verdict": "warn",
+                    "detail": "Hay una discrepancia entre el perfil y el evento: el evento se publicó el 4 de noviembre de 2026 y sin cambios posteriores, pero el texto de pago fuera de plataforma no encaja con el historial del organizador. Conviene confirmar si el texto fue escrito o modificado por alguien con acceso a la cuenta.",
+                    "confidence": 0.5,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿El organizador escribió el texto que pide pagar por Bizum al 600 000 000 y apuntar el nombre en una lista?",
+                    "¿Quién tiene acceso a editar la descripción del evento (propietario, gestor y escáneres)? ¿Ha habido cambios no autorizados en la cuenta?",
+                    "¿Las entradas se venden únicamente a través de la plataforma? ¿Existe algún canal de pago externo autorizado?"
+                  ],
+                  "draft": "Hola, hemos detectado que la descripción del evento «Acústico de Marina Escalante» pide pagar por Bizum al 600 000 000 fuera de la plataforma. Por política, las entradas solo pueden pagarse a través de Satella. ¿Podéis confirmar si este texto es vuestro y si el canal de pago es oficial? Si no lo habéis escrito, revisad los accesos a la cuenta y eliminad el texto. Mientras tanto, el evento no puede seguir publicado con esta instrucción de pago."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5739,
+          "outputTokens": 1730,
+          "cacheReadInputTokens": 4937,
+          "cacheWriteInputTokens": 800
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "6a3fe6e6731b30e56908a572dda2a40acabbd18e63c32b701b580b5f562152a0",
+      "provider": "Tavily",
+      "query": "\"Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://bizum.com/es/pago-amigos-bizum",
+            "title": "Cómo funciona el pago entre amigos con Bizum | Bizum",
+            "snippet": "Para ayudarte con la gestión de tus gastos, al realizar un pago a través de Bizum puedes añadir un concepto que también podrá verlo el destinatario. Además, tienes la posibilidad de adjuntar una imagen en el concepto para que las cuentas queden mucho más claras y evitar equívocos. [...] ## Funcionalidades más útiles en los pagos entre amigos con Bizum\n\nTanto si tienes que realizar un pago como si eres el destinatario de una transferencia, el funcionamiento de Bizum es muy sencillo. Solo tienes q"
+          },
+          {
+            "url": "https://www.bbva.com/es/es/salud-financiera/como-hacer-un-bizum-y-que-debes-saber-antes-de-usarlo",
+            "title": "Cómo hacer un Bizum y qué debes saber antes de usarlo",
+            "snippet": "4. Una vez indicados el importe de dinero y el destinatario (uno o varios), se puede escribir el “Concepto” de la transferencia.\n\n5. A continuación, se debe comprobar el alias (el nombre y las iniciales de los apellidos) asociado al número del destinatario antes de confirmar el pago. Al confirmarlo, aparecerá un mensaje: 'Bizum Enviado', y su destinatario recibirá una notificación en la ‘app’ del banco indicando que lo ha recibido. [...] También puedes hacer donativos a ONGs que tengan activado "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=Hk4Ul7OefCg",
+            "title": "Podcast: ¿Sabes todo lo que puedes hacer con Bizum y sus novedades más recientes? | Salud Financiera",
+            "snippet": "[11:18] andorrano que no son bancos españoles no y es algo que va a ir creciendo no tenemos planes para que bizum vaya creciendo y sea una operativa que se pueda extender a otros países tengo\n[11:26] entendido que recientemente Bom ha incorporado un identificador digital En qué consiste Así es todos recordamos cuando te das de alta en bizum como\n[11:33] decía antes lo que pones en bizum es tus datos básicos tu nombre y y apellidos tu cuenta bancaria y tu número de teléfono [...] [4:05] existe un"
+          },
+          {
+            "url": "https://bizum.com/es",
+            "title": "Inicio - Bizum",
+            "snippet": "Más información\n\n## Disfruta de las ventajas de tener Bizum\n\nRápido\n\nEn menos de 10 segundos puedes enviar dinero.\n\nSeguro\n\nBizum está respaldado por los principales bancos españoles.\n\nFácil\n\nEnvía dinero solo con tu móvil, sea el banco que sea\n\n## Esto es Bizum en número\n\n### 31500000\n\nUsuarios activos\n\n### 5500\n\nMillones de transacciones realizadas\n\n### 15000\n\nOrganizaciones a las que donar\n\n### 120000\n\nComercios online\n\n## Paga en miles de comercios online [...] Accesibilidad\n\n### Suscríbete "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=qGk_OD_xQTQ",
+            "title": "The Tax Agency is now monitoring BIZUMs: who it affects (and who it doesn't) and what the latest ...",
+            "snippet": "[0:57] contribuyente, ¿no? Entre enero y septiembre de 2025 se hicieron 900 millones de vizums en España por un valor total de 65,000 millones de euros.\n[1:06] El objetivo de Hacienda es detectar fraudes y a quienes se van a vigilar son a las empresas y a los autónomos. Quedan excluidos los cobros entre particulares.\n[1:15] Si tu pareja te hace un bizum recurrente todos los meses a una cuenta común para pagar los gastos, no hay absolutamente ningún problema y ningún impacto fiscal. [...] ### Tra"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "1694af0e504b3256a78d70d0a7536b444c94471a87c79d460c9a1524a96e93ee",
+      "provider": "Tavily",
+      "query": "Gran Teatro Falla Cádiz aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "Gran Teatro Falla\n\nEl conocido 'Gran Teatro Falla' de Cádiz es un espacio de carácter público, cuya programación abarca todos los géneros dentro de las artes escénicas. Con un aforo de unas 1100 localidades aproximadamente, que se dividen en patio de butacas, palcos, platea (planta baja), principal (primera planta) y segundo (segunda planta), anfiteatro y delantero anfiteatro (en la segunda planta) y paraíso. [...] Pasar al contenido principal \n\nLogo\n\nImagen\n\ncabecera espacios\n\nLogo\n\nEspectáculo"
+          },
+          {
+            "url": "https://accelcars.com/es/4-gran-teatro-falla",
+            "title": "Gran Teatro Falla: Joya cultural de Cádiz",
+            "snippet": "Los detalles arquitectónicos, obras de arte y anécdotas históricas hacen la visita al Gran Teatro Falla única. Nos llevan a un mundo de esplendor y belleza.\n\n## Gran Teatro Falla: Acústica y Aforo Impresionantes\n\nEl Gran Teatro Falla en Cádiz, España, es un tesoro arquitectónico que cautiva a todos. Tiene un aforo del teatro de 1,214 espectadores. Ofrece una capacidad de espectadores excepcional, con cómodas butacas, palcos, anfiteatro y el «gallinero» o paraíso. [...] | Características | Detall"
+          },
+          {
+            "url": "https://www.codigocarnaval.com/coac/aforo-gran-teatro-falla",
+            "title": "➤ Aforo Gran Teatro Falla - Todo lo que debes saber",
+            "snippet": "El Gran Teatro Falla tiene un aforo de 1214 personas repartidas entre las diferentes localidades: butacas, palcos, anfiteatro y gallinero.\n\nCabe recordar, que durante el concurso, no se pone esa cifra en su totalidad, ya que un porcentaje está destinado a las entradas de protocolo, organizaciones, estamentos y medios de comunicación.\n\n## Localidades del Gran Teatro Falla [...] Su precio suele rondar durante el concurso entre los 25€ y 90€ aproximadamente entre las Preliminares (las más baratas) "
+          },
+          {
+            "url": "https://www.prospectosdecine.com/cadiz---gran-teatro-falla",
+            "title": "CÁDIZ - GRAN TEATRO FALLA. Programas de cine. Prospectos de cine",
+            "snippet": "De hecho, el techo del paraíso no es la zona más alta, sino que se puede acceder a otra estancia donde podremos observar estos pilares a través de una puerta ubicada en gallinero.\n\n## Inauguración monárquica\n\nEntre 1986 y 1990 se realizó la última remodelación del Gran Teatro Falla, que tuvo la presencia de laReina Sofía para su inauguración.\n\n## ¿Qué aforo tiene el Gran Teatro Falla?\n\nTiene una capacidad para 1.214 espectadores repartidos en butacas, palcos, anfiteatro y paraíso. [...] De estil"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/19/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "#### Gran Teatro Falla\n\n Aforo: 1214\n Ancho de boca: 1165\n Fondo desde boca: 1800\n Anchura máxima: 2153\n Fondo desde boca: 2392\n Altura máxima (boca): 1265\n Hombro izquierdo: 340\n Hombro derecho: 300\n Altura de boca: 840\n\nFlecha derecha SERVICIOS\n\n### Servicios generales\n\n:   Bar\n:   Calefacción\n:   Renovación de aire\n:   Taquilla informatizada\n\nFlecha derecha HISTORIA [...] Director\n\nInstitución a la que pertenece:\n:   Ayuntamiento de Cádiz\n\nHorario de Oficina:\n:   9.00 h - 15.00 h.\n:   956 220"
+          }
+        ]
+      }
+    }
+  ]
+}

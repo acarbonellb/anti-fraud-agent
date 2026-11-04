@@ -1,0 +1,335 @@
+{
+  "caseId": "09",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "1ac6747a12441ff1eea418e5df8c9eef2108aec5afa0d30bdf72cd56812ceb45",
+      "latencyMs": 1159,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01TBU2g4yaKCQAXje6bkpFBq",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
+            },
+            {
+              "id": "toolu_01RjGr7hQvtsgQCJyXKBSha5",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":30}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSnwUKEAgTGAI4AUIIdGhpbmtpbmcSDKk1nBB1LzyJEgmekhoMJh8MiqcTBc/HE1d0IjBsOe7JhmDH0nsQ0jh7t9Mfj4WuIpS5fphoq/qXAwC2NxQGBv9nnsn6Ip2NduEBEtIqvARUrDAYcLcI9KZJ28ZjTFpX2VroHE9kYWDB/MEqBF5gkmqRPEDL/ES3lrryIONMn4wSUDWe1KYBhwgvC7JzK7PJUcOdKDdj+7mzbdZXskxsB3NBEJ4qIhT7drlFHNApjX/XgwjUam21BwsCp4wdNTk5XvGYFtCXoO1P3KqkkRPOJYuZtOvPiXWh39y2gVjL6CBU/HAfPLtcVZwp8WLBJjhbsMaJqtnFMcGAiiu8UmrEeS2tiCoj+Wvuu65oqe4s84U/E5VRNRjodZgH2uZNQWHRVtJjqLCHnK4FrbxUn/2Okr3JhfuF8r0JGeIw2OsTVtKZ3vbPuC9YOuIE364fKMvcaSD2WJoJEUR9opyuTwmzk9PJnLIunEO3oMBOXArO5Do/JJ9sRHJdGWqYX1SZuFDadGe+UC0XjKzYwIlSMYZ3zl5mOji2SWQfQOioH3grLkDzZtaU5n1erqmXYWLOloE0XxY/MwKKPTowH0IdLknteAyl/ZGZWr0Qh0J1t4fXn4ZktibBkKK7eyAqz4q8vUR59QXIQoMTv1TwtRs/huRDb3sEECAiY0nLglW68lcqethoSDv7uvLYmnKT8v8ZibJ/ye6+0Pr8JTHwIdpydh/43sC8cTYsFPVtgIEXhscEFVMw+nB8t0y58iKQdJyzWbhr7b8H65ouzAfVtUhke135sEkIW8zwgwRZB0Z+HIetx9AW9UFKIumvQj5gpJC2B8scenlGR9xOToDL0oWhvvExUjfxuqMjXbfsRV53URgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01TBU2g4yaKCQAXje6bkpFBq",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_e34731c267"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01RjGr7hQvtsgQCJyXKBSha5",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_7a080b2adf",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4930,
+          "outputTokens": 166,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4926
+        }
+      }
+    },
+    {
+      "requestHash": "4406aaa43f6474da022834172fca30e1a609e4218a97db68fd4436ee7e0362f9",
+      "latencyMs": 1694,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_015gpmyu3dNjBS7HDekJPzwU",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas concierto Huesca noviembre 2026\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSlQkKEAgTGAI4AUIIdGhpbmtpbmcSDJAPxPc3keZTG3YPWBoMGY9UlepJWcjDEsKKIjCb8VShwo8ch53dVr88ft/tHmhHgbQltb45tnIezPASKc95AytYjcE4N65Syrnok6kqsgiNqD+TKFtnz+PZpdHLZo4BIG+HIoqeDK+F8YCNL1lGC7yrzsyqP+jpSZgrCjKPWwA3fwT3yBzwPOdDnZxweiZZXPWUdlaJZ0TFwVhKIWnBAg3JDXUF0xqyINefoVv4EnwXQT+6U76MGQ7hVX81ukZnjjZkh8qlPSSnH/djkAhhsT3qm0lv+gBCxb326iLGdDIfxRbALcZDD0oLzbUgMr63rIA3BDwLBbhM2g77OJoBvuetoeYAwD1QEId2VbAhPEIxP7bjD8xXAyHKEJX4jxjegUU39uJFf1Otqi/F89i4rPzLnSqSlQhkx8p33+K6DQX3C8eZn9goKdGf7K5eholWmljvyTgZJMDakiv1lBDbYXfU2nzqgMDFOcqyUZBxT4xvGOqeyDCqv11tgL2+eMdcxh1jU/d1eT2xKM4KwxSoQY89MyltNG5KPNp5Y52mqVc3bJAFcLQQjSN9io4uTfvtj8FfWR8wtWwR9/rxKPQjdMLW62GtuonVGIwEMcA+nfF9P+ivZD9E9/zJ1a0CRXp7h2nMg5evTW7zfe+bCOF0vf7k1R5hy577WIPnZNtcoU0nPo4ToOL4NB+nJtNmyQqfl+y8t9v8uFEEmO0QOUsgO3tuQl/QVXkOidzYQiL/JvXi+owsPLNnKNGMewBMIyUZqokYq1m6iRG/N+nOOBsY+c5QnFH4EUcn0aZ696aMczvYe6oztZHGT7gcBpAsEuibsRao6hgIqXGE6tfZoHU+A1BmUoOchbP2a6Bfn52GUmi6Y16ioLWQVLa+bEKiFSQEg28EmGkDHxQBtQ9wHIShiya0ANSYHrIJBvc0L6h409gpToZoQUNLsel5dDvVcV5BeKwMVPp+TDlTMdwhCb8+yfpf4Nc89ko4zRb5GvYjIWovGX3U7tYGdT0XUBIXGcfjLNJP8yqNwUucWxuZtRXO69chSdjpK58PZycbVKS78/Rw/02sHCZ+4qpAlsRVlL7W0obUViNH+4oI0AziZrosS7WcFsexbar1IMeNMz3c/4ylZbl/z7nQaPzhif/ylhZdjJ683Qx27PW3yEKZJKn7hkV8VpNCZAnV82Y2OvWwJ9iSwc1DWXa9m4CWJJzEyutBbqBc29qXgZ8YYp8fzqxtYJSztbSiAbAEbhR4O1WQCGXssFCihVNaTDupbK4YLLxA8TdDRPPRQKfyy05+OQI3xw1Oq0q+yM/XJA6dProDiKF55c0/oj1YX/GFpALSXZ4KEa2b1wF57K5lYWxiFmYWPyz0ZxsF+Qfz4vFA1+3S2hMae1R1TL/f5tlnisXvXC4zAnAOY/i3AOj9vpRHGhvaXcV5cJFdU1ORAj30V7v/ScQKDhavXJ8pFlvTw2e5AwqRda/PZzG8BoSqNgC9leXkyGoZqvJPEw+JI2hphON5VDsKnk8P/VMqVWki0SIYbmzclW0YAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_015gpmyu3dNjBS7HDekJPzwU",
+              "name": "web_search",
+              "input": {
+                "query": "Peña Ventana Las Tremolinas concierto Huesca noviembre 2026",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5674,
+          "outputTokens": 269,
+          "cacheReadInputTokens": 4926,
+          "cacheWriteInputTokens": 746
+        }
+      }
+    },
+    {
+      "requestHash": "615b66ecac8218cf95aaac3ca38c90d335a638c5c0e82a7fea4cbc734d7208ea",
+      "latencyMs": 9416,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_012s7otNx6RCkRXbfDqZP6RW",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"La mayoría de comprobaciones salen limpias: organizadora con cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones, reportes ni retiradas; recinto verificado en OpenStreetMap; aforo compatible; precio (15 €) dentro del benchmark; sin pagos fuera de plataforma ni términos abusivos. No hay eventos similares de otros organizadores. Sin embargo, la descripción anuncia \\\"seis bandas\\\" pero solo se listan dos artistas (Peña Ventana y Las Tremolinas), y el cartel completo está únicamente en una imagen que no hemos podido verificar. La búsqueda web no encontró fechas de estos artistas el 25 de noviembre de 2026 en otras promociones, pero tampoco confirma su actividad. Es una discrepancia que puede tener explicación inocente (cartel en imagen, artistas no cargados), por lo que se pide aclaración antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Cierzo Sonoro S.L.: CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, 0 cambios sustanciales, sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró presencia web fuera de la plataforma que confirme a la organizadora con los datos proporcionados; la búsqueda se centró en los artistas.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó un nombre similar a promotoras conocidas en los datos revisados.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"Búsqueda de Peña Ventana y Las Tremolinas en Huesca para noviembre de 2026: no aparecen fechas que choquen con el 25 de noviembre. Resultados genéricos de agendas locales; no confirman ni descartan la actuación.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://www.planomato.com/es/huesca/archivo/p/2026/11\",\"title\":\"Eventos en Huesca - Noviembre 2026 | Planomato\"}]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"La descripción dice 'Seis bandas de la provincia' pero solo hay dos artistas cargados (ambos con foto). El cartel completo solo está en una imagen, que no se ha podido verificar. Discrepancia que puede tener explicación inocente, pero conviene aclararla.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se ha comprobado si la descripción está copiada de otra web; el texto es breve y genérico.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"image_content\",\"verdict\":\"unknown\",\"detail\":\"La imagen del cartel no ha sido analizada por la herramienta; no se puede descartar contenido ajeno (logos de otra ticketera, teléfonos o QR).\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuáles son las seis bandas que actuarán? Solo aparecen dos (Peña Ventana y Las Tremolinas) en el evento.\",\"¿Puede añadir como artistas o participantes a las otras cuatro bandas, o explicar por qué la descripción menciona seis?\",\"¿Puede confirmar la contratación de Peña Ventana y Las Tremolinas para el 25 de noviembre de 2026 (contrato, correo de la banda o web oficial)?\",\"¿Cuál es la web o perfil en redes sociales de Cierzo Sonoro donde se puedan ver eventos anteriores?\"],\"draft\":\"Hola, hemos revisado el evento \\\"Festival de bandas locales del Alto Aragón\\\" y necesitamos aclarar algunos puntos antes de publicarlo definitivamente:\\n\\n1. La descripción indica seis bandas, pero solo están cargados dos artistas (Peña Ventana y Las Tremolinas). ¿Podría indicarnos el cartel completo con los nombres de las seis bandas y cargarlas como artistas del evento?\\n2. El cartel completo aparece solo en la imagen. Si es posible, incluya el listado de bandas también en el texto de la descripción.\\n3. Para confirmar la actuación, ¿puede enviarnos un contacto o documento que acredite la contratación de Peña Ventana y Las Tremolinas para el 25/11/2026?\\n4. ¿Tiene una web o perfiles de redes sociales de Cierzo Sonoro con eventos anteriores?\\n\\nQuedamos a la espera de su respuesta. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSpQkKEAgTGAI4AUIIdGhpbmtpbmcSDOkPyALapA0BMqunHBoMeaUpLl+4sZBoWUS3IjChgkIn7Njv6Y2r+L2BnpTC+78MPe6+d/kNJ9PgNJQkY73wNQhbx7TeF4jjEflIcaMqwggpdLlDvqkLgtxg0DSyTGsvjCxGwwYwuIatea1CFpdsx2AxRkJKAs9KdffkryxqoVfCN/e8gbYfvGTbozqFoMKR8dAIL/V5KNwvfUU+7zRyeIgrpFLtjuSVhrbnjrJGdnS0SG10cWUtiCH+QI+iazwOR+AZOoXKGIKtmsbNDj+LEo9f1Xvj9yRCbcpnTvLnVd/tgXhkfOm+C7IAM+slgULdVKccLsztEpJPNEW5OBvxKTOKAmr/9/KGHry3GdKIPnD/hEG/cs23hJjoQE7ilfbIeL7AyuQtE67A4W2fsIIBMFZlgbJhV/VA5IfzWNKmNEwYWqcu9eJRvJfOihh34zcoZZVipSYOMjPJGiXnicyvdqZ+iHztYRaJzWqMK8hTi8QPKUnGZ1OO9RxcNA/GvBNGt6l9+8fKCi4BS0HdHKMcUpcvuR9EB1Ke9QlNa2TikBf3hx1vBDyUH7gG++fK8LPoX3J0XPZtaCIoyouS9Eu+DQ3TJ9yZC1u6pd+Xm2d0eDob7NE9YWr9PGK5obd7HJes2FhmJwq081RYISVdF1OsAXVu3KFKnFIIlVDt+nERCcO/E9wWO5Ejpnxg2vzRkjm26OFry6pWZiQtXV1zu4dZGVDUup1EXfV7ff1qWG3A5rblxvRujO4sNq156pf4v4NO/YJZVsGFRPe8CT4XU8cnkKFoJ5qMYwmcqnU5Sf35oYMHt/Zh+HxBs7IFcjcSJYuOfTdmItL3EQpynaCP7TNkj7plqmFnt/1cbcICK4+fVtbZv7DmUeioeA7nZKGHzcadRpQI3Ki9bLTthODB7ea10pmAnk8fi0ivfMOxZFuthrMbdSzAWk8vxd5RbsFkHIhCLnvoBKpG1PtszWF8f774YLcTd43myIyyNta5YCoJ1ZqQHWkfTOvzPSxG5+m6xo6Moe79rDaoaPZe9rjifkiJWs9k810nkYaoYBf7V1Vgytp57zsIPtqge2iH3yE3WwsH9sIxu3MORRr8xEeiMRnsWvhVbZ36yqPwYXHwuvKiLZddb2uEC4A4nrEz9qwExIsj5UITD1Ozb63q28HmhjfYYP7TkIW7oQhRK197nugJNjvRJYMvpcmmZ3xpn/fn6Ry6rVewCoEEnmvZkTFgZbgd/VED0Q6QMmBD5c9UrDYfS326Qxhgfit9hPdN5zhMIRdJ4+CKpmp3Kc4sfmfvlEaXOha0ZIAC7kpjqz2MQepPi/f3jBwe2Xeig0my/8AG0rU8/+U7VzePLeKA1KXA2eoXFR9biYRgYePMX+Nh4mqUCDrUIFT8PIz6ThOSWsR1x/nj5PMvLX7HMqQz+qR6QylL3xFlMm08vfF15/iydTQUfTan/IfyIi+a9naoDYeqb0ye2fz0YzWNNLIhhob54WWFBYKc81qTg0xWsqh0gZu9agPPyynVnqaq5FZpLTvrg0CGI+jOj1jtDiu0TJE2BGxFtbPLGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012s7otNx6RCkRXbfDqZP6RW",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "La mayoría de comprobaciones salen limpias: organizadora con cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones, reportes ni retiradas; recinto verificado en OpenStreetMap; aforo compatible; precio (15 €) dentro del benchmark; sin pagos fuera de plataforma ni términos abusivos. No hay eventos similares de otros organizadores. Sin embargo, la descripción anuncia \"seis bandas\" pero solo se listan dos artistas (Peña Ventana y Las Tremolinas), y el cartel completo está únicamente en una imagen que no hemos podido verificar. La búsqueda web no encontró fechas de estos artistas el 25 de noviembre de 2026 en otras promociones, pero tampoco confirma su actividad. Es una discrepancia que puede tener explicación inocente (cartel en imagen, artistas no cargados), por lo que se pide aclaración antes de decidir.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Cierzo Sonoro S.L.: CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, 0 cambios sustanciales, sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se encontró presencia web fuera de la plataforma que confirme a la organizadora con los datos proporcionados; la búsqueda se centró en los artistas.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detectó un nombre similar a promotoras conocidas en los datos revisados.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "Búsqueda de Peña Ventana y Las Tremolinas en Huesca para noviembre de 2026: no aparecen fechas que choquen con el 25 de noviembre. Resultados genéricos de agendas locales; no confirman ni descartan la actuación.",
+                    "confidence": 0.3,
+                    "sources": [
+                      {
+                        "url": "https://www.planomato.com/es/huesca/archivo/p/2026/11",
+                        "title": "Eventos en Huesca - Noviembre 2026 | Planomato"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "other",
+                    "verdict": "warn",
+                    "detail": "La descripción dice 'Seis bandas de la provincia' pero solo hay dos artistas cargados (ambos con foto). El cartel completo solo está en una imagen, que no se ha podido verificar. Discrepancia que puede tener explicación inocente, pero conviene aclararla.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se ha comprobado si la descripción está copiada de otra web; el texto es breve y genérico.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "image_content",
+                    "verdict": "unknown",
+                    "detail": "La imagen del cartel no ha sido analizada por la herramienta; no se puede descartar contenido ajeno (logos de otra ticketera, teléfonos o QR).",
+                    "confidence": 0.2,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Cuáles son las seis bandas que actuarán? Solo aparecen dos (Peña Ventana y Las Tremolinas) en el evento.",
+                    "¿Puede añadir como artistas o participantes a las otras cuatro bandas, o explicar por qué la descripción menciona seis?",
+                    "¿Puede confirmar la contratación de Peña Ventana y Las Tremolinas para el 25 de noviembre de 2026 (contrato, correo de la banda o web oficial)?",
+                    "¿Cuál es la web o perfil en redes sociales de Cierzo Sonoro donde se puedan ver eventos anteriores?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento \"Festival de bandas locales del Alto Aragón\" y necesitamos aclarar algunos puntos antes de publicarlo definitivamente:\n\n1. La descripción indica seis bandas, pero solo están cargados dos artistas (Peña Ventana y Las Tremolinas). ¿Podría indicarnos el cartel completo con los nombres de las seis bandas y cargarlas como artistas del evento?\n2. El cartel completo aparece solo en la imagen. Si es posible, incluya el listado de bandas también en el texto de la descripción.\n3. Para confirmar la actuación, ¿puede enviarnos un contacto o documento que acredite la contratación de Peña Ventana y Las Tremolinas para el 25/11/2026?\n4. ¿Tiene una web o perfiles de redes sociales de Cierzo Sonoro con eventos anteriores?\n\nQuedamos a la espera de su respuesta. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6785,
+          "outputTokens": 2124,
+          "cacheReadInputTokens": 5672,
+          "cacheWriteInputTokens": 1111
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "4624affc289444449f0644928d9ee1231148d393a385cd12c458a34b59a6f701",
+      "provider": "Tavily",
+      "query": "\"Seis bandas de la provincia en una tarde de rock y pop\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.facebook.com/100068347146645/posts/6-bandas-de-rockpop-venezolano-de-los-70srock-rocknroll-fblifestyle-metal-rockpo/1386542430300649",
+            "title": "4K views · 154 reactions | 6 bandas de Rock/Pop Venezolano de los 70s\n#rock #rocknroll #fblifestyle #metal #rockpop #hardrock #rockvenezolano #rockclasico #rock70s | El grinch del rock n roll",
+            "snippet": "See more\n\n## Comments\n\nMost relevant\n\n[](\n\nImage 4Author\n\nEl grinch del rock n roll\n\n@seguidores @fansdestacados el rock venezolano sigue en pie...\n\n   6w \n\n1\n\nImage 5\n\n[](\n\nRodolfo Rodriguez Montenegro\n\nDe mi época, Grupo C de Valencia, Dermis Tatu, Los Cazadores, El Grupo Pan, Vita Brenner, por su puesto Sentimiento muerto y desorden Público, Los Vecinos de la cuadra, Fresas Amargas, Arcángel, La fe pérdida, siete cuero, Melao con todo e Ilan Chester… \n\nSee more\n\n   5w \n\n1\n\nImage 6 [...] [](\n\n"
+          },
+          {
+            "url": "https://open.spotify.com/playlist/6y1Ouap17vq0CMav10cKIy",
+            "title": "BANDAS DE POP Y ROCK - playlist by Jeannette Pulido Bernal",
+            "snippet": "Albania\n   Algeria\n   Andorra\n   Angola\n   Antigua and Barbuda\n   Argentina\n   Armenia\n   Australia\n   Austria\n   Azerbaijan\n   Bahrain\n   Bangladesh\n   Barbados\n   Belarus\n   Belgium\n   Belize\n   Benin\n   Bhutan\n   Bolivia\n   Bosnia and Herzegovina\n   Botswana\n   Brazil\n   Brunei Darussalam\n   Bulgaria\n   Burkina Faso\n   Burundi\n   Cabo Verde\n   Cambodia\n   Cameroon\n   Canada\n   Chad\n   Chile\n   Colombia\n   Comoros\n   Costa Rica\n   Cote d'Ivoire\n   Croatia\n   Curacao\n   Cyprus [...] Japan\n   Jo"
+          },
+          {
+            "url": "https://www.instagram.com/p/DYo4waOjRRP",
+            "title": "Instagram",
+            "snippet": "🎶🎸 ESTA NOCHE TENEMOS CONCIERTO DEL GRUPO DE POP ROCK DE LA ESCUELA MUNICIPAL 🎸🎶  \n  \n🤘🧑‍🎤 Con tributo a bandas como Extremoduro, Jarabe de Palo y muchos más ✊  \n  \n📆 Viernes 22 de mayo  \n⌚ 21:30  \n📍Plaza de la Santa Cruz (Escuelas de Santo Tomás)  \n  \n🥰 Os esperamos ‼️   \n  \n#culturaalmoradiense   \n#escuelademusicasantotomas  \n#lapuebladealmoradiel❤️\n\n## No comments yet.\n\nStart the conversation.\n\n46\n\nLog in to like or comment.\n\nMore posts from lapuebladealmoradiel"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=jbiTVnRnR4A",
+            "title": "La mejor música de tu vida: LA BANDA DEL POP en OCHEN TAME (Pop Rock 80s-90s Directo 4K)",
+            "snippet": "[55:56] [música]\n[56:04] [música] Mi cabeza da vuelta.\n[56:10] [música]\n[56:12] Valencia, Antonio Vega, el grande,\n[56:20] el número uno. Y al que le guste Antonio Vega, por favor, que venga este domingo aquí a las 7 de la tarde, que ese señor\n[56:28] está preparando un gran homenaje a Antonio Vega. Vicente [música] Marín persiguiéndote.\n[56:38] [música]\n[56:41] Grande Antonio.\n[56:49] [música]\n[56:55] [música] [...] [22:45] [música]\n[22:46] Hoy el día ya no es como los demás, los munos que gobi"
+          },
+          {
+            "url": "https://www.billboard.com/lists/las-50-mejores-bandas-de-rock-en-espanol-clasificadas",
+            "title": "Las 50 mejores bandas de rock en español de todos los tiempos",
+            "snippet": "Con un total de ocho entradas en la lista Billboard Argentina Hot 100, Los Auténticos Decadentes, junto con Soda Stereo, Los Fabulosos Cadillacs y Enanitos Verdes, marcaron el comienzo de una nueva era del rock en Argentina, considerada por muchos rockeros como el epicentro del movimiento del rock en español en América Latina. Con el lanzamiento de su primer álbum en 1989, titulado El Milagro Argentino, la banda propuso un rock que fusionaba su característico estilo ska con pop, rock, bossa [..."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c54aa6e55de601d8ac05dc364b80f39f0a04e9e84ba768afb001da0cffe0ec00",
+      "provider": "Tavily",
+      "query": "Palacio de los Deportes Huesca aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.huescaturismo.com/palacio-de-deportes-de-huesca",
+            "title": "Palacio de Deportes de Huesca - Huesca es otra historia",
+            "snippet": "Con capacidad para 5.000 personas, acoge partidos del Club Baloncesto Peñas Huesca y del Bada Huesca de balonmano en Liga ASOBAL. Pero su actividad va mucho más allá: también alberga conciertos, ferias, espectáculos y eventos para todos los públicos, convirtiéndose en un punto de encuentro para la ciudad. [...] Ir al contenido\n\nHuesca es otra historia\n\n0   Menú Cerrar\n\n# Palacio de Deportes de Huesca\n\n## Donde el deporte y la arquitectura se dan la mano\n\nEl Palacio de los Deportes es uno de los "
+          },
+          {
+            "url": "https://feverup.com/es/huesca/venue/palacio-municipal-de-los-deportes-de-huesca",
+            "title": "Palacio Municipal de los Deportes de Huesca (Huesca): Eventos y Entradas | Fever",
+            "snippet": "# Palacio Municipal de los Deportes de Huesca\n\nEl Palacio Municipal de Deportes en Huesca ofrece modernas instalaciones para varios deportes como baloncesto, balonmano, fútbol sala, voleibol y gimnasia. Cuenta con una pista polideportiva con capacidad para 5.000 personas, sala polivalente y pista exterior de baloncesto.\n\n### Próximamente nuevas experiencias en Palacio Municipal de los Deportes de Huesca\n\n## ¿Cómo llegar?\n\nPalacio Municipal de los Deportes de Huesca [...] Calle San Jorge, 76, Hue"
+          },
+          {
+            "url": "https://parkimeter.com/es/parking-huesca/cerca-de-palacio-de-deportes-huesca",
+            "title": "Aparcar en Palacio Municipal de Deportes Huesca",
+            "snippet": "## Historia del Palacio de Deportes de Huesca\n\nEl Palacio de los Deportes de Huesca fue construido y finalizado en 1994. El recinto deportivo fue obra del arquitecto barcelonés Enric Miralles Moya, ganador de un concurso convocado por el Ayuntamiento de Huesca. El motivo de su inauguración fue debido a la necesidad de que el Club Baloncesto Peñas Huesca, que militaba en la liga ACB, contara con un pabellón que tuviera una capacidad de 5000 sitios para los espectadores.\n\nSelecciona [...] El Palac"
+          },
+          {
+            "url": "https://www.huesca.es/w/palacio-municipal-de-deportes",
+            "title": "Palacio Municipal de Deportes - Ayuntamiento de Huesca",
+            "snippet": "Pista Polideportiva de 50 x 32 metros, de parquet con iluminación y gradas para 5.000 personas.\n Sala Polivalente de 504 metros cuadrados, de hormigón fratasado con iluminación y sin gradas.\n\nInstalaciones descubiertas:\n\n Pista de baloncesto de 28 x 15 metros, de hormigón fratasado con iluminación y sin gradas.\n\nLocalización:  Calle San Jorge, 76, 22003 Tfno: 974 210 101 [...] Cerrar\n\n \n \n \n \n \n \n\nAyuntamiento de Huesca\n\n1. Inicio\n2. Instalaciones\n\nPalacio Municipal de Deportes\n\nDescripción\n\nEn "
+          },
+          {
+            "url": "https://www.cbphuesca.com/pabellon",
+            "title": "Pabellón - Club Baloncesto Peñas Huesca",
+            "snippet": "El palacio de los deportes de Huesca, es un singular edificio, obra del arquitecto barcelonés Enric Miralles Moya, que resultó ganador de un concurso restringido convocado por el Ayuntamiento de Huesca. Su construcción fue iniciada en 1990 y tras numerosas vicisitudes, derrumbe de la cubierta incluido, finalizó su construcción en el año 1994. Su construcción estuvo motivada por la necesidad del Peñas Huesca, que entonces militaba en la liga ACB de contar con un pabellón con capacidad para 5000 ["
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "85afbe60325eb3550785c2f2b014db8407cc5a4b2fd2660531403c0478e4a174",
+      "provider": "Tavily",
+      "query": "Peña Ventana Las Tremolinas concierto Huesca noviembre 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.planomato.com/es/huesca/archivo/p/2026/11",
+            "title": "Eventos en Huesca - Noviembre 2026 | Planomato",
+            "snippet": "[12-11-2026] Cuentacuentos infantil 'Pasa que pasará...' | Biblioteca Municipal Ramón J. Sender (Huesca)\n [12-11-2026] Cuentacuentos Hola Monstruo | Biblioteca Municipal A. Durán Gudiol (Huesca)\n [13-11-2026] Teatro de Robres: Perra fiel | Fundación Ibercaja Huesca (Huesca)\n [14-11-2026] Alchemy Project, homenaje a Dire Straits | Auditorio Carlos Saura, Palacio de Congresos de Huesca (Huesca)\n [14-11-2026] Concierto de otoño de la Banda de Música de Huesca | Teatro Olimpia (Huesca) [...] [10-11-"
+          },
+          {
+            "url": "https://radarhuesca.es/eventos/concierto-musicales-de-pelicula",
+            "title": "Concierto 'Musicales de Película' — RADAR Huesca",
+            "snippet": "Una oportunidad para redescubrir la evolución del musical cinematográfico y disfrutar en directo de canciones que forman parte de la memoria colectiva.\n\n + Añadir a Google Calendar\n + Exportar a iCal / Outlook\n\n### Fecha\n\n:   10 noviembre 2026\n\n### Hora\n\n:   19:00\n\n### Precio\n\n:   Actividad Gratuita. Previa inscripción\n\n### Más Información\n\n:   Leer más\n\n### Localización\n\n:   ###### Fundación Ibercaja Huesca\n:   Plaza Conde de Guara, 1, Huesca\n:   ###### Web\n\n    \n\nDisciplinas [...] Disciplinas\n"
+          },
+          {
+            "url": "https://www.palaciocongresoshuesca.es/evento/conciertos-de-san-lorenzo-2026",
+            "title": "CONCIERTOS DE SAN LORENZO 2026 - Palacio Congresos Huesca",
+            "snippet": "Consulte más información aquí\n\nOrganiza: Ayuntamiento de Huesca\n\n  \n   \n\n## Próximos eventos\n\n\" alt=\"\" itemprop=\"image\">\n\nALCHEMY PROJECT, HOMENAJE A DIRE STRAITS \n\n14/11/2026 - 14/11/2026  \n21:00 horas\n\n\" alt=\"\" itemprop=\"image\">\n\nFESTIVAL VIVA LOS 90s \n\n12/09/2026 - 12/09/2026  \n21:00 horas\n\n\" alt=\"\" itemprop=\"image\">\n\nMIGUEL MIGUEL: \"¡ACOJONADO!\" \n\n13/02/2027 - 13/02/2027  \n20:00 horas\n\n#### Uso de cookies [...] Categoria:\n\nMúsica\n\nLos conciertos tendrán lugar en el escenario exterior del Pal"
+          }
+        ]
+      }
+    }
+  ]
+}
