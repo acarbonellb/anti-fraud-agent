@@ -2,7 +2,7 @@
 
 - **Date:** 2026-11-02
 - **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33)
-- **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7 and #18.
+- **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24 and #33.
 
 ## Context
 
@@ -121,14 +121,17 @@ read an approval that went against the code's own evidence.
    any `warn` or `fail`, `rule` or `heuristic`, from a deterministic or venue check.
    - The info request asks about each flagged finding. It is written in code from the findings'
      details.
-   - The rationale says the model proposed approving, then gives its reasons.
+   - The rationale names each flag, then gives the model's reasons.
    - The policy weighs the request as usual. With only `rule` negatives it is a mechanical
-     request that may resolve on its own. With a heuristic one it escalates.
+     request that may resolve on its own, even with the search budget spent (ADR 0015): a rule
+     needs no search. With a heuristic one it escalates.
+   - Texts stay within Satella's limits. Past 10 flags, the last question points to the rest of
+     the findings.
 2. **Nothing else is rewritten.** A model `reject` or `request_info` stands. Model findings never
    trigger it: they are claims (point 3).
 3. **The confidence stays the model's.** It was a confidence in approving, so on a held-back
    approval it overstates the request. Of all the eval metrics, the Brier score is the one this
-   flatters: it dropped from 0.253 to 0.198 in E010, mostly because of this (`docs/experiments.md`).
+   flatters: it dropped from 0.253 to 0.198 in E010, partly because of this (`docs/experiments.md`).
 
 Rejected:
 

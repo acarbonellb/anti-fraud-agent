@@ -303,7 +303,7 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   - As predicted, only 11 and 15 changed, both to the expected decision, and both still
     escalate. Their flags are heuristics.
   - **The Brier gain is partly an artefact.** The held-back request keeps the model's confidence
-    in approving (0.75), and now that the decision is right, that confidence scores as well
+    in approving (0.85 in 11, 0.95 in 15), and now that the decision is right, that confidence scores as well
     calibrated. The model's own calibration didn't change.
   - The one gated fraud the model still approves is 23 (previous fraud reports). No system check
     flags it, and the policy escalates it because the search budget was spent.

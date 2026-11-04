@@ -16,6 +16,7 @@ import {
 import type { CompletionResponse } from "../providers/types.js";
 import { type SystemFinding, systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";
+import { infoRequestSchema } from "../satella-client/schemas.js";
 import { createAuthoredSearch } from "../search/authored.js";
 import { webSearchTool } from "../search/web-search-tool.js";
 import { defineTool } from "./tools.js";
@@ -273,7 +274,8 @@ describe("deterministic findings", () => {
         (finding) => finding.check === "postal_code_province",
       ),
     ).toEqual([postalCodeFail.finding]);
-    // The code's fail stands, so the approval can't (#33).
+    // The code's fail stands, so the approval can't: with only a rule
+    // flagged, it is a mechanical request (#33).
     expect(outcome.recommendation.decision).toBe("request_info");
   });
 
@@ -377,6 +379,23 @@ describe("an approval against a negative system finding (#33)", () => {
       autonomy: "auto_resolved",
       reasons: ["mechanical request: postal_code_province"],
     });
+  });
+
+  it("stays within Satella's limits and points to the flags it can't list", async () => {
+    const many = Array.from({ length: 12 }, () =>
+      systemFinding("heuristic", "session_timing", "warn", "😀".repeat(500)),
+    );
+    const { result } = run([callTool("submit_recommendation", approval)], {
+      systemFindings: [...venueVerified, ...many],
+    });
+    const { recommendation } = await result;
+    expect(
+      infoRequestSchema.safeParse(recommendation.infoRequest).success,
+    ).toBe(true);
+    expect(recommendation.infoRequest?.questions.at(-1)).toContain(
+      "otros 3 puntos",
+    );
+    expect(recommendation.rationale.length).toBeLessThanOrEqual(4000);
   });
 
   it("leaves an approval that only the model doubts, and a rejection, alone", async () => {

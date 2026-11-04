@@ -35,8 +35,13 @@
  * against the admin's decisions (ADR 0012).
  */
 import type { SystemFinding } from "../checks/types.js";
-import type { Decision, Finding } from "../satella-client/schemas.js";
+import {
+  type Decision,
+  type Finding,
+  REVIEW_TEXT_LIMITS,
+} from "../satella-client/schemas.js";
 import type { CheckId } from "./checks.js";
+import type { Proposal } from "./recommendation.js";
 
 /** Model warnings that say nothing about fraud (brief §4.2 «un warn leve»). */
 export const MINOR_WARN_CHECKS: ReadonlySet<string> = new Set<CheckId>([
@@ -236,4 +241,71 @@ function sourced(
 
 function checks(findings: readonly Finding[]): string {
   return [...new Set(findings.map((finding) => finding.check))].join(", ");
+}
+
+/**
+ * An approval never contradicts the code (#33, ADR 0012): when a
+ * deterministic or venue check flagged something, the model's `approve`
+ * becomes a `request_info` that asks about each flag, and `decideAutonomy`
+ * then weighs it like any request. Only system findings count: a model
+ * finding is a claim.
+ */
+export function holdBackApproval(
+  proposal: Proposal,
+  systemFindings: readonly SystemFinding[],
+): Proposal {
+  if (proposal.decision !== "approve") return proposal;
+  const flagged = systemFindings.map((item) => item.finding).filter(isNegative);
+  if (flagged.length === 0) return proposal;
+
+  const { questions: maxQuestions, questionChars } = REVIEW_TEXT_LIMITS;
+  // Past the limit, the last question points to the findings, so none is
+  // dropped silently.
+  const asked =
+    flagged.length <= maxQuestions
+      ? flagged
+      : flagged.slice(0, maxQuestions - 1);
+  const questions = [
+    ...asked.map((finding) =>
+      clip(
+        `Aclara este punto antes de publicar: ${finding.detail}`,
+        questionChars,
+      ),
+    ),
+    ...(asked.length < flagged.length
+      ? [
+          `Revisa también los otros ${String(flagged.length - asked.length)} puntos señalados en los hallazgos.`,
+        ]
+      : []),
+  ];
+  const why = flagged
+    .map((finding) => `${finding.check}: ${finding.detail}`)
+    .join(" · ");
+  return {
+    ...proposal,
+    decision: "request_info",
+    rationale: clip(
+      `El análisis proponía aprobar, pero las comprobaciones automáticas señalaron algo que hay que aclarar antes (${why}). Propuesta original: ${proposal.rationale}`,
+      REVIEW_TEXT_LIMITS.rationaleChars,
+    ),
+    infoRequest: {
+      questions,
+      draft: clip(
+        `Hola. Antes de publicar el evento necesitamos que revises lo siguiente:\n${questions.map((question) => `- ${question}`).join("\n")}`,
+        REVIEW_TEXT_LIMITS.draftChars,
+      ),
+    },
+  };
+}
+
+/**
+ * Cuts a text to a limit and marks the cut. Satella's limits count UTF-16
+ * units, like `length`; a cut never splits a surrogate pair.
+ */
+function clip(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const last = cut.charCodeAt(cut.length - 1);
+  const whole = last >= 0xd800 && last <= 0xdbff ? cut.slice(0, -1) : cut;
+  return `${whole}…`;
 }

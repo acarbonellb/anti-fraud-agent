@@ -20,13 +20,10 @@ import {
   type AutonomySubject,
   type AutonomyVerdict,
   decideAutonomy,
+  holdBackApproval,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
-import {
-  holdBackApproval,
-  type Proposal,
-  SUBMIT_TOOL,
-} from "./recommendation.js";
+import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
 import { type AnyAgentTool, toToolDefinition } from "./tools.js";
 import { createUntrustedFence, type UntrustedFence } from "./untrusted.js";
 
