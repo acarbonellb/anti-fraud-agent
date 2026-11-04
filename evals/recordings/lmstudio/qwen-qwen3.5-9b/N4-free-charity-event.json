@@ -2,19 +2,19 @@
   "caseId": "N4",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-04T00:06:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "59df28baa141f2aacd20f096f8dbb2ded830118d978ed59591ba02aab27e95ef",
-      "latencyMs": 2758,
+      "requestHash": "fcb36b4cf292abc1bab0e8c84fff31df6070bdcb0171773bfb30532696946d6a",
+      "latencyMs": 2789,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "ksEmiQQMeWaSblvNVj9oPgenRtMkZQaG",
+              "id": "gHKXWt9iRb7XkZGYLpJGOVRC9T8qDf47",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a6a428c7d5\"}"
             }
@@ -22,26 +22,53 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3360,
+          "inputTokens": 3414,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "367bc94f96279d84db2c0da9c1302a9fc16dcd3d0d22876dee70c2915a2ad80e",
-      "latencyMs": 2672,
+      "requestHash": "1add8e56d58b5832540f1f7f2987a4c68da794415952967964e5636b76c6d4b4",
+      "latencyMs": 3931,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "yqj433cQYVP2KSOtrRDCM9erCgG2fHOY",
+              "id": "9w1Vmc4EIzF3V8WTMBS4EOxMlvP8BuZl",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Centro Cultural La Asunción Albacete aforo capacidad\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Concierto solidario por el banco de alimentos Albacete 2026\",\"maxResults\":2}"
             },
             {
-              "id": "HFYif6jv7b8GxhCUy8DrJr14mkzfu0MJ",
+              "id": "0Ly5iZh2HrD8qt06eJreWoiYoxw7LXqu",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Coro Las Acacias banda Albacete concierto\",\"maxResults\":2}"
+            },
+            {
+              "id": "odmGuNx6ZVuddIif81toeOfk4IoDvUXJ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Banda La Mancha Sur Albacete\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3797,
+          "outputTokens": 147
+        }
+      }
+    },
+    {
+      "requestHash": "80c187f23f2a3d7ed9a1bddcc6eeae7a8b1131b53d53d90bfd152e7999c33d3c",
+      "latencyMs": 1542,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "yC1yt85AuVFOKpyF7ftn0o7N7sxXkYgs",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_cc37ee29fe\",\"windowDays\":60}"
             }
@@ -49,74 +76,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3743,
-          "outputTokens": 97
+          "inputTokens": 4437,
+          "outputTokens": 49
         }
       }
     },
     {
-      "requestHash": "c0139a10bbb0fee6fff2db15a8ee9f1476278ae26627feb49db918b996580fd5",
-      "latencyMs": 1549,
+      "requestHash": "c34536a4189d49148133892b388d221110929e9a43547a33eac4c6588f9848be",
+      "latencyMs": 28945,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Vecinos con Música):**\n- Cuenta aprobada desde 2024, con 14 eventos publicados y 12 finalizados sin cancelaciones.\n- Datos fiscales válidos (CIF con checksum correcto).\n- Sin reportes de contenido ni despublicaciones por admin.\n- Equipo activo (1 dueño, 1 manager, 2 scanners).\n\n**Evento:**\n- Título: \"Concierto solidario por el banco de alimentos\" en Albacete.\n- Artistas locales verificados: Coro Las Acacias y Banda La Mancha Sur (ambos existen como grupos aficionados en Albacete según búsquedas web).\n- Entrada gratuita con reserva, sin comisiones de servicio.\n- Términos razonables (devolución si se cancela).\n- Sin pagos fuera de plataforma ni enlaces externos.\n\n**Verificaciones determinísticas:**\n- Código postal 02005 corresponde a Albacete: PASS.\n- Recinto \"Centro Cultural La Asunción\" existe en OpenStreetMap: PASS.\n- Aforo desconocido, pero se venden 250 entradas (dentro de lo razonable para un centro cultural).\n- Precios: entrada gratuita, sin benchmark a superar.\n\n**Búsquedas web:**\n- El evento y los artistas aparecen en la web del organizador (vecinosconmusica.test), que describe una asociación vecinal que organiza conciertos solidarios desde 2017.\n- No hay indicios de clonación ni duplicidad con otros organizadores.\n\n**Hallazgo clave:**\nEl único dato no verificado es el aforo del recinto, pero como ya se venden 250 entradas y no hay señal de que supere la capacidad real (el check \"venue_capacity\" fue \"unknown\", no \"fail\"), no hay motivo para rechazar por exceso de aforo.\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o copia. El evento es coherente con la actividad del organizador y los artistas son locales y verificables. La única duda residual es el aforo desconocido, pero no es un problema grave dado que las entradas vendidas (250) son razonables para un centro cultural de barrio.\n\n**Recomendación:** APROBAR.",
           "toolCalls": [
             {
-              "id": "SZLNjJHoDGbWLgKLhU6mPOuFrC0Em7fD",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Coro Las Acacias Banda La Mancha Sur concierto Albacete 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3995,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "f0b50b8f41deffab20b8f622f87694869d0bc466d7484d20898f16ebdb04c105",
-      "latencyMs": 1613,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "dXdO5ofDhxwA8HflvTUHLobPPAw2Zssn",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Vecinos con Música\\\" Albacete banco de alimentos concierto 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4257,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "3d197452f928e102ebc9b31c52aa0304809935354200e85a1d5129e6cdfc5599",
-      "latencyMs": 38837,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento **evt_cc37ee29fe** (\"Concierto solidario por el banco de alimentos\") y su contexto. A continuación, presento mi análisis:\n\n---\n\n### ✅ Datos determinísticos (ya verificados)\n- Código postal 02005 corresponde a Albacete → **pass**\n- No hay pago fuera de plataforma → **pass**\n- No hay enlaces externos ni acortadores → **pass**\n- Términos no niegan devoluciones → **pass**\n- No hay alcohol para menores → **pass**\n- Sin inyección de prompts → **pass**\n- Precios sanos (ninguna VIP más barata) → **pass**\n- Gastos de gestión dentro del 20% → **pass**\n- Sesiones no se solapan ni son inminentes/lejanas → **pass**\n- Precio por debajo del p90 del benchmark (35,00 €) → **pass**\n- Recinto existe en OpenStreetMap a 6 m de las coordenadas → **pass**\n- Aforo desconocido para el recinto, pero se venden 250 entradas → **unknown**\n\n---\n\n### 🔍 Contexto del organizador (org_a6a428c7d5)\n- Nombre: \"Vecinos con Música\"\n- Estado: **approved**\n- Creado en mayo de 2024, fiscalidad verificada (CIF válido), dirección presente.\n- Cuenta de 930 días, email verificado.\n- Historial: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\n- Sin cambios sustanciales ni despublicaciones por admin.\n- Equipo con roles definidos (owner, manager, scanner).\n\n---\n\n### 🌐 Presencia web de los artistas y del evento\nBúsqueda web sobre \"Coro Las Acacias\" y \"Banda La Mancha Sur\":\n- Se encuentran referencias en dominios `.test` que parecen ser páginas internas de la plataforma o simuladas.\n- No hay evidencia de que estos grupos existan fuera de la plataforma ni de fechas contradictorias.\n- El evento aparece como parte de una iniciativa vecinal desde 2017, con conciertos benéficos.\n\n---\n\n### 🎯 Evaluación del aforo (unknown)\nEl recinto \"Centro Cultural La Asunción\" no tiene aforo público en Wikidata ni OpenStreetMap. Sin embargo:\n- Se venden 250 entradas para una sesión de 2 horas.\n- El evento es benéfico y gratuito, con reserva previa.\n- No hay señal de venta masiva ni saturación del recinto.\n\nDado que el aforo no está público y la venta es limitada (250/250), no hay indicios de **capacity_far_above_venue**. La incertidumbre se mantiene como **unknown**, pero sin riesgo claro.\n\n---\n\n### 🧭 Conclusión\nNo hay señales de fraude, ilegalidad o copia de contenido. El evento parece ser una iniciativa vecinal legítima, con organizador aprobado y histórico limpio. Los artistas parecen locales y coherentes con el contexto. La única duda es el aforo del recinto, pero no afecta la decisión de aprobación dado que no se supera el límite razonable.\n\n---\n\n### ✅ Recomendación: **approve**\n- Confianza: **0.92** (alta, salvo por la incertidumbre del aforo)\n- Rationale en español para admin:  \n  \"El evento es un concierto benéfico gratuito organizado por 'Vecinos con Música', entidad vecinal de Albacete con historial limpio y fiscalidad verificada. Los artistas son grupos locales sin contradicciones externas. El recinto existe y las entradas vendidas (250) no superan el aforo razonable para un centro cultural. No hay señales de fraude, ilegalidad o copia. La única duda es el aforo oficial del recinto, pero no afecta la decisión.\"\n\n---",
-          "toolCalls": [
-            {
-              "id": "Jfn9QVYMR1PRAdODEfDtxTKOVkh9bSvP",
+              "id": "Fnktb8itrihveOsE9s55Y5EMlQBaRCMQ",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento es un concierto benéfico gratuito organizado por 'Vecinos con Música', entidad vecinal de Albacete con historial limpio y fiscalidad verificada. Los artistas son grupos locales sin contradicciones externas. El recinto existe y las entradas vendidas (250) no superan el aforo razonable para un centro cultural. No hay señales de fraude, ilegalidad o copia. La única duda es el aforo oficial del recinto, pero no afecta la decisión.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Vecinos con Música' aprobado desde 2024, fiscalidad verificada (CIF válido), dirección presente, cuenta de 930 días, email verificado.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias. Sin cambios sustanciales ni despublicaciones por admin.\",\"confidence\":0.93,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Centro Cultural La Asunción» figura en OpenStreetMap como amenity=community_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/5423871\",\"title\":\"OpenStreetMap: Centro Cultural La Asunción (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del recinto. Se venden 250 entradas para una sesión de 2 horas.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia con fechas cercanas que sugieran clonación.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"Los artistas 'Coro Las Acacias' y 'Banda La Mancha Sur' parecen grupos locales de Albacete sin fechas contradictorias externas.\",\"confidence\":0.75,\"sources\":[{\"url\":\"https://vecinosconmusica.test/\",\"title\":\"Vecinos con Música — asociación vecinal de Albacete\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento es coherente con la actividad del organizador (Vecinos con Música, asociación vecinal de Albacete que organiza conciertos solidarios desde 2017). Los artistas son locales y verificables (Coro Las Acacias y Banda La Mancha Sur existen como grupos aficionados en Albacete). No hay señales de fraude, ilegalidad, clonación ni pagos fuera de plataforma. El recinto existe en OpenStreetMap. El aforo es desconocido pero las 250 entradas vendidas son razonables para un centro cultural de barrio. Precios (entrada gratuita) y términos (devolución si se cancela) son correctos. No hay reportes de contenido ni despublicaciones previas del organizador.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, con datos fiscales válidos (CIF checksum correcto), sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://vecinosconmusica.test/\",\"title\":\"Vecinos con Música — asociación vecinal de Albacete\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones. Sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"Coro Las Acacias y Banda La Mancha Sur son grupos locales de Albacete verificados en búsquedas web.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://coro-lasacacias.test/\",\"title\":\"Coro Las Acacias\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en las próximas 60 días.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo desconocido (ni Wikidata ni OpenStreetMap publican el aforo), pero se venden 250 entradas, razonable para un centro cultural de barrio.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/5423871\",\"title\":\"OpenStreetMap: Centro Cultural La Asunción (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4467,
-          "outputTokens": 1497
+          "inputTokens": 4569,
+          "outputTokens": 1121
         }
       }
     }

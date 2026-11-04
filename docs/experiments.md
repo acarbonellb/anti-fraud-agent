@@ -220,3 +220,34 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     resolve a rejection (ADR 0012 point 3, ADR 0015 point 6), so this is the policy working.
     The budget had been hiding it, the same way the old fallback hid wrong decisions in E005.
 - **Decision:** keep. Next: the prompt says when to stop searching (E007).
+
+## E007 — A prompt that says when to stop: better decisions, not fewer searches
+
+- **Hypothesis** (#31): with `review-v5` the model searches once or twice, so mean input tokens
+  fall towards 20k; decisions don't get worse.
+- **Change** (#31): prompt `review-v5`. One or two well-aimed searches usually settle a review;
+  don't search the venue, which the code already checked; a search that finds nothing is
+  evidence to record, not a reason to reword it.
+- **Before → after** (E006 → E007): gated: **58.6 % → 65.5 % accuracy, 20.8 % → 12.5 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, **Brier 0.351 → 0.253** (the
+  best so far), escalation rate 65.5 % → 72.4 %. All cases: 54.8 % → 61.3 % accuracy, 26.9 % →
+  19.2 % approved-fraud rate, 3.8 % → 3.8 % auto-approved fraud rate. Mean input tokens per
+  review: about 27,500 → 28,400.
+- **What went wrong or surprised:**
+  - **The model ignores the number.** It still makes about 4 searches per review, and 15 cases
+    try a 5th or 6th past the budget. So tokens didn't fall: the budget is what bounds them,
+    not the prompt.
+  - **But it reads what it finds better.** 02, 03, 06, 07 and 16 now get the expected decision,
+    and 21 no longer approves. Calibration improved the most: confidence follows the evidence
+    better than in any earlier entry.
+  - **Over the whole of #31 (E004 → E007):** gated accuracy 65.5 % → 65.5 %, approved-fraud rate
+    8.3 % → 12.5 %, Brier 0.319 → 0.253, mean input tokens 39,600 → 28,400 (−28 %). The
+    approved-fraud rate is higher than E004's, but E004's counted seven runs that ended on the
+    search limit as correct `request_info`s (E005). Measured on the model's own decisions, it
+    fell from 20.8 % to 12.5 %.
+  - The hypothesis of under 20k tokens wasn't met.
+  - 08 and 09 swapped places as the external case that auto-approves (the known gaps of #29,
+    items 1 and 2), so the all-cases auto-approved fraud rate stays at 3.8 %.
+- **Decision:** keep `review-v5` for its decisions. The next token cut is the budget itself: 4 →
+  2 searches, about two fewer steps per review. Measure that against N2, N3 and 06, which need a
+  search to decide. Prompt caching on a paid model (#30) cuts the price of the steps that remain.

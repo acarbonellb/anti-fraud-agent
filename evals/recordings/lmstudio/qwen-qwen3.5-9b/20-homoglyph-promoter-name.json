@@ -2,19 +2,19 @@
   "caseId": "20",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-04T00:06:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "d7cd73645c276118796e98d05b50dd0c5b69602df34e5db20d421374ad95cd19",
-      "latencyMs": 2470,
+      "requestHash": "60186ded233b92129121d36fe41e0992e1b951dd03ad53641efd2d5c5a560c9b",
+      "latencyMs": 2537,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "osJZAD0YyI6X6yXJKiGx19ecJnJIEXXP",
+              "id": "GDFQ9Xpb7SCE9OzS2S9ouZrUvWAKsLit",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_47fc0c4a0e\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2662,
+          "inputTokens": 2716,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "7f371c71710e3053fcfeeef54bd11bce085b70facabb10d5f11b00850b0147aa",
-      "latencyMs": 1716,
+      "requestHash": "0c3546f1849f628cd93c8b5119386218575e3f9f71c34c153e71679b22a1fd67",
+      "latencyMs": 1669,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "u5PbMbelJ4m29HWnuKtcepeEWXg6RBCO",
+              "id": "w6omoCuOrm6HFREhEwSI9LmCyoYCCTil",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Nоctámbula Live S.L. Madrid 2009 festivales música electrónica\",\"maxResults\":3}"
             }
@@ -44,52 +44,118 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3050,
+          "inputTokens": 3104,
           "outputTokens": 57
         }
       }
     },
     {
-      "requestHash": "3ca1c12d5080eb67108024b805d80bcfa12da82f868fbf634b06ec386e36959c",
-      "latencyMs": 11183,
+      "requestHash": "1c476b18a7f275fad61a37ec2b2a1e128dadb20157b7fd47ed23060f1ee0104b",
+      "latencyMs": 1731,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He encontrado información relevante en la búsqueda web:\n\n1. Existe una web `https://noctambulalive.test/` que afirma ser \"Noctámbula Live — promotora de festivales electrónicos\" y dice que es \"promotora líder en festivales de música electrónica desde 2009\", lo cual coincide con la descripción del organizador en la plataforma.\n\n2. Sin embargo, hay una noticia en `https://noticias-ejemplo.test/noctambula-live-aviso-suplantacion` que alerta sobre \"cuentas nuevas con un nombre casi idéntico que venden entradas falsas para sus festivales\". Esto sugiere que podría haber suplantación de identidad.\n\nEl organizador tiene:\n- Nombre: \"Nоctámbula Live\" (con una 'o' en lugar de 'ó' en la primera palabra)\n- Descripción: \"Promotora líder en festivales de música electrónica desde 2009.\"\n- CIF válido, dirección en Madrid, postal code 28004\n- Cuenta creada el 2026-11-01 (edad de cuenta: 3 días según owner.accountAgeDays)\n\nLa web del organizador parece ser un dominio `.test` que podría ser ficticio o de prueba. La noticia sobre suplantación es preocupante.\n\nNecesito verificar si este organizador es legítimo o una suplantación. El nombre \"Nоctámbula Live\" tiene una 'o' latina (ó) en lugar de 'ó' normal, lo cual podría ser un intento de suplantación usando caracteres similares.\n\nDéjame buscar más información sobre la promotora real y verificar si este organizador es legítimo o no.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "SxdVFqzGQqU1xdZCIFNwNRrHBeYr9bR8",
+              "id": "L5HpEe7poN8Yh4Nw7ao7BCis5ZeddfYd",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Noctambula Live Madrid promotora música electrónica 2009\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"org_47fc0c4a0e\\\" \\\"Nоctámbula Live\\\" fraude\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3342,
-          "outputTokens": 421
+          "inputTokens": 3396,
+          "outputTokens": 60
         }
       }
     },
     {
-      "requestHash": "59d87213520e12a4f4d6b337b48edc92124987f6bf0bbdc6164387a44de3e78c",
-      "latencyMs": 19625,
+      "requestHash": "9c2598709e571252590e5a0e2e17c1f756e44686ab520464f8c56b168a6dc9cc",
+      "latencyMs": 1466,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Los resultados de búsqueda son los mismos. Veo que:\n\n1. La web `https://noctambulalive.test/` parece ser un dominio de prueba (`.test`) que no es legítimo.\n2. Hay una noticia sobre suplantación de identidad de \"Noctámbula Live\".\n\nEl organizador en la plataforma tiene:\n- Nombre: \"Nоctámbula Live\" (con 'o' latina)\n- Descripción idéntica a la del sitio web ficticio\n- CIF válido pero cuenta muy nueva (3 días)\n- Sin eventos publicados, cancelados o finalizados\n\nLa combinación de:\n1. Un dominio `.test` que no es legítimo\n2. Una noticia sobre suplantación de identidad\n3. Cuenta recién creada (3 días)\n4. Sin historial de eventos\n\nSugiere fuertemente que este organizador podría ser una suplantación de identidad o un intento de fraude. El nombre con la 'o' latina en lugar de 'ó' es un clásico truco de suplantación usando caracteres homogléficos.\n\nNecesito rechazar este organizador por sospecha de suplantación de identidad y falta de verificación de presencia web legítima.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "JuRmCAbd6ut7X07PXzrZbcTU3UAEiZ60",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El organizador muestra señales claras de suplantación de identidad: 1) El nombre \\\"Nоctámbula Live\\\" utiliza una 'o' latina en lugar de 'ó', un truco común de suplantación con caracteres homogléficos. 2) La descripción coincide exactamente con un sitio web ficticio (dominio .test). 3) Existe noticia sobre suplantación de identidad de \\\"Noctámbula Live\\\". 4) Cuenta recién creada (3 días) sin historial de eventos. 5) Dominio web no legítimo (.test). Estos factores combinados indican fraude o intento de suplantación.\",\"findings\":[{\"check\":\"impersonation\",\"verdict\":\"fail\",\"detail\":\"El nombre 'Nоctámbula Live' utiliza una 'o' latina (homogléfico) en lugar de 'ó', truco común de suplantación. La descripción coincide con un sitio web ficticio (.test). Existe noticia sobre suplantación de identidad de la promotora real.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://noticias-ejemplo.test/noctambula-live-aviso-suplantacion\",\"title\":\"Noctámbula Live avisa de perfiles que se hacen pasar por ella\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"fail\",\"detail\":\"El sitio web del organizador es un dominio .test, no legítimo. No hay presencia web verificable fuera de la plataforma.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://noctambulalive.test/\",\"title\":\"Noctámbula Live — promotora de festivales electrónicos\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Cuenta recién creada (3 días) sin eventos publicados, cancelados o finalizados. Sin historial verificable.\",\"confidence\":0.75,\"sources\":[]}]}"
+              "id": "FxoEtTEwDY9nV0pOs8kctlaqhw8wEW8q",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Noctámbula Live\\\" promotora Madrid 2009\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3998,
-          "outputTokens": 749
+          "inputTokens": 3544,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "089e05bdcb69c59322d8419769b8cbfa068349559f3df930e45f2166b239f5a2",
+      "latencyMs": 1399,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "tr8LoEn93oSkUUvuNY4hT5avsk2rIj4G",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Noctámbula Live\\\" sitio web oficial\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3831,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "83a58d4d4d27c18e0c42d968de574ce7293703879e6bd38db3e449776d71a432",
+      "latencyMs": 1557,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "qBOKODSniZB5r3pc4Wgu0bQDK5D9eG2P",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Noctámbula Live\\\" Madrid 2009 festivales\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4113,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "e1509c605d83c4c745a33fafd85cea474e6f6dc3c6ca99377eb6700b78dd6279",
+      "latencyMs": 19671,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "1wxywyvVmuG7WyGtGsP8hjSDC9MFKyEa",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El organizador Nоctámbula Live S.L. tiene un CIF válido y sin denuncias, pero presenta señales de alerta: cuenta creada hace solo 3 días (2026-11-01), sin eventos publicados ni historial en la plataforma. La descripción \\\"Promotora líder en festivales de música electrónica desde 2009\\\" es ambiciosa para una cuenta nueva. Búsquedas web muestran que existe una promotora llamada Noctámbula Live, pero también hay avisos sobre suplantación de identidad con cuentas nuevas y nombres casi idénticos. Esto sugiere riesgo de impersonation o fraude. Necesitamos verificar si este organizador es la entidad real o una copia maliciosa, y confirmar su actividad fuera de la plataforma (sitio web oficial, redes sociales, eventos pasados).\",\"findings\":[{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"La descripción del organizador afirma ser líder en festivales desde 2009, pero la cuenta tiene solo 3 días de antigüedad. Búsquedas web muestran una promotora con nombre similar y avisos sobre suplantación de identidad.\",\"confidence\":0.75,\"sources\":[{\"url\":\"https://noctambulalive.test/\",\"title\":\"Noctámbula Live — promotora de festivales electrónicos\"},{\"url\":\"https://noticias-ejemplo.test/noctambula-live-aviso-suplantacion\",\"title\":\"Noctámbula Live avisa de perfiles que se hacen pasar por ella\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Cuenta creada el 2026-11-01 con 0 eventos publicados, sin historial en la plataforma. Descripción menciona actividad desde 2009, lo cual es inconsistente para una cuenta nueva.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"Existen avisos web sobre cuentas nuevas con nombres casi idénticos a Noctámbula Live que venden entradas falsas. Riesgo de suplantación.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://noticias-ejemplo.test/noctambula-live-aviso-suplantacion\",\"title\":\"Noctámbula Live avisa de perfiles que se hacen pasar por ella\"}]}],\"infoRequest\":{\"questions\":[\"¿Desde cuándo opera la empresa Nоctámbula Live S.L. fuera de la plataforma? ¿Tienen sitio web oficial y redes sociales verificables?\",\"¿Pueden proporcionar enlaces a eventos pasados realizados por esta promotora (no en la plataforma)?\",\"¿Por qué decidieron registrarse en la plataforma solo el 2026-11-01 si afirman operar desde 2009?\"],\"draft\":\"Solicitamos información para verificar la identidad real del organizador y descartar suplantación de identidad, dado que existen avisos sobre cuentas falsas con nombres similares.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4201,
+          "outputTokens": 746
         }
       }
     }

@@ -2,19 +2,19 @@
   "caseId": "04",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-04T00:06:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "9642bf4f79b4d1115d5b5439afbb8d10dd53bc2f053e7da58dda6c21a3396176",
-      "latencyMs": 6465,
+      "requestHash": "4b5883f7d619b4e843f410f87d6d479a01f3bbac20ff5839ff2ddb000799f112",
+      "latencyMs": 6730,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The deterministic checks have flagged a critical issue: **venue_exists** is a **fail**. The venue \"Espacio Marea\" at coordinates 39.41, -0.2 falls outside any municipality (in the sea) according to OpenStreetMap, and the venue does not exist there. This is a hard signal for fraud or error.\n\nI need to investigate further to determine if this is:\n1. A genuine mistake (wrong coordinates provided by the organizer).\n2. An attempt to impersonate a real venue with fake coordinates.\n3. A completely fabricated event.\n\nLet me check the organizer's context first to see their history and identity.",
+          "content": "The deterministic checks have flagged a critical issue: **venue_exists** is a **fail**. The venue \"Espacio Marea\" at coordinates 39.41, -0.2 falls outside any municipality (in the sea) according to OpenStreetMap, and the venue does not exist there. This is a hard signal for fraud or error.\n\nI need to investigate further to determine if this is:\n1. A genuine mistake (wrong coordinates entered by the organizer).\n2. An attempt to impersonate a real venue with fake coordinates.\n3. A completely fabricated event.\n\nLet me check the organizer's context first to see their history and whether they have other events or a web presence that might explain this.",
           "toolCalls": [
             {
-              "id": "R8oJDkPDhnc0oIPZ1axfWYPIYq7NL2ON",
+              "id": "PZVONtlnAcIFygzkAqxOmWf6bnf1uJ9p",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3349,
-          "outputTokens": 180
+          "inputTokens": 3403,
+          "outputTokens": 192
         }
       }
     },
     {
-      "requestHash": "efe43e43229d495b291ecd5a5a116d23e4a6932dbd528202e2b9a6bc8c978142",
-      "latencyMs": 4534,
+      "requestHash": "70339146a35e946897d15743b1cb76867b43983f870c1b26f181d08839be7de2",
+      "latencyMs": 5131,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The organizer \"Ona Clara Events\" looks legitimate:\n- Account age: 930 days (about 2.5 years)\n- Fiscal data present and valid (CIF checksum valid)\n- Address in Valencia, postal code 46024 matches the event's postal code\n- No content reports, no previous admin unpublishes\n- Owner has verified email\n\nHowever, the venue check failed because the coordinates are in the sea. Let me search for \"Espacio Marea\" to see if this venue exists elsewhere or if there's a known venue with that name in Valencia.",
+          "content": "The organizer \"Ona Clara Events\" looks legitimate on paper:\n- Account age: 930 days (about 2.5 years) - established.\n- Fiscal data present and checksum valid.\n- No previous content reports or admin unpublishes.\n- Team has a scanner (suggests some oversight).\n- 14 published events, 12 ended normally.\n\nHowever, the venue issue is serious. The coordinates (39.41, -0.2) are indeed in the Mediterranean Sea near Valencia, not on land. Let me search for \"Espacio Marea Valencia\" to see if this venue exists elsewhere or if there's a known venue with that name.",
           "toolCalls": [
             {
-              "id": "oI0IhdRQpfxBdVOniZDxUvsy82VATgO1",
+              "id": "dWdXBt5JUFfv64anN3XhxAU7406xHesE",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Espacio Marea Valencia recinto eventos\",\"maxResults\":3}"
             }
@@ -44,21 +44,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3862,
-          "outputTokens": 169
+          "inputTokens": 3928,
+          "outputTokens": 191
         }
       }
     },
     {
-      "requestHash": "bafb9560b05a3560972d4718f3cf21efdabdceca28eed11e7f6f2acd8a2a0951",
-      "latencyMs": 3714,
+      "requestHash": "3ac020e76ed9af28afc6d7552d87c27138ec7e449b809f304b5112d35a4d9b6c",
+      "latencyMs": 4050,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search shows some results about \"Marea\" but not specifically \"Espacio Marea\" as a venue in Valencia. The first result is an Instagram reel about \"marea.saloneventos\" which seems to be a different entity (possibly a wedding/event space). Let me search more specifically for the address provided: \"Avenida del Puerto Chico 221, 4.º C\" in Valencia.",
+          "content": "The search results show:\n1. An Instagram account \"marea.saloneventos\" - this might be a real venue called \"Marea\" but not necessarily \"Espacio Marea\".\n2. Oceanogràfic de València events page - unrelated.\n3. Eventbrite event about \"La Marea del Cambio\" - unrelated.\n\nLet me search more specifically for \"Espacio Marea Valencia\" to see if there's a known venue with that exact name.",
           "toolCalls": [
             {
-              "id": "KmpLgAHOP3wQSGnF0FdxaDKN1H2iDSwB",
+              "id": "4bDgQmyscf4NyCkcj51GmzkwmPxNcBq3",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4581,
+          "outputTokens": 145
+        }
+      }
+    },
+    {
+      "requestHash": "659cfb7dcf97b5ac1236e8175116150b72e96e3a0fabe1a61d5ae689af63977f",
+      "latencyMs": 5314,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results show:\n1. \"Studio Marea\" - a pole dance studio in Alboraya, Valencia (not \"Espacio Marea\").\n2. Instagram posts about \"Marea Studio\" and \"MAREA HITS\" at Puerto de Valencia.\n\nNone of these confirm the existence of a venue called \"Espacio Marea\" at the coordinates provided (39.41, -0.2). The coordinates are in the sea, which is suspicious.\n\nLet me check if there's a real venue near those coordinates or if this is a fabricated location. Let me also search for the specific address \"Avenida del Puerto Chico 221\" to see if that exists.",
+          "toolCalls": [
+            {
+              "id": "iI8DDNefBNM1i8viMbjIib242elwvBHU",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico 221\\\" Valencia\",\"maxResults\":3}"
             }
@@ -66,74 +88,52 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4493,
-          "outputTokens": 135
+          "inputTokens": 5107,
+          "outputTokens": 194
         }
       }
     },
     {
-      "requestHash": "0eff6e74e0b57d6aab5d110bb4b33ee2fc9ae9020d6e1c08d529642633b7f084",
-      "latencyMs": 5536,
+      "requestHash": "7be803c5e1a1bd231f25fe58b5fb5a5416d2ef23d0297b4aeaadf42fa191f888",
+      "latencyMs": 7577,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The address \"Avenida del Puerto Chico 221\" exists in Valencia (the search confirms Avenida del Puerto is a real street). However, the coordinates provided (39.41, -0.2) are the problem. Let me check what those coordinates actually point to and verify if they're correct for this address.\n\nThe coordinates 39.41, -0.2 are indeed in the Mediterranean Sea near Valencia, not on land. The actual Avenida del Puerto is located around latitude 39.45-39.46, longitude -0.28 to -0.29 based on typical Valencia geography.\n\nLet me search for \"Espacio Marea\" specifically as a venue name in Valencia to see if it's a real place.",
+          "content": "The address \"Avenida del Puerto, 221\" does exist in Valencia according to Callejero.net and Wikipedia. However, the venue's coordinates (39.41, -0.2) are still problematic. Let me check what the actual coordinates of Avenida del Puerto 221 should be.\n\nLooking at the data:\n- The address is \"Avenida del Puerto Chico 221, 4.º C\" in Valencia.\n- The postal code 46024 corresponds to Valencia (pass).\n- But the coordinates 39.41, -0.2 are in the sea.\n\nThis is a significant discrepancy. The address exists, but the coordinates don't match where that address should be geographically. This could indicate:\n1. The organizer entered wrong coordinates.\n2. The venue doesn't actually exist at those coordinates.\n3. This could be an attempt to hide the real location.\n\nLet me search for \"Espacio Marea\" specifically with Valencia to see if there's a known venue by that name.",
           "toolCalls": [
             {
-              "id": "nN04kOGYeDC7Rns02q6IvtJtOZ99wQxG",
+              "id": "oexZyueAydvpdxac7UcRNp3lqYdyvCud",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia recinto eventos\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" recinto eventos Valencia\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5081,
-          "outputTokens": 209
+          "inputTokens": 5754,
+          "outputTokens": 272
         }
       }
     },
     {
-      "requestHash": "5d69b5bb99c51dcf2a77d5683ab8d9a40625c915b909264b4104e19c03024829",
-      "latencyMs": 7804,
+      "requestHash": "63efe27f0f07ee6688b976659e967477b001ec15477648598299734b0a7a1c01",
+      "latencyMs": 28617,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I've already searched for \"Espacio Marea Valencia recinto eventos\" and got results that don't confirm this specific venue exists. The web search showed:\n1. An Instagram reel about \"marea.saloneventos\" (different entity)\n2. Oceanogràfic de València events page\n3. Eventbrite event unrelated to this venue\n\nThe key issue is the **venue_exists** check failed because the coordinates are in the sea. This is a hard signal that either:\n1. The organizer provided wrong coordinates\n2. The venue doesn't exist at all\n3. This is fraudulent activity\n\nGiven that:\n- The organizer has a legitimate history (930 days old, valid fiscal data, no reports)\n- The address format looks real (Avenida del Puerto Chico 221, 4.º C)\n- But the coordinates are clearly wrong (in the sea)\n\nThis could be an innocent mistake (wrong coordinates entered), but it's also a significant red flag. The venue capacity check is \"unknown\" because the venue isn't verified in OSM.\n\nLet me check if there's a known venue called \"Espacio Marea\" or similar in Valencia by searching more broadly.",
+          "content": "I've already searched for \"Espacio Marea Valencia\" and found no evidence of a venue by that exact name. The search results showed \"Studio Marea\" (a pole dance studio) but not \"Espacio Marea\".\n\nGiven the situation:\n1. **Venue exists check failed**: The coordinates are in the sea, and OpenStreetMap doesn't have a venue there.\n2. **Address exists**: \"Avenida del Puerto Chico 221\" is a real address in Valencia.\n3. **No web evidence** of a venue called \"Espacio Marea\" at that location or nearby.\n4. **Organizer looks legitimate**: Ona Clara Events has been around for 2.5 years, valid fiscal data, no red flags in history.\n\nThe discrepancy between the address and coordinates is concerning. This could be:\n- An honest mistake (wrong coordinates entered).\n- A deliberate attempt to use fake coordinates to hide the real location.\n- The venue doesn't actually exist at that address.\n\nGiven that this is a **hard signal** (venue_exists fail), I need to request information from the organizer to clarify the situation before making a final decision. I should ask them to provide:\n1. Correct coordinates for the venue.\n2. Proof of the venue's existence (photos, contract, etc.).\n\nLet me submit a recommendation with request_info.",
           "toolCalls": [
             {
-              "id": "BFUfFf8fNFT1NjT1M8f8TdGEZizB3Gyn",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Marea\\\" Valencia sala eventos club nocturno\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5328,
-          "outputTokens": 302
-        }
-      }
-    },
-    {
-      "requestHash": "afddbf7482f14abbedd1b510ded70986907a7248e8e2f67b43fc85eddea64567",
-      "latencyMs": 22999,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results show:\n1. \"M CLUB DISCOTECA VALENCIA\" - a club in Valencia near the city hall\n2. \"MAREA HITS\" at Puerto de Valencia (El Camarote) - this seems to be an event/venue name but not \"Espacio Marea\"\n3. \"Marea\" from Argentina (unrelated fashion company)\n\nNone of these confirm that \"Espacio Marea\" is a real venue in Valencia. The coordinates being in the sea is a major red flag.\n\nGiven the situation:\n- **venue_exists: fail** - The coordinates are in the sea, and OSM doesn't have this venue there\n- **venue_capacity: unknown** - Can't verify capacity without knowing if the venue exists\n- Organizer looks legitimate (old account, valid fiscal data)\n- No other red flags in deterministic checks\n\nThis is a case where I should request information to clarify the venue situation. The organizer might have made an error with coordinates, or this could be fraudulent. Since the venue existence check failed and we can't verify capacity, I need to ask for clarification.\n\nLet me submit a recommendation to request_info asking about the venue coordinates and verification.",
-          "toolCalls": [
-            {
-              "id": "6s5QzizCJVPZxCzZ4qiPdgaHwQaSqP9p",
+              "id": "WHZydgM6cbQyb4NtLEghJIUU1Ia6QDs8",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una falla crítica en la verificación del recinto: las coordenadas proporcionadas (39.41, -0.2) caen en el mar Mediterráneo, fuera de cualquier término municipal, y OpenStreetMap no registra \\\"Espacio Marea\\\" en esas coordenadas. Aunque el organizador \\\"Ona Clara Events\\\" tiene un historial legítimo (cuenta de 930 días, datos fiscales válidos, sin reportes), la ubicación del recinto es cuestionable. El aforo también es desconocido ya que no podemos verificar el recinto. Necesitamos aclarar si las coordenadas son correctas o si hay un error en los datos proporcionados.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: el recinto no está verificado en OpenStreetMap, así que no hay aforo publicado; la sesión con más entradas pone a la venta 600.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador legítimo: cuenta de 930 días, CIF válido, dirección en Valencia, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podrían proporcionar las coordenadas correctas del recinto «Espacio Marea» o confirmar si este existe en la dirección Avenida del Puerto Chico 221, 4.º C de Valencia?\",\"¿Existe un aforo oficial para el recinto que puedan compartir?\"],\"draft\":\"Solicito información sobre el recinto debido a que las coordenadas proporcionadas caen en el mar y no hay registro de «Espacio Marea» en esas coordenadas en OpenStreetMap. Necesito verificar la ubicación real del recinto y su capacidad antes de poder aprobar este evento.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una discrepancia crítica entre la dirección del recinto y sus coordenadas geográficas. La dirección \\\"Avenida del Puerto Chico 221\\\" existe en Valencia, pero las coordenadas proporcionadas (39.41, -0.2) caen en el mar Mediterráneo, fuera de cualquier término municipal. OpenStreetMap no registra ningún recinto llamado \\\"Espacio Marea\\\" en esas coordenadas. Aunque la organización \\\"Ona Clara Events\\\" parece legítima (cuenta establecida desde 2024, datos fiscales válidos, sin reportes previos), esta inconsistencia geográfica es una señal de alerta que requiere aclaración antes de aprobar el evento. Necesitamos confirmar si se trata de un error involuntario o si el recinto existe realmente en la ubicación declarada.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas. La dirección 'Avenida del Puerto Chico 221' existe en Valencia, pero las coordenadas no coinciden con la ubicación real de esa dirección.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Ona Clara Events' con cuenta establecida desde mayo 2024 (930 días), datos fiscales válidos (CIF con checksum correcto), sin reportes de contenido previos ni despublicaciones por admin. Equipo incluye scanner.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se ha encontrado evidencia web clara de un recinto llamado 'Espacio Marea' en Valencia. Se encontraron referencias a 'Studio Marea' (escuela de pole dance en Alboraya) pero no al recinto específico del evento.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://studiomarea.wodbuster.com\",\"title\":\"Studio Marea\"},{\"url\":\"https://www.instagram.com/reel/DTlcaZykUCX\",\"title\":\"Instagram: Marea Studio\"}]}],\"infoRequest\":{\"questions\":[\"¿Cuáles son las coordenadas geográficas correctas del recinto 'Espacio Marea' en Avenida del Puerto Chico 221, Valencia?\",\"¿Puede proporcionar documentación que verifique la existencia del recinto (contrato de alquiler, fotos recientes, o enlace a su página web oficial)?\",\"¿Por qué las coordenadas proporcionadas en el evento caen en el mar Mediterráneo y no en la ubicación real del recinto?\"],\"draft\":\"Solicitamos información adicional para aclarar la discrepancia entre la dirección declarada y las coordenadas geográficas del recinto. Necesitamos confirmar que el evento se llevará a cabo en un lugar físico válido y seguro.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6025,
-          "outputTokens": 884
+          "inputTokens": 6064,
+          "outputTokens": 1086
         }
       }
     }
@@ -166,6 +166,32 @@
       }
     },
     {
+      "requestHash": "b069df0889f048060d9ac7776a705fb6dde3b1ea102a16f9fa09c06103966d6f",
+      "provider": "Tavily",
+      "query": "\"Espacio Marea\" Valencia",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://studiomarea.wodbuster.com",
+            "title": "Studio Marea",
+            "snippet": "Studio Marea\n\n# Studio Marea Arte en movimiento\n\n## Ven a entrenar con nosotros\n\nApúntate ahora\n\n## Marea Pole Studio\n\n### Qué es y en qué consiste\n\nMarea Studio, escuela de Pole Dance en Valencia ubicada en Alboraya.  \nSomos un espacio de movimiento y bienestar donde ofrecemos clases de pole dance, yoga, danza latina, heels y flexibilidad para todos los niveles y todas las edades 🌊Ven a probarlo, ¡que no te lo cuenten!\n\nApúntate ahora\n\n## El Centro\n\n### Ven a conocernos, empieza tu desafio [.."
+          },
+          {
+            "url": "https://www.instagram.com/reel/DTlcaZykUCX",
+            "title": "🌊 Marea empezó a moverse. Abrimos las puertas y el ...",
+            "snippet": "Marea Studio ya es una realidad en Alboraya, Valencia. Un lugar para explorar el cuerpo, aprender, expresarte y ser parte de una comunidad que ...Read more"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DYX42dyClpN",
+            "title": "Instagram",
+            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and The Roof  \n🗓️ 17.05.2026  \n  \n¿Vienes con la marea o te quedas en la orilla? 🌊\n\ncolominaclaudia's profile picture\n\ncolominaclaudia\n\nElla también icónica como siempre adoro jajajaj😍\n\nReply [...] Phot"
+          }
+        ]
+      }
+    },
+    {
       "requestHash": "08d3eb25721d713eb5dea915496f36e53b8fc76ed5376e25fd2eeb81339efd63",
       "provider": "Tavily",
       "query": "\"Avenida del Puerto Chico 221\" Valencia",
@@ -187,32 +213,6 @@
             "url": "https://maps.apple.com/place?place-id=IE94E910D5300FD9",
             "title": "Avenida del Puerto in València, Valencia, Spain - Apple Maps",
             "snippet": "# Apple Maps\n\nSearchGuidesDirections\n\nHave a Business on Maps?\n\nManage Your Business\n\n# Avenida del Puerto\n\n# Avenida del Puerto\n\nHotel · Poblats Marítims, València\n\nDirectionsCall\n\nMore\n\nClaim This Place\n\n## Ratings\n\n## Overall\n\n100%2 ratings\n\n## Details\n\n### Phone\n\n+34 613 564 134\n\n### Address\n\nAvinguda del Port, 314\n\n46024 València\n\nValencia, Spain\n\nClaim This Place"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "b12f2a2e7d2d8dee1a86978c09d92db23696ecf4c263a37e59f14ec66adcfa30",
-      "provider": "Tavily",
-      "query": "\"Marea\" Valencia sala eventos club nocturno",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://zonadeclubs.com/locales.aspx",
-            "title": "Disfruta de la mejor terraza de Valencia junto al mar. ...",
-            "snippet": "M CLUB DISCOTECA VALENCIA Discoteca y club nocturno ✨Vive una experiencia única A pasos de la plaza del ayuntamiento Reserva tu noche mágica por DM ...Read more"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DYX42dyClpN",
-            "title": "Instagram",
-            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and The Roof  \n🗓️ 17.05.2026  \n  \n¿Vienes con la marea o te quedas en la orilla? 🌊\n\ncolominaclaudia's profile picture\n\ncolominaclaudia\n\nElla también icónica como siempre adoro jajajaj😍\n\nReply [...] More"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/LzFh7nyvpQGW",
-            "title": "Marea",
-            "snippet": "# Marea\nID: LzFh7nyvpQGW\nWebsite: www.marea.com.ar\nHeadquarters: Villa Carlos Paz, Córdoba, Argentina\nLinkedIn: www.linkedin.com/company/mareaoficial · 12,920 followers\nIndustry: Retail Apparel and Fashion\nCompany type: Self-Owned\nFounded: 1993\nSocial profiles: www.facebook.com/marea.official, www.crunchbase.com/organization/marea-7926, www.instagram.com/marea.oficial [...] Description: Marea is a company that offers sports clothing, urban clothing, and bathwear for women, men, and children. The"
           }
         ]
       }

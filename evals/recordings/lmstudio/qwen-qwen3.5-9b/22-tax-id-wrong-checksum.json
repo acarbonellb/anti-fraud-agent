@@ -2,19 +2,19 @@
   "caseId": "22",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v4",
-  "clock": "2026-11-04T00:06:00.000Z",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "a0094fed9167af82aec97d5c35e4d841dc75504d5d80331d273dad0f97400359",
-      "latencyMs": 2451,
+      "requestHash": "7ac62d420dbdd45f229fe516caa1a899bd3be382fb3122d4d04266359349bba7",
+      "latencyMs": 2637,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Ligx2Uu9OxQ3mfCLw6yt1qxUiDyxNqIq",
+              "id": "xqtPu3A4d8arDvwQLuDMaZiO69K0lF5b",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f2f6b9c53b\"}"
             }
@@ -22,30 +22,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 2675,
+          "inputTokens": 2729,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "4b39b11efb22c49c4c24b4a47018f9ce110db581ae5b06296562669869242b04",
-      "latencyMs": 13574,
+      "requestHash": "5503c2ac62885f08c9ef2c94408a30b7f28ede95890ff755a6478ec47329ced9",
+      "latencyMs": 14217,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "El organizador \"Brezo y Piedra Cultura\" tiene un CIF con checksum inválido, lo cual es una señal de alerta importante. Sin embargo, no hay evidencia de fraude activo (denuncias, eventos cancelados por el admin, etc.). Dado que es una asociación cultural nueva (30 días) sin historial en la plataforma, y el error del CIF podría ser un error administrativo corregible, lo más prudente es solicitar información para verificar la identidad fiscal real antes de aprobar.\n\nNo hay indicios de clonación, contenido ilegal o pagos fuera de plataforma en los datos disponibles. El riesgo principal es la validez fiscal, que puede aclararse con una solicitud de info.",
+          "content": "El contexto del organizador muestra que el CIF tiene un checksum inválido. Esto es una señal de alerta importante, pero no necesariamente indica fraude; podría ser un error tipográfico o un problema con la validación automática. Sin embargo, dado que el organizador es nuevo (30 días) y no tiene eventos publicados ni historial en la plataforma, es prudente solicitar información adicional para verificar la identidad del organizador y la validez de sus datos fiscales.\n\nNo hay evidencia de fraude claro (como pagos fuera de la plataforma, contenido ilegal, etc.), pero el fallo en el CIF requiere aclaración antes de aprobar. Por lo tanto, la decisión más adecuada es solicitar información para resolver esta duda.",
           "toolCalls": [
             {
-              "id": "E3yMjQiiFyQpU5Vl5wKkkOkQ1esEkrF8",
+              "id": "RKKZMLp7KOrNfZ0hP24IZywsm7kXSkss",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El organizador presenta un CIF con checksum inválido, lo cual es una señal de alerta importante para la identidad fiscal. Sin embargo, no hay historial negativo (denuncias, eventos cancelados por admin) y el error podría ser administrativo. Se requiere aclarar la validez del CIF antes de aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"fail\",\"detail\":\"El CIF del organizador tiene un dígito de control incorrecto según la regla de validación.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer/org_f2f6b9c53b\",\"title\":\"Deterministic checks\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin organizaciones rechazadas del dueño ni denuncias por fraude en el historial.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer/org_f2f6b9c53b\",\"title\":\"Deterministic checks\"}]}],\"infoRequest\":{\"questions\":[\"¿Puede proporcionar un CIF válido y corregido para la Asociación Cultural Brezo y Piedra?\",\"¿Existe algún error administrativo en el registro fiscal que deba aclarar?\"],\"draft\":\"Solicitud de información para verificar la identidad fiscal del organizador debido al CIF con checksum inválido.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El organizador \\\"Brezo y Piedra Cultura\\\" presenta un CIF con checksum inválido, lo cual es una señal de alerta que requiere aclaración antes de aprobar. Aunque no hay evidencia de fraude claro (sin denuncias, sin eventos anteriores, sin pagos fuera de la plataforma), el error en los datos fiscales debe verificarse para asegurar la identidad correcta del organizador. Se solicita información adicional para confirmar la validez del CIF y la identidad legal de la asociación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"fail\",\"detail\":\"El CIF del organizador tiene un checksum inválido según la regla del dígito de control.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer/org_f2f6b9c53b\",\"title\":\"Deterministic checks\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin organizaciones rechazadas del dueño ni denuncias por fraude.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer/org_f2f6b9c53b\",\"title\":\"Deterministic checks\"}]}],\"infoRequest\":{\"questions\":[\"¿Podrían proporcionar el CIF correcto de la Asociación Cultural Brezo y Piedra?\",\"¿Existe algún error tipográfico en los datos fiscales registrados?\"],\"draft\":\"Solicitamos aclaración sobre el CIF inválido antes de proceder con la aprobación del organizador.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3063,
-          "outputTokens": 522
+          "inputTokens": 3117,
+          "outputTokens": 542
         }
       }
     }
