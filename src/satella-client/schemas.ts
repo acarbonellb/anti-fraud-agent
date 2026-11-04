@@ -355,10 +355,21 @@ export const findingSchema = z.object({
 });
 export type Finding = z.infer<typeof findingSchema>;
 
+/** Satella's size limits on a recommendation's texts. */
+export const REVIEW_TEXT_LIMITS = {
+  rationaleChars: 4000,
+  questions: 10,
+  questionChars: 300,
+  draftChars: 2000,
+} as const;
+
 export const infoRequestSchema = z.object({
-  questions: z.array(z.string().min(1).max(300)).min(1).max(10),
+  questions: z
+    .array(z.string().min(1).max(REVIEW_TEXT_LIMITS.questionChars))
+    .min(1)
+    .max(REVIEW_TEXT_LIMITS.questions),
   /** A draft only: Satella never sends it to the organizer by itself. */
-  draft: z.string().max(2000),
+  draft: z.string().max(REVIEW_TEXT_LIMITS.draftChars),
 });
 
 const reviewSubjectSchema = subjectSchema.extend({
@@ -373,7 +384,7 @@ export const createReviewRequestSchema = z.object({
   autonomy: z.enum(["auto_resolved", "escalated"]),
   confidence: ratio,
   /** In Spanish, for the admin. */
-  rationale: z.string().min(1).max(4000),
+  rationale: z.string().min(1).max(REVIEW_TEXT_LIMITS.rationaleChars),
   findings: z.array(findingSchema).max(30),
   infoRequest: infoRequestSchema.nullable().optional(),
   agentRunId: z.string().min(1).max(128),

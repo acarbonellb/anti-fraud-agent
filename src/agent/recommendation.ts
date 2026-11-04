@@ -4,6 +4,7 @@ import {
   decisionSchema,
   findingSchema,
   infoRequestSchema,
+  REVIEW_TEXT_LIMITS,
 } from "../satella-client/schemas.js";
 import { CHECK_IDS, CHECKS } from "./checks.js";
 
@@ -16,7 +17,7 @@ export const proposalSchema = z.object({
   decision: decisionSchema,
   confidence: z.number().min(0).max(1),
   /** In Spanish, for a Spanish admin (CLAUDE.md §1). */
-  rationale: z.string().min(1).max(4000),
+  rationale: z.string().min(1).max(REVIEW_TEXT_LIMITS.rationaleChars),
   findings: z.array(findingSchema.extend({ check: z.enum(CHECK_IDS) })).max(30),
   /** Required when the decision is `request_info`. */
   infoRequest: infoRequestSchema.optional(),

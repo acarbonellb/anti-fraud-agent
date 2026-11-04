@@ -16,12 +16,12 @@ Prompt `review-v5` · recorded 2026-11-04
 | Metric | Gated | All cases |
 | --- | --- | --- |
 | Cases scored | 29 / 29 | 31 / 31 |
-| Accuracy | 65.5 % | 61.3 % |
-| Approved-fraud rate | 12.5 % | 19.2 % |
+| Accuracy | 72.4 % | 67.7 % |
+| Approved-fraud rate | 4.2 % | 11.5 % |
 | Auto-approved fraud rate | 0.0 % | 3.8 % |
 | Escalation rate | 72.4 % | 71.0 % |
 | Autonomy accuracy | 72.4 % | 71.0 % |
-| Brier score | 0.253 | 0.283 |
+| Brier score | 0.198 | 0.232 |
 | Mean tokens in / out | 28375 / 1390 | 28517 / 1407 |
 | Mean latency | 38.8 s | 39.2 s |
 
@@ -38,17 +38,18 @@ Prompt `review-v5` · recorded 2026-11-04
 | E007 | 2026-11-04 | `review-v5` | Prompt review-v5: one or two well-aimed searches usually settle a review, don't search the venue, a search that finds nothing is evidence (#31). | 65.5 % | 12.5 % | 0.0 % | 0.253 |
 | E008 | 2026-11-04 | `review-v5` | Default search budget 4 -> 2 (#31). | 51.7 % | 16.7 % | 0.0 % | 0.365 |
 | E009 | 2026-11-04 | `review-v5` | Revert the search budget to 4 and restore E007's recordings: a budget of 2 cost accuracy and calibration (E008) (#31). | 65.5 % | 12.5 % | 0.0 % | 0.253 |
+| E010 | 2026-11-04 | `review-v5` | An approval against a negative system finding becomes a request_info that asks about each flag (#33). | 72.4 % | 4.2 % | 0.0 % | 0.198 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009]
+  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010]
   y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0]
+  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4]
+  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2]
+  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -63,11 +64,11 @@ xychart-beta
 | 06 | The artist has the same date announced in another city (authored web results) | ✅ reject | ✅ escalated | 0.95 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
 | 07 | Clone: same title, date and venue as another organizer's event | ✅ reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity warn | rejection without a rule-based or sourced hard signal |
 | 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity pass | hard signals: off_platform_payment |
-| 11 | Link to another ticketing site through a URL shortener | ❌ request_info → approve | ✅ escalated | 0.85 | venue pass · capacity pass | deterministic checks flagged: external_ticketing_link |
+| 11 | Link to another ticketing site through a URL shortener | ✅ request_info | ✅ escalated | 0.85 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: external_ticketing_link |
 | 12 | Terms: «no refund even if the event is cancelled» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
 | 13 | «General» at 950 € in a 300-person room | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: price_benchmark, venue_capacity; model findings need judgement: organizer_web_presence; confidence 0.75 below 0.85 |
 | 14 | «VIP» costs less than «General» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
-| 15 | Service fee of 45 % | ❌ request_info → approve | ✅ escalated | 0.95 | venue pass · capacity pass | web search budget spent; deterministic checks flagged: service_fee |
+| 15 | Service fee of 45 % | ✅ request_info | ✅ escalated | 0.95 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: service_fee |
 | 16 | Free, with 50,000 tickets, at a venue of unknown capacity | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity ≥ 2× fail | no rule-based finding to ask about; needs judgement: capacity_far_above_venue; confidence 0.75 below 0.85 |
 | 17 | Published at night for a session the next morning, with a large capacity | ❌ request_info → reject | ❌ escalated → auto_resolved | 0.95 | venue pass · capacity ≥ 2× fail | hard signals: capacity_far_above_venue |
 | 18 | Session three years away with the whole capacity on sale | ❌ request_info → reject | ✅ escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
