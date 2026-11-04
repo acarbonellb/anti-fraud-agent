@@ -252,6 +252,7 @@ async function review(
       autoApproveThreshold,
       venueChecks: createVenueChecks({ fetch, throttles, search }),
       extraTools: [webSearchTool(search)],
+      webSearch: search,
       now: () => clock,
       fence: createUntrustedFence(nonceFor(evalCase.id)),
       prompt,

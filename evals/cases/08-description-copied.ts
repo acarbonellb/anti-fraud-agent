@@ -13,8 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Description copied word for word from another ticketing site",
   subject: "event",
-  // Web search didn't settle it: the model never searched the text (E004).
-  requires: ["external"],
+  // The code searches the text since #37 (E012): the model never did (E004).
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(

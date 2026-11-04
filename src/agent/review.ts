@@ -1,6 +1,7 @@
 /**
  * Reviews one subject end to end: read its context from Satella, run the
- * deterministic and venue checks, run the loop, submit the recommendation. Satella's `409 STALE_SUBJECT` means the
+ * deterministic, venue and copied-text checks, run the loop, submit the
+ * recommendation. Satella's `409 STALE_SUBJECT` means the
  * subject changed during the review: re-review the new version, never retry
  * the old recommendation (CLAUDE.md §4).
  */
@@ -9,10 +10,12 @@ import {
   benchmarkQuery,
   priceBenchmarkCheck,
 } from "../checks/price-benchmark.js";
+import { copiedTextCheck } from "../checks/copied-text.js";
 import { exactCloneCheck } from "../checks/exact-clone.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
+import type { WebSearch } from "../search/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
 import type {
@@ -38,6 +41,8 @@ export interface ReviewSubjectInput {
   autoApproveThreshold: number;
   /** For events, before the model (ADR 0015 point 2). */
   venueChecks: VenueChecks;
+  /** For the code's own search of a copied description; skipped without it. */
+  webSearch?: WebSearch;
   /** Tools beyond Satella's own (deterministic checks, web research). */
   extraTools?: readonly AnyAgentTool[];
   /** Re-reviews after a stale subject before giving up. */
@@ -124,7 +129,8 @@ async function prepareEvent(
   now: Date,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
-  const [benchmark, similar] = await Promise.all([
+  const { webSearch } = input;
+  const [benchmark, similar, copiedText, venue] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
     orIfSatellaFails(
       input.satella.getPriceBenchmark(benchmarkQuery(context)),
@@ -132,6 +138,8 @@ async function prepareEvent(
     ),
     // Without them there is no clone finding; the model still has the tool.
     orIfSatellaFails(input.satella.findSimilarEvents(id), []),
+    webSearch === undefined ? [] : copiedTextCheck(context, webSearch),
+    input.venueChecks(context),
   ]);
   return {
     context,
@@ -139,7 +147,8 @@ async function prepareEvent(
       ...runEventChecks(context, now),
       priceBenchmarkCheck(context, benchmark),
       ...exactCloneCheck(context, similar),
-      ...(await input.venueChecks(context)),
+      ...copiedText,
+      ...venue,
     ],
     autonomySubject: {
       type: "event",

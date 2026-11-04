@@ -72,6 +72,7 @@ try {
       ...(search === undefined ? {} : { search }),
     }),
     extraTools: search === undefined ? [] : [webSearchTool(search)],
+    ...(search === undefined ? {} : { webSearch: search }),
   });
 
   const { run, review } = result;

@@ -2,9 +2,10 @@
 // read, the deterministic and venue checks run, the loop runs, the
 // recommendation lands in Satella with the policy's autonomy, and a subject
 // that changes during the review is re-reviewed instead of retried. The
-// exact-clone check asks Satella for similar events before the model. Fakes
-// Satella with the mock server, the model with the scripted provider and the
-// venue checks with canned findings.
+// exact-clone check asks Satella for similar events before the model, and the
+// copied-text check searches the description. Fakes Satella with the mock
+// server, the model with the scripted provider, the venue checks with canned
+// findings and the web with the authored search.
 import { afterEach, beforeEach, expect, it } from "vitest";
 
 import {
@@ -22,6 +23,8 @@ import {
   type MockSatella,
   startMockSatella,
 } from "../satella-client/mock-server.js";
+import { createAuthoredSearch } from "../search/authored.js";
+import type { WebSearch } from "../search/types.js";
 import { PROMPT_VERSION } from "./prompt.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
@@ -95,6 +98,7 @@ function review(
   provider: LlmProvider,
   venueChecks = verifiedVenue,
   satella: SatellaClient = satellaClient(),
+  webSearch?: WebSearch,
 ) {
   return reviewSubject({
     subject: { type: "event", id: "evt_0001" },
@@ -104,6 +108,7 @@ function review(
     limits: { maxToolCalls: 10, maxTokens: 100_000, maxWebSearches: 2 },
     autoApproveThreshold: 0.85,
     venueChecks,
+    ...(webSearch === undefined ? {} : { webSearch }),
   });
 }
 
@@ -240,6 +245,28 @@ it("goes on when Satella can't serve the similar events", async () => {
         finding.verdict === "fail",
     ),
   ).toEqual([]);
+});
+
+it("holds back an approval when another site has the description word for word", async () => {
+  const web = createAuthoredSearch([
+    {
+      url: "https://entradas-ejemplo.test/eventos/jazz",
+      title: "Noche de jazz | EntradasEjemplo",
+      snippet: `Otro organizador: ${fixtures.eventContext.event.description ?? ""}`,
+    },
+  ]);
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+
+  const result = await review(provider, verifiedVenue, satellaClient(), web);
+
+  expect(provider.requests[0]?.messages[1]?.content).toContain("Texto copiado");
+  expect(result.review.findings).toContainEqual(
+    expect.objectContaining({ check: "text_originality", verdict: "warn" }),
+  );
+  expect(result.review.decision).toBe("request_info");
+  expect(result.review.autonomy).toBe("escalated");
 });
 
 it("never runs the venue checks on an organizer, and escalates it", async () => {

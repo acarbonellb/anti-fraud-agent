@@ -325,3 +325,22 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   to 0.75, which is what nudged Brier up. A `reject` on a rule hard signal resolves whatever the
   confidence, so 07 resolves at 0.75.
 - **Decision:** keep.
+
+## E012 — A copied description is caught in code
+
+- **Hypothesis** (#37): 08 becomes `request_info` + `escalated`, as expected, and joins the gate
+  without moving any other case: a heuristic system warning already holds back an approval (#33).
+- **Change** (#37, ADR 0015 amendment): a check in code searches the description's longest
+  sentence and warns on `text_originality` when another page holds it word for word. 08 searches
+  its authored pages and was re-recorded. The 20 real-web event cases found no copy, so what they
+  send the model didn't change: only the new search was recorded for them (20 Tavily credits),
+  keeping their model answers. 08 dropped `requires: ["external"]`.
+- **Before → after** (E011 → E012): gated, now 30 cases with 08: **accuracy 72.4 % → 73.3 %**,
+  approved-fraud rate 4.2 % → 4.0 %, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  69.0 % → 70.0 %, autonomy accuracy 75.9 % → 76.7 %, Brier 0.199 → 0.195. On all 31 cases,
+  **auto-approved fraud 3.8 % → 0.0 %**: 08 was the one fraud case that resolved on its own.
+  Mean input tokens about 28,200 → 28,000.
+- **What went wrong or surprised:** nothing in the metrics. A real search for an invented
+  sentence still returns pages (Instagram reels, YouTube videos) that share some of its words,
+  which is why a result must hold the whole sentence.
+- **Decision:** keep.

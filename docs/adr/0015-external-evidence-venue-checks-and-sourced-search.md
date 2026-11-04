@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -234,3 +234,37 @@ Rejected:
 - **Escalating every run that spent the budget:** see point 1, cases 01 and 10 in E005.
 - **Fuzzy matching of repeats** (word overlap): it would refuse a search that adds the word that
   matters, such as a city or a date.
+
+## Amendment (2026-11-04, #37): one mechanical search runs in code, for copied text
+
+Refines the rejected option «run `webSearch` in code too». It was rejected because queries depend
+on the case. One query doesn't: whether a description was copied is asked the same way of every
+event. Left to the model, case 08 (a description copied word for word from another ticketing
+site) was approved at 0.95 in E004: the 9B model searched the theatre's capacity, never the text.
+
+1. **`copiedTextCheck` searches the description's longest sentence, quoted, before the model.**
+   It takes the first 25 words of that sentence. A description whose longest sentence has fewer
+   than 8 words isn't searched: «Plazas limitadas» is boilerplate, not a fingerprint. It costs
+   1 search per event (1 Tavily credit), outside the model's search budget.
+2. **A result counts only if it holds the whole sentence word for word**, ignoring case, accents
+   and punctuation. A search engine answers a long query with pages that merely share its words.
+3. **A copy gives a heuristic `text_originality` `warn`, with the pages as sources.** It is not a
+   hard signal: an organizer may publish its own text elsewhere. A heuristic system warning
+   already holds back an approval (ADR 0012 amendment, #33) and escalates, which is what case 08
+   expects. No copy found gives no finding, since it proves nothing; neither does search being
+   down.
+4. **The check's search is recorded like any other, inside the model's recording.** Adding it
+   didn't change what the 20 real-web event cases send the model (no copy found), so only that
+   search was recorded for them, without re-running the model. Case 08 has authored pages and was
+   re-recorded. It joins the gate (E012).
+
+Rejected:
+
+- **A prompt that tells the model to search the text:** free, but it rests on a 9B model
+  remembering to, which E004 showed it doesn't.
+- **A `pass` when no copy is found:** system findings win, so it would silence a model finding of
+  a copy found with other words or on another page.
+- **Searching every sentence:** more credits per event for texts that copy one paragraph whole.
+
+Open: an edited event that is already published may find its own page on Satella. The check can't
+tell that page from a copy without Satella's public host, which this repo doesn't hold.
