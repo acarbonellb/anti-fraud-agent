@@ -68,13 +68,19 @@ export function computeRunMetrics(
       meanOutputTokens: average("meanOutputTokens"),
       meanLatencyMs: average("meanLatencyMs"),
     },
-    spread: {
-      accuracy: range("accuracy"),
-      approvedFraudRate: range("approvedFraudRate"),
-      autoApprovedFraudRate: range("autoApprovedFraudRate"),
-      autonomyAccuracy: range("autonomyAccuracy"),
-    },
+    spread: spreadOf(range),
   };
+}
+
+/** A spread with each decisive metric's range from `range`. */
+export function spreadOf(
+  range: (key: SpreadMetric) => [number, number] | null,
+): Spread {
+  // The cast is the one place the four keys meet `Spread`: SPREAD_METRICS
+  // lists them all, so a fifth metric is added there alone.
+  return Object.fromEntries(
+    SPREAD_METRICS.map((key) => [key, range(key)]),
+  ) as Spread;
 }
 
 /**

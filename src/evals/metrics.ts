@@ -52,11 +52,8 @@ export function computeMetrics(
       problems,
       (result) => result.outcome.decision === "approve",
     ),
-    autoApprovedFraudRate: share(
-      problems,
-      (result) =>
-        result.outcome.decision === "approve" &&
-        result.outcome.autonomy === "auto_resolved",
+    autoApprovedFraudRate: share(problems, (result) =>
+      isAutoApproved(result.outcome),
     ),
     escalationRate: share(
       scored,
@@ -74,6 +71,16 @@ export function computeMetrics(
     meanOutputTokens: mean(scored, (result) => result.outcome.outputTokens),
     meanLatencyMs: mean(scored, (result) => result.outcome.latencyMs),
   };
+}
+
+/**
+ * `approve` + `auto_resolved`: the only outcome that skips the admin in
+ * Satella (ADR 0012). The rate and the CI gate both read it from here.
+ */
+export function isAutoApproved(outcome: CaseOutcome | null): boolean {
+  return (
+    outcome?.decision === "approve" && outcome.autonomy === "auto_resolved"
+  );
 }
 
 function share<T>(items: readonly T[], test: (item: T) => boolean) {

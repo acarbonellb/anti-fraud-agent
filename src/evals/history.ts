@@ -9,7 +9,13 @@ import { z } from "zod";
 import { DomainError } from "../errors.js";
 import type { Metrics } from "./metrics.js";
 import type { ReportSet } from "./report.js";
-import { computeRunMetrics, type Spread } from "./runs.js";
+import {
+  computeRunMetrics,
+  SPREAD_METRICS,
+  type Spread,
+  type SpreadMetric,
+  spreadOf,
+} from "./runs.js";
 
 // Null when no case was there to measure.
 const measured = z.number().nullable();
@@ -31,12 +37,12 @@ const metricsSchema = z.strictObject({
 
 const rangeSchema = z.tuple([z.number(), z.number()]).nullable();
 
-const spreadSchema = z.strictObject({
-  accuracy: rangeSchema,
-  approvedFraudRate: rangeSchema,
-  autoApprovedFraudRate: rangeSchema,
-  autonomyAccuracy: rangeSchema,
-}) satisfies z.ZodType<Spread>;
+const spreadSchema = z.strictObject(
+  Object.fromEntries(SPREAD_METRICS.map((key) => [key, rangeSchema])) as Record<
+    SpreadMetric,
+    typeof rangeSchema
+  >,
+) satisfies z.ZodType<Spread>;
 
 const historyEntrySchema = z
   .strictObject({
@@ -275,14 +281,10 @@ const round = (value: number | null) =>
   value === null ? null : Math.round(value * 10_000) / 10_000;
 
 function roundSpread(spread: Spread): Spread {
-  const range = (value: [number, number] | null): [number, number] | null =>
-    value === null ? null : [round(value[0]) ?? 0, round(value[1]) ?? 0];
-  return {
-    accuracy: range(spread.accuracy),
-    approvedFraudRate: range(spread.approvedFraudRate),
-    autoApprovedFraudRate: range(spread.autoApprovedFraudRate),
-    autonomyAccuracy: range(spread.autonomyAccuracy),
-  };
+  return spreadOf((key) => {
+    const range = spread[key];
+    return range === null ? null : [round(range[0]) ?? 0, round(range[1]) ?? 0];
+  });
 }
 
 function roundMetrics(metrics: Metrics): Metrics {

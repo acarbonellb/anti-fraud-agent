@@ -9,6 +9,7 @@
  * it (#42): the gate reads the case's outcome, not one run's noise. A single
  * run is its own majority.
  */
+import { isAutoApproved } from "./metrics.js";
 import type { ReportSet } from "./report.js";
 import { byCase, inMajority } from "./runs.js";
 import type { CaseResult } from "./types.js";
@@ -43,8 +44,5 @@ export function gateFailures(sets: readonly ReportSet[]): string[] {
 }
 
 function autoApproved(result: CaseResult): boolean {
-  return (
-    result.outcome?.decision === "approve" &&
-    result.outcome.autonomy === "auto_resolved"
-  );
+  return isAutoApproved(result.outcome);
 }
