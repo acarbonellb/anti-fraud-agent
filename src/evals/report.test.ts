@@ -1,9 +1,12 @@
 // Checks the eval report's Markdown: deterministic (same results, same text,
 // whatever order they arrive in), with the metrics per provider/model and a
 // row per case with expected versus actual and the policy's reasons, and each
-// set's history as a table and a chart. Pure function; fakes nothing.
+// set's history as a table and a chart; with repeated runs (#42), the mean
+// and range of each metric and each case's agreement across runs. Pure
+// function; fakes nothing.
 import { describe, expect, it } from "vitest";
 
+import { caseResult } from "./fake-results.js";
 import type { HistoryEntry } from "./history.js";
 import { computeMetrics } from "./metrics.js";
 import { renderReport, type ReportSet } from "./report.js";
@@ -51,12 +54,12 @@ const set: ReportSet = {
   model: "qwen/qwen3.5-9b",
   promptVersions: ["review-v2"],
   recordedOn: ["2026-11-02"],
-  results: [scored, stale],
+  runs: [[scored, stale]],
 };
 
 it("renders the same Markdown for the same results, in any order", () => {
   const report = renderReport([set]);
-  expect(renderReport([{ ...set, results: [stale, scored] }])).toBe(report);
+  expect(renderReport([{ ...set, runs: [[stale, scored]] }])).toBe(report);
   expect(report.endsWith("\n")).toBe(true);
 });
 
@@ -137,10 +140,10 @@ describe("history", () => {
       [
         "### History",
         "",
-        "| Entry | Date | Prompt | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- |",
-        "| E001 | 2026-11-02 | `review-v2` | Baseline \\| first. | 59.1 % | 38.9 % | 0.0 % | 0.302 |",
-        "| E003 | 2026-11-02 | `review-v2` | Threshold 0.9. | 63.6 % | 33.3 % | — | 0.250 |",
+        "| Entry | Date | Prompt | Runs | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| E001 | 2026-11-02 | `review-v2` | 1 | Baseline \\| first. | 59.1 % | 38.9 % | 0.0 % | 0.302 |",
+        "| E003 | 2026-11-02 | `review-v2` | 1 | Threshold 0.9. | 63.6 % | 33.3 % | — | 0.250 |",
         "",
       ].join("\n"),
     );
@@ -181,6 +184,120 @@ describe("history", () => {
   it("says when a set has no entries yet", () => {
     expect(renderReport([set], [])).toContain(
       'No entries yet: run `pnpm eval:replay --note "<what changed>"`.',
+    );
+  });
+});
+
+describe("repeated runs", () => {
+  const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;
+  const approve = {
+    decisions: ["approve"],
+    autonomy: "auto_resolved",
+  } as const;
+  // 10 rejected twice and approved once; N1 approved, approved, asked.
+  const repeated: ReportSet = {
+    ...set,
+    provider: "anthropic",
+    model: "claude-haiku-5-5",
+    runs: [
+      [
+        caseResult("10", reject, { decision: "reject", confidence: 0.9 }),
+        caseResult("N1", approve, { confidence: 0.9 }),
+      ],
+      [
+        caseResult("10", reject, {
+          decision: "reject",
+          autonomy: "escalated",
+          confidence: 0.7,
+          reasons: ["confidence 0.7 below 0.85"],
+        }),
+        caseResult("N1", approve, { confidence: 0.9 }),
+      ],
+      [
+        caseResult("10", reject, { confidence: 0.8 }),
+        caseResult("N1", approve, {
+          decision: "request_info",
+          autonomy: "escalated",
+          confidence: 0.6,
+        }),
+      ],
+    ],
+  };
+
+  it("says how many runs the metrics average, and shows each decisive one's range", () => {
+    const report = renderReport([repeated]);
+    expect(report).toContain(
+      "Prompt `review-v2` · recorded 2026-11-02 · 3 runs per case: means, with the min–max across runs",
+    );
+    expect(report).toContain(
+      "| Accuracy | 66.7 % (0.0–100.0) | 66.7 % (0.0–100.0) |",
+    );
+    expect(report).toContain(
+      "| Autonomy accuracy | 66.7 % (50.0–100.0) | 66.7 % (50.0–100.0) |",
+    );
+    // Not a decisive metric: the mean alone.
+    expect(report).toContain("| Escalation rate | 33.3 % | 33.3 % |");
+  });
+
+  it("shows how many runs agree on each case, right only by majority", () => {
+    const report = renderReport([repeated]);
+    expect(report).toContain(
+      "| 10 | 10 | ✅ reject 2/3 · approve 1/3 | ✅ auto_resolved 2/3 · escalated 1/3 | 0.70–0.90 | — |  |",
+    );
+    expect(report).toContain(
+      "| N1 | N1 | ✅ approve 2/3 · request_info 1/3 | ✅ auto_resolved 2/3 · escalated 1/3 | 0.60–0.90 | — |  |",
+    );
+  });
+
+  it("marks a tie as wrong, and names a run that couldn't replay", () => {
+    const tie: ReportSet = {
+      ...repeated,
+      runs: [
+        [caseResult("10", reject, { decision: "reject", confidence: 0.9 })],
+        [caseResult("10", reject, { confidence: 0.9 })],
+        [caseResult("10", reject, null)],
+      ],
+    };
+    expect(renderReport([tie])).toContain(
+      "| 10 | 10 | ❌ reject → approve 1/3 · reject 1/3 | ✅ auto_resolved 2/3 | 0.90 | — | run 3: stale: missing_recording |",
+    );
+  });
+
+  it("marks the history's single-run entries apart from the means over runs", () => {
+    const gated = computeMetrics([scored], { includeExternal: false });
+    const range = (min: number, max: number): [number, number] => [min, max];
+    const spread = {
+      accuracy: range(0.5667, 0.6333),
+      approvedFraudRate: range(0, 0.04),
+      autoApprovedFraudRate: range(0, 0),
+      autonomyAccuracy: range(0.8, 0.85),
+    };
+    const base = {
+      date: "2026-11-04",
+      provider: "anthropic",
+      model: "claude-haiku-5-5",
+      promptVersions: ["review-v2"],
+      all: gated,
+    };
+    const report = renderReport(
+      [repeated],
+      [
+        { ...base, id: "E001", note: "One run.", gated },
+        {
+          ...base,
+          id: "E002",
+          note: "Three runs.",
+          runs: 3,
+          gated: { ...gated, accuracy: 0.6, approvedFraudRate: 0.0133 },
+          spread: { gated: spread, all: spread },
+        },
+      ],
+    );
+    expect(report).toContain(
+      "| E001 | 2026-11-04 | `review-v2` | 1 | One run. | 100.0 % | 0.0 % | 0.0 % | 0.040 |",
+    );
+    expect(report).toContain(
+      "| E002 | 2026-11-04 | `review-v2` | 3 | Three runs. | 60.0 % (56.7–63.3) | 1.3 % (0.0–4.0) | 0.0 % (0.0–0.0) | 0.040 |",
     );
   });
 });

@@ -1,6 +1,8 @@
 /**
  * Recordings on disk: `<root>/<provider>/<model-slug>/<id>-<slug>.json`, one
- * per case and model, plus the venue providers' responses, one per case.
+ * per case and model, with each repeat of the case next to it as
+ * `<id>-<slug>.run-<n>.json` (#42); plus the venue providers' responses, one
+ * per case.
  * Committed so CI can replay them. Every file is validated on load:
  * a hand-edited recording that doesn't parse fails loudly.
  */
@@ -14,8 +16,11 @@ import type { EvalCase } from "./types.js";
 export interface RecordingSet {
   provider: string;
   model: string;
-  /** By case id. */
-  recordings: Map<string, Recording>;
+  /**
+   * One map per run, by case id: `runs[0]` is run 1. A case missing from a
+   * run its set has replays as a missing recording.
+   */
+  runs: Map<string, Recording>[];
 }
 
 /** `qwen/qwen3.5-9b` → `qwen-qwen3.5-9b`: one directory level per model. */
@@ -25,14 +30,17 @@ export function modelSlug(model: string): string {
 
 export function recordingPath(
   root: string,
-  recording: Pick<Recording, "provider" | "model">,
+  recording: Pick<Recording, "provider" | "model" | "run">,
   evalCase: Pick<EvalCase, "id" | "slug">,
 ): string {
+  // Run 1 has no suffix: it is the file every set had before repeats.
+  const run =
+    recording.run === undefined ? "" : `.run-${String(recording.run)}`;
   return join(
     root,
     modelSlug(recording.provider),
     modelSlug(recording.model),
-    `${evalCase.id}-${evalCase.slug}.json`,
+    `${evalCase.id}-${evalCase.slug}${run}.json`,
   );
 }
 
@@ -61,11 +69,13 @@ export function loadRecordingSets(root: string): RecordingSet[] {
         );
       const first = recordings[0];
       if (first === undefined) continue;
-      sets.push({
-        provider: first.provider,
-        model: first.model,
-        recordings: new Map(recordings.map((r) => [r.caseId, r])),
-      });
+      const count = Math.max(...recordings.map((r) => r.run ?? 1));
+      const runs = Array.from(
+        { length: count },
+        () => new Map<string, Recording>(),
+      );
+      for (const r of recordings) runs[(r.run ?? 1) - 1]?.set(r.caseId, r);
+      sets.push({ provider: first.provider, model: first.model, runs });
     }
   }
   return sets;

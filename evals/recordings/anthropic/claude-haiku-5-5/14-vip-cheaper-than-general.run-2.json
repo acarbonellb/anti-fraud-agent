@@ -1,0 +1,309 @@
+{
+  "caseId": "14",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 2,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "82c1f4cdfcbbccb3f8a55b927b7404345e7ea20424b16c6db5045c009a2f1dea",
+      "latencyMs": 2289,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_012P6hkR3SPrz9qXE3RjPtDB",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_f5d65ea921\"}"
+            },
+            {
+              "id": "toolu_01CSETaoCWBVDbCkoeow9wqB",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_e15aa9110b\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01PZx8GG3abcNSDKc7UVikp8",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Las Ardillas Rojas concierto Burgos noviembre 2026 Teatro Principal\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSygcKEAgTGAI4AUIIdGhpbmtpbmcSDKjciRHW3ohMJr3zZxoMzmYQ9+eGnT8XDs6WIjA9tROVs1hu0eXIGVdZ6Y7RyPuUiBlmAU0wMagsxAGfiQnC7xDxCa8T4c+dhp+wtQIq5wZ4pS5iZ55WR6Tt6dmDfHB3wJ1z4kIkTbeLjiPoV4m4fAGnzX4iLL0km95wG+j6zPNtqez1MGoSMqmcHM1a/nCKW+kyL3Xm6nbDnTtyzRiZmfhR4Fax4h70Eq1ABJmn9RHZVfB2oFlavAofI76xT0wY00DUhLJZcolKxcEaGWbi4T36lK8qLfGxrCQDZsRtjjPoj518zF6Z/KPANS04pQXH4Ma03FhzocnD1MNFdVXQ9R+YyJEP9NYQ4Z98/XAC5i8euVbEZOPVtjkqbtLfL/tXPFPMtQHlkMdOWQ95XsUHBCWHo3SyFfd6NM+kXpWkQdBLuk6pT+rgxW1qNhLWJPhEv1HS3WOrYW7r/z/+ZPFCx1XbjQMWfox8SY1rf6ocv9MWL8PHjWJOaPTkgz9Bgxe/T/Fm5sbcGepAHo8yRD1t93zk2EmbpUGGa12n8vDdAJKtlBG9NR2jem00ViwtHLLS2bU1A+ab7xt0eaGfrfGqNMfQj0bOV3NXbAytGc8JvNtuSdqASEtAYJU6YGZIS6J7ieotfXXcSDTRHdDPaEH31uGqSQZTosEnV1a3oYskkS9lznf8pyvDnDihKz/7cok//1V5WXcmO4Fe4g16ZnXcHgdEegqDK3rtjfK2+9ekzCVnkocVPNK5DQqh5zJPwQMbCM5TzsapA8MVaZV/efwxJt0x7OgOka0Zecp6kSh2RYMoIRyxT61b8WCb7ysF3N6VTJb4TY7pSQzsPlfZ7qu75V69GhZDnWBg6bSYSjmWH9iiBX5WrOaL0BrHWUVW13iO3cD+Eyd7BBmrs+ziyB2UBf7w+3Bc97sux9ORO/xQc9nDqL7+CggTNHfieiLmChMCLHuvZGNnWhCtHm1IGh4gmmOU0TkvIPnJyapG/8QIS+jZT0WNMEGO4Y4CyL4IF910XJuxht5i5ARBacRTik1Fr8E1K3E0b2XVfD7KLF/Dw0ezY7CKva24CkXtVB8elYEuV8DTOf4wPObjyyQTXxAM1v2+HUdVJUVoEpfIE5G3SgitYJ20kXgRpSNiI99dGFmT5ysGLJcmi0GyoDOamRazv8aFHvy3LdAeP2GHRWm+my1/8O8z9S1oKhMDABus972mJYrJU9BabJNv6zimCKi2OcIVo/PupSyAOiwxGGdqrGTYl+jddncmGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012P6hkR3SPrz9qXE3RjPtDB",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_f5d65ea921"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01CSETaoCWBVDbCkoeow9wqB",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_e15aa9110b",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01PZx8GG3abcNSDKc7UVikp8",
+              "name": "web_search",
+              "input": {
+                "query": "Las Ardillas Rojas concierto Burgos noviembre 2026 Teatro Principal",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4978,
+          "outputTokens": 368,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4974
+        }
+      }
+    },
+    {
+      "requestHash": "eb65f051ba890f5f510d1000d6a7090f9ae2227a6cadc2aa49109ddf4041742c",
+      "latencyMs": 8191,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_017pfCFpNn3XjKfAdphcyBUe",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El organizador (Meseta Beat S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni reportes) y el recinto (Teatro Principal, Burgos, verificado en OSM y con aforo compatible) no presentan señales de fraude. El único fallo es de precios: la entrada VIP (18 €) cuesta menos que la General (25 €), aunque la VIP incluye acceso a la prueba de sonido. Puede ser un error de configuración, pero conviene aclararlo antes de publicar. No encontré clones entre eventos similares, y la búsqueda web no confirmó ni desmintió la gira de Las Ardillas Rojas para esa fecha, así que la disponibilidad del artista queda sin verificar. Recomiendo pedir al organizador que corrija o justifique los precios y confirme la fecha con el artista.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"La entrada VIP (18,00 €) está por debajo de la General (25,00 €), aunque la VIP añade acceso a la prueba de sonido. Puede ser un error de introducción de precios. Debe corregirse o justificarse.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Meseta Beat S.L.: CIF con checksum válido, dirección y código postal de Burgos (09003), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró presencia web propia del organizador en la búsqueda realizada; no se verificó el historial de eventos fuera de la plataforma.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en Burgos en la ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no encontró la fecha del 25 de noviembre de 2026 de Las Ardillas Rojas en Burgos. Tampoco aparece en las agendas locales consultadas. Sin confirmar, no se puede descartar ni validar la actuación.\",\"confidence\":0.35,\"sources\":[{\"url\":\"https://www.agendaburgos.com/agenda/evento/banda-ciudad-de-burgos-40\",\"title\":\"Agenda Burgos (resultado de búsqueda, no relacionado con el artista)\"}]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Verificado en código (OSM, a 4 m de las coordenadas).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Verificado en código: 400 entradas frente a un aforo de 846.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precios dentro de la referencia (p90 35 € en 42 eventos comparables).\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Es correcto el precio de la entrada VIP (18,00 €) inferior al de la General (25,00 €)? Si es un error, indique el precio VIP correcto.\",\"¿Qué incluye exactamente la entrada VIP además del acceso a la prueba de sonido? ¿Hay otras ventajas que justifiquen el precio?\",\"Confirme la fecha y hora del concierto del 25 de noviembre de 2026 en el Teatro Principal con el representante o la agencia de Las Ardillas Rojas, y facilite un contacto o enlace oficial del artista.\",\"¿Tiene web o redes sociales propias de la promotora donde se puedan ver eventos anteriores?\"],\"draft\":\"Hola, hemos revisado el evento «Noche indie con Las Ardillas Rojas» y necesitamos aclarar lo siguiente antes de publicarlo:\\n\\n1. Los precios: la entrada VIP (18,00 €) está por debajo de la General (25,00 €). ¿Es correcto? Si es un error, indique el precio que corresponde.\\n2. La entrada VIP incluye acceso a la prueba de sonido. ¿Qué otras ventajas incluye?\\n3. Confirme la fecha y hora del 25/11/2026 en el Teatro Principal con la agencia o el representante del artista, y facilite un contacto oficial.\\n4. Si dispone de web o redes sociales de la promotora, compártalas.\\n\\nUna vez recibida la información, revisaremos de nuevo el evento. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSiggKEAgTGAI4AUIIdGhpbmtpbmcSDO4CUCRoKltxGoDbjxoM/Vycr5alje2aoE58IjB6afpDFv+w8gUabphApdOxymeKHLDGovDoKWpDE5WMmrj2uxuYnBEooGIm8CsW9XIqpweoPFWnkbWP01vbubP8Y1VMzLdf4099S4DXOkes0Q1HwPyibv/G7zSGqTmyIwmNxZottnKDryCiYETSsgtaBdZQMUkGcAP/eprKnPYCRFjAcEC1kHZTq/S2ZrImSgNteU6/N1PfOA5T/ciwC5N2JpCDY/phkI2Q8NJbdVuAM9GwtfZteqqKKS59gis8LP52L4hXi3f38UyY2qZDPDstg8XrhEdpqTb9FKo79rL58B9bPn+Tvhne+SumgDwLvKUA8od290yUxsHyObmfn7RYRnrxDqctelMaWYWS4OH9o9pyZHmPkIAft2iwT6BagdzZcuTXeySE/IvpdfRJagyUx60aI82upF3a6PnoUNrdD6/lZgI+KysHOF1DBNWggxq4vZhv8gJZc5bzsJMxNKerG51pE9/ghnlQljTbXFeZzfuRB3Ytwv/3BJOIHKs7ru4FgUqwBbSeLkk3lgD1++MS02BOkOzcYzjTluSXeaFEpylnJ5EtfA/GdfSY08gK3fQz/ATsO5XQkVyaKRypsFaXE1fBhy6tex1fFewbCS7M6VyGqSjCYnjAdAFKEWP9k/fQ0er8rqvnf/vHS6G9iyBOCxeD7N362FQm2wJ5zAx4vAFS1xzNgehtfqD+8re5j5rvX91/1Ato2avDTixc5xMo5Xhrah2VRYCOvWzbUlRkI1OTQ/0Yje6Y0avQdIVrFWr8Y1w5Lv5soKR/DUiHnCpM0elzDV+rWfaSzRDn0p1NyBKMtG9C+e/jYofP9KTty2/ol0cRKxdKSppuMSYn4UOmwMDiF/gNEKuU/sC7QHPMaZhTZ/MdkIOyE4VFLbeCpK1NxtVhXYhYYehHgPlcNw5/OER79ZXgY7tm0QAqj0/M/wnDFiWovnOHbVQbbdNEtZJDHEJjkJs05Bhg6i2h2/0aUYpfFPnCc0IZiySe1dBUHaN+z3MpqLyqawbOkIfSLCLwbdHjBsf8SY9Zh9qKCyiL2CmHrzleP0jXtX/k/B7gQgTdRMumm1ittwFhmsGsdMWXtc7PNdyRTwzwhxz/yfnRhTjFuL2Iv8LY3sKJO2WmFuuXWyNLAfKci3f7qhT3TnEmSe/ZlIqigvBjGByV/h9Tw+rIyVNDOu8QWUfKYJOfknhyuBz1bGvTTUyh4y1LEWYSeFp3MvQ7fisXH2GJBEEWZAeQrlnmfdhYKPvx+KuXu0esFhnZAg8rtxP9eoQfyS+2dO22clLdMCNAxLZKGxIZZGcb7SHAwmtRQhgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_017pfCFpNn3XjKfAdphcyBUe",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.7,
+                "rationale": "El organizador (Meseta Beat S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni reportes) y el recinto (Teatro Principal, Burgos, verificado en OSM y con aforo compatible) no presentan señales de fraude. El único fallo es de precios: la entrada VIP (18 €) cuesta menos que la General (25 €), aunque la VIP incluye acceso a la prueba de sonido. Puede ser un error de configuración, pero conviene aclararlo antes de publicar. No encontré clones entre eventos similares, y la búsqueda web no confirmó ni desmintió la gira de Las Ardillas Rojas para esa fecha, así que la disponibilidad del artista queda sin verificar. Recomiendo pedir al organizador que corrija o justifique los precios y confirme la fecha con el artista.",
+                "findings": [
+                  {
+                    "check": "price_sanity",
+                    "verdict": "fail",
+                    "detail": "La entrada VIP (18,00 €) está por debajo de la General (25,00 €), aunque la VIP añade acceso a la prueba de sonido. Puede ser un error de introducción de precios. Debe corregirse o justificarse.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Meseta Beat S.L.: CIF con checksum válido, dirección y código postal de Burgos (09003), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se encontró presencia web propia del organizador en la búsqueda realizada; no se verificó el historial de eventos fuera de la plataforma.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en Burgos en la ventana de 30 días.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda web no encontró la fecha del 25 de noviembre de 2026 de Las Ardillas Rojas en Burgos. Tampoco aparece en las agendas locales consultadas. Sin confirmar, no se puede descartar ni validar la actuación.",
+                    "confidence": 0.35,
+                    "sources": [
+                      {
+                        "url": "https://www.agendaburgos.com/agenda/evento/banda-ciudad-de-burgos-40",
+                        "title": "Agenda Burgos (resultado de búsqueda, no relacionado con el artista)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "Verificado en código (OSM, a 4 m de las coordenadas).",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "pass",
+                    "detail": "Verificado en código: 400 entradas frente a un aforo de 846.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precios dentro de la referencia (p90 35 € en 42 eventos comparables).",
+                    "confidence": 0.7,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Es correcto el precio de la entrada VIP (18,00 €) inferior al de la General (25,00 €)? Si es un error, indique el precio VIP correcto.",
+                    "¿Qué incluye exactamente la entrada VIP además del acceso a la prueba de sonido? ¿Hay otras ventajas que justifiquen el precio?",
+                    "Confirme la fecha y hora del concierto del 25 de noviembre de 2026 en el Teatro Principal con el representante o la agencia de Las Ardillas Rojas, y facilite un contacto o enlace oficial del artista.",
+                    "¿Tiene web o redes sociales propias de la promotora donde se puedan ver eventos anteriores?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Noche indie con Las Ardillas Rojas» y necesitamos aclarar lo siguiente antes de publicarlo:\n\n1. Los precios: la entrada VIP (18,00 €) está por debajo de la General (25,00 €). ¿Es correcto? Si es un error, indique el precio que corresponde.\n2. La entrada VIP incluye acceso a la prueba de sonido. ¿Qué otras ventajas incluye?\n3. Confirme la fecha y hora del 25/11/2026 en el Teatro Principal con la agencia o el representante del artista, y facilite un contacto oficial.\n4. Si dispone de web o redes sociales de la promotora, compártalas.\n\nUna vez recibida la información, revisaremos de nuevo el evento. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6789,
+          "outputTokens": 1975,
+          "cacheReadInputTokens": 4974,
+          "cacheWriteInputTokens": 1813
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "01389bdae9589bb185276af40c825d5bb5226354c930ac7e862d38b3548bc2f0",
+      "provider": "Tavily",
+      "query": "\"La entrada VIP incluye acceso a la prueba de sonido\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://los40.com.co/2026/07/30/que-incluye-la-entrada-vip-prueba-de-sonido-para-bts-en-bogota-esto-se-sabe-sobre-el-paquete",
+            "title": "Qué incluye la entrada VIP - Prueba de sonido para BTS en Bogotá: Esto se sabe sobre el paquete | Música | LOS40 Colombia",
+            "snippet": "Uno de los mayores atractivos del paquete VIP es el acceso al soundcheck. Horas antes del concierto, los asistentes ingresan al escenario para observar un ensayo privado del grupo, que normalmente tiene una duración aproximada de 10 a 15 minutos.\n\nNo te pierdas: K-dramas recomendados por los integrantes de BTS: Hay miniseries románticas y de suspenso [...] Una ubicación premium dentro del estadio con mejores secciones para disfrutar el concierto.\n Entrada a la prueba de sonido de BTS antes del i"
+          },
+          {
+            "url": "https://elcomercio.pe/luces/musica/bts-en-peru-que-incluye-el-exclusivo-paquete-de-prueba-de-sonido-para-army-apuesplan-ultimas-noticia",
+            "title": "BTS en Perú: ¿Qué incluye el exclusivo paquete de prueba de sonido para ARMY? | EL COMERCIO PERÚ",
+            "snippet": "De esta manera, quienes cuentan con este acceso no solo tienen su entrada para el concierto, sino también la posibilidad de participar en una actividad previa vinculada directamente con la presentación de BTS.\n\n## Regalo VIP, lanyard y merchandising\n\nEl Soundcheck VIP Package también incluye un artículo exclusivo de regalo VIP, además de un laminado VIP y lanyard, elementos destinados a identificar a los asistentes que cuentan con esta modalidad. [...] El paquete incluye una entrada en Zona Camp"
+          },
+          {
+            "url": "https://www.instagram.com/p/Cq7SIXZsVwR?hl=en",
+            "title": "Instagram",
+            "snippet": "- Está PROHIBIDO el uso de celulares durante el soundcheck, te ven usando el teléfono y te retiran. NO se puede grabar ni tomar fotos durante el soundcheck, porque es una experiencia íntima con los chicos.   \n  \n¿Que incluye el paquete VIP/Soundcheck?   \n  \n- Acceso exclusivo a la prueba de sonido previa al concierto de 5SOS  \n- Laminado y cordón VIP de recuerdo  \n- Oportunidad de comprar artículos de la gira antes del concierto [...] ¿QUE ES EL PAQUETE VIP/EL SOUNDCHECK?   \n  \nEs la prueba de s"
+          },
+          {
+            "url": "https://www.tiktok.com/@vamosacorea/video/7624604385963805970",
+            "title": "vamosacorea on TikTok",
+            "snippet": "Get Coins\n\nGet App\n\nImage 1: BTS Perú: hablemos de la prueba de sonido y la Zona Vip. Felizmente Ticketmaster aclaró más detalles sobre este tema: No existe una Zona Vip aparte. Lo que adquieres es una serie de beneficios como acceso al soundcheck, ingreso prioritario, etc ✅💜 para disfrutar esos días de concierto al máximo 🤩 Cuéntanos en los comentarios a qué zona del concierto irás 🥳 #coreadelsur #btsperu #conciertobts #entradasbts #ticketmaster \n\nVideo 1\n\nCapCut · Editing made easy [...] va"
+          },
+          {
+            "url": "https://www.tiktok.com/@sofiapadilla/video/7644428810745679112",
+            "title": "Sofia Padilla on TikTok",
+            "snippet": "¿Cómo es ver a BTS en concierto con boleto VIP y Soundcheck? 👀 por supuesto que grabé vlog y les paso todo el chisme del mejor día de mi vida jajaj😭💜 @BTS los extraño mushooo jaja #army#armybts#btsconcert#bangtan#btsarmy\n\nmore\n\nSee translation\n\n00:03 / 02:42\n\nImage 2: sofiapadilla\n\n41.8K\n\n121\n\n2471\n\n566\n\n\n\nMaquillaje diario muy sencillo para cuando tienes prisa :) #makeup #maquillajediario #tutorial #tipsforgirls \n\nSofia Padilla\n\n479\n\n·6d ago [...] TikTok\n\nLog in\n\nTikTok\n\nSearch\n\nFor You\n\nExp"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "20f5bfba513d24d3fe94eec2596eb6b92db3cb62ef05466ec35b94f37f16add9",
+      "provider": "Tavily",
+      "query": "Teatro Principal Burgos aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Principal de Burgos\n\nTeatros Clásica Aforo: 750-1.500\n\n# Teatro Principal de Burgos\n\nBurgos / Burgos\n\n## Descripción [...] ### Cómo llegar\n\nEsta situado en la zona del casco viejo de la ciudad. Es recomendable evitar venir en coche a no ser que conozcas un lugar seguro para aparcar cerca.\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   846 personas\n\nTeléfono\n:   947 288 873 y 947 288 840\n\nEmail\n:   imc@aytoburg"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/129/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nEste espacio desarrolla las siguientes prácticas\n:   Exhibición\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Principal\n\n Aforo: 771\n Ancho de boca: 897\n Fondo desde boca: 1040\n Anchura máxima: 1480\n Fondo desde boca: 2000\n Altura máxima (boca): 1400\n Hombro izquierdo: 450\n Hombro derecho: 450\n Altura de boca: 800\n\nSALA DE ENSAYOS\n\nFlecha derecha SERVICIOS\n\n### Servicios generales"
+          },
+          {
+            "url": "https://www.vividseats.com/teatro-principal-de-burgos-tickets/venue/50750",
+            "title": "Teatro Principal de Burgos Tickets - Teatro Principal de Burgos Information - Teatro Principal de Burgos Seating Chart",
+            "snippet": "## Teatro Principal de Burgos Overview: Helpful Information\n\n Address: Plaza del Mío Cid, s/n Burgos 09003 Spain\n Venue Capacity: 846\n\n## Frequently Asked Questions about Teatro Principal de Burgos Tickets\n\n### What are the best cheap seats at the Teatro Principal de Burgos? [...] Skip to ContentSkip to Footer\n\nTickets you can trust: over 190 million sold, 100% Buyer Guarantee. Learn More.\n\nOver 190 million sold, 100% Buyer Guarantee. Learn More.\n\n# Teatro Principal de Burgos Tickets\n\nTicketsSea"
+          },
+          {
+            "url": "https://tienda.santamarialareal.org/es/productos/detalles/teatro-principal-burgos/260",
+            "title": "Teatro Principal (Burgos) - Santa María la Real",
+            "snippet": "Después de intensos años de actividad, el Teatro fue clausurado en agosto de 1946 por orden del alcalde Carlos Quintana. En 1976, el Ayuntamiento declaró en ruina, siendo salvado del derribo de forma milagrosa gracias a la nominación, ese mismo año, como monumento histórico-artístico en base “a sus indudables valores”. Finalmente fue reinaugurado el día 7 de junio de 1997 con una capacidad de 878 espectadores. [...] Avda. Ronda, 1-3. 34.800 Aguilar de Campoo (Palencia) | 979 125 000 – tienda@san"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Principal_(Burgos)",
+            "title": "Teatro Principal (Burgos) - Wikipedia, la enciclopedia libre",
+            "snippet": "1843: Se nombra director encargado de las obras al arquitecto Francisco Angoitia y tendrá una capacidad para 1200 personas. Un poco más tarde se presenta un proyecto para construir el paseo del Espolón con dos puentes el San Pablo y el de Santa María dejando en el centro del Teatro. El arquitecto fue Bernardino Martínez de Velasco. El 2 de junio se ordena que empiecen todas las obras pero se paran el 19 de julio por falta de fondos. La Real Academia de Bellas Artes de San Fernando vuelve a [...]"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "391893180048ce707d871e3d8db3415b64bc06182b0908756635ac11aeee3c0b",
+      "provider": "Tavily",
+      "query": "Las Ardillas Rojas concierto Burgos noviembre 2026 Teatro Principal",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.burgosconecta.es/burgos/vuelven-noches-clunia-teatro-principal-burgos-representaciones-20261016135124-nt.html",
+            "title": "Vuelven las Noches del Clunia al Teatro Principal de Burgos con representaciones internacionales | BURGOSconecta",
+            "snippet": "BURGOSconecta \n\nBURGOSconecta\n\nBurgos\n\nDel 6 al 27 de noviembre de 2026, el Teatro Principal de Burgos volverá a convertirse en el escenario de una de las citas teatrales más esperadas del otoño cultural burgalés, las Noches de Clunia. En esta edición, participarán destacadas compañías nacionales e internacionales como Yllana, Los Absurdos Teatro, Companhia do Chapitô y Compañía Ual·la.\n\n### Programación [...] y, por último, el 27 de noviembre, la compañía Ual-La presenta 'Nozing' [...] La XXVII"
+          },
+          {
+            "url": "https://www.agendaburgos.com/agenda/evento/banda-ciudad-de-burgos-40",
+            "title": "Banda Ciudad de Burgos en Teatro Principal, Burgos",
+            "snippet": "# Dentro de 2 semanas...\n\n  \n\nBanda Ciudad de Burgos\n\nConcierto\n\n# Banda Ciudad de Burgos\n\nsábado, 21 de noviembre a las 20:30   en \n\nTeatro Principal\n\n» ver mapa\n\nFacebook Twitter Web\n\nPrecio: 5,00 €   \n  \n\nConcierto en honor a Santa Cecilia 2026\n\n  \n  \n \n\nMás sobre: Banda de música y coral Ciudad de Burgos , Conciertos , Música , Teatro Principal\n\n## También sábado, 21 de noviembre:\n\n\n\nBabieca Folk\n\n(Sasamón)\n\n18:00\n\nMentes Peligrosas 2026 en Auditorio Fórum Evolución Burgos, Burgos [...] Ment"
+          },
+          {
+            "url": "https://www.cajadeburgos.com/cultura/programacion-cultural",
+            "title": "Programación cultural - Fundación Caja de Burgos",
+            "snippet": "15 €\n\nArtes escénicas – Bienal Burgos – Música ### Rufus T Firefly\n\nEn Burgos\n\n14 noviembre 2026\n\n25 €\n\nCine – Recrea – Salud mental ### Los renglones torcidos de Dios\n\nEn Burgos\n\n4 noviembre 2026\n\nEntrada libre\n\n## Toda la programación\n\nFiltros\n\nVer en calendario\n\nVer en mosaico\n\nCentro\n\nBorrar filtros\n\nAplicar [...] ¡Por favor gire su dispositivo!\n\nSkip to content\n\nFundación Caja de Burgos\n\nVolver a Cultura\n\n# Programación cultural\n\n## Eventos destacados\n\n100 años – Artes escénicas – Música ##"
+          }
+        ]
+      }
+    }
+  ]
+}

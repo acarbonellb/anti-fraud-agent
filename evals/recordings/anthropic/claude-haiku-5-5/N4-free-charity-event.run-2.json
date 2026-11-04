@@ -1,0 +1,231 @@
+{
+  "caseId": "N4",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 2,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "b521d6e08665f43384dc90d3616957ceb4f15e60ed42d35cd8a81813d3f558a6",
+      "latencyMs": 1368,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01NY7MSNziof92WDLMJQwC4q",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_a6a428c7d5\"}"
+            },
+            {
+              "id": "toolu_017oaiKQrG4uA44KT6r4kGVN",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_cc37ee29fe\"}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSmAUKEAgTGAI4AUIIdGhpbmtpbmcSDHVEkFtq+rdkPPctCRoMNk5PKWlAlMGf5HMeIjBJIzyEOxSNcQynbKmD6ccuFIVUU8XD9y3FnIeeOGXy0pk4eVAYlF3emPHx2baZmkkqtQTE6g2rtTXOl7MvXhvrgm66WJYJz44Z3CnaJJhZ5ObIN7D83P4NMT6ch54Z3nXIqpVV/Z+yHcRQz4vpSub6yyVRbkpXUti77HI/XywdWUc8m/GF8XolkROP20x2yt9kcN60d8Xup574W49wLtUPrl1/WGQ7hpP+5xHqy0haxZqRHNSmPDg1IuMfvyxAVm5Wv0heV/eAxRFwkgixfwHiqQ+T6vhbQ7u6Cd+WOd5bwmzSxbbalulwaqoBUVg08v07Y84rAGSZhuPzh27ptPbVAfBAN5G1bnk/5QTy0LWssotAz9f2lrrYhd4zrnRT/dSjLWgzkFKLvgn4uRPV140GPfCcPspTTraEeP3Khz60gXTElUc7eTo9nQIYX4Wu1QGsnYNZis1WW/eGwpazAtMLl0/CAiM4VVylxZqbdImXR3J6KR3fSgg+0z2Dtq8qz6bNK7tWivE4lgwfoH09R5MdP0wFNYhqqiV320dfEb4cs+HVt7jO6oGVEskU/uSOua2NrjaVTwzy8kBZdmraK7aY7F9cIIjMjl0o7uPSPQqgA9fCpyth/2X2fU/dyxu8iVWJrFVBiXYIJhrgwq3uLQSc9QhJyMr8xQqtid+h7NKd8V7rfvHLJYFQEncNxSVfcVTpcQjWNiRuuzII7BBmqRc5UnWWDJnANB7FFu7BoYm6wbxRNO8qNsnSU9855UJZJOGBheWUkmgKUkCCQyrWBts1HtDbnLt9SgW/D58qyH2sjnNcSRtbZcIjGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01NY7MSNziof92WDLMJQwC4q",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_a6a428c7d5"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_017oaiKQrG4uA44KT6r4kGVN",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_cc37ee29fe"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4910,
+          "outputTokens": 142,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4906
+        }
+      }
+    },
+    {
+      "requestHash": "53d71e328878b1c6a670b57efe595e59d9b0828269a9c963fc9f71d985342b93",
+      "latencyMs": 1376,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_019RpjJxjh3B4r6uj82TK1M5",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Coro Las Acacias\\\" \\\"Banda La Mancha Sur\\\" Albacete concierto\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQStQcKEAgTGAI4AUIIdGhpbmtpbmcSDB31FmF25Km38H3XuRoMXPzZJ+u8fwFBkHxXIjDf7rCk29p0eH0G17/0Ghnj0wvOE3/qRv/oBQ/8gwHmNff+cGVeRqrJulYMCmYAUu4q0gZK4kVykWmWQFJDsMkODLuKU/bFaWcyqva8erlnrLwwgxGataNJ+zKf1Eh81mmN3q5eHjcn+5f1Zuz57Ghy3jlB4jCTi0SqklqkYCqcJXQ1oihDXeXBqZcnMHeMCsvtngOqK8c+zFe4JXFQiWktxi8EBYtk5pKtLzEV9/b7BHLg7RUQdIxtxJ2SNld17ys1Ma0wwagOoji6/STCwSwEzxMi9rCPW0OCtRKNkbpt8W9gPPp5WwR1kxVQjtIDsPojdAzJf2lzHpYem4mvKWb8rOgUK5r9m4FblH2tjXpRkBNd9qlxDwtseQ8Iyll55/rsYA7aWag8GAMdzJ6rQIdxQaw2kWgwVICqM32e/udf+N8+8Hbg4/dAC39V5iDKJwuoOvMsx2T4S/MKlNteiF8/EgILAgmj5H8T9X6NybOFkplnTFPy0mibQ0TaTMUN8zsrO7CwCbJ+O1Y1CFa5RG4fbGdONW41VGu0os8YhJgADizZ8idXMG+bR69f0z6xfKENQ0MaHrbhf1KaV4X1+6Od6V0rMXKNPhUfTG5RJPvlqqiO8PgCyK3MNkAWaZ0NU3jIalAs7oMs/5GXvsYK3Z0bSwq6jo5o7mmFipbAtKSbO1SRw8IkHniChHl/Wr6EEYYp7onSb4o/vU/z6iACZGPTgnGJMPoHh0U/HvKH9f3pPRvQenqYNqqAnyBZduJOJvnZP+2hJ1TNhc980BQB9sIhjpsLN3yjXesnRf74wZuXD+E1Uuh1keXBImLJNAolEBW+fivUVmZtXTExK6wu4gnyTNsB9mqmlH0Tn6oJS+kgowMNxrHQ3jnyDxFfnjvX9wd5RhFQCWHR3Pqm9CoPt1HQ/+jB5Bz2EgjbNt0tTVu/cYeQTNeU0mhbzqQCho5LmWwjf9e3zDypo2C4arSD3CnpU6SKxMBQhnAHiM3+Y6VZfkuYvpXdkFOQnCQBROU6RV3KoRO4t6IkRUDKan8NjiLlev4uKJ5RWcrww0/Y5ifdrlk+UaHxyrNWzlI9SibkSfnDuAqz3cfb+BBwD/NR4s8ozhOwrKWn1W2JTYEdd9VeIPkOKGmfVJh3crEIQO5eNx+mBxCemEW8Zzqt8RCDSbU782vZF/W1ffKVeDDc/JKSH2dl9JdbGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_019RpjJxjh3B4r6uj82TK1M5",
+              "name": "web_search",
+              "input": {
+                "query": "\"Coro Las Acacias\" \"Banda La Mancha Sur\" Albacete concierto",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5631,
+          "outputTokens": 198,
+          "cacheReadInputTokens": 4906,
+          "cacheWriteInputTokens": 723
+        }
+      }
+    },
+    {
+      "requestHash": "522ac219c5cb5dd3a490b48c167d0b26a0d4b1694eed3a2adbceb757ea775683",
+      "latencyMs": 6449,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_014U1DwPzEZAEkKUnuJBCCqf",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.8,\"rationale\":\"Evento gratuito (pop, Albacete, 25/11/2026) del organizador Vecinos con Música, aprobado, con 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por admin. Los controles deterministas están todos en pass (código postal, pagos fuera de plataforma, enlaces externos, condiciones de cancelación, precios, tasas, sesiones y menores). El recinto existe en OpenStreetMap a 6 m de las coordenadas. Una búsqueda web encontró la web del organizador (vecinosconmusica.test) que anuncia este mismo concierto solidario con los dos mismos artistas, lo que respalda el evento. No hay eventos similares de otros organizadores. Único punto abierto: el aforo del recinto es desconocido y se ponen a la venta 250 entradas; no es un fallo, pero conviene que el admin lo tenga en cuenta. Recomendación: aprobar con confianza moderada-alta.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Vecinos con Música S.L.: CIF con checksum válido, dirección y código postal 02001 en Albacete, cuenta de propietario verificada (930 días), sin otras organizaciones del propietario.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 terminados, 0 cancelados, 0 retiradas por admin, 0 cambios sustanciales, sin reportes de contenido ni revisiones previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web del organizador describe conciertos solidarios desde 2017 y anuncia este mismo concierto con Coro Las Acacias y Banda La Mancha Sur.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://vecinosconmusica.test/\",\"title\":\"Vecinos con Música — asociación vecinal de Albacete\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"El nombre no se parece a ninguna promotora conocida en los datos disponibles.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay otro evento con el mismo título, fecha y recinto. El recinto no tiene otros organizadores con el mismo nombre.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Centro Cultural La Asunción no consta en Wikidata, OpenStreetMap ni la web. Se ponen a la venta 250 entradas gratuitas (96 reservadas). Sin dato para contrastar; no es señal de fraude por sí misma.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La búsqueda no encontró fechas conflictivas de los artistas; ambos aparecen vinculados a este concierto benéfico en Albacete.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://coro-lasacacias.test/\",\"title\":\"Coro Las Acacias\"}]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Entrada gratuita (0 €), sin tasas de gestión.\",\"confidence\":0.9,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS5QcKEAgTGAI4AUIIdGhpbmtpbmcSDEz7SgTdzyCzvqYyRRoMrmyiX+sfeGN/8wsDIjA8dLZKMM1/nipNLObmWXtPT7Ael1kyfpksB1zrVOlEiJi3qY9XtO8AYaYbHhTitQ0qggcugyeQSyCmd7LT6h7xXI00oFu+Jji758BjkrftylVsxVq8v1/7IoTCBVEinCkhIFtK0Jjjck3VXnNlRRX3pgWYZxCDL9zHx2od26kw11/OI0QFqgt2jbiDWZrbCHhcNYqo4x+6Rj0rlYxz+y4+OWgPsxsMTYhMbjFoaOEpL+y868ubMVzQhh+kgTXWekZJIlrpMCJIWsrBk/nzb9qK0xHw1GCXzsjf2rGumtNcN1bec20KhiCVkODMBlcB/b9tJDZYBzYsY1LWuZiAnApMjvDlt4UJB+SdiYcPmdtbXIN5dy8sXCFR29W4J7j6J/7h2+azlSBDYqXVOmY2hdrqIiD1fQjk4eLxau37NtCOckMbInFBXVxRyxes4CTzTdXe8oJlSjILsN+j3Z0OAhOXB/lGFTszg0RC7BWYiilS9Fqtt38sbfvBQTzwvccjpIeFh3aZwR5mY1woiJ4xTtbvdMLhBULR2Lqs8iZkJOVQ0BxK2rjcJkSHyrm5ZSGKw+7rGSJ0/Zjv0tmOz/ivYB98DQphjpIia2cuydvMmqQI9UiBES8gfwBjDoK4aqr+ZWISeLZ4hpq80BfY7JfjXhqaJqo1wDkIXxjvYlXnIdXb3KtgiswoPbl//KE3FiKTwBD67XkUYa+fUsKFjyRNf5DGxgFg94fP4R8JdYJGvPYhDtmrSMhiHLEygh+u+UJwglFQXR3E6QIzKa/kYMh8oDFEmdi7ciNqnMrc1W/TBFrDmKMo2hT728dWdyKxRHSus9hxxBJA9HrSBh0xGV7xSey6pNHJFdkYkLjA0oZpQxHkLS3sow9Fo30tHvt4NKLBH1+hkJYkVzVeQAWg0g4deExtyyxqmRduZ8sHwom03gJRTmEiR/KZBF94sBXEWpp6tnqHu/Y+2eNWmaQTLreiIkMgly0Kh7V5N5qomoeLPF27AyQEnEtnZJFvjyO6rvKdVzc1Muff/o/4f/wRC9d8bpL1vRGikF/sWGacXby/wIMRBlL07yQvfjie+2nIvqr9EdzHZ8m43QY/ckHFNWkCwZsntNOOU1e6kll4SPqDCTlL40wNbCk+QqOLvuhpFj8STAn0Cq0Rno8b+xCvKPm7xXb/5hdTASz38CQia0uXtMIYSYUQCO9Zi3qxw1U/BEtTnDnZKaqTOJsnRHigcZXXSOjIiWRrEahHDxZNSKqWD1xd54lHfILRGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_014U1DwPzEZAEkKUnuJBCCqf",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.8,
+                "rationale": "Evento gratuito (pop, Albacete, 25/11/2026) del organizador Vecinos con Música, aprobado, con 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por admin. Los controles deterministas están todos en pass (código postal, pagos fuera de plataforma, enlaces externos, condiciones de cancelación, precios, tasas, sesiones y menores). El recinto existe en OpenStreetMap a 6 m de las coordenadas. Una búsqueda web encontró la web del organizador (vecinosconmusica.test) que anuncia este mismo concierto solidario con los dos mismos artistas, lo que respalda el evento. No hay eventos similares de otros organizadores. Único punto abierto: el aforo del recinto es desconocido y se ponen a la venta 250 entradas; no es un fallo, pero conviene que el admin lo tenga en cuenta. Recomendación: aprobar con confianza moderada-alta.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Vecinos con Música S.L.: CIF con checksum válido, dirección y código postal 02001 en Albacete, cuenta de propietario verificada (930 días), sin otras organizaciones del propietario.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 terminados, 0 cancelados, 0 retiradas por admin, 0 cambios sustanciales, sin reportes de contenido ni revisiones previas.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "pass",
+                    "detail": "La web del organizador describe conciertos solidarios desde 2017 y anuncia este mismo concierto con Coro Las Acacias y Banda La Mancha Sur.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://vecinosconmusica.test/",
+                        "title": "Vecinos con Música — asociación vecinal de Albacete"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "El nombre no se parece a ninguna promotora conocida en los datos disponibles.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en la provincia en la ventana de fechas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "pass",
+                    "detail": "No hay otro evento con el mismo título, fecha y recinto. El recinto no tiene otros organizadores con el mismo nombre.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del Centro Cultural La Asunción no consta en Wikidata, OpenStreetMap ni la web. Se ponen a la venta 250 entradas gratuitas (96 reservadas). Sin dato para contrastar; no es señal de fraude por sí misma.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "pass",
+                    "detail": "La búsqueda no encontró fechas conflictivas de los artistas; ambos aparecen vinculados a este concierto benéfico en Albacete.",
+                    "confidence": 0.5,
+                    "sources": [
+                      {
+                        "url": "https://coro-lasacacias.test/",
+                        "title": "Coro Las Acacias"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_sanity",
+                    "verdict": "pass",
+                    "detail": "Entrada gratuita (0 €), sin tasas de gestión.",
+                    "confidence": 0.9,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6107,
+          "outputTokens": 1498,
+          "cacheReadInputTokens": 5629,
+          "cacheWriteInputTokens": 476
+        }
+      }
+    }
+  ],
+  "searches": []
+}

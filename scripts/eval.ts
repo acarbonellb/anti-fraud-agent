@@ -1,13 +1,15 @@
 /**
  * The offline evals (brief §4.3 and §5, issue #6).
  *
- *   pnpm eval [case…] [--note "<what changed>"] [--paid]
+ *   pnpm eval [case…] [--runs N | --runs A-B] [--note "<what changed>"] [--paid]
  *                              record with the configured model (AGENT_LLM_*;
  *                              LM Studio by default, free; a paid provider
  *                              only with --paid), the venue
  *                              providers (OSM, Wikidata: free) and Tavily
  *                              (TAVILY_API_KEY: free plan credits), then
- *                              replay all. Reads .env.
+ *                              replay all. Reads .env. Records runs 1…N of
+ *                              each case, or A…B (#42); N defaults to the
+ *                              runs the set already has, 3 for a new set.
  *   pnpm eval:replay [--note "<what changed>"]
  *                              replay every recording, append to the history
  *                              and rewrite the report
@@ -37,9 +39,11 @@ import {
   measureSet,
   parseHistory,
   planHistory,
+  sameSet,
   serializeHistory,
 } from "../src/evals/history.js";
 import { renderReport } from "../src/evals/report.js";
+import { addNewToolCalls } from "../src/evals/tool-recording.js";
 import { recordCase, replaySet } from "../src/evals/runner.js";
 import {
   loadRecordingSets,
@@ -64,6 +68,7 @@ const REPORT = fileURLToPath(new URL("../evals/report.md", import.meta.url));
 const HISTORY = fileURLToPath(
   new URL("../evals/history.jsonl", import.meta.url),
 );
+const DEFAULT_RUNS = 3;
 const EXPERIMENTS = fileURLToPath(
   new URL("../docs/experiments.md", import.meta.url),
 );
@@ -78,9 +83,17 @@ if (noteAt !== -1 && (note === undefined || note.startsWith("--"))) {
   console.error('--note takes a value: --note "<what changed>".');
   process.exit(2);
 }
+const runsAt = args.indexOf("--runs");
+const runsArg = runsAt === -1 ? undefined : args[runsAt + 1];
+const runsMatch =
+  runsArg === undefined ? null : /^(\d+)(?:-(\d+))?$/.exec(runsArg);
+if (runsAt !== -1 && runsMatch === null) {
+  console.error("--runs takes N (runs 1…N) or A-B (runs A…B): --runs 3.");
+  process.exit(2);
+}
+const valueAt = new Set([noteAt + 1, runsAt + 1].filter((at) => at > 0));
 const only = args.filter(
-  (arg, index) =>
-    !arg.startsWith("--") && (noteAt === -1 || index !== noteAt + 1),
+  (arg, index) => !arg.startsWith("--") && !valueAt.has(index),
 );
 const history = parseHistory(readOrEmpty(HISTORY));
 
@@ -161,13 +174,20 @@ async function record(ids: readonly string[]): Promise<void> {
     process.exit(2);
   }
   const provider = createConfiguredProvider(config.llm);
+  const runs = runsToRecord(provider);
+  if (runs.length === 0) {
+    console.error(
+      "✗ --runs records nothing: A must be 1 or more, and at most B.",
+    );
+    process.exit(2);
+  }
   // One clock for the whole run, to the minute; each recording keeps it.
   const clock = new Date(Math.floor(Date.now() / 60_000) * 60_000);
   const cases = EVAL_CASES.filter(
     (c) => ids.length === 0 || ids.includes(c.id),
   );
   console.log(
-    `Recording ${String(cases.length)} case(s) with ${provider.provider}/${provider.model}` +
+    `Recording ${String(cases.length)} case(s) × run(s) ${runs.join(", ")} with ${provider.provider}/${provider.model}` +
       (PAID_PROVIDERS.has(provider.provider)
         ? ` (effort ${config.llm.effort})…`
         : "…"),
@@ -175,31 +195,62 @@ async function record(ids: readonly string[]): Promise<void> {
   // The venue providers are free and keyless (OSM, Wikidata); one set of
   // throttles keeps Nominatim at 1 request per second across cases.
   const throttles = createVenueThrottles();
-  for (const evalCase of cases) {
-    const { recording, toolRecording, result } = await recordCase(
-      evalCase,
-      provider,
-      clock,
-      {
-        fetch: globalThis.fetch,
-        search: createTavilySearch({
-          apiKey: tavilyApiKey,
+  for (const run of runs)
+    for (const evalCase of cases) {
+      const { recording, toolRecording, result } = await recordCase(
+        evalCase,
+        provider,
+        clock,
+        {
           fetch: globalThis.fetch,
-        }),
-        throttles,
-      },
-    );
-    if (recording !== null) writeRecording(RECORDINGS, evalCase, recording);
-    if (toolRecording !== null) {
-      writeToolRecording(TOOL_RESPONSES, evalCase, toolRecording);
+          search: createTavilySearch({
+            apiKey: tavilyApiKey,
+            fetch: globalThis.fetch,
+          }),
+          throttles,
+          run,
+        },
+      );
+      if (recording !== null) writeRecording(RECORDINGS, evalCase, recording);
+      if (toolRecording !== null) {
+        // Run 1 re-measures the venue; a repeat must not change what the
+        // runs before it replay against.
+        const kept =
+          run === 1
+            ? toolRecording
+            : addNewToolCalls(
+                loadToolRecordings(TOOL_RESPONSES).get(evalCase.id) ?? null,
+                toolRecording,
+              );
+        writeToolRecording(TOOL_RESPONSES, evalCase, kept);
+      }
+      const { outcome } = result;
+      console.log(
+        outcome === null
+          ? `  ${evalCase.id} run ${String(run)} ✗ ${result.failure ?? "failed"} (recording kept as it was)`
+          : `  ${evalCase.id} run ${String(run)} ${outcome.decision} · ${outcome.autonomy} · ${(outcome.latencyMs / 1000).toFixed(1)} s`,
+      );
     }
-    const { outcome } = result;
-    console.log(
-      outcome === null
-        ? `  ${evalCase.id} ✗ ${result.failure ?? "failed"} (recording kept as it was)`
-        : `  ${evalCase.id} ${outcome.decision} · ${outcome.autonomy} · ${(outcome.latencyMs / 1000).toFixed(1)} s`,
-    );
-  }
+}
+
+/**
+ * Runs 1…N, or A…B. Without `--runs`, as many as the set already has, so
+ * re-recording one case keeps the set whole; a new set gets 3 (#42).
+ */
+function runsToRecord(provider: { provider: string; model: string }): number[] {
+  const [first, last] =
+    runsMatch === null
+      ? [
+          1,
+          loadRecordingSets(RECORDINGS).find((set) => sameSet(set, provider))
+            ?.runs.length ?? DEFAULT_RUNS,
+        ]
+      : runsMatch[2] === undefined
+        ? [1, Number(runsMatch[1])]
+        : [Number(runsMatch[1]), Number(runsMatch[2])];
+  return first < 1
+    ? []
+    : Array.from({ length: last - first + 1 }, (_, i) => first + i);
 }
 
 function readOrEmpty(path: string): string {

@@ -1,0 +1,327 @@
+{
+  "caseId": "16",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 2,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "5d5dffa668f84d9c0ea69edef126d86b393b56d06da97a0fba3a4260410f0104",
+      "latencyMs": 1720,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_019xj9sAyhPigSo9TGNEFRsz",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
+            },
+            {
+              "id": "toolu_01UPA3FrvufJuvvCTJZvRS3b",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":30}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS8wYKEAgTGAI4AUIIdGhpbmtpbmcSDO7W+EuLXsaJht6PRxoMInPPwZCUyGMOyBL5IjAkh9r4hBQH23V3OMh+2q0R++Wicl0+pSPXAwt+qxGZcgTiojZGIQvJ3XSLIse02K4qkAaG8HgZwjrcbHSDdTLBSxZCKIWO7ETaYgWlpqhirq7Kl318Z1ZA1yoOkQC7xp4Wx+2cY4YhuhDOxsQNahRjalgTWUpQZ4OYzk4HHpfdhajCK9ZEh1K0jD1Eqm6l2d+N0/7qpl2fkacZCU6V6OhwSYbJk8JWv3wZVB5+KD1mOFd+VeF+3SA3TOYGpRyI02f4omR1kbZfn+t/E0joiK9PWmo44E1F+++rTPycK8ftQwZpneIGbjHow7g3e+mXScdTLJyldxzCAWsJ62KtLL+VIbpIqXDfIq17dRNsI947C47e3q3hJEc3FEpjM5UFOzPHbrsCDGhZxV0KiT0TSjJZXl8ta43mbXZYn4UCuznmHSri+891T+IJR4S8pL9HVHMTae2aIK7MzGiQsCyutbOln4esEloj+tIh3J/3zKImf8eGNnZcx1cSDj+4jdLquIrLpZH8s1m64JgXryIO6oq9AVlyb7yJixWifPX+OVnb21KEMSH7VOIwIEBu+RlfmpPKOi+g23qvr7PCyHtetUbcY+U4zSnNyrhPqWw4yjJcKAtDDbzJD3WFhvgiDaIguuXitwhngbyUdOBXayVp8S5UFv88WQVGHYda18jQsr2NP5KWBxiJoHcCf3hWV4oeCyNt+a5ruN+nqVCDzGNFYlcQzqCTQhZYA8Hm6RgrOENXnNLKCJRmQa1pgWdPAm+Ir8amDYoCOMdD2Q9y7vvvCWDIXzIQghy4NLqrKweVxSik85nHTCa+RZ2eGNIwhXNLrUA7jaMIx216e7785Hfc95sKBcVMfKBMRfQD9lVjOT8qrllX7OG754dbrNpAiy0o7t9EKz7TDgM3A/ti5ZuyJNSdGTa6T+/e/erpJWusCWq3CfARo3OD3+LOtHqhxcw5BA5Pj3kaIJ+QSTlN7LqVS/WvxHeKB42aUPWifz+2ANVS+COCeQYCvnmx7QpaLqekfBT21MKZQiZFH74bEn8H1m72zcqL2rXL1IFVAHz3o5UTK88184CLB71UZIjpvaeYCA4EVr9X+9gF8ZgqINAkIMC82DnRGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_019xj9sAyhPigSo9TGNEFRsz",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_8512b0049b"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01UPA3FrvufJuvvCTJZvRS3b",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_5fc2399015",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4861,
+          "outputTokens": 242,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4857
+        }
+      }
+    },
+    {
+      "requestHash": "c444243b83faec0a1ec8752356a9526bc144a02d168cb2345f61a653acebf214",
+      "latencyMs": 10014,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01X94jg3oSjUnuHeKA2trvbz",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento \\\"Rave gratuita de doce horas\\\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. Las comprobaciones de precio, condiciones, pagos fuera de la plataforma, enlaces externos, fechas, recinto (existe en OpenStreetMap, a 2 m de las coordenadas) y código postal han pasado. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas por administración ni reportes) tiene un historial limpio, y no hay eventos similares de otros organizadores en la ventana. Como el evento es gratuito y hay 310 inscritos, no hay pago en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos (por ejemplo, un cero de más o un dato de otro evento), así que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y que confirme el número real de asistentes previsto. Si no puede justificarlo, habría que considerar la retirada.</rationale>\\n<parameter name=\\\"findings\\\">[{\\\"check\\\":\\\"capacity_far_above_venue\\\",\\\"verdict\\\":\\\"fail\\\",\\\"detail\\\":\\\"La entrada general de la sesión pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura. Podría ser un error de datos, pero no está justificada.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[{\\\"url\\\":\\\"https://salasdeconciertos.com/salas/sala-picaro\\\",\\\"title\\\":\\\"la web (salasdeconciertos.com)\\\"}]},{\\\"check\\\":\\\"venue_capacity\\\",\\\"verdict\\\":\\\"fail\\\",\\\"detail\\\":\\\"Mismo problema que la comprobación de aforo: el número de entradas puestas a la venta no es coherente con la capacidad real del recinto.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[{\\\"url\\\":\\\"https://salasdeconciertos.com/salas/sala-picaro\\\",\\\"title\\\":\\\"la web (salasdeconciertos.com)\\\"}]},{\\\"check\\\":\\\"organizer_identity\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"Pulso Industrial S.L., CIF con checksum válido, domicilio en Toledo, cuenta de 930 días, correo verificado y sin otras organizaciones del titular.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[]},{\\\"check\\\":\\\"organizer_history\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas, 0 reportes de contenido y sin revisiones previas.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[]},{\\\"check\\\":\\\"similar_event\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"No se encontraron eventos similares de otros organizadores en Toledo en ±30 días.\\\",\\\"confidence\\\":0.7,\\\"sources\\\":[]},{\\\"check\\\":\\\"venue_exists\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"Sala Pícaro existe en OpenStreetMap a 2 m de las coordenadas del evento.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[{\\\"url\\\":\\\"https://www.openstreetmap.org/node/2648637532\\\",\\\"title\\\":\\\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\\\"}]},{\\\"check\\\":\\\"price_benchmark\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"Entrada gratuita; ningún precio supera el benchmark de Toledo para electrónica.\\\",\\\"confidence\\\":0.7,\\\"sources\\\":[]},{\\\"check\\\":\\\"organizer_web_presence\\\",\\\"verdict\\\":\\\"unknown\\\",\\\"detail\\\":\\\"No se ha buscado presencia web externa del organizador ni del artista Kolektiv Arena; la revisión se ha centrado en los datos de plataforma.\\\",\\\"confidence\\\":0.3,\\\"sources\\\":[]}]\",\"infoRequest\":{\"questions\":[\"Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto Sala Pícaro tiene un aforo publicado de 150 personas.\",\"Indicar el aforo real del recinto para este evento y, si procede, corregir el número de entradas puestas a la venta.\",\"Aclarar si el evento se celebrará en Sala Pícaro o en otro espacio (por ejemplo, un recinto al aire libre o una nave con más capacidad), con su dirección y permisos.\",\"Confirmar el número previsto de asistentes y cómo se controlará el acceso con inscripción gratuita.\",\"Aportar la web o perfiles sociales del organizador y del artista Kolektiv Arena que permitan verificar el evento.\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). Antes de decidir necesitamos que nos aclaréis el aforo: la entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error, y confirmad el espacio exacto del evento y cómo se controlará el acceso. También agradeceríamos enlaces a vuestra web o redes y a las del artista. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01X94jg3oSjUnuHeKA2trvbz",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento \"Rave gratuita de doce horas\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. Las comprobaciones de precio, condiciones, pagos fuera de la plataforma, enlaces externos, fechas, recinto (existe en OpenStreetMap, a 2 m de las coordenadas) y código postal han pasado. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas por administración ni reportes) tiene un historial limpio, y no hay eventos similares de otros organizadores en la ventana. Como el evento es gratuito y hay 310 inscritos, no hay pago en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos (por ejemplo, un cero de más o un dato de otro evento), así que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y que confirme el número real de asistentes previsto. Si no puede justificarlo, habría que considerar la retirada.</rationale>\n<parameter name=\"findings\">[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La entrada general de la sesión pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura. Podría ser un error de datos, pero no está justificada.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"Mismo problema que la comprobación de aforo: el número de entradas puestas a la venta no es coherente con la capacidad real del recinto.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Pulso Industrial S.L., CIF con checksum válido, domicilio en Toledo, cuenta de 930 días, correo verificado y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Toledo en ±30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Sala Pícaro existe en OpenStreetMap a 2 m de las coordenadas del evento.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada gratuita; ningún precio supera el benchmark de Toledo para electrónica.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se ha buscado presencia web externa del organizador ni del artista Kolektiv Arena; la revisión se ha centrado en los datos de plataforma.\",\"confidence\":0.3,\"sources\":[]}]",
+                "infoRequest": {
+                  "questions": [
+                    "Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto Sala Pícaro tiene un aforo publicado de 150 personas.",
+                    "Indicar el aforo real del recinto para este evento y, si procede, corregir el número de entradas puestas a la venta.",
+                    "Aclarar si el evento se celebrará en Sala Pícaro o en otro espacio (por ejemplo, un recinto al aire libre o una nave con más capacidad), con su dirección y permisos.",
+                    "Confirmar el número previsto de asistentes y cómo se controlará el acceso con inscripción gratuita.",
+                    "Aportar la web o perfiles sociales del organizador y del artista Kolektiv Arena que permitan verificar el evento."
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). Antes de decidir necesitamos que nos aclaréis el aforo: la entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error, y confirmad el espacio exacto del evento y cómo se controlará el acceso. También agradeceríamos enlaces a vuestra web o redes y a las del artista. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5673,
+          "outputTokens": 2277,
+          "cacheReadInputTokens": 4857,
+          "cacheWriteInputTokens": 814
+        }
+      }
+    },
+    {
+      "requestHash": "6402f7e9d9aeb5d1a46767535ddb387d0e72583d6087989c569140fcbe6adaf2",
+      "latencyMs": 5961,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01XtWMACZnQfLhx81k8Yae3P",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento \\\"Rave gratuita de doce horas\\\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. Las comprobaciones de precio, condiciones, pagos fuera de la plataforma, enlaces externos, fechas, recinto (existe en OpenStreetMap, a 2 m de las coordenadas) y código postal han pasado. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, retiradas ni reportes) tiene un historial limpio, y no hay eventos similares de otros organizadores en la ventana. Como el evento es gratuito y hay 310 inscritos, no hay dinero en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos, así que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y el espacio real. Si no puede justificarlo, habría que considerar la retirada.</rationale>\\n<parameter name=\\\"findings\\\">[{\\\"check\\\":\\\"capacity_far_above_venue\\\",\\\"verdict\\\":\\\"fail\\\",\\\"detail\\\":\\\"La entrada general pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura, aunque podría ser un error de datos sin justificar.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[{\\\"url\\\":\\\"https://salasdeconciertos.com/salas/sala-picaro\\\",\\\"title\\\":\\\"la web (salasdeconciertos.com)\\\"}]},{\\\"check\\\":\\\"organizer_identity\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"Pulso Industrial S.L., CIF con checksum válido, domicilio en Toledo, cuenta de 930 días, correo verificado y sin otras organizaciones del titular.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[]},{\\\"check\\\":\\\"organizer_history\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas, 0 reportes de contenido y sin revisiones previas.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[]},{\\\"check\\\":\\\"similar_event\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"No se encontraron eventos similares de otros organizadores en Toledo en ±30 días.\\\",\\\"confidence\\\":0.7,\\\"sources\\\":[]},{\\\"check\\\":\\\"organizer_web_presence\\\",\\\"verdict\\\":\\\"unknown\\\",\\\"detail\\\":\\\"No se ha buscado presencia web externa del organizador ni del artista Kolektiv Arena.\\\",\\\"confidence\\\":0.3,\\\"sources\\\":[]}]\",\"infoRequest\":{\"questions\":[\"Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto Sala Pícaro tiene un aforo publicado de 150 personas.\",\"Indicar el aforo real previsto y, si procede, corregir el número de entradas puestas a la venta.\",\"Aclarar si el evento se celebrará en Sala Pícaro o en otro espacio, con dirección y permisos.\",\"Confirmar el número previsto de asistentes y cómo se controlará el acceso con inscripción gratuita.\",\"Aportar la web o perfiles sociales del organizador y del artista Kolektiv Arena.\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). Antes de decidir necesitamos que nos aclaréis el aforo: la entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error, y confirmad el espacio exacto del evento y cómo se controlará el acceso. Agradeceríamos también enlaces a vuestra web o redes y a las del artista. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQShgoKEAgTGAI4AUIIdGhpbmtpbmcSDHxDQLzzfNUz0wABaxoMlDFEQqSHAbvcb157IjByo3v7V/eSPHq2+LaWATSzS7WHQlf8Oc4rSXYaySnEe2VNnvdmMxen8eLe0T6PanoqowkzwVTreWagNr2XKu1aGbh0sCMttw/OeHkOqx/HpEbWiaw0TvDT9fpGjrlT3GKWtJsZVqmjhbZk6F1YpVd7nSE5on0TOGPW6KndRUstLSoEPvB+L0FG1tOmBRkk6Zps7Xyycrb1iuINya6wcHvn0tick4kk0epXkVvXMpQhYhYu5LPwbszNSbc8M1rqVyfvjT9zCs+yjkNWCIPouP0LSP/HEFxs8Rwi4Xi8hETUhpIGLhWmKSkN3FTPzvtvylg35iljNtiU3l1aHPfxJcAhNzTIj6020mWpBgNUxvZ+VquYCpkDSFUCi+OR/wYtVC20eTrl2f6+dVc6wDATQUFf8THH8ia3izbwpw4gdd5E1egqrMZdH5AFT/Iwqdr3+ThpsqycsRwUhyQCShyyP7JrOrRs7Ql+8uQwEpWxAgmfkTxXyrqZIkXqTcnsiC+kAqbEHXdnQiURpUWzwh4olGplY3fITdVWEsOpnVv76gABbRd9Bsi8tcc/b/Jba3URwVamXYYUpe0kw5Uj1P77U21bZsy07OlYbHjXP4G3BadHh8E/qlaD/mfyCalSX7HpHfjkRHliFz7Birdg2c7zgP5YAIwFRaadkdldFdwXm6/HafVlg9APZjPwWQbhRAR1c4gzzThwVysGoRviCb4JGAAaAM1UIgpEC6obR+op4XrGaMvWJCshbroqe4lbp1p55ENOwVsEIkb5rbE+sp20c5uqhM4iLkA58zrxsdSos9CsjZGG632chqmyMdtWuoNMXXsIkQG7t1dn4CvwhrFWfg9aL7Qb/lqwGUX2BAyQPN3fLVA6xFx1JmvBwMnUc2yJ1oDWdYwuj+Rp0ide96T98/evNXFy1DaZWMkv/zKaSAf0NVbjmoAHuOhThYrTINsPME7VHTJrzRVuxaX5+csoZNGAaNtjGdEPRXfwSAOlMO0JI+JGlv7ver4/xgFbfB3VHDAnjOjsc6846hxQvUUEHsz1+Nila6PUSzvQP5JhNFDchaH7MB4C37WbARf1zOd+VLh+sD86YUHCk4kSgJfTzrQAta4M6ZsdhpbP+/CxKpD/PDa/jKrrefsBlpKLuKJul+Ocf6wSHUbc/uvHdiuETP7+k+59+9JIqyEFk7U+kBRTXRUtC3U6hqbquvTO/a8EaxCzBh2vJQ0hRmOyaDv+Q0mwc3Ux7/MXzPSql6hM0NqzpetO8zTI+FHBXRAoT9ObOSa2YWidSzw3WTSb5boq0xtcr6/Y8EH1FaQ9RWp8MaDjT+y5zcwlDNtwLR/r7qoU87Pnh1N5Qe9NaxCc6Iow/oNDBZElgr+ca9ivpbx4pXGhrCBWlVnZrZYpf9Uk7JqqKXZCfP4CvqMPs7288QaTNSxzEbacvQQuoSzS2Yfy8/3FhNvG2w2iZHFyEGywjbFYYZCx186d1KNgX8CCBUnsfc4CqPX1b/w76/Aak4jfC8FSdJOjmb6WjJDUIftKWEK6MD/fVjOflfTEDdBVgUDhDFdZhEyZ2WkvmKvs0hUFh3OQjTCH6fQ6vPK+/Qsy6hRvF1oLT5h0Y5JuPhIfNXnmBbo+kcisUHVp6HxLlGcpTvod/o84BFSPkhgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01XtWMACZnQfLhx81k8Yae3P",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento \"Rave gratuita de doce horas\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. Las comprobaciones de precio, condiciones, pagos fuera de la plataforma, enlaces externos, fechas, recinto (existe en OpenStreetMap, a 2 m de las coordenadas) y código postal han pasado. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, retiradas ni reportes) tiene un historial limpio, y no hay eventos similares de otros organizadores en la ventana. Como el evento es gratuito y hay 310 inscritos, no hay dinero en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos, así que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y el espacio real. Si no puede justificarlo, habría que considerar la retirada.</rationale>\n<parameter name=\"findings\">[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La entrada general pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura, aunque podría ser un error de datos sin justificar.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Pulso Industrial S.L., CIF con checksum válido, domicilio en Toledo, cuenta de 930 días, correo verificado y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Toledo en ±30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se ha buscado presencia web externa del organizador ni del artista Kolektiv Arena.\",\"confidence\":0.3,\"sources\":[]}]",
+                "infoRequest": {
+                  "questions": [
+                    "Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto Sala Pícaro tiene un aforo publicado de 150 personas.",
+                    "Indicar el aforo real previsto y, si procede, corregir el número de entradas puestas a la venta.",
+                    "Aclarar si el evento se celebrará en Sala Pícaro o en otro espacio, con dirección y permisos.",
+                    "Confirmar el número previsto de asistentes y cómo se controlará el acceso con inscripción gratuita.",
+                    "Aportar la web o perfiles sociales del organizador y del artista Kolektiv Arena."
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). Antes de decidir necesitamos que nos aclaréis el aforo: la entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error, y confirmad el espacio exacto del evento y cómo se controlará el acceso. Agradeceríamos también enlaces a vuestra web o redes y a las del artista. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8080,
+          "outputTokens": 1694,
+          "cacheReadInputTokens": 5671,
+          "cacheWriteInputTokens": 2407
+        }
+      }
+    },
+    {
+      "requestHash": "4ceeb92ca4458ae6333d1ea6ed0aadf3542414728b3d5c52d91ef81ff1585ba2",
+      "latencyMs": 4517,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01UehouptvQHsPstX6xJ8noZ",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento \\\"Rave gratuita de doce horas\\\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. El resto de comprobaciones ha pasado: precio, condiciones, pagos, enlaces, fechas, recinto (existe en OpenStreetMap a 2 m de las coordenadas) y código postal. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, retiradas ni reportes) tiene historial limpio y no hay eventos similares en la ventana. Como el evento es gratuito y hay 310 inscritos no hay dinero en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos, por lo que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y el espacio real.</rationale>\\n<parameter name=\\\"findings\\\">[{\\\"check\\\":\\\"capacity_far_above_venue\\\",\\\"verdict\\\":\\\"fail\\\",\\\"detail\\\":\\\"La entrada general pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura, aunque podría ser un error de datos.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[{\\\"url\\\":\\\"https://salasdeconciertos.com/salas/sala-picaro\\\",\\\"title\\\":\\\"la web (salasdeconciertos.com)\\\"}]},{\\\"check\\\":\\\"organizer_history\\\",\\\"verdict\\\":\\\"pass\\\",\\\"detail\\\":\\\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas y 0 reportes de contenido.\\\",\\\"confidence\\\":0.8,\\\"sources\\\":[]}]\",\"infoRequest\":{\"questions\":[\"Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto tiene un aforo publicado de 150 personas.\",\"Indicar el aforo real previsto y corregir el número de entradas si es un error.\",\"Confirmar el espacio exacto del evento y cómo se controlará el acceso con inscripción gratuita.\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). La entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error y confirmad el espacio exacto del evento y el control de acceso. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSjwoKEAgTGAI4AUIIdGhpbmtpbmcSDNfBfP56vH3e6h4TshoMhEW7l1rIUc+PV3ogIjAhECDGIiNLUuGta9/ZLxG3LZbB72ThE5NdYMhxjZej5wyGGvRbDdYMZXEh3ge/24kqrAly8m0unRyhPvpCRWVvj7nkvGik/zuMu7eRsPFofBV7nhpqi6Af+Ihu/ixWM1UMHyII1jkH6r/aIegUPGggiWb74VrWBpqX1MqBMwEgvHHLWD650eW8JcqTlOFv75EQjyIE5Kf5MWGVGpx7GpA4IFMDftZCwQaFySfXgHlwaxRUn3b0+kv9TZLGPI6mJbvM9xXyDwxKa6JOhdomSaf/zPI8xSmZoCfkQamc/TvijBKqy2BtB0qcy1DQApaMMBj8DyxsA0tX42UYAW2WPCygP9LSwCo95w0YUx5jdyzSmF4Tv1DDxtRQdAOkOo7qkpiPNl+9GlXFOyZzzUnjaI/IU7xpX68wCj7NzK7BcHD0A9TcK2tna69APs2Zhiynn2wJ/q2ZRQbvl4uEzTFjY7ef11i88ELRCsZUwYs9PZ3UME/uvAbCgmWm72Y/PoRoAxdThkzZMesM8RVf0AkB3FgXhAUdPIb20pMkUny6QNtTJKOUauz74He2HhBrezWRdXmklCSkGRD1LnkljDMum0tNODC1X1yjO/z8b94LBmHEHG+zQi39jOcVucOB276VbCzRRRcwHO0XzlXRctGkSC3sAr0PtmRTo8RBoxRHgA/CwZvnDxVRbXlU920rcIu2i3e7QOm9HJeaU/pbHRHDdlQR04BCl4vMXgFX2YUgWOMkB+RSPK0gbQo8epNg+wADnPeA7eZQ+WxC/jqXEDA+Fd52m7JAkBXRNj9xEqWtHIypL0svCrLcve+h39LHtR/mlGME36cBAB4kDRvrXnBZVcxZC85D2dmC3AzPIo/77SLffIYncXGQ2xpuLhrGIXwm0b7QTeXQk5abkrrfSbHoorT+8jcvYgkop8g19P+CnOEZ1ekFSSpLz9vrYRWBqiXvdQNtcfpm7ztIAyotHh+kNR9RE7YFmfFSi8yZtyYLlxh9ZMIDGoW5umkgB/qHnq/5WYcLmXAhYePf7is6wgdc2l/H9CWVE3c/IO9uRG4khH6k02GT+MPh5Q41BizHVoHwYISrjLlzw7AduYbrwGaMvmyWs1Wgh2XlI90e5CSIck3HkpLThi7X12yYfyRPj3v5qMf0GGw+9GOeos+RT/n93XgHfD1j1PzAbW+2Q2Qm0j5876jRJ/v7DbAPiZSNtDYsREBS5k2s3tO7Z4WkGiovGQGZAtdetshTbU6dmRYeOpCSeOyj2W+FTAWPf4JV8VeTEWGZsc6IwLddVmoa0I5oU4/sbPoYfFG9w7QdUmTEHv2lp8umNXW2wlJj5ZKJnj7WPotOf7X/IUm9WJv0O24YLpWD1chgx2z6NzFPPu7FM5R94plC6/y14OXZY+f3sbMToYDADqNKxR6liEIpUOZ7xO2hsPNayJ16vx2u2aPfCUmzw+5bAINrlMlrkaz7kl4AQgiiOdN/cnkWeO550wD0CR68K5ry9HWs/OLbRg4ny7Vtabm0OAxdKMZbtiSjQ//vc3onZyiWM/0oeeud3/GeszLF0W1iZ5iqanQnqlp7rLTuUR2IOlEUxGecyk9IFf5Lnm/NQIXhS7Jkj+qXTXJCigHyQtrtXfR+2kZPNe90Di3FwSuYEd/TWN/im3pkr8VH1hgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01UehouptvQHsPstX6xJ8noZ",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento \"Rave gratuita de doce horas\" (Sala Pícaro, Toledo, 25-26/11/2026) tiene una señal dura de aforo: la entrada general pone a la venta 50.000 plazas, unas 333 veces los 150 que publica la web del recinto. El resto de comprobaciones ha pasado: precio, condiciones, pagos, enlaces, fechas, recinto (existe en OpenStreetMap a 2 m de las coordenadas) y código postal. El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, retiradas ni reportes) tiene historial limpio y no hay eventos similares en la ventana. Como el evento es gratuito y hay 310 inscritos no hay dinero en riesgo, pero un aforo de 50.000 en una sala de 150 es incoherente. Puede ser un error de introducción de datos, por lo que no justifica un rechazo por fraude sin más. Se pide al organizador que aclare y corrija el aforo y el espacio real.</rationale>\n<parameter name=\"findings\">[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La entrada general pone a la venta 50.000 plazas frente a un aforo publicado de 150 en salasdeconciertos.com (333 veces). Señal dura, aunque podría ser un error de datos.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas administrativas y 0 reportes de contenido.\",\"confidence\":0.8,\"sources\":[]}]",
+                "infoRequest": {
+                  "questions": [
+                    "Explicar por qué la entrada general pone a la venta 50.000 plazas cuando el recinto tiene un aforo publicado de 150 personas.",
+                    "Indicar el aforo real previsto y corregir el número de entradas si es un error.",
+                    "Confirmar el espacio exacto del evento y cómo se controlará el acceso con inscripción gratuita."
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas» (Sala Pícaro, 25-26/11/2026). La entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto, corregid el número de entradas si es un error y confirmad el espacio exacto del evento y el control de acceso. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 9892,
+          "outputTokens": 1217,
+          "cacheReadInputTokens": 8078,
+          "cacheWriteInputTokens": 1812
+        }
+      }
+    },
+    {
+      "requestHash": "a4e0e47565d5fab67c188dce0254d060a537ba7b7a2a15e30bb4da29ede14a52",
+      "latencyMs": 3760,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01RKZ2yAtdEYXTdYFGdeH57Q",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento tiene una senal dura de aforo: la entrada general pone a la venta 50.000 plazas frente a un recinto con 150 de aforo publicado. El resto de comprobaciones ha pasado y el organizador tiene historial limpio. Se pide aclaracion y correccion.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Entrada general de 50.000 plazas frente a un aforo publicado de 150 (333 veces). Senal dura, posible error de datos.\",\"confidence\":0.8,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Explicar por que la entrada general pone a la venta 50.000 plazas cuando el recinto tiene un aforo publicado de 150 personas.\",\"Indicar el aforo real previsto y corregir el numero de entradas si es un error.\"],\"draft\":\"Hola, hemos revisado el evento Rave gratuita de doce horas (Sala Picaro, 25-26/11/2026). La entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto y corregid el numero de entradas si es un error. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01RKZ2yAtdEYXTdYFGdeH57Q",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "El evento tiene una senal dura de aforo: la entrada general pone a la venta 50.000 plazas frente a un recinto con 150 de aforo publicado. El resto de comprobaciones ha pasado y el organizador tiene historial limpio. Se pide aclaracion y correccion.",
+                "findings": [
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "fail",
+                    "detail": "Entrada general de 50.000 plazas frente a un aforo publicado de 150 (333 veces). Senal dura, posible error de datos.",
+                    "confidence": 0.8,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "Explicar por que la entrada general pone a la venta 50.000 plazas cuando el recinto tiene un aforo publicado de 150 personas.",
+                    "Indicar el aforo real previsto y corregir el numero de entradas si es un error."
+                  ],
+                  "draft": "Hola, hemos revisado el evento Rave gratuita de doce horas (Sala Picaro, 25-26/11/2026). La entrada general figura con 50.000 plazas, pero el recinto tiene una capacidad publicada de 150 personas. Por favor, indicad el aforo real previsto y corregid el numero de entradas si es un error. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 11181,
+          "outputTokens": 826,
+          "cacheReadInputTokens": 9890,
+          "cacheWriteInputTokens": 1289
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "d3dca92bdb2373e70792137e2aa216f97637d0f74d8f81e1ed55c48b8949af77",
+      "provider": "Tavily",
+      "query": "Sala Pícaro Toledo aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://salasdeconciertos.com/salas/sala-picaro",
+            "title": "Sala Pícaro – ACCES",
+            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
+          },
+          {
+            "url": "https://qconciertos.es/salas/sala-picaro",
+            "title": "Sala Pícaro",
+            "snippet": "### Ubicación\n\nLa Sala Pícaro se encuentra en Calle Cadenas, 45001, en Toledo. Su localización en el casco antiguo, a pocos pasos de los principales puntos de interés turístico, la convierte en una parada obligatoria para quienes buscan ocio nocturno de calidad tras un día de turismo. Estar en el corazón de la ciudad imperial le confiere un encanto histórico inigualable.\n\n### Aforo y Ambiente [...] El aforo de la Sala Pícaro no está especificado, pero se trata de una sala de formato pequeño, lo "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
+            "title": "Instagram",
+            "snippet": "Photo by Sala Pícaro on September 28, 2026. May be an image of poster and text.\n\nPhoto by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026. [..."
+          },
+          {
+            "url": "https://sala.picarotoledo.com",
+            "title": "sala picaro – tu sala de conciertos en toledo",
+            "snippet": "925 221 301\n\nZONA PROFESIONAL\n\nContratacion & Producción\n\nRider Sala\n\nEventos Privados\n\nTienes preguntas?  Info / FAQs\n\nNos sigues en redes?\n\nbanner inaem null “ACCES”/ null “INAEM”/"
+          },
+          {
+            "url": "https://www.instagram.com/salapicaro.toledo?hl=en",
+            "title": "Sala Pícaro (@salapicaro.toledo) • Instagram photos and videos",
+            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nPhoto by Sala Pícaro on May 27, 2026. [...]"
+          }
+        ]
+      }
+    }
+  ]
+}

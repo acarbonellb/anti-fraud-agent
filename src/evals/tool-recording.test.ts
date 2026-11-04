@@ -1,13 +1,15 @@
 // Checks the recording and replay of the external tools' HTTP responses: a
 // recording keeps each response with the hash of its request, its origin and
 // its attribution; replay serves them by hash, in any order, and a request
-// with no recorded response throws a typed stale error. Fakes `fetch`.
+// with no recorded response throws a typed stale error; a repeat run adds only
+// new requests to the case's file. Fakes `fetch`.
 import { describe, expect, it } from "vitest";
 
 import type { Fetch } from "../venue/http.js";
 import { StaleRecordingError } from "./recording.js";
 import {
   createRecordingFetch,
+  addNewToolCalls,
   createReplayFetch,
   hashToolRequest,
   type ToolRecording,
@@ -86,5 +88,30 @@ describe("tool recordings", () => {
     await expect(replay(SEARCH, { method: "GET" })).rejects.toMatchObject({
       name: "TimeoutError",
     });
+  });
+
+  it("keeps every response a case already has when a repeat run adds its own (#42)", async () => {
+    const first = createRecordingFetch(upstream);
+    await first.fetch(SEARCH, { method: "GET" });
+    const existing = { caseId: "N4", calls: first.calls() };
+
+    // The repeat saw a timeout for the same search, and made one new request.
+    const repeat = createRecordingFetch((url) =>
+      url === SEARCH
+        ? Promise.reject(
+            Object.assign(new Error("t"), { name: "TimeoutError" }),
+          )
+        : upstream(url, { method: "POST" }),
+    );
+    await repeat.fetch(SEARCH, { method: "GET" }).catch(() => undefined);
+    await repeat.fetch(WIKIDATA, { method: "POST", body: "data=x" });
+
+    const merged = addNewToolCalls(existing, {
+      caseId: "N4",
+      calls: repeat.calls(),
+    });
+    expect(merged.calls.map((call) => call.url)).toEqual([SEARCH, WIKIDATA]);
+    expect(merged.calls[0]).toEqual(existing.calls[0]);
+    expect(addNewToolCalls(null, existing)).toEqual(existing);
   });
 });

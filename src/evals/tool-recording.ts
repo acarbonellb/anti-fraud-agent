@@ -146,3 +146,24 @@ export function createReplayFetch(recording: ToolRecording | null): Fetch {
     return Promise.resolve(new Response(body, { status: response.status }));
   };
 }
+
+/**
+ * A repeat run's responses added to the case's file (#42): only requests the
+ * file doesn't hold yet. The runs already recorded replay against the
+ * responses they saw; a repeat that saw another one (a provider timed out,
+ * OSM changed) is the one that goes stale, and is re-recorded.
+ */
+export function addNewToolCalls(
+  existing: ToolRecording | null,
+  recorded: ToolRecording,
+): ToolRecording {
+  if (existing === null) return recorded;
+  const known = new Set(existing.calls.map((call) => call.requestHash));
+  return {
+    caseId: existing.caseId,
+    calls: [
+      ...existing.calls,
+      ...recorded.calls.filter((call) => !known.has(call.requestHash)),
+    ],
+  };
+}

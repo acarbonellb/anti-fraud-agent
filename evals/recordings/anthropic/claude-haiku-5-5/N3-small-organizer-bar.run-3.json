@@ -1,0 +1,211 @@
+{
+  "caseId": "N3",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-04T19:16:00.000Z",
+  "calls": [
+    {
+      "requestHash": "7dcb06656fb7161468f3d8b55f4307f9a592d1d3686dc87f9eafd5c6ade2d254",
+      "latencyMs": 2013,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01C16MRTfVg1wb8KASnu6ePW",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_4a047afca5\"}"
+            },
+            {
+              "id": "toolu_015qWgPdx1JJ8NVgov356Er6",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_3519e887b2\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_012vMMufbaVbVLgh5zmZfFTt",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Os Vagalumes grupo folk Lugo concierto Clavicembalo\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSuwUKEAgTGAI4AUIIdGhpbmtpbmcSDJSiMgxQqWaHbiXG1xoMY2sUKV8xHVpxc8mWIjC0vX6PW5OkEIJCbMBX69TuCab/Jrc9wVCXuOsfOajcGJ88K7AGrH4eN4wJLnvCJRkq2ARFAlfp0HxMhKjuIhYsd5xluizURKfZpNr+hNC/gA/PslBtssTe8+eaD4byoikhBv6YGTki33LnXcMXm2Yii1hfUaC5D+Bov6YfrhfkBnyLnirTKAnttk+eIXmivk4LXJzxfGl73uh6lH1z2BrUj1jYnny3VHyedSCXqGzCOiaNiuN+9XHl0vFKnu8umunPfPxqHsPUS6qjThIJQSGaUtTsF7r8a85uiI51I//qjH3s3A3H+ZsKzaNX/jQoKjfzYQOpg58472BveyzGXE+lWsjx75jHmNfZ/d75rl14M3PsPuhB59YrMBzv6HvJCHGreAF73Si7cspKiuGxt6+t6GqANsb5F1Dh10AxXZSQ/BcayG6NDNQUSfCTaBE71GNscJx20+rHt02onxxWUpCTNuludd7ce71hVb/2HFGDPpoNaCChwhWJOdapobHBYJErjMZIJl87wmaRnC+ZPkDlvYdt6Q9gRpqkaD6gPUyU+k9tqX7+vJEf2ba4K3FE/JEUO3YGwf8yVbiVn7Rngk0Ccv6kezvVMjRWmyMnN912gNKfcvhckO4wPmy21YVVopkaBu/3Aqnt/Qe1g9NwPfClnRzhWo48CJwVbOeLrF+8yzM5ZJv2xvniLVcPpYNJTb0bGA9P2dMQWGFkS0pprIkcJ25qLY/3gT2fHkD5757VWZnwuRakEIwAxHSTKHbGOLVIUQCf8STk3XfLNtVcNVPRUpLYkL6YcKKBjqRITzXCL/ki2AKUS2M9Yjl55v7WIps7Rh495S119xP+gdEZ/OO4MXXGIl/+hOoN2GoYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01C16MRTfVg1wb8KASnu6ePW",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_4a047afca5"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_015qWgPdx1JJ8NVgov356Er6",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_3519e887b2",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012vMMufbaVbVLgh5zmZfFTt",
+              "name": "web_search",
+              "input": {
+                "query": "Os Vagalumes grupo folk Lugo concierto Clavicembalo",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4826,
+          "outputTokens": 268,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4822
+        }
+      }
+    },
+    {
+      "requestHash": "ecdfeb24207372472ea5fa28416077f9aa3dfcbe78618c96c40b9fa8a37e2bce",
+      "latencyMs": 6610,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_0174TvP9Mja5bfFRarhpbdUQ",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.8,\"rationale\":\"El evento parece legítimo. El organizador (Peña Gatuna, Asociación Cultural, CIF válido, cuenta de 1.530 días, 9 eventos publicados sin cancelaciones, sin retiradas ni reportes de contenido) tiene un historial limpio. El grupo Os Vagalumes tiene una web propia que confirma la actuación el 25 de noviembre de 2026 en el Club Clavicembalo con Peña Gatuna. El recinto existe en OpenStreetMap a 4 m de las coordenadas. El precio (8 €) está dentro del benchmark y no hay clones ni eventos similares en la ventana de 30 días. Lo único sin verificar es el aforo del local: ni Wikidata, OSM ni la búsqueda lo publican, y la venta actual (31 de 80) es plausible para un bar pequeño. Recomiendo aprobar, con la salvedad de que el aforo no pudo confirmarse.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Asociación Cultural Peña Gatuna: CIF con checksum válido, dirección fiscal en Lugo, cuenta de 1.530 días, email verificado.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"9 eventos publicados, 8 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"El organizador declara actividad en Instagram (@penagatuna) desde 2019, pero no se ha verificado fuera de la plataforma. La web del grupo sí menciona el concierto con Peña Gatuna.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://osvagalumes.test/\",\"title\":\"Os Vagalumes — folk desde Lugo\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se encontró ningún promotor conocido con un nombre parecido.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Club Clavicembalo figura en OpenStreetMap a 4 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/1536963618\",\"title\":\"OpenStreetMap: Club Clavicembalo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del local no está publicado en ninguna fuente. Hay 31 entradas vendidas de 80, lo que es plausible para un bar pequeño pero no se ha podido contrastar.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 8 € está por debajo del p90 de 15 € de eventos comparables.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La web del grupo confirma la fecha del 25 de noviembre de 2026 en el Club Clavicembalo, sin conflicto con otra fecha anunciada.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://osvagalumes.test/\",\"title\":\"Os Vagalumes — folk desde Lugo\"}]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSrAkKEAgTGAI4AUIIdGhpbmtpbmcSDNkbyIpiLCIOXZ85shoMl/kctpYLzQhgjXbxIjBt+pqWaAV0DGv/h4RweoigdmmYxnc7f4k2AHcvml6yB5crfCJ3u/PJwJNJaCvA4v8qyQhEYommrD96ukIS6EZYrB/HLoZIXx8g+a87eVCGTjL2yywSr2yQk0F24K+gEExIXXaNur7hnMWT7xbiFYPBl5IBZck9IYRciTYaLN9z3VaZva+sbZBMNRsqScZy0mCnHdu3KfHAhSQ3xWvfc4CNbTitVN5a+NiQc03H7WEotOfV1qKtlCC9YjTWN+CayQzi/xbOsiJ73XtXxj4waeFDikZNnXzDzcaaMlU36fDIz2X3GUnes49EDB7ozCeVm1VGEuA6WUJL9HgeGnkd6LZlp05Qql33ch2JRize5v5cJPafEecdqNuD5EJiYqe+R0RGkEgdS9azqIUqtt5Z1T9u38V6U/11sxmFs4pDkf2dOfA6ZdhwoZFsEdPpNV8OTKshQt7tGaCuJZkCFfjBNJ24s3XTdS6xMrIzivao2Bm9kClSTAm4IbwCIoGNMSZ4TiozP7DIDFMXecI5t4iK6H/Rh877dA7nvvWjLKbDgWit2HYlb+wpzfu6XbSlSW5eY+A4ZlGv7XZnQ6zbLLftbJ+R97/iGgQWj+voZZ098z4X2NLkxQqzeCAhJl2vZYvYiac+rLNN4OPjp7vYagYfgz/gtTyk9w47c005t6Dsm2YzZeOEOrwFUVTXuhC0AHPL1vRhgcRrE1iafgcwwAlRoKja+4rB0gheCUaXzz+KM3Yf/30xlPZVloXZ+yXvA4VlkVs/3umTTgcscG4YwJJGPJna+hFKGTvbeZsXsczzrpHlZTKRh0/Yclp9o9wTrhJ/tuftKfpOwmdE2Hic+Tzr6nPbvqpunGGChn4RcxPHgS3km1YoRP35ge5n4RIRPUt+EoFlPl/a2ETdBTxlQzVprO8qiifzu4LSwzHdqHU9n1ZHSpS4A89bV+uTMc8jdQo4RvTe+pt4cLD2+6Wnmuv/zRnBJBy6v2oxFt8Mhf8GX/QRxhekF4bZG6+E1Wsy7wHx9UUlMJCCdNHdq8sulBaCvMn6na4yWhnoTaRKXg6NubOcGsCKIlDXAyJG25yulfpwMg1k595fBaObTHFfAyATncvE48QUyQ/ytrfLEQzhlQh/CTWa0+1bCs82ZFczaFBhW6XJMVKaMag8jxc9GA30lIy9oPx+yRKMw9+YPz+bz89lSh32LuJWQgh8guu6E+DOD/M+sGrL0jsB/8fzHjyzfYHDSIp2lh9TD+6783MmBepd2eNpMKVFaaOXhtb3Lx0BRgCAQeXJ39IyNfJk+wh97gcMIBIQ03ViL/HUfNUY2mfUeT1jdyGeNEtp0wkz+RzdgSSYXsoRhSPDZPGNx/sTdajcZpbz89m5bm+tbJsUAkXko29eOg8pa2xvwLXdZlHoBVoCzgPdPTWYiL2S3TkJ+bfOqXC0kAbsdS7BeGuHQmplxQcp+wyJTd9qjfSK83OEX4XX8ugScBTjOkcCO4pXuBSZkcptBdZERoGaas/SSHld51UCbwy7jjMg9Tb0shgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_0174TvP9Mja5bfFRarhpbdUQ",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.8,
+                "rationale": "El evento parece legítimo. El organizador (Peña Gatuna, Asociación Cultural, CIF válido, cuenta de 1.530 días, 9 eventos publicados sin cancelaciones, sin retiradas ni reportes de contenido) tiene un historial limpio. El grupo Os Vagalumes tiene una web propia que confirma la actuación el 25 de noviembre de 2026 en el Club Clavicembalo con Peña Gatuna. El recinto existe en OpenStreetMap a 4 m de las coordenadas. El precio (8 €) está dentro del benchmark y no hay clones ni eventos similares en la ventana de 30 días. Lo único sin verificar es el aforo del local: ni Wikidata, OSM ni la búsqueda lo publican, y la venta actual (31 de 80) es plausible para un bar pequeño. Recomiendo aprobar, con la salvedad de que el aforo no pudo confirmarse.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Asociación Cultural Peña Gatuna: CIF con checksum válido, dirección fiscal en Lugo, cuenta de 1.530 días, email verificado.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "9 eventos publicados, 8 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "warn",
+                    "detail": "El organizador declara actividad en Instagram (@penagatuna) desde 2019, pero no se ha verificado fuera de la plataforma. La web del grupo sí menciona el concierto con Peña Gatuna.",
+                    "confidence": 0.5,
+                    "sources": [
+                      {
+                        "url": "https://osvagalumes.test/",
+                        "title": "Os Vagalumes — folk desde Lugo"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se encontró ningún promotor conocido con un nombre parecido.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "Club Clavicembalo figura en OpenStreetMap a 4 m de las coordenadas del evento.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/node/1536963618",
+                        "title": "OpenStreetMap: Club Clavicembalo"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del local no está publicado en ninguna fuente. Hay 31 entradas vendidas de 80, lo que es plausible para un bar pequeño pero no se ha podido contrastar.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No hay eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "El precio de 8 € está por debajo del p90 de 15 € de eventos comparables.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "pass",
+                    "detail": "La web del grupo confirma la fecha del 25 de noviembre de 2026 en el Club Clavicembalo, sin conflicto con otra fecha anunciada.",
+                    "confidence": 0.6,
+                    "sources": [
+                      {
+                        "url": "https://osvagalumes.test/",
+                        "title": "Os Vagalumes — folk desde Lugo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5920,
+          "outputTokens": 1560,
+          "cacheReadInputTokens": 4822,
+          "cacheWriteInputTokens": 1096
+        }
+      }
+    }
+  ],
+  "searches": []
+}

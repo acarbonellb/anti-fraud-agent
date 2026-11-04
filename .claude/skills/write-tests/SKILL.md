@@ -59,11 +59,15 @@ fixtures.
   `evals/recordings/<provider>/<model>/` and rewrites `evals/report.md`. `pnpm eval:replay --check`
   (CI) replays them with no model: it fails on a stale or missing recording, on any gated fraud case
   approved as `auto_resolved` (the only outcome that skips the admin), or on a report that changed.
+- **Repeated runs** (#42). A set can hold N runs per case (`pnpm eval --runs N`, or `A-B`; by
+  default as many as the set has, 3 for a new one). Re-record every run a change makes stale, not
+  just run 1: a set's runs must all replay. The gate reads each case's majority; metrics are means
+  with their min–max.
 - **A changed request makes recordings stale.** A change to the prompt, a tool, a check's wording or
   a fixture changes what the model is sent, so the old answer no longer applies. Re-record the
   affected cases locally and commit recordings and report in the same PR: the report diff is the
   behaviour change. Keep requests reproducible: dates from the injected clock, ids and the fence
-  nonce from the case id, never `Math.random`, `Date.now` or this machine's env.
+  nonce from the case id and run index, never `Math.random`, `Date.now` or this machine's env.
 - **History and experiment log** (ADR 0014). When a change moves the metrics (re-recordings, the
   prompt, a check, a policy threshold), `pnpm eval` or `pnpm eval:replay` requires
   `--note "<what changed>"` and appends one entry per moved set to `evals/history.jsonl`. Write

@@ -68,6 +68,9 @@ fixed.
   default `medium`). Thinking is billed as output.
 - **Paid provider**: one that bills per token (`anthropic`). The scripts call it only with
   `--paid`.
+- **Deployed model**: the model the deployed agent runs, set in its environment and chosen by the
+  evals (Claude Haiku 5.5 since E014). The code's fallback with nothing set stays local qwen, so
+  development needs no key (ADR 0008 amendment, #42).
 - **Pass**: one scheduled sweep of the feed from the stored cursor.
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.
 - **Eval case**: a fixture subject with its expected decision and autonomy (brief §5).
@@ -97,10 +100,18 @@ fixed.
 - **Fixture origin**: `recorded` (a real provider response, committed only for open data or
   reduced to the fields the tool uses) or `authored` (written by hand, for invented organizers,
   artists and texts) (ADR 0015).
+- **Repeated runs**: one case recorded several times in the same set (`pnpm eval --runs N`; 3 for a
+  new set), each with its own fence nonce from the case id and run index. Run 1 is the case's file;
+  run n sits next to it as `….run-<n>.json` (ADR 0014 amendment, #42).
+- **Majority outcome**: the decision and autonomy more than half of a case's runs gave. A tie, or a
+  majority missed because runs failed, matches no expected outcome.
+- **Spread**: the min–max across runs of accuracy, approved-fraud rate, auto-approved fraud rate
+  and autonomy accuracy, kept in a history entry next to the means.
 - **Stale recording**: one whose requests no longer match what the code sends (the prompt, a tool,
   a check or a fixture changed), or that is missing. It must be recorded again.
 - **Auto-approved fraud rate**: share of problem cases that ended in `approve` + `auto_resolved`,
-  the only outcome that skips the admin. CI fails if it is above 0 among the gated cases.
+  the only outcome that skips the admin. CI fails on a gated case that a majority of its repeated
+  runs auto-approved.
 - **Escalation rate**: share of cases sent to the admin (`escalated`).
 - **Autonomy accuracy**: share of cases whose autonomy matches the expected one.
 - **Brier score**: mean of (confidence − correct)², where correct is 1 or 0. Measures calibration:
@@ -110,8 +121,8 @@ fixed.
 - **Metrics history**: `evals/history.jsonl`, append-only and machine-written by `pnpm eval` and
   `pnpm eval:replay`. One history entry per change that moved a recording set's metrics.
 - **History entry**: one line of the history, with an id (`E001`…), the UTC date, provider, model,
-  prompt versions, a one-line note and the gated and all-cases metrics. Never edited; a newer
-  entry corrects a wrong one.
+  prompt versions, a one-line note and the gated and all-cases metrics; with repeated runs, their
+  number, the means and the spread. Never edited; a newer entry corrects a wrong one.
 - **Experiment log**: `docs/experiments.md`, one written section per history entry, with the same
   id: hypothesis, change, before → after, what went wrong and the decision (keep, revert, retire).
 - **Hypothesis**: the effect on the metrics a change is expected to have, stated in its ticket

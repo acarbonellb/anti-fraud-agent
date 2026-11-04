@@ -51,6 +51,11 @@ export const recordingSchema = z.object({
   caseId: z.string().min(1),
   provider: z.string().min(1),
   model: z.string().min(1),
+  /**
+   * Which repeat of the case this is (#42). Absent on run 1, so the
+   * recordings made before repeats stay valid as they are.
+   */
+  run: z.number().int().min(2).optional(),
   promptVersion: z.string().min(1),
   /** The clock the case's fixtures were built from; replay reuses it. */
   clock: z.iso.datetime(),

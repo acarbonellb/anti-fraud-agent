@@ -4,42 +4,8 @@
 import { describe, expect, it } from "vitest";
 
 import { computeMetrics } from "./metrics.js";
-import type { CaseOutcome, CaseResult } from "./types.js";
-
-function result(
-  caseId: string,
-  expected: CaseResult["expected"],
-  outcome: Partial<CaseOutcome> | null,
-  extra: Partial<CaseResult> = {},
-): CaseResult {
-  return {
-    caseId,
-    slug: `case-${caseId}`,
-    title: caseId,
-    problem: !caseId.startsWith("N"),
-    external: false,
-    expected,
-    outcome:
-      outcome === null
-        ? null
-        : {
-            decision: "approve",
-            autonomy: "auto_resolved",
-            confidence: 0.5,
-            reasons: [],
-            authoredWeb: false,
-            venue: [],
-            endedBy: "submitted",
-            inputTokens: 0,
-            outputTokens: 0,
-            latencyMs: 0,
-            costMicros: 0,
-            ...outcome,
-          },
-    failure: outcome === null ? "stale: missing_recording" : null,
-    ...extra,
-  };
-}
+import { caseResult as result } from "./fake-results.js";
+import type { CaseResult } from "./types.js";
 
 const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;
 const ask = { decisions: ["request_info"], autonomy: "escalated" } as const;
