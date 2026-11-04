@@ -65,7 +65,7 @@ it("fails the check on moved metrics until an entry with a note is appended", as
   const set: RecordingSet = {
     provider: recording.provider,
     model: recording.model,
-    recordings: new Map([[clean.id, recording]]),
+    runs: [new Map([[clean.id, recording]])],
   };
 
   const before = measureSet(await replaySet([clean], set, tools));

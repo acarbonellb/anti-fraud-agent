@@ -15,7 +15,7 @@ import { fixtures } from "../satella-client/fixtures.js";
 import { createAuthoredSearch } from "../search/authored.js";
 import { fakeVenueFetch } from "../venue/fake-venue-fetch.js";
 import type { Recording } from "./recording.js";
-import { recordCase, replayCase } from "./runner.js";
+import { recordCase, replayCase, replaySet } from "./runner.js";
 import { toolRecordingSchema } from "./tool-recording.js";
 import type { EvalCase } from "./types.js";
 
@@ -189,16 +189,84 @@ describe("stale recordings", () => {
   });
 });
 
-it("derives the fence nonce from the case, so runs send the same request", async () => {
-  const first = createScriptedProvider([
-    callTool("submit_recommendation", request),
-  ]);
-  const second = createScriptedProvider([
-    callTool("submit_recommendation", request),
-  ]);
-  await recordCase(organizerCase, first, CLOCK, network);
-  await recordCase(organizerCase, second, CLOCK, network);
-  expect(first.requests[0]?.messages).toEqual(second.requests[0]?.messages);
+describe("repeated runs", () => {
+  const submit = () =>
+    createScriptedProvider([callTool("submit_recommendation", request)]);
+
+  it("derives the fence nonce from the case, so the same run sends the same request", async () => {
+    const [first, second] = [submit(), submit()];
+    await recordCase(organizerCase, first, CLOCK, network);
+    await recordCase(organizerCase, second, CLOCK, network);
+    expect(first.requests[0]?.messages).toEqual(second.requests[0]?.messages);
+  });
+
+  it("gives each run its own nonce, and keeps run 1's as it was", async () => {
+    const [unnumbered, one, two] = [submit(), submit(), submit()];
+    await recordCase(organizerCase, unnumbered, CLOCK, network);
+    await recordCase(organizerCase, one, CLOCK, { ...network, run: 1 });
+    const second = await recordCase(organizerCase, two, CLOCK, {
+      ...network,
+      run: 2,
+    });
+
+    // Run 1 is the recording every set already has: its request can't move.
+    expect(one.requests[0]?.messages).toEqual(unnumbered.requests[0]?.messages);
+    expect(two.requests[0]?.messages).not.toEqual(one.requests[0]?.messages);
+    expect(second.recording?.run).toBe(2);
+    expect(
+      await replayCase(organizerCase, second.recording, second.toolRecording),
+    ).toEqual(second.result);
+  });
+
+  it("replays every run of a set, and a case missing from a run as stale", async () => {
+    const recordRun = async (evalCase: EvalCase, run: number) => {
+      const steps =
+        evalCase === eventCase
+          ? [callTool("submit_recommendation", approval)]
+          : [callTool("submit_recommendation", request)];
+      return recordCase(evalCase, createScriptedProvider(steps), CLOCK, {
+        ...network,
+        run,
+      });
+    };
+    const event1 = await recordRun(eventCase, 1);
+    const event2 = await recordRun(eventCase, 2);
+    const organizer1 = await recordRun(organizerCase, 1);
+    const recorded = (r: Awaited<ReturnType<typeof recordRun>>) => {
+      if (r.recording === null) throw new Error("the scripted run failed");
+      return r.recording;
+    };
+
+    const set = await replaySet(
+      [eventCase, organizerCase],
+      {
+        provider: "scripted",
+        model: "scripted-model",
+        runs: [
+          new Map([
+            ["N1", recorded(event1)],
+            ["22", recorded(organizer1)],
+          ]),
+          new Map([["N1", recorded(event2)]]),
+        ],
+      },
+      new Map([
+        ["N1", event1.toolRecording ?? { caseId: "N1", calls: [] }],
+        ["22", organizer1.toolRecording ?? { caseId: "22", calls: [] }],
+      ]),
+    );
+
+    expect(set.runs).toEqual([
+      [event1.result, organizer1.result],
+      [
+        event2.result,
+        expect.objectContaining({
+          caseId: "22",
+          failure: "stale: missing_recording",
+        }),
+      ],
+    ]);
+  });
 });
 
 // Keeps the shape the CLI writes honest: a recording is plain JSON.

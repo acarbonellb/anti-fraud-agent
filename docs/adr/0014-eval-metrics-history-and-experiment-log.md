@@ -1,7 +1,7 @@
 # ADR 0014 — Eval metrics are tracked in a machine-written history, explained in an experiment log, and CI enforces both
 
 - **Date:** 2026-11-02
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-04 (#42)
 - **Related:** brief §4.3; ADR 0013 (the replayed evals and the report this builds on); ADR 0008
   (the evals choose the default model); issues #21, #6, #7 and #15.
 
@@ -88,3 +88,44 @@ fraud rate and a Brier score of 0.302.
 - Rewriting a past entry can only be caught in review: CI checks that the latest entry matches,
   not that earlier lines are untouched. The PR diff of `evals/history.jsonl` shows it.
 - The first entry, E001, is the 2026-11-02 baseline, with its diagnosis in `docs/experiments.md`.
+
+## Amendment (2026-11-04, #42): an entry can be the mean of repeated runs, with its spread
+
+Claude Haiku 5.5 can't be pinned (API version 2026-10-21 rejects `temperature`), and a set
+recorded once can't tell the model's noise from a real change: with 30 gated cases, one case moves
+accuracy by 3.3 points. Each case can now be recorded several times in the same set. This extends
+point 2 and point 4; nothing before it changes.
+
+1. **Repeats live in the set.** Run 1 stays `<id>-<slug>.json`; run n is `<id>-<slug>.run-<n>.json`
+   next to it, with `run: n` in the recording. Each run's fence nonce derives from the case id and
+   the run index, so each repeat sends a different request, as each production review does, and
+   still replays. Run 1 keeps the nonce it had, so every existing recording stays valid.
+   `pnpm eval --runs N` (or `A-B`) records runs 1…N; without it, as many as the set already has
+   (3 for a new set), so re-recording one case keeps its set whole.
+2. **An entry gains optional `runs` and `spread`.** With `runs` (2 or more), `gated` and `all` are
+   the means over the runs, and `spread` holds, for the gated and all cases, the minimum and maximum
+   across runs of accuracy, approved-fraud rate, auto-approved fraud rate and autonomy accuracy.
+   `cases` is one run's, `scored` the fewest any run scored and `failed` the most. Without `runs`,
+   the entry is one run: E001–E013 stay as written and read that way. The two fields go together,
+   or the line doesn't parse.
+3. **`--check` compares means and ranges.** A set differs from its latest entry when a mean, a
+   range or the number of runs moved.
+4. **The CI gate reads each case's majority.** A gated fraud case fails the check when more than
+   half of its runs approved it as `auto_resolved`; a single run is its own majority. Per case, the
+   report counts how many runs agree (`reject 2/3`) and marks the case right only when a majority
+   of its runs gave an expected decision: a tie is wrong.
+5. **The report tells a mean from a single run.** The history table gains a **Runs** column, and a
+   mean's cell shows its range: `90.0 % (86.7–93.3)`. Two entries differ only where their ranges
+   don't overlap; a single run has no range to compare, which the Runs column makes visible.
+
+### Alternatives rejected
+
+- **Every run's full metrics in the entry.** The recordings already hold them, and the entry would
+  grow with each run for numbers no decision reads.
+- **The spread only in the report.** It would vanish with each re-recording; keeping the spread
+  next to the mean is the point.
+- **A standard deviation.** With 3 runs, the range is what reads honestly.
+- **The gate fails on any run's auto-approved fraud.** One run in three would fail CI on noise the
+  majority doesn't share. The report still shows it (`approve 1/3`).
+- **Repeats as separate sets** (`claude-haiku-5-5#2`). The history would split one model into three
+  series, and the report would show three tables to compare by eye.

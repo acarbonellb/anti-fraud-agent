@@ -7,8 +7,9 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-import { computeMetrics, type Metrics } from "./metrics.js";
+import type { Metrics } from "./metrics.js";
 import type { ReportSet } from "./report.js";
+import { computeRunMetrics, type Spread } from "./runs.js";
 
 // Null when no case was there to measure.
 const measured = z.number().nullable();
@@ -28,37 +29,73 @@ const metricsSchema = z.strictObject({
   meanLatencyMs: measured,
 }) satisfies z.ZodType<Metrics>;
 
-const historyEntrySchema = z.strictObject({
-  id: z.string().regex(/^E\d{3,}$/),
-  /** UTC, when the entry was appended. */
-  date: z.iso.date(),
-  provider: z.string().min(1),
-  model: z.string().min(1),
-  promptVersions: z.array(z.string()),
-  /** One line: what changed since the set's previous entry. */
-  note: z.string().min(1),
-  gated: metricsSchema,
-  all: metricsSchema,
-});
+const rangeSchema = z.tuple([z.number(), z.number()]).nullable();
+
+const spreadSchema = z.strictObject({
+  accuracy: rangeSchema,
+  approvedFraudRate: rangeSchema,
+  autoApprovedFraudRate: rangeSchema,
+  autonomyAccuracy: rangeSchema,
+}) satisfies z.ZodType<Spread>;
+
+const historyEntrySchema = z
+  .strictObject({
+    id: z.string().regex(/^E\d{3,}$/),
+    /** UTC, when the entry was appended. */
+    date: z.iso.date(),
+    provider: z.string().min(1),
+    model: z.string().min(1),
+    promptVersions: z.array(z.string()),
+    /** One line: what changed since the set's previous entry. */
+    note: z.string().min(1),
+    /**
+     * Runs per case, when more than one (#42). Absent, the entry is one run,
+     * as every entry before repeats; present, its metrics are the means.
+     */
+    runs: z.number().int().min(2).optional(),
+    gated: metricsSchema,
+    all: metricsSchema,
+    /** The min–max across runs of the metrics an experiment is decided on. */
+    spread: z
+      .strictObject({ gated: spreadSchema, all: spreadSchema })
+      .optional(),
+  })
+  .refine(
+    (entry) => (entry.runs === undefined) === (entry.spread === undefined),
+    {
+      message: "runs and spread go together",
+    },
+  );
 
 export type HistoryEntry = z.infer<typeof historyEntrySchema>;
 
-/** A recording set as the latest replay measured it. */
+/**
+ * A recording set as the latest replay measured it. With several runs, the
+ * metrics are the means and `runs` and `spread` say over what.
+ */
 export interface CurrentSet {
   provider: string;
   model: string;
   promptVersions: string[];
+  runs?: number;
   gated: Metrics;
   all: Metrics;
+  spread?: { gated: Spread; all: Spread };
 }
 
 export function measureSet(set: ReportSet): CurrentSet {
+  const gated = computeRunMetrics(set.runs, { includeExternal: false });
+  const all = computeRunMetrics(set.runs, { includeExternal: true });
   return {
     provider: set.provider,
     model: set.model,
     promptVersions: set.promptVersions,
-    gated: computeMetrics(set.results, { includeExternal: false }),
-    all: computeMetrics(set.results, { includeExternal: true }),
+    gated: gated.mean,
+    all: all.mean,
+    // One run is its own range: an entry keeps none, as before repeats.
+    ...(gated.runs > 1
+      ? { runs: gated.runs, spread: { gated: gated.spread, all: all.spread } }
+      : {}),
   };
 }
 
@@ -92,10 +129,8 @@ export function planHistory(input: {
       date: input.date,
       provider: set.provider,
       model: set.model,
-      promptVersions: [...set.promptVersions],
       note,
-      gated: roundMetrics(set.gated),
-      all: roundMetrics(set.all),
+      ...measurement(set),
     })),
   };
 }
@@ -199,11 +234,29 @@ export function serializeHistory(entries: readonly HistoryEntry[]): string {
 function isStale(set: CurrentSet, entry: HistoryEntry | undefined): boolean {
   if (entry === undefined) return true;
   return (
-    JSON.stringify(set.promptVersions) !==
-      JSON.stringify(entry.promptVersions) ||
-    JSON.stringify(roundMetrics(set.gated)) !== JSON.stringify(entry.gated) ||
-    JSON.stringify(roundMetrics(set.all)) !== JSON.stringify(entry.all)
+    JSON.stringify(measurement(set)) !== JSON.stringify(measurement(entry))
   );
+}
+
+/**
+ * What an entry records of a set, rounded and in one key order: what a run
+ * appends and what `--check` compares, means and ranges alike.
+ */
+function measurement(set: CurrentSet | HistoryEntry) {
+  return {
+    promptVersions: [...set.promptVersions],
+    ...(set.runs === undefined ? {} : { runs: set.runs }),
+    gated: roundMetrics(set.gated),
+    all: roundMetrics(set.all),
+    ...(set.spread === undefined
+      ? {}
+      : {
+          spread: {
+            gated: roundSpread(set.spread.gated),
+            all: roundSpread(set.spread.all),
+          },
+        }),
+  };
 }
 
 /** Same order as the report, so ids are assigned the same way every run. */
@@ -218,9 +271,21 @@ function entryId(n: number): string {
   return `E${String(n).padStart(3, "0")}`;
 }
 
+const round = (value: number | null) =>
+  value === null ? null : Math.round(value * 10_000) / 10_000;
+
+function roundSpread(spread: Spread): Spread {
+  const range = (value: [number, number] | null): [number, number] | null =>
+    value === null ? null : [round(value[0]) ?? 0, round(value[1]) ?? 0];
+  return {
+    accuracy: range(spread.accuracy),
+    approvedFraudRate: range(spread.approvedFraudRate),
+    autoApprovedFraudRate: range(spread.autoApprovedFraudRate),
+    autonomyAccuracy: range(spread.autonomyAccuracy),
+  };
+}
+
 function roundMetrics(metrics: Metrics): Metrics {
-  const round = (value: number | null) =>
-    value === null ? null : Math.round(value * 10_000) / 10_000;
   return {
     cases: metrics.cases,
     scored: metrics.scored,

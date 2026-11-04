@@ -4,7 +4,14 @@
  * behaviour change shows up in the PR diff (#6). No timestamps, no locale.
  */
 import { type HistoryEntry, sameSet, setName } from "./history.js";
-import { computeMetrics, type Metrics } from "./metrics.js";
+import type { Metrics } from "./metrics.js";
+import {
+  byCase,
+  computeRunMetrics,
+  majorityOutcome,
+  type RunMetrics,
+  type SpreadMetric,
+} from "./runs.js";
 import { type CaseOutcome, type CaseResult, caseOrder } from "./types.js";
 
 export interface ReportSet {
@@ -13,7 +20,8 @@ export interface ReportSet {
   promptVersions: string[];
   /** Distinct `YYYY-MM-DD` dates of the recordings' clocks. */
   recordedOn: string[];
-  results: CaseResult[];
+  /** One list of case results per run: `runs[0]` is run 1. */
+  runs: CaseResult[][];
 }
 
 export function renderReport(
@@ -32,6 +40,13 @@ export function renderReport(
     "from `evals/history.jsonl`; why each entry exists, and what was decided, is",
     "in `docs/experiments.md`.",
     "",
+    "A set recorded several times per case (#42) shows each metric's mean over",
+    "the runs, with the min–max of the four an experiment is decided on, and how",
+    "many runs agree on each case (`reject 2/3`). A case is right only when most",
+    "of its runs are, so a tie is wrong, and CI fails on a fraud case most runs",
+    "auto-approved. An entry's **Runs** tells a mean from a single run: two",
+    "entries differ only where their ranges don't overlap.",
+    "",
   ];
   if (sets.length === 0) {
     lines.push("No recordings yet: run `pnpm eval` with a model.", "");
@@ -49,51 +64,78 @@ export function renderReport(
 }
 
 function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
-  const results = [...set.results].sort(
-    (a, b) => caseOrder(a.caseId) - caseOrder(b.caseId),
+  const runs = set.runs.map((results) =>
+    [...results].sort((a, b) => caseOrder(a.caseId) - caseOrder(b.caseId)),
   );
-  const gated = computeMetrics(results, { includeExternal: false });
-  const all = computeMetrics(results, { includeExternal: true });
-  const row = (label: string, value: (metrics: Metrics) => string) =>
+  const several = runs.length > 1;
+  const gated = computeRunMetrics(runs, { includeExternal: false });
+  const all = computeRunMetrics(runs, { includeExternal: true });
+  const row = (label: string, value: (metrics: RunMetrics) => string) =>
     `| ${label} | ${value(gated)} | ${value(all)} |`;
+  const rate = (key: SpreadMetric) => (metrics: RunMetrics) =>
+    several
+      ? withRange(metrics.mean[key], metrics.spread[key])
+      : percent(metrics.mean[key]);
+  const mean = (value: (metrics: Metrics) => string) => (m: RunMetrics) =>
+    value(m.mean);
   // Outside `Metrics`: the history keeps what decides an experiment, and an
   // entry's schema never changes after it is written (ADR 0014).
   const cost = (external: boolean) =>
-    dollars(meanCost(results.filter((result) => external || !result.external)));
+    dollars(
+      meanCost(runs.flat().filter((result) => external || !result.external)),
+    );
+  const cases = byCase(runs);
 
   return [
     `## ${set.provider} / ${set.model}`,
     "",
-    `Prompt ${set.promptVersions.map((v) => `\`${v}\``).join(", ") || "—"} · recorded ${set.recordedOn.join(", ") || "—"}`,
+    `Prompt ${set.promptVersions.map((v) => `\`${v}\``).join(", ") || "—"} · recorded ${set.recordedOn.join(", ") || "—"}` +
+      (several
+        ? ` · ${String(runs.length)} runs per case: means, with the min–max across runs`
+        : ""),
     "",
     "| Metric | Gated | All cases |",
     "| --- | --- | --- |",
-    row("Cases scored", (m) => `${String(m.scored)} / ${String(m.cases)}`),
-    row("Accuracy", (m) => percent(m.accuracy)),
-    row("Approved-fraud rate", (m) => percent(m.approvedFraudRate)),
-    row("Auto-approved fraud rate", (m) => percent(m.autoApprovedFraudRate)),
-    row("Escalation rate", (m) => percent(m.escalationRate)),
-    row("Autonomy accuracy", (m) => percent(m.autonomyAccuracy)),
-    row("Brier score", (m) => fixed(m.brier, 3)),
+    row(
+      "Cases scored",
+      mean((m) => `${String(m.scored)} / ${String(m.cases)}`),
+    ),
+    row("Accuracy", rate("accuracy")),
+    row("Approved-fraud rate", rate("approvedFraudRate")),
+    row("Auto-approved fraud rate", rate("autoApprovedFraudRate")),
+    row(
+      "Escalation rate",
+      mean((m) => percent(m.escalationRate)),
+    ),
+    row("Autonomy accuracy", rate("autonomyAccuracy")),
+    row(
+      "Brier score",
+      mean((m) => fixed(m.brier, 3)),
+    ),
     row(
       "Mean tokens in / out",
-      (m) => `${integer(m.meanInputTokens)} / ${integer(m.meanOutputTokens)}`,
+      mean(
+        (m) => `${integer(m.meanInputTokens)} / ${integer(m.meanOutputTokens)}`,
+      ),
     ),
-    row("Mean latency", (m) =>
-      m.meanLatencyMs === null
-        ? "—"
-        : `${(m.meanLatencyMs / 1000).toFixed(1)} s`,
+    row(
+      "Mean latency",
+      mean((m) =>
+        m.meanLatencyMs === null
+          ? "—"
+          : `${(m.meanLatencyMs / 1000).toFixed(1)} s`,
+      ),
     ),
     `| Mean cost per review | ${cost(false)} | ${cost(true)} |`,
     "",
     ...historySection(history),
     ...caseTable(
       "Gated cases",
-      results.filter((result) => !result.external),
+      cases.filter((results) => results[0]?.external === false),
     ),
     ...caseTable(
       "Cases that need the external tools (#7)",
-      results.filter((result) => result.external),
+      cases.filter((results) => results[0]?.external === true),
     ),
   ];
 }
@@ -115,23 +157,28 @@ function historySection(history: readonly HistoryEntry[]): string[] {
   return [
     "### History",
     "",
-    "| Entry | Date | Prompt | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |",
-    ...history.map(
-      (entry) =>
-        `| ${[
-          entry.id,
-          entry.date,
-          entry.promptVersions.map((v) => `\`${v}\``).join(", ") || "—",
-          entry.note,
-          percent(entry.gated.accuracy),
-          percent(entry.gated.approvedFraudRate),
-          percent(entry.gated.autoApprovedFraudRate),
-          fixed(entry.gated.brier, 3),
-        ]
-          .map(cell)
-          .join(" | ")} |`,
-    ),
+    "| Entry | Date | Prompt | Runs | Note | Accuracy | Approved fraud | Auto-approved fraud | Brier |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ...history.map((entry) => {
+      // An entry from before repeats, or of one run, has no range.
+      const rate = (key: SpreadMetric) =>
+        entry.spread === undefined
+          ? percent(entry.gated[key])
+          : withRange(entry.gated[key], entry.spread.gated[key]);
+      return `| ${[
+        entry.id,
+        entry.date,
+        entry.promptVersions.map((v) => `\`${v}\``).join(", ") || "—",
+        String(entry.runs ?? 1),
+        entry.note,
+        rate("accuracy"),
+        rate("approvedFraudRate"),
+        rate("autoApprovedFraudRate"),
+        fixed(entry.gated.brier, 3),
+      ]
+        .map(cell)
+        .join(" | ")} |`;
+    }),
     "",
     "Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.",
     "",
@@ -148,14 +195,21 @@ function historySection(history: readonly HistoryEntry[]): string[] {
   ];
 }
 
-function caseTable(heading: string, results: readonly CaseResult[]): string[] {
-  if (results.length === 0) return [];
+function caseTable(
+  heading: string,
+  cases: readonly (readonly CaseResult[])[],
+): string[] {
+  if (cases.length === 0) return [];
   return [
     `### ${heading}`,
     "",
     "| Case | Subject | Decision | Autonomy | Confidence | Venue | Policy reasons |",
     "| --- | --- | --- | --- | --- | --- | --- |",
-    ...results.map(renderCase),
+    ...cases.map((results) =>
+      results.length === 1 && results[0] !== undefined
+        ? renderCase(results[0])
+        : renderRuns(results),
+    ),
     "",
   ];
 }
@@ -181,19 +235,93 @@ function renderCase(result: CaseResult): string {
             : `❌ ${result.expected.autonomy} → ${outcome.autonomy}`,
           outcome.confidence.toFixed(2),
           venueCell(outcome.venue),
-          [
-            ...(outcome.endedBy === "submitted"
-              ? []
-              : [`ended by ${outcome.endedBy}`]),
-            ...outcome.reasons,
-          ].join("; "),
+          reasonsOf(outcome).join("; "),
         ];
+  return caseRow(result, outcome, cells);
+}
+
+/**
+ * One case over several runs: how many runs gave each decision and autonomy,
+ * judged by the majority, and the confidence range. Venue and reasons come
+ * from a run that gave the majority decision, so they explain it.
+ */
+function renderRuns(results: readonly CaseResult[]): string {
+  const [first] = results;
+  if (first === undefined) return "";
+  const expectedDecision = first.expected.decisions.join(" / ");
+  const outcomes = results.flatMap((result) =>
+    result.outcome === null ? [] : [result.outcome],
+  );
+  const failures = results.flatMap((result, index) =>
+    result.failure === null
+      ? []
+      : [`run ${String(index + 1)}: ${result.failure}`],
+  );
+  const majority = majorityOutcome(results);
+  const shown =
+    outcomes.find((outcome) => outcome.decision === majority.decision) ??
+    outcomes[0];
+  if (shown === undefined) {
+    return caseRow(first, null, [
+      `— ${expectedDecision}`,
+      `— ${first.expected.autonomy}`,
+      "—",
+      "—",
+      failures.join("; "),
+    ]);
+  }
+  const of = results.length;
+  const decisions = tally(
+    outcomes.map((outcome) => outcome.decision),
+    of,
+  );
+  const autonomies = tally(
+    outcomes.map((outcome) => outcome.autonomy),
+    of,
+  );
+  const confidences = outcomes.map((outcome) => outcome.confidence);
+  const [low, high] = [Math.min(...confidences), Math.max(...confidences)];
+  return caseRow(first, shown, [
+    majority.correct
+      ? `✅ ${decisions}`
+      : `❌ ${expectedDecision} → ${decisions}`,
+    majority.autonomyCorrect
+      ? `✅ ${autonomies}`
+      : `❌ ${first.expected.autonomy} → ${autonomies}`,
+    low === high ? low.toFixed(2) : `${low.toFixed(2)}–${high.toFixed(2)}`,
+    venueCell(shown.venue),
+    [...reasonsOf(shown), ...failures].join("; "),
+  ]);
+}
+
+function caseRow(
+  result: CaseResult,
+  outcome: CaseOutcome | null,
+  cells: readonly string[],
+): string {
   // Invented organizers and artists have no real web (ADR 0015 point 9).
   const title =
     outcome?.authoredWeb === true
       ? `${result.title} (authored web results)`
       : result.title;
   return `| ${[result.caseId, title, ...cells].map(cell).join(" | ")} |`;
+}
+
+function reasonsOf(outcome: CaseOutcome): string[] {
+  return [
+    ...(outcome.endedBy === "submitted" ? [] : [`ended by ${outcome.endedBy}`]),
+    ...outcome.reasons,
+  ];
+}
+
+/** `reject 2/3 · approve 1/3`: the most common first, ties by name. */
+function tally(values: readonly string[], of: number): string {
+  const counts = new Map<string, number>();
+  for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1);
+  return [...counts]
+    .sort(([a, x], [b, y]) => y - x || compare(a, b))
+    .map(([value, count]) => `${value} ${String(count)}/${String(of)}`)
+    .join(" · ");
 }
 
 const VENUE_LABELS: Readonly<Record<string, string>> = {
@@ -234,6 +362,16 @@ function compare(a: string, b: string): number {
 /** Pipes would split a table cell; newlines would end the row. */
 function cell(text: string): string {
   return text.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
+}
+
+/** `90.0 % (86.7–93.3)`: a mean over runs and its min–max. */
+function withRange(
+  value: number | null,
+  range: [number, number] | null,
+): string {
+  if (value === null || range === null) return percent(value);
+  const [min, max] = range.map((v) => (v * 100).toFixed(1));
+  return `${percent(value)} (${min ?? ""}–${max ?? ""})`;
 }
 
 export function percent(value: number | null): string {

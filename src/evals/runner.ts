@@ -9,8 +9,9 @@
  *   in order and the providers' by request hash. No network.
  *
  * Every input to the model is reproducible: fixtures come from the
- * recording's clock, the fence nonce and the run id derive from the case id,
- * and the limits are the defaults, never this machine's environment.
+ * recording's clock, the fence nonce and the run id derive from the case id
+ * and the run index, and the limits are the defaults, never this machine's
+ * environment.
  */
 import { createHash } from "node:crypto";
 
@@ -90,6 +91,8 @@ export interface RecordOptions extends RunOptions {
   search: WebSearch;
   /** Shared across cases: the providers' limits are per client. */
   throttles?: VenueThrottles;
+  /** Which repeat of the case to record (#42); 1 by default. */
+  run?: number;
 }
 
 export async function recordCase(
@@ -102,9 +105,11 @@ export async function recordCase(
   const recorder = createRecordingProvider(provider);
   const tools = createRecordingFetch(options.fetch);
   const searches = createRecordingSearch(options.search);
+  const run = options.run ?? 1;
   try {
     const outcome = await review(
       evalCase,
+      run,
       recorder,
       tools.fetch,
       searches.search,
@@ -117,6 +122,7 @@ export async function recordCase(
       caseId: evalCase.id,
       provider: provider.provider,
       model: provider.model,
+      ...(run === 1 ? {} : { run }),
       promptVersion: prompt.version,
       clock: clock.toISOString(),
       calls: recorder.calls,
@@ -152,6 +158,7 @@ export async function replayCase(
     }
     const outcome = await review(
       evalCase,
+      recording.run ?? 1,
       createReplayProvider(recording),
       createReplayFetch(toolRecording),
       createReplaySearch(recording.searches),
@@ -172,33 +179,37 @@ const REPLAY_THROTTLES: VenueThrottles = {
   wikidata: noThrottle,
 };
 
-/** Replays every case against one provider/model's recordings. */
+/** Replays every case, run by run, against one provider/model's recordings. */
 export async function replaySet(
   cases: readonly EvalCase[],
   set: RecordingSet,
-  /** By case id; shared by every set. */
+  /** By case id; shared by every set and run. */
   toolRecordings: ReadonlyMap<string, ToolRecording>,
   options: RunOptions = {},
 ): Promise<ReportSet> {
-  const results: CaseResult[] = [];
-  // One at a time: each case starts its own Satella mock.
-  for (const evalCase of cases) {
-    results.push(
-      await replayCase(
-        evalCase,
-        set.recordings.get(evalCase.id) ?? null,
-        toolRecordings.get(evalCase.id) ?? null,
-        options,
-      ),
-    );
+  const runs: CaseResult[][] = [];
+  for (const recordings of set.runs) {
+    const results: CaseResult[] = [];
+    // One at a time: each case starts its own Satella mock.
+    for (const evalCase of cases) {
+      results.push(
+        await replayCase(
+          evalCase,
+          recordings.get(evalCase.id) ?? null,
+          toolRecordings.get(evalCase.id) ?? null,
+          options,
+        ),
+      );
+    }
+    runs.push(results);
   }
-  const recordings = [...set.recordings.values()];
+  const recordings = set.runs.flatMap((run) => [...run.values()]);
   return {
     provider: set.provider,
     model: set.model,
     promptVersions: distinct(recordings.map((r) => r.promptVersion)),
     recordedOn: distinct(recordings.map((r) => r.clock.slice(0, 10))),
-    results,
+    runs,
   };
 }
 
@@ -208,6 +219,7 @@ function distinct(values: readonly string[]): string[] {
 
 async function review(
   evalCase: EvalCase,
+  runIndex: number,
   provider: LlmProvider,
   fetch: Fetch,
   webSearch: WebSearch,
@@ -234,7 +246,10 @@ async function review(
     tokens: { [TOKEN]: ["agent:read", "agent:recommend"] },
     now: () => clock,
   });
-  const runId = `eval-${evalCase.id}`;
+  const runId =
+    runIndex === 1
+      ? `eval-${evalCase.id}`
+      : `eval-${evalCase.id}-run-${String(runIndex)}`;
   try {
     const { run } = await reviewSubject({
       subject:
@@ -254,7 +269,7 @@ async function review(
       extraTools: [webSearchTool(search)],
       webSearch: search,
       now: () => clock,
-      fence: createUntrustedFence(nonceFor(evalCase.id)),
+      fence: createUntrustedFence(nonceFor(evalCase.id, runIndex)),
       prompt,
       // A stale subject can't happen against fixed fixtures.
       maxStaleRetries: 0,
@@ -286,10 +301,15 @@ export class EvalCaseError extends DomainError {
   }
 }
 
-/** Not random, or no two runs would send the same request. */
-function nonceFor(caseId: string): string {
+/**
+ * Not random, or no replay would send the request it recorded. Each run gets
+ * its own, as each production review does (#42); run 1 keeps the nonce it
+ * had before repeats existed, so its recordings stay valid.
+ */
+function nonceFor(caseId: string, run: number): string {
+  const seed = run === 1 ? caseId : `${caseId}:run-${String(run)}`;
   return createHash("sha256")
-    .update(`eval-fence:${caseId}`)
+    .update(`eval-fence:${seed}`)
     .digest("hex")
     .slice(0, 24);
 }
