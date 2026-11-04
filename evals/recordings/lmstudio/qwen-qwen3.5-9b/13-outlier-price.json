@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T01:01:00.000Z",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "2063dbbdc750a29ceb4fdde97164076eb8c5416be50e65f30899c72d4688661c",
-      "latencyMs": 2947,
+      "requestHash": "574aeac142ba6d381f4283eb226559d46d38fa7e3cad85ceaaf8a88bf143b084",
+      "latencyMs": 2852,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "lL1JitUEyA1eqJsWyvQje4U8A999DawU",
+              "id": "2IFz6QwpjJDxs6ECoZhONSftj5H9xrLF",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_9f3669c2c6\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3463,
+          "inputTokens": 3491,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "a2a93ccb389d438a5d671abbcaae5a288a0040ffc6aa5a49d61ff87f974189d6",
-      "latencyMs": 1441,
+      "requestHash": "9ec22a07f1cfa06751784c0096ea9f2be7e962c6aa09c33128e26c9fa003681e",
+      "latencyMs": 1454,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Dv2giFRSqwBttRx6MpWT72dEK0YhexrU",
+              "id": "IU0t8fWn3FGDNIkNVjZ0qTVMXm7wYlBF",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Trío Azahar jazz copla Sala Hangar Córdoba\",\"maxResults\":2}"
             }
@@ -44,21 +44,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3854,
+          "inputTokens": 3882,
           "outputTokens": 49
         }
       }
     },
     {
-      "requestHash": "367eb429076f12579ae3525bc7cadd53e1234c028476b589d6ebbf52c0d3b99f",
-      "latencyMs": 1470,
+      "requestHash": "a03c42e5410cdff7ea95138fb8a2c72718d6e8597083c4b6e7d03e3f940431f1",
+      "latencyMs": 1475,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "fzk24NDvwmbOKT5oqjBQxiZZrccRX8rY",
+              "id": "e4ABDvU9WrqUVQBas6Bq8BiG9zEMDt21",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Trío Azahar concierto Córdoba 2026\",\"maxResults\":2}"
             }
@@ -66,21 +66,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4302,
+          "inputTokens": 4286,
           "outputTokens": 49
         }
       }
     },
     {
-      "requestHash": "05fa0a0d4260c8336411b3d496ae7964581095aa58c08cefd41eadb32a75e938",
-      "latencyMs": 1606,
+      "requestHash": "3bb44aaf024c1aae075196b837185a966a61545b95980138239f5acf108deba3",
+      "latencyMs": 1604,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "dZ2NwVCVZ9RevtQhmI1dsAmh4zjaYv5h",
+              "id": "XgxDyvAr1nEOn3EeB8GHNCFW1xsIbyBw",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"\\\"Trío Azahar\\\" concierto Córdoba 2026 Sala Hangar\",\"maxResults\":2}"
             }
@@ -88,30 +88,96 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4797,
+          "inputTokens": 4650,
           "outputTokens": 54
         }
       }
     },
     {
-      "requestHash": "73f24796a0b231118b74499b5f5d7bc800e3fcbd3814b52f85e98005991fd34f",
-      "latencyMs": 20544,
+      "requestHash": "5e7faeb7bf076960c72d5d19c63b69d12e1200912586ca8656ca2ae568a1312e",
+      "latencyMs": 1607,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "7nb8BKspJSTxh98RoZttLEOYy5bVK5pp",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude clara: el artista \\\"Trío Azahar\\\" aparece en la plataforma con un concierto en Córdoba, pero las búsquedas web muestran que existe otro \\\"Trío Azahar\\\" (músicos profesionales de Córdoba con Instagram @trioazaharmusic) y también un \\\"Medina Azahara\\\" que tiene un concierto programado en Córdoba el 16 de octubre de 2026. La combinación de nombres sugiere una posible confusión o intento de aprovechar la fama de otro artista. Además, el precio de la entrada (950 €) es extremadamente alto para un trío de jazz y copla en un local de 300 personas en Córdoba, siendo 27 veces superior al percentil 90 del benchmark de precios para este género y capacidad (umbral de alerta: 3 veces). Esto indica un precio desproporcionado que no tiene justificación comercial razonable. Aunque el organizador \\\"Patio Andalusí Producciones\\\" parece legítimo, la combinación de nombre artístico confuso y precio anómalo constituye una señal de riesgo suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"El artista 'Trío Azahar' aparece en la plataforma con un concierto en Córdoba, pero las búsquedas web muestran que existe otro 'Trío Azahar' (músicos profesionales de Córdoba con Instagram @trioazaharmusic) y también un 'Medina Azahara' que tiene un concierto programado en Córdoba el 16 de octubre de 2026. La combinación de nombres sugiere una posible confusión o intento de aprovechar la fama de otro artista.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.instagram.com/trioazaharmusic/reels\",\"title\":\"Trío Azahar (@trioazaharmusic) • Instagram photos and videos\"},{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/evento/concierto-de-medina-azahara-hasta-siempre-cordoba\",\"title\":\"Concierto de Medina Azahara 'Hasta siempre Córdoba'\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"fail\",\"detail\":\"El precio de la entrada 'General' (950,00 €) es 27,1 veces superior al p90 (35,00 €) del benchmark para jazz en Córdoba con aforo lt300. El umbral de alerta es 3 veces el p90, por lo que este precio está muy por encima de lo razonable para este género y capacidad.\",\"confidence\":0.92,\"sources\":[{\"url\":\"https://get_organizer_context\",\"title\":\"Contexto del organizador\"}]}],\"infoRequest\":{\"questions\":[\"¿Es el 'Trío Azahar' que actúa en este evento el mismo grupo de Córdoba con Instagram @trioazaharmusic?\",\"¿Por qué se ha fijado un precio de 950 € para una entrada general a un concierto de jazz y copla en un local de 300 personas?\"],\"draft\":\"El organizador debe aclarar la identidad del artista y justificar el precio anómalo.\"}}"
+              "id": "B3LplSGK7DNxRVzNpv88ODd3YbLA4AjS",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Azahar Córdoba 2026 Sala Hangar ticketing\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4887,
-          "outputTokens": 787
+          "inputTokens": 5043,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "896b3543d07c08413be5c8c489f11f94a26707a837ae3153ce82a46ec3c419c3",
+      "latencyMs": 1557,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "nicywZBwvL3vNyGKv8ozAe9JHJqD8sX9",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Trío Azahar\\\" concierto Córdoba 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5479,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "4ece3fa9633410165515dab18b04488deef78d15168de140f28ff8dd89bc4169",
+      "latencyMs": 1555,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "UU2T8sagD6Lg8v5WbjRFcRbp4z5WLkh6",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Azahar concierto Córdoba 2026 Sala Hangar ticketing platform\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5568,
+          "outputTokens": 55
+        }
+      }
+    },
+    {
+      "requestHash": "01c7957320f66893aee456917e2bcfabadae5bca66b1a8baf6063b612286b96e",
+      "latencyMs": 36789,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Patio Andalusí Producciones):**\n- Cuenta aprobada desde 2024, con 14 eventos publicados y 12 finalizados sin cancelaciones.\n- Datos fiscales válidos (CIF con checksum correcto).\n- No hay reportes de contenido ni despublicaciones por admin.\n- Parece un organizador estable y en regla.\n\n**Evento:**\n- Título: \"Trío Azahar: jazz y copla\" en Sala Hangar, Córdoba.\n- Precio de entrada general: 950 € (warning por price_benchmark: 27 veces el p90 del género jazz en Córdoba para aforo <300).\n- Aforo puesto a la venta: 280 entradas (warning por venue_capacity: 1,1 veces el aforo oficial de 250 según www.salasdeconcierto.net).\n\n**Búsqueda web:**\n- No encuentro ninguna referencia externa a un concierto del \"Trío Azahar\" en Córdoba en 2026.\n- Hay menciones de un \"Trío Azahar\" (colaboración entre Guitare en Rouge y Paula Aguiló) pero sin fechas ni lugares concretos en Córdoba.\n- No hay noticias, webs de conciertos o redes sociales que confirmen este evento específico.\n\n**Señales de alerta:**\n1. **Precio muy por encima del benchmark**: 950 € para un concierto de jazz/copla en un local de 300 personas es extremadamente alto (27 veces el p90). Esto no tiene explicación obvia y podría indicar fraude o error grave.\n2. **Aforo inflado**: Se ponen a la venta 280 entradas frente a un aforo oficial de 250. Aunque puede haber una terraza, no se justifica en los textos del evento.\n3. **Falta de presencia externa**: No hay rastro del concierto en medios, webs de conciertos o redes sociales. Esto es raro para un evento de este tipo y precio.\n\n**Conclusión:**\nLos warnings de precio y aforo son graves por sí solos, pero la combinación con la ausencia total de cobertura externa y el hecho de que no se justifique el aforo ampliado me lleva a considerar que hay señales de fraude o al menos de falta de transparencia. No puedo aprobarlo sin más información.\n\n**Decisión: request_info**\n\nNecesito preguntar al organizador:\n- ¿Por qué el precio es de 950 €? ¿Hay algún motivo especial (artista muy famoso, producción costosa, etc.)?\n- ¿Por qué se ponen a la venta 280 entradas si el aforo oficial es de 250? ¿Existe una terraza o ampliación no declarada?\n- ¿Puede aportar enlaces a webs de prensa, redes sociales o tickets previos que confirmen este concierto?",
+          "toolCalls": [
+            {
+              "id": "ak6hJRPEy1zR7Hmua3ChJzlh1L0jxuXX",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta dos warnings deterministas graves: precio de 950 € (27 veces el p90 del benchmark para jazz en Córdoba, aforo <300) y aforo puesto a la venta de 280 entradas frente al aforo oficial de 250. Además, no hay rastro externo del concierto en webs de conciertos, redes sociales o medios. El organizador es estable y en regla, pero las señales de precio y aforo sin justificación clara, sumadas a la ausencia de cobertura externa, requieren aclaración antes de aprobar.\",\"findings\":[{\"check\":\"price_benchmark\",\"verdict\":\"warn\",\"detail\":\"Precio de 950 € es 27 veces el p90 (35 €) de eventos comparables en Córdoba para jazz, aforo <300. Umbral de alerta: 3 veces.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3787471847\",\"title\":\"OpenStreetMap: Sala Hangar (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Se ponen a la venta 280 entradas frente al aforo oficial de 250 según www.salasdeconcierto.net. Entre 1 y 2 veces puede tener explicación (terraza, aforo ampliado), pero no se justifica en los textos del evento.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/sala-hangar\",\"title\":\"la web (www.salasdeconcierto.net)\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"No hay rastro externo del concierto 'Trío Azahar: jazz y copla' en Córdoba 2026 en webs de conciertos, redes sociales o medios. Esto es inusual para un evento de este precio.\",\"confidence\":0.65,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué el precio de la entrada general es de 950 €? ¿Existe algún motivo especial (artista muy famoso, producción costosa, etc.)?\",\"¿Por qué se ponen a la venta 280 entradas si el aforo oficial del local es de 250? ¿Existe una terraza o ampliación no declarada?\",\"¿Puede aportar enlaces a webs de prensa, redes sociales o tickets previos que confirmen este concierto?\"],\"draft\":\"El evento presenta dos warnings deterministas graves: precio de 950 € (27 veces el p90 del benchmark para jazz en Córdoba, aforo <300) y aforo puesto a la venta de 280 entradas frente al aforo oficial de 250. Además, no hay rastro externo del concierto en webs de conciertos, redes sociales o medios. El organizador es estable y en regla, pero las señales de precio y aforo sin justificación clara, sumadas a la ausencia de cobertura externa, requieren aclaración antes de aprobar.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5659,
+          "outputTokens": 1405
         }
       }
     }
@@ -126,14 +192,9 @@
       "response": {
         "results": [
           {
-            "url": "https://qconciertos.es/salas/hangar-cordoba",
-            "title": "Sala Hangar (Córdoba)",
-            "snippet": "### Aforo y Ambiente [...] El aforo de HANGAR CORDOBA no está especificado, pero su tamaño lo sitúa en la categoría de sala mediana-grande, capaz de albergar a varios cientos de personas. El ambiente es típicamente underground y muy acogedor para el público alternativo. En cuanto a la acústica, HANGAR ha realizado inversiones para garantizar un sonido potente y claro, esencial para los géneros que programa. La sala está diseñada para manejar altos niveles de volumen sin sacrificar la nitidez, un"
-          },
-          {
             "url": "https://www.salasdeconcierto.net/es/salas/sala-hangar",
             "title": "Sala Hangar de Córdoba - SalasDeConcierto.net",
-            "snippet": "## Ubicación\n\nAvenida de la Libertad, 2, 14006   \nCórdoba (Córdoba)\n\n Abrir en Google Maps \n\n### Cómo llegar\n\nAparcamiento calle, consultar el transporte publico disponible en la web del ayuntamiento\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   300 personas\n\nTeléfono\n:   646 490 585\n\nEmail\n:   aggestiones@gmail.com\n\nPopularidad\n:   14.509\n\n#### Enlaces\n\nFacebook\n\nActualizado hace unos segundos [...] SalasDeConcierto.net\n\nSala Hangar de "
+            "snippet": "SalasDeConcierto.net\n\nSala Hangar de Córdoba\n\nSalas de Conciertos Pop / Rock Aforo: 250-750\n\n# Sala Hangar de Córdoba\n\nCórdoba / Córdoba\n\n## Descripción\n\nClub Nocturno y sala de conciertos de la ciudad andaluza, un punto de encuentro para disfrutar de la buena música en vivo y en directo, con el mejor sonido, comodidad y ambiente de publico en general. Una de las salas emblemáticas de la ciudad donde siempre puedes encontrar música en vivo.\n\n### Horario\n\nSin definir\n\n## Ubicación [...] ## Ubicac"
           },
           {
             "url": "https://funksocialclub.com/recintos/sala-hangar",
@@ -141,14 +202,19 @@
             "snippet": "Hablando claro de capacidad, que varía ligeramente según la fuente: la Sala Hangar es un espacio de formato medio-íntimo, con un aforo que las distintas fuentes sitúan entre las 300 y las 400 personas. Esa dimensión define por completo la experiencia: el tamaño ideal de Hangar permite una conexión íntima entre los artistas y el público, de modo que cada concierto se siente como una ocasión única. A pesar de ser un espacio relativamente pequeño, su acústica es uno de sus grandes atractivos —el [."
           },
           {
-            "url": "https://cordobarock.es/concierto/asalto-hangar",
-            "title": "Asalto - Hangar - Córdoba Rock",
-            "snippet": "La formación repasará en directo un repertorio seleccionado con lo mejor del panorama nacional e internacional, interpretando clásicos atemporales de leyendas icónicas como Rainbow, Rosendo, Dio, Iron Maiden, UFO, AC/DC, Barón Rojo y Metallica.\n\nEl concierto dará comienzo a las 21:30 horas en las instalaciones de la Sala Hangar (situada en la Avenida Gran Capitán 46, Bajo). Fiel a su vocación de dinamización cultural, el evento contará con acceso libre hasta completar aforo.\n\nDatos del evento: ["
+            "url": "https://qconciertos.es/salas/hangar-cordoba",
+            "title": "Sala Hangar (Córdoba)",
+            "snippet": "El aforo de HANGAR CORDOBA no está especificado, pero su tamaño lo sitúa en la categoría de sala mediana-grande, capaz de albergar a varios cientos de personas. El ambiente es típicamente underground y muy acogedor para el público alternativo. En cuanto a la acústica, HANGAR ha realizado inversiones para garantizar un sonido potente y claro, esencial para los géneros que programa. La sala está diseñada para manejar altos niveles de volumen sin sacrificar la nitidez, un factor crucial para [...] "
           },
           {
             "url": "https://www.lnkmsc.com/spaces/hangar-cordoba/profile",
             "title": "Hangar Cordoba > LinkMusic",
             "snippet": "MYPUBLICINBOX LINKMUSIC\n\n Crear nuevo perfil\n Cerrar sesión\n\nprofile\n\n# Hangar Cordoba\n\n|  36 fans\n\nQuiero ser fan Dejar de ser fan\n\n4 visualizaciones hoy\n\n3654 visualizaciones totales\n\n Género musical  Rock\n Aforo 300 personas\n Teléfono +34 646 490 585\n Web  Ir a la web\n Twitter Ver en Twitter\n Facebook Ver en Facebook\n\n Perfil\n Audios\n Videos\n Fotos\n Nuestros músicos\n Agenda\n\nHangar Cordoba Avenida Libertad 2  Córdoba / Córdoba\n\nVer mapa [...] Género musical  Rock\n Aforo 300 personas\n Teléfono"
+          },
+          {
+            "url": "https://cordobarock.es/concierto/asalto-hangar",
+            "title": "Asalto - Hangar - Córdoba Rock",
+            "snippet": "Datos del evento:\n\n Evento: Concierto de Asalto Rock (Tributo a las mejores bandas de Rock)\n Fecha: Sábado 15 de agosto de 2026\n Hora: 21:30 horas\n Lugar: Sala Hangar (Avda. Gran Capitán 46, Bajo. Córdoba)\n Repertorio homenajeado: Rainbow, Rosendo, Dio, Iron Maiden, UFO, AC/DC, Barón Rojo y Metallica.\n Precio: Acceso Libre (hasta completar aforo)\n\n## Recinto\n\n### Hangar Córdoba\n\nAv. de la Libertad, 2   \n Córdoba, Córdoba 14006 Spain \n\n+ Google Map\n\nVer la web del Local\n\nFacebook\n\nTelegram [...] "
           }
         ]
       }
@@ -162,14 +228,14 @@
       "response": {
         "results": [
           {
-            "url": "https://www.instagram.com/trioazaharmusic/reels",
-            "title": "Trío Azahar (@trioazaharmusic) • Instagram photos and videos",
-            "snippet": "Log In\n\nSign Up\n\ntrioazaharmusic's profile picture\n\n 3,405 followers\n 2,330 following\n\nTrío Azahar\n\nMúsicos profesionales  \nConciertos, bodas y eventos  \n🎻Violín, viola y chelo  \n📍Córdoba  \nA\n\n...\n\nmore\n\ndocs.google.com/forms/d/e/1FAIpQLSczQQdeDjW4lg9EduJXre1a\\_D4\\_lJ-JTfgAj8mMZlNsbL0vjg/viewform?usp=sharing&ouid=106038670493859005562\n\n trioazaharmusic's highlight story picture\n\n  Opiniones\n trioazaharmusic's highlight story picture\n\n  2026\n trioazaharmusic's highlight story picture [...] Trío"
-          },
-          {
             "url": "https://www.spainculture.be/es/region/bruselas/tri-azahar-ca-pricho-espanol",
             "title": "Trío Azahar: capricho español | Bruselas 02/27/2026",
             "snippet": "Trio Azahar es el resultado de la colaboración entre Guitare en Rouge y la violinista Paula Aguiló. Los tres músicos se propusieron explorar el repertorio para guitarra y violín y sumergirse en el mundo de los sonidos característicos de sus países de origen, jugando con la fusión de los timbres de un instrumento de cuerda pulsada y otro de arco. [...] Guitare en Rouge nace del encuentro entre Ana Santisteban y Cristina Mura, un proyecto musical que reúne a dos guitarristas profundamente apegadas"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=3zNW5bz_ISM",
+            "title": "'VENTANA MUSICAL' Ventanas de Azahar #PlanneoCórdobaJoven",
+            "snippet": "# 'VENTANA MUSICAL' Ventanas de Azahar #PlanneoCórdobaJoven\n## Channel: TVM Córdoba\n4.35K subscribers\n23 likes\n\n### Description\n974 views\nPosted: 2021-06-14\nVENTANA MUSICAL.\nConcierto flamenco: LAS JIPAS - ÁLVARO MARTÍN.\nReal Jardín Botánico de Córdoba"
           }
         ]
       }
@@ -183,14 +249,56 @@
       "response": {
         "results": [
           {
-            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/evento/concierto-de-medina-azahara-hasta-siempre-cordoba",
-            "title": "Concierto de Medina Azahara 'Hasta siempre Córdoba'",
-            "snippet": "Pasar al contenido principal \n\nLogo\n\nImagen\n\ncabecera página informativa\n\nLogo\n\nEspectáculos\n\nCórdoba\n\nConciertos\n\nConcierto de Medina Azahara 'Hasta siempre Córdoba'\n\nAvenida Menéndez Pidal, 1, Córdoba. Córdoba\n\n16 de Octubre del 2026\n\n20:30 horas\n\nPrecio\n\nDe 30 a 45 €\n\nImagen\n\nconcierto\n\nFinalizada\n\n¡Segunda fecha!! El último concierto de fin de gira de la mítica banda cordobesa, que ha anunciado su despedida de los escenarios ha agotado sus entradas. Por ello, tenemos esta nueva fecha. [...] "
+            "url": "https://www.spainculture.be/es/region/bruselas/tri-azahar-ca-pricho-espanol",
+            "title": "Trío Azahar: capricho español | Bruselas 02/27/2026",
+            "snippet": "Trio Azahar es el resultado de la colaboración entre Guitare en Rouge y la violinista Paula Aguiló. Los tres músicos se propusieron explorar el repertorio para guitarra y violín y sumergirse en el mundo de los sonidos característicos de sus países de origen, jugando con la fusión de los timbres de un instrumento de cuerda pulsada y otro de arco. [...] # Trío Azahar: capricho español\n\n Música\n Bruselas\n\n vie., 27 de febrero 2026\n 19:30 – 21:00\n\nTrío Azahar: capricho español \n\n## Paula Aguilo, Cri"
           },
           {
-            "url": "https://www.jambase.com/show/medina-azahara-teatro-de-la-axerquia-20261016",
-            "title": "Medina Azahara, Teatro de la Axerquía, Oct 16, 2026, Córdoba, Spain",
-            "snippet": "JamBase Data Launches ‘Circuits’: Explore ‘The Road To MSG’\n\nHome › Concerts › Spain › Córdoba › Medina Azahara - Teatro de la Axerquía - Oct 16, 2026\n\n# Medina AzaharaCórdoba\n\n## Fri, Oct 16, 2026 at Teatro de la Axerquía, Córdoba, Spain  9:00 pm\n\nMedina Azahara\n\nLive in Concert\n\n## Lineup\n\nTap the to get new show alerts.\n\n Medina Azahara\n\n  #### Medina Azahara\n\n  1 upcoming date\n\n###### Advertisement\n\n## About the Show Medina Azahara Córdoba At-a-Glance [...] |  |  |\n --- |\n|  |  Oct 16, 2026 "
+            "url": "https://www.instagram.com/reel/DepS8T4xUPV",
+            "title": "Medina Azahara esquiva a la lluvia y se despide de Córdoba ...",
+            "snippet": "MEDINA AZAHARA SE DESPIDE DE CÓRDOBA CON UN LLENO ABSOLUTO E HISTÓRICO EN LA AXERQUÍA CÓRDOBA, 16 de octubre de 2026 – La mítica banda de rock"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "4db4162bd09917e75e2a2432a2b3ae58c6dd1eb1d17d949367e818a8a301b253",
+      "provider": "Tavily",
+      "query": "\"Trío Azahar\" concierto Córdoba 2026 Sala Hangar",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://positivepsychology.com/find-your-purpose-of-life",
+            "title": "15 Ways to Find Your Purpose of Life & Realize Your Meaning",
+            "snippet": "## Related Articles\n\nScoring in psychology\n\nAssessments & Scales\n\n13 minute read\n\n October 26, 2026\n by Gabriella Lancia, PhD\n\n### Psychometrics for Practitioners: How to Interpret Scores Responsibly\n\nYou scored 10. 10 points? 10 penalties? Is it 10 out of 10, or 10 out[...]\n\nKeep Reading →\n\nEQ vs IQ\n\nEmotional Intelligence\n\n8 minute read\n\n October 22, 2026\n by Kinga Mnich, PhD\n\n### EQ vs. IQ: Which One Actually Predicts Success? [...] You may have heard people say EQ matters more than IQ. The E"
+          },
+          {
+            "url": "https://theconversation.com/why-finding-your-purpose-matters-and-four-ways-to-find-yours-203298",
+            "title": "Why ‘finding your purpose’ matters – and four ways to find yours",
+            "snippet": "Purpose is interrelated with “goals” and “meaning”, but not the same as either. Goals are specific actionable aims we have – for example graduating, getting a job, or losing weight. While goals can be accomplished, meaning is a broader, subjective response. We might find meaning in listening to certain music, or watching the sunset, or volunteering for a good cause. Meaning occurs when we ascribe personal significance to things. [...] Find your passion. What do you love to do? If you love dancin"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "c56f3480c2d100bf74b17ff204af2584b0e1dda323f905fce842bc2480ffed83",
+      "provider": "Tavily",
+      "query": "Trío Azahar Córdoba 2026 Sala Hangar ticketing",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://open.spotify.com/concert/1t8iLE1DHwFc9XMx46SUZN",
+            "title": "Aera Tickets Córdoba (Night Room TV) on 11/7/2026 at 8:00 PM",
+            "snippet": "Albania\n   Algeria\n   Andorra\n   Angola\n   Antigua and Barbuda\n   Argentina\n   Armenia\n   Australia\n   Austria\n   Azerbaijan\n   Bahrain\n   Bangladesh\n   Barbados\n   Belarus\n   Belgium\n   Belize\n   Benin\n   Bhutan\n   Bolivia\n   Bosnia and Herzegovina\n   Botswana\n   Brazil\n   Brunei Darussalam\n   Bulgaria\n   Burkina Faso\n   Burundi\n   Cabo Verde\n   Cambodia\n   Cameroon\n   Canada\n   Chad\n   Chile\n   Colombia\n   Comoros\n   Costa Rica\n   Cote d'Ivoire\n   Croatia\n   Curacao\n   Cyprus [...] (México)Spa"
+          },
+          {
+            "url": "https://www.instagram.com/reel/CE6PjFmhhrd",
+            "title": "Instagram",
+            "snippet": "hangarcordoba\n\nLUNES A DOMINGO DE 13.00 a 1.00H. Para almorzar y cenar y 🍻 !! Y sobretodo escuchar música 🎶 . Reservas 637 638 251 !! ☎️ Os damos las infinitas gracias por acompañarnos en el reinicio de actividad .\n\nana_deluxe's profile picture\n\nana\\_deluxe\n\n@pepa69\n\nReply\n\nmariargm2081's profile picture\n\nmariargm2081\n\n😍😍😍😍\n\nReply\n\nverihanna18's profile picture\n\nverihanna18\n\n@itspriscila mira que bien para celebrar mi cumple!!!\n\n1 like\n\nReply\n\nnatimorgon's profile picture\n\nnatimorgon\n\n👏👏"
           }
         ]
       }

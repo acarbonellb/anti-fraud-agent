@@ -217,7 +217,8 @@ and replaced by a `request_info` at confidence 0.
    such run turned the hard-signal rejections of 01 and 10 into escalations. Tool calls and
    tokens stay hard limits that end the run.
 2. **The default budget drops from 10 to 4.** That is cheap now that spending it no longer ends
-   the run.
+   the run. A budget of 2 was tried and reverted: it cut tokens by another 26 %, but gated
+   accuracy fell from 65.5 % to 51.7 % (E008).
 3. **A repeated query is answered from the run, not searched.** A query with the same words as an
    earlier one (lowercased, without accents, punctuation or word order) gets "already searched"
    instead of results. It spends no search and no credit, and it still counts as a tool call. It
@@ -229,6 +230,7 @@ and replaced by a `request_info` at confidence 0.
 Rejected:
 
 - **A lower hard limit:** it would end more runs and lose more decisions.
+- **A budget of 2:** see point 2, E008.
 - **Escalating every run that spent the budget:** see point 1, cases 01 and 10 in E005.
 - **Fuzzy matching of repeats** (word overlap): it would refuse a search that adds the word that
   matters, such as a city or a date.

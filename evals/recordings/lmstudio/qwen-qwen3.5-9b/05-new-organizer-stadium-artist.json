@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T01:01:00.000Z",
+  "clock": "2026-11-04T00:31:00.000Z",
   "calls": [
     {
-      "requestHash": "9ec93d34235927f63184fcc64c6b64ff0232f6702031ec2e351a4280916f8922",
-      "latencyMs": 2878,
+      "requestHash": "12997a2abc4caade30622518df5464d955901dfcdfb9a2b54e351d9af7900bb5",
+      "latencyMs": 2755,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "AYoUWWjyO738O6GEOLAFxqLxpPhE6DZX",
+              "id": "bUGQ5HWR2ft5eOR9yLXcZbqdPFBmb7rx",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_4f35bcdaf2\"}"
             }
@@ -28,15 +28,15 @@
       }
     },
     {
-      "requestHash": "d44bd8217d9d9482e9b39164400b7b0364aee298b81f079b15def15a3e2d3256",
-      "latencyMs": 1479,
+      "requestHash": "9657cdb3ebf54bae433e3e83a70a4dcca12135f5fcde61f9a27c4a3ecdd85148",
+      "latencyMs": 1470,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "6JEpH2ZvVSejVGPMENe5lIQXMcja1ONE",
+              "id": "pbIWeLFmatzaGIaeuR4rBYf4j5h2IAHz",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Valeria Montecristo concierto 2026 Murcia\",\"maxResults\":2}"
             }
@@ -50,15 +50,15 @@
       }
     },
     {
-      "requestHash": "b5bb4d768204bfd48e4efabeaa9d1ecba4ded983aa56be60ec99788ccbde7459",
-      "latencyMs": 1596,
+      "requestHash": "12a2475d5b967e60d17da0e0d0026d47976db4443778fc300bb9a4434402bff0",
+      "latencyMs": 1543,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "paJxHU5U7r1WjYHGOPbeweQEXd0MYYud",
+              "id": "7TbAaF8puWzI8f3qzjxNCYzsJY07HbsW",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_46a35e8461\",\"windowDays\":60}"
             }
@@ -72,24 +72,24 @@
       }
     },
     {
-      "requestHash": "3107371f9651305af3c996036253430728995c9f14dc026ca4753ce9216248e1",
-      "latencyMs": 14777,
+      "requestHash": "1c2f31c30ae759deee8d31015e96351906aa82be3b65b85694ac3af5aea9b3e5",
+      "latencyMs": 15012,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "jNkkfrdz56hl3zC7TASGmoaatC6OKYka",
+              "id": "0Y5fyCABwWMZvvO41GbHDkVZiyCWxrId",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta señales claras de fraude: la artista Valeria Montecristo es conocida por su \\\"Gira Estadios\\\" y sus fuentes oficiales confirman que no hay fechas en salas pequeñas ni conciertos íntimos, advirtiendo explícitamente sobre eventos falsos con su nombre. El evento publicado contradice directamente esta información oficial. Además, el organizador \\\"Estrellas Cercanas Live\\\" es muy nuevo (7 días de antigüedad) y parece aprovecharse del prestigio de la artista para vender entradas sin autorización. La descripción del evento (\\\"por primera vez en una sala pequeña\\\") es falsa según las fuentes web. Se recomienda rechazar por riesgo de fraude e impersonación artística.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La artista Valeria Montecristo tiene una gira oficial de estadios en Latinoamérica y España, y sus fuentes oficiales confirman que no hay fechas en salas pequeñas ni conciertos íntimos. El evento publicado contradice esta información.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://valeriamontecristo.test/gira\",\"title\":\"Valeria Montecristo — Gira Estadios: todas las fechas\"},{\"url\":\"https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios\",\"title\":\"Valeria Montecristo agota 60.000 entradas en dos horas\"}]},{\"check\":\"text_originality\",\"verdict\":\"warn\",\"detail\":\"La descripción del evento ('por primera vez en una sala pequeña') parece ser falsa según las fuentes web oficiales de la artista, que advierten sobre eventos falsos con su nombre.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios\",\"title\":\"Valeria Montecristo agota 60.000 entradas en dos horas\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"El organizador 'Estrellas Cercanas Live' es muy nuevo (7 días de antigüedad) y parece aprovecharse del prestigio de la artista para vender entradas sin autorización.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta señales claras de fraude: la artista Valeria Montecristo es conocida por su \\\"Gira Estadios\\\" en Latinoamérica y España, y fuentes externas confirman que no hay fechas en salas pequeñas ni conciertos acústicos. Además, la web oficial advierte explícitamente sobre eventos falsos con su nombre. El evento propuesto contradice esta información al anunciar un concierto íntimo en sala pequeña, lo que sugiere una suplantación de identidad o venta fraudulenta. Aunque el organizador es nuevo y los datos fiscales son válidos, la coincidencia del nombre artístico con uno real y la descripción engañosa (\\\"por primera vez en una sala pequeña\\\") constituyen un riesgo alto de fraude.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La artista Valeria Montecristo tiene fechas anunciadas para su 'Gira Estadios' en estadios de Latinoamérica y España, y fuentes externas confirman que no hay conciertos en salas pequeñas ni acústicos. La web oficial advierte sobre eventos falsos con su nombre.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://valeriamontecristo.test/gira\",\"title\":\"Valeria Montecristo — Gira Estadios: todas las fechas\"},{\"url\":\"https://noticias-ejemplo.test/musica/valeria-montecristo-agota-estadios\",\"title\":\"Valeria Montecristo agota 60.000 entradas en dos horas\"}]},{\"check\":\"text_originality\",\"verdict\":\"warn\",\"detail\":\"La descripción del evento ('La artista que llena estadios en toda Latinoamérica, por primera vez en una sala pequeña') parece diseñada para atraer fans, pero contradice la información pública sobre la gira actual. Podría ser un intento de engañar a los consumidores.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"El organizador 'Estrellas Cercanas Live' es nuevo (creado el 29/10/2026) y no tiene presencia web externa verificada. No hay eventos anteriores ni historial de moderación, lo que aumenta el riesgo.\",\"confidence\":0.7,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 4205,
-          "outputTokens": 572
+          "outputTokens": 578
         }
       }
     }

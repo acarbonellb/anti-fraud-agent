@@ -274,3 +274,15 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
 - **Decision:** revert to a budget of 4 and restore E007's recordings (E009). #31 ends at about
   28k tokens (−28 % from E004). What's left of the cost is the prompt caching of the paid
   adapter (#30): the steps that remain are mostly a prefix sent again.
+
+## E009 — Back to a budget of 4
+
+- **Hypothesis:** restoring the budget of 4 and E007's recordings gives E007's metrics back
+  exactly.
+- **Change** (#31): `AGENT_MAX_WEB_SEARCHES` defaults to 4 again; E007's recordings are restored
+  from git and replayed with no model.
+- **Before → after** (E008 → E009): gated: 51.7 % → 65.5 % accuracy, 16.7 % → 12.5 %
+  approved-fraud rate, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.365 → 0.253, mean input
+  tokens about 21,100 → 28,400. The same as E007.
+- **What went wrong or surprised:** nothing; the replay matches E007.
+- **Decision:** keep. This is where #31 ends.
