@@ -135,7 +135,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const retrievedUrls = new Set<string>();
   let nudges = 0;
   // A search past the budget means the model wanted more evidence than it
-  // got: its decision stands, but a person has to look.
+  // got: its decision stands, but an approval can't rest on it (#31).
   let searchBudgetSpent = false;
   const askedBefore = new Set<string>();
 
@@ -171,7 +171,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
                 retrievedUrls,
                 autoApproveThreshold: input.autoApproveThreshold,
               }),
-              searchBudgetSpent,
+              searchBudgetSpent && recommendation.decision === "approve",
             )
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
       usage,
@@ -272,11 +272,16 @@ const REPEATED_CALL =
   "Already searched with these words in this review; its results are above. Search for something else or decide.";
 const BUDGET_SPENT = `No searches left in this review. Decide with the evidence you have and call ${SUBMIT_TOOL.name}.`;
 
+/**
+ * Escalates an approval made with the search budget spent. A rejection or a
+ * request doesn't rest on what the model didn't get to read: the policy
+ * weighs it as usual.
+ */
 function withSearchBudget(
   verdict: AutonomyVerdict,
-  budgetSpent: boolean,
+  holdBack: boolean,
 ): AutonomyVerdict {
-  if (!budgetSpent) return verdict;
+  if (!holdBack) return verdict;
   return {
     autonomy: "escalated",
     reasons: [

@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "clock": "2026-11-04T00:06:00.000Z",
   "calls": [
     {
-      "requestHash": "ab6cb84c9257c1d21fd05523fa1d0fa6132543fdd285ee241547ead73cbeac54",
-      "latencyMs": 3173,
+      "requestHash": "02debcf93da5652da2557180c69ec9ea57defec77c7a56b1cb942f0aacf9788c",
+      "latencyMs": 2940,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "DRTSa3ETBWN45u9LKvYc7lHgik60qrcb",
+              "id": "seyoMiXl4Cb6Wxb5qYXXUWFlWKb9oGf8",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_125ef5205a\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3413,
+          "inputTokens": 3419,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "4ec24c711ab0478c1d219ae6a200ae5cd03264809f72a14d6da469b00777daaf",
-      "latencyMs": 1655,
+      "requestHash": "bfa60d4e5a473b9d4ff9ea65eb1a79244838a59db36587384da19aa73eebefce",
+      "latencyMs": 1681,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "4JBS1omwYHeKH9UlUvlDqpVwMt7kPQ5m",
+              "id": "4DTTVGlGy1HTbeqe6c8NkI1HMCHweoje",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Lucía Barbadillo concierto 2026 Zamora Teatro Ramos Carrión\",\"maxResults\":3}"
             }
@@ -44,21 +44,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3849,
+          "inputTokens": 3855,
           "outputTokens": 55
         }
       }
     },
     {
-      "requestHash": "639819cac2f41883ec229b73b9155c588361c138e9283703041404c0907cd0b8",
-      "latencyMs": 1708,
+      "requestHash": "254db18aefba2d391e9523cd4b100f26be343358558e8cc62bb0aa611c831a57",
+      "latencyMs": 1522,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "q8CFZLlT1ivc8TgoNY0Uf4u0qBM5c95R",
+              "id": "DXkCR5TgtPSRuJGivDYHAwTHcPhO8e5p",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Lucía Barbadillo concierto 2026\",\"maxResults\":3}"
             }
@@ -66,74 +66,52 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4486,
+          "inputTokens": 4445,
           "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "d2a32aa9e774c8bc9ea50aa8ccd6fec3b10f811b9a6e93d21a13fe0d1b46d377",
-      "latencyMs": 1557,
+      "requestHash": "a340159e552634d79fecfa02c9d802523a74ecaa37d324603255dc50611fec24",
+      "latencyMs": 1675,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "nxn3pZO1VK3rQScVhRb1Fzj56IkjMcKV",
+              "id": "EaKhIsjHzQuQQ8D7HsiKTYPIp6bMdd10",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Lucía Barbadillo\\\" artista concierto 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Lucía Barbadillo\\\" concierto 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4923,
-          "outputTokens": 51
+          "inputTokens": 5006,
+          "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "6c37481e122a2d0652ad3a0445c638685c51fa20b712e1fea24b30b88abe2725",
-      "latencyMs": 1792,
+      "requestHash": "9a8b1bb285cc4b51f2def98aed84d96c9eb147d01361916143244938ba52a8c2",
+      "latencyMs": 17765,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el contexto del evento y los resultados de las búsquedas web. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Pago fuera de la plataforma (off_platform_payment - FAIL):** La descripción del evento pide explícitamente \"Reserva por Bizum al 600 000 000 y paga la mitad\". Esto es una señal clara de fraude, ya que incita a los usuarios a pagar fuera de la plataforma.\n\n2. **Artista:** Lucía Barbadillo es un artista real (cantautora española), pero no he encontrado ninguna referencia a un concierto programado en Zamora el 22 de noviembre de 2026. Las búsquedas web muestran fechas diferentes y lugares distintos para conciertos de \"Lucia\" en 2026, pero nada específico sobre Lucía Barbadillo en Zamora.\n\n3. **Organizador:** Sonidos del Tormes parece ser un organizador legítimo con fiscalidad verificada, historial positivo (8 eventos publicados, 7 finalizados sin cancelaciones), y cuenta aprobada por la plataforma.\n\n4. **Otros aspectos técnicos:** Todos los demás checks determinísticos han pasado (aforo, precio, fechas, etc.).\n\n**Decisión:**\n\nA pesar de que el organizador parece legítimo y los aspectos técnicos del evento son correctos, la solicitud de pago por Bizum es una señal de fraude clara y grave. Esto no tiene explicación inocente: las plataformas de tickets existen precisamente para procesar pagos de forma segura.\n\n**Recomendación:** RECHAZAR (reject) con alta confianza debido a la solicitud de pago fuera de la plataforma, que es una señal de fraude inequívoca según las directrices.",
           "toolCalls": [
             {
-              "id": "NDhgw61uNEH0J7zauZBm90o2MQgafWlS",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Lucía Barbadillo\\\" nuevo disco 2026 acústico\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5272,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "c3cde7f95426b1cf787fd98285fd417e886c4089d9f39efb1dac27e18a6e4858",
-      "latencyMs": 21785,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el contexto del evento y los resultados de las búsquedas web. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Pago fuera de la plataforma (off_platform_payment - FAIL):** La descripción del evento pide explícitamente \"Reserva por Bizum al 600 000 000 y paga la mitad\". Esto es una señal clara de fraude, ya que incita a los usuarios a pagar fuera de la plataforma.\n\n2. **Artista no verificado:** Las búsquedas web no han encontrado ninguna referencia a \"Lucía Barbadillo\" como artista de cantautor en España o en Zamora. Los resultados muestran:\n   - Una cuenta de Instagram privada con el nombre \"luciabarbadiillo\" (nota la doble 'i' y sin tilde)\n   - Artistas llamados simplemente \"Lucía\" en otros países (EE.UU., México)\n   - No hay menciones de conciertos de Lucía Barbadillo en 2026\n\n3. **Descripción sospechosa:** La frase \"¡Últimas plazas!\" es típica de estafas para crear urgencia falsa.\n\n4. **Organizador con historial limpio:** El organizador \"Sonidos del Tormes\" tiene un historial aceptable (8 eventos publicados, 7 finalizados sin cancelaciones), fiscalidad verificada y cuenta antigua (530 días). Sin embargo, este evento específico muestra señales de fraude.\n\n**Conclusión:**\nA pesar de que el organizador parece legítimo y las verificaciones técnicas del recinto pasan, la combinación de:\n- Pago por Bizum (fuera de plataforma)\n- Artista no verificable en fuentes externas\n- Urgencia falsa (\"últimas plazas\")\n\nIndica claramente una estafa. La señal de pago fuera de plataforma es suficiente para rechazar el evento.",
-          "toolCalls": [
-            {
-              "id": "Q9LmYz802qptiLm6PoPG2aT38gOMrRJF",
+              "id": "A153n22WRiClgAnelKW89VC5qTUCM99i",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta señales claras de fraude: la descripción solicita explícitamente pago por Bizum fuera de la plataforma, lo cual es una señal de estafa inaceptable. Además, no se ha podido verificar la existencia del artista \\\"Lucía Barbadillo\\\" como intérprete de cantautor en España o en Zamora mediante búsquedas web. La combinación de pago fuera de plataforma y artista no verificable constituye evidencia suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento solicita explícitamente 'Reserva por Bizum al 600 000 000 y paga la mitad', incitando a los usuarios a pagar fuera de la plataforma. Esta es una señal clara de fraude.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_0da2cf7345.jpg\",\"title\":\"Evento: Canciones de ida y vuelta con Lucía Barbadillo\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No se ha encontrado ninguna referencia a 'Lucía Barbadillo' como artista de cantautor en España o en Zamora mediante búsquedas web. Los resultados muestran cuentas de Instagram privadas y artistas llamados simplemente 'Lucía' en otros países, pero no conciertos de Lucía Barbadillo en 2026.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.instagram.com/luciabarbadiillo\",\"title\":\"Instagram: luciabarbadiillo - Lucía Barbadillo\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude clara: la descripción solicita explícitamente \\\"Reserva por Bizum al 600 000 000 y paga la mitad\\\", incitando a los usuarios a pagar fuera de la plataforma. Esta práctica es una señal de fraude grave según las directrices, independientemente del resto de aspectos técnicos correctos del evento. El organizador (Sonidos del Tormes) parece legítimo con fiscalidad verificada y buen historial, pero la solicitud de pago externo no tiene explicación inocente y representa un riesgo directo para los usuarios.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento solicita explícitamente 'Reserva por Bizum al 600 000 000 y paga la mitad', incitando a los usuarios a pagar fuera de la plataforma. Esta es una señal de fraude grave según las directrices.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_0da2cf7345.jpg\",\"title\":\"Evento: Canciones de ida y vuelta con Lucía Barbadillo\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5942,
-          "outputTokens": 821
+          "inputTokens": 5094,
+          "outputTokens": 690
         }
       }
     }
@@ -148,29 +126,29 @@
       "response": {
         "results": [
           {
-            "url": "https://taquilla.com/zamora/teatro-ramos-carrion-zamora",
+            "url": "https://www.taquilla.com/zamora/teatro-ramos-carrion-zamora",
             "title": "Teatro Ramos Carrión, Zamora | Programación y Venta de Entradas",
             "snippet": "Teléfono: 980 58 15 11\n\n↓ Ver más ↓\n\n## Plano de butacas\n\nEl Teatro Ramos Carrión cuenta con una única planta con un aforo para unas 600 personas. El recinto está adaptado a personas con movilidad reducida, y dispone de espacios en la última fila del patio de butacas para personas con silla de ruedas. Además, cuenta con bucle mágnetico para personas que utilizan audífonos, y está situado en la Fila 22 asientos del 8-2a.\n\n### Mapa del Teatro Ramos Carrión [...] El edificio ha atesorado en este úl"
           },
           {
-            "url": "http://www.fundacionsiglo.es/web/jcyl/FundacionSiglo/es/Plantilla100Directorio/1284235399249/1284315558671/1284315558671/DirectorioPadre",
-            "title": "Teatro Ramos Carrión (Zamora)",
-            "snippet": "El Ayuntamiento de Zamora decidió renovarlo creando un nuevo espacio con aforo de 600 localidades. El nuevo edificio incluye una cafetería con un mirador ...Read more"
+            "url": "https://www.laopiniondezamora.es/zamora/2021/05/28/teatro-ramos-carrion-zamora-pasa-52335734.html",
+            "title": "El Teatro Ramos Carrión de Zamora pasa a tener un 50% de aforo de público",
+            "snippet": "Entre las nuevas medidas que entran en vigor con el nuevo nivel de alerta 3 en Zamora, se encuentra el cambio de aforo de público en el Teatro Ramos Carrión de la ciudad. Ahora, con este nuevo nivel, el teatro pasa a tener un 50% de aforo en vez de un 33%. Esto se traduce en una mayor presencia de público en el recinto, así como una mayor puesta a la venta de entradas. “En caso de que no queden entradas disponibles en la página web, hay que acudir a la taquilla del teatro para confirmar [...] pa"
           },
           {
             "url": "https://es.wikipedia.org/wiki/Teatro_Ramos_Carri%C3%B3n",
             "title": "Teatro Ramos Carrión - Wikipedia, la enciclopedia libre",
-            "snippet": "La Diputación de Zamora decidió renovarlo creando un nuevo espacio con un aforo de 600 localidades, reinaugurado en 2011. El nuevo edificio incluye una ...Read more"
+            "snippet": ". Se inauguró en 1916 como teatro, siendo la primera obra que se representó La noche del sábado, de Jacinto Benavente. Sufrió un periodo de decadencia que acabó transformándolo en sala de cine durante finales del siglo XX y su posterior abandono. Durante más de una década, justo a comienzos del siglo XXI, permaneció abandonado. La Diputación de Zamora decidió renovarlo creando un nuevo espacio con un aforo de 600 localidades, reinaugurado en 2011. El nuevo edificio incluye una cafetería con un ["
           },
           {
-            "url": "https://www.instagram.com/teatroramoscarrion.zamora?hl=en",
-            "title": "Teatro Ramos Carrión Histórico (Zamora) ...",
-            "snippet": "Este es el perfil del Teatro Ramos Carrión de Zamora gestionado por EULEN Cultura (2016 - ago. 2026). ¡Mil gracias por acompañarnos estos años!. Follow.Read more"
+            "url": "http://www.fundacionsiglo.es/web/jcyl/FundacionSiglo/es/Plantilla100Directorio/1284235399249/1284315558671/1284315558671/DirectorioPadre",
+            "title": "Teatro Ramos Carrión (Zamora) | Fundación Siglo para el Turismo y las Artes | Junta de Castilla y León",
+            "snippet": "El edificio, de estilo modernista, se inauguró en el año 1916 como teatro, siendo la primera obra que se representó \"La noche del sábado\" de Jacinto Benavente. Sufrió un período de decadencia que acaba transformándolo en sala de cine. Durante más de una década, justo a comienzos del siglo XXI, permaneció abandonado. El Ayuntamiento de Zamora decidió renovarlo creando un nuevo espacio con aforo de 600 localidades. El nuevo edificio incluye una cafetería con un mirador con vistas al río Duero, y ["
           },
           {
             "url": "https://www.vividseats.com/teatro-ramos-carrin-de-zamora-tickets/venue/50852",
-            "title": "Teatro Ramos Carrión de Zamora Tickets",
-            "snippet": "Our Teatro Ramos Carrión de Zamora seating map will show you the venue setup for your event, along with ticket prices for various sections. What time do doors ...Read more"
+            "title": "Teatro Ramos Carrión de Zamora Tickets - Teatro Ramos Carrión de Zamora Information - Teatro Ramos Carrión de Zamora Seating Chart",
+            "snippet": "## Teatro Ramos Carrión de Zamora Overview: Helpful Information\n\n Address: Calle de Ramos Carrión, 25 Zamora 49001 Spain\n Venue Capacity: 600\n\n## Frequently Asked Questions about Teatro Ramos Carrión de Zamora Tickets\n\n### What are the best cheap seats at the Teatro Ramos Carrión de Zamora? [...] Skip to ContentSkip to Footer\n\nTickets you can trust: over 190 million sold, 100% Buyer Guarantee. Learn More.\n\nOver 190 million sold, 100% Buyer Guarantee. Learn More.\n\n# Teatro Ramos Carrión de Zamora"
           }
         ]
       }
@@ -184,19 +162,19 @@
       "response": {
         "results": [
           {
-            "url": "https://www.facebook.com/opiniondezamora/posts/m%C3%BAsica-y-danza-integran-la-programaci%C3%B3n-del-teatro-ramos-carri%C3%B3n-de-zamora-previ/1817253993738979",
-            "title": "Música y danza integran la programación del Teatro ...",
-            "snippet": "Música y danza integran la programación del Teatro Ramos Carrión de Zamora prevista para las próximas jornadas. ... Del 24 de abril al 7 de mayo ...Read more"
+            "url": "https://www.za49.es/zamora/teatro-ramos-carrion-zamora-programacion-2026-2027-espectaculos-entradas_1_6046632.html",
+            "title": "Teatro Ramos Carrión de Zamora: programación 2026-2027, espectáculos y entradas",
+            "snippet": "El grupo ofrecerá un tributo al cantautor, cuya trayectoria ha dejado algunas de las composiciones más reconocibles de la música española.\n\nEden carabdanza (2)\n\nYa en diciembre, el teatro reservará una de sus grandes citas para los amantes de la danza clásica. El 12 de diciembre, la International Ballet Company representará El lago de los cisnes. [...] El relevo llegará el 11 de diciembre con Dannusx, que también llevará su espectáculo humorístico al escenario zamorano.\n\nCon ambas actuaciones, e"
           },
           {
             "url": "https://www.laopiniondezamora.es/zamora/2026/03/02/tres-propuestas-musicales-teatro-ramos-127448108.html",
             "title": "Tres propuestas musicales en el Teatro Ramos Carrión de Zamora",
-            "snippet": "El gaitero asturiano, que revolucionó la música celta con la gaita electrónica, presenta el viernes día 6 de marzo a las 20.30 horas, un vibrante concierto con su potente banda, donde repasa los éxitos que ya forman parte del folk internacional. Las entradas tienen un precio de 35 euros.\n\n## Festival\n\nEl sábado, el grupo de Coros y Danzas Doña Urraca de Zamora celebra la XIII edición de su festival infantil.\n\nCartel anunciador del Festival Infantil de Doña Urraca. [...] la opinión de zamora\n\n## "
+            "snippet": "## Un concierto de Hevia, el festival infantil de Doña Urraca y el certamen Francisco Carricajo podrán disfrutarse este fin de semana\n\nEl gaitero Heiva.  / Cedida\n\n¿Ya nos sigues?Márcanos como medio preferente\n\n Añádenos en Google\n\nNatalia Sánchez\n\nNatalia Sánchez\n\nGaitas asturianas, danzas tradicionales y los sonidos de las cornetas y los tambores de la Semana Santa centran las tres propuestas del Teatro Ramos Carrión para esta semana. [...] El gaitero asturiano, que revolucionó la música celta"
           },
           {
-            "url": "https://www.zamora.es/img/cargadas/Zamoraneo26_FolletoWeb.pdf",
-            "title": "Julio",
-            "snippet": "En caso de que el aforo no se complete se habilitará un punto de venta de entradas en la puerta de la entrada a los Jardines del Castillo dos horas antes del comienzo de la actuación.\nPatrocina: Ayuntamiento de Zamora Organiza: Mejor con Arte Colabora: Café Marlene.\nVISITAS NOCTURNAS AL ROMÁNICO Entradas: 10 € Venta de entradas: Librería Dioce-sana (C/ Ramos Carrión, 18) Organizan: Ayuntamiento de Zamora y Fundación ZamorArte.\nColaboran: Castro Mendi Bodegas y Fromago Cheese Experience. [...] En"
+            "url": "https://www.instagram.com/reel/DPRD5lWCFRH",
+            "title": "Instagram",
+            "snippet": "Video by Teatro Ramos Carrión Histórico (Zamora) on August 12, 2026. May be an image of buildings.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 07, 2026. May be an image of poster.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 03, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 28, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 27, 2026.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on July 19, 2026.\n\nSee more posts\n\n--- [...] Pho"
           }
         ]
       }
@@ -210,71 +188,19 @@
       "response": {
         "results": [
           {
-            "url": "https://broadstage.org/tickets-shows/calendar/lucia",
-            "title": "LUCÍA",
-            "snippet": "View the 2026/27 Season … 24-year-old vocalist LUCÍA brings her charming and captivating sound to BroadStage, blending jazz, Latin, and contemporary pop."
+            "url": "https://www.bandsintown.com/a/15573128-lucia",
+            "title": "Lucía",
+            "snippet": "[](\n\nView more\n\n## Past shows\n\nOCT 21 2026 Raleigh, NC NC State LIVEOCT 03 2026 Escondido, CA California Center for the ArtsOCT 02 2026 Rohnert Park, CA Green Music CenterSEP 19 2026 Fairfield, CA Caymus-SuisunSEP 18 2026 Nashville, TN Vanderbilt University Blair School of MusicSEP 15 2026 Cincinnati, OH Caffè Vivace | Coffee House, Jazz Lounge\n\nView more dates\n\n## About Lucía\n\nImage 19: Lucía\n\nLucía\n\nGenres: \n\nJazz\n\n  \n\n[](\n\nNever miss another Lucía concert. [...] Steve Lacy 1M Followers\n\nImage"
           },
           {
-            "url": "https://www.presidiotheatre.org/show-details/lucia",
-            "title": "Presidio Theatre | Lucía",
-            "snippet": "Presidio TheatrePresidio Theatre\n\n Skip to Main Content\n\nLucía\n\n# Lucía\n\nMUSIC\n\nPRESIDIO THEATRE PRESENTS\n\nMay 7, 2026\n\n7:30 PM\n\nPrice: $39–$77 [...] We are thrilled to welcome Mexican vocalist Lucía back at the Presidio Theatre. She made history as the first Mexican finalist—and eventual winner—of the Sarah Vaughan International Jazz Vocal Competition. Her debut album, Lucía, is a luminous fusion of jazz and Latin American folk, weaving together bolero, son jarocho, and soulful standards. From "
+            "url": "https://www.songkick.com/artists/39418-lucia/calendar",
+            "title": "Lucia Full Tour Schedule 2026 & 2027, Tour Dates & Concerts – Songkick",
+            "snippet": "Search for events or artists\n\nSongkick\nShow navigation\nLog in\nsearch\nspotify icon\n\n# Lucia tour dates 2026 - 2027\n\nLucia is currently touring across 2 countries and has 3 upcoming concerts.\n\nTheir next tour date is at Hart Bar in Brooklyn, after that they'll be at Stephansdom in Vienna.\n\n## Currently touring across\n\nLucia Concert Tickets - 2026 Tour Dates.\n\n## Upcoming concerts (3) See nearest concert [...] Fool And The World Concert Tickets - 2026 Tour Dates\nLucia Concert Tickets - 2026 Tour Da"
           },
           {
-            "url": "https://open.spotify.com/artist/4MbmeIi7C8qe1LboVhdaUN/concerts",
-            "title": "Lucía Méndez Tickets - 2026 Concert Tour Dates",
-            "snippet": "Find Lucía Méndez tour schedule, concert details, and tickets. This artist has no upcoming events near Your Location."
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "c0f7804758d4f47c3d494d1711691bf5e34b5d584d5b7eb19ad24a3c6d9a03b6",
-      "provider": "Tavily",
-      "query": "\"Lucía Barbadillo\" artista concierto 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/DC4ZBQrNUGS",
-            "title": "Artistas #MuseoMACBA en el Mundo: “Electric Dreams” en la ...",
-            "snippet": "“Electric Dreams” celebra. Photo by MACBA on August 25, 2026. el concierto propone el teatro musical y la música instrumental."
-          },
-          {
-            "url": "https://www.instagram.com/luciabarbadiillo",
-            "title": "luciabarbadiillo - Lucía Barbadillo",
-            "snippet": "Lucía Barbadillo. 360 followers. 414 following. Sevilla - Dublin. Follow. Message. This profile is private. Follow luciabarbadiillo in the app to see"
-          },
-          {
-            "url": "https://www.linkedin.com/pub/dir/Lucia/Barbadillo",
-            "title": "8 \"Lucia Barbadillo\" profiles",
-            "snippet": "View the profiles of professionals named \"Lucia Barbadillo\" on LinkedIn. There are 8 professionals named \"Lucia Barbadillo\", who use LinkedIn to exchange"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "d8a5e46d142cc7a5f20e0ecb46fddb644dfeb52c584635cf6d2020a2ad5f329d",
-      "provider": "Tavily",
-      "query": "\"Lucía Barbadillo\" nuevo disco 2026 acústico",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://en.wikipedia.org/wiki/Rubber_Soul:_Special_Edition",
-            "title": "Rubber Soul: Special Edition - Wikipedia",
-            "snippet": "| 1. \"Michelle \"Michelle (song)\") (take 1)\" Released: 29 July 2026 2. \"Day Tripper (Songwriting Work Tape)\" Released: 26 August 2026 3. \"Norwegian Wood (This Bird Has Flown) \"Norwegian Wood (This Bird Has Flown)\") (Second Version – Take 2)\" Released: 14 September 2026 |\n|  | [...] Rubber Soul: Special Edition is an expanded reissue of the 1965 album Rubber Soul by the English rock band the Beatles. It released on 2 October 2026 by Apple Records.\n\n## Background and release\n\n[edit] [...] (2014)  T"
-          },
-          {
-            "url": "https://www.thebeatles.com/rubber-soul-new-special-edition-out-2nd-october",
-            "title": "Rubber Soul: New Special Edition Out 2nd October | The Beatles",
-            "snippet": "Share this website\n\n##### Share this website\n\nNews - 29 July 2026\n\n# Rubber Soul New Special Edition Out 2nd October\n\nImage\n\nrubber soul\n\nRubber Soul Album, Newly Mixed by Giles Martin and Sam Okell, Presented in New Stereo Mix, Original Mono Mix, Capitol US Album version + Dolby Atmos Mixes; Expanded with Never Before Released Session Recordings and Demos + the contemporary Single: ‘Day Tripper’ and ‘We Can Work It Out’\n\nAvailable to Pre-order Now on Multiple LP, CD, and Blu-ray Formats"
-          },
-          {
-            "url": "https://en.wikipedia.org/wiki/Rubber_Soul",
-            "title": "Rubber Soul - Wikipedia",
-            "snippet": "The Capitol version was re-released in 2006, first as part of the Capitol Albums, Volume 2 box set, using original mixes of the Capitol album, and then in 2014, individually and in the box set The U.S. Albums. The album was reissued on compact disc and vinyl in both original releases as a part of the Rubber Soul: Special Edition box set, released on 2 October 2026.\n\n## Track listing\n\n[edit]\n\n### In all markets except North America\n\n[edit] [...] the magazine's 2012 list of the \"500 Greatest Album"
+            "url": "https://www.instagram.com/p/DT3f7tKEiC0",
+            "title": "Instagram",
+            "snippet": "More posts from luciernagamusica\n\nPhoto by LUCÍA on July 24, 2026.\n\nPhoto by LUCÍA on May 16, 2025.\n\nPhoto by LUCÍA on July 23, 2024.\n\nPhoto by LUCÍA on October 27, 2026. May be an image of text.\n\nVideo by Green Music Center on October 02, 2026. May be an image of musical instrument and text.\n\nVideo by San Diego Tijuana International Jazz Festival on September 28, 2026. May be an image of one or more people, speaker, microphone, concert and text. [...] Video by LUCÍA on September 25, 2026. May b"
           }
         ]
       }

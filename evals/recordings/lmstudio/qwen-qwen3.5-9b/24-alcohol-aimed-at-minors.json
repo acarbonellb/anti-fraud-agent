@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "clock": "2026-11-04T00:06:00.000Z",
   "calls": [
     {
-      "requestHash": "d631d813bdec9b42d5feae884cd2b68332185009c1bc354894112436eb1da08a",
-      "latencyMs": 3103,
+      "requestHash": "1e0d2ecac7971762c84918d882b1bc10342ff38ae8cf9ccc91ca2024968a1c01",
+      "latencyMs": 3045,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "3OqmZnR1iQjGGGsROFGsCaoAb10R0pLF",
+              "id": "FWONDlxOdG3hdNwRPhWDbH6wqCfLexFk",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c8cafdb37b\"}"
             }
@@ -28,15 +28,15 @@
       }
     },
     {
-      "requestHash": "1a5f8ed19a725a08bde9a8b89c7044f3aa7d19a5322db43aa45386d223228d60",
-      "latencyMs": 1535,
+      "requestHash": "b0747f5df9d2a66ff6cadfae0799d21ab82b018ffddc8e7833f875be030bd011",
+      "latencyMs": 1501,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "W8F243uTZ8aLTc2wnPekudoUZjQLjRGv",
+              "id": "HCZDmtsYzaicHKXyTEjZw1XOUloli1mR",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Teatro Darymelia Jaén aforo capacidad 300\",\"maxResults\":3}"
             }
@@ -50,15 +50,15 @@
       }
     },
     {
-      "requestHash": "89516d58fb29901bc397c28369038159bd25e841973df3901809d08449a3257e",
-      "latencyMs": 1555,
+      "requestHash": "a72d7c50f61bb7bc62668895bac0570c5ac69db00b82721e8d0a412439926fb3",
+      "latencyMs": 1806,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Kfh61DCCikRCnfRVoxK89zuHGP63u6Mq",
+              "id": "tluja0RTFNI40mFpCYOX3et1wK3NeMRB",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_1551f43933\",\"windowDays\":60}"
             }
@@ -66,30 +66,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4252,
+          "inputTokens": 4383,
           "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "901bed307f0dcb71cc0d18111a78403c142d5e67c15971aeefe4125f8c0fdd9c",
-      "latencyMs": 10321,
+      "requestHash": "27af4c3508cc74e0469f77e0ef441c1bf8110a2be4f600b0ac3993b700974b1d",
+      "latencyMs": 14485,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "cpMlhvkhtA2SmpLb4MqqJvXtursCiw66",
+              "id": "VTHztNSUf6mbUbVohPorwbOoPZOzmKbH",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta dos señales de fraude graves: (1) Venta de entradas para un aforo 2,7 veces superior al real del Teatro Darymelia (300 butacas), lo que indica venta ilegal de entradas y posible estafa. (2) Oferta de alcohol a menores (+14 en título y descripción con cervezas), violando la normativa de protección de menores. El organizador tiene historial limpio, pero las señales de fraude son claras y no admiten explicación inocente.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El evento ofrece alcohol a menores: título «Botellón +14» y descripción menciona cervezas para +14, lo cual es ilegal.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_1551f43933.jpg\",\"title\":\"Evento evt_1551f43933\"}]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Se venden 800 entradas para un teatro de 300 butacas (2,7 veces el aforo real), señal grave de fraude y venta ilegal.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen\",\"title\":\"Teatro Darymelia de Jaén\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta dos señales de fraude graves: (1) Aforo desproporcionado: se venden 800 entradas para un teatro con capacidad real de 300 plazas, lo que representa más del doble de su aforo real. Esto es una señal clara de venta ilegal o simulación de aforo. (2) Contenido dirigido a menores con alcohol: el título y descripción ofrecen \\\"Botellón +14\\\" y \\\"cervezas\\\", lo cual viola la regla de protección de menores al promover consumo de alcohol en un evento para adolescentes. Aunque las condiciones permiten devoluciones, esto no mitiga el riesgo de seguridad pública ni legal. El organizador tiene historial limpio y fiscalidad correcta, pero estas dos señales son suficientes para rechazar el evento por incumplimiento normativo y riesgo de fraude.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El título «Botellón +14» y la descripción «cervezas … +14» ofrecen alcohol a menores de edad, lo cual es una violación directa de las normas de protección a menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La sesión pone a la venta 800 entradas para un teatro con capacidad real de 300 plazas (confirmado por OpenStreetMap y fuentes oficiales como www.juntadeandalucia.es y planomato.com). Esto representa más del doble del aforo real, lo que indica una señal grave de fraude o simulación de aforo.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/539737386\",\"title\":\"OpenStreetMap: Darymelia (© colaboradores de OpenStreetMap, ODbL)\"},{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen\",\"title\":\"la web (www.juntadeandalucia.es)\"},{\"url\":\"https://www.planomato.com/es/jaen/v/teatro-darymelia\",\"title\":\"Teatro Darymelia, Jaén | Planomato\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4390,
-          "outputTokens": 403
+          "inputTokens": 4521,
+          "outputTokens": 565
         }
       }
     }
@@ -106,27 +106,27 @@
           {
             "url": "https://www.salasdeconcierto.net/es/salas/teatro-municipal-darymelia",
             "title": "Teatro Municipal Darymelia - SalasDeConcierto.net",
-            "snippet": "Aforo: 321 personas ; Teléfono: 95 321 91 16 ; Email: informacioncultura@aytojaen.es ; Popularidad: 3.851"
+            "snippet": "SalasDeConcierto.net\n\nTeatro Municipal Darymelia\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Municipal Darymelia\n\nJaén / Jaén\n\n## Descripción\n\nEl Teatro Municipal Darymelia se encuentra en pleno casco histórico de Jaén. Tiene una capacidad de 321 butacas y depende del Patronato de Cultura de Jaén.\n\n## Ubicación\n\nMaestra, 18, 23004   \nJaén (Jaén)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   321 personas [...] Telé"
           },
           {
             "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
-            "title": "Teatro Darymelia de Jaén | Agenda Cultural de Andalucía",
-            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas. Estadio Olímpico, Pta 13."
+            "title": "Teatro Darymelia de Jaén",
+            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas y está enclavado en el casco histórico de Jaén.\n\nVisitable\n\nC/ Colón, s/n\n\nEnlace de compra\n\nCompra de entradas\n\nHorario de Taquilla: de martes a viernes 10:00 h. a 14:00 h. y de 18:00 h. a 21:00 h.   \nDos horas antes de la actuación en la taquilla del lugar de celebración.\n\n## 37.766676, -3.791366\n\n953 219180\n\ninformacioncultura@aytojaen.es\n\nSigue el espacio en\n\n3 Actividades\n\nCartel de Flamencos de Ronquío en Jaén \n\n19 [."
           },
           {
-            "url": "https://www.planomato.com/es/jaen/v/teatro-darymelia",
-            "title": "Teatro Darymelia, Jaén - Planomato | Planomato",
-            "snippet": "# Teatro Darymelia\n\nEl Teatro Darymelia es un antiguo cine y actual teatro de la ciudad de Jaén (España). Es Bien de Interés Cultural y se encuentra en el centro histórico de Jaén. Fue construido entre 1922 y 1927 y remodelado en los años 80 y restaurado en 1992. Tiene una capacidad de 300 o 321 butacas y acoge obras de teatro, espectáculos infantiles, musicales, conciertos y danza.\n\n## Eventos Anteriores\n\n'Trolls', el Musical\n\n07 jun\n\n### 'Trolls', el Musical [...] El musical de 'Trolls' se rep"
+            "url": "https://erasmusu.com/es/erasmus-jaen/que-hacer/teatro-darymelia-5133",
+            "title": "Teatro Darymelia | Qué hacer en Jaén",
+            "snippet": "¿Cómo es este sitio?\n\nPropio de un teatro, tiene una fachada principal muy señorial aunque muy estilo musulmán con arcos y demás resaltados ladrillos marrones y blancos.\n\nEs un teatro pequeñito pero muy funcional. Cuenta con un aforo de trescientas butacas, tanto en la planta baja como alta a modo de palco. [...] Depende siempre de la actividad que realices. Esta en concreto fue la entrada a unos cinco euros para ver a tres agrupaciones en el certamen, lo cual no estuvo nada mal.\n\nPero como ya h"
           },
           {
-            "url": "https://www.aytojaen.es/portal/RecursosWeb/DOCUMENTOS/1/1_26871_1.pdf",
-            "title": "teatro darymelia",
-            "snippet": "TEATRO DARYMELIA. PLANO DE BUTACAS. AFOROS. 188 PLATEA. 87 ANFITEATRO. 275 TOTAL + 2 LOCALIADES PARA SILLAS DE RUEDAS. INDICADAS CON VISIBILIDAD REDUCIDA SEGÚN"
+            "url": "https://www.prospectosdecine.com/jaen--teatro-municipal-darymelia",
+            "title": "JAÉN - TEATRO MUNICIPAL DARYMELIA.. Programas de cine. Prospectos de cine",
+            "snippet": "un solo teatro de raquítico aforo, 300 plazas, y buena parte de ellas con mala visibilidad, lo que no contentaría a nadie y abriría nuevas expectativas. El teatro mantiene una buena actividad y sigue conservando el cinematógrafo para ofrecer, sobre todo, ciclos especializados de películas. [...] a tres aguas hasta la fachada, están terminadas con teja árabe. El total de la inversión sería de 474 millones de pesetas asunto que acabaría en el Tribunal Supremo por presuntas irregularidades. Por fin"
           },
           {
-            "url": "https://www.andalucia.org/listing/teatro-darymelia/13524102",
-            "title": "Teatro Darymelia",
-            "snippet": "Con una capacidad de 300 butacas, en su escenario se representan obras teatrales, infantiles, musicales, así como conciertos, espectáculos de danza y familiares"
+            "url": "https://www.jaenhoy.es/ocio/curiosa-historia-teatro-darymelia-nombre-jaen_0_2006303683.html",
+            "title": "La curiosa historia del Teatro Darymelia: una infidelidad pública y un nombre peculiar",
+            "snippet": "Desde entonces es un teatro que acoge, mayoritariamente, la puesta en escena de libretos dramáticos, además de algunos actos oficiales y conciertos de índole benéfica.\n\n      El Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas.  \n\nEl Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas. / Andalucía Film Commission [...] Abierto desde 1927, el ahora Teatro Darymelia fue bautizado así por los nombres de Daría y Amelia. / Red Jaén\n\nCada 27 de ma"
           }
         ]
       }
@@ -140,19 +140,19 @@
       "response": {
         "results": [
           {
-            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/teatro-darymelia-de-jaen",
-            "title": "Teatro Darymelia de Jaén | Agenda Cultural de Andalucía",
-            "snippet": "El Teatro Municipal Darymelia de Jaén tiene una capacidad de 300 butacas y está enclavado en el casco histórico de Jaén."
+            "url": "https://www.planomato.com/es/jaen/v/teatro-darymelia",
+            "title": "Teatro Darymelia, Jaén | Planomato",
+            "snippet": "Teatro Darymelia\n\nEl Teatro Darymelia es un antiguo cine y actual teatro de la ciudad de Jaén (España). Es Bien de Interés Cultural y se encuentra en el centro histórico de Jaén. Fue construido entre 1922 y 1927 y remodelado en los años 80 y restaurado en 1992. Tiene una capacidad de 300 o 321 butacas y acoge obras de teatro, espectáculos infantiles, musicales, conciertos y danza.\n\n## Próximos Eventos\n\nConferencia\n\nPregón de Santa Catalina\n\n08 nov\n\n### Pregón de Santa Catalina [...] Comedia negr"
           },
           {
             "url": "https://www.jaenhoy.es/ocio/curiosa-historia-teatro-darymelia-nombre-jaen_0_2006303683.html",
-            "title": "La curiosa historia del Teatro Darymelia: una infidelidad ...",
-            "snippet": "Mar 27, 2026 — El Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas. se trata de una historia popular"
+            "title": "La curiosa historia del Teatro Darymelia: una infidelidad pública y un nombre peculiar",
+            "snippet": "Desde entonces es un teatro que acoge, mayoritariamente, la puesta en escena de libretos dramáticos, además de algunos actos oficiales y conciertos de índole benéfica.\n\n      El Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas.  \n\nEl Teatro Darymelia, en pleno centro histórico, tiene capacidad para 300 butacas. / Andalucía Film Commission [...] Abierto desde 1927, el ahora Teatro Darymelia fue bautizado así por los nombres de Daría y Amelia. / Red Jaén\n\nCada 27 de ma"
           },
           {
-            "url": "https://www.andalucia.org/listing/teatro-darymelia/13524102",
-            "title": "Teatro Darymelia",
-            "snippet": "Con una capacidad de 300 butacas, en su escenario se representan obras teatrales, infantiles, musicales, así como conciertos, espectáculos de danza y familiares ...Read more"
+            "url": "https://www.prospectosdecine.com/jaen--teatro-municipal-darymelia",
+            "title": "JAÉN - TEATRO MUNICIPAL DARYMELIA.. Programas de cine. Prospectos de cine",
+            "snippet": "un solo teatro de raquítico aforo, 300 plazas, y buena parte de ellas con mala visibilidad, lo que no contentaría a nadie y abriría nuevas expectativas. El teatro mantiene una buena actividad y sigue conservando el cinematógrafo para ofrecer, sobre todo, ciclos especializados de películas. [...] a tres aguas hasta la fachada, están terminadas con teja árabe. El total de la inversión sería de 474 millones de pesetas asunto que acabaría en el Tribunal Supremo por presuntas irregularidades. Por fin"
           }
         ]
       }

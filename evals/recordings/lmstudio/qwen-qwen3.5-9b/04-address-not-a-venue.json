@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "clock": "2026-11-04T00:06:00.000Z",
   "calls": [
     {
-      "requestHash": "068b3c8708b6ce9e6b7a62643250282f461e240dcc8f1d523382894c132e438d",
-      "latencyMs": 6905,
+      "requestHash": "9642bf4f79b4d1115d5b5439afbb8d10dd53bc2f053e7da58dda6c21a3396176",
+      "latencyMs": 6465,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The deterministic checks have already flagged a critical issue: **venue_exists** failed because the coordinates (39.41, -0.2) fall outside any municipality (in the sea), and OpenStreetMap does not list \"Espacio Marea\" at those coordinates. The venue capacity is also unknown.\n\nThis is a major red flag for fraud or error. I need to investigate whether:\n1. The venue name \"Espacio Marea\" exists elsewhere in Valencia (or nearby) and if the coordinates are wrong.\n2. Whether this is a clone event using a fake venue location.\n3. Whether the organizer has a history of similar issues.\n\nLet me start by checking the organizer's context to see their past events, reputation, and whether they have other venues or events that might explain this.",
+          "content": "The deterministic checks have flagged a critical issue: **venue_exists** is a **fail**. The venue \"Espacio Marea\" at coordinates 39.41, -0.2 falls outside any municipality (in the sea) according to OpenStreetMap, and the venue does not exist there. This is a hard signal for fraud or error.\n\nI need to investigate further to determine if this is:\n1. A genuine mistake (wrong coordinates provided by the organizer).\n2. An attempt to impersonate a real venue with fake coordinates.\n3. A completely fabricated event.\n\nLet me check the organizer's context first to see their history and identity.",
           "toolCalls": [
             {
-              "id": "9Ier6V3KXiFAOFehNJ8ggbMtA8yTRUhs",
+              "id": "R8oJDkPDhnc0oIPZ1axfWYPIYq7NL2ON",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
             }
@@ -23,400 +23,196 @@
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 3349,
-          "outputTokens": 210
+          "outputTokens": 180
         }
       }
     },
     {
-      "requestHash": "dd8abda0d8527fc0769f0a6399f3c1a95bf532486de011fcfe1bae4c73e02fc9",
-      "latencyMs": 4418,
+      "requestHash": "efe43e43229d495b291ecd5a5a116d23e4a6932dbd528202e2b9a6bc8c978142",
+      "latencyMs": 4534,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The organizer \"Ona Clara Events\" looks legitimate:\n- Account age: 930 days (about 2.5 years)\n- Fiscal data present and checksum valid\n- No content reports, no previous admin unpublishes\n- 14 published events, 12 ended normally\n- Team has owner, manager, and 2 scanners\n\nThis organizer seems established and compliant. The venue issue is the main concern. Let me search for \"Espacio Marea Valencia\" to see if this venue exists elsewhere or if there's a known venue with that name in Valencia.",
+          "content": "The organizer \"Ona Clara Events\" looks legitimate:\n- Account age: 930 days (about 2.5 years)\n- Fiscal data present and valid (CIF checksum valid)\n- Address in Valencia, postal code 46024 matches the event's postal code\n- No content reports, no previous admin unpublishes\n- Owner has verified email\n\nHowever, the venue check failed because the coordinates are in the sea. Let me search for \"Espacio Marea\" to see if this venue exists elsewhere or if there's a known venue with that name in Valencia.",
           "toolCalls": [
             {
-              "id": "Cf8Qd4Fu8U31B0k4Yd8MmvGMnaFPeaql",
+              "id": "oI0IhdRQpfxBdVOniZDxUvsy82VATgO1",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Espacio Marea Valencia recinto eventos\",\"maxResults\":5}"
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia recinto eventos\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3892,
-          "outputTokens": 166
+          "inputTokens": 3862,
+          "outputTokens": 169
         }
       }
     },
     {
-      "requestHash": "30b023e271d802437acfa8d531b5b93beac9539f324d0946d49cdc4b55b0ca43",
-      "latencyMs": 3782,
+      "requestHash": "bafb9560b05a3560972d4718f3cf21efdabdceca28eed11e7f6f2acd8a2a0951",
+      "latencyMs": 3714,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results don't show a venue called \"Espacio Marea\" in Valencia. There's \"La Casa de la Mar\" and \"Veles e Vents\", but not \"Espacio Marea\". Let me search more specifically for the address \"Avenida del Puerto Chico 221, 4.º C Valencia\" to see if this building exists and what it is.",
+          "content": "The web search shows some results about \"Marea\" but not specifically \"Espacio Marea\" as a venue in Valencia. The first result is an Instagram reel about \"marea.saloneventos\" which seems to be a different entity (possibly a wedding/event space). Let me search more specifically for the address provided: \"Avenida del Puerto Chico 221, 4.º C\" in Valencia.",
           "toolCalls": [
             {
-              "id": "eAYBLsHdukuGGJ6a6VShKkePVra66iUv",
+              "id": "KmpLgAHOP3wQSGnF0FdxaDKN1H2iDSwB",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico 221\\\" Valencia\",\"maxResults\":5}"
+              "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico 221\\\" Valencia\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4760,
-          "outputTokens": 129
+          "inputTokens": 4493,
+          "outputTokens": 135
         }
       }
     },
     {
-      "requestHash": "1cd134655e3b624d71101616adc645a1d3ad3cce4fbc2e4fd276452178b3af92",
-      "latencyMs": 4477,
+      "requestHash": "0eff6e74e0b57d6aab5d110bb4b33ee2fc9ae9020d6e1c08d529642633b7f084",
+      "latencyMs": 5536,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The address \"Avenida del Puerto Chico 221\" does exist in Valencia (there's a building at Avenida Puerto Del, 221). However, the coordinates provided (39.41, -0.2) are the problem. Let me check what those coordinates actually point to. The coordinate 39.41, -0.2 is indeed very close to the coast of Valencia (the Mediterranean Sea), not in a specific building.\n\nLet me search for \"Espacio Marea\" specifically to see if it's a known venue name anywhere.",
+          "content": "The address \"Avenida del Puerto Chico 221\" exists in Valencia (the search confirms Avenida del Puerto is a real street). However, the coordinates provided (39.41, -0.2) are the problem. Let me check what those coordinates actually point to and verify if they're correct for this address.\n\nThe coordinates 39.41, -0.2 are indeed in the Mediterranean Sea near Valencia, not on land. The actual Avenida del Puerto is located around latitude 39.45-39.46, longitude -0.28 to -0.29 based on typical Valencia geography.\n\nLet me search for \"Espacio Marea\" specifically as a venue name in Valencia to see if it's a real place.",
           "toolCalls": [
             {
-              "id": "de168BSGD2gz9HnYOxHK7YFD6DXfchOF",
+              "id": "nN04kOGYeDC7Rns02q6IvtJtOZ99wQxG",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia recinto eventos\",\"maxResults\":5}"
+              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia recinto eventos\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5359,
-          "outputTokens": 166
+          "inputTokens": 5081,
+          "outputTokens": 209
         }
       }
     },
     {
-      "requestHash": "b518e99478fc445cb19fbd38b050e537a4f5c75cf01c4f13617a6041e255e772",
-      "latencyMs": 4021,
+      "requestHash": "5d69b5bb99c51dcf2a77d5683ab8d9a40625c915b909264b4104e19c03024829",
+      "latencyMs": 7804,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results don't show any venue called \"Espacio Marea\" in Valencia. There are venues like \"La Casa de la Mar\" and events at \"Veles e Vents\", but no \"Espacio Marea\". \n\nLet me check if there's a venue with similar name or if this might be impersonating another organizer. Let me also search for the exact address to see what building is at Avenida del Puerto Chico 221, 4º C.",
+          "content": "I've already searched for \"Espacio Marea Valencia recinto eventos\" and got results that don't confirm this specific venue exists. The web search showed:\n1. An Instagram reel about \"marea.saloneventos\" (different entity)\n2. Oceanogràfic de València events page\n3. Eventbrite event unrelated to this venue\n\nThe key issue is the **venue_exists** check failed because the coordinates are in the sea. This is a hard signal that either:\n1. The organizer provided wrong coordinates\n2. The venue doesn't exist at all\n3. This is fraudulent activity\n\nGiven that:\n- The organizer has a legitimate history (930 days old, valid fiscal data, no reports)\n- The address format looks real (Avenida del Puerto Chico 221, 4.º C)\n- But the coordinates are clearly wrong (in the sea)\n\nThis could be an innocent mistake (wrong coordinates entered), but it's also a significant red flag. The venue capacity check is \"unknown\" because the venue isn't verified in OSM.\n\nLet me check if there's a known venue called \"Espacio Marea\" or similar in Valencia by searching more broadly.",
           "toolCalls": [
             {
-              "id": "FuyoON9idgwzWsLdt9zqOoaOntoXAtsw",
+              "id": "BFUfFf8fNFT1NjT1M8f8TdGEZizB3Gyn",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico\\\" Valencia edificio\",\"maxResults\":5}"
+              "argumentsJson": "{\"query\":\"\\\"Marea\\\" Valencia sala eventos club nocturno\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6227,
-          "outputTokens": 143
+          "inputTokens": 5328,
+          "outputTokens": 302
         }
       }
     },
     {
-      "requestHash": "9607f98db99b8e1322a7885111672171b11111fbcbbcdec97dfc25923142804a",
-      "latencyMs": 4736,
+      "requestHash": "afddbf7482f14abbedd1b510ded70986907a7248e8e2f67b43fc85eddea64567",
+      "latencyMs": 22999,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results show that \"Avenida del Puerto\" is a real street in Valencia with several buildings, but I don't see specific information about \"Avenida del Puerto Chico 221, 4º C\" or a venue called \"Espacio Marea\" at that address. \n\nLet me check if there's a venue called \"Espacio Marea\" anywhere else, or if this might be a case of impersonation. Let me also search for the artist \"Nadia Corell\" to see if they have tour dates elsewhere that might conflict.",
+          "content": "The search results show:\n1. \"M CLUB DISCOTECA VALENCIA\" - a club in Valencia near the city hall\n2. \"MAREA HITS\" at Puerto de Valencia (El Camarote) - this seems to be an event/venue name but not \"Espacio Marea\"\n3. \"Marea\" from Argentina (unrelated fashion company)\n\nNone of these confirm that \"Espacio Marea\" is a real venue in Valencia. The coordinates being in the sea is a major red flag.\n\nGiven the situation:\n- **venue_exists: fail** - The coordinates are in the sea, and OSM doesn't have this venue there\n- **venue_capacity: unknown** - Can't verify capacity without knowing if the venue exists\n- Organizer looks legitimate (old account, valid fiscal data)\n- No other red flags in deterministic checks\n\nThis is a case where I should request information to clarify the venue situation. The organizer might have made an error with coordinates, or this could be fraudulent. Since the venue existence check failed and we can't verify capacity, I need to ask for clarification.\n\nLet me submit a recommendation to request_info asking about the venue coordinates and verification.",
           "toolCalls": [
             {
-              "id": "bPeMPNpumYT8fMw8JnaEVBrFGi6e5kp3",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Nadia Corell\\\" artista Valencia concierto\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 7006,
-          "outputTokens": 160
-        }
-      }
-    },
-    {
-      "requestHash": "9c99d30c04e3cdfdace1d2e5c074246336d752caf807aab71e69d8c00e097f0f",
-      "latencyMs": 4597,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results don't show any information about an artist called \"Nadia Corell\" in Valencia. There's a mention of \"Paco Corell\" (a sculptor) and \"Nadia Farès\" (an actress), but no \"Nadia Corell\". This could be a made-up artist name, which is concerning.\n\nLet me also check if there are similar events from other organizers that might indicate this is a clone event. I should use the find_similar_events function to check for clones.",
-          "toolCalls": [
-            {
-              "id": "6CkNqg4dfFVG1QC6qSCZl3yby1v8KQfV",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 8271,
-          "outputTokens": 157
-        }
-      }
-    },
-    {
-      "requestHash": "0eeaf8ee88d3ff54edc952d7c24338396ed92f0d2893b0c8a3d6b8fca40e2187",
-      "latencyMs": 13886,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "No similar events found, so it's not a clone of another organizer's event.\n\nNow let me summarize the key issues:\n\n1. **Venue exists check failed**: The coordinates (39.41, -0.2) are in the sea, outside any municipality, and OpenStreetMap doesn't have \"Espacio Marea\" at those coordinates. This is a hard signal of potential fraud.\n\n2. **Venue capacity unknown**: The venue isn't verified, so we don't know its real capacity. The event is selling 600 tickets for a session that might not exist.\n\n3. **Artist \"Nadia Corell\"**: No web results show this artist exists outside the platform. This could be a made-up name.\n\n4. **Organizer looks legitimate**: Ona Clara Events has been around for 2.5 years, valid fiscal data, no content reports, etc.\n\nThe venue issue is the most critical. The coordinates are in the sea - this is clearly wrong. Either:\n- The organizer put wrong coordinates (could be innocent error)\n- They're using a fake venue name and location (fraud)\n- They're impersonating another venue\n\nGiven that:\n- The venue doesn't exist at those coordinates (in the sea)\n- No venue called \"Espacio Marea\" is found in Valencia searches\n- The artist \"Nadia Corell\" doesn't appear to exist outside the platform\n- The organizer is legitimate but this specific event has major venue issues\n\nThis looks like a potential fraud case where someone is creating fake events with non-existent venues. The coordinates being in the sea is a very strong signal of fraud.\n\nHowever, before rejecting, I should consider if there's an innocent explanation - maybe the organizer made a mistake with the coordinates. But given that:\n1. The venue name \"Espacio Marea\" doesn't appear anywhere in search results\n2. The coordinates are clearly wrong (in the sea)\n3. The artist doesn't exist outside the platform\n\nThis combination suggests fraud rather than an innocent error. The organizer might be using a fake venue to sell tickets for events that can't actually happen.\n\nLet me check if there's any other information about this specific address or venue that I might have missed. Let me search for \"Espacio Marea\" more broadly.",
-          "toolCalls": [
-            {
-              "id": "QmBzMEevvmSFOo1c3BOgwvoqaQamqV04",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Spain venue\",\"maxResults\":5}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 8507,
-          "outputTokens": 531
-        }
-      }
-    },
-    {
-      "requestHash": "9c169b6caaae6cc96372b2e407decc582978adbba6c5f6e0ef9c0c860fc837c6",
-      "latencyMs": 24082,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results show various venues with \"Marea\" or \"Espacio\" in their names, but none specifically called \"Espacio Marea\" in Valencia. There's \"Espacio Cuarentaytrés\" in Cartagena and \"Marea Beachfront Villas\" in Mexico, but no \"Espacio Marea\" venue in Valencia.\n\nGiven all the evidence:\n1. **Venue exists check failed** - coordinates are in the sea, no venue at that location\n2. **No venue called \"Espacio Marea\" found** in Valencia or Spain searches\n3. **Artist \"Nadia Corell\" doesn't exist** outside the platform (no search results)\n4. **Organizer is legitimate** but this specific event has clear fraud indicators\n\nThe combination of a non-existent venue (coordinates in the sea), a likely fake artist name, and no evidence that this venue exists anywhere suggests this is a fraudulent event setup. The organizer might be using fake details to sell tickets for events that can't actually happen.\n\nThis meets the criteria for **reject** because:\n- The venue doesn't exist at the provided coordinates (hard signal)\n- No evidence the venue exists elsewhere\n- Artist appears to be fabricated\n- This is a clear case of potential fraud where someone is creating fake events with non-existent venues\n\nLet me submit the recommendation to reject.",
-          "toolCalls": [
-            {
-              "id": "ImcrIYfNwW5GqB9quBCKOZEXwQqRWtug",
+              "id": "6s5QzizCJVPZxCzZ4qiPdgaHwQaSqP9p",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.92,\"rationale\":\"El evento presenta señales claras de fraude: 1) Las coordenadas del recinto (39.41, -0.2) caen en el mar, fuera de cualquier término municipal, y OpenStreetMap no tiene \\\"Espacio Marea\\\" en esas coordenadas. 2) No se encuentra ningún recinto llamado \\\"Espacio Marea\\\" en Valencia ni en España tras búsquedas web exhaustivas. 3) El artista \\\"Nadia Corell\\\" no aparece en ninguna fuente externa, sugiriendo un nombre fabricado. Aunque el organizador Ona Clara Events parece legítimo (cuenta de 2.5 años, datos fiscales válidos, sin reportes), este evento específico utiliza un recinto inexistente y probablemente un artista ficticio para vender entradas para eventos que no pueden realizarse. Esto constituye una señal clara de fraude.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de cualquier término municipal (en el mar), y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas. No se encontró ningún recinto llamado 'Espacio Marea' en Valencia tras búsquedas web exhaustivas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"El artista 'Nadia Corell' no aparece en ninguna fuente externa tras búsquedas web exhaustivas. No hay conciertos ni menciones de este artista fuera de la plataforma, lo que sugiere un nombre fabricado para el evento.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.planomato.com/es/valencia/p/concierto-nadie-patin-valencia\",\"title\":\"Circuit A-Banda: Nadie Patín + Artista Invitado 2026\"},{\"url\":\"https://www.lasprovincias.es/horta/artista-paco-corell-cede-partes-obras-ayuntamiento-20260316135917-nt.html\",\"title\":\"El artista Paco Corell cede partes de sus obras\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una falla crítica en la verificación del recinto: las coordenadas proporcionadas (39.41, -0.2) caen en el mar Mediterráneo, fuera de cualquier término municipal, y OpenStreetMap no registra \\\"Espacio Marea\\\" en esas coordenadas. Aunque el organizador \\\"Ona Clara Events\\\" tiene un historial legítimo (cuenta de 930 días, datos fiscales válidos, sin reportes), la ubicación del recinto es cuestionable. El aforo también es desconocido ya que no podemos verificar el recinto. Necesitamos aclarar si las coordenadas son correctas o si hay un error en los datos proporcionados.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: el recinto no está verificado en OpenStreetMap, así que no hay aforo publicado; la sesión con más entradas pone a la venta 600.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador legítimo: cuenta de 930 días, CIF válido, dirección en Valencia, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podrían proporcionar las coordenadas correctas del recinto «Espacio Marea» o confirmar si este existe en la dirección Avenida del Puerto Chico 221, 4.º C de Valencia?\",\"¿Existe un aforo oficial para el recinto que puedan compartir?\"],\"draft\":\"Solicito información sobre el recinto debido a que las coordenadas proporcionadas caen en el mar y no hay registro de «Espacio Marea» en esas coordenadas en OpenStreetMap. Necesito verificar la ubicación real del recinto y su capacidad antes de poder aprobar este evento.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 9933,
-          "outputTokens": 888
+          "inputTokens": 6025,
+          "outputTokens": 884
         }
       }
     }
   ],
   "searches": [
     {
-      "requestHash": "f3ce029d61a972fd454c320577f7c2eb761061afc2f3ede19269858203722c88",
+      "requestHash": "0707354e76259fe7a198e1a4f6f53f59410df7dfb17abd9eca23cef882cc0956",
       "provider": "Tavily",
       "query": "Espacio Marea Valencia recinto eventos",
-      "maxResults": 5,
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://sede.lamarinadevalencia.com/web/sites/default/files/2019-03/dossier_espacios.pdf",
-            "title": "Espacios disponibles para eventos",
-            "snippet": "La Marina de València dispone de: 1. Una amplia lámina de agua para albergar eventos náuticos, incluso dentro de la dársena.\n2. Amplios espacios para dar visibilidad a sus comercios.\n3. Campo de regatas de primer nivel.\n4. Logística especializada en el sector náutico.\n5. Amplia zona de ocio para acompañar el evento. [...] Conexión eléctrica Toma de agua Espacios disponibles para eventos náuticos Fotografías (c) Pablo Casino y María Visuals Fotografías (c) Pablo Casino y María Visuals La Marina d"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DYX42dyClpN",
-            "title": "MAREA HITS llega al Puerto de Valencia Afro house, brisa ...",
-            "snippet": "Exclusivo evento en formato tardeo no masificado, y que se prolongará hasta la madrugada. Será en el icónico edificio Veles e Vents, Marina de ...Read more"
-          },
-          {
-            "url": "https://sedee.io/espacios/la-casa-de-la-mar-445155",
-            "title": "LA CASA DE LA MAR | Sedee",
-            "snippet": "# LA CASA DE LA MAR\n\n>\n\nAñadir a lista de deseados\n\nLA CASA DE LA MAR\n\ndesde\n\n1200€\n\ndía\n\nLA CASA DE LA MAR - imagen 2\n\nLA CASA DE LA MAR - imagen 3\n\nLA CASA DE LA MAR - imagen 4\n\nLA CASA DE LA MAR - imagen 5\n\nInformation icon\n\n### Información\n\nLa Casa de la Mar – Un espacio cultural con alma marinera para eventos en Valencia [...] La Casa de la Mar es uno de los espacios más singulares de Valencia, situado en el entorno costero de la Patacona, a escasos metros del mar. Este centro cultural y so"
-          },
-          {
-            "url": "https://site.fourvenues.com/es/veles-e-vents-eventos/events/marea---malabar-02-07-2026-OJF6",
-            "title": "Entradas MAREA - MALABAR en VELES E VENTS ...",
-            "snippet": "Jul 2, 2026 — No te pierdas MAREA - MALABAR en VELES E VENTS. Vive una noche épica este Jue, 2 jul en Valencia. Entradas limitadas y reservados VIP"
+            "url": "https://www.instagram.com/reel/DQc3B7vDbkr",
+            "title": "Instagram",
+            "snippet": "marea.saloneventos\n\n✨En un instante, todo puede transformarse…  \nUn espacio vacío se convierte en el escenario perfecto para celebrar momentos únicos, risas, abrazos y recuerdos que duran para siempre. 💫  \n  \nEn Marea, cada detalle cobra vida, y cada evento se convierte en una historia que vale la pena contar. 🕯️🎶  \n  \n💌 Reserva tu fecha y deja que tu próxima celebración comience con un chasquido.  \n📅 Agenda ahora tu evento en Marea.\n\nmarzurita_chapman's profile picture\n\nmarzurita\\_chapman "
           },
           {
             "url": "https://www.oceanografic.org/eventos",
-            "title": "Organiza tu evento - Oceanogràfic de ...",
-            "snippet": "Un espacio diferente que aportará un nuevo estilo a sus eventos. AFORO. Capacidad Banquete: 130 personas. *Montaje en mesas redondas de 10 pax. Capacidad ...Read more"
+            "title": "Organiza tu evento - Oceanogràfic de València",
+            "snippet": "Organiza tu evento bajo la estructura única de un iglú. Sumérgete en un recorrido por los mares del norte y observa de cerca a más de 20 especies de aves marinas y peces que habitan en este ecosistema compartido. Opción de utilizar piso superior.\n\nAFORO\n\n Capacidad Cóctel: 250 personas\n Capacidad Reunión: 100 personas\n\nSUPERFICIE\n\n140m²\n\nOBSERVACIONES [...] El Oceanogràfic es un lugar de encuentro excepcional para las empresas que deseen celebrar sus eventos con un toque de distinción y singular"
+          },
+          {
+            "url": "https://www.eventbrite.es/e/entradas-la-marea-del-cambio-2002422473522",
+            "title": "La Marea del Cambio Entradas, jueves, 22 de octubre  •  19:00 - 21:00 | Eventbrite",
+            "snippet": "Evento finalizado\n\n# La Marea del Cambio\n\nPorFUNDACIÓN OCEANOGRÀFIC\n\nOceanogràfic ValènciaValència, VC\n\n## Más eventos de FUNDACIÓN OCEANOGRÀFIC\n\n### Descubre más eventos de FUNDACIÓN OCEANOGRÀFIC, desde Ciencia y Tecnología hasta otras experiencias que te encantarán.\n\n## También te podría gustar...\n\n### Descubre más eventos con distintas fechas, precios y formatos para encontrar tu próxima gran experiencia.\n\n## ¿Sigues buscando el evento perfecto? [...] ### Explora todos los eventos en València"
           }
         ]
       }
     },
     {
-      "requestHash": "705221aff896e9ea33d04c9fcfb1f4deeec6b23b0db5c26f83678aa035813e7c",
+      "requestHash": "08d3eb25721d713eb5dea915496f36e53b8fc76ed5376e25fd2eeb81339efd63",
       "provider": "Tavily",
       "query": "\"Avenida del Puerto Chico 221\" Valencia",
-      "maxResults": 5,
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
             "url": "https://valencia.callejero.net/avenida-del-puerto_numero-221.html",
-            "title": "Avenida del Puerto, 221 - Callejero de Valencia",
-            "snippet": "Avenida del Puerto, número 221. Callejero, planos y mapas de la ciudad de Valencia. Encuentra la calle que buscas en Callejero.net."
+            "title": "Avenida del Puerto, 221 - Callejero de Valencia - Callejero.net",
+            "snippet": "Activar mapa;)\n\nEn Valencia, provincia de Valencia, encontramos la dirección Avenida del Puerto, número 221. Si no has encontrado la dirección que estabas buscando utiliza nuestro buscador de calles que encontrarás en la esquina superior izquierda del mapa.   \nAdemás con nuestro buscador buscador de servicios podrás encontrar bares, restaurantes, tiendas, farmacias o gasolineras entre otros servicios cerca de Avenida del Puerto, número 221.\n\n# Avenida del Puerto, 221 [...] CALLEJERO PUNTOS DE IN"
           },
           {
-            "url": "https://www.idealista.com/maps/valencia-valencia/avenida-puerto-del/221",
-            "title": "Avenida Puerto Del, 221, València",
-            "snippet": "Información del edificio en Avenida Puerto Del, 221, València · 1.809 m² de parcela · Construido en 1985 · Edificio de 7 plantas · 4 vecinos por planta · Ascensor"
+            "url": "https://es.wikipedia.org/wiki/Avenida_del_Puerto_(Valencia)",
+            "title": "Avenida del Puerto (Valencia) - Wikipedia, la enciclopedia libre",
+            "snippet": "La avenida del Puerto (en valenciano avinguda del Port) es una vía urbana de Valencia (España), situada entre la plaza de Zaragoza y el puerto de Valencia. era la avenida más larga de Valencia hasta hace un tiempo, y durante gran parte de su trayecto le corre paralela la calle de las Islas Canarias. Colinda con el paseo de la Alameda, la avenida de Eduard Boscà, la avenida del Cardenal Benlloch, la avenida del Doctor Manuel Candela, la calle de Menorca y la calle de la Serrería. Tiene su origen "
           },
           {
             "url": "https://maps.apple.com/place?place-id=IE94E910D5300FD9",
-            "title": "Avenida del Puerto in València, Valencia, Spain",
-            "snippet": "View details about Avenida del Puerto in València, Valencia, Spain on Apple Maps. Address, driving directions, images, nearby attractions and more."
-          },
-          {
-            "url": "https://www.booking.com/hotel/es/mi-campus-av-del-puerto-valencia.html",
-            "title": "micampus Avenida del Puerto - Residencia de Estudiantes",
-            "snippet": "Micampus Avenida del Puerto - Residencia de Estudiantes has a fitness center, garden, a shared lounge and terrace in Valencia."
-          },
-          {
-            "url": "https://www.instagram.com/p/C7-5-FGuweG?hl=en",
-            "title": "🎉 ¡Momentos Kpital Beach te esperan! 🌟 Ven y disfruta de ...",
-            "snippet": "¡Momentos Kpital Beach te esperan! Ven y disfruta de una noche única con tus amigos en la mejor ubicación de Valencia, Avda del Puerto"
+            "title": "Avenida del Puerto in València, Valencia, Spain - Apple Maps",
+            "snippet": "# Apple Maps\n\nSearchGuidesDirections\n\nHave a Business on Maps?\n\nManage Your Business\n\n# Avenida del Puerto\n\n# Avenida del Puerto\n\nHotel · Poblats Marítims, València\n\nDirectionsCall\n\nMore\n\nClaim This Place\n\n## Ratings\n\n## Overall\n\n100%2 ratings\n\n## Details\n\n### Phone\n\n+34 613 564 134\n\n### Address\n\nAvinguda del Port, 314\n\n46024 València\n\nValencia, Spain\n\nClaim This Place"
           }
         ]
       }
     },
     {
-      "requestHash": "3432a37631c9ee671483d40a2bcfcc183df33c59889c7dafa7f05ef4b71180a4",
+      "requestHash": "b12f2a2e7d2d8dee1a86978c09d92db23696ecf4c263a37e59f14ec66adcfa30",
       "provider": "Tavily",
-      "query": "\"Espacio Marea\" Valencia recinto eventos",
-      "maxResults": 5,
+      "query": "\"Marea\" Valencia sala eventos club nocturno",
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://sede.lamarinadevalencia.com/web/sites/default/files/2019-03/dossier_espacios.pdf",
-            "title": "Espacios disponibles para eventos",
-            "snippet": "La Marina de València dispone de: 1. Una amplia lámina de agua para albergar eventos náuticos, incluso dentro de la dársena.\n2. Amplios espacios para dar visibilidad a sus comercios.\n3. Campo de regatas de primer nivel.\n4. Logística especializada en el sector náutico.\n5. Amplia zona de ocio para acompañar el evento. [...] Conexión eléctrica Toma de agua Espacios disponibles para eventos náuticos Fotografías (c) Pablo Casino y María Visuals Fotografías (c) Pablo Casino y María Visuals La Marina d"
+            "url": "https://zonadeclubs.com/locales.aspx",
+            "title": "Disfruta de la mejor terraza de Valencia junto al mar. ...",
+            "snippet": "M CLUB DISCOTECA VALENCIA Discoteca y club nocturno ✨Vive una experiencia única A pasos de la plaza del ayuntamiento Reserva tu noche mágica por DM ...Read more"
           },
           {
             "url": "https://www.instagram.com/reel/DYX42dyClpN",
-            "title": "MAREA HITS llega al Puerto de Valencia Afro house, brisa ...",
-            "snippet": "Exclusivo evento en formato tardeo no masificado, y que se prolongará hasta la madrugada. Será en el icónico edificio Veles e Vents, Marina de ...Read more"
+            "title": "Instagram",
+            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and The Roof  \n🗓️ 17.05.2026  \n  \n¿Vienes con la marea o te quedas en la orilla? 🌊\n\ncolominaclaudia's profile picture\n\ncolominaclaudia\n\nElla también icónica como siempre adoro jajajaj😍\n\nReply [...] More"
           },
           {
-            "url": "https://sedee.io/espacios/la-casa-de-la-mar-445155",
-            "title": "LA CASA DE LA MAR | Sedee",
-            "snippet": "# LA CASA DE LA MAR\n\n>\n\nAñadir a lista de deseados\n\nLA CASA DE LA MAR\n\ndesde\n\n1200€\n\ndía\n\nLA CASA DE LA MAR - imagen 2\n\nLA CASA DE LA MAR - imagen 3\n\nLA CASA DE LA MAR - imagen 4\n\nLA CASA DE LA MAR - imagen 5\n\nInformation icon\n\n### Información\n\nLa Casa de la Mar – Un espacio cultural con alma marinera para eventos en Valencia [...] La Casa de la Mar es uno de los espacios más singulares de Valencia, situado en el entorno costero de la Patacona, a escasos metros del mar. Este centro cultural y so"
-          },
-          {
-            "url": "https://site.fourvenues.com/es/veles-e-vents-eventos/events/marea---malabar-02-07-2026-OJF6",
-            "title": "Entradas MAREA - MALABAR en VELES E VENTS ...",
-            "snippet": "Jul 2, 2026 — No te pierdas MAREA - MALABAR en VELES E VENTS. Vive una noche épica este Jue, 2 jul en Valencia. Entradas limitadas y reservados VIP"
-          },
-          {
-            "url": "https://www.oceanografic.org/eventos",
-            "title": "Organiza tu evento - Oceanogràfic de ...",
-            "snippet": "Un espacio diferente que aportará un nuevo estilo a sus eventos. AFORO. Capacidad Banquete: 130 personas. *Montaje en mesas redondas de 10 pax. Capacidad ...Read more"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "0cf0ebaf63d8cb9af690f7999586f6dcb3ab28b01dc60b254e77016a7c5bed47",
-      "provider": "Tavily",
-      "query": "\"Avenida del Puerto Chico\" Valencia edificio",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.facebook.com/groups/206815381596673/posts/1042714321340104",
-            "title": "Vistoso edificio en la Avenida del Puerto (Valencia)",
-            "snippet": "Avenida del Puerto, número 67. Interesante edificio con decoraciones modernistas construido en 1940, con la fachada recubierta de azulejos"
-          },
-          {
-            "url": "https://valenciaplaza.com/cultura-y-sociedad/la-mitica-casa-del-medico-de-la-avenida-del-puerto-se-vende-por-15-millones-de-euros",
-            "title": "La mítica 'casa del médico' de la Avenida del Puerto se vende por 1,5 millones de euros |\n\t\t\tValencia Plaza",
-            "snippet": "VALENCIA. Es uno de los edificios más singulares de la ciudad y sin duda uno de los más característicos de la Avenida del Puerto. De estilo romántico, la casa fue encargada en 1919 por María Burgos Romero, propietaria del terreno. El constructor Ricardo Cerdá Cardona se encargó de los planos e inició la obra que fue modificada con estilo historicista bajo la dirección del arquitecto Javier Goerlich Lleó, responsable -entre muchas otras ‘caras' de la ciudad- de la popular plaza del Ayuntamiento ["
-          },
-          {
-            "url": "https://www.abc.es/local-comunidad-valenciana/20130515/abci-edificio-maldito-valencia-201305150942.html",
-            "title": "El edificio «maldito» de Valencia",
-            "snippet": "Un viejo inmueble abandonado en el número doce de la avenida del Puerto de Valencia ha sido escenario de cuatro muertes en poco más de un año."
-          },
-          {
-            "url": "https://commons.wikimedia.org/wiki/File:Edificio_en_la_avenida_del_Puerto,_Valencia.jpg",
-            "title": "File:Edificio en la avenida del Puerto, Valencia.jpg",
-            "snippet": "DescriptionEdificio en la avenida del Puerto, Valencia.jpg. Español: Edificio en la avenida del Puerto, Valencia. Date, 24 April 2022, 11:36:50."
-          },
-          {
-            "url": "https://www.accionaparquereforma.com/residential-developments/valencia/avenida-del-puerto",
-            "title": "Avenida del Puerto",
-            "snippet": "A residential complex comprising 53 apartments featuring 1, 2, 3 and 4 bedrooms, as well as parking spaces and storage rooms. The layout of apartments and"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "20498dbadeb95eb2f235f8de54a4d7fde4204da71b8528d105015d85ccf73eb8",
-      "provider": "Tavily",
-      "query": "\"Nadia Corell\" artista Valencia concierto",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.planomato.com/es/valencia/p/concierto-nadie-patin-valencia",
-            "title": "Circuit A-Banda: Nadie Patín + Artista Invitado 2026: fecha, horarios y entradas en Valencia | Planomato",
-            "snippet": "Cada semana elegimos 🏆 los 5 mejores 🏆 planes de Valencia y te los enviamos. Solo un email semanal, sin spam.\n\nAl enviar tu correo, aceptas nuestraPolítica de Privacidad\n\nEl concierto se celebra en el Loco Club, en el barrio de Benimaclet (Carrer del Poeta Mas i Ros, 7, 46022 Valencia), una sala independiente que se mueve entre el rock, el jazz, el soul, el indie y la música de raíces, y que funciona como espacio íntimo para la música en vivo. La entrada cuesta 15 euros. [...] ### Detalles del"
-          },
-          {
-            "url": "https://www.lasprovincias.es/horta/artista-paco-corell-cede-partes-obras-ayuntamiento-20260316135917-nt.html",
-            "title": "El artista Paco Corell cede partes de sus obras al Ayuntamiento de Foios | Las Provincias",
-            "snippet": "P. M.\n\nVALENCIA\n\nEl Ayuntamiento de Foios trabaja en un proyecto de estudio y puesta en valor de la obra del escultor nacido en esta localidad, Paco Corell, para incorporarla a la colección municipal, después de una donación que se enmarca en un gesto de retorno cultural y patrimonial hacia la comunidad de origen con la cual ha mantenido un vínculo a lo largo de su trayectoria personal y artística. [...] Las Provincias - Diario de noticias y actualidad Comunidad Valenciana\n\nSuscríbete   Iniciar "
-          },
-          {
-            "url": "https://excelsior.com.mx/espectaculos/morrissey-suspende-concierto-valencia-por-no-poder-dormir",
-            "title": "Morrissey suspende concierto en Valencia por no poder dormir",
-            "snippet": "El concierto en Valencia tenía un significado especial dentro del recorrido actual del cantante. Esta presentación estaba programada como la primera fecha de su gira en España, con la que promueve su nuevo disco titulado “Make-up is a lie”. [...] La actriz francesa Nadia Farès posa en primer plano durante un evento de moda en París, con chaqueta oscura y fondo desenfocado.\n\n## Muere la actriz Nadia Farès tras un accidente en una piscina en París\n\nFrentes Políticos\n\n## Frentes Políticos / 18 de a"
-          },
-          {
-            "url": "https://www.lasprovincias.es/horta/artista-paco-corell-cede-partes-obras-ayuntamiento-20260316135917-nt_amp.html",
-            "title": "El artista Paco Corell cede partes de sus obras al Ayuntamiento de Foios | Las Provincias",
-            "snippet": "Fallas\n\nToros\n\nRevista de Valencia\n\nDe Moda\n\nCanal Valentia\n\nUrbanitas\n\nLos más grandes\n\nArquitecturas\n\nGastronomía\n\n Restaurantes\n Menús\n Chefs\n Recetas\n Bares y barras\n Zona líquida\n Comer y beber\n\nPlanes\n\nPantallas\n\nGente y Estilo\n\nXLSemanal\n\nVivir\n\nSorteos\n\nVídeos\n\n Historias visuales\n Podcast\n Newsletters\n Esquelas\n\nServicios [...] L'Horta\n Camp de Morvedre\n Camp de Túria\n La Marina Alta\n La Marina Baixa\n La Safor\n La Ribera - La Costera\n L'Alcoià - Comtat\n Otras Comarcas\n\nSociedad\n\nSucesos"
-          },
-          {
-            "url": "https://www.tomaticket.es/it-es/entradas-el-globo-en-concierto-en-valencia",
-            "title": "Vendita dei biglietti El Globo en concierto Valencia",
-            "snippet": "Entradas entradas-ferrari-land-en-vila-seca.webp\n\nDon't miss our new concert \"El Globo en concierto Valencia\" next Saturday 11 April 2026 in Radio City Valencia, Carrer de Santa Teresa, 19 from 22:30\n\n#### Featuring:\n\n  \n\n## El Globo\n\n## CONCIERTO\n\nAltri Artisti\n\n El Globo\n CONCIERTO\n\nInformazione sul recinto\n\nRecinto  Recinto\n\nRecinto  Fotografía\n\nRecinto  Località\n\nAggiungi servizi\n\nAlojamiento   ¿Hai bisogno di alloggio?\n\nTransporte   ¿Hai bisogno di trasporti? [...] El Globo en concierto Val"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "0ce8a338662f2311fa17b363b51fc556dca4b5761ed38d3393eebce7fede25bb",
-      "provider": "Tavily",
-      "query": "\"Espacio Marea\" Spain venue",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://cuarentaytres.com/en/destination-wedding",
-            "title": "Destination Wedding Venue in Spain — Cuarentaytrés, Cartagena | By the Sea",
-            "snippet": "The Venue\n\n## Meet Espacio Cuarentaytrés — A Wedding Venue with Sea View in Spain\n\nIf you're comparing wedding venue with sea view Spain options, here's what makes Cuarentaytrés different:\n\nLocation\n\nPort of Cartagena (Murcia), Spain\n\nViews\n\nMediterranean Sea + iconic surroundings (port / city walls)\n\nCapacity\n\nUp to 250 guests\n\nParty Set-Up\n\nLive music option, DJ / live music possible\n\nSo, if you're looking for a Spanish wedding venue by the sea, you're in the right place. [...] Home The Venue "
-          },
-          {
-            "url": "https://www.marriott.com/en-us/hotels/madcl-the-palace-a-luxury-collection-hotel-madrid/events",
-            "title": "Events & Weddings | The Palace, a Luxury Collection Hotel, Madrid",
-            "snippet": "Dimensions (LxWxH)\n\n153.9x56.4x16.4\n\nArea (sq.ft)\n\n6296.9\n\nTheater\n\n330\n\nSchoolroom\n\n204\n\nConference\n\n-\n\nU-Shape\n\n87\n\nReception\n\n560\n\nBanquet\n\n330\n\nPalace I (Espacio Palace)\n\nDimensions (LxWxH)\n\n56.4x88.6x15.1\n\nArea (sq.ft)\n\n4981.6\n\nTheater\n\n140\n\nSchoolroom\n\n72\n\nConference\n\n150\n\nU-Shape\n\n39\n\nReception\n\n220\n\nBanquet\n\n130\n\nPalace II (Espacio Palace)\n\nDimensions (LxWxH)\n\n56.4x41.3x15.1\n\nArea (sq.ft)\n\n2332.6\n\nTheater\n\n112\n\nSchoolroom\n\n72\n\nConference\n\n112\n\nU-Shape\n\n39\n\nReception\n\n170\n\nBanquet\n\n100 [."
-          },
-          {
-            "url": "https://venuu.com/es/en/beach-wedding-venues-spain",
-            "title": "Beach Wedding Venues in Spain",
-            "snippet": "Find the most beautiful venues next to the beach for weddings in Spain. From € 5.650 rent per day. From € 3.500 rent per day 350. With breathtaking views and a"
-          },
-          {
-            "url": "https://venuereport.com/venue/marea-beachfront-villas",
-            "title": "Marea Beachfront Villas | Zihuatanejo, Guerrero, Mexico",
-            "snippet": "Marea features 40 one to four bedroom villas and penthouses, combining the spaciousness and comfort of a private home with the amenities of a luxury resort."
-          },
-          {
-            "url": "https://www.espaciowaikiki.com",
-            "title": "Luxury Hotel in Honolulu | ESPACIO THE JEWEL OF WAIKIKI",
-            "snippet": "Embark on a private family dive and snorkel experience designed to inspire wonder. Adults explore beneath the surface while children enjoy safe, enriching play—creating unforgettable moments together.\n\n Reserve Now\n\nMaster bedroom at ESPACIO with balcony and ocean view.\n\nBeauty Without Borders Cosmetic [...] ### Discover Mugen\n\nMugen redefines the culinary experience in Waikiki with artful plates, rare ingredients, and a story behind every serving. Guided by Japanese influences and rooted in isl"
+            "url": "https://tavily.com/knowledge/company/LzFh7nyvpQGW",
+            "title": "Marea",
+            "snippet": "# Marea\nID: LzFh7nyvpQGW\nWebsite: www.marea.com.ar\nHeadquarters: Villa Carlos Paz, Córdoba, Argentina\nLinkedIn: www.linkedin.com/company/mareaoficial · 12,920 followers\nIndustry: Retail Apparel and Fashion\nCompany type: Self-Owned\nFounded: 1993\nSocial profiles: www.facebook.com/marea.official, www.crunchbase.com/organization/marea-7926, www.instagram.com/marea.oficial [...] Description: Marea is a company that offers sports clothing, urban clothing, and bathwear for women, men, and children. The"
           }
         ]
       }

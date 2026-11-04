@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v4",
-  "clock": "2026-11-03T19:58:00.000Z",
+  "clock": "2026-11-04T00:06:00.000Z",
   "calls": [
     {
-      "requestHash": "d54c9ae1b5221de620d94c009b517c905edce9009b9f95a7b1656f90b769e5a2",
-      "latencyMs": 1495,
+      "requestHash": "852dd3fc4e965b35c7a1df7ce72af2742b904fff424bfc71d259e036b690aeef",
+      "latencyMs": 2650,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "CvS0pgdcMO21AR1TsD7zLYt93gMszzIU",
+              "id": "lT9HzSViGxcalyRMjeziSeZ3NJSXsXEX",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_bb1ae3fe05\"}"
             }
@@ -28,15 +28,15 @@
       }
     },
     {
-      "requestHash": "b418a90e159ecfb2cf203c5340fd28279045095dfa800726d9bfcd610ae758b5",
-      "latencyMs": 1532,
+      "requestHash": "1fa79f71b2661c4b857db3976abb1445b7e2b50eb05dd5996e23bce127501ca9",
+      "latencyMs": 1551,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "TDhRGQbDd34tN74W0M0sJ8Q68NRpxr25",
+              "id": "RK9rkmMcyUw3OqfS1H1zySaCKrosQZPc",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_59120c058b\",\"windowDays\":60}"
             }
@@ -50,17 +50,17 @@
       }
     },
     {
-      "requestHash": "5026ab0db2be6b3fabd84f9f918009efe2bf184d386730867ab71ffb2103f248",
-      "latencyMs": 1396,
+      "requestHash": "0208ef8f792ac6a37c89670513b4c9c5cb1916995cdbcdc0031b3f7482e01fb8",
+      "latencyMs": 1395,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "BBmGBBwiaoaVS30OsVuKSdnDWWEkVA9N",
+              "id": "dW7I7LrdrI0mSQFIixSbSTEP12rocEvg",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"La Ruta Lenta Kilómetro Cero concierto 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"La Ruta Lenta Kilómetro Cero concierto 2026\",\"maxResults\":2}"
             }
           ]
         },
@@ -72,84 +72,24 @@
       }
     },
     {
-      "requestHash": "0735af8bbf7dd08f23b813769410352e07ae83e83fececb094f71948d9170d75",
-      "latencyMs": 1392,
+      "requestHash": "dcf33263e3a06862552e7dab7ca215d6b582a6c6965b51c754c455e4973396e1",
+      "latencyMs": 20773,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Organizador (Campo Grande Música):**\n- Cuenta aprobada desde 2024, con 930 días de antigüedad.\n- Datos fiscales válidos (CIF con checksum correcto).\n- Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- Equipo activo y sin cambios sustanciales recientes.\n\n**Evento:**\n- Título coherente con la descripción: \"La Ruta Lenta presenta Kilómetro Cero\".\n- Artistas confirmados: La Ruta Lenta (headliner) y Mar de Trigo (support).\n- Precio de entrada general: 18,00 €, dentro del percentil p90 de 35,00 € para indie en Pontevedra.\n- Gastos de gestión: 1,00 € fijos (dentro del 20%).\n- Sesión única el 24/11/2026, sin solapamientos ni fechas inminentes/lejanas.\n- Condiciones claras: devolución en cancelación, sin cambios de titular.\n\n**Verificación externa:**\n- El evento aparece en la web del organizador y en la gira oficial de La Ruta Lenta (https://larutalenta.test/gira), confirmando que no es un clon ni una copia fraudulenta.\n- No hay eventos similares en otras organizaciones en la provincia en las próximas 60 días.\n\n**Conclusión:**\nNo hay señales de fraude, ilegalidad o duplicación. El evento es legítimo, bien documentado y coherente con el perfil del organizador.",
           "toolCalls": [
             {
-              "id": "42O3AGiYmahVjOQHeEakKXJ3cicUuOwb",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"La Ruta Lenta banda española disco Kilómetro Cero\",\"maxResults\":3}"
+              "id": "1Lv9dq44n6t20gzt99cHLXONYh2jEIak",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento es legítimo: organizador aprobado con datos fiscales válidos y historial limpio; precio dentro del benchmark; venue verificado; fechas coherentes; descripción original confirmada en web oficial de la banda. No hay señales de fraude, clonación o ilegalidad. Aprobado.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, sin denuncias ni cambios sustanciales.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en otras organizaciones en la provincia en las próximas 60 días.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"pass\",\"detail\":\"Descripción confirmada en web oficial de La Ruta Lenta (https://larutalenta.test/gira).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"Fecha confirmada en la gira oficial de La Ruta Lenta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 4250,
-          "outputTokens": 48
-        }
-      }
-    },
-    {
-      "requestHash": "7304a73ed6db61495662e95c302be19de3ef53e71101fd1e3269eae2f10cf072",
-      "latencyMs": 1515,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "s9WafbN5Ye54ozkZSCb4ZwyHw4XtwGCC",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"La Ruta Lenta\\\" banda \\\"Kilómetro Cero\\\" disco\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4537,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "7ebe9766c890496e41c24de2492e24140b8a452d625de482ca4c6ddf94ac6872",
-      "latencyMs": 18175,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento **evt_59120c058b** (\"La Ruta Lenta presenta Kilómetro Cero\") y el contexto del organizador **org_bb1ae3fe05** (Campo Grande Música). A continuación, resumo los hallazgos:\n\n---\n\n### 1. **Organizador (Campo Grande Música)**\n- **Estado:** Aprobado desde mayo de 2024.\n- **Datos fiscales:** CIF presente y con checksum válido; dirección en Ponteareas (36860).\n- **Historial:** 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n- **Equipo:** 1 dueño, 1 manager, 2 scanners.\n- **Web y redes sociales:** Web propia y perfiles en Instagram/Facebook activos (aunque los enlaces son de ejemplo, la estructura es coherente).\n\n**Veredicto:** Organizador sólido, sin señales de fraude ni irregularidades.\n\n---\n\n### 2. **Evento**\n- **Título y descripción:** Coherentes con un lanzamiento del disco \"Kilómetro Cero\" de La Ruta Lenta, con banda completa y Mar de Trigo como apoyo.\n- **Fecha:** 24 de noviembre de 2026 (no inminente ni lejana).\n- **Lugar:** Auditorio Reveriano Soutullo en Ponteareas (Pontevedra), verificado en OpenStreetMap (amenity=theatre, aforo 400).\n- **Aforo y precios:** 350 entradas a 18 € (dentro del aforo real; precio por debajo del p90 de eventos comparables).\n- **Gastos de gestión:** Fijos a 1 €, dentro del límite del 20%.\n- **Condiciones:** Permiten devolución en caso de cancelación; no hay términos abusivos.\n- **Sesiones:** Una sola sesión, sin solapamientos.\n\n**Veredicto:** Datos técnicos y comerciales coherentes.\n\n---\n\n### 3. **Búsqueda web**\n- Se encontraron dos resultados que confirman el evento en la web del organizador y en una página de gira de \"La Ruta Lenta\".\n- Sin embargo, los dominios son de ejemplo (`.example.test`), lo cual es normal en entornos de prueba. No hay indicios de que el contenido esté copiado de otra fuente externa real.\n\n**Veredicto:** La información del evento parece original y coherente con la actividad del organizador.\n\n---\n\n### 4. **Eventos similares**\n- No se encontraron eventos similares en otras organizaciones en la provincia de Pontevedra en las próximas 60 días.\n\n**Veredicto:** No hay señales de clonación o duplicidad.\n\n---\n\n### Conclusión\nNo hay evidencia de fraude, ilegalidad, clonación, precios abusivos, capacidad fuera del aforo real, pagos fuera de plataforma, términos abusivos, contenido para menores, ni otros problemas relevantes. El organizador tiene un historial limpio y los datos del evento son coherentes con la realidad local (Pontevedra).\n\n**Recomendación:** **APROBAR**.",
-          "toolCalls": []
-        },
-        "stopReason": "end",
-        "usage": {
-          "inputTokens": 4828,
-          "outputTokens": 698
-        }
-      }
-    },
-    {
-      "requestHash": "e925ec93a7d2f2420076b59c2ab87f2c69bcb5de6e07cf8c88b6842b28673c04",
-      "latencyMs": 19615,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "kTwLmGyC3c2PKzQ5Mx5wHSbdLCXGNlIP",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"La Ruta Lenta presenta Kilómetro Cero\\\" ha sido revisado exhaustivamente. El organizador (Campo Grande Música) tiene un historial sólido: aprobado desde 2024, datos fiscales válidos, sin cancelaciones ni denuncias. El evento cumple todos los requisitos técnicos y comerciales: fecha no inminente, lugar verificado en OpenStreetMap con aforo compatible, precio dentro del benchmark local, gastos de gestión razonables, condiciones justas (devolución permitida). Las búsquedas web confirman la coherencia del evento sin indicios de clonación o contenido copiado. No hay señales de fraude, ilegalidad o irregularidades. Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, CIF válido, dirección consistente con el evento.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Auditorio Reveriano Soutullo verificado en OpenStreetMap como amenity=theatre.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap: Auditorio Reveriano Soutullo\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo de 350 entradas dentro del límite de 400 del recinto.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/146175947\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 18 € por debajo del p90 de eventos comparables en indie/Pontevedra.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en otras organizaciones en la provincia.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"pass\",\"detail\":\"Descripción y título coherentes con la actividad del organizador; no hay indicios de copia.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://campogrande-musica.example.test/\",\"title\":\"Campo Grande Música — conciertos desde 2015\"},{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]}]}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5524,
-          "outputTokens": 719
+          "outputTokens": 813
         }
       }
     }

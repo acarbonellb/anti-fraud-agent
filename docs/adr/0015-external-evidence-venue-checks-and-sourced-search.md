@@ -210,10 +210,12 @@ the same query three times). The 11th search ended the run, so the model's decis
 and replaced by a `request_info` at confidence 0.
 
 1. **A search past `AGENT_MAX_WEB_SEARCHES` is refused, not run, and the run goes on.** The model
-   is told no searches are left and decides with what it found. The run still escalates, with
-   the reason «web search budget spent» before any reason the policy gives. The rule that
-   reaching a limit escalates still holds; only the run's work is kept. Tool calls and tokens
-   stay hard limits.
+   is told no searches are left and decides with what it found. An approval then escalates,
+   with the reason «web search budget spent» before any reason the policy gives: it may rest on
+   what the model didn't get to read. A rejection or a request is weighed by the policy as
+   usual, since more searching can't weaken a rule-based hard signal. In E005, escalating every
+   such run turned the hard-signal rejections of 01 and 10 into escalations. Tool calls and
+   tokens stay hard limits that end the run.
 2. **The default budget drops from 10 to 4.** That is cheap now that spending it no longer ends
    the run.
 3. **A repeated query is answered from the run, not searched.** A query with the same words as an
@@ -227,5 +229,6 @@ and replaced by a `request_info` at confidence 0.
 Rejected:
 
 - **A lower hard limit:** it would end more runs and lose more decisions.
+- **Escalating every run that spent the budget:** see point 1, cases 01 and 10 in E005.
 - **Fuzzy matching of repeats** (word overlap): it would refuse a search that adds the word that
   matters, such as a city or a date.

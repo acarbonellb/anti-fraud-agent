@@ -54,7 +54,8 @@ fixed.
 - **Run**: one execution of the agent on one subject, with its tool trace, tokens, cost and
   latency.
 - **Search budget**: the web searches one run may make (`AGENT_MAX_WEB_SEARCHES`, default 4). A
-  search past it is refused, not run; the model still decides and the run escalates (ADR 0015).
+  search past it is refused, not run; the model still decides, and an approval escalates (ADR
+  0015).
   A repeated search (same words) is answered without spending it.
 - **Pass**: one scheduled sweep of the feed from the stored cursor.
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.

@@ -491,6 +491,32 @@ describe("run limits", () => {
     );
   });
 
+  it("lets a rejection on a hard signal resolve though the search budget was spent", async () => {
+    const offPlatform = systemFinding(
+      "rule",
+      "off_platform_payment",
+      "fail",
+      "Pide el pago por Bizum.",
+    );
+    const { result } = run(
+      [
+        callTool("web_search", { query: "sala lumbre" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("submit_recommendation", {
+          ...approval,
+          decision: "reject",
+          findings: [],
+        }),
+      ],
+      { systemFindings: [...venueVerified, offPlatform] },
+    );
+
+    expect((await result).autonomy).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["hard signals: off_platform_payment"],
+    });
+  });
+
   it("escalates when the token budget is spent, even on a submission", async () => {
     const { result } = run(
       [

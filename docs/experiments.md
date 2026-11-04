@@ -170,3 +170,53 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     per event, so 08 escalates on evidence and can join the gate;
   - stop the over-searching, with a lower cap or a prompt that says when to stop, measured
     against N2 and N3.
+
+## E005 — A soft search budget: fewer tokens, and the fallback no longer hides wrong decisions
+
+- **Hypothesis** (#31): mean gated input tokens fall from about 39.6k to under 20k; the gated
+  approved-fraud rate (8.3 %) and auto-approved fraud rate (0) don't get worse; accuracy stays at
+  65.5 % or above; N2 and N3 stop escalating because of the search limit.
+- **Change** (#31, ADR 0015 amendment): a search past the budget is refused and the model still
+  decides, and the run escalates; the default budget drops from 10 to 4; a repeated query (same
+  words) is answered without searching; each search gives 3 results of 300 characters instead
+  of 5 of 500. Prompt unchanged (`review-v4`).
+- **Before → after** (E004 → E005): gated: 65.5 % → 58.6 % accuracy, **8.3 % → 20.8 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.319 → 0.351. All cases:
+  61.3 % → 54.8 % accuracy, 15.4 % → 26.9 % approved-fraud rate, 3.9 % → 3.8 % auto-approved
+  fraud rate. **Mean input tokens per review: about 39,600 → 27,500 (−30 %).**
+- **What went wrong or surprised:**
+  - **E004's accuracy was partly the fallback's.** Seven runs used to end on the 11th search with
+    a stock `request_info` at confidence 0. That is the expected answer for many problem cases,
+    so a broken run scored as a right one. Now the model decides, and in 11, 15 and 23 it
+    approves fraud the fallback used to "catch". The approved-fraud rate rose because the
+    model's real decisions are now measured, not because it got worse.
+  - **The budget-spent escalation is too broad.** 12 runs hit the 4-search budget. In 01 and 10
+    it turned a `reject` resolved on a hard signal (sourced capacity, off-platform payment) into
+    an escalation. More searching can't weaken a rule-based rejection: only an approval rests
+    on the evidence the model didn't get to read.
+  - **N3 now auto-approves and N2 approves,** escalated only by the exposure cap of its
+    6,000-ticket festival (#29 item 6). Both stopped escalating because of searches.
+  - **Tokens fell, but not enough.** The model still spends every search it has, so each review
+    still has about six steps.
+- **Decision:** keep the soft budget: a run that ends on a limit should keep the model's work,
+  and the metrics should measure the model's decisions, not a fallback. Next: the budget holds
+  back only an approval (E006, replayed with no model), then a prompt that says when to stop
+  searching (E007).
+
+## E006 — The spent search budget holds back only an approval
+
+- **Hypothesis** (#31, from E005): 01 and 10 resolve their hard-signal rejections on their own
+  again; nothing else moves, since the recordings are replayed unchanged.
+- **Change** (#31, ADR 0015 amendment point 1): a run that spent its search budget escalates
+  only when it approves. A rejection or a request is weighed by the policy as usual. Replayed
+  with no model: the requests didn't change.
+- **Before → after** (E005 → E006): gated: accuracy 58.6 % → 58.6 %, approved-fraud rate
+  20.8 % → 20.8 %, auto-approved fraud rate 0.0 % → 0.0 %, **escalation rate 75.9 % →
+  65.5 %, autonomy accuracy 69.0 % → 72.4 %**.
+- **What went wrong or surprised:**
+  - 01 and 10 resolve on their hard signals again, as before E005.
+  - **17 now resolves a `reject` on its own** on the sourced `capacity_far_above_venue` signal,
+    where the dataset expects an escalated `request_info`. The policy allows a hard signal to
+    resolve a rejection (ADR 0012 point 3, ADR 0015 point 6), so this is the policy working.
+    The budget had been hiding it, the same way the old fallback hid wrong decisions in E005.
+- **Decision:** keep. Next: the prompt says when to stop searching (E007).

@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v4",
-  "clock": "2026-11-03T18:59:00.000Z",
+  "clock": "2026-11-04T00:06:00.000Z",
   "calls": [
     {
-      "requestHash": "53583a178a9c2b1d9288c0324228709c4f51b3222bc723b9b8d5d4e174ec0dba",
-      "latencyMs": 3028,
+      "requestHash": "77032871f0d29278c19c0312c6885f7700975c14a05ad2356e4a60a2bc6840da",
+      "latencyMs": 3087,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "FgNi6bvFsBkPjNW9TGVgG6irYBTEnwAx",
+              "id": "Zg9v8HAZIVrI1cvmsSdMgVS6Du6ZHCWu",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_11a50865f9\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3376,
+          "inputTokens": 3407,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "05c20ea4f65aa6d93dd1418fb9a470549f754e1feae4573af2efa89f50b3a183",
-      "latencyMs": 1552,
+      "requestHash": "d91e8e5bcf1b4b2344520269282e95ff2c00cb066c0bc6dc5a42f1c450123bdc",
+      "latencyMs": 1511,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "IpbuS6dm4OzEBJJTdQKqQvk2Ovc2ik2s",
+              "id": "Kr72LkSzz7aoJPQjjT5YxtqITY3nlhdi",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_32f1e2bfa3\",\"windowDays\":60}"
             }
@@ -44,52 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3755,
+          "inputTokens": 3786,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "640b14dfb8482faf5d4353217c6bcc6523b2f831353b072c7cac12019e15d3a4",
-      "latencyMs": 3273,
+      "requestHash": "42f64232a370e0381ca80db6adbb1da302b3bdf4196ecc721040f9d287ef7172",
+      "latencyMs": 25926,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He encontrado un evento similar con el mismo título y en el mismo recinto, organizado por otro organizador. Esto es una señal de posible clonación o duplicidad exacta. Necesito verificar si ese otro evento existe y quién lo organiza para evaluar si se trata de una copia fraudulenta o de un error administrativo.",
+          "content": "He encontrado un evento idéntico publicado por otro organizador: \"Gran Gala de Zarzuela: La Verbena Eterna\" en el mismo Teatro Liceo de Salamanca con la misma fecha. Esto es una señal clara de duplicidad exacta entre organizadores, lo cual es una violación grave de las políticas de la plataforma.\n\nAdemás, el evento tiene un aforo de 400 entradas para una sesión que pone a la venta 400 tickets, pero el Teatro Liceo en Salamanca tiene un aforo real de 250 según su web oficial (1,6 veces el aforo real). Aunque esto puede tener explicación (terrazas, etc.), combinado con el duplicado exacto, refuerza la sospecha de que este evento podría ser una copia maliciosa o un intento de fraude.\n\nEl organizador \"Escenarios Charros\" es nuevo (creado hace 50 días), tiene solo 1 evento publicado y no hay historial de eventos anteriores ni reportes de contenido. Sin embargo, el hecho de que haya otro organizador con exactamente el mismo título, fecha y lugar sugiere que este podría ser un clon o una operación fraudulenta.\n\nDado que hay evidencia clara de duplicidad exacta con otro organizador (evento idéntico en título, fecha y lugar), esto constituye una señal de fraude grave (\"Hard signal\") según las directrices. No puedo aprobarlo sin más información sobre por qué dos organizadores diferentes están vendiendo el mismo evento en el mismo lugar y fecha.\n\nRecomendaré \"request_info\" para obtener clarificación sobre esta situación antes de tomar una decisión final.",
           "toolCalls": [
             {
-              "id": "Pz7ZyANIcslaHIuRLgjuiyEyN9vkXVAe",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" Teatro Liceo Salamanca\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3989,
-          "outputTokens": 121
-        }
-      }
-    },
-    {
-      "requestHash": "085e9111eda9d73abaa7ea2118fc1a4a6fe6203a704f63b809cbe0aae30f112e",
-      "latencyMs": 27956,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "Los resultados de búsqueda web muestran eventos relacionados con zarzuela en el Teatro Liceo de Salamanca, pero no encuentro referencias específicas al título exacto \"Gran Gala de Zarzuela: La Verbena Eterna\" ni a la fecha del 24 de noviembre de 2026. Esto sugiere que podría ser un evento nuevo o una posible copia.\n\nAhora necesito verificar si el otro evento (evt_4b14cec598) es de otro organizador y si hay indicios de clonación fraudulenta. Dado que ya tengo la información del organizador actual (org_11a50865f9 - \"Escenarios Charros\"), debo investigar más sobre el evento similar para determinar si es una copia exacta o no.\n\nSin embargo, los datos determinísticos ya indican que el evento tiene un título idéntico y comparte el mismo nombre de recinto con otro organizador. Esto activa la señal de \"exact_duplicate_other_organizer\" o \"similar_event\". \n\nRevisando el contexto:\n- El evento actual es de \"Escenarios Charros\" (org_11a50865f9)\n- Hay un evento similar con el mismo título exacto en el mismo teatro\n\nEsto es una señal fuerte de posible clonación fraudulenta. Necesito verificar si este es un caso de duplicidad exacta o simplemente dos eventos legítimos con el mismo nombre (lo cual sería raro pero posible).\n\nDado que:\n1. El evento tiene un título idéntico a otro evento en la misma fecha y lugar\n2. Es organizado por un organizador diferente\n3. No hay evidencia de que sea una colaboración o transferencia legítima\n\nEsto constituye una señal de \"exact_duplicate_other_organizer\" que es una señal dura (hard signal) según las instrucciones.\n\nSin embargo, antes de rechazar, debería verificar si el otro evento existe y quién lo organiza para confirmar que es realmente un duplicado fraudulento o simplemente un error administrativo.\n\nDado que no tengo acceso directo al ID del otro evento para obtener su contexto, y los resultados de búsqueda web no muestran este título específico, considero que hay suficiente evidencia para solicitar información adicional antes de tomar una decisión definitiva.",
-          "toolCalls": [
-            {
-              "id": "wdmm4fsmjXrdsfBykZUm8HmHf12Vsi25",
+              "id": "bYWLOcplZeQUHadfzqmsHCeOzUW2u4Ce",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"Se ha detectado un evento con título idéntico (\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\") en el mismo recinto (Teatro Liceo, Salamanca) y fecha similar (24 de noviembre 2026), organizado por otro organizador. Esto activa la señal de duplicidad exacta entre organizadores diferentes, que es una señal dura según las directrices. Sin embargo, antes de rechazar definitivamente, es necesario verificar si se trata de un error administrativo, una transferencia legítima de derechos, o una copia fraudulenta. El organizador actual (Escenarios Charros) parece legítimo con datos fiscales válidos y cuenta histórica limpia, pero la duplicidad del título exacto requiere aclaración.\",\"findings\":[{\"check\":\"similar_event\",\"verdict\":\"warn\",\"detail\":\"Evento con título idéntico 'Gran Gala de Zarzuela: La Verbena Eterna' en el mismo Teatro Liceo y fecha similar (24 nov 2026), organizado por otro organizador. Posible duplicidad exacta o clonación.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://find_similar_events_result\",\"title\":\"Búsqueda de eventos similares\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Escenarios Charros' (org_11a50865f9) tiene datos fiscales válidos, CIF con checksum correcto, cuenta aprobada desde 2026-10-14, sin eventos cancelados ni reportes de contenido.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Es este evento una copia exacta del evento evt_4b14cec598 organizado por otro organizador?\",\"¿Existe algún acuerdo de colaboración o transferencia de derechos entre los organizadores?\",\"¿Por qué se ha creado un evento con el mismo título y fecha en el mismo recinto?\"],\"draft\":\"Solicito información sobre la duplicidad del título exacto 'Gran Gala de Zarzuela: La Verbena Eterna' en el Teatro Liceo de Salamanca para el 24 de noviembre de 2026, organizado por otro organizador. Necesito confirmar si se trata de un error administrativo, una transferencia legítima o una copia fraudulenta.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.85,\"rationale\":\"Se ha detectado un evento idéntico publicado por otro organizador con exactamente el mismo título (\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\"), fecha (24-25 nov 2026) y lugar (Teatro Liceo, Salamanca). Esto constituye una duplicidad exacta entre organizadores, señal de fraude grave. Además, el aforo del evento (400 entradas) supera el aforo real del Teatro Liceo en Salamanca (250), aunque esto puede tener explicación legítima. El organizador es nuevo (50 días de antigüedad) con solo 1 evento publicado. Se requiere información para aclarar si se trata de un error, una operación fraudulenta o una situación legítima que requiera aprobación especial.\",\"findings\":[{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"fail\",\"detail\":\"Evento idéntico encontrado: 'Gran Gala de Zarzuela: La Verbena Eterna' en Teatro Liceo, Salamanca, con fecha 2026-11-24T22:00:00.000Z, publicado por otro organizador. Título, fecha y lugar idénticos.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/evt_4b14cec598\",\"title\":\"Evento similar encontrado\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El evento pone a la venta 400 entradas para una sesión, mientras que el Teatro Liceo en Salamanca tiene un aforo de 250 según su web oficial (1,6 veces el aforo real). Entre 1 y 2 veces puede tener explicación (terrazas, aforo ampliado), pero requiere verificación.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca\",\"title\":\"la web (www.salasdeconcierto.net)\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué dos organizadores diferentes están publicando el mismo evento con exactamente el mismo título, fecha y lugar en el Teatro Liceo de Salamanca?\",\"¿Es este un error administrativo o una operación fraudulenta intencionada?\",\"¿El organizador 'Escenarios Charros' tiene derechos exclusivos sobre este evento o es una copia no autorizada?\"],\"draft\":\"Se requiere información urgente para determinar si se trata de un duplicado accidental, una operación fraudulenta o una situación legítima que requiera aprobación especial. La duplicidad exacta entre organizadores es una señal de fraude grave según las políticas de la plataforma.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4571,
-          "outputTokens": 1056
+          "inputTokens": 4020,
+          "outputTokens": 1005
         }
       }
     }
@@ -104,55 +82,29 @@
       "response": {
         "results": [
           {
-            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
-            "title": "Teatro Liceo de Salamanca",
-            "snippet": "Teatro Liceo. Aforo: 667; Ancho de boca: 1000; Fondo desde boca: 1150; Fondo desde boca: 1150; Altura de boca: 717.Read more"
-          },
-          {
-            "url": "http://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
-            "title": "Teatro Liceo | Salamanca Convention Bureau",
-            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
-          },
-          {
-            "url": "https://www.mirem.net/web/datosrecinto.php?id=854&d=t&df=3",
-            "title": "Teatro Liceo de Salamanca",
-            "snippet": "superficie total construida es de 6.390 m². SALA Aforo : 701 - Fijos: 701 - En platea: 226 - En palcos: 186 - En pisos: 289 - En Piso nº 1: 121 - En Piso nº 2: ...Read more"
-          },
-          {
-            "url": "https://cultura.jcyl.es/web/jcyl/Cultura/es/Plantilla100Directorio/1284271278992/1284236229363/1284236229363/DirectorioPadre",
-            "title": "Teatro Liceo de Salamanca - Cultura - Junta de Castilla y León",
-            "snippet": "Aforo: 732. Mapa Web. Agenda cultural. Buscador de eventos · Búsqueda por mapa · Actividades para niños · Eventos en el Camino de Santiago · Espacios culturales ...Read more"
+            "url": "https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca",
+            "title": "Teatro Liceo Salamanca - SalasDeConcierto.net",
+            "snippet": "SalasDeConcierto.net\n\nTeatro Liceo Salamanca\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Liceo Salamanca\n\nSalamanca / Salamanca\n\n## Ubicación\n\nPlaza del Liceo, s/n, 37002   \nSalamanca (Salamanca)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   N/D\n\nTeléfono\n:   923 28 17 16\n\nEmail\n:   entradas@infotactile.com\n\nPopularidad\n:   1.324\n\nActualizado hace unos segundos"
           },
           {
             "url": "https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-",
-            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la ...",
-            "snippet": "May 25, 2021 — En el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de ...Read more"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "b23d1e954f7911474dda4fd1ebd3772866f000960df16163c84b68383dc1fa26",
-      "provider": "Tavily",
-      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" Teatro Liceo Salamanca",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.youtube.com/watch?v=fb0zKcQPnuE",
-            "title": "Salamanca y la singular Verbena del Paseo de la Estación",
-            "snippet": "\"La Verbena De La Paloma\" Complete Zarzuela. YouMoreTv - Cultura ... Gala Solidaria de Zarzuela 04 01 2024. Helena G S•39K views · 15:41. Go ...Read more"
+            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la Música amplían su aforo y pasarán de un tercio a un 50% - Ayto Salamanca",
+            "snippet": "En el CAEM el aforo será ahora de 622 butacas y se ampliará el número de entradas a la venta para los conciertos de Fuel Fandango (4 de junio), La Oreja de Van Gogh (11 de junio) y Nil Moliner (12 de junio), entre otros.\n\nEn el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de semana: El manuscrito de indias (29 de mayo), Una Noche sin luna (5 de junio) y La RED (12 de junio). [...] El resto de espacios en los que hay"
           },
           {
-            "url": "https://www.aytosalamanca.es/en/w/la-gala-de-mayores-de-ferias-y-fiestas-ser%C3%A1-los-d%C3%ADas-13-14-y-15-de-septiembre-en-el-teatro-liceo",
-            "title": "La Gala de Mayores de Ferias y Fiestas será los días 13 ...",
-            "snippet": "Las invitaciones para asistir a esta gala se repartirán el lunes 4 de septiembre, de 9'00 a 14'00 horas, en el hall del Teatro Liceo. Será necesario presentar ...Read more"
+            "url": "https://salamanca.es/que-ver/monumentos/teatro-liceo",
+            "title": "Teatro Liceo | Turismo de Salamanca",
+            "snippet": "Reapertura:  \n El teatro fue reinaugurado por la Reina Sofía en 2002, tras ocho años cerrado al público.   \n   \n Aforo:  \n Cuenta con 333 butacas, aunque en el pasado ha tenido diferentes capacidades.   \n   \n Importancia cultural:  \n El Teatro Liceo es un referente cultural en Salamanca, y su restauración ha permitido preservar parte de la identidad de la ciudad, según Salamancahoy.   \n   \n Actividades: [...] Actividades:  \n El teatro alberga una variada programación de espectáculos, incluyendo "
           },
           {
-            "url": "https://www.facebook.com/SalamancaVivelaES/posts/-la-mejor-magia-del-mundo-regresa-a-salamanca-para-arrancar-el-a%C3%B1o-el-teatro-lic/1476823904629814",
-            "title": "Salamanca Vívela",
-            "snippet": "Entradas: 22 €, 27 € y 30 €. 🎟️ Venta: A la venta a partir de este viernes a las 10:00 h en la taquilla del Liceo, Torre de los Anaya y en ...Read more"
+            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
+            "title": "Teatro Liceo de Salamanca",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Liceo\n\n Aforo: 667\n Ancho de boca: 1000\n Fondo desde boca: 1150\n Fondo desde boca: 1150\n Altura de boca: 717\n\nFlecha derecha SERVICIOS\n\nFlecha derecha HISTORIA [...] El edificio es de nueva planta y ocupa el solar donde se levantó en 1843 el  \n originario Teatro Liceo, del que se reproduce el diseño de la sala y la sencillez en  \n la construcción y l"
+          },
+          {
+            "url": "https://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
+            "title": "Teatro Liceo | Salamanca Convention Bureau",
+            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
           }
         ]
       }
