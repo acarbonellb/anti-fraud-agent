@@ -308,3 +308,18 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   - The one gated fraud the model still approves is 23 (previous fraud reports). No system check
     flags it, and the policy escalates it because the search budget was spent.
 - **Decision:** keep.
+
+## E011 — An exact clone is caught in code
+
+- **Hypothesis** (#35): 07 resolves its `reject` on its own, on a rule hard signal. Gated
+  autonomy accuracy goes from 72.4 % to 75.9 % and escalation from 72.4 % to 69.0 %; accuracy
+  and the approved-fraud rate don't move; no other case changes.
+- **Change** (#35, ADR 0012 amendment): a rule fails `exact_duplicate_other_organizer` when
+  another organizer's similar event has the same title, venue and Madrid day. Only 07 has
+  similar events, so only 07's request changed and only 07 was re-recorded.
+- **Before → after** (E010 → E011): gated: accuracy 72.4 % → 72.4 %, approved-fraud rate 4.2 %
+  → 4.2 %, auto-approved fraud rate 0.0 % → 0.0 %, **autonomy accuracy 72.4 % → 75.9 %,
+  escalation rate 72.4 % → 69.0 %**, Brier 0.198 → 0.199. Mean input tokens about 28,400 →
+  28,200, since 07 searched less with the clone already found.
+- **What went wrong or surprised:** nothing. As predicted, only 07 moved.
+- **Decision:** keep.

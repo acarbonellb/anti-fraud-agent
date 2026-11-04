@@ -1,8 +1,8 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33)
-- **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24 and #33.
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35)
+- **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24, #33 and #35.
 
 ## Context
 
@@ -139,3 +139,23 @@ Rejected:
   the policy already lets a sourced or rule-based one resolve.
 - **Asking the model again with the flag pointed out:** that is one more model call per held-back
   approval. And a 9B model that ignored a fenced, authoritative finding once can do it twice.
+
+## Amendment (2026-11-04, #35): an exact clone is a rule
+
+Point 2 gains a rule, `exact_duplicate_other_organizer`. It fails when another organizer's
+published event, among the similar events Satella serves, matches on all three: title similarity
+1, the same venue name, and a session on the same day in Europe/Madrid. The agent asks Satella in
+code, before the model, as it does for the price benchmark.
+
+Why now: Satella's list of similar events carries everything the check needs. Until now only the
+model read it, so in case 07 the `reject` rested on a model finding without a source and
+escalated. As a rule `fail` on a hard-signal check, it now resolves on its own (point 3).
+
+It only fails; a near match gives no finding. A `pass` would drop any model finding on the same
+check, since system findings win. That would include a clone the model finds on another site
+with `web_search`. The platform's list proves a clone; it can't prove originality. If Satella
+can't serve the list, there is no finding and the model still has `find_similar_events`.
+
+Rejected: **a heuristic `warn` for a near match** (similar title, same venue and day). Satella
+returns titles from a trigram similarity of 0.3. A threshold there would need cases to tune it,
+and none of the brief's cases has a near clone.

@@ -19,10 +19,10 @@ Prompt `review-v5` · recorded 2026-11-04
 | Accuracy | 72.4 % | 67.7 % |
 | Approved-fraud rate | 4.2 % | 11.5 % |
 | Auto-approved fraud rate | 0.0 % | 3.8 % |
-| Escalation rate | 72.4 % | 71.0 % |
-| Autonomy accuracy | 72.4 % | 71.0 % |
-| Brier score | 0.198 | 0.232 |
-| Mean tokens in / out | 28375 / 1390 | 28517 / 1407 |
+| Escalation rate | 69.0 % | 67.7 % |
+| Autonomy accuracy | 75.9 % | 74.2 % |
+| Brier score | 0.199 | 0.233 |
+| Mean tokens in / out | 28166 / 1383 | 28322 / 1401 |
 | Mean latency | 38.8 s | 39.2 s |
 
 ### History
@@ -39,17 +39,18 @@ Prompt `review-v5` · recorded 2026-11-04
 | E008 | 2026-11-04 | `review-v5` | Default search budget 4 -> 2 (#31). | 51.7 % | 16.7 % | 0.0 % | 0.365 |
 | E009 | 2026-11-04 | `review-v5` | Revert the search budget to 4 and restore E007's recordings: a budget of 2 cost accuracy and calibration (E008) (#31). | 65.5 % | 12.5 % | 0.0 % | 0.253 |
 | E010 | 2026-11-04 | `review-v5` | An approval against a negative system finding becomes a request_info that asks about each flag (#33). | 72.4 % | 4.2 % | 0.0 % | 0.198 |
+| E011 | 2026-11-04 | `review-v5` | Exact-clone rule in code: same title, venue and Madrid day as another organizer's published event fails exact_duplicate_other_organizer (#35). | 72.4 % | 4.2 % | 0.0 % | 0.199 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010]
+  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011]
   y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0]
+  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4]
+  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2]
+  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -62,7 +63,7 @@ xychart-beta
 | 04 | Address is a block of flats and the coordinates fall in the sea | ✅ request_info | ✅ escalated | 0.75 | venue fail · capacity unknown | no rule-based finding to ask about; needs judgement: venue_exists; confidence 0.75 below 0.85 |
 | 05 | New organizer, no website, a week-old Instagram, a «stadium» artist in a small room at 15 € (authored web results) | ✅ reject | ✅ escalated | 0.95 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
 | 06 | The artist has the same date announced in another city (authored web results) | ✅ reject | ✅ escalated | 0.95 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
-| 07 | Clone: same title, date and venue as another organizer's event | ✅ reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity warn | rejection without a rule-based or sourced hard signal |
+| 07 | Clone: same title, date and venue as another organizer's event | ✅ reject | ✅ auto_resolved | 0.75 | venue pass · capacity warn | hard signals: exact_duplicate_other_organizer |
 | 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity pass | hard signals: off_platform_payment |
 | 11 | Link to another ticketing site through a URL shortener | ✅ request_info | ✅ escalated | 0.85 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: external_ticketing_link |
 | 12 | Terms: «no refund even if the event is cancelled» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
