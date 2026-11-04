@@ -1,8 +1,9 @@
 // Checks the agent loop through runReview: tools are called and their results
 // fed back fenced as untrusted, a valid submission ends the run with the
 // policy's autonomy (never the model's), invalid calls get a correctable
-// error, every run limit escalates with its reason, and a search past the
-// budget or repeated is answered without running it. Fakes the model with
+// error, every run limit escalates with its reason, a search past the
+// budget or repeated is answered without running it, and an approval against
+// a negative system finding becomes a request. Fakes the model with
 // the scripted provider and tools with in-memory ones.
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
@@ -272,7 +273,8 @@ describe("deterministic findings", () => {
         (finding) => finding.check === "postal_code_province",
       ),
     ).toEqual([postalCodeFail.finding]);
-    expect(outcome.autonomy.autonomy).toBe("escalated");
+    // The code's fail stands, so the approval can't (#33).
+    expect(outcome.recommendation.decision).toBe("request_info");
   });
 
   it("drops a model finding on any check a system finding covers, and shows its sources", async () => {
@@ -329,6 +331,75 @@ describe("deterministic findings", () => {
     expect((await result).recommendation.findings).toEqual([
       postalCodeFail.finding,
     ]);
+  });
+});
+
+describe("an approval against a negative system finding (#33)", () => {
+  const highFee = systemFinding(
+    "heuristic",
+    "service_fee",
+    "warn",
+    "Los gastos de gestión de «General» son el 45 % del precio (umbral: 30 %).",
+  );
+  const wrongProvince = systemFinding(
+    "rule",
+    "postal_code_province",
+    "fail",
+    "El código postal 08001 no es de Madrid.",
+  );
+
+  it("becomes a request that asks about each flagged finding", async () => {
+    const { result } = run([callTool("submit_recommendation", approval)], {
+      systemFindings: [...venueVerified, highFee],
+    });
+    const outcome = await result;
+    expect(outcome.recommendation.decision).toBe("request_info");
+    expect(outcome.recommendation.infoRequest?.questions).toEqual([
+      expect.stringContaining(highFee.finding.detail),
+    ]);
+    expect(outcome.recommendation.rationale).toContain("Todo en orden.");
+    expect(outcome.autonomy).toEqual({
+      autonomy: "escalated",
+      reasons: [
+        "no rule-based finding to ask about",
+        "needs judgement: service_fee",
+      ],
+    });
+  });
+
+  it("resolves as a mechanical request when only rules flagged it", async () => {
+    const { result } = run([callTool("submit_recommendation", approval)], {
+      systemFindings: [...venueVerified, wrongProvince],
+    });
+    const outcome = await result;
+    expect(outcome.recommendation.decision).toBe("request_info");
+    expect(outcome.autonomy).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["mechanical request: postal_code_province"],
+    });
+  });
+
+  it("leaves an approval that only the model doubts, and a rejection, alone", async () => {
+    const doubted = run([
+      callTool("submit_recommendation", {
+        ...approval,
+        findings: [
+          {
+            check: "organizer_web_presence",
+            verdict: "warn",
+            detail: "Poca presencia en la web.",
+            confidence: 0.6,
+            sources: [],
+          },
+        ],
+      }),
+    ]);
+    expect((await doubted.result).recommendation.decision).toBe("approve");
+    const rejected = run(
+      [callTool("submit_recommendation", { ...approval, decision: "reject" })],
+      { systemFindings: [...venueVerified, highFee] },
+    );
+    expect((await rejected.result).recommendation.decision).toBe("reject");
   });
 });
 

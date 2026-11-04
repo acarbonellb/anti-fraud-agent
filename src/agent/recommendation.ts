@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import type { SystemFinding } from "../checks/types.js";
 import {
   decisionSchema,
   findingSchema,
@@ -42,3 +43,53 @@ export const SUBMIT_TOOL = {
     },
   ),
 } as const;
+
+/**
+ * An approval never contradicts the code (#33): when a deterministic or venue
+ * check flagged something, the model's `approve` becomes a `request_info`
+ * that asks about each flag. The policy then weighs it like any request
+ * (ADR 0012). Only system findings count: a model finding is a claim.
+ */
+export function holdBackApproval(
+  proposal: Proposal,
+  systemFindings: readonly SystemFinding[],
+): Proposal {
+  if (proposal.decision !== "approve") return proposal;
+  const flagged = systemFindings
+    .map((item) => item.finding)
+    .filter(
+      (finding) => finding.verdict === "warn" || finding.verdict === "fail",
+    );
+  if (flagged.length === 0) return proposal;
+  const questions = flagged
+    .slice(0, MAX_QUESTIONS)
+    .map((finding) =>
+      `Aclara este punto antes de publicar: ${finding.detail}`.slice(
+        0,
+        MAX_QUESTION_CHARS,
+      ),
+    );
+  return {
+    ...proposal,
+    decision: "request_info",
+    rationale:
+      `El análisis proponía aprobar, pero las comprobaciones automáticas detectaron algo que hay que aclarar antes. Propuesta original: ${proposal.rationale}`.slice(
+        0,
+        MAX_RATIONALE_CHARS,
+      ),
+    infoRequest: {
+      questions,
+      draft:
+        `Hola. Antes de publicar el evento necesitamos que revises lo siguiente:\n${questions.map((question) => `- ${question}`).join("\n")}`.slice(
+          0,
+          MAX_DRAFT_CHARS,
+        ),
+    },
+  };
+}
+
+// Satella's limits on a recommendation (`infoRequestSchema`, `proposalSchema`).
+const MAX_QUESTIONS = 10;
+const MAX_QUESTION_CHARS = 300;
+const MAX_DRAFT_CHARS = 2000;
+const MAX_RATIONALE_CHARS = 4000;

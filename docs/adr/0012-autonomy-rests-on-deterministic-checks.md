@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7 and #18.
 
 ## Context
@@ -109,3 +109,30 @@ Why now: case 13 (950 € in a 300-person room) was caught only by the model's d
 model approved it once the venue checks had verified the venue, and it resolved on its own (see
 `docs/experiments.md`). Point 3 already says what is computable belongs in code. The factor is
 provisional, like the other thresholds.
+
+## Amendment (2026-11-04, #33): an approval never contradicts a negative system finding
+
+Point 3 kept a contradicted approval from resolving on its own, but the recommendation still
+said "approve". In E009 the model approved case 11, where the code had flagged a link to another
+ticketing site, and case 15, where it had flagged a 45 % service fee. The admin saw both, but
+read an approval that went against the code's own evidence.
+
+1. **A model `approve` with any negative system finding becomes a `request_info`.** This counts
+   any `warn` or `fail`, `rule` or `heuristic`, from a deterministic or venue check.
+   - The info request asks about each flagged finding. It is written in code from the findings'
+     details.
+   - The rationale says the model proposed approving, then gives its reasons.
+   - The policy weighs the request as usual. With only `rule` negatives it is a mechanical
+     request that may resolve on its own. With a heuristic one it escalates.
+2. **Nothing else is rewritten.** A model `reject` or `request_info` stands. Model findings never
+   trigger it: they are claims (point 3).
+3. **The confidence stays the model's.** It was a confidence in approving, so on a held-back
+   approval it overstates the request. Of all the eval metrics, the Brier score is the one this
+   flatters: it dropped from 0.253 to 0.198 in E010, mostly because of this (`docs/experiments.md`).
+
+Rejected:
+
+- **Turning the approval into a `reject` on a hard signal:** the model proposes rejections, and
+  the policy already lets a sourced or rule-based one resolve.
+- **Asking the model again with the flag pointed out:** that is one more model call per held-back
+  approval. And a 9B model that ignored a fenced, authoritative finding once can do it twice.

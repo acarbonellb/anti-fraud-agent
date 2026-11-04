@@ -22,7 +22,11 @@ import {
   decideAutonomy,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
-import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
+import {
+  holdBackApproval,
+  type Proposal,
+  SUBMIT_TOOL,
+} from "./recommendation.js";
 import { type AnyAgentTool, toToolDefinition } from "./tools.js";
 import { createUntrustedFence, type UntrustedFence } from "./untrusted.js";
 
@@ -140,7 +144,10 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const askedBefore = new Set<string>();
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
-    const base = proposal ?? limitFallback(endedBy);
+    const base = holdBackApproval(
+      proposal ?? limitFallback(endedBy),
+      systemFindings,
+    );
     // System findings win: a model finding for a check the code ran is dropped.
     const modelFindings = base.findings.filter(
       (finding) => !systemChecks.has(finding.check),

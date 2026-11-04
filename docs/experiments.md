@@ -286,3 +286,25 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   tokens about 21,100 → 28,400. The same as E007.
 - **What went wrong or surprised:** nothing; the replay matches E007.
 - **Decision:** keep. This is where #31 ends.
+
+## E010 — An approval never contradicts the code
+
+- **Hypothesis** (#33): 11 and 15 become `request_info`; the gated approved-fraud rate drops from
+  12.5 % to 4.2 % and accuracy rises from 65.5 % to 72.4 %; the auto-approved fraud rate stays
+  at 0; no legitimate case changes.
+- **Change** (#33, ADR 0012 amendment): a model `approve` with a negative system finding becomes
+  a `request_info` that asks about each flag. Replayed from E009's recordings with no model: the
+  change comes after the model, so its requests don't change.
+- **Before → after** (E009 → E010): gated: **65.5 % → 72.4 % accuracy, 12.5 % → 4.2 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, Brier 0.253 → 0.198. All
+  cases: 61.3 % → 67.7 % accuracy, 19.2 % → 11.5 % approved-fraud rate, 3.8 % → 3.8 %
+  auto-approved fraud rate. Tokens unchanged.
+- **What went wrong or surprised:**
+  - As predicted, only 11 and 15 changed, both to the expected decision, and both still
+    escalate. Their flags are heuristics.
+  - **The Brier gain is partly an artefact.** The held-back request keeps the model's confidence
+    in approving (0.75), and now that the decision is right, that confidence scores as well
+    calibrated. The model's own calibration didn't change.
+  - The one gated fraud the model still approves is 23 (previous fraud reports). No system check
+    flags it, and the policy escalates it because the search budget was spent.
+- **Decision:** keep.

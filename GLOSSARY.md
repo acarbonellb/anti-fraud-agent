@@ -51,6 +51,8 @@ fixed.
 - **Exposure cap**: the most tickets on sale per session (300) an event may have to resolve an
   approval on its own while its venue's capacity is unknown (ADR 0015).
 - **Mechanical request**: a `request_info` whose every negative finding is a rule finding.
+- **Held-back approval**: a model `approve` with a negative system finding. The agent sends it as
+  a `request_info` that asks about each flag (ADR 0012).
 - **Run**: one execution of the agent on one subject, with its tool trace, tokens, cost and
   latency.
 - **Search budget**: the web searches one run may make (`AGENT_MAX_WEB_SEARCHES`, default 4). A
