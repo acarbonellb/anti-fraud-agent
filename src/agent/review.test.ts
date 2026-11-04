@@ -1,7 +1,8 @@
 // Checks reviewSubject end to end against the Satella mock: the context is
 // read, the deterministic and venue checks run, the loop runs, the
 // recommendation lands in Satella with the policy's autonomy, and a subject
-// that changes during the review is re-reviewed instead of retried. Fakes
+// that changes during the review is re-reviewed instead of retried. The
+// exact-clone check asks Satella for similar events before the model. Fakes
 // Satella with the mock server, the model with the scripted provider and the
 // venue checks with canned findings.
 import { afterEach, beforeEach, expect, it } from "vitest";
@@ -11,7 +12,11 @@ import {
   createScriptedProvider,
 } from "../providers/scripted-provider.js";
 import type { LlmProvider } from "../providers/types.js";
-import { createSatellaClient } from "../satella-client/client.js";
+import {
+  createSatellaClient,
+  type SatellaClient,
+} from "../satella-client/client.js";
+import { SatellaApiError } from "../satella-client/errors.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import {
   type MockSatella,
@@ -72,15 +77,29 @@ const verifiedVenue: VenueChecks = () =>
     venueFinding("venue_capacity", "pass", "Aforo compatible."),
   ]);
 
-function review(provider: LlmProvider, venueChecks = verifiedVenue) {
+function firstSessionStart(): string {
+  const start = fixtures.eventContext.sessions[0]?.startsAt;
+  if (start === undefined) throw new Error("fixture without a session");
+  return start;
+}
+
+function satellaClient() {
+  return createSatellaClient({
+    baseUrl: mock.baseUrl,
+    getAccessToken: () => Promise.resolve(TOKEN),
+    correlationId: "run-1",
+  });
+}
+
+function review(
+  provider: LlmProvider,
+  venueChecks = verifiedVenue,
+  satella: SatellaClient = satellaClient(),
+) {
   return reviewSubject({
     subject: { type: "event", id: "evt_0001" },
     runId: "run-1",
-    satella: createSatellaClient({
-      baseUrl: mock.baseUrl,
-      getAccessToken: () => Promise.resolve(TOKEN),
-      correlationId: "run-1",
-    }),
+    satella,
     provider,
     limits: { maxToolCalls: 10, maxTokens: 100_000, maxWebSearches: 2 },
     autoApproveThreshold: 0.85,
@@ -158,6 +177,69 @@ it("shows the venue findings to the model fenced, and they win over the model's"
     "fail",
   ]);
   expect(result.review.autonomy).toBe("escalated");
+});
+
+it("rejects an exact clone on the code's rule, shown to the model first", async () => {
+  await mock.close();
+  const [original] = fixtures.similarEvents;
+  if (original === undefined)
+    throw new Error("fixture without a similar event");
+  mock = await startMockSatella({
+    fixtures: {
+      events: [fixtures.eventContext],
+      organizers: [fixtures.organizerContext],
+      similar: {
+        evt_0001: [
+          {
+            ...original,
+            title: fixtures.eventContext.event.title,
+            titleSimilarity: 1,
+            firstSessionInWindow: firstSessionStart(),
+          },
+        ],
+      },
+    },
+    tokens: { [TOKEN]: ["agent:read", "agent:recommend"] },
+  });
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", { ...approval, decision: "reject" }),
+  ]);
+
+  const result = await review(provider);
+
+  expect(result.review.findings).toContainEqual(
+    expect.objectContaining({
+      check: "exact_duplicate_other_organizer",
+      verdict: "fail",
+    }),
+  );
+  expect(result.review.autonomy).toBe("auto_resolved");
+  expect(provider.requests[0]?.messages[1]?.content).toContain("Regla de clon");
+});
+
+it("goes on when Satella can't serve the similar events", async () => {
+  const satella = satellaClient();
+  const unavailable: SatellaClient = {
+    ...satella,
+    findSimilarEvents: () =>
+      Promise.reject(
+        new SatellaApiError("SATELLA_UNAVAILABLE", "findSimilarEvents", null),
+      ),
+  };
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+
+  const result = await review(provider, verifiedVenue, unavailable);
+
+  expect(result.review.decision).toBe("approve");
+  expect(
+    result.review.findings.filter(
+      (finding) =>
+        finding.check === "exact_duplicate_other_organizer" &&
+        finding.verdict === "fail",
+    ),
+  ).toEqual([]);
 });
 
 it("never runs the venue checks on an organizer, and escalates it", async () => {

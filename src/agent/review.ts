@@ -9,6 +9,7 @@ import {
   benchmarkQuery,
   priceBenchmarkCheck,
 } from "../checks/price-benchmark.js";
+import { exactCloneCheck } from "../checks/exact-clone.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
@@ -123,18 +124,21 @@ async function prepareEvent(
   now: Date,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
-  const benchmark = await input.satella
-    .getPriceBenchmark(benchmarkQuery(context))
+  const [benchmark, similar] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
-    .catch((error: unknown) => {
-      if (error instanceof SatellaApiError) return null;
-      throw error;
-    });
+    orIfSatellaFails(
+      input.satella.getPriceBenchmark(benchmarkQuery(context)),
+      null,
+    ),
+    // Without them there is no clone finding; the model still has the tool.
+    orIfSatellaFails(input.satella.findSimilarEvents(id), []),
+  ]);
   return {
     context,
     systemFindings: [
       ...runEventChecks(context, now),
       priceBenchmarkCheck(context, benchmark),
+      ...exactCloneCheck(context, similar),
       ...(await input.venueChecks(context)),
     ],
     autonomySubject: {
@@ -154,4 +158,15 @@ async function prepareOrganizer(
     systemFindings: runOrganizerChecks(context),
     autonomySubject: { type: "organizer" },
   };
+}
+
+/** What a check gets when Satella can't answer: the review goes on without it. */
+function orIfSatellaFails<T, F>(
+  request: Promise<T>,
+  fallback: F,
+): Promise<T | F> {
+  return request.catch((error: unknown) => {
+    if (error instanceof SatellaApiError) return fallback;
+    throw error;
+  });
 }
