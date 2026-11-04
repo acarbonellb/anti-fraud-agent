@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-04T01:01:00.000Z",
   "calls": [
     {
-      "requestHash": "b1d2778490d38e534b063154a46f4c6ad76f8efe7f66cf5a8039fa3b355cd8a9",
-      "latencyMs": 5979,
+      "requestHash": "4a57d01654e3187292b69a0d04574cd4c71e99bcf4a877a73b2b2dcba4e24b32",
+      "latencyMs": 6325,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to review event `evt_7a080b2adf` titled \"Festival de bandas locales del Alto Aragón\". The deterministic checks have already passed, so I don't need to re-evaluate those. However, I should investigate the organizer and check for potential issues like:\n\n1. Organizer history and identity\n2. Whether this is a clone event (similar events from other organizers)\n3. Whether the artists are actually available on these dates\n4. Whether the description or images might be copied from elsewhere\n\nLet me start by checking the organizer context and looking for similar events that might indicate cloning.",
+          "content": "I need to review event `evt_7a080b2adf` titled \"Festival de bandas locales del Alto Aragón\". The deterministic checks have already passed, so I don't need to re-evaluate those. However, I should investigate the organizer and check for potential issues like:\n\n1. Organizer history and identity\n2. Whether this event might be a clone or duplicate\n3. Whether the artists are actually available on these dates\n4. Whether the description is original (not copied)\n\nLet me start by checking the organizer context to understand their history and identity.",
           "toolCalls": [
             {
-              "id": "MRNT59utDOafDT9lJzJlSEjJSgQiDAtl",
+              "id": "XDFP1FRuXKAvSPZlSrnJNPsXFF7exFq4",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             }
@@ -23,20 +23,20 @@
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 3483,
-          "outputTokens": 168
+          "outputTokens": 160
         }
       }
     },
     {
-      "requestHash": "d7286bfa60e00593f9b8e2257f1ca4f944d21164b2711dc58bb194c8ca34d93a",
-      "latencyMs": 3556,
+      "requestHash": "368e8237dac63d2a9f6c49fe1f007e6e5561cc933ea860c884b6912ed4425c68",
+      "latencyMs": 4045,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The organizer \"Cierzo Sonoro\" looks legitimate:\n- Status is \"approved\"\n- Tax ID checksum is valid\n- Account age is 930 days (about 2.5 years)\n- No content reports\n- No previous agent reviews\n- Owner has verified email and no other organizers\n\nNow let me check for similar events that might indicate cloning:",
+          "content": "The organizer \"Cierzo Sonoro\" looks legitimate:\n- Account age: 930 days (about 2.5 years) - well-established\n- Fiscal data present with valid CIF checksum\n- No content reports\n- No previous agent reviews\n- 14 published events, 12 ended successfully, 0 cancelled\n\nNow let me check for similar events to see if this might be a clone event:",
           "toolCalls": [
             {
-              "id": "etuCCd9S6H8KZaFrc5uVT74qKRW1To8N",
+              "id": "R5IowAPRwQA74oqQBAZDr5gFwxsxfVQy",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
             }
@@ -44,140 +44,96 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4001,
-          "outputTokens": 130
+          "inputTokens": 3993,
+          "outputTokens": 140
         }
       }
     },
     {
-      "requestHash": "013678d7c82a967d46759f5cbfaeaedced9b6b43b3a88c02a2a42689a0dfb98d",
-      "latencyMs": 3746,
+      "requestHash": "0ece211f7acff8bedc6ea82634283319756a9dcb625d4020b5d1b273fc8bfeae",
+      "latencyMs": 3439,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "No similar events found, which is good - no cloning detected.\n\nNow let me check the artists' availability. The event lists:\n- \"Peña Ventana\" (headliner)\n- \"Las Tremolinas\"\n\nI should verify if these artists have tour dates announced elsewhere for this date (2026-11-24). Let me search for information about these artists and their availability.",
+          "content": "No similar events found in the same province within 60 days, which is good - no clone signal.\n\nNow let me check if the artists mentioned are actually available on these dates. The event lists:\n- Peña Ventana (headliner)\n- Las Tremolinas\n\nLet me search for information about these artists to verify their availability and whether they're real bands:",
           "toolCalls": [
             {
-              "id": "2PHdcCQKMP14DQtJn37PvAWFaYgqfHJX",
+              "id": "kCuW2SW4ModReOKF2FbeJmkDQxEIkmxa",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas festival 2026 Huesca tour dates\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Las Tremolinas banda rock España tour fechas 2026\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4220,
-          "outputTokens": 143
+          "inputTokens": 4222,
+          "outputTokens": 129
         }
       }
     },
     {
-      "requestHash": "09397118b9eb75a3aa35bb2185be43e74dffa4549d25b0ff10b1b2d7b07901d7",
-      "latencyMs": 3668,
+      "requestHash": "f1bf47667ed856c23554b990114db028ec1985f60d00a10943a3a48e4157dafa",
+      "latencyMs": 2126,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results don't show specific tour dates for Peña Ventana or Las Tremolinas on 2026-11-24 in Huesca. The first result mentions a different festival (La Fùmiga + ETS at Pirineos Sur 2026) which is unrelated.\n\nLet me search more specifically for each artist to check their availability:",
+          "content": "The search results don't specifically mention Las Tremolinas. Let me search more specifically for Las Tremolinas:",
           "toolCalls": [
             {
-              "id": "wiKw3io8USRKoquUB6P7YLZdne3nJ5Ur",
+              "id": "pKixEt05d5qMUBD7dCOQcjjG2mb3YySn",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Peña Ventana tour dates 2026 concert schedule\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Las Tremolinas concierto 2026 Huesca\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4871,
-          "outputTokens": 130
+          "inputTokens": 4775,
+          "outputTokens": 74
         }
       }
     },
     {
-      "requestHash": "2e8c403ef198d87772c92dd0f271aed96990220588c6fb2cfa63a21851fda206",
-      "latencyMs": 2853,
+      "requestHash": "8cdd481ef0287f98a6db6babaa26131abf458890f586b77620020d667b7f4979",
+      "latencyMs": 2127,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Interesting - the search results show \"Ventana\" (an industrial metal band) with tour dates in the US, not specifically \"Peña Ventana\" which appears to be a Spanish local band. Let me search for Las Tremolinas:",
+          "content": "The search results don't show Las Tremolinas specifically. Let me also check for Peña Ventana:",
           "toolCalls": [
             {
-              "id": "xo1hMXSwHjuRUOytocNAA2ee52tPCewv",
+              "id": "5KM8hTAEJNPXrfd6jcwhg0T8LTnoQX3g",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Las Tremolinas tour dates 2026 concert schedule Spain\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Peña Ventana banda rock Huesca\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5448,
-          "outputTokens": 101
+          "inputTokens": 5276,
+          "outputTokens": 68
         }
       }
     },
     {
-      "requestHash": "54dd17acf037ca138db2c7c8c1a93c44bdf5cfe63cb4f8efd76b4dd52086bf19",
-      "latencyMs": 3393,
+      "requestHash": "ce59cf7764eafbb90b5fcf8abbee6cc7c2092671266276b22c9135867ed93200",
+      "latencyMs": 25064,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results don't show specific tour dates for \"Las Tremolinas\" on November 24, 2026 in Huesca. The results mention other artists and venues but not Las Tremolinas specifically.\n\nLet me also check if there's any information about Peña Ventana being a real local band from the Alto Aragón area:",
+          "content": "I've run out of search queries. Let me analyze what I have:\n\n**Evidence gathered:**\n1. Organizer \"Cierzo Sonoro\" is legitimate - 930 days old, valid fiscal data, no content reports, good history (14 published events, 12 ended successfully)\n2. No similar events found in the same province within 60 days (no clone signal)\n3. Deterministic checks all passed (postal code, venue exists and capacity is correct, prices are reasonable, no abusive terms, etc.)\n4. Web searches didn't find specific information about Las Tremolinas or Peña Ventana playing on Nov 24-25, 2026 in Huesca, but this doesn't necessarily mean they're unavailable - the search results were about other events\n\n**Key observations:**\n- The event title is \"Festival de bandas locales del Alto Aragón\" (local bands festival of Alto Aragón)\n- It features Peña Ventana and Las Tremolinas as artists\n- The description says \"Seis bandas de la provincia en una tarde de rock y pop. El cartel completo está en la imagen.\" (Six bands from the province in an afternoon of rock and pop. The full lineup is in the image.)\n\nHowever, there's a potential issue: The event lists only 2 artists (Peña Ventana and Las Tremolinas), but the description says \"Seis bandas\" (six bands). This could be a discrepancy, but it might just mean the image shows all 6 bands while only 2 are listed in the API data.\n\nAlso, I should check if there's any text originality issue - whether the description was copied from elsewhere. Let me think about this...\n\nThe deterministic checks already passed, including price_sanity and price_benchmark. The venue exists and has correct capacity. The organizer is legitimate.\n\nGiven:\n- No fraud signals detected\n- Organizer is well-established with good history\n- No similar events (no clone)\n- All deterministic checks pass\n- The only potential issue is the artist availability, but I couldn't verify that due to search limits\n\nThe event seems legitimate. The description discrepancy (6 bands vs 2 listed) could be explained by the image containing the full lineup. Without evidence of fraud or illegal content, and with a legitimate organizer, this should be approved.\n\nLet me submit the recommendation:",
           "toolCalls": [
             {
-              "id": "oxcToMt62SauVVpudql95jOp0gaoRTBy",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Peña Ventana banda rock Huesca Aragón\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6108,
-          "outputTokens": 120
-        }
-      }
-    },
-    {
-      "requestHash": "d4f905b996e1f6d408090a7532a3089ddd633a25ceb571b15f70dc26a4809ebf",
-      "latencyMs": 3003,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results don't show specific information about \"Peña Ventana\" as a local rock band from Huesca. The results mention \"Banda de Música de Huesca\" (which is different) and other unrelated content.\n\nLet me also check for Las Tremolinas specifically:",
-          "toolCalls": [
-            {
-              "id": "ePBEN9jDH1QeAz7dbvu1cM7cu9BaXYXw",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Las Tremolinas banda rock España\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6642,
-          "outputTokens": 105
-        }
-      }
-    },
-    {
-      "requestHash": "517ad3a7eeb5df470c6b2a3099c8042ee6ddfa5569ef006f1e43845309f30318",
-      "latencyMs": 26352,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "I've run out of searches. Let me summarize what I know:\n\n**Organizer checks:**\n- Organizer \"Cierzo Sonoro\" is approved, has valid tax ID, account age 930 days (2.5 years)\n- No content reports, no previous agent reviews\n- Owner has verified email, no other organizers\n- Team structure looks normal (1 owner, 1 manager, 2 scanners)\n\n**Event checks:**\n- All deterministic checks passed (postal code, payment, fees, dates, venue, capacity, prices, etc.)\n- No similar events found (no cloning)\n- Venue exists and capacity is compatible\n\n**Artist availability:**\n- I searched for Peña Ventana and Las Tremolinas tour dates but didn't find specific confirmation that they are playing on 2026-11-24 in Huesca\n- The search results showed other artists/tours but not these specific bands on this date\n- However, the absence of search results doesn't necessarily mean fraud - it could be a local band without significant web presence\n\n**Key observations:**\n1. The event title says \"Festival de bandas locales del Alto Aragón\" (local bands from Alto Aragón)\n2. Artists listed: Peña Ventana (headliner) and Las Tremolinas\n3. No evidence of cloning, fraud, or illegal content\n4. All technical checks passed\n\nThe main concern is whether the artists are actually available on this date. However:\n- I couldn't find specific tour dates for these artists on this platform's web search\n- The absence of web presence doesn't automatically mean fraud - local bands may not have significant online presence\n- The organizer is legitimate and approved\n- No similar events found (no cloning)\n\nGiven that:\n- All deterministic checks passed\n- Organizer is legitimate with good history\n- No evidence of fraud or cloning\n- Artist availability couldn't be definitively confirmed but absence of web presence for local bands is common\n\nI should recommend **approve** since there's no clear evidence of fraud. The artist availability check is a \"warn\" situation but not a hard fail - local bands may not have extensive online tour announcements.\n\nLet me submit the recommendation:",
-          "toolCalls": [
-            {
-              "id": "fdAPFpUalPeACyuIStMENGCPklsRqCox",
+              "id": "Bhx2SRHUdf5VIYkd864SiWNdO8VmfUZ1",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"Evento aprobado tras revisión exhaustiva. El organizador \\\"Cierzo Sonoro\\\" es legítimo (aprobado, CIF válido, 930 días de antigüedad, sin reportes). Todas las verificaciones determinísticas pasaron (código postal, pago, tarifas, fechas, aforo, precios). No hay eventos similares que indiquen clonación. La disponibilidad de artistas no pudo confirmarse con búsquedas web, pero la ausencia de presencia online para bandas locales es común y no constituye señal de fraude por sí misma. Sin evidencia de irregularidades.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Cierzo Sonoro' aprobado, CIF válido con checksum correcto, cuenta de 930 días (2.5 años), email verificado, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido, sin revisiones previas de agente.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en otras organizadoras en la provincia de Huesca con fechas cercanas (ventana de 60 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"Búsquedas web no confirmaron fechas específicas de Peña Ventana o Las Tremolinas para el 24-11-2026 en Huesca. Sin embargo, bandas locales pueden tener presencia online limitada.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.songkick.com/artists/680714-ventana/calendar\",\"title\":\"Ventana tour dates 2026 - 2027\"},{\"url\":\"https://www.ticketswap.com/magazine/guides/best-concerts-spain\",\"title\":\"24 best concert tours in Spain 2026 | TicketSwap Guide\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"Evento legítimo promovido por Cierzo Sonoro, organizador establecido desde 2024 con datos fiscales válidos y sin reportes de contenido. Todas las comprobaciones determinísticas han pasado: código postal correcto, recinto existe en Huesca con aforo compatible, precios razonables (15€ general), sin términos abusivos ni pagos fuera de plataforma. No se encontraron eventos similares que indiquen clonación. La descripción menciona \\\"seis bandas\\\" pero solo aparecen dos artistas listados; esto puede explicarse por la imagen que contiene el cartel completo. Sin señales de fraude o ilegalidad, se aprueba.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro con 930 días de antigüedad, CIF válido, sin reportes de contenido y buena historia (14 eventos publicados, 12 finalizados).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia dentro de 60 días que indiquen clonación.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"Búsqueda web no confirmó disponibilidad específica de Las Tremolinas o Peña Ventana para estas fechas, pero sin evidencia contradictoria.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://www.hellpress.com/agenda-conciertos\",\"title\":\"Agenda de conciertos de Heavy Metal en España en 2026\"},{\"url\":\"https://blog.ticketmaster.es/post/agenda-rock-2026-38621\",\"title\":\"Agenda Rock 2026: fechas, ciudades y entradas\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6783,
-          "outputTokens": 1021
+          "inputTokens": 5380,
+          "outputTokens": 966
         }
       }
     }
@@ -202,9 +158,9 @@
             "snippet": "# Palacio Municipal de los Deportes de Huesca\n\nEl Palacio Municipal de Deportes en Huesca ofrece modernas instalaciones para varios deportes como baloncesto, balonmano, fútbol sala, voleibol y gimnasia. Cuenta con una pista polideportiva con capacidad para 5.000 personas, sala polivalente y pista exterior de baloncesto.\n\n### Próximamente nuevas experiencias en Palacio Municipal de los Deportes de Huesca\n\n## ¿Cómo llegar?\n\nPalacio Municipal de los Deportes de Huesca [...] Calle San Jorge, 76, Hue"
           },
           {
-            "url": "https://parkimeter.com/es/parking-huesca/cerca-de-palacio-de-deportes-huesca",
-            "title": "Aparcar en Palacio Municipal de Deportes Huesca",
-            "snippet": "## Historia del Palacio de Deportes de Huesca\n\nEl Palacio de los Deportes de Huesca fue construido y finalizado en 1994. El recinto deportivo fue obra del arquitecto barcelonés Enric Miralles Moya, ganador de un concurso convocado por el Ayuntamiento de Huesca. El motivo de su inauguración fue debido a la necesidad de que el Club Baloncesto Peñas Huesca, que militaba en la liga ACB, contara con un pabellón que tuviera una capacidad de 5000 sitios para los espectadores.\n\nSelecciona [...] El Palac"
+            "url": "https://www.heraldo.es/noticias/deportes/2026/07/13/huesca-instalara-una-pantalla-gigante-para-ver-semifinal-mundial-entre-espana-francia-2036722.html",
+            "title": "Huesca instalará una pantalla gigante para ver la semifinal del Mundial entre España y Francia",
+            "snippet": "La iniciativa permitirá a los seguidores de la selección española vivir el partido en un ambiente colectivo y compartir la cita más importante, por el momento de La Roja. El acceso será completamente gratuito, aunque estará condicionado al aforo disponible. Las puertas del Palacio de Congresos se abrirán a las 20.00 y, por orden de llegada, cada asistente recibirá una entrada hasta completar las 1.800 plazas con las que cuenta la sala polivalente. [...] El Palacio de Congresos de Huesca acogerá "
           },
           {
             "url": "https://www.huesca.es/w/palacio-municipal-de-deportes",
@@ -220,105 +176,43 @@
       }
     },
     {
-      "requestHash": "fe3da6e8a704b7a0ee34d9f1cdaa4f521db8279cd742471ff4a889ff7f6701d0",
+      "requestHash": "9ac17944ca52f19fe88fdf17d4f945dd3dbaaf2bf3291b31217ae4c679ad05f8",
       "provider": "Tavily",
-      "query": "Peña Ventana Las Tremolinas festival 2026 Huesca tour dates",
-      "maxResults": 3,
+      "query": "Las Tremolinas banda rock España tour fechas 2026",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://feverup.com/m/519672/en",
-            "title": "La Fùmiga + ETS at Pirineos Sur 2026 - Tickets | Fever",
-            "snippet": "Highlights  \n🌟 A festival with over three decades of history and prestige  \n🎉 Unforgettable concerts with a unique atmosphere and gastronomic offerings  \n🎧 A natural setting with exceptional acoustics in Lanuza  \n🎤 The freshness and energy of La Fùmiga together with the talent of ETS  \n  \nGeneral Info  \n📅 Date: July 26, 2026  \n🕐 Time:  \n- Doors open at 7:00 PM  \n- Concert starts at 8:30 PM  \n📍 Location: Auditorio Natural de Lanuza, Huesca  \n♿ Accessibility: PRM tickets available. [...] Ot"
+            "url": "https://www.hellpress.com/agenda-conciertos",
+            "title": "Agenda de conciertos de Heavy Metal en España en 2026",
+            "snippet": "13 de noviembre de 2026 - Barcelona (La Nau)\n 14 de noviembre de 2026 - Valencia (Rock City)\n 15 de noviembre de 2026 - Málaga (La Trinchera)\n 19 de noviembre de 2026 - Madrid (Revi Live)\n 20 de noviembre de 2026 - Pamplona (Totem)\n\nEntradas a la venta en en Madness Live.\n\n### Conciertos de LIFELOVER en Granada, Madrid, Valencia, Barcelona y Portugalete\n\nKalls, banda surgida de Lifelover\n\nKalls, banda surgida de Lifelover\n\nEstas son las paradas en España de KALL homenajeando a LIFELOVER: [...] #"
           },
           {
-            "url": "https://www.songkick.com/metro-areas/35032-spain-huesca/2026",
-            "title": "Huesca in 2026 | Concerts, Festivals, Tickets & Tour Dates",
-            "snippet": "Concerts in Huesca in 2026. Find tickets to all live music, concerts, tour dates and festivals in and around Huesca. Currently there are 2 upcoming events."
-          },
-          {
-            "url": "https://concerts50.com/venues/spain/huesca/el-veintiuno",
-            "title": "El Veintiuno Concerts 2027 - Huesca | Schedule & Tickets",
-            "snippet": "facebook\ninstagram\ntwitter\ntiktok\nyoutube\n\n# El Veintiuno Concerts 2027\n\nC. Padre Huesca, 52, 22005 Huesca, Spain, 22002\n\nEl Veintiuno\nEl Veintiuno\n\n|  |  |  |\n --- \n| Fri, 22:30  Jan 8  2027  Drugos | Drugos  El Veintiuno - Huesca, Spain | tickets |\n| Sat, 22:00  Feb 27  2027  Levitants | Levitants  El Veintiuno - Huesca, Spain | tickets |\n| Fri, 22:30  Apr 9  2027  Niños | NIÑOS - Bravos - HUESCA  El Veintiuno - Huesca, Spain | tickets |\n\nDrugos\nLevitants\nNiños\n\n## Venue Info [...] 11.01.2024\n"
+            "url": "https://blog.ticketmaster.es/post/agenda-rock-2026-38621",
+            "title": "Agenda Rock 2026: fechas, ciudades y entradas de los próximos conciertos de Rock | Ticketmaster Blog",
+            "snippet": "Fito y Fitipaldis en su Aullidos Tour 25/26\n  + ~~9 y 10 de enero de 2026, Bizkaia Arena – BEC! de Barakaldo~~\n  + ~~16 y 17 de enero de 2026, Palau Sant Jordi de Barcelona~~\n  + ~~24 de enero de 2026, Roig Arena de Valencia~~\n  + ~~6 de febrero de 2026, Multiusos Sánchez Paraíso de Salamanca~~\n  + ~~7 de febrero de 2026, Plaza de Toros La Rivera de Logroño~~\n  + ~~20 de febrero de 206, Palacio de los Deportes de Granada~~\n  + ~~21 de febrero de 2026, Palacio de los Deportes de Murcia~~ [...] Ja"
           }
         ]
       }
     },
     {
-      "requestHash": "38cad05c2a201133b9499dd4c3e602fcc7a7b145d69c2f62986ceb86772498fe",
+      "requestHash": "38d019494af1910044dee3fae8434663711c3c387abbfa99cc048214a58d13b0",
       "provider": "Tavily",
-      "query": "Peña Ventana tour dates 2026 concert schedule",
-      "maxResults": 3,
+      "query": "Las Tremolinas concierto 2026 Huesca",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://www.songkick.com/artists/680714-ventana/calendar",
-            "title": "Ventana tour dates 2026 - 2027",
-            "snippet": "Ventana is currently touring across 2 countries and has 19 upcoming concerts. 14-15 Aug Battle Creek, MI, US. Sun 24 May Cleveland, OH, US … 24 Mar Iowa City,"
+            "url": "https://www.heraldo.es/noticias/aragon/huesca/2026/08/07/conciertos-programados-huesca-gratis-san-lorenzo-2026-2040742.html",
+            "title": "Conciertos gratis en Huesca por las Fiestas de San Lorenzo 2026",
+            "snippet": "## Heraldo\n\nSuscríbete\n\nFiestas de San Lorenzo\n\n# Conciertos gratis en Huesca por las Fiestas de San Lorenzo 2026\n\nEl Ayuntamiento de Huesca ha presentado el cartel de conciertos gratuitos entre los que destacan Fangoria, Nil Moliner o Andrés Campo, entre otros.\n\n Programa de las Fiestas de San Lorenzo en Huesca 2026: horarios de conciertos y actos tradicionales\n\nHuesca\n\nNoticia\n\nBasado en hechos observados y verificados directamente por nuestros periodistas o por fuentes informadas. [...] Difer"
           },
           {
-            "url": "https://www.ticketmaster.com/ventana-tickets/artist/977730",
-            "title": "Ventana Tickets, 2026-2027 Concert Tour Dates",
-            "snippet": "Concerts in United States · November 19, 2026. Nov19 · November 21, 2026. Nov21 · February 26, 2027. Feb262027 · March 10, 2027. Mar102027 · March 14, 2027. Mar14 ...Read more"
-          },
-          {
-            "url": "https://www.facebook.com/RichardStitchThomas/posts/%EF%B8%8Fventana-tickets-on-sale-now-%EF%B8%8Fventanabandcom226-cleveland-oh-globe-iron227-louis/1679412586889576",
-            "title": "Ventana tour dates and ticket info 2026",
-            "snippet": "This post announces the 2026 tour schedule for the industrial metal band Ventana Band. shows in Cleveland, OH; Columbus, OH; New Kensington, PA"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "344f372de46669f4a9305b0814f5b2c0c43a51660eddae28731c50ce6baf9e1d",
-      "provider": "Tavily",
-      "query": "Las Tremolinas tour dates 2026 concert schedule Spain",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.ticketswap.com/magazine/guides/best-concerts-spain",
-            "title": "24 best concert tours in Spain 2026 | TicketSwap Guide – TicketSwap",
-            "snippet": "Miguel Poveda is one of the best additions if you want stronger flamenco and Andalusian coverage. His official 2026 calendar already runs through southern Spain and into big autumn dates, and for the songs line, expect to hear songs like A Ciegas, Alfileres, and Ojos Verdes.\n\nSpain, Cádiz, 6 June (19:00)\n\nSpain, Cádiz, 6 June (22:00)\n\nSpain, Málaga, 12 June\n\nSpain, Granada, 13 June\n\nSpain, Valencia, 20 June\n\nSpain, Chiclana de la Frontera, 18 July\n\nSpain, Jaén, 31 July [...] Pablo Alborán’s Gira"
-          },
-          {
-            "url": "https://us.trip.com/events/3171799-spain-concerts-collection",
-            "title": "Concerts in Spain: Latest Calendar & Tickets(October Updated) | Trip.com",
-            "snippet": "### Barcelona | PitbullTour | Palau Sant Jordi\n\nNov 4, 2026 (UTC+1)\n\nBarcelona\n\nConcerts\n\nMadrid | Tan Bionica Concert | Madrid\n\n### Madrid | Tan Bionica Concert | Madrid\n\nOct 25, 2026 (UTC+1)\n\nMadrid\n\nConcerts\n\nVigo | Arde Bogotá<HERVIDEROS Gira Vibra Mahou>Tour | Mar de Vigo Auditorium\n\n### Vigo | Arde BogotáTour | Mar de Vigo Auditorium\n\nOct 29, 2026 (UTC+1)\n\nVigo\n\nConcerts\n\nValencia | Nanpa Básico 2026Tour | Roig Arena\n\n### Valencia | Nanpa Básico 2026Tour | Roig Arena [...] Oct 29, 2026 (UT"
-          },
-          {
-            "url": "https://sting.com/blogs/news/sting-3-0-six-shows-added-in-spain-for-july-2026",
-            "title": "STING 3.0: Six shows added in Spain for July 2026... – Sting.com",
-            "snippet": "The shows are:\n\n09 JUL 2026 - Gran Canaria Arena, Las Palmas de Gran Canaria  \n10 JUL 2026 - Anexo Palmetum, Santa Cruz de Tenerife  \n12 JUL 2026 - Concert Music Festival (Poblado de Sancti Petri), Chiclana De La Frontera (Cadiz)  \n13 JUL 2026 - Marenostrum Fuengirola, Fuengirola (Malaga)  \n15 JUL 2026 - Musicas de la Alambra (Plaza de Toros), Granada  \n18 JUL 2026 - Iconica Santalucia, Sevilla\n\nBack to blog [...] We are delighted to announce that Sting has added six concerts in Spain during Jul"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "4d48b6fe0759971043540456cdb1cf7cec29529e2d0f150bb872a8a1a478f1b4",
-      "provider": "Tavily",
-      "query": "Peña Ventana banda rock Huesca Aragón",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/banda_huesca",
-            "title": "Banda de Música de Huesca (@banda_huesca) • Instagram photos and videos",
-            "snippet": "Video by El Diario de Huesca on September 25, 2026. May be a meme of one or more people and text.\n\nVideo by El Diario de Huesca on August 13, 2026.\n\nVideo by Ayuntamiento de Huesca on August 13, 2026. May be an image of concert.\n\nVideo by Enjoy Zaragoza on August 06, 2026.\n\nVideo by Ayuntamiento de Huesca on August 06, 2026.\n\nVideo by Radio Huesca on August 06, 2026. May be an image of concert.\n\nVideo by El Diario de Huesca on July 26, 2026.\n\nVideo by Radio Huesca on July 25, 2026. [...] Photo b"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=g2gtwjArWmQ",
-            "title": "CONCIERTO BANDA DE MUSICA DE HUESCA, 12-08-1992",
-            "snippet": "CONCIERTO BANDA DE MUSICA DE HUESCA, 12-08-1992. @altoaragontv5 ... Go to channel Altoaragón Televisión · JURA DE BANDERA, HUESCA 1994.Read more"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=hh1XVK5HFFQ",
-            "title": "La Ventana de 18 a 20h",
-            "snippet": "Abrimos La Ventana de la Música desde La Laguna para recibir a la cantante Ede. Vuelve La Ventana de los Viajes con Paco Nadal."
+            "url": "https://www.huesca.es/w/el-ayuntamiento-de-huesca-presenta-un-cartel-musical-de-primer-nivel-para-las-fiestas-de-san-lorenzo-2026",
+            "title": "El Ayuntamiento de Huesca presenta un cartel musical de primer nivel para las Fiestas de San Lorenzo 2026 - Ayuntamiento de Huesca",
+            "snippet": "El Ayuntamiento de Huesca ha presentado esta mañana en rueda de prensa el cartel de conciertos para el escenario exterior del Palacio de Congresos, que tendrán lugar a las 00:15h con motivo de las Fiestas de San Lorenzo 2026. La alcaldesa, Lorena Orduna, junto a la concejal de Fiestas, Nuria Mur, han dado a conocer una programación musical que apuesta por la variedad de estilos y públicos, consolidando este espacio como uno de los epicentros culturales de las fiestas. [...] Desde la pandemia el "
           }
         ]
       }

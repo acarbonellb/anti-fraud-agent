@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-04T01:01:00.000Z",
   "calls": [
     {
-      "requestHash": "2fa5d3dfc5f332328bf1987263c97292d6b77476dfa27d146e4eb47b8664f59b",
-      "latencyMs": 2876,
+      "requestHash": "d0a9fe3803ccada1075501ba3b4e66489abf0a66b5ef294d924ad32cbd6da04c",
+      "latencyMs": 2914,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "2H5MscXC42lpI4F8T2v1ZEKC2ROEyNRp",
+              "id": "xezSrfg5BVbHkfKw7IJzMEEl1FFVuqYc",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
             }
@@ -28,59 +28,59 @@
       }
     },
     {
-      "requestHash": "250f4a994882fd8c5557db9de957fe61f46fd6a285a7f7bc3c7a30642418ef89",
-      "latencyMs": 1579,
+      "requestHash": "4f9a43fce64705c45bc625ec0527ef32287c1945842858aa0ff4353c628c55d6",
+      "latencyMs": 1555,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "qXtaEoZNEC87IqWwCtaFHdbVm4UzAJAM",
+              "id": "QejrHGXGVyzr4Qm4SJmcbmaTGS4w8s85",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Pau Rovelló monólogo jueves Sala Apolo Barcelona 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Pau Rovelló comedia stand-up tour dates 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 3836,
-          "outputTokens": 54
+          "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "4113483c3fea50467e8522003737d6a2b1a77ab620bed78940fdaad00492590c",
-      "latencyMs": 1655,
+      "requestHash": "da3a691ed75401ac9e4fad66835727d573e83dfcb1194d8079b184e6e4ffeb9a",
+      "latencyMs": 1490,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "d7KROashVzLEDuuZwIbu8m0zAVng4BtK",
+              "id": "2MZyWsuj9jwTEuaVUJtDKnwqgP8RISQh",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Pau Rovelló comediante monólogo 2026 tour dates\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Pau Rovelló comediante stand-up Spain\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4475,
-          "outputTokens": 54
+          "inputTokens": 4427,
+          "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "fbf7c87b26616eb845098fa887ad1f8b6f3218d8bbcfb601c83424efe0c28e81",
-      "latencyMs": 1575,
+      "requestHash": "cd9d3c29363d3cd71f72daf05f90dd1eb57d055acf92a38fbcfb1b8d2659b377",
+      "latencyMs": 1452,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "7gEYF20xEB3dEE0sDg4l6OCUXtomQe1C",
+              "id": "U6ZSjPCpLmHNRpofKcJONCWYGYDmxhXc",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante Barcelona\",\"maxResults\":3}"
             }
@@ -88,74 +88,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5085,
+          "inputTokens": 4959,
           "outputTokens": 47
         }
       }
     },
     {
-      "requestHash": "0c3794c85d4a849b4acd06fc793d74263a6214ea40a018ad3f64a7c83b701749",
-      "latencyMs": 1634,
+      "requestHash": "b032904a5af3ffbac5220e6d117ddf0e75b981c242b9b9a8bd080446585ff56e",
+      "latencyMs": 24489,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Cláusula abusiva (FAIL):** Las condiciones dicen \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\". Esto niega la devolución incluso en cancelación, lo cual es una cláusula abusiva según las normas de consumo españolas. Este hallazgo ya está marcado como FAIL en los checks determinísticos.\n\n2. **Organizador:** \"Comedia en Vena\" parece legítimo:\n   - Cuenta aprobada desde 2024 (930 días)\n   - CIF válido y verificado\n   - 14 eventos publicados, 12 finalizados sin cancelaciones\n   - Sin reportes de contenido ni despublicaciones por admin\n\n3. **Artista:** \"Pau Rovelló\" no aparece en búsquedas web como comediante stand-up conocido. Las búsquedas devuelven:\n   - Un actor llamado Jor Rovelló (no Pau)\n   - Una película llamada \"Rovelló. Un Nadal sense Noel\" (2007)\n   - No hay evidencia de que exista un comediante llamado Pau Rovelló con giras en 2026\n\n4. **Eventos similares:** Las búsquedas web muestran eventos genéricos de \"stand up comedy\" pero no específicamente con Pau Rovelló. Esto podría indicar:\n   - Que el artista es ficticio o poco conocido\n   - Posible copia de descripciones de otros sitios\n\n5. **Precio y aforo:** Los precios están dentro del benchmark (p90 de 35€ para humor en Barcelona, aforo <300). El evento pone a la venta 120 entradas para un local de 1.300 capacidad - razonable.\n\n**Decisión:**\n\nLa cláusula abusiva es un FAIL claro que requiere rechazo. Además, la falta de evidencia de que el artista \"Pau Rovelló\" exista como comediante stand-up (solo aparecen referencias a un actor Jor Rovelló y una película) sugiere posible fraude o evento ficticio. El organizador parece legítimo, pero esto no compensa las señales rojas del artista y la cláusula abusiva.\n\n**Recomendación: REJECT** con baja confianza debido a la evidencia mixta (organizador limpio vs artista dudoso + cláusula abusiva).",
           "toolCalls": [
             {
-              "id": "8adFLQBuT8O0Ex1HEnWXfsLMmcNf95De",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" monólogo comedia 2026\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5550,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "54cf0720eb93a6bdb5d1c268251ab7a18d80c2a99b7fe813ed8deee5a94d0787",
-      "latencyMs": 1625,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "9mN7kByQG7LeS1Hsaxlu3qjBAY1Cq3Cm",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Pau Rovelló\\\" comediante stand up\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6000,
-          "outputTokens": 48
-        }
-      }
-    },
-    {
-      "requestHash": "6835e942c220012a339ff7d6297bc5de5ad8c4e5f0334bf41506535cceece9a3",
-      "latencyMs": 26718,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Cláusula abusiva (fail):** El texto de las condiciones dice \"No se devolverá el dinero aunque se cancele el evento por cualquier motivo\", lo cual es una cláusula abusiva que niega la devolución incluso en caso de cancelación del organizador. Esto ya está marcado como fail en los checks determinísticos.\n\n2. **Organizador:** \"Comedia en Vena\" es un organizador aprobado desde mayo 2024, con fiscalidad correcta (CIF válido), cuenta activa 930 días, sin reportes de contenido y sin eventos cancelados. Parece legítimo.\n\n3. **Artista \"Pau Rovelló\":** No he encontrado evidencia en internet de que exista un comediante llamado \"Pau Rovelló\" con monólogos. Las búsquedas muestran:\n   - \"Pau Roca\" (comediante real, pero diferente nombre)\n   - \"Jor Rovelló\" (actor y músico, no Pau)\n   - Restaurantes llamados \"Rovelló\"\n   - No hay tour dates ni presencia web de un comediante \"Pau Rovelló\"\n\n4. **Fecha del evento:** 24 de noviembre de 2026. Las búsquedas muestran eventos reales en Sala Apolo para otras fechas (19 nov, 26 nov), pero no para el 24 con Pau Rovelló.\n\n5. **Posible fraude:** La combinación de:\n   - Un artista que no parece existir fuera de la plataforma\n   - Un nombre similar a otros (\"Pau Roca\" vs \"Pau Rovelló\")\n   - Cláusula abusiva en las condiciones\n   \n   Sugiere un intento de impersonación o evento ficticio.\n\n**Decisión:** RECHAZAR por evidencia de posible fraude (artista no verificable + cláusula abusiva). La falta de presencia web del artista y el nombre similar a otros comediantes reales es una señal de alerta importante.",
-          "toolCalls": [
-            {
-              "id": "6HhKkAERPO9mz9uys9VzERgOGVdYI49A",
+              "id": "lOH5YifdGt5TfXGM2us7S0IyPoc5QeBT",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"Rechazamos por evidencia de posible fraude: 1) El artista \\\"Pau Rovelló\\\" no tiene presencia verificable en internet como comediante (búsquedas muestran solo \\\"Pau Roca\\\", \\\"Jor Rovelló\\\" y restaurantes, no un monologuista). 2) Cláusula abusiva en las condiciones que niega devolución incluso si el organizador cancela. 3) Nombre similar a artistas reales (\\\"Pau Roca\\\") sugiere posible impersonación. El organizador es legítimo pero el evento presenta señales de fraude.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Cláusula abusiva: niega devolución aunque se cancele el evento por cualquier motivo.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Evento Monólogos del jueves con Pau Rovelló\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No se encontró evidencia de un comediante 'Pau Rovelló' en internet. Búsquedas muestran solo 'Pau Roca' (comediante real), 'Jor Rovelló' (actor/músic) y restaurantes, sin tour dates ni presencia web de monologuista.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.linkedin.com/in/jor-rovelló-a6735278\",\"title\":\"Jor Rovelló - LinkedIn\"},{\"url\":\"https://es.teatrebarcelona.com/revista/pau-roca-es-muy-agradecido-llegar-al-corazon-de-la-gente-a-traves-de-la-comedia\",\"title\":\"Pau Roca - Revista Teatro Barcelona\"}]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"Nombre 'Pau Rovelló' similar a comediante real 'Pau Roca'. Posible intento de impersonación.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.bandsintown.com/e/1040350283-pau-roca-at-sala-apolo\",\"title\":\"Pau Roca Barcelona Tickets - Bandsintown\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.75,\"rationale\":\"El evento tiene una cláusula abusiva clara (negación de devolución incluso en cancelación) y el artista \\\"Pau Rovelló\\\" no aparece como comediante stand-up conocido en fuentes externas, lo que sugiere posible fraude o evento ficticio. El organizador parece legítimo pero esto no compensa las señales rojas del artista y la cláusula abusiva.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo».\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_d11830d06b.jpg\",\"title\":\"Evento Monólogos del jueves con Pau Rovelló\"}]},{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"No se encontró evidencia de que exista un comediante stand-up llamado Pau Rovelló. Las búsquedas web solo muestran referencias a un actor Jor Rovelló y una película, no a un comediante con giras en 2026.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.filmaffinity.com/ie/film828276.html\",\"title\":\"Rovelló. Un Nadal sense Noel (2007) - Filmaffinity\"},{\"url\":\"https://www.linkedin.com/in/jor-rovell%C3%B3-a6735278\",\"title\":\"jor rovelló - actor i músic\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6084,
-          "outputTokens": 1020
+          "inputTokens": 5042,
+          "outputTokens": 949
         }
       }
     }
@@ -198,105 +154,53 @@
       }
     },
     {
-      "requestHash": "226a87ba808aa748c23685af7e86ce286b6979a1cd6edc1799ec0d2d26942108",
+      "requestHash": "e0b912966bdd88aa3f5f6a002e49a936597721b2b8cd8d5b5c4e2cbc23f7d66f",
       "provider": "Tavily",
-      "query": "Pau Rovelló monólogo jueves Sala Apolo Barcelona 2026",
+      "query": "Pau Rovelló comedia stand-up tour dates 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://www.bandsintown.com/e/1040350283-pau-roca-at-sala-apolo",
-            "title": "Pau Roca Barcelona Tickets, Sala Apolo Oct 03, 2026 | Bandsintown",
-            "snippet": "musicSyncBanner\n\nArtist bio\n\nPau Roca\n\nPau Roca\n\nGenres: Rnb-soul, Disco, R&b/soul, Soul, R&b\n\nView artist page\n\n## Share event\n\n## About the venue\n\nSala Apolo\n\nCarrer Nou de la Rambla, 113, Barcelona, Spain\n\nSala Apolo\n\nGet directions\n\nView venue page [...] 15.2996C2.78348 14.9924 2.20759 14.4165 1.90045 13.6487C1.43973 12.5353 1.55491 9.84777 1.55491 8.5808C1.55491 7.35223 1.43973 4.66473 1.90045 3.51295C2.20759 2.78348 2.78348 2.20759 3.55134 1.90045C4.66473 1.43973 7.35223 1.55491 8.6192 1.5"
+            "url": "https://www.entradas.com/en/artist/stand-up-comedy1",
+            "title": "Stand Up Comedy Tickets and Tour Dates",
+            "snippet": "Entrance tickets Concert tickets\n\n# Stand up comedy\n\nStand up comedy\n\n20/06/2026 – 27/06/2026\n\nTickets from € 11.35\n\nOrder tickets\n\nStand up comedy\n\n20/06/2026 – 27/06/2026\n\nTickets from € 11.35\n\nOrder tickets\n\nClick the add icon to add your preference to your favorites.\n\nStand up comedy\n\n20/06/2026 – 27/06/2026\n\n2 events\n\nList   Calendar Please note: The calendar is not completely accessible to assistive technology.\n\nCity\n\nclose"
           },
           {
-            "url": "https://www.ticketmaster.es/venue/sala-apolo-barcelona-tickets/slapolobcn/114?language=en-us",
-            "title": "Buy tickets for Sala Apolo in Barcelona. Official Ticketmaster site",
-            "snippet": "Your browser is not supported. For the best experience, use any of these supported browsers: Chrome, Firefox, Safari, Edge.\n\nPaypal Proveedor de Pagos Preferido \n\n# Sala Apolo Tickets\n\nC. Nou de la Rambla, 113, 08004 Barcelona, Spain\n\nGet Directions(Opens in new tab)\n\n## All Events and Add-Ons10 results\n\n 13 November 2026\n\n  Nov13\n\n  Friday 20:30Fri20:30ARLO PARKS - DESIRE TOUR\n\n  Find ticketsARLO PARKS - DESIRE TOUR, 13/11/2026, 20:30\n\n  Lineup\n\n  + Arlo Parks\n  + Baird\n 18 November 2026 [...] "
+            "url": "https://www.tomaticket.es/en-es/artista/standup-comedy/zaragoza",
+            "title": "STAND-UP COMEDY tour dates 2025 2026. STAND-UP COMEDY tickets and concerts zaragoza ;)",
+            "snippet": "Álava - Albacete - Alicante - Almería - Asturias - Ávila - Badajoz - Barcelona - Bizkaia - Burgos - Cáceres - Cádiz - Cantabria - Castellón - Castilla La Mancha - Ceuta - Ciudad Real - Córdoba - Cuenca - El Hierro - Fuerteventura - Galicia - Gipuzkoa - Girona - Gran Canaria - Granada - Guadalajara - Huelva - Huesca - Islas Baleares - Jaén - La Coruña - La Gomera - La Palma - La Rioja - Lanzarote - León - Lleida - Lugo - Madrid - Málaga - Melilla - Murcia - Navarra - Ourense - Palencia - [...] - "
           },
           {
-            "url": "https://www.sala-apolo.com/es",
-            "title": "Sala Apolo",
-            "snippet": "Jue. 19. Nov\n\n### AFERS: Cloe Riembau + MALVA\n\nMuerdo presenta \n\nJue. 26. Nov\n\n### Muerdo presenta \"Volver a donde nacen las Canciones\"\n\nEmpremtes 2026 | Renaldo & Clara\n\nSab. 28. Nov\n\n### Empremtes 2026 | Renaldo & Clara\n\nAFERS: Júlia Colom + Gaia Banfi\n\nJue. 10. Dic\n\n### AFERS: Júlia Colom + Gaia Banfi\n\nAFERS: ÖLIVIAS + RAKEL\n\nJue. 21. Ene\n\n### AFERS: ÖLIVIAS + RAKEL\n\nAFERS: loveang3l + SFISTIKATED\n\nJue. 18. Feb\n\n### AFERS: loveang3l + SFISTIKATED\n\nPiñata presenta: Vincen García [...] Sab. 07."
+            "url": "https://www.tomaticket.es/en-es/artista/standup-comedy/valencia",
+            "title": "STAND-UP COMEDY tour dates 2025 2026. STAND-UP COMEDY tickets and concerts valencia ;)",
+            "snippet": "Álava - Albacete - Alicante - Almería - Asturias - Ávila - Badajoz - Barcelona - Bizkaia - Burgos - Cáceres - Cádiz - Cantabria - Castellón - Castilla La Mancha - Ceuta - Ciudad Real - Córdoba - Cuenca - El Hierro - Fuerteventura - Galicia - Gipuzkoa - Girona - Gran Canaria - Granada - Guadalajara - Huelva - Huesca - Islas Baleares - Jaén - La Coruña - La Gomera - La Palma - La Rioja - Lanzarote - León - Lleida - Lugo - Madrid - Málaga - Melilla - Murcia - Navarra - Ourense - Palencia - [...] - "
           }
         ]
       }
     },
     {
-      "requestHash": "2f0004bb707659d7c25a0e99e742bce26c40489afbf362aac1ab6eedb591b814",
+      "requestHash": "066cfe416796c16f81fa65485a5f9991d5195b84284b66c8bc79c573b0a2dce9",
       "provider": "Tavily",
-      "query": "Pau Rovelló comediante monólogo 2026 tour dates",
+      "query": "Pau Rovelló comediante stand-up Spain",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://barcelonasecreta.com/pt/an-idiots-guide-to-wine-barcelona-degustacao-de-vinhos-monologo-comedia",
-            "title": "O InterContinental estreia o monólogo mais original de Barcelona: humor ao vivo e uma degustação de seis vinhos",
-            "snippet": "An Idiot’s Guide to Wine: Comedia entre copas\n\n27 June 2026 18:30  + mais datas disponíveis\n\nInterContinental Hotel\n\nA partir de 34,00 €"
+            "url": "https://www.filmaffinity.com/ie/film828276.html",
+            "title": "Rovelló. Un Nadal sense Noel (2007) - Filmaffinity",
+            "snippet": "Rate this movie\n\nAdd to lists\n\nOriginal title\n:   Rovelló. Un Nadal sense Noel aka\n\nAKA\n:    Rovelló. Un Nadal sense Noel\n\nYear\n:   2007\n\nRunning time\n:   70 min.\n\nCountry\n:   Spain Spain\n\nDirector\n:   Antoni D'Ocón\n\nScreenwriter\n:   Antoni D'Ocón, Ramón Herrero\n\nCast\n:   Animation\n\nMusic\n:   Theo Jaskolkowski\n\nCinematography\n:   Animation\n\nProducer\n:   D'Ocon Films\n\nGenre\n:   Animation. Comedy. Kids | Animals. Dogs/Wolves. Christmas\n\nMovie Groups\n:   Scruff [...] Awards\n:   2008: Gaudí Awards: "
           },
           {
-            "url": "https://www.tomaticket.es/es-es/artista/monologo/bizkaia",
-            "title": "MONÓLOGO fechas de gira 2026 2027. MONÓLOGO entradas y conciertos bizkaia ;)",
-            "snippet": "Sábado\n\n14\n\nMarzo\n\nDesde\n\n10 €\n\n-  #### MONÓLOGO EN EL TEATRO DE LOS SUEÑOS ALICANTE, CON JAIME CARAVACA Alicante/Alacant\n\nSábado\n\n14\n\nMarzo\n\nDesde\n\n10 €\n\n-  #### PACO PÁEZ \"MONÓLOGO\" en Málaga\n\nJueves\n\n19\n\nMarzo\n\nMálaga  #### SERGIO ENCINAS - MONÓLOGO - FESTIVAL GACHAS COMEDY 2026 en PICÓN\n\nSábado\n\n21\n\nMarzo\n\nDesde\n\n5.16 €\n\n-  #### RUBÉN GARCÍA - Monólogo (Festival GACHA'S COMEDY) en BELMONTE\n\nViernes\n\n27\n\nMarzo\n\nDesde\n\n5.15 €  #### Monólogo Eva y Qué en Ceuta\n\nViernes\n\n10\n\nAbril\n\nDesde\n\n8 € [."
-          },
-          {
-            "url": "https://tomaticket.es/es-es/artista/monologo",
-            "title": "MONÓLOGO fechas de gira 2026 2027. MONÓLOGO entradas y conciertos",
-            "snippet": "Tendencias\n  + Tenerife Peñon Fest 2026\n  + WAH en Madrid\n  + Sala Galileo Galilei\n  + Huellas Music Fest en Madrid\n  + La Reina del Flow en Tenerife\n Parques\n  + Disneyland Paris\n  + Siam Park\n  + Parque Warner\n  + Loro Parque\n  + Port Aventura\n  + Cueva del Soplao\n  + Forestal Park\n  + Oasis Wildlife\n Cine\n Agenda mensual\n  + Mayo de 2026\n  + Junio de 2026\n  + Julio de 2026\n  + Agosto de 2026\n  + Septiembre de 2026\n  + Octubre de 2026\n Tipo de evento\n  + Museos\n  + Candlelight\n  + Musicales [."
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "af3f8bee0e797a5eb63c8bb2a80cb69ea995d091345e19e885dde8458e18b97a",
-      "provider": "Tavily",
-      "query": "\"Pau Rovelló\" comediante Barcelona",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.linkedin.com/in/jor-rovelló-a6735278",
-            "title": "Jor Rovelló",
+            "url": "https://www.linkedin.com/in/jor-rovell%C3%B3-a6735278",
+            "title": "jor rovelló - actor i músic - companyia jordi pujol",
             "snippet": "# Jor Rovelló\n\nHeadline: actor i músic\nCurrent role: Actor I Músic\nSeniority: Specialist, Other\nLocation: Greater Barcelona Metropolitan Area Spain\nLinkedIn:  · 0 followers\n\n## Experience\n- actor i músic at companyia jordi pujol\n\n## Skills\nactor"
           },
           {
-            "url": "https://www.toppingsandsalads.es/bar-restaurante/restaurante-bar-rovello",
-            "title": "Restaurante Bar Rovelló | Bar en Barcelona, Catalunya",
-            "snippet": "La propuesta culinaria del Bar Rovelló se centra principalmente en la comida casera, un aspecto muy valorado por la mayoría de los clientes que han dejado sus reseñas. Entre los platos más destacados por los comensales se encuentran: [...] 8.4 (419 reviews)\n\nEl Restaurante Bar Rovelló se encuentra ubicado en el Carrer de la Gardènia, 35, en el municipio de Esparreguera, provincia de Barcelona. Este establecimiento, catalogado dentro de la categoría de bar y restaurante, ha logrado posicionarse c"
-          },
-          {
-            "url": "https://menusdeldia.es/esparreguera/el-rovello-bar-restaurant",
-            "title": "El Rovelló bar restaurant — menú del día en Esparreguera",
-            "snippet": "El Rovelló bar restaurant es un restaurante de cocina española en Esparreguera, en la provincia de Barcelona.\n\nMientras tanto, cerca de aquí ya puedes ver el menú del día de Katán Restaurant y Masia Can Cortès. Por ahora no tenemos el menú del día de El Rovelló bar restaurant. [...] Los restaurantes con menú del día más cercanos a El Rovelló bar restaurant son: Katán Restaurant (Terrassa, a 14,6 km), Masia Can Cortès (Sant Cugat del Vallès, a 20,1 km), Més de Vi (Barcelona, a 20,8 km). [...] ## "
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "1d0be0ab06fc68771c77ff656aca47be6a4ae80dad516557242f33cba94a5f79",
-      "provider": "Tavily",
-      "query": "\"Pau Rovelló\" monólogo comedia 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.youtube.com/watch?v=hnbjG1QhgUI",
-            "title": "Paco Páez | Un monólogo muy válido | ESPECIAL 2026",
-            "snippet": "Grabado el 27 de marzo de 2026. El monólogo aborda temas como la inteligencia artificial, el racismo, las relaciones, etc."
-          },
-          {
-            "url": "https://es.teatrebarcelona.com/revista/pau-roca-es-muy-agradecido-llegar-al-corazon-de-la-gente-a-traves-de-la-comedia",
-            "title": "Pau Roca: \"Es muy agradecido llegar al corazón de la gente a través de la comedia\" - Revista Teatro Barcelona",
-            "snippet": "Éste es un monólogo teatral atípico por el formato y por el contenido. En realidad es una experiencia teatral que compartes con el público. Lo haces participar de una manera sencilla, elegante… [...] Siete años después de Pulmons, el primer éxito de la compañía, su montaje más aplaudido, la productora Sixto Paz vuelve a apostar por Les coses excepcionals, un texto de Duncan Macmillan que aborda un tema como es la depresión y el suicidio. El texto es un monólogo que explica cómo un niño de seis a"
-          },
-          {
-            "url": "https://www.instagram.com/p/DUHOg0lgkZm",
-            "title": "🎤😂 VUELVE PAU SAN MARTÍN A GATOLOCO BAR ...",
-            "snippet": "El destacado comediante lleva por priemra vez su show de stand up comedy a Talca. Ven a reír con el rey de las telechacharas del siglo 21 y las ...Read more"
+            "url": "https://www.linkedin.com/in/jor-rovelló-a6735278",
+            "title": "https://www.linkedin.com/in/jor-rovelló-a6735278",
+            "snippet": "# Jor Rovelló\n\nHeadline: actor i músic\nCurrent role: Actor I Músic\nSeniority: Specialist, Other\nLocation: Greater Barcelona Metropolitan Area Spain\nLinkedIn:  · 0 followers\n\n## Experience\n- actor i músic at companyia jordi pujol\n\n## Skills\nactor"
           }
         ]
       }

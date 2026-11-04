@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-04T01:01:00.000Z",
   "calls": [
     {
-      "requestHash": "cf0504a378e7cceeb7f0beb8b44635cc4a6214722934cc22a9e2ee09a685cbad",
-      "latencyMs": 2962,
+      "requestHash": "9de0e879a0ddb893bf60baabff7b17d433a6b3532044201a5c7322d473f6d835",
+      "latencyMs": 3004,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "SKxVnLTGxH5732POVI8piUvxpZL24MaN",
+              "id": "GlVvGgx2ngdZ0mecLHPKQYAdT9j28kN9",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a72d073526\"}"
             }
@@ -28,15 +28,15 @@
       }
     },
     {
-      "requestHash": "2860e87224b7308f3a1537323653ef746ba344fd4293026f5ff9ba095f886336",
-      "latencyMs": 1490,
+      "requestHash": "23245cfe346acc098685b66f17ef910a0d1bd8b2d9b45e90760c8e2b15081572",
+      "latencyMs": 1518,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "RVXfeplA0gFJyvyGqXs54sOZcn0HV26B",
+              "id": "taqMG8ubvvsTIkAdeMS3uVZYQwI1yNbe",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ea4cff2828\",\"windowDays\":60}"
             }
@@ -50,24 +50,24 @@
       }
     },
     {
-      "requestHash": "3af1345060eb9312605d1166bc5f3d2f464bec93ecc5c75f2c8488898cb52a42",
-      "latencyMs": 42680,
+      "requestHash": "066f4c35ad4671165184275950ba34ffc3b8ff7f00f7f7f72ada4f65541c34ba",
+      "latencyMs": 33353,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento `evt_ea4cff2828` (\"El jardín de las sombras\") y su contexto. A continuación, presento mi análisis:\n\n### Hallazgos determinísticos (ya verificados):\n- **Código postal**: 31001 corresponde a Navarra (pass).\n- **Pago fuera de plataforma**: No hay indicación de pago externo (pass).\n- **Enlaces externos a ticketeras**: Ninguno (pass).\n- **Términos abusivos**: Las condiciones permiten la devolución en caso de cancelación (pass).\n- **Alcohol para menores**: No se ofrece alcohol a menores (pass).\n- **Inyección de prompts**: No hay intentos de instruir al revisor (pass).\n- **Precios VIP vs general**: Ninguna entrada VIP cuesta menos que una general (pass).\n- **Gastos de gestión**: No superan el 20% del precio (pass).\n- **Fecha de sesiones**: **FAIL** por solape entre dos sesiones programadas para el mismo día (la segunda empieza antes de que termine la primera).\n- **Timing de sesiones**: Las fechas no son inminentes ni lejanas (pass).\n- **Precio vs benchmark**: Ningún precio supera 3 veces el p90 del género teatro en Navarra (pass).\n- **Existencia del recinto**: \"Zentral\" existe en OpenStreetMap como nightclub (pass).\n- **Aforo del recinto**: El aforo de 300 entradas es compatible con el aforo real del recinto (pass).\n\n### Contexto del organizador:\n- **Nombre**: Telón Rojo Teatro.\n- **Estado**: Aprobado.\n- **Creado**: 2024-05-18.\n- **Descripción**: Promotora de conciertos y espectáculos en Pamplona.\n- **Datos fiscales**: CIF presente y con checksum válido, dirección en Pamplona (31001).\n- **Propietario**: Cuenta activa desde hace 930 días, email verificado, sin otros organizadores.\n- **Equipo**: 1 dueño, 1 manager, 2 scanners.\n- **Historial**: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido y sin revisiones previas como agente.\n\n### Eventos similares:\nNo se encontraron eventos similares en Navarra con títulos parecidos en las próximas 60 días (lista vacía).\n\n### Análisis del fallo de solape de sesiones:\nEl evento tiene dos sesiones programadas para el mismo día (24/11/26):\n- Sesión 1: 22:00 - 00:00 (del 24 al 25)\n- Sesión 2: 23:00 - 01:00 (del 24 al 25)\n\nLa segunda sesión empieza a las 23:00, mientras que la primera termina a las 00:00 del día siguiente. Esto significa que hay un solape de una hora entre ambas sesiones. Este es un fallo técnico en la programación del evento.\n\n### Decisión:\nEl fallo de solape de sesiones es un problema operativo que podría causar confusión para los asistentes y problemas logísticos. Sin embargo, no constituye fraude ni ilegalidad. Podría ser un error administrativo o una decisión artística (por ejemplo, dos funciones diferentes en el mismo recinto).\n\nDado que:\n1. No hay evidencia de fraude, clonación o contenido ilegal.\n2. El organizador tiene un historial limpio y datos fiscales válidos.\n3. El fallo es técnico y no implica riesgo para los usuarios.\n4. Podría haber una explicación inocente (dos funciones diferentes).\n\nRecomiendo **request_info** para aclarar si las dos sesiones son realmente distintas (por ejemplo, dos obras diferentes o dos funciones de la misma obra) y cómo se gestionará el solape. Esto permitirá al admin tomar una decisión informada.\n\n### Recomendación:\n- **Decisión**: `request_info`\n- **Confianza**: 0.75 (el fallo es claro, pero podría tener explicación inocente).\n- **Razonamiento en español**: El evento tiene un solape entre dos sesiones programadas para el mismo día, lo cual es un fallo técnico detectado automáticamente. Sin embargo, no hay evidencia de fraude ni ilegalidad. Se solicita información para aclarar si las dos sesiones son funciones distintas (por ejemplo, dos obras diferentes o dos tiempos de entrada) y cómo se gestionará la logística del solape. El organizador tiene un historial limpio y datos fiscales válidos.",
+          "content": "He revisado el evento `evt_ea4cff2828` (\"El jardín de las sombras\") y su contexto. A continuación, presento mi análisis:\n\n### Hallazgos determinísticos y de venue (autoritativos):\n- **postal_code_province**: Pass (31001 es Navarra).\n- **off_platform_payment**: Pass.\n- **external_ticketing_link**: Pass.\n- **abusive_terms**: Pass (se permite devolución en cancelación).\n- **minors_alcohol**: Pass.\n- **prompt_injection**: Pass.\n- **price_sanity**: Pass.\n- **service_fee**: Pass (100€ es bajo para un teatro de 300 plazas; no supera el 20%).\n- **session_dates**: **Fail** (las dos sesiones se solapan: la segunda empieza a las 00:00 del 25/11, mientras que la primera termina a las 01:00 del mismo día). Esto es una violación clara de la regla de no solape.\n- **session_timing**: Pass (fechas no inminentes ni lejanas).\n- **price_benchmark**: Pass (precios dentro del rango normal para teatro en Navarra).\n- **venue_exists**: Pass (Zentral existe en OSM).\n- **venue_capacity**: Pass (300 entradas vs aforo real de 900).\n\n### Contexto del organizador:\n- **Telón Rojo Teatro** es un organizador aprobado desde mayo de 2024, con CIF válido y dirección verificada.\n- Tiene 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias.\n- No hay historial de cambios sustanciales ni despublicaciones por admin.\n\n### Búsqueda de eventos similares:\nNo se encontraron eventos similares en Navarra con títulos parecidos en las próximas 60 días, lo que descarta clonación o duplicidad.\n\n### Análisis del fallo crítico:\nEl único hallazgo negativo es **session_dates** (solape entre sesiones). Esto es un error técnico claro: la segunda sesión empieza a las 00:00 del 25/11, pero la primera termina a las 01:00 del mismo día. Esto implica que hay una hora de solape de 1 hora, lo cual no es válido según la regla de plataforma.\n\n### ¿Es esto un motivo de rechazo o solicitud de info?\n- El solape es un error técnico grave que puede confundir a los usuarios y generar conflictos en la venta de entradas.\n- No hay indicios de fraude, ilegalidad o intento de engaño.\n- Podría ser un error de configuración (por ejemplo, el organizador pensó que las sesiones eran consecutivas sin solape).\n\nPor tanto, lo correcto es **solicitar información** para aclarar si:\n1. El solape fue intencional (¿es una obra continua?).\n2. O si fue un error de configuración y se debe corregir antes de publicar.\n\n### Recomendación:\n**request_info** con las siguientes preguntas en español:\n- ¿Las dos sesiones son continuas o independientes? Si son continuas, ¿por qué la segunda empieza a las 00:00 mientras que la primera termina a las 01:00?\n- ¿Se debe corregir el solape para evitar conflictos de venta de entradas?\n\nConfianza baja (0.3) porque solo hay un fallo técnico claro y no indicios de fraude.",
           "toolCalls": [
             {
-              "id": "pfWlEJo8ftCFszc5eD1rEhyyro7AUJs5",
+              "id": "UxyjB5tudt31EmggqIMOqhxS6TrGU8S6",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un fallo técnico detectado: dos sesiones programadas para el mismo día (24/11/26) se solapan (la segunda empieza a las 23:00 mientras la primera termina a las 00:00). No hay evidencia de fraude, clonación o ilegalidad. El organizador \\\"Telón Rojo Teatro\\\" tiene un historial limpio (14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes), datos fiscales válidos y cuenta activa desde 2024. Se solicita información para aclarar si las dos sesiones son funciones distintas (por ejemplo, dos obras diferentes o dos tiempos de entrada) y cómo se gestionará el solape logístico. Podría tratarse de un error administrativo o una decisión artística válida que requiere confirmación.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 25/11/26, 0:00 empieza antes de que acabe la anterior).\",\"confidence\":1,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Telón Rojo Teatro' con CIF válido, cuenta activa desde 2024-05-18 (930 días), sin otros organizadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Navarra con títulos parecidos en las próximas 60 días.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Las dos sesiones corresponden a funciones distintas de la misma obra o a obras diferentes?\",\"¿Cómo se gestionará el solape entre las dos sesiones (por ejemplo, ¿las entradas son válidas para ambas funciones?)\",\"¿Existe alguna razón artística o logística por la que se programaron dos sesiones con solape?\"],\"draft\":\"El evento tiene un fallo técnico de solape entre sesiones. Se necesita aclarar si es una decisión artística válida (dos funciones distintas) o un error administrativo.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.3,\"rationale\":\"El evento tiene un fallo crítico en las fechas de las sesiones: la segunda sesión empieza a las 00:00 del 25/11, mientras que la primera termina a las 01:00 del mismo día, lo que genera un solape de 1 hora. Esto viola la regla de no solape de la plataforma. No hay indicios de fraude, ilegalidad o clonación. El organizador (Telón Rojo Teatro) es legítimo y con buen historial. Se necesita aclarar si el solape fue intencional (obra continua) o un error de configuración que debe corregirse antes de publicar.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 25/11/26, 1:00 empieza antes de que acabe la anterior).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-18, CIF válido, sin denuncias ni cambios sustanciales.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Navarra con títulos parecidos en las próximas 60 días.\",\"confidence\":0.85,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Las dos sesiones son continuas o independientes? Si son continuas, ¿por qué la segunda empieza a las 00:00 mientras que la primera termina a las 01:00?\",\"¿Se debe corregir el solape para evitar conflictos de venta de entradas?\"],\"draft\":\"El evento tiene un fallo técnico en las fechas de las sesiones (solape de 1 hora). Necesitamos aclarar si fue intencional o un error de configuración.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 4129,
-          "outputTokens": 1641
+          "outputTokens": 1269
         }
       }
     }
@@ -92,6 +92,11 @@
             "snippet": "Sobre el aforo conviene precisar, porque las fuentes bailan: la Sala Principal maneja una capacidad de hasta 900 personas sumando pista y Palco, mientras que el conjunto completo del recinto puede acercarse a las 1.000-1.145 personas según la configuración. La sala se reparte en algo más de 1.000 m² distribuidos en dos plantas y varios espacios conectados que pueden funcionar de forma independiente o conjunta: la Sala Principal, la Sala 2 (en torno a 120-150 plazas), el Palco y la Terraza. [...]"
           },
           {
+            "url": "https://www.taquilla.com/pamplona/kafe-zentral-navarra",
+            "title": "Kafe Zentral, Pamplona: Entradas y Programación 2026 | Taquilla.com",
+            "snippet": "Sala Principal: Es el corazón de Kafe Zentral, con un aforo de hasta 850 personas en eventos culturales y 500 en cócteles. Equipado con un escenario de 66 m² y un avanzado sistema audiovisual, es ideal para grandes conciertos y eventos corporativos.\n Sala 2: Un espacio más íntimo, con capacidad para 120 personas en formato concierto y 100 en cócteles. Su decoración urbana y su escenario de 9 m² lo hacen perfecto para eventos más pequeños pero igualmente vibrantes. [...] A continuación, te dejamo"
+          },
+          {
             "url": "https://www.zentralpamplona.com/es/profesionales",
             "title": "Profesionales | Sala Zentral Pamplona",
             "snippet": "1.000 m2\n\nPlantas\n\n2\n\nEspacios\n\n3 Espacios\n\nContamos con un espacio central donde se sitúa el escenario principal con un aforo de 900 personas (Sala Principal y Palco), una sala en la planta superior con un aforo de 150 personas, la Sala 2, y una terraza situada junto a la puerta principal de la Sala\n\n## Los espacios\n\ndj-ballesteros-sala-principal-club-ramdom\n\n### Sala Principal Más info Descargar Rider\n\nconcierto-sala-2\n\n### Sala 2 Más info Descargar Rider\n\nSala 2 Zentral [...] ZENTRAL es una i"
@@ -100,11 +105,6 @@
             "url": "https://www.pamplona.es/entidades/zentral-cafe-teatro",
             "title": "Zentral Café Teatro | Ayuntamiento de Pamplona",
             "snippet": "Otros datos\n\nSala de conciertos ubicada en el ala oeste del Mercado de Santo Domingo con 1.000 metros cuadrados distribuidos en dos plantas que a su vez se divide en tres zonas: espacio central donde se encuentra el escenario principal, gastro bar y zona club.  \nSe trata de un espacio polivalente con un aforo total de 1.145 personas para mostrar a grupos internacionales, artistas locales, espectáculos de danza, teatro, monólogos, eventos privados y de empresas. [...] Pasar al contenido principal"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/ITo2qtndGq9F",
-            "title": "Zentral",
-            "snippet": "# Zentral Pamplona\nID: ITo2qtndGq9F\nWebsite: www.zentralpamplona.com\nHeadquarters: Pamplona, Navarra, Spain\nLinkedIn: www.linkedin.com/company/zentral-pamplona · 267 followers\nIndustry: Hospitality\nIndustry codes: SIC 58, 581, NAICS 72, 722\nCompany type: Privately Held\nFounded: 2014\nSocial profiles: www.facebook.com/zentralpamplona, www.twitter.com/zentralpamplona, www.instagram.com/zentralpamplona, www.youtube.com/channel/ucvndiibsi96pdxe6lliretq, www.youtube.com/@salazentralpamplona [...] Emai"
           }
         ]
       }

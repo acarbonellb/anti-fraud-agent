@@ -251,3 +251,26 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
 - **Decision:** keep `review-v5` for its decisions. The next token cut is the budget itself: 4 →
   2 searches, about two fewer steps per review. Measure that against N2, N3 and 06, which need a
   search to decide. Prompt caching on a paid model (#30) cuts the price of the steps that remain.
+
+## E008 — A budget of 2 searches: fewer tokens, worse decisions (reverted)
+
+- **Hypothesis** (#31, from E007): with 2 searches instead of 4, each review has about two
+  fewer steps, so mean input tokens fall towards 20k; N2, N3 and 06, which need a search to
+  decide, still get theirs.
+- **Change** (#31): the default `AGENT_MAX_WEB_SEARCHES` drops from 4 to 2. Prompt `review-v5`.
+- **Before → after** (E007 → E008): gated: **65.5 % → 51.7 % accuracy, 12.5 % → 16.7 %
+  approved-fraud rate**, 0.0 % → 0.0 % auto-approved fraud rate, **Brier 0.253 → 0.365**,
+  autonomy accuracy 72.4 % → 65.5 %. All cases: 61.3 % → 48.4 % accuracy. **Mean input tokens
+  per review: about 28,400 → 21,100 (−26 %)**; latency 38.8 s → 34.8 s.
+- **What went wrong or surprised:**
+  - **Two searches aren't enough for this model.** It spends both on its first guesses and is
+    refused the one that would settle the case. 02 now approves fraud, 06 loses the band's other
+    date and no longer rejects, and N2 drops from approve to request_info. N4, a legitimate
+    event, escalates because its approval came with the budget spent.
+  - **Confidence stopped following the evidence:** Brier is worse than E004's. The gain of
+    E007 is lost.
+  - The token cut is real, but each saved token cost accuracy. Tokens matter for the paid
+    model, but decisions matter more.
+- **Decision:** revert to a budget of 4 and restore E007's recordings (E009). #31 ends at about
+  28k tokens (−28 % from E004). What's left of the cost is the prompt caching of the paid
+  adapter (#30): the steps that remain are mostly a prefix sent again.

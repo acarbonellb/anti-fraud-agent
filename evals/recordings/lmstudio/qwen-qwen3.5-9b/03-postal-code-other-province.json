@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-04T01:01:00.000Z",
   "calls": [
     {
-      "requestHash": "d6d913099669d97a2c7d92ae3a133b3afc974731b90862dec903b3c25f6ffa10",
-      "latencyMs": 2873,
+      "requestHash": "ec2ea164a385394a66b96ae26d95f9d57f75319929d698e331dbf976113019f9",
+      "latencyMs": 8329,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event carefully. The deterministic checks have already run and provided authoritative findings. Let me analyze what I have:\n\n**Key Findings from Deterministic Checks:**\n- **postal_code_province: FAIL** - The postal code 28013 is for Madrid, but the province declared is \"Sevilla\". This is a clear inconsistency.\n- All other checks pass (venue exists, capacity OK, no off-platform payment, no abusive terms, etc.)\n\n**What I need to investigate:**\nThe postal code/province mismatch is a significant red flag. Postal code 28013 is indeed Madrid (specifically the Moncloa-Aravaca district), not Sevilla. This could indicate:\n1. The organizer copied data from another event without updating it\n2. The venue address is incorrect\n3. Potential fraud attempt\n\nI should check the organizer context to see if there are any patterns of issues, and also verify if this artist/organizer has a legitimate presence outside the platform.\n\nLet me get the organizer context first:",
           "toolCalls": [
             {
-              "id": "ThCR2OXpXmaUyL8Gd4owtpN7ia0VBtcd",
+              "id": "pEzIWTHavMkuLH6wJL5VmDGYKWzFpZls",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_97613611b0\"}"
             }
@@ -23,246 +23,160 @@
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 3475,
-          "outputTokens": 42
+          "outputTokens": 262
         }
       }
     },
     {
-      "requestHash": "ae277ebd2ac6061c6a876c8257c3f4ebc1a612971ae69c6de9c9aefc2c4f4d7c",
-      "latencyMs": 1559,
+      "requestHash": "76e619d92cb687ba2cd9e735b05793633171cab16686301f90b567a32bea3e59",
+      "latencyMs": 4896,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Interesting! The organizer context shows:\n- Organizer name: \"Tablao Compás Producciones\"\n- Fiscal address shows postal code 41003 (which is Sevilla)\n- Account age: 930 days (about 2.5 years)\n- No content reports\n- No previous agent reviews\n\nThe organizer's fiscal data shows they're based in Sevilla with postal code 41003, but the event has postal code 28013 (Madrid) with province \"Sevilla\". This is inconsistent.\n\nLet me also check if there are similar events that might be clones:",
           "toolCalls": [
             {
-              "id": "w9Nb8ApZyd8kV7kj7x5uXGITs3qZI2jv",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco artist tour dates 2026\",\"maxResults\":2}"
+              "id": "flJ5KYYwmzhouYApz7TdSxPxgLv5vQFH",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_6c33a8dca1\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3868,
-          "outputTokens": 54
+          "inputTokens": 4088,
+          "outputTokens": 183
         }
       }
     },
     {
-      "requestHash": "4a3410624e905724f587307632fbbe4803e0e69720f3c99e110b91945690e344",
-      "latencyMs": 1382,
+      "requestHash": "f7b884c026c6b98513253c72c5d7a513bfa0bba97e908aa597a5d0229e26b1f5",
+      "latencyMs": 6256,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "No similar events found, so no clone issue there.\n\nNow let me analyze the situation:\n\n**The Critical Issue:**\nThe postal code 28013 is definitively Madrid (Spain's capital), not Sevilla. The province field says \"Sevilla\" but the postal code belongs to Madrid. This is a clear inconsistency that suggests either:\n1. Data entry error\n2. Copy-paste from another event\n3. Potential fraud attempt\n\nThe organizer's fiscal data shows they're actually based in Sevilla (postal code 41003), which contradicts the event's postal code of 28013.\n\nThis is a significant red flag. The postal code/province mismatch is a \"fail\" verdict from the deterministic checks, and this needs to be addressed before approval.\n\nLet me also check if there might be any web presence issues or if the artist exists elsewhere:",
           "toolCalls": [
             {
-              "id": "h0EsH2OgKlauCofPElFfURQJRsQm4YtO",
+              "id": "wGeseOYrDtaihA5slISZ8oboMWTqsP9Q",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco artist\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco Sevilla Teatro Lope de Vega\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4283,
-          "outputTokens": 47
+          "inputTokens": 4358,
+          "outputTokens": 239
         }
       }
     },
     {
-      "requestHash": "5b759d76c0ac08ff24f0d51bfb31d93a044631b216a0d0f05d38108919131a6e",
-      "latencyMs": 1459,
+      "requestHash": "f55b20dca9d54b498528f464e204aca369402e1c157da2628199511cd3abf96a",
+      "latencyMs": 3640,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The web search shows that Teatro Lope de Vega in Sevilla is a real venue (Avenida de María Luisa, s/n, Sevilla), which matches the venue existence check. However, I notice the address in the event data says \"Avenida Honduras s/n\" which might be different from the actual venue address.\n\nLet me also search for the artist to verify their legitimacy:",
           "toolCalls": [
             {
-              "id": "CZwSWik59eR5PYKIwjvuc8RSyuFMjAbw",
+              "id": "blAyFkjkOmnbO9wff7AyvQGL1yYLojwa",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco artista\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4674,
-          "outputTokens": 49
+          "inputTokens": 4941,
+          "outputTokens": 124
         }
       }
     },
     {
-      "requestHash": "40b6373364b8b79c15c5ad4dad59e0eb6e734d0161b58d6677e111204135193f",
-      "latencyMs": 1344,
+      "requestHash": "675f1e7d02cc17b20752ed2ee92a1000bf65e18756575faa202ae87d1e26a9bf",
+      "latencyMs": 3832,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The search shows there's an artist named \"Rocío Belén\" (not \"Rocío del Aljibe\") who is a flamenco artist. The event lists \"Rocío del Aljibe\" as the artist name. This could be:\n1. A different artist with a similar name\n2. A potential impersonation issue\n\nLet me search more specifically for \"Rocío del Aljibe\":",
           "toolCalls": [
             {
-              "id": "HwYuHQAxG7oSRizth0anF30HEHdMpmER",
+              "id": "w1aRUjSiORkxRQx0frsgi479g4yjGbOV",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4761,
-          "outputTokens": 48
+          "inputTokens": 5396,
+          "outputTokens": 135
         }
       }
     },
     {
-      "requestHash": "d804b42c379d7e7dd3e6bcf4811ab22f47efcdd3278d577e66bc03742fff6cbb",
-      "latencyMs": 1491,
+      "requestHash": "f4be4a2d3ffde583cda3021b107c104b08ac3d4311b06cfa533ea1fb57761f2b",
+      "latencyMs": 25610,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I've run out of search attempts. Let me analyze what I have:\n\n**Summary of Findings:**\n\n1. **postal_code_province: FAIL** - The postal code 28013 is Madrid, but the province is declared as \"Sevilla\". This is a clear inconsistency.\n\n2. **Organizer context:**\n   - Organizer: Tablao Compás Producciones\n   - Fiscal address shows postal code 41003 (Sevilla)\n   - Account age: 930 days (legitimate, ~2.5 years)\n   - No content reports\n   - No previous agent reviews\n\n3. **Venue:** Teatro Lope de Vega exists in Sevilla (verified by OpenStreetMap and Wikidata)\n\n4. **Artist:** \"Rocío del Aljibe\" - Web search found \"Rocío Belén\" as a flamenco artist, but no clear evidence of \"Rocío del Aljibe\". This could be a different artist or potentially an impersonation issue.\n\n5. **No similar events** found (no clone issue)\n\n**The Critical Issue:**\nThe postal code/province mismatch is a significant red flag. The event shows:\n- Postal code: 28013 (Madrid)\n- Province: Sevilla\n\nThis inconsistency suggests either data entry error or potential fraud. Given that this is a \"fail\" verdict from the deterministic checks, and I cannot find clear evidence that this is an innocent mistake (the organizer's fiscal data shows they're in Sevilla with postal code 41003), this needs to be addressed.\n\nAdditionally, the artist name \"Rocío del Aljibe\" doesn't appear in web searches - only \"Rocío Belén\" appears as a flamenco artist. This could indicate:\n- The artist is new/not well-known\n- Potential impersonation of another artist\n- Data copied from elsewhere\n\nGiven the postal code/province mismatch (a hard fail) and the lack of clear evidence about the artist's legitimacy, I should request information to clarify these issues before making a final decision.",
           "toolCalls": [
             {
-              "id": "ttF9rZT6xJeqm4qvOHakoxUdivTbaZvx",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist Sevilla\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5117,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "2dce815b7947678bedbaaadef2fd43eb1d44731b74df5a1f7f0a01ca475fffbc",
-      "latencyMs": 1512,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "IjShdp6RFj9T0b2ZOWY508l4cBtQwKa7",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Rocío del Aljibe\\\" flamenco artist name origin\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5488,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "93cccb37d2dee6aef07b4b87e6e43e9c7cd064c3501a73f37f9f89824a3e847d",
-      "latencyMs": 26635,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Problema de código postal vs provincia (ya detectado):** El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esto ya fue marcado como \"fail\" en los checks determinísticos y es un error administrativo claro.\n\n2. **Organizador:** Tablao Compás Producciones parece legítimo:\n   - Cuenta aprobada desde mayo de 2024 (930 días)\n   - Datos fiscales válidos (CIF con checksum correcto)\n   - Dirección en Sevilla con código postal 41003 (consistente)\n   - Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido\n   - Equipo completo\n\n3. **Artista \"Rocío del Aljibe\":** No he encontrado ninguna referencia a este artista en internet. Las búsquedas devolvieron resultados sobre otras artistas flamencas (Rocío Molina, Rocío Conde, Rocío Márquez, Rocío Garrido), pero ninguna con el nombre exacto \"Rocío del Aljibe\". Esto es preocupante porque:\n   - Podría ser un artista ficticio\n   - Podría ser una copia de otro evento\n   - Podría ser un intento de fraude\n\n4. **Fechas:** El evento está programado para el 24 de noviembre de 2026, lo cual es consistente con la fecha de publicación (3 de noviembre de 2026).\n\n5. **Precio y aforo:** Los precios están dentro del benchmark y el aforo es compatible con el teatro.\n\n**Decisión:**\n\nAunque el organizador parece legítimo y los checks técnicos pasan, la falta de información sobre el artista \"Rocío del Aljibe\" en internet es una señal de alerta importante. Podría tratarse de:\n- Un artista nuevo sin presencia web (menos probable para un evento flamenco profesional)\n- Un nombre inventado para fraude\n- Una copia malintencionada\n\nDado que no puedo verificar la existencia real del artista y esto es crucial para un evento cultural, necesito solicitar información adicional.",
-          "toolCalls": [
-            {
-              "id": "4P7fPX7fHWtpQFlpwPJ6675IKKJBxSfe",
+              "id": "v7tDvxj286SYFTci95dLZHyCEM4zvcZA",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El organizador Tablao Compás Producciones tiene un historial limpio y datos fiscales válidos, pero el artista \\\"Rocío del Aljibe\\\" no aparece en ninguna búsqueda web (solo resultados sobre otras artistas flamencas con nombres similares: Rocío Molina, Conde, Márquez, Garrido). Esto genera dudas sobre la autenticidad del artista. Además, hay un error administrativo en el código postal (28013 es de Madrid, no Sevilla). Solicitamos información para verificar la existencia real del artista y aclarar el error de código postal.\",\"findings\":[{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"El artista 'Rocío del Aljibe' no aparece en búsquedas web; solo resultados sobre otras artistas flamencas (Rocío Molina, Conde, Márquez, Garrido). Podría ser un nombre ficticio o mal escrito.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://rociopozo.com/en/tour-dates\",\"title\":\"Tour dates · Rocío Pozo Flamenco Dance Company\"},{\"url\":\"https://www.rociocondeflamenco.com/videos\",\"title\":\"VIDEOS | RocioCondeFlamenco\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Error administrativo que ya fue detectado en los checks determinísticos.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podría confirmar la existencia real del artista 'Rocío del Aljibe' y proporcionar enlaces a su sitio web oficial o redes sociales?\",\"¿Por qué el código postal del evento es 28013 (Madrid) cuando el recinto está en Sevilla? ¿Es un error tipográfico?\",\"¿Tiene el artista presencia en otros eventos o recitales flamencos fuera de esta plataforma?\"],\"draft\":\"Solicitamos información para verificar la autenticidad del artista y corregir el error de código postal antes de aprobar el evento.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una inconsistencia crítica: el código postal 28013 corresponde a Madrid, pero la provincia declarada es «Sevilla». Esta discrepancia ha sido marcada como \\\"fail\\\" en los checks determinísticos. Además, el nombre del artista \\\"Rocío del Aljibe\\\" no aparece en búsquedas web (solo se encuentra \\\"Rocío Belén\\\" como artista flamenco), lo que podría indicar un problema de identidad o copia de datos. El organizador tiene historial limpio y fiscalidad válida, pero la inconsistencia postal requiere aclaración antes de aprobar.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 es de Madrid, pero la provincia declarada es «Sevilla». Esta inconsistencia indica posible error de datos o intento de fraude.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"El nombre del artista «Rocío del Aljibe» no aparece en búsquedas web. Solo se encuentra «Rocío Belén» como artista flamenco reconocido. Esto podría indicar un artista nuevo, copia de datos o posible impersonación.\",\"confidence\":0.65,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué el código postal del evento es 28013 (Madrid) cuando la provincia declarada es Sevilla? ¿Es un error de datos o corresponde a una dirección diferente?\",\"¿Quién es exactamente el artista «Rocío del Aljibe»? ¿Tiene presencia en redes sociales, web propia o ha actuado anteriormente fuera de la plataforma?\",\"¿Por qué la dirección del evento muestra «Avenida Honduras s/n» cuando el Teatro Lope de Vega en Sevilla está en Avenida de María Luisa?\"],\"draft\":\"El evento necesita aclarar las inconsistencias antes de su aprobación.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5575,
-          "outputTokens": 1021
+          "inputTokens": 5567,
+          "outputTokens": 974
         }
       }
     }
   ],
   "searches": [
     {
-      "requestHash": "e9c9c54cd0e8a1ee75d6f04765d959b22d85971b68929a88504e177bd1b8612d",
+      "requestHash": "648340cfc0083631c4c647fa0f4fc2b038298807c46873bbf53485456d251b51",
       "provider": "Tavily",
-      "query": "Rocío del Aljibe flamenco artist tour dates 2026",
+      "query": "Rocío del Aljibe flamenco Sevilla Teatro Lope de Vega",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://rociopozo.com/en/tour-dates",
-            "title": "Tour dates · Rocío Pozo Flamenco Dance Company",
-            "snippet": "1. 21 November 2026 · 19:00Si duele no es amorSalón de actos del Ayuntamiento · Alajeró (La Gomera)coming soon\n2. 22 November 2026 · 19:00De Jerez a Gran CanariaParaninfo de la ULL · La Lagunatickets\n3. 28 November 2026CandelaTeatro Juan Ramón Jiménez · Teldecoming soon\n4. 12 December 2026 · 20:00LIBERTÉTeatro Guiniguada · Las Palmas de Gran Canariatickets\n5. 30 January 2027LunaAuditorio de Los Realejos · Los Realejoscoming soon\n\n## Tickets [...] Those listed as On tour in the repertoire. LIBERT"
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/evento/programacion-teatro-lope-de-vega-de-sevilla",
+            "title": "Programación Teatro Lope de Vega de Sevilla",
+            "snippet": "Septiembre 2026 —Bienal de Flamenco de Sevilla – Entradas [...] Pasar al contenido principal \n\nLogo\n\nSevilla\n\nArtes escénicas\n\nTeatro Lope de Vega\n\nProgramación Teatro Lope de Vega de Sevilla\n\nAvenida de María Luisa, s/n, Sevilla. Sevilla\n\n01 de Septiembre del 2026 - 30 de Junio del 2027\n\nConsultar actividad y día.\n\nImagen\n\nteatro-lope-de-vega-sevilla-espana.jpg\n\nNota informativa\n\nSe recomienda confirmar siempre horarios, fechas y disponibilidad de entradas en la fuente oficial del Teatro Lope d"
           },
           {
-            "url": "https://www.instagram.com/reel/DdGj582IuQJ",
-            "title": "Instagram",
-            "snippet": "Photo by Love Flamenco World Tour | Espectáculo de Flamenco on September 30, 2026. May be an image of poster, magazine and text.\n\nVideo by Love Flamenco World Tour | Espectáculo de Flamenco on September 29, 2026. May be an image of clarinet, violin, tambourine, costume and text.\n\nPhoto by Love Flamenco World Tour | Espectáculo de Flamenco on September 29, 2026. May be an image of poster, magazine and text.\n\nSee more posts\n\n--- [...] Video by Love Flamenco World Tour | Espectáculo de Flamenco on "
+            "url": "https://en.andalucia.org/listing/teatro-lope-de-vega/10597101",
+            "title": "Teatro Lope de Vega",
+            "snippet": "#andalusiancrush\n\nWelcome to the Andalucía Tourist Community. A Meeting point between travellers and tourism professionals. An exceptional showcase for everything concerning tourism in Andalucía. Copyright 2011. Empresa Pública para la Gestión del Turismo y del Deporte de Andalucía, S. A. Consejería de Turismo yAndalucía Exterior de la Junta de Andalucía.\n\n© 2026 Simpleview. All Rights Reserved\n\nMade by Simpleview [...] Andalucia Tourist Board - Turismo Andaluz\n\nYour browser is not supported for"
           }
         ]
       }
     },
     {
-      "requestHash": "4bc7aa7517cfad24bc9125b0b25f4d9b37a314cb6f6f803efc03dc634a5c878e",
+      "requestHash": "3bf32abb2c12b7f405069f8766a114c767139548ed472f16f8f1f3418cc2e057",
       "provider": "Tavily",
-      "query": "Rocío del Aljibe flamenco artist",
+      "query": "Rocío del Aljibe flamenco artista",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://rociomolina.net/en/caida-del-cielo-2",
-            "title": "Caida del cielo - ROCIO MOLINA",
-            "snippet": "2024 Rocío Molina. Todos los derechos reservados.\n\nPolítica de Privacidad – Aviso Legal\n\n# Caída del Cielo\n\n## SYNOPSIS\n\nThe type of flamenco that Rocío Molina proposes in Caída del Cielo has something important, she goes deep into her roots and at the same time, freely, she brings her style of flamenco face to face with other languages and ways of interpreting the scene; while being aware that flamenco is an expression of freedom, and it cannot be and should not be domesticated. [...] A big tha"
+            "url": "https://www.revistalaflamenca.com/la-nueva-voz-rocio-belen",
+            "title": "La nueva voz del flamenco, se llama Rocío Belén - Revista La Flamenca",
+            "snippet": "Una gran artista que tiene en su haber más de 30 premios de flamenco de primer nivel. Entre todos ellos podemos señalar, por ejemplo, el Premio Joven del Concurso Nacional de Cante Jondo Antonio Mairena; el Primer Premio en el Concurso de Cante por Taranta y Tarantos, de la Fundación Cristina Heeren; el Premio a la mejor Malagueña por la Federación Provincial de Peñas Flamencas de Málaga; el Primer Premio del Certamen Nacional de Saetas “Ciudad de la Unión”; el Primer Premio de Paco Toronjo en ["
           },
           {
-            "url": "https://www.instagram.com/rocioconde",
-            "title": "Rocío Conde (@rocioconde) • Instagram photos and videos",
-            "snippet": "Log In\n\nSign Up\n\n 3,083 followers\n 4,044 following\n\nRocío Condeshe/her\n\nrocioconde\n\nFlamenco dancer and instructor💃🏻  \nClasses in Oakville for children and adults  \nVenezolana💛💙❤️ in Canada  \nTORONTO📍\n\n rocioconde's highlight story picture\n\n  Flamenco\n rocioconde's highlight story picture\n\n  Manuela 4 Gaza\n rocioconde's highlight story picture\n\n  Flamencura\n rocioconde's highlight story picture\n\n  Manuela\n rocioconde's highlight story picture\n\n  Pregnancy\n rocioconde's highlight story pictu"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "c2c8678afa165ff2e6b61c9a7af70416a55f8c91c04ca4d4c674b3669637f9e4",
-      "provider": "Tavily",
-      "query": "\"Rocío del Aljibe\" flamenco",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.rociocondeflamenco.com/videos",
-            "title": "VIDEOS | RocioCondeFlamenco",
-            "snippet": "Ontario Arts Council logo\nProvince of Ontario logo [...] HOME\n\nBIO\n\nCLASSES\n\nGALLERY\n\nVIDEOS\n\nCONTACT\n\nMore\n\nInstagram\n\n# VIDEOS\n\nRocio Conde - Alegrias - 'De Ida y Vuelta' at Aga Khan Museum's Duende Festival (2021)\n\n### Rocio Conde - Alegrias - 'De Ida y Vuelta' at Aga Khan Museum's Duende Festival (2021)\n\nRocio Conde - Tientos (Septiembre, 2014)\n\n### Rocio Conde - Tientos (Septiembre, 2014)\n\nGuajira Flamenca - Rocio Conde - Certamen Flamenco USA 2017\n\n### Guajira Flamenca - Rocio Conde - Cert"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=rLSr7boSs1k",
-            "title": "Rocío de Dios y Rafa Ruz - 26 de marzo de 2022",
-            "snippet": "Recital Flamenco - Rocío de Dios y Rafa Ruz - 26 de marzo de 2022 en la Peña Flamenca \"Fosforito\" de Puertollano."
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "13281e9282e1c24842bf9a40c6f77572304c2b3c1da80f96d379303d1b90371b",
-      "provider": "Tavily",
-      "query": "\"Rocío del Aljibe\" flamenco artist Sevilla",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.facebook.com/FundacionCajasol/videos/roc%C3%ADo-garrido-estren%C3%B3-en-el-teatro-cajasol-sevilla-1405-ecos-del-tiempo-el-espec/981255428143502",
-            "title": "Rocío Garrido estrenó en el Teatro Cajasol Sevilla '1405 ...",
-            "snippet": "Rocío Garrido estrenó en el Teatro Cajasol Sevilla '1405 Ecos del tiempo', el espectáculo con el que se incorporó al ciclo 'Flamenco Aparte'"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=HfoLfUN4d3Y",
-            "title": "Rocío Márquez & Fahmi Alqhai - Diálogos",
-            "snippet": "Rocío Márquez & Fahmi Alqhai - Diálogos | La Bienal de Flamenco de Sevilla 2016 @RocioMarquezOficial. Teatro Lope de Vega 1990 (Sevilla) - 1080"
+            "url": "https://www.youtube.com/watch?v=5jgfWENN31o",
+            "title": "Flamenco Vibes | Rocío Belén",
+            "snippet": "### Transcript\n[0:08] [Aplausos]\n[0:21] Hola, amigas y amigos aficionados al flamenco.\n[0:25] un día más con todos ustedes aquí en en nuestro programa aquí en Doñana Comunicación, nuestro programa de Sentir flamenco y si\n[0:35] un día si con un artista estoy a gusto, con otro más y con otro más, siempre hablando de artistas locales, con todos\n[0:42] los artistas en general. Pero hoy precisamente también estoy a gustísimo con un artista que prácticamente [...] [15:54] hablando de tu trayectoria, "
           }
         ]
       }
