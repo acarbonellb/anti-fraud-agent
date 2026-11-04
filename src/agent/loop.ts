@@ -234,14 +234,12 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       }
 
       const repeatKey = tool.repeatKey?.(args.value);
-      if (repeatKey !== undefined) {
-        const key = `${tool.name}:${repeatKey}`;
-        if (askedBefore.has(key)) {
-          trace.push({ tool: call.name, ok: false, error: "REPEATED_CALL" });
-          messages.push(toolResult(call, REPEATED_CALL));
-          continue;
-        }
-        askedBefore.add(key);
+      const askedKey =
+        repeatKey === undefined ? undefined : `${tool.name}:${repeatKey}`;
+      if (askedKey !== undefined && askedBefore.has(askedKey)) {
+        trace.push({ tool: call.name, ok: false, error: "REPEATED_CALL" });
+        messages.push(toolResult(call, REPEATED_CALL));
+        continue;
       }
 
       if (tool.kind === "web_search") {
@@ -256,6 +254,8 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
 
       try {
         const output = await tool.execute(args.value);
+        // Only a call that ran has an answer above to point a repeat to.
+        if (askedKey !== undefined) askedBefore.add(askedKey);
         for (const url of tool.sources?.(output) ?? []) retrievedUrls.add(url);
         trace.push({ tool: call.name, ok: true });
         messages.push(toolResult(call, fence.wrap(call.name, output)));

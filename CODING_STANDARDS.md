@@ -21,7 +21,8 @@ linter can check lives in the ESLint config; this file holds what needs judgemen
   deterministic check declares whether it is a `rule` or a `heuristic`. When in doubt it is a
   heuristic: a false rule lets a request resolve on its own.
 - **Limits are enforced by the loop**, not by the prompt: a run that reaches a limit escalates
-  with the reason recorded.
+  with the reason recorded. The search budget is the soft one: a search past it is refused, the
+  model still decides, and only an approval escalates (ADR 0015).
 
 ## Contract and data
 

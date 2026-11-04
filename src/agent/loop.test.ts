@@ -413,6 +413,23 @@ describe("sources from web search (ADR 0015)", () => {
     expect((await result).autonomy.autonomy).toBe("escalated");
   });
 
+  it("doesn't take a refused search for one already answered", async () => {
+    const { provider, result } = run(
+      [
+        callTool("web_search", { query: "evento original ticketera" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("web_search", { query: "noche de jazz" }),
+        callTool("submit_recommendation", approval),
+      ],
+      { tools: [search] },
+    );
+    await result;
+    const again = provider.requests[3]?.messages.at(-1);
+    expect(again?.role === "tool" && again.content).toContain(
+      "No searches left",
+    );
+  });
+
   it("answers a repeated search without running it or spending the budget", async () => {
     const { provider, result } = run(
       [
