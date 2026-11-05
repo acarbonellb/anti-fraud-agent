@@ -8,6 +8,7 @@ import type {
   CompletionRequest,
   CompletionResponse,
   LlmProvider,
+  TokenUsage,
   ToolCall,
 } from "./types.js";
 
@@ -43,7 +44,7 @@ let nextCallId = 0;
 export function callTool(
   name: string,
   args: unknown,
-  usage = { inputTokens: 100, outputTokens: 20 },
+  usage: TokenUsage = { inputTokens: 100, outputTokens: 20 },
 ): CompletionResponse {
   const call: ToolCall = {
     id: `call_${String((nextCallId += 1))}`,
@@ -60,7 +61,7 @@ export function callTool(
 /** A response with text and no tool call. */
 export function sayText(
   text: string,
-  usage = { inputTokens: 100, outputTokens: 20 },
+  usage: TokenUsage = { inputTokens: 100, outputTokens: 20 },
 ): CompletionResponse {
   return {
     message: { role: "assistant", content: text, toolCalls: [] },

@@ -433,7 +433,7 @@ El agente **no necesita ninguna variable de Satella**: solo la URL base (`SATELL
 
 - **Cloud Run Job** + **Cloud Scheduler** (cada 5 a 10 minutos): la pasada de revisión.
 - **Cloud Run service**: el dashboard, «revisar ahora» y, si se activa, el receptor del aviso de Satella (que verifica la firma HMAC y descarta duplicados).
-- **Base de datos del agente**: Cloud SQL for PostgreSQL, o un proyecto propio de Neon si se quiere coste cero en reposo. Sus migraciones viven en el repo del agente.
+- **Base de datos del agente**: Firestore (edición Standard, base `(default)`), por su API REST y con la identidad del servicio en Cloud Run (ADR 0016, que sustituye a la idea inicial de Cloud SQL o Neon).
 - **Secret Manager**: claves de LLM y de herramientas externas (`GEOCODING_API_KEY`, `WEB_SEARCH_API_KEY`, `REVERSE_IMAGE_API_KEY`).
 - **Cuenta de servicio propia** para el job y otra para el dashboard, con los permisos mínimos. La del job es la que se identifica ante Satella (§3.1).
 - **Observabilidad**: logs estructurados con `runId` y `correlationId` (que se propaga a Satella en una cabecera) y trazas por herramienta.
