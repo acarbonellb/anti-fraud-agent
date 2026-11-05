@@ -51,10 +51,8 @@ import {
   writeRecording,
   writeToolRecording,
 } from "../src/evals/store.js";
-import {
-  createConfiguredProvider,
-  PAID_PROVIDERS,
-} from "../src/providers/from-config.js";
+import { createConfiguredProvider } from "../src/providers/from-config.js";
+import { isPaidProvider } from "../src/providers/pricing.js";
 import { createTavilySearch } from "../src/search/tavily.js";
 import { createVenueThrottles } from "../src/venue/venue-checks.js";
 
@@ -167,7 +165,7 @@ async function record(ids: readonly string[]): Promise<void> {
     );
     process.exit(2);
   }
-  if (PAID_PROVIDERS.has(config.llm.provider) && !paid) {
+  if (isPaidProvider(config.llm.provider) && !paid) {
     console.error(
       `✗ ${config.llm.provider} bills per token: pass --paid to record (CLAUDE.md §8).`,
     );
@@ -188,7 +186,8 @@ async function record(ids: readonly string[]): Promise<void> {
   );
   console.log(
     `Recording ${String(cases.length)} case(s) × run(s) ${runs.join(", ")} with ${provider.provider}/${provider.model}` +
-      (PAID_PROVIDERS.has(provider.provider)
+      // Only anthropic takes an effort.
+      (provider.provider === "anthropic"
         ? ` (effort ${config.llm.effort})…`
         : "…"),
   );

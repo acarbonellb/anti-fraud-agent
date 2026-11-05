@@ -16,10 +16,8 @@ import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { createTavilySearch } from "../src/search/tavily.js";
 import { webSearchTool } from "../src/search/web-search-tool.js";
-import {
-  createConfiguredProvider,
-  PAID_PROVIDERS,
-} from "../src/providers/from-config.js";
+import { createConfiguredProvider } from "../src/providers/from-config.js";
+import { isPaidProvider } from "../src/providers/pricing.js";
 import { createSatellaClient } from "../src/satella-client/client.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
 import { startMockSatella } from "../src/satella-client/mock-server.js";
@@ -30,10 +28,7 @@ import {
 
 loadLocalEnvFile();
 const config = loadConfig(process.env);
-if (
-  PAID_PROVIDERS.has(config.llm.provider) &&
-  !process.argv.includes("--paid")
-) {
+if (isPaidProvider(config.llm.provider) && !process.argv.includes("--paid")) {
   console.error(
     `✗ ${config.llm.provider} bills per token: pass --paid to spend (CLAUDE.md §8).`,
   );

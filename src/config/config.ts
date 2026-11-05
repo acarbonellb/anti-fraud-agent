@@ -13,6 +13,10 @@ const positiveIntWithDefault = (fallback: number) =>
     z.coerce.number().int().positive().default(fallback),
   );
 
+/** `anthropic` through its SDK; the local ones through the OpenAI-compatible adapter. */
+export const LLM_PROVIDERS = ["lmstudio", "ollama", "anthropic"] as const;
+export type LlmProviderName = (typeof LLM_PROVIDERS)[number];
+
 const textWithDefault = (fallback: string) =>
   z.preprocess(unsetIfEmpty, z.string().min(1).default(fallback));
 
@@ -30,7 +34,12 @@ const envSchema = z
     ),
     // Phase 1 runs a local open-source model through an OpenAI-compatible
     // server (ADR 0008); the defaults point at LM Studio on this machine.
-    AGENT_LLM_PROVIDER: textWithDefault("lmstudio"),
+    // Closed: an unknown name used to fall through to the local adapter and
+    // send AGENT_LLM_API_KEY to AGENT_LLM_BASE_URL (#57).
+    AGENT_LLM_PROVIDER: z.preprocess(
+      unsetIfEmpty,
+      z.enum(LLM_PROVIDERS).default("lmstudio"),
+    ),
     AGENT_LLM_BASE_URL: z.preprocess(
       unsetIfEmpty,
       z.url({ protocol: /^https?$/ }).default("http://localhost:1234/v1"),
@@ -98,7 +107,7 @@ export interface Config {
     firestoreEmulatorHost: string | undefined;
   };
   llm: {
-    provider: string;
+    provider: LlmProviderName;
     baseUrl: string;
     model: string;
     /** Local servers need none. A secret: never logged. */

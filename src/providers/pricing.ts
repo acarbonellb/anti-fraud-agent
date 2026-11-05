@@ -43,7 +43,16 @@ const PRICES: Readonly<Record<string, ModelPrice>> = {
 };
 
 /** Models that run on this machine: no bill. */
-const LOCAL_PROVIDERS: ReadonlySet<string> = new Set(["lmstudio"]);
+const LOCAL_PROVIDERS: ReadonlySet<string> = new Set(["lmstudio", "ollama"]);
+
+/**
+ * Whether a provider bills per token, so running it needs the author's
+ * go-ahead (`--paid`, CLAUDE.md §8). Everything not known to be local is
+ * paid: a provider added later can't spend by default (#57).
+ */
+export function isPaidProvider(provider: string): boolean {
+  return !LOCAL_PROVIDERS.has(provider);
+}
 
 /**
  * The cost of a run's calls, rounded once at the end. Null for a model with

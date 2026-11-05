@@ -8,9 +8,6 @@ import { createAnthropicProvider } from "./anthropic/adapter.js";
 import { createOpenAiCompatibleProvider } from "./openai-compatible/adapter.js";
 import type { LlmProvider } from "./types.js";
 
-/** Providers that bill per token: recording with them needs a go-ahead. */
-export const PAID_PROVIDERS: ReadonlySet<string> = new Set(["anthropic"]);
-
 export function createConfiguredProvider(llm: Config["llm"]): LlmProvider {
   if (llm.provider === "anthropic") {
     if (llm.apiKey === undefined) {

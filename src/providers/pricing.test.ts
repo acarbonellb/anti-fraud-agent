@@ -3,7 +3,7 @@
 // model as unknown rather than free. Pure function; fakes nothing.
 import { describe, expect, it } from "vitest";
 
-import { costMicros, worstCaseMicros } from "./pricing.js";
+import { costMicros, isPaidProvider, worstCaseMicros } from "./pricing.js";
 
 describe("cost of model calls", () => {
   it("prices Haiku 5.5 input, cache and output at its rates", () => {
@@ -42,6 +42,17 @@ describe("cost of model calls", () => {
     const call = { inputTokens: 1000, outputTokens: 100 };
     expect(costMicros("lmstudio", "qwen/qwen3.5-9b", [call])).toBe(0);
     expect(costMicros("openai", "some-model", [call])).toBeNull();
+    expect(costMicros("ollama", "llama3.2", [call])).toBe(0);
+  });
+});
+
+describe("which providers bill", () => {
+  it("treats every provider as paid except the local ones (#57)", () => {
+    expect(isPaidProvider("lmstudio")).toBe(false);
+    expect(isPaidProvider("ollama")).toBe(false);
+    expect(isPaidProvider("anthropic")).toBe(true);
+    // One added later is paid until someone says otherwise.
+    expect(isPaidProvider("openai")).toBe(true);
   });
 });
 
