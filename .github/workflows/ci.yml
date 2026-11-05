@@ -95,12 +95,13 @@ jobs:
           docker push "$IMAGE"
       # The job's whole configuration is here, so a change to the model, the
       # effort or the budget is reviewed in a PR (ADR 0008, amendment of #42).
-      # `--paid` is the go-ahead to call a paid provider. Satella's variables
-      # join in #9; until then the pass exits with SATELLA_NOT_CONFIGURED.
+      # `--paid` is the go-ahead to call a paid provider. Satella's origin and
+      # audience aren't credentials, but they are secrets so the staging host
+      # stays out of these logs, which are public (ADR 0018, amendment of #9).
       - name: Point the job at it
         run: |
           gcloud run jobs update pass --region="$REGION" --quiet \
             --image="$IMAGE" \
             --args=--paid \
             --set-env-vars="AGENT_LLM_PROVIDER=anthropic,AGENT_LLM_MODEL=claude-haiku-5-5,AGENT_LLM_EFFORT=medium,AGENT_DAILY_BUDGET_MICROS=2000000,FIRESTORE_PROJECT_ID=${{ vars.GCP_PROJECT_ID }}" \
-            --set-secrets="AGENT_LLM_API_KEY=AGENT_LLM_API_KEY:latest,TAVILY_API_KEY=TAVILY_API_KEY:latest"
+            --set-secrets="AGENT_LLM_API_KEY=AGENT_LLM_API_KEY:latest,TAVILY_API_KEY=TAVILY_API_KEY:latest,SATELLA_STAGING_BASE_URL=SATELLA_STAGING_BASE_URL:latest,SATELLA_AGENT_API_AUDIENCE=SATELLA_AGENT_API_AUDIENCE:latest"

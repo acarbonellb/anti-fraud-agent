@@ -53,6 +53,17 @@ const envSchema = z
     // `webSearch` (ADR 0015 point 8). Optional: without it the agent runs
     // without web search, and the evals can't record.
     TAVILY_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
+    // Satella staging (#9, brief §13). The origin, without `/api/agent/v1`.
+    // Unset: the pass has no Satella and runs only against the mock.
+    SATELLA_STAGING_BASE_URL: z.preprocess(
+      unsetIfEmpty,
+      z.url({ protocol: /^https$/ }).optional(),
+    ),
+    // The `aud` Satella requires in the agent's Google identity token.
+    SATELLA_AGENT_API_AUDIENCE: z.preprocess(
+      unsetIfEmpty,
+      z.string().min(1).optional(),
+    ),
   })
   // A paid provider fails at startup without its key, not on the first call.
   .refine(
@@ -60,6 +71,16 @@ const envSchema = z
       env.AGENT_LLM_PROVIDER !== "anthropic" ||
       env.AGENT_LLM_API_KEY !== undefined,
     { path: ["AGENT_LLM_API_KEY"], message: "required by anthropic" },
+  )
+  // Half a Satella would only fail on the first call, after the pass started.
+  .refine(
+    (env) =>
+      (env.SATELLA_STAGING_BASE_URL === undefined) ===
+      (env.SATELLA_AGENT_API_AUDIENCE === undefined),
+    {
+      path: ["SATELLA_AGENT_API_AUDIENCE"],
+      message: "set with SATELLA_STAGING_BASE_URL",
+    },
   );
 
 export interface Config {
@@ -88,6 +109,8 @@ export interface Config {
     /** A secret: never logged. Undefined: no web search. */
     tavilyApiKey: string | undefined;
   };
+  /** Undefined: no Satella configured, so only the mock can be reviewed. */
+  satella: { baseUrl: string; audience: string } | undefined;
 }
 
 export interface ConfigIssue {
@@ -145,5 +168,13 @@ export function loadConfig(
       effort: parsed.AGENT_LLM_EFFORT,
     },
     webSearch: { tavilyApiKey: parsed.TAVILY_API_KEY },
+    satella:
+      parsed.SATELLA_STAGING_BASE_URL === undefined ||
+      parsed.SATELLA_AGENT_API_AUDIENCE === undefined
+        ? undefined
+        : {
+            baseUrl: parsed.SATELLA_STAGING_BASE_URL,
+            audience: parsed.SATELLA_AGENT_API_AUDIENCE,
+          },
   };
 }

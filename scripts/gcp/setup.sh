@@ -9,9 +9,10 @@
 #
 #   SATELLA_GCP_PROJECT=<id> scripts/gcp/setup.sh
 #
-# It never writes a secret's value: the two secrets are created empty, and the
+# It never writes a secret's value: the secrets are created empty, and the
 # closing notes print the commands that add their values. It also never resumes
-# the Scheduler trigger: that is #9's step.
+# the Scheduler trigger: that waits for a pass run on purpose against staging
+# (ADR 0018, amendment of #9).
 set -euo pipefail
 
 PROJECT="${SATELLA_GCP_PROJECT:?set SATELLA_GCP_PROJECT (direnv loads it from .env.gcloud)}"
@@ -21,7 +22,9 @@ JOB="pass"
 REGISTRY="agent"
 POOL="github"
 PROVIDER="anti-fraud-agent"
-SECRETS=(AGENT_LLM_API_KEY TAVILY_API_KEY)
+# Satella's origin and audience aren't credentials: they are secrets so the
+# staging host stays out of the public CI logs (ADR 0018, amendment of #9).
+SECRETS=(AGENT_LLM_API_KEY TAVILY_API_KEY SATELLA_STAGING_BASE_URL SATELLA_AGENT_API_AUDIENCE)
 # Google's sample job image, until the first deploy replaces it: a job can't
 # exist without an image, and the deploy account may update this job only.
 PLACEHOLDER_IMAGE="us-docker.pkg.dev/cloudrun/container/job:latest"
@@ -89,7 +92,7 @@ for name in pass-job pass-scheduler deployer; do
   fi
 done
 
-step "The job's account: Firestore and its two secrets"
+step "The job's account: Firestore and its secrets"
 g projects add-iam-policy-binding "$PROJECT" --condition=None \
   --member="serviceAccount:$(sa pass-job)" --role=roles/datastore.user >/dev/null
 for secret in "${SECRETS[@]}"; do
@@ -169,7 +172,12 @@ note "1. Add each secret's value, without echoing it (the read is silent):"
 for secret in "${SECRETS[@]}"; do
   note "   read -rs v && printf '%s' \"\$v\" | gcloud --configuration=satella --project=\"\$SATELLA_GCP_PROJECT\" secrets versions add $secret --data-file=- ; unset v"
 done
-note "2. Merge to main: CI builds the image and points the job at it."
-note "3. Run it once on purpose; it should exit with SATELLA_NOT_CONFIGURED:"
+note "2. Give Satella staging the job's identity (#9): pass-job's email"
+note "   ($(sa pass-job)) with agent:read and agent:recommend in its"
+note "   AGENT_API_CREDENTIALS, and the same audience; then redeploy staging."
+note "3. Merge to main: CI builds the image and points the job at it. The job"
+note "   reads every secret above, so each needs a value first."
+note "4. With the author's go-ahead, run it once against staging; it should"
+note "   end with pass.report:"
 note "   gcloud --configuration=satella run jobs execute $JOB --region=$REGION --wait"
-note "The trigger stays paused until #9."
+note "The trigger stays paused until that run is checked; resuming it is a go-ahead too."
