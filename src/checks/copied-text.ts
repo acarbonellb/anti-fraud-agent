@@ -1,8 +1,8 @@
 /**
- * Copied descriptions (brief §5 case 8, #29 item 1): one web search for the
+ * Copied descriptions (brief §5 case 8): one web search for the
  * description's longest sentence, run in code before the model. The model
- * never thought to search the text (E004), and a query this mechanical
- * doesn't need it to (ADR 0015 amendment, #37).
+ * never thought to search the text, and a query this mechanical doesn't need
+ * it to (ADR 0015 amendment; #37, E004).
  *
  * A result counts only if it holds the whole sentence word for word: a
  * search engine answers a long query with pages that merely share its words.

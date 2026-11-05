@@ -42,11 +42,11 @@ import {
 /** At most this many feed items a pass, every 10 minutes (#45). */
 export const PASS_PAGE_SIZE = 10;
 
-/** `reviewSubject`'s re-reviews after `409 STALE_SUBJECT` (#45 decision 6). */
+/** `reviewSubject`'s re-reviews after `409 STALE_SUBJECT` (ADR 0017 point 3). */
 const STALE_RETRIES = 1;
 
 /**
- * The feed items that start a review (#45 decision 1). Not
+ * The feed items that start a review (ADR 0017 point 1). Not
  * `event.minor_change`, a start time moved by up to 3 h the same day: no
  * fraud signal. `agent_review.resolved` records a resolution instead.
  */
@@ -281,7 +281,7 @@ function skippedItems(page: FeedPage): number {
 
 /**
  * Each subject once, the queued retries first, then in the order it first
- * appears (#45 decision 2): the review context is always current, so a
+ * appears (ADR 0017 point 2): the review context is always current, so a
  * second review would see the same.
  */
 function subjectsToReview(
@@ -353,8 +353,9 @@ async function reviewAndStore(
         : { extraTools: options.extraTools }),
     });
   } catch (error) {
-    // Any failure, typed or not: one bad subject must not stall the feed
-    // (#45 decision 4). Only the stable code is kept.
+    // Any failure, typed or not: one bad subject must not stall the feed. A
+    // transient one is tried again on a later pass. Only the stable code is
+    // kept (ADR 0017 point 3 and amendment).
     const code = error instanceof DomainError ? error.code : "UNEXPECTED";
     const finishedAt = now();
     const usage = calls.reduce<FailedRunDocument["usage"]>(
@@ -430,7 +431,7 @@ async function reviewAndStore(
 
 /**
  * Reads the resolved recommendation and stores its outcome next to the run
- * that made it (#45 decision 3). A recommendation from no run of this store
+ * that made it (ADR 0017 point 4). A recommendation from no run of this store
  * (a local review, another deployment) is left out; a failed read is logged
  * and doesn't hold the feed back.
  */

@@ -20,8 +20,8 @@ export type LlmProviderName = (typeof LLM_PROVIDERS)[number];
 const textWithDefault = (fallback: string) =>
   z.preprocess(unsetIfEmpty, z.string().min(1).default(fallback));
 
-// Names mirror .env.example (env-var skill). Run limits: brief §4.2; the
-// defaults are provisional until the agent loop (#5) measures real runs.
+// Names mirror .env.example (env-var skill). Run limits: brief §4.2. Their
+// defaults are provisional: real reviews will show what a run needs (#5).
 const envSchema = z
   .object({
     AGENT_MAX_TOOL_CALLS: positiveIntWithDefault(30),
