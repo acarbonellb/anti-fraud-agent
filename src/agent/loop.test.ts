@@ -395,6 +395,47 @@ describe("deterministic findings", () => {
   });
 });
 
+describe("Satella's findings limit", () => {
+  it("keeps the system findings first and records that model findings were cut", async () => {
+    const systemFindings = Array.from({ length: 29 }, (_, index) =>
+      systemFinding(
+        "rule",
+        "postal_code_province",
+        "pass",
+        `Regla ${String(index)}.`,
+      ),
+    );
+    const modelFindings = ["organizer_web_presence", "artist_availability"].map(
+      (check) => ({
+        check,
+        verdict: "warn",
+        detail: "Sin rastro en la web.",
+        confidence: 0.6,
+        sources: [],
+      }),
+    );
+    const { result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          findings: modelFindings,
+        }),
+      ],
+      { systemFindings },
+    );
+
+    const outcome = await result;
+
+    expect(outcome.recommendation.findings).toHaveLength(30);
+    expect(outcome.recommendation.findings[29]?.check).toBe(
+      "organizer_web_presence",
+    );
+    expect(outcome.trace).toContainEqual(
+      expect.objectContaining({ error: "FINDINGS_TRUNCATED" }),
+    );
+  });
+});
+
 describe("an approval against a negative system finding (#33)", () => {
   const highFee = systemFinding(
     "heuristic",
@@ -621,6 +662,35 @@ describe("run limits", () => {
     });
     expect(outcome.recommendation.decision).toBe("request_info");
     expect(outcome.recommendation.rationale).toContain("max_tool_calls");
+  });
+
+  it.each([
+    ["an unknown tool", callTool("delete_event", {})],
+    [
+      "an invalid submission",
+      callTool("submit_recommendation", { decision: "approve" }),
+    ],
+  ])("counts %s toward the tool-call limit", async (_, badCall) => {
+    const { result } = run([badCall, badCall, badCall], {
+      limits: { ...LIMITS, maxToolCalls: 2 },
+    });
+
+    const outcome = await result;
+
+    expect(outcome.endedBy).toBe("max_tool_calls");
+    expect(outcome.toolCalls).toBe(2);
+  });
+
+  it("still takes a valid submission at the tool-call limit", async () => {
+    const { result } = run(
+      [
+        callTool("lookup_venue", { name: "A" }),
+        callTool("submit_recommendation", approval),
+      ],
+      { limits: { ...LIMITS, maxToolCalls: 1 } },
+    );
+
+    expect((await result).endedBy).toBe("submitted");
   });
 
   it("refuses a search past the budget, lets the model decide, and escalates", async () => {

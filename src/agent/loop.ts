@@ -15,7 +15,10 @@ import type {
   TokenUsage,
   ToolCall,
 } from "../providers/types.js";
-import type { Finding } from "../satella-client/schemas.js";
+import {
+  type Finding,
+  REVIEW_MAX_FINDINGS,
+} from "../satella-client/schemas.js";
 import {
   type AutonomySubject,
   type AutonomyVerdict,
@@ -39,7 +42,10 @@ export type RunEnd =
 export interface TraceEntry {
   tool: string;
   ok: boolean;
-  /** A stable code, never the error's text. */
+  /**
+   * A stable code, never the error's text. On an `ok` submission,
+   * `FINDINGS_TRUNCATED`: Satella's limit cut some model findings.
+   */
   error?: string;
 }
 
@@ -87,8 +93,6 @@ export interface RunReviewInput {
 const MAX_OUTPUT_TOKENS_PER_CALL = 4096;
 /** Reminders to submit before giving up on a model that only talks. */
 const MAX_NUDGES = 2;
-/** Satella accepts up to 30 findings per recommendation. */
-const MAX_FINDINGS = 30;
 
 export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const { provider, tools, limits } = input;
@@ -150,12 +154,22 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     const modelFindings = base.findings.filter((finding) =>
       keepsModelFinding(finding, systemChecks.get(finding.check)),
     );
+    // System findings go first, so a cut only ever drops the model's; the
+    // trace keeps that it happened.
+    const findings = [
+      ...systemFindings.map((item) => item.finding),
+      ...modelFindings,
+    ];
+    if (findings.length > REVIEW_MAX_FINDINGS) {
+      trace.push({
+        tool: SUBMIT_TOOL.name,
+        ok: true,
+        error: "FINDINGS_TRUNCATED",
+      });
+    }
     const recommendation: Recommendation = {
       ...base,
-      findings: [
-        ...systemFindings.map((item) => item.finding),
-        ...modelFindings,
-      ].slice(0, MAX_FINDINGS),
+      findings: findings.slice(0, REVIEW_MAX_FINDINGS),
     };
     return {
       promptVersion: prompt.version,
@@ -223,9 +237,17 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     }
 
     for (const call of response.message.toolCalls) {
-      if (call.name === SUBMIT_TOOL.name) {
-        const proposal = parseArguments(call, SUBMIT_TOOL.input);
-        if (proposal.ok) return finish("submitted", proposal.value);
+      // A valid submission ends the run even at the limit; every other call,
+      // a wasted one included, counts toward it.
+      const proposal =
+        call.name === SUBMIT_TOOL.name
+          ? parseArguments(call, SUBMIT_TOOL.input)
+          : null;
+      if (proposal?.ok === true) return finish("submitted", proposal.value);
+      if (toolCalls >= limits.maxToolCalls) return finish("max_tool_calls");
+      toolCalls += 1;
+
+      if (proposal !== null) {
         trace.push({ tool: call.name, ok: false, error: "INVALID_INPUT" });
         messages.push(toolResult(call, proposal.message));
         continue;
@@ -237,9 +259,6 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
         messages.push(toolResult(call, `Unknown tool: ${call.name}.`));
         continue;
       }
-
-      if (toolCalls >= limits.maxToolCalls) return finish("max_tool_calls");
-      toolCalls += 1;
 
       const args = parseArguments(call, tool.input);
       if (!args.ok) {

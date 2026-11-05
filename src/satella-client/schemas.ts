@@ -363,6 +363,9 @@ export const REVIEW_TEXT_LIMITS = {
   draftChars: 2000,
 } as const;
 
+/** Satella's most findings per recommendation. */
+export const REVIEW_MAX_FINDINGS = 30;
+
 export const infoRequestSchema = z.object({
   questions: z
     .array(z.string().min(1).max(REVIEW_TEXT_LIMITS.questionChars))
@@ -385,7 +388,7 @@ export const createReviewRequestSchema = z.object({
   confidence: ratio,
   /** In Spanish, for the admin. */
   rationale: z.string().min(1).max(REVIEW_TEXT_LIMITS.rationaleChars),
-  findings: z.array(findingSchema).max(30),
+  findings: z.array(findingSchema).max(REVIEW_MAX_FINDINGS),
   infoRequest: infoRequestSchema.nullable().optional(),
   agentRunId: z.string().min(1).max(128),
   promptVersion: z.string().min(1).max(64),
