@@ -12,19 +12,15 @@
 import { randomUUID } from "node:crypto";
 
 import { reviewSubject } from "../src/agent/review.js";
+import { reviewEvidence } from "../src/agent/review-evidence.js";
 import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
-import { createTavilySearch } from "../src/search/tavily.js";
-import { webSearchTool } from "../src/agent/web-search-tool.js";
 import { createConfiguredProvider } from "../src/providers/from-config.js";
 import { isPaidProvider } from "../src/providers/pricing.js";
-import { createSatellaClient } from "../src/satella-client/client.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
-import { startMockSatella } from "../src/satella-client/mock-server.js";
-import {
-  createVenueChecks,
-  createVenueThrottles,
-} from "../src/venue/venue-checks.js";
+import { createConfiguredSearch } from "../src/search/from-config.js";
+import { createVenueThrottles } from "../src/venue/venue-checks.js";
+import { startLocalSatella } from "./local-satella.js";
 
 loadLocalEnvFile();
 const config = loadConfig(process.env);
@@ -34,47 +30,26 @@ if (isPaidProvider(config.llm.provider) && !process.argv.includes("--paid")) {
   );
   process.exit(2);
 }
-const { tavilyApiKey } = config.webSearch;
-// Without a key the review runs without web search, as production would.
-const search =
-  tavilyApiKey === undefined
-    ? undefined
-    : createTavilySearch({ apiKey: tavilyApiKey, fetch: globalThis.fetch });
 const subject = process.argv.includes("organizer")
   ? { type: "organizer" as const, id: fixtures.organizerContext.organizer.id }
   : { type: "event" as const, id: fixtures.eventContext.event.id };
 
-const mock = await startMockSatella({
-  fixtures: {
-    feed: fixtures.feed,
-    events: [fixtures.eventContext],
-    organizers: [fixtures.organizerContext],
-    similar: { [fixtures.eventContext.event.id]: fixtures.similarEvents },
-  },
-  tokens: { local: ["agent:read", "agent:recommend"] },
-});
-
 const runId = randomUUID();
+const satella = await startLocalSatella(runId);
 const started = performance.now();
 try {
   const result = await reviewSubject({
     subject,
     runId,
-    satella: createSatellaClient({
-      baseUrl: mock.baseUrl,
-      getAccessToken: () => Promise.resolve("local"),
-      correlationId: runId,
-    }),
+    satella: satella.client,
     provider: createConfiguredProvider(config.llm),
     limits: config.runLimits,
     autoApproveThreshold: config.autoApproveThreshold,
-    venueChecks: createVenueChecks({
+    ...reviewEvidence({
       fetch: globalThis.fetch,
       throttles: createVenueThrottles(),
-      ...(search === undefined ? {} : { search }),
+      search: createConfiguredSearch(config.webSearch),
     }),
-    extraTools: search === undefined ? [] : [webSearchTool(search)],
-    ...(search === undefined ? {} : { webSearch: search }),
   });
 
   const { run, review } = result;
@@ -104,5 +79,5 @@ try {
     ),
   );
 } finally {
-  await mock.close();
+  await satella.close();
 }
