@@ -1,7 +1,7 @@
 # ADR 0018 — The pass runs as a Cloud Run Job in its own project, deployed from CI without keys and shipped paused
 
 - **Date:** 2026-11-05
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-05 (#9)
 - **Related:** brief §8 (deployment) and §6.3 (spend caps); ADR 0008 (the deployed model, amended
   here for the Tailscale decision); ADR 0016 (the store); ADR 0017 (the pass); issues #8, #46
   and #9.
@@ -130,3 +130,49 @@ Four facts shaped the rest:
   - the dashboard's service and its service account (#47, on hold);
   - Satella's credential and the Vercel bypass token, if staging needs one (brief §8, #9);
   - alerting on failed passes beyond the budget alert.
+
+## Amendment (2026-11-05, #9): the pass reaches Satella staging with its identity token
+
+How the deployed pass connects to Satella staging. It extends points 5 and 6 and closes the
+first item left open.
+
+1. **The job's account is the agent's identity before Satella.**
+   - **The token.** The pass asks the Cloud Run metadata server for a Google identity token of
+     `pass-job`, with `aud` = `SATELLA_AGENT_API_AUDIENCE` and `format=full`. Satella requires
+     the `email` and `email_verified` claims, and only the full format carries them.
+   - **Reuse.** The token is reused until a minute before its `exp`. The agent reads `exp`
+     without verifying the signature: Satella is the verifier.
+   - **On Satella's side.** Satella lists `pass-job`'s email, with `agent:read` and
+     `agent:recommend`, in its `AGENT_API_CREDENTIALS`, under the same audience. That
+     configuration lives in Satella's environment, not here.
+2. **Satella's origin and audience are secrets, although neither is a credential.** This
+   replaces "two secrets" in point 5 with four: `SATELLA_STAGING_BASE_URL` and
+   `SATELLA_AGENT_API_AUDIENCE` join them.
+   - **Why.** As repository variables, both would be printed in the deploy step's log. That log
+     becomes public with the repository, and the staging host may not appear anywhere public
+     (CLAUDE.md §1).
+   - **Who sets them.** The author adds their values the way the keys were added.
+3. **No Vercel bypass token.** Staging has no deployment protection (checked 2026-11-05): an
+   unauthenticated call reaches the app's own 401. Brief §8's assumption doesn't apply.
+4. **The pass picks its Satella at startup.**
+   - **`--mock`.** It reviews the in-process mock.
+   - **Configured.** Without `--mock`, and with both Satella variables set, it reviews staging.
+   - **Half configured.** One variable without the other fails at startup.
+   - **Unconfigured.** With neither variable, it exits with `SATELLA_NOT_CONFIGURED`, as before.
+5. **The trigger is resumed after one pass run on purpose.** A manual execution against staging
+   must end in `pass.report` before the Scheduler is resumed, and resuming it is the author's
+   go-ahead.
+
+**Rejected:**
+
+- **A bearer token for the deployed agent.** Brief §3.1 keeps it for local development. It is a
+  secret that would have to be stored and rotated, which the identity token avoids.
+- **Google's auth library.** It reads application default credentials, which this repo never
+  does (ADR 0016). A single metadata-server call is all the job needs.
+
+**Left open:**
+
+- loading the eval dataset into staging through the app's flows (brief §5);
+- the brief §7 checks before any third party sees staging.
+
+Both now have issues of their own.

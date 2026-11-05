@@ -66,6 +66,35 @@ describe("loadConfig", () => {
     });
   });
 
+  it("has no Satella until both its origin and audience are set", () => {
+    expect(loadConfig({}).satella).toBeUndefined();
+    expect(
+      loadConfig({
+        SATELLA_STAGING_BASE_URL: "https://staging.example.test",
+        SATELLA_AGENT_API_AUDIENCE: "https://staging.example.test",
+      }).satella,
+    ).toEqual({
+      baseUrl: "https://staging.example.test",
+      audience: "https://staging.example.test",
+    });
+  });
+
+  it.each([
+    { SATELLA_STAGING_BASE_URL: "https://staging.example.test" },
+    { SATELLA_AGENT_API_AUDIENCE: "https://staging.example.test" },
+  ])("fails at startup with half of Satella's config: %o", (env) => {
+    expect(() => loadConfig(env)).toThrow(ConfigError);
+  });
+
+  it("rejects a Satella origin that isn't https", () => {
+    expect(() =>
+      loadConfig({
+        SATELLA_STAGING_BASE_URL: "http://staging.example.test",
+        SATELLA_AGENT_API_AUDIENCE: "https://staging.example.test",
+      }),
+    ).toThrow(ConfigError);
+  });
+
   it("defaults to the local LM Studio model and the provisional threshold", () => {
     const config = loadConfig({});
 

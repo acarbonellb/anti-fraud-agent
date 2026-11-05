@@ -3,13 +3,14 @@
  * Cloud Run Job runs every 10 minutes (#46). Configured from the environment;
  * the store is Firestore with FIRESTORE_PROJECT_ID set, in memory otherwise.
  *
- * Satella staging isn't wired yet (#9): without `--mock` the pass exits with
- * an error before reading anything. With `--mock` it runs against the
- * in-process mock and its fictitious feed. A paid provider (`anthropic`)
- * runs only with `--paid`.
+ * With `--mock` it runs against the in-process mock and its fictitious feed.
+ * Without it, it reviews Satella staging (#9) with the job's Google identity
+ * token, so only from Cloud Run; with no Satella configured it exits before
+ * reading anything. A paid provider (`anthropic`) runs only with `--paid`.
  *
  *   pnpm pass --mock            # the fixture feed, the local model
  *   pnpm pass --mock --paid     # with AGENT_LLM_PROVIDER=anthropic
+ *   pnpm pass --paid            # Satella staging: what the job runs
  *
  * Writes one JSON line per log entry (ids and codes only) and exits 0 when
  * the pass ran, budget stop included; 1 when it failed.
@@ -25,8 +26,12 @@ import {
   createConfiguredProvider,
   PAID_PROVIDERS,
 } from "../src/providers/from-config.js";
-import { createSatellaClient } from "../src/satella-client/client.js";
+import {
+  createSatellaClient,
+  type SatellaClient,
+} from "../src/satella-client/client.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
+import { createIdentityTokenSource } from "../src/satella-client/identity-token.js";
 import { startMockSatella } from "../src/satella-client/mock-server.js";
 import { createTavilySearch } from "../src/search/tavily.js";
 import { webSearchTool } from "../src/search/web-search-tool.js";
@@ -59,7 +64,8 @@ try {
   process.exit(1);
 }
 
-if (!process.argv.includes("--mock")) {
+const target = process.argv.includes("--mock") ? "mock" : config.satella;
+if (target === undefined) {
   line({
     level: "error",
     event: "pass.refused",
@@ -93,23 +99,46 @@ const search =
     ? undefined
     : createTavilySearch({ apiKey: tavilyApiKey, fetch: globalThis.fetch });
 
-const mock = await startMockSatella({
-  fixtures: {
-    feed: fixtures.feed,
-    events: [fixtures.eventContext],
-    organizers: [fixtures.organizerContext],
-    similar: { [fixtures.eventContext.event.id]: fixtures.similarEvents },
-  },
-  tokens: { local: ["agent:read", "agent:recommend"] },
-});
-
-try {
-  const report = await runPass({
-    satella: createSatellaClient({
+/**
+ * The Satella the pass reviews: the in-process mock and its fictitious feed,
+ * or staging with the job's Google identity token.
+ */
+async function connectSatella(
+  to: NonNullable<typeof target>,
+): Promise<{ client: SatellaClient; close: () => Promise<void> }> {
+  if (to !== "mock") {
+    return {
+      client: createSatellaClient({
+        baseUrl: to.baseUrl,
+        getAccessToken: createIdentityTokenSource({ audience: to.audience }),
+        correlationId,
+      }),
+      close: () => Promise.resolve(),
+    };
+  }
+  const mock = await startMockSatella({
+    fixtures: {
+      feed: fixtures.feed,
+      events: [fixtures.eventContext],
+      organizers: [fixtures.organizerContext],
+      similar: { [fixtures.eventContext.event.id]: fixtures.similarEvents },
+    },
+    tokens: { local: ["agent:read", "agent:recommend"] },
+  });
+  return {
+    client: createSatellaClient({
       baseUrl: mock.baseUrl,
       getAccessToken: () => Promise.resolve("local"),
       correlationId,
     }),
+    close: () => mock.close(),
+  };
+}
+const satella = await connectSatella(target);
+
+try {
+  const report = await runPass({
+    satella: satella.client,
     correlationId,
     provider: createConfiguredProvider(config.llm),
     store,
@@ -146,5 +175,5 @@ try {
   });
   process.exitCode = 1;
 } finally {
-  await mock.close();
+  await satella.close();
 }
