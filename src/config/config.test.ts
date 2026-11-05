@@ -119,6 +119,17 @@ describe("loadConfig", () => {
     expect(config.llm).toMatchObject({ provider: "anthropic", effort: "low" });
   });
 
+  it.each(["Anthropic", "openai", "lm-studio"])(
+    "fails at startup on a provider it can't run: %s",
+    (provider) => {
+      // A typo used to fall through to the local adapter, sending the key
+      // to AGENT_LLM_BASE_URL (#57).
+      expect(() => loadConfig({ AGENT_LLM_PROVIDER: provider })).toThrow(
+        ConfigError,
+      );
+    },
+  );
+
   it("fails at startup when anthropic has no key", () => {
     expect(() => loadConfig({ AGENT_LLM_PROVIDER: "anthropic" })).toThrow(
       expect.objectContaining({
@@ -129,7 +140,7 @@ describe("loadConfig", () => {
 
   it("reads the model and its key from the environment", () => {
     const config = loadConfig({
-      AGENT_LLM_PROVIDER: "openai",
+      AGENT_LLM_PROVIDER: "ollama",
       AGENT_LLM_BASE_URL: "https://api.example.test/v1",
       AGENT_LLM_MODEL: "some-model",
       AGENT_LLM_API_KEY: "sk-test",

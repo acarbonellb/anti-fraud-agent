@@ -22,10 +22,8 @@ import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
 import { logLine } from "../src/pass/log-line.js";
 import { runPass } from "../src/pass/pass.js";
-import {
-  createConfiguredProvider,
-  PAID_PROVIDERS,
-} from "../src/providers/from-config.js";
+import { createConfiguredProvider } from "../src/providers/from-config.js";
+import { isPaidProvider } from "../src/providers/pricing.js";
 import {
   createSatellaClient,
   type SatellaClient,
@@ -77,10 +75,7 @@ if (target === undefined) {
   });
   process.exit(1);
 }
-if (
-  PAID_PROVIDERS.has(config.llm.provider) &&
-  !process.argv.includes("--paid")
-) {
+if (isPaidProvider(config.llm.provider) && !process.argv.includes("--paid")) {
   // It bills per token: spending needs `--paid` (CLAUDE.md §8).
   line({ level: "error", event: "pass.refused", code: "PAID_NOT_ALLOWED" });
   process.exit(2);
