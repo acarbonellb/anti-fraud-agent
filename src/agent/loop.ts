@@ -97,12 +97,14 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const toolsByName = new Map(tools.map((tool) => [tool.name, tool]));
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
   const systemFindings = input.systemFindings ?? [];
-  const systemChecks = new Set(
-    systemFindings.flatMap((item) => [
-      item.finding.check,
-      ...(item.covers ?? []),
-    ]),
-  );
+  // Each check the code ran, and whether it only passed there.
+  const systemChecks = new Map<string, boolean>();
+  for (const item of systemFindings) {
+    const passed = item.finding.verdict === "pass";
+    for (const check of [item.finding.check, ...(item.covers ?? [])]) {
+      systemChecks.set(check, (systemChecks.get(check) ?? true) && passed);
+    }
+  }
 
   const messages: ChatMessage[] = [
     { role: "system", content: prompt.system(fence.nonce) },
@@ -145,9 +147,8 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       proposal ?? limitFallback(endedBy),
       systemFindings,
     );
-    // System findings win: a model finding for a check the code ran is dropped.
-    const modelFindings = base.findings.filter(
-      (finding) => !systemChecks.has(finding.check),
+    const modelFindings = base.findings.filter((finding) =>
+      keepsModelFinding(finding, systemChecks.get(finding.check)),
     );
     const recommendation: Recommendation = {
       ...base,
@@ -338,4 +339,21 @@ function limitFallback(endedBy: RunEnd): Proposal {
     rationale: `La revisión automática no pudo completarse (${endedBy}). Revísalo manualmente.`,
     findings: [],
   };
+}
+
+/**
+ * System findings win over the model's on a check the code ran, with one
+ * exception: a system `pass` can't silence a model `fail` or `warn`. A pass
+ * only means a pattern didn't match ("B1zum" slips past the Bizum rule), so
+ * it is no evidence against what the model caught (#57). `systemPassed` is
+ * undefined when the code didn't run the check.
+ */
+function keepsModelFinding(
+  finding: Finding,
+  systemPassed: boolean | undefined,
+): boolean {
+  if (systemPassed === undefined) return true;
+  return (
+    systemPassed && (finding.verdict === "fail" || finding.verdict === "warn")
+  );
 }

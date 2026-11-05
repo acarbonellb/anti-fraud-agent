@@ -4,9 +4,8 @@
  * session on the same day. Satella's similar events carry all three, so the
  * check runs in code before the model instead of resting on the model's word.
  *
- * It only ever fails. A pass would silence a model finding on the same check
- * (system findings win), and the model can find a clone on another site with
- * `web_search`: the platform's list proves a clone, not originality.
+ * It only ever fails: the platform's list proves a clone, not originality, and
+ * the model can still find a clone on another site with `web_search`.
  */
 import type {
   EventReviewContext,
