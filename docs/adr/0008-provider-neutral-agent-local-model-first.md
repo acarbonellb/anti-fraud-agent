@@ -1,7 +1,7 @@
 # ADR 0008 — A provider-neutral agent with two adapters, shipped local-model first
 
 - **Date:** 2026-11-01
-- **Status:** accepted · amendment 2026-11-04 (#30) · amendment 2026-11-04 (#42)
+- **Status:** accepted · amendment 2026-11-04 (#30) · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#46)
 - **Related:** brief D8 and §4; ADR 0011 (the Satella contract); issue #5.
 
 ## Context
@@ -126,3 +126,23 @@ not the code's fallback.
 
 **Rejected:** switching the code's fallback to Haiku. Every checkout would then need an Anthropic
 key to start, and anything run without one would spend money.
+
+## Amendment (2026-11-05, #46): the deployed agent calls Claude, not the author's local model
+
+#8 first planned for the deployed agent to reach the author's LM Studio over Tailscale. The
+deployment would then cost nothing per review. This amendment supersedes that plan: the
+deployed agent calls the deployed model of the amendment of #42, Claude Haiku 5.5 at effort
+`medium`, from Cloud Run (ADR 0018).
+
+1. **No tunnel to the author's machine.** The container runs no `tailscaled`, joins no tailnet
+   and holds no auth key. The pass doesn't depend on a laptop being on.
+2. **The deployed job passes `--paid`.** That is the go-ahead of the amendment of #30, given once
+   in the reviewed deploy config. The day's budget (ADR 0017) and the key's cap at the provider
+   bound the spend.
+3. **Local stays local.** Development, tests and evals keep the local fallback of the amendment of
+   #42.
+
+**Rejected:** Tailscale to the author's LM Studio. The agent would be up only while the author's
+laptop is on. It would add three moving parts: the daemon in the container, a tailnet ACL and an
+ephemeral key. All that to save $0.002 a review. A 9B model on a laptop GPU also loses to Haiku
+on the evals (E014).

@@ -73,6 +73,9 @@ fixed.
   development needs no key (ADR 0008 amendment, #42).
 - **Pass**: one scheduled sweep of the feed from the stored cursor: at most 10 items, every
   subject that changed reviewed once, the cursor advanced past the page (`pnpm pass`, ADR 0017).
+- **Deployed pass**: the pass as a Cloud Run Job on GCP, started every 10 minutes by Cloud Scheduler
+  and deployed from CI with no stored key. Its trigger stays paused until Satella staging is
+  connected (#9) (ADR 0018).
 - **Reviewable item**: a feed item that starts a review. Every type but `event.minor_change` and
   `agent_review.resolved` (ADR 0017).
 - **Agent store**: the agent's own data, apart from Satella's: runs and their resolutions, the
