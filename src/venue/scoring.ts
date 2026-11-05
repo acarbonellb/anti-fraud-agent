@@ -10,7 +10,7 @@
  *
  * The thresholds are provisional until the evals tune them.
  */
-import type { EventReviewContext, Finding } from "../satella-client/schemas.js";
+import type { Finding } from "../satella-client/schemas.js";
 import type { CheckId } from "../agent/checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { SearchFailure, SearchResult } from "../search/types.js";
@@ -407,23 +407,6 @@ function parseCount(text: string): number {
 
 function fold(text: string): string {
   return text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
-}
-
-/**
- * The most tickets on sale in any one scheduled session: the number the
- * capacity check and the exposure cap both read (CODING_STANDARDS «The same
- * calculation that decides, reports»). Guest lists aren't on sale.
- */
-export function maxTicketsOnSale(context: EventReviewContext): number {
-  let max = 0;
-  for (const session of context.sessions) {
-    if (session.status !== "scheduled") continue;
-    const tickets = session.ticketTypes
-      .filter((ticketType) => ticketType.kind === "standard")
-      .reduce((total, ticketType) => total + ticketType.capacity, 0);
-    max = Math.max(max, tickets);
-  }
-  return max;
 }
 
 const EARTH_RADIUS_M = 6_371_000;
