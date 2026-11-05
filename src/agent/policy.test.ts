@@ -45,6 +45,7 @@ function decide(
     systemFindings,
     modelFindings,
     autoApproveThreshold: THRESHOLD,
+    searchBudgetSpent: false,
   });
 }
 
@@ -205,6 +206,48 @@ describe("web search can hold back, never let through (ADR 0015)", () => {
         model("artist_availability", "warn", [source]),
       ]).autonomy,
     ).toBe("escalated");
+  });
+});
+
+describe("a spent search budget (ADR 0015 amendment, #31)", () => {
+  const spent = (
+    decision: "approve" | "reject",
+    systemFindings: SystemFinding[],
+  ) =>
+    decideAutonomy({
+      subject: EVENT,
+      retrievedUrls: new Set(),
+      decision,
+      confidence: 0.95,
+      systemFindings,
+      modelFindings: [],
+      autoApproveThreshold: THRESHOLD,
+      searchBudgetSpent: true,
+    });
+
+  it("escalates an approval that would otherwise resolve on its own", () => {
+    expect(spent("approve", cleanSystem)).toEqual({
+      autonomy: "escalated",
+      reasons: ["web search budget spent"],
+    });
+  });
+
+  it("keeps the other reasons an approval escalates for", () => {
+    expect(
+      spent("approve", [...cleanSystem, rule("postal_code_province")]),
+    ).toEqual({
+      autonomy: "escalated",
+      reasons: [
+        "web search budget spent",
+        "deterministic checks flagged: postal_code_province",
+      ],
+    });
+  });
+
+  it("leaves a rejection on a hard signal alone", () => {
+    expect(spent("reject", [rule("off_platform_payment")]).autonomy).toBe(
+      "auto_resolved",
+    );
   });
 });
 

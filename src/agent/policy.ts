@@ -92,12 +92,31 @@ export interface AutonomyInput {
   /** URLs the run's tools retrieved; see `sourced`. */
   retrievedUrls: ReadonlySet<string>;
   autoApproveThreshold: number;
+  /**
+   * The model asked for a search past the run's budget: it wanted more
+   * evidence than it got (ADR 0015 amendment, #31).
+   */
+  searchBudgetSpent: boolean;
 }
 
 const isNegative = (finding: Finding) =>
   finding.verdict === "fail" || finding.verdict === "warn";
 
 export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
+  const verdict = decideOnEvidence(input);
+  // An approval can't rest on evidence the model didn't get to read. A
+  // rejection or a request doesn't depend on it: the evidence decides alone.
+  if (!input.searchBudgetSpent || input.decision !== "approve") return verdict;
+  return {
+    autonomy: "escalated",
+    reasons: [
+      "web search budget spent",
+      ...(verdict.autonomy === "escalated" ? verdict.reasons : []),
+    ],
+  };
+}
+
+function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
   const { decision, confidence, autoApproveThreshold } = input;
   if (input.subject.type === "organizer") {
     return {

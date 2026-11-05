@@ -180,18 +180,16 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       // A run that didn't finish never resolves on its own.
       autonomy:
         endedBy === "submitted"
-          ? withSearchBudget(
-              decideAutonomy({
-                subject: input.subject,
-                decision: recommendation.decision,
-                confidence: recommendation.confidence,
-                systemFindings,
-                modelFindings,
-                retrievedUrls,
-                autoApproveThreshold: input.autoApproveThreshold,
-              }),
-              searchBudgetSpent && recommendation.decision === "approve",
-            )
+          ? decideAutonomy({
+              subject: input.subject,
+              decision: recommendation.decision,
+              confidence: recommendation.confidence,
+              systemFindings,
+              modelFindings,
+              retrievedUrls,
+              autoApproveThreshold: input.autoApproveThreshold,
+              searchBudgetSpent,
+            })
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
       usage,
       toolCalls,
@@ -305,25 +303,6 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
 const REPEATED_CALL =
   "Already searched with these words in this review; its results are above. Search for something else or decide.";
 const BUDGET_SPENT = `No searches left in this review. Decide with the evidence you have and call ${SUBMIT_TOOL.name}.`;
-
-/**
- * Escalates an approval made with the search budget spent. A rejection or a
- * request doesn't rest on what the model didn't get to read: the policy
- * weighs it as usual.
- */
-function withSearchBudget(
-  verdict: AutonomyVerdict,
-  holdBack: boolean,
-): AutonomyVerdict {
-  if (!holdBack) return verdict;
-  return {
-    autonomy: "escalated",
-    reasons: [
-      "web search budget spent",
-      ...(verdict.autonomy === "escalated" ? verdict.reasons : []),
-    ],
-  };
-}
 
 type Parsed<T> = { ok: true; value: T } | { ok: false; message: string };
 
