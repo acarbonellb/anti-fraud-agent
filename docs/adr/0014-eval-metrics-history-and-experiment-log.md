@@ -1,7 +1,7 @@
 # ADR 0014 — Eval metrics are tracked in a machine-written history, explained in an experiment log, and CI enforces both
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-04 (#42)
+- **Status:** accepted · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#57)
 - **Related:** brief §4.3; ADR 0013 (the replayed evals and the report this builds on); ADR 0008
   (the evals choose the default model); issues #21, #6, #7 and #15.
 
@@ -129,3 +129,19 @@ point 2 and point 4; nothing before it changes.
   majority doesn't share. The report still shows it (`approve 1/3`).
 - **Repeats as separate sets** (`claude-haiku-5-5#2`). The history would split one model into three
   series, and the report would show three tables to compare by eye.
+
+## Amendment (2026-11-05, #57): the CI gate fails on any run that auto-approved fraud
+
+This replaces the gate in point 4 of the #42 amendment. The report's per-case majority stays as it
+is.
+
+- **The gate.** A gated fraud case now fails `--check` when **any** of its runs approved it as
+  `auto_resolved`. Before, it failed only when more than half of them did.
+- **Why.** Majorities exist so that one noisy run doesn't move an accuracy metric. The gate
+  guards the only outcome that skips the admin, and there a fraud case auto-approved in one run
+  of three is a rate of about a third, not noise. An independent review of the repo (#57)
+  flagged it.
+- **Effect today.** None: every recorded run has an auto-approved fraud rate of 0 %.
+
+**Rejected:** keeping the majority and reporting minority runs as a warning. A warning in CI
+doesn't block a PR, and this is the one metric meant to block.

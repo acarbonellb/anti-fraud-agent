@@ -5,13 +5,13 @@
  * is a model-quality number in the report, not a gate: in Satella only
  * `approve` + `auto_resolved` skips the admin (ADR 0012).
  *
- * With repeated runs a case fails when a majority of its runs auto-approved
- * it (#42): the gate reads the case's outcome, not one run's noise. A single
- * run is its own majority.
+ * With repeated runs a case fails when any of its runs auto-approved it
+ * (#57). Majorities suit the reported metrics, where one run is noise; for the
+ * one outcome that skips the admin, one run in three is a rate, not noise.
  */
 import { isAutoApproved } from "./metrics.js";
 import type { ReportSet } from "./report.js";
-import { byCase, inMajority } from "./runs.js";
+import { byCase } from "./runs.js";
 import type { CaseResult } from "./types.js";
 
 export function gateFailures(sets: readonly ReportSet[]): string[] {
@@ -32,7 +32,7 @@ export function gateFailures(sets: readonly ReportSet[]): string[] {
     for (const results of byCase(set.runs)) {
       const [first] = results;
       if (first === undefined || !first.problem || first.external) continue;
-      if (inMajority(results, autoApproved)) {
+      if (results.some(autoApproved)) {
         const count = results.filter(autoApproved).length;
         failures.push(
           `${name} case ${first.caseId}: fraud approved as auto_resolved in ${String(count)}/${String(results.length)} runs.`,

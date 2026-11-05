@@ -5,12 +5,7 @@
 import { describe, expect, it } from "vitest";
 
 import { caseResult as result } from "./fake-results.js";
-import {
-  byCase,
-  computeRunMetrics,
-  inMajority,
-  majorityOutcome,
-} from "./runs.js";
+import { byCase, computeRunMetrics, majorityOutcome } from "./runs.js";
 
 const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;
 const approve = { decisions: ["approve"], autonomy: "auto_resolved" } as const;
@@ -137,22 +132,5 @@ describe("a case's majority outcome", () => {
       decision: null,
       correct: false,
     });
-  });
-
-  it("tells whether more than half of the runs did something", () => {
-    const autoApproved = (r: (typeof fraud)[number]) =>
-      r.outcome?.decision === "approve" &&
-      r.outcome.autonomy === "auto_resolved";
-    expect(inMajority(fraud, autoApproved)).toBe(false);
-    expect(
-      inMajority(
-        [
-          result("10", reject, {}),
-          result("10", reject, {}),
-          result("10", reject, { decision: "reject" }),
-        ],
-        autoApproved,
-      ),
-    ).toBe(true);
   });
 });

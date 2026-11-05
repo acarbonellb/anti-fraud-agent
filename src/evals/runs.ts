@@ -122,14 +122,6 @@ export function majorityOutcome(
   };
 }
 
-/** Whether more than half of a case's runs pass `test`. */
-export function inMajority(
-  results: readonly CaseResult[],
-  test: (result: CaseResult) => boolean,
-): boolean {
-  return results.filter(test).length * 2 > results.length;
-}
-
 function majority<T>(votes: readonly (T | undefined)[]): T | null {
   for (const vote of new Set(votes)) {
     if (vote === undefined) continue;
