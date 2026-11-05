@@ -42,7 +42,7 @@ Four facts shaped the rest:
      (ADR 0017). A retry would only spend again, and the next pass comes 10 minutes later anyway.
    - **A timeout under 10 minutes.** Two executions never overlap, so two passes never read the
      same cursor.
-   - **Command.** The job runs `pnpm pass --paid`. `--paid` is the author's go-ahead to call a
+   - **Command.** The job runs the pass with `--paid`. `--paid` is the author's go-ahead to call a
      paid provider (ADR 0008, amendment of #30). Here it sits in reviewed deploy config, not in
      someone's shell.
 3. **Cloud Scheduler starts it every 10 minutes, and the trigger ships paused.** The trigger
@@ -51,8 +51,9 @@ Four facts shaped the rest:
    execution may be run on purpose to check that the image starts and exits cleanly with
    `SATELLA_NOT_CONFIGURED`. Resuming the trigger is #9's step, with the author's go-ahead.
 4. **The image runs the same entry point as local.**
-   - **Base and user.** Node 22 slim, a non-root user, dependencies from the frozen lockfile, and
-     `pnpm pass` through `tsx`, as on a laptop.
+   - **Base and user.** Node 22 slim and a non-root user. The runtime dependencies come from
+     the frozen lockfile, and `tsx` is one of them. The image runs `scripts/pass.ts` through
+     `tsx`, as `pnpm pass` does on a laptop, with no package manager in it.
    - **Repository.** Images go to an Artifact Registry Docker repository in the same region. Each
      is tagged with the commit SHA, and a cleanup policy keeps the last few.
 5. **Two secrets in Secret Manager, set by the author, read only by the job.**
