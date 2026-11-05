@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35) · amendment 2026-11-05 (#57)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24, #33 and #35.
 
 ## Context
@@ -165,3 +165,23 @@ trigram equality, which also ignores case, punctuation and word order.
 Rejected: **a heuristic `warn` for a near match** (similar title, same venue and day). Satella
 returns titles from a trigram similarity of 0.3. A threshold there would need cases to tune it,
 and none of the brief's cases has a near clone.
+
+## Amendment (2026-11-05, #57): a system pass doesn't silence a model fail
+
+This narrows point 1. Before, any model finding on a check the code ran was dropped. Now a model
+`fail` or `warn` survives when every system finding on that check is a `pass`. Every other model
+finding on such a check is still dropped, as before.
+
+- **Why.** A system `pass` on a pattern check only means the pattern didn't match. An independent
+  review (#57) wrote "B1zum" and "Si no tienes tarjeta, paga por Bizum…", and neither matched the
+  payment rule. The code then reported `off_platform_payment: pass` and removed the model's `fail`
+  on the same check. So the admin and the policy lost the one finding that had caught it.
+- **What doesn't change.** A system `fail`, `warn` or `unknown` still wins over any model finding
+  on its check. A model `pass` or `unknown` still never stands next to the code's verdict. The
+  #33 rule on approvals is untouched.
+- **Effect today.** None on the evals: `pnpm eval:replay --check` replays both sets unchanged.
+  None of the recordings has a model fail under a system pass.
+
+**Rejected:** dropping `pass` from the pattern checks, as the exact clone check does (#35). The
+admin would no longer see what was checked and came out clean. The fix belongs where findings
+are merged, not in each check.

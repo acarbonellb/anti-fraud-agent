@@ -299,6 +299,45 @@ describe("deterministic findings", () => {
     expect(outcome.recommendation.decision).toBe("request_info");
   });
 
+  it("keeps a model fail where the code's check only passed", async () => {
+    // A regex miss ("B1zum") gives a system pass: it must not erase what the
+    // model caught on the same check (#57).
+    const paymentPass = systemFinding(
+      "rule",
+      "off_platform_payment",
+      "pass",
+      "Los textos no piden pagar fuera de la plataforma.",
+    );
+    const modelFail = {
+      check: "off_platform_payment",
+      verdict: "fail",
+      detail: "Pide pagar por B1zum al 600…",
+      confidence: 0.8,
+      sources: [],
+    } as const;
+    const { result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          decision: "reject",
+          findings: [
+            modelFail,
+            { ...modelFail, verdict: "pass", detail: "Nada raro." },
+          ],
+        }),
+      ],
+      { systemFindings: [paymentPass] },
+    );
+
+    const outcome = await result;
+
+    expect(
+      outcome.recommendation.findings.filter(
+        (finding) => finding.check === "off_platform_payment",
+      ),
+    ).toEqual([paymentPass.finding, modelFail]);
+  });
+
   it("drops a model finding on any check a system finding covers, and shows its sources", async () => {
     const farAbove: SystemFinding = {
       certainty: "heuristic",
