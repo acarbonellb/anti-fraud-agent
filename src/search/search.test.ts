@@ -6,11 +6,11 @@
 // Fakes `fetch` with canned Tavily responses.
 import { describe, expect, it } from "vitest";
 
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import { createAuthoredSearch } from "./authored.js";
 import { createTavilySearch, TAVILY_URL } from "./tavily.js";
 import { WebSearchError } from "./types.js";
-import { webSearchTool } from "./web-search-tool.js";
+import { webSearchTool } from "../agent/web-search-tool.js";
 
 const KEY = "tvly-test-key";
 

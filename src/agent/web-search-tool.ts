@@ -6,8 +6,8 @@
  */
 import { z } from "zod";
 
-import { defineTool } from "../agent/tools.js";
-import { type WebSearch, WebSearchError } from "./types.js";
+import { type WebSearch, WebSearchError } from "../search/types.js";
+import { defineTool } from "./tools.js";
 
 /**
  * Few results per search: each one costs context, not just a credit, and the

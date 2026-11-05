@@ -20,7 +20,7 @@ import { reviewSubject } from "../agent/review.js";
 import { createUntrustedFence } from "../agent/untrusted.js";
 import { loadConfig } from "../config/config.js";
 import { DomainError } from "../errors.js";
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import { isVenueCheck } from "../venue/scoring.js";
 import { noThrottle } from "../venue/throttle.js";
 import {
@@ -42,7 +42,7 @@ import type { ReportSet } from "./report.js";
 import type { RecordingSet } from "./store.js";
 import { createAuthoredSearch } from "../search/authored.js";
 import type { WebSearch } from "../search/types.js";
-import { webSearchTool } from "../search/web-search-tool.js";
+import { webSearchTool } from "../agent/web-search-tool.js";
 import {
   createRecordingSearch,
   createReplaySearch,

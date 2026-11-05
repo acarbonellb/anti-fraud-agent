@@ -11,7 +11,7 @@
  * The thresholds are provisional until the evals tune them.
  */
 import type { Finding } from "../satella-client/schemas.js";
-import type { CheckId } from "../agent/checks.js";
+import type { CheckId } from "../checks/vocabulary.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { SearchFailure, SearchResult } from "../search/types.js";
 import type { ProviderFailure, VenueProvider } from "./http.js";

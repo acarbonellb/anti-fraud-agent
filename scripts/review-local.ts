@@ -15,7 +15,7 @@ import { reviewSubject } from "../src/agent/review.js";
 import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { createTavilySearch } from "../src/search/tavily.js";
-import { webSearchTool } from "../src/search/web-search-tool.js";
+import { webSearchTool } from "../src/agent/web-search-tool.js";
 import { createConfiguredProvider } from "../src/providers/from-config.js";
 import { isPaidProvider } from "../src/providers/pricing.js";
 import { createSatellaClient } from "../src/satella-client/client.js";

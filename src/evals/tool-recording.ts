@@ -16,7 +16,7 @@ import { createHash } from "node:crypto";
 
 import { z } from "zod";
 
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import { StaleRecordingError } from "./stale.js";
 
 export const ATTRIBUTIONS: Readonly<Record<string, string>> = {

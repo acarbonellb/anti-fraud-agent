@@ -32,7 +32,7 @@ import { fixtures } from "../src/satella-client/fixtures.js";
 import { createIdentityTokenSource } from "../src/satella-client/identity-token.js";
 import { startMockSatella } from "../src/satella-client/mock-server.js";
 import { createTavilySearch } from "../src/search/tavily.js";
-import { webSearchTool } from "../src/search/web-search-tool.js";
+import { webSearchTool } from "../src/agent/web-search-tool.js";
 import { createFirestoreStore } from "../src/store/firestore-store.js";
 import { createMemoryStore } from "../src/store/memory-store.js";
 import {

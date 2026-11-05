@@ -5,7 +5,7 @@
 // new requests to the case's file. Fakes `fetch`.
 import { describe, expect, it } from "vitest";
 
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import { StaleRecordingError } from "./recording.js";
 import {
   createRecordingFetch,

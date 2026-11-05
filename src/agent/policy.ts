@@ -41,7 +41,7 @@ import {
   type Finding,
   REVIEW_TEXT_LIMITS,
 } from "../satella-client/schemas.js";
-import type { CheckId } from "./checks.js";
+import type { CheckId } from "../checks/vocabulary.js";
 import type { Proposal } from "./recommendation.js";
 
 /** Model warnings that say nothing about fraud (brief §4.2 «un warn leve»). */

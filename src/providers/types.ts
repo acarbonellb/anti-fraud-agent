@@ -68,6 +68,12 @@ export interface LlmProvider {
   complete(request: CompletionRequest): Promise<CompletionResponse>;
 }
 
+/**
+ * How much the model thinks before it answers. Only Claude takes it today;
+ * it lives here so config doesn't depend on one adapter.
+ */
+export type Effort = "low" | "medium" | "high" | "xhigh" | "max";
+
 export type ProviderErrorCode =
   "LLM_UNAVAILABLE" | "LLM_HTTP_ERROR" | "LLM_BAD_RESPONSE";
 

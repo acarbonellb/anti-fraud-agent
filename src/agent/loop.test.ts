@@ -18,7 +18,7 @@ import { type SystemFinding, systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";
 import { infoRequestSchema } from "../satella-client/schemas.js";
 import { createAuthoredSearch } from "../search/authored.js";
-import { webSearchTool } from "../search/web-search-tool.js";
+import { webSearchTool } from "../agent/web-search-tool.js";
 import { defineTool } from "./tools.js";
 import { createUntrustedFence } from "./untrusted.js";
 

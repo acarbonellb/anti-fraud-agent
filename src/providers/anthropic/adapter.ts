@@ -17,11 +17,10 @@ import {
   type CompletionRequest,
   type CompletionResponse,
   type LlmProvider,
+  type Effort,
   ProviderError,
   type StopReason,
 } from "../types.js";
-
-export type Effort = "low" | "medium" | "high" | "xhigh" | "max";
 
 export interface AnthropicOptions {
   apiKey: string;

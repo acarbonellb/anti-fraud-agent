@@ -7,7 +7,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 
 const METADATA_IDENTITY_URL =
   "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity";
