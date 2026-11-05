@@ -71,7 +71,10 @@ Costs, checked 2026-11-05:
    - After the run, the hold is replaced by the actual cost.
    - Holds expire after 15 minutes, so a crashed run can't keep budget forever.
    - The day is the UTC day (CLAUDE.md §5). A hold settles against the day it was reserved on,
-     even after midnight.
+     even after midnight. So a hold reserved just before midnight doesn't count against the next
+     day: around midnight the two days together can take one worst-case run more than the
+     budget. That is accepted, for a budget that is a daily figure anyway.
+   - Reserving again for the same run replaces its hold, so a retried reservation counts once.
    - The day's document holds one entry per run. Settling overwrites that entry, so a retried
      settle can't count twice, and settling an expired hold still records what was spent.
    - A reservation or settlement that loses a race (a precondition conflict) re-reads and tries

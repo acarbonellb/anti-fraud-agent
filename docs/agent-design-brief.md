@@ -380,7 +380,7 @@ Es una web pequeña del repo del agente (React en Cloud Run) que lee **solo la b
 - Las métricas de evals offline y online, y la comparativa entre proveedores y versiones de prompt.
 - «Revisar ahora» para un evento concreto, con cupo.
 
-**No ve**: configuración, prompts del sistema (opcionalmente, en modo lectura), claves, usuarios de Satella, el panel de admin de Satella ni las consolas de GCP, Vercel o Neon.
+**No ve**: configuración, prompts del sistema (opcionalmente, en modo lectura), claves, usuarios de Satella, el panel de admin de Satella ni las consolas de GCP o Vercel.
 
 ### 6.2 Identidad y caducidad
 

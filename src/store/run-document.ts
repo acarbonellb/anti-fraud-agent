@@ -8,6 +8,7 @@
 import { z } from "zod";
 
 import type { ReviewSubjectResult } from "../agent/review.js";
+import { StoreError } from "./types.js";
 import {
   decisionSchema,
   findingSchema,
@@ -19,10 +20,13 @@ import {
 const count = z.number().int().nonnegative();
 
 /**
- * Also a document id in Firestore: no `/`, and kept to what `randomUUID` and
- * the evals' ids produce.
+ * Also a document id in Firestore: no `/`, and starting with a letter or
+ * digit, so never `.`, `..` or the reserved `__…__`. Wide enough for
+ * `randomUUID` and the evals' ids.
  */
-export const runIdSchema = z.string().regex(/^[A-Za-z0-9_.:-]{1,128}$/);
+export const runIdSchema = z
+  .string()
+  .regex(/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$/);
 
 export const runTriggerSchema = z.enum(["scheduled", "on_demand"]);
 export type RunTrigger = z.infer<typeof runTriggerSchema>;
@@ -82,6 +86,16 @@ export const runDocumentSchema = z.object({
   }),
 });
 export type RunDocument = z.infer<typeof runDocumentSchema>;
+
+/**
+ * A run the store can keep, or a typed error. The Zod error stays out: it can
+ * quote the run's values.
+ */
+export function validRun(run: RunDocument): RunDocument {
+  const parsed = runDocumentSchema.safeParse(run);
+  if (!parsed.success) throw new StoreError("STORE_INVALID_INPUT");
+  return parsed.data;
+}
 
 /** What the pass knows about a run that the review result doesn't. */
 export interface RunMetadata {

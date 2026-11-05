@@ -3,9 +3,14 @@
  * Nothing survives the process. It keeps the Firestore store's promises,
  * conflicts included, so code tested against it behaves the same deployed.
  */
-import { type RunDocument, runDocumentSchema } from "./run-document.js";
+import { type RunDocument, validRun } from "./run-document.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
-import { decodeRunCursor, encodeRunCursor, newestFirst } from "./run-cursor.js";
+import {
+  checkPageLimit,
+  decodeRunCursor,
+  encodeRunCursor,
+  newestFirst,
+} from "./run-cursor.js";
 import { type AgentStore, StoreError, utcDay } from "./types.js";
 
 export function createMemoryStore(
@@ -18,12 +23,11 @@ export function createMemoryStore(
 
   return {
     saveRun(run) {
-      const parsed = runDocumentSchema.parse(run);
-      if (runs.has(parsed.runId)) {
-        return Promise.reject(new StoreError("STORE_CONFLICT"));
-      }
-      runs.set(parsed.runId, structuredClone(parsed));
-      return Promise.resolve();
+      return asPromise(() => {
+        const parsed = validRun(run);
+        if (runs.has(parsed.runId)) throw new StoreError("STORE_CONFLICT");
+        runs.set(parsed.runId, structuredClone(parsed));
+      });
     },
 
     getRun(runId) {
@@ -32,21 +36,24 @@ export function createMemoryStore(
     },
 
     listRuns({ limit, cursor }) {
-      const after = cursor === undefined ? null : decodeRunCursor(cursor);
-      const sorted = [...runs.values()].sort(newestFirst);
-      const start =
-        after === null
-          ? 0
-          : sorted.findIndex((run) => newestFirst(run, after) > 0);
-      const rest = start === -1 ? [] : sorted.slice(start);
-      const page = rest.slice(0, limit);
-      const last = page.at(-1);
-      return Promise.resolve({
-        runs: page.map((run) => structuredClone(run)),
-        nextCursor:
-          rest.length > limit && last !== undefined
-            ? encodeRunCursor(last)
-            : null,
+      return asPromise(() => {
+        checkPageLimit(limit);
+        const after = cursor === undefined ? null : decodeRunCursor(cursor);
+        const sorted = [...runs.values()].sort(newestFirst);
+        const start =
+          after === null
+            ? 0
+            : sorted.findIndex((run) => newestFirst(run, after) > 0);
+        const rest = start === -1 ? [] : sorted.slice(start);
+        const page = rest.slice(0, limit);
+        const last = page.at(-1);
+        return {
+          runs: page.map((run) => structuredClone(run)),
+          nextCursor:
+            rest.length > limit && last !== undefined
+              ? encodeRunCursor(last)
+              : null,
+        };
       });
     },
 
@@ -84,4 +91,11 @@ export function createMemoryStore(
       return Promise.resolve(totalOf(day, spend.get(day) ?? {}, at));
     },
   };
+}
+
+/** A throw inside becomes a rejection, as an `async` store's would. */
+function asPromise<T>(work: () => T): Promise<T> {
+  return new Promise((resolve) => {
+    resolve(work());
+  });
 }

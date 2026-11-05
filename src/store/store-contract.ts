@@ -68,7 +68,7 @@ export function runDocument(
   };
 }
 
-async function conflictOf(promise: Promise<unknown>): Promise<string | null> {
+async function errorCodeOf(promise: Promise<unknown>): Promise<string | null> {
   try {
     await promise;
     return null;
@@ -111,7 +111,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       it("never overwrites a saved run", async () => {
         await store.saveRun(runDocument("run_1", "2026-11-05T09:00:00.000Z"));
 
-        const code = await conflictOf(
+        const code = await errorCodeOf(
           store.saveRun(
             runDocument("run_1", "2026-11-05T09:00:00.000Z", {
               decision: "reject",
@@ -121,6 +121,27 @@ export function describeAgentStore(name: string, make: MakeStore): void {
 
         expect(code).toBe("STORE_CONFLICT");
         expect((await store.getRun("run_1"))?.decision).toBe("approve");
+      });
+
+      it("refuses a run it could not store, as a typed error", async () => {
+        const invalid = [
+          runDocument("..", "2026-11-05T09:00:00.000Z"),
+          runDocument("__run__", "2026-11-05T09:00:00.000Z"),
+          runDocument("run_1", "2026-11-05T09:00:00.000Z", { costMicros: 1.5 }),
+        ];
+        for (const run of invalid) {
+          expect(await errorCodeOf(store.saveRun(run))).toBe(
+            "STORE_INVALID_INPUT",
+          );
+        }
+      });
+
+      it("refuses a page size that isn't a positive integer", async () => {
+        for (const limit of [0, -1, 2.5]) {
+          expect(await errorCodeOf(store.listRuns({ limit }))).toBe(
+            "STORE_INVALID_INPUT",
+          );
+        }
       });
 
       it("lists runs newest first across pages", async () => {
@@ -182,7 +203,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         const read = await store.readFeedCursor();
         await store.advanceFeedCursor(read, "cur_first");
 
-        const code = await conflictOf(
+        const code = await errorCodeOf(
           store.advanceFeedCursor(read, "cur_second"),
         );
 
@@ -242,6 +263,23 @@ export function describeAgentStore(name: string, make: MakeStore): void {
           spend: { day: "2026-11-05", settledMicros: 0, heldMicros: 6_000 },
         });
         expect(fits.ok).toBe(true);
+      });
+
+      it("counts a retried reservation of the same run once", async () => {
+        await store.reserveSpend({
+          runId: "run_1",
+          micros: 6_000,
+          budgetMicros: BUDGET,
+        });
+
+        const retried = await store.reserveSpend({
+          runId: "run_1",
+          micros: 6_000,
+          budgetMicros: BUDGET,
+        });
+
+        expect(retried.ok).toBe(true);
+        expect((await store.daySpend()).heldMicros).toBe(6_000);
       });
 
       it("replaces the hold with the actual cost when settled", async () => {

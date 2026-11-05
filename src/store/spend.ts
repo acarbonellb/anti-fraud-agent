@@ -50,7 +50,11 @@ export function reserve(
   input: ReserveSpendInput,
   now: Date,
 ): { reservation: Reservation; entries: Record<string, SpendEntry> | null } {
-  const spend = totalOf(day, entries, now);
+  // A retried reservation replaces the run's own hold, not adds to it.
+  const others = Object.fromEntries(
+    Object.entries(entries).filter(([runId]) => runId !== input.runId),
+  );
+  const spend = totalOf(day, others, now);
   if (
     spend.settledMicros + spend.heldMicros + input.micros >
     input.budgetMicros
@@ -66,7 +70,7 @@ export function reserve(
   return {
     reservation: { ok: true, hold },
     entries: {
-      ...withoutExpired(entries, now),
+      ...withoutExpired(others, now),
       [hold.runId]: { micros: hold.micros, expiresAt: hold.expiresAt },
     },
   };

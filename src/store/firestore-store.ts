@@ -12,6 +12,7 @@
  */
 import { z } from "zod";
 
+import { DomainError } from "../errors.js";
 import type { Fetch } from "../venue/http.js";
 import {
   decodeFields,
@@ -19,8 +20,16 @@ import {
   encodeValue,
   type FirestoreFields,
 } from "./firestore-values.js";
-import { decodeRunCursor, encodeRunCursor } from "./run-cursor.js";
-import { type RunDocument, runDocumentSchema } from "./run-document.js";
+import {
+  checkPageLimit,
+  decodeRunCursor,
+  encodeRunCursor,
+} from "./run-cursor.js";
+import {
+  type RunDocument,
+  runDocumentSchema,
+  validRun,
+} from "./run-document.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
 import {
   type AgentStore,
@@ -179,7 +188,7 @@ export function createFirestoreStore(
 
   return {
     async saveRun(run) {
-      const parsed = runDocumentSchema.parse(run);
+      const parsed = validRun(run);
       // Create only: Firestore answers `409 ALREADY_EXISTS` for a saved id.
       await request(
         "POST",
@@ -194,6 +203,7 @@ export function createFirestoreStore(
     },
 
     async listRuns({ limit, cursor }) {
+      checkPageLimit(limit);
       const after = cursor === undefined ? null : decodeRunCursor(cursor);
       // One more than asked tells whether another page follows.
       const response = await request("POST", ":runQuery", {
@@ -280,6 +290,8 @@ export function createFirestoreStore(
         signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
     } catch (error) {
+      // A typed error from below (a recorder, a replay) must surface as is.
+      if (error instanceof DomainError) throw error;
       throw new StoreError("STORE_UNAVAILABLE", null, { cause: error });
     }
     if (!response.ok) {

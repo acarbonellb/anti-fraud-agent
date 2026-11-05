@@ -35,7 +35,14 @@ export function decodeRunCursor(cursor: string): RunPosition {
     return positionSchema.parse(
       JSON.parse(Buffer.from(cursor, "base64url").toString("utf8")),
     );
-  } catch (error) {
-    throw new StoreError("STORE_BAD_CURSOR", null, { cause: error });
+  } catch {
+    // No cause: a Zod error could quote the cursor's contents.
+    throw new StoreError("STORE_BAD_CURSOR");
+  }
+}
+
+export function checkPageLimit(limit: number): void {
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new StoreError("STORE_INVALID_INPUT");
   }
 }

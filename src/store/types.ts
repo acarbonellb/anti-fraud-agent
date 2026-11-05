@@ -83,6 +83,7 @@ export const SPEND_HOLD_TTL_MS = 15 * 60_000;
 export type StoreErrorCode =
   | "STORE_CONFLICT"
   | "STORE_BAD_CURSOR"
+  | "STORE_INVALID_INPUT"
   | "STORE_FORBIDDEN"
   | "STORE_UNAVAILABLE"
   | "STORE_HTTP_ERROR"
