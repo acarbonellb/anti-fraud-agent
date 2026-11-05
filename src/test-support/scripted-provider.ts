@@ -53,6 +53,36 @@ export function createScriptedProvider(
   };
 }
 
+/**
+ * What the loop answered the model's calls to `tool`, oldest first: read
+ * from the conversation as the model last saw it, so a test names the tool
+ * it means instead of a request's position.
+ */
+export function toolResults(
+  provider: ScriptedProvider,
+  tool: string,
+): string[] {
+  const messages = provider.requests.at(-1)?.messages ?? [];
+  const named = new Map<string, string>();
+  for (const message of messages) {
+    if (message.role !== "assistant") continue;
+    for (const call of message.toolCalls) named.set(call.id, call.name);
+  }
+  return messages.flatMap((message) =>
+    message.role === "tool" && named.get(message.toolCallId) === tool
+      ? [message.content]
+      : [],
+  );
+}
+
+/** The loop's latest answer to a call to `tool`. */
+export function lastToolResult(
+  provider: ScriptedProvider,
+  tool: string,
+): string {
+  return toolResults(provider, tool).at(-1) ?? "";
+}
+
 /** A response that calls one tool. */
 export function callTool(
   name: string,

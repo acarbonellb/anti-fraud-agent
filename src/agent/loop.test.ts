@@ -11,7 +11,9 @@ import { z } from "zod";
 import {
   callTool,
   createScriptedProvider,
+  lastToolResult,
   sayText,
+  toolResults,
 } from "../test-support/scripted-provider.js";
 import type { CompletionResponse } from "../providers/types.js";
 import { type SystemFinding, systemFinding } from "../checks/types.js";
@@ -140,9 +142,7 @@ describe("a run that ends in a submission", () => {
     expect(outcome.toolCalls).toBe(1);
     expect(outcome.trace).toEqual([{ tool: "lookup_venue", ok: true }]);
     expect(outcome.usage).toEqual({ inputTokens: 200, outputTokens: 40 });
-    const toolMessage = provider.requests[1]?.messages.at(-1);
-    expect(toolMessage).toMatchObject({ role: "tool" });
-    expect(toolMessage?.role === "tool" && toolMessage.content).toContain(
+    expect(lastToolResult(provider, "lookup_venue")).toContain(
       '<untrusted_data source="lookup_venue" nonce="n0nce">',
     );
   });
@@ -192,8 +192,9 @@ describe("a run that ends in a submission", () => {
       ok: false,
       error: "INVALID_INPUT",
     });
-    const correction = provider.requests[1]?.messages.at(-1);
-    expect(correction?.content).toContain("decision");
+    expect(lastToolResult(provider, "submit_recommendation")).toContain(
+      "decision",
+    );
   });
 
   it("rejects a check name outside the vocabulary, so the policy reads real names", async () => {
@@ -209,7 +210,7 @@ describe("a run that ends in a submission", () => {
     const outcome = await result;
 
     expect(outcome.trace[0]?.error).toBe("INVALID_INPUT");
-    expect(provider.requests[1]?.messages.at(-1)?.content).toContain(
+    expect(lastToolResult(provider, "submit_recommendation")).toContain(
       "findings.0.check",
     );
   });
@@ -548,8 +549,9 @@ describe("tool errors the model can recover from", () => {
 
     expect(outcome.endedBy).toBe("submitted");
     expect(outcome.trace[0]?.error).toBe(code);
-    const errorMessage = provider.requests[1]?.messages.at(-1)?.content ?? "";
-    expect(errorMessage).not.toContain("10.0.0.1");
+    const [answer] = toolResults(provider, outcome.trace[0]?.tool ?? "");
+    expect(answer).toBeDefined();
+    expect(answer).not.toContain("10.0.0.1");
   });
 });
 
@@ -585,8 +587,7 @@ describe("sources from web search (ADR 0015)", () => {
     const outcome = await result;
     expect(outcome.webSearches).toBe(1);
     expect(outcome.autonomy.autonomy).toBe("auto_resolved");
-    const toolMessage = provider.requests[1]?.messages.at(-1);
-    expect(toolMessage?.role === "tool" && toolMessage.content).toContain(
+    expect(lastToolResult(provider, "web_search")).toContain(
       '<untrusted_data source="web_search" nonce="n0nce">',
     );
   });
@@ -616,8 +617,7 @@ describe("sources from web search (ADR 0015)", () => {
       { tools: [search] },
     );
     await result;
-    const again = provider.requests[3]?.messages.at(-1);
-    expect(again?.role === "tool" && again.content).toContain(
+    expect(lastToolResult(provider, "web_search")).toContain(
       "No searches left",
     );
   });
@@ -635,8 +635,7 @@ describe("sources from web search (ADR 0015)", () => {
     expect(outcome.webSearches).toBe(1);
     expect(outcome.toolCalls).toBe(2);
     expect(outcome.autonomy.autonomy).toBe("auto_resolved");
-    const repeat = provider.requests[2]?.messages.at(-1);
-    expect(repeat?.role === "tool" && repeat.content).toContain(
+    expect(lastToolResult(provider, "web_search")).toContain(
       "Already searched",
     );
   });
@@ -723,8 +722,7 @@ describe("run limits", () => {
       autonomy: "escalated",
       reasons: ["web search budget spent"],
     });
-    const refusal = provider.requests[2]?.messages.at(-1);
-    expect(refusal?.role === "tool" && refusal.content).toContain(
+    expect(lastToolResult(provider, "web_search")).toContain(
       "No searches left",
     );
   });

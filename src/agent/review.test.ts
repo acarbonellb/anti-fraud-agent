@@ -11,6 +11,7 @@ import { afterEach, beforeEach, expect, it } from "vitest";
 import {
   callTool,
   createScriptedProvider,
+  lastToolResult,
 } from "../test-support/scripted-provider.js";
 import type { LlmProvider } from "../providers/types.js";
 import {
@@ -134,8 +135,9 @@ it("reviews an event and submits the recommendation to Satella", async () => {
     promptVersion: PROMPT_VERSION,
     provider: "scripted",
   });
-  const similarResult = provider.requests[1]?.messages.at(-1)?.content;
-  expect(similarResult).toContain("Noche jazz Lumbre");
+  expect(lastToolResult(provider, "find_similar_events")).toContain(
+    "Noche jazz Lumbre",
+  );
   // The deterministic checks ran first and their findings travel with it.
   expect(result.review.findings.map((finding) => finding.check)).toContain(
     "postal_code_province",
