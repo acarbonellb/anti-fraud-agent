@@ -6,13 +6,12 @@
  */
 import { z } from "zod";
 
+import { cachedToken } from "../cached-token.js";
 import { DomainError } from "../errors.js";
 import type { Fetch } from "../fetch.js";
 
 const METADATA_IDENTITY_URL =
   "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity";
-/** A token is renewed this long before it expires, so none dies in flight. */
-const TOKEN_MARGIN_MS = 60_000;
 const REQUEST_TIMEOUT_MS = 10_000;
 
 const claimsSchema = z.object({ exp: z.number().positive() });
@@ -37,36 +36,29 @@ export function createIdentityTokenSource(
   url.searchParams.set("audience", options.audience);
   // Satella checks `email` and `email_verified`, which only `full` includes.
   url.searchParams.set("format", "full");
-  let token: { value: string; expiresAt: number } | null = null;
 
-  return async () => {
-    if (
-      token === null ||
-      now().getTime() >= token.expiresAt - TOKEN_MARGIN_MS
-    ) {
-      let response: Response;
-      let value: string;
-      try {
-        response = await doFetch(url.toString(), {
-          method: "GET",
-          headers: { "Metadata-Flavor": "Google" },
-          signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-        });
-        value = (await response.text()).trim();
-      } catch (error) {
-        throw new IdentityTokenError("metadata server unreachable", {
-          cause: error,
-        });
-      }
-      if (!response.ok) {
-        throw new IdentityTokenError(
-          `metadata server: ${String(response.status)}`,
-        );
-      }
-      token = { value, expiresAt: expiryOf(value) };
+  return cachedToken(async () => {
+    let response: Response;
+    let value: string;
+    try {
+      response = await doFetch(url.toString(), {
+        method: "GET",
+        headers: { "Metadata-Flavor": "Google" },
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+      value = (await response.text()).trim();
+    } catch (error) {
+      throw new IdentityTokenError("metadata server unreachable", {
+        cause: error,
+      });
     }
-    return token.value;
-  };
+    if (!response.ok) {
+      throw new IdentityTokenError(
+        `metadata server: ${String(response.status)}`,
+      );
+    }
+    return { value, expiresAt: expiryOf(value) };
+  }, now);
 }
 
 /** Reads `exp` without verifying the signature: Satella is the verifier. */

@@ -13,6 +13,7 @@
  */
 import { z } from "zod";
 
+import { cachedToken } from "../cached-token.js";
 import { DomainError } from "../errors.js";
 import type { Fetch } from "../fetch.js";
 import {
@@ -54,8 +55,6 @@ export interface FirestoreStoreOptions {
 
 const METADATA_TOKEN_URL =
   "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token";
-/** A token is renewed this long before it expires, so none dies in flight. */
-const TOKEN_MARGIN_MS = 60_000;
 const REQUEST_TIMEOUT_MS = 10_000;
 /** Reservations and settlements that lose a race re-read and try again. */
 const MAX_SPEND_ATTEMPTS = 3;
@@ -101,26 +100,22 @@ export function createFirestoreStore(
     options.emulatorHost === undefined
       ? `https://firestore.googleapis.com/v1/${root}`
       : `http://${options.emulatorHost}/v1/${root}`;
-  let token: { value: string; expiresAt: number } | null = null;
+  const accessToken = cachedToken(async () => {
+    const body = await send(METADATA_TOKEN_URL, {
+      method: "GET",
+      headers: { "Metadata-Flavor": "Google" },
+    });
+    const parsed = tokenSchema.safeParse(body);
+    if (!parsed.success) throw new StoreError("STORE_BAD_RESPONSE");
+    return {
+      value: parsed.data.access_token,
+      expiresAt: now().getTime() + parsed.data.expires_in * 1000,
+    };
+  }, now);
 
   async function authorization(): Promise<Record<string, string>> {
     if (options.emulatorHost !== undefined) return {};
-    if (
-      token === null ||
-      now().getTime() >= token.expiresAt - TOKEN_MARGIN_MS
-    ) {
-      const body = await send(METADATA_TOKEN_URL, {
-        method: "GET",
-        headers: { "Metadata-Flavor": "Google" },
-      });
-      const parsed = tokenSchema.safeParse(body);
-      if (!parsed.success) throw new StoreError("STORE_BAD_RESPONSE");
-      token = {
-        value: parsed.data.access_token,
-        expiresAt: now().getTime() + parsed.data.expires_in * 1000,
-      };
-    }
-    return { Authorization: `Bearer ${token.value}` };
+    return { Authorization: `Bearer ${await accessToken()}` };
   }
 
   async function request(
