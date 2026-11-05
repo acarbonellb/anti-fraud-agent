@@ -106,8 +106,10 @@ cursor, review what changed, store each run and advance the cursor. The store (A
 - `worstCaseMicros` in `src/providers/pricing.ts`.
 - New variables (`.env.example`, config schema): `AGENT_DAILY_BUDGET_MICROS` (default
   2,000,000, $2), `FIRESTORE_PROJECT_ID` and `FIRESTORE_EMULATOR_HOST`.
-- With the defaults (Haiku 5.5, 200,000 tokens, $2), a pass reviews at most 2 subjects while the
-  day's spend is low. That is 288 a day at 10-minute passes, far above staging volume. The pass
+- With the defaults (Haiku 5.5, 200,000 tokens, $2), a pass reads at most 2 feed items while
+  the day's spend is low. The limit counts items, not subjects, so a resolution or an
+  `event.minor_change` takes a slot too, and the pass then reviews fewer than 2 (#57). That is
+  up to 288 items a day at 10-minute passes, far above staging volume. The pass
   stops once less than one hold ($1.00) is left: the price of a hold that can't underestimate.
 - The brief §6.3.3 carries a note pointing here.
 - Left open: Satella staging's URL and identity (#9), the deployment (#46), and on-demand
@@ -149,4 +151,4 @@ outage left every event published in that window unreviewed until its next chang
 **Consequences:** `src/pass/retries.ts` (`isTransient`, `afterReview`), `readRetryQueue` and
 `replaceRetryQueue` on `AgentStore`, and `retriesQueued` in `PassReport` and the pass's log.
 With the defaults, the budget leaves room for 2 runs a pass while the day's spend is low, so a
-pass retries at most 1 subject.
+pass retries at most 1 subject and reads 1 feed item.

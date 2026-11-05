@@ -288,6 +288,36 @@ describe("the day's budget", () => {
     expect(await store.readFeedCursor()).toBeNull();
   });
 
+  it("still counts the page's skipped items when it stops mid-page", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(
+      feedItem("event.minor_change", evt1, { kind: "minor" }),
+    );
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    // Room for a page of three; the other run then takes what the second needs.
+    const budget = 3 * WORST_CASE;
+    const busy: AgentStore = {
+      ...store,
+      async reserveSpend(input) {
+        const reservation = await store.reserveSpend(input);
+        await store.reserveSpend({
+          runId: "run_on_demand",
+          micros: 2 * WORST_CASE,
+          budgetMicros: budget,
+        });
+        return reservation;
+      },
+    };
+
+    const report = await pass(createScriptedProvider(submits(1), HAIKU), {
+      store: busy,
+      dailyBudgetMicros: budget,
+    });
+
+    expect(report.stoppedBy).toBe("budget");
+    expect(report.skippedItems).toBe(1);
+  });
+
   it("refuses to run a model it can't price", async () => {
     await expect(pass(createScriptedProvider([]))).rejects.toMatchObject({
       code: "PASS_UNPRICED_MODEL",
