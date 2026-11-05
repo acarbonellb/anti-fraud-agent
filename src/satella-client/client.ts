@@ -29,6 +29,8 @@ export interface SatellaClientOptions {
   /** Sent as `X-Correlation-Id` so Satella's logs join the agent's run. */
   correlationId: string;
   fetch?: typeof globalThis.fetch;
+  /** Per request. A hung call fails as `SATELLA_UNAVAILABLE` (#57). */
+  timeoutMs?: number;
 }
 
 export interface CreateReviewResult {
@@ -60,6 +62,8 @@ export interface SatellaClient {
 }
 
 const API_PREFIX = "/api/agent/v1";
+/** Well under the job's timeout: a hung socket must not use the whole pass. */
+const REQUEST_TIMEOUT_MS = 15_000;
 
 export function createSatellaClient(
   options: SatellaClientOptions,
@@ -100,9 +104,10 @@ export function createSatellaClient(
         method: init.method ?? "GET",
         headers,
         ...(body === undefined ? {} : { body }),
+        signal: AbortSignal.timeout(options.timeoutMs ?? REQUEST_TIMEOUT_MS),
       });
     } catch {
-      // Network failure: no status, and nothing from Satella to keep.
+      // Network failure or timeout: no status, nothing from Satella to keep.
       throw new SatellaApiError("SATELLA_UNAVAILABLE", name, null);
     }
 

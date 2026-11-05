@@ -25,7 +25,12 @@ export interface OpenAiCompatibleOptions {
   /** Deterministic by default: reviews must be reproducible. */
   temperature?: number;
   fetch?: typeof globalThis.fetch;
+  /** Per completion. A hung server fails as `LLM_UNAVAILABLE` (#57). */
+  timeoutMs?: number;
 }
+
+/** A local 9B model can take a minute on a long review; a hung one, forever. */
+const COMPLETION_TIMEOUT_MS = 120_000;
 
 // Only what the adapter reads. Servers add their own fields (LM Studio sends
 // `reasoning_content`); Zod drops them.
@@ -102,6 +107,9 @@ export function createOpenAiCompatibleProvider(
               : { authorization: `Bearer ${options.apiKey}` }),
           },
           body: JSON.stringify(body),
+          signal: AbortSignal.timeout(
+            options.timeoutMs ?? COMPLETION_TIMEOUT_MS,
+          ),
         });
       } catch {
         throw new ProviderError("LLM_UNAVAILABLE", options.provider);

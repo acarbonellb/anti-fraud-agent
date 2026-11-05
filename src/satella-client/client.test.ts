@@ -403,6 +403,24 @@ describe("create review", () => {
     );
   });
 
+  it("gives up on a Satella that never answers", async () => {
+    const hang: typeof globalThis.fetch = (_url, init) =>
+      new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => {
+          reject(new Error("aborted"));
+        });
+      });
+    const hung = createSatellaClient({
+      baseUrl: mock.baseUrl,
+      getAccessToken: () => Promise.resolve(READ_AND_RECOMMEND),
+      correlationId: "corr-123",
+      fetch: hang,
+      timeoutMs: 10,
+    });
+
+    await expectSatellaError(hung.getFeed(), "SATELLA_UNAVAILABLE");
+  });
+
   it.each([
     [
       "a rationale over Satella's limit",
