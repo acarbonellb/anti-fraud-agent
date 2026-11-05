@@ -77,7 +77,7 @@ Four facts shaped the rest:
    - **When.** The deploy job runs after the existing checks pass on a push to `main`. One deploy
      runs at a time.
    - **What it does.** It builds the image, pushes it and points the job at it.
-   - **Configuration.** The project id and account emails are GitHub repository variables. The
+   - **Configuration.** The project id and the WIF provider's name are GitHub repository variables; the deploy account's email follows from the project id. The
      job's non-secret environment lives in the workflow, so a change to it is reviewed in a PR:
      the provider, model and effort of ADR 0008, `FIRESTORE_PROJECT_ID` and the budget.
 8. **The one-time setup is gcloud commands the author runs, kept in the repo without ids.**
