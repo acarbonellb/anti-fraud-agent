@@ -8,7 +8,7 @@ import {
   callTool,
   createScriptedProvider,
   sayText,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import type { CompletionRequest } from "../providers/types.js";
 import {
   createRecordingProvider,

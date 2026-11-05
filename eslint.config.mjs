@@ -35,6 +35,25 @@ export default tseslint.config(
     rules: { "no-restricted-properties": "off" },
   },
   {
+    // Test doubles stay out of the deployed image (.dockerignore): only tests
+    // and other doubles may import them.
+    files: ["src/**/*.ts", "scripts/**/*.ts"],
+    ignores: ["**/*.test.ts", "src/test-support/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/test-support/**"],
+              message: "Test doubles are for tests only.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // Tooling configs aren't in tsconfig: lint them without type information.
     files: ["**/*.{js,mjs,cjs}"],
     ...tseslint.configs.disableTypeChecked,

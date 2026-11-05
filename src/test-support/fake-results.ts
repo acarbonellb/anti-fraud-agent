@@ -3,7 +3,7 @@
  * (metrics, runs, gate, report). Only what a test names differs from a
  * scored, gated, auto-resolved approval.
  */
-import type { CaseOutcome, CaseResult } from "./types.js";
+import type { CaseOutcome, CaseResult } from "../evals/types.js";
 
 export function caseResult(
   caseId: string,

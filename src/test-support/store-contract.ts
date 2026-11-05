@@ -10,8 +10,12 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type {
   CompletedRunDocument,
   FailedRunDocument,
-} from "./run-document.js";
-import { type AgentStore, SPEND_HOLD_TTL_MS, StoreError } from "./types.js";
+} from "../store/run-document.js";
+import {
+  type AgentStore,
+  SPEND_HOLD_TTL_MS,
+  StoreError,
+} from "../store/types.js";
 
 export interface StoreUnderTest {
   store: AgentStore;

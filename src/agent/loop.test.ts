@@ -12,7 +12,7 @@ import {
   callTool,
   createScriptedProvider,
   sayText,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import type { CompletionResponse } from "../providers/types.js";
 import { type SystemFinding, systemFinding } from "../checks/types.js";
 import { runReview, type RunReviewInput } from "./loop.js";

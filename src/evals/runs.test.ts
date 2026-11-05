@@ -4,7 +4,7 @@
 // whose expected values are worked out by hand below; fakes nothing.
 import { describe, expect, it } from "vitest";
 
-import { caseResult as result } from "./fake-results.js";
+import { caseResult as result } from "../test-support/fake-results.js";
 import { byCase, computeRunMetrics, majorityOutcome } from "./runs.js";
 
 const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;

@@ -4,7 +4,7 @@
 import { describe, expect, it } from "vitest";
 
 import { computeMetrics } from "./metrics.js";
-import { caseResult as result } from "./fake-results.js";
+import { caseResult as result } from "../test-support/fake-results.js";
 import type { CaseResult } from "./types.js";
 
 const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;

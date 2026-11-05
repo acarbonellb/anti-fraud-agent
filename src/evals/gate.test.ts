@@ -4,7 +4,7 @@
 // fakes nothing.
 import { expect, it } from "vitest";
 
-import { caseResult as result } from "./fake-results.js";
+import { caseResult as result } from "../test-support/fake-results.js";
 import { gateFailures } from "./gate.js";
 import type { ReportSet } from "./report.js";
 import type { CaseResult } from "./types.js";

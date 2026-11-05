@@ -10,7 +10,7 @@ import type {
   LlmProvider,
   TokenUsage,
   ToolCall,
-} from "./types.js";
+} from "../providers/types.js";
 
 export interface ScriptedProvider extends LlmProvider {
   readonly requests: CompletionRequest[];

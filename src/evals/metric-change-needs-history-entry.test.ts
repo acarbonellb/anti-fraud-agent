@@ -8,7 +8,7 @@ import { expect, it } from "vitest";
 import {
   callTool,
   createScriptedProvider,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import {
   historyFailures,
@@ -17,7 +17,7 @@ import {
   type HistoryEntry,
 } from "./history.js";
 import { createAuthoredSearch } from "../search/authored.js";
-import { fakeVenueFetch } from "../venue/fake-venue-fetch.js";
+import { fakeVenueFetch } from "../test-support/fake-venue-fetch.js";
 import { recordCase, replaySet } from "./runner.js";
 import type { RecordingSet } from "./store.js";
 import type { EvalCase } from "./types.js";
