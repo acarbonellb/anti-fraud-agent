@@ -82,12 +82,18 @@ fixed.
 - **Reviewable item**: a feed item that starts a review. Every type but `event.minor_change` and
   `agent_review.resolved` (ADR 0017).
 - **Agent store**: the agent's own data, apart from Satella's: runs and their resolutions, the
-  feed cursor and the day's spend (`AgentStore`). Firestore when deployed, in memory locally and
+  feed cursor, the retry queue and the day's spend (`AgentStore`). Firestore when deployed, in memory locally and
   in tests (ADR 0016).
 - **Run document**: one run as the store keeps it: the recommendation, its autonomy, usage, cost
   and the summary trace, never a tool response (ADR 0016).
 - **Failed run**: a run that ended without a recommendation in Satella. It keeps the error's
   stable code and what its calls cost, and the pass moves on (ADR 0017).
+- **Transient failure**: a failed review another try may fix: the model or Satella unreachable,
+  timed out, rate limited or answering 5xx (`isTransient`). Its subject joins the retry queue
+  (ADR 0017 amendment).
+- **Retry queue**: the subjects whose last review failed transiently, oldest first. Each pass
+  reviews some of them again, in at most half its room; a subject leaves after a review that
+  doesn't fail transiently, or is abandoned after its third failure (ADR 0017 amendment).
 - **Run resolution**: the admin's resolution of a run's recommendation, kept next to the run in
   the store; the admin agreement rate (brief §4.3) joins them (ADR 0016 amendment).
 - **Feed cursor**: where the next pass reads the feed from. It advances only from the value read,

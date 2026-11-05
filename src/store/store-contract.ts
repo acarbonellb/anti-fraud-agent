@@ -291,6 +291,44 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       });
     });
 
+    describe("retry queue", () => {
+      const retry = {
+        subject: { type: "event" as const, id: "evt_1" },
+        failures: 1,
+        code: "LLM_UNAVAILABLE",
+      };
+
+      it("starts empty", async () => {
+        expect(await store.readRetryQueue()).toEqual([]);
+      });
+
+      it("reads back the queue it was given, in order", async () => {
+        const second = {
+          subject: { type: "organizer" as const, id: "org_1" },
+          failures: 2,
+          code: "SATELLA_UNAVAILABLE",
+        };
+        await store.replaceRetryQueue([retry, second]);
+
+        expect(await store.readRetryQueue()).toEqual([retry, second]);
+      });
+
+      it("replaces the whole queue, down to empty", async () => {
+        await store.replaceRetryQueue([retry]);
+        await store.replaceRetryQueue([]);
+
+        expect(await store.readRetryQueue()).toEqual([]);
+      });
+
+      it("refuses a queue it could not store, as a typed error", async () => {
+        const code = await errorCodeOf(
+          store.replaceRetryQueue([{ ...retry, failures: 0 }]),
+        );
+
+        expect(code).toBe("STORE_INVALID_INPUT");
+      });
+    });
+
     describe("the day's spend", () => {
       const BUDGET = 10_000;
 

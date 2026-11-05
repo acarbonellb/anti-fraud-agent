@@ -3,7 +3,9 @@
  * the stored cursor, record the admins' resolutions, review each subject that
  * changed once, store a run for each and advance the cursor. Every run
  * reserves its worst-case cost first, and the pass stops at the day's budget.
- * A review that fails is stored as failed and doesn't hold the feed back.
+ * A review that fails is stored as failed and doesn't hold the feed back;
+ * one that failed for a reason that can pass is queued and tried again on
+ * later passes, a bounded number of times (#57).
  */
 import { randomUUID } from "node:crypto";
 
@@ -26,8 +28,15 @@ import {
   runIdSchema,
   toRunDocument,
 } from "../store/run-document.js";
+import type { PendingRetry } from "../store/retry-queue.js";
 import type { AgentStore } from "../store/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
+import {
+  afterReview,
+  isTransient,
+  type ReviewOutcome,
+  subjectKey,
+} from "./retries.js";
 
 /** At most this many feed items a pass, every 10 minutes (#45). */
 export const PASS_PAGE_SIZE = 10;
@@ -100,6 +109,8 @@ export interface PassReport {
   skippedItems: number;
   /** Where the next pass starts. */
   cursor: string | null;
+  /** Subjects left to try again on a later pass. */
+  retriesQueued: number;
 }
 
 export class PassError extends DomainError {
@@ -128,13 +139,29 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   const worstCase = perAttempt * (1 + STALE_RETRIES);
 
   const from = await store.readFeedCursor();
-  const stopped = (runs: PassRun[], resolutions: number): PassReport => ({
-    stoppedBy: "budget",
-    runs,
-    resolutions,
-    skippedItems: 0,
-    cursor: from,
-  });
+  const queued = await store.readRetryQueue();
+  let queue = queued;
+  // Written before the cursor moves: if the write fails, the page is read
+  // again and its failures are queued then.
+  const saveQueue = async () => {
+    if (JSON.stringify(queue) !== JSON.stringify(queued)) {
+      await store.replaceRetryQueue(queue);
+    }
+  };
+  const stopped = async (
+    runs: PassRun[],
+    resolutions: number,
+  ): Promise<PassReport> => {
+    await saveQueue();
+    return {
+      stoppedBy: "budget",
+      runs,
+      resolutions,
+      skippedItems: 0,
+      cursor: from,
+      retriesQueued: queue.length,
+    };
+  };
 
   // Ask the feed for no more items than the day can review: then the cursor
   // the page returns never skips an item left unreviewed for lack of budget.
@@ -142,20 +169,23 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   const left =
     options.dailyBudgetMicros - spend.settledMicros - spend.heldMicros;
   const affordable = worstCase === 0 ? Infinity : Math.floor(left / worstCase);
-  const limit = Math.min(options.pageSize ?? PASS_PAGE_SIZE, affordable);
-  if (limit < 1) {
+  const room = Math.min(options.pageSize ?? PASS_PAGE_SIZE, affordable);
+  if (room < 1) {
     log({
       level: "warn",
       event: "pass.budget_reached",
       code: "BUDGET_REACHED",
       ...spend,
     });
-    return stopped([], 0);
+    return await stopped([], 0);
   }
 
+  // Retries take at most half the pass, so the feed always moves and a pass
+  // still reviews no more than a page (ADR 0018's timeout).
+  const retrying = queued.slice(0, Math.floor(room / 2));
   const page = await satella.getFeed({
     ...(from === null ? {} : { cursor: from }),
-    limit,
+    limit: room - retrying.length,
   });
   log({ level: "info", event: "pass.page_read", items: page.items.length });
 
@@ -166,7 +196,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   }
 
   const runs: PassRun[] = [];
-  for (const subject of subjectsToReview(page.items)) {
+  for (const subject of subjectsToReview(retrying, page.items)) {
     const runId = newRunId();
     const reservation = await store.reserveSpend({
       runId,
@@ -184,13 +214,28 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
         subject,
         ...reservation.spend,
       });
-      return stopped(runs, resolutions);
+      return await stopped(runs, resolutions);
     }
 
-    const outcome = await reviewAndStore(options, subject, runId, now, log);
+    const failures =
+      queued.find((retry) => subjectKey(retry.subject) === subjectKey(subject))
+        ?.failures ?? 0;
+    const outcome = await reviewAndStore(
+      options,
+      subject,
+      runId,
+      failures,
+      now,
+      log,
+    );
     await store.settleSpend(reservation.hold, outcome.costMicros);
-    runs.push({ runId, subject, outcome: outcome.outcome });
+    runs.push({ runId, subject, outcome: outcome.review.outcome });
+    const next = afterReview(queue, subject, outcome.review);
+    queue = next.queue;
+    if (next.abandoned !== null) logAbandoned(next.abandoned, runId, log);
   }
+
+  await saveQueue();
 
   // An empty page returns the cursor it was sent: nothing to move.
   const to = page.nextCursor;
@@ -207,18 +252,39 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
           !REVIEWABLE.has(item.type) && item.type !== "agent_review.resolved",
       ).length,
     cursor: to ?? from,
+    retriesQueued: queue.length,
   };
 }
 
 /**
- * Each subject once, in the order it first appears (#45 decision 2): the
- * review context is always current, so a second review would see the same.
+ * The only trace of a subject the agent gave up on: its last run is stored
+ * as failed, and this line is what an alert can match (#57).
  */
-function subjectsToReview(items: readonly FeedItem[]): Subject[] {
+function logAbandoned(retry: PendingRetry, runId: string, log: Log): void {
+  log({
+    level: "warn",
+    event: "run.abandoned",
+    runId,
+    subject: retry.subject,
+    code: retry.code,
+    failures: retry.failures,
+  });
+}
+
+/**
+ * Each subject once, the queued retries first, then in the order it first
+ * appears (#45 decision 2): the review context is always current, so a
+ * second review would see the same.
+ */
+function subjectsToReview(
+  retrying: readonly PendingRetry[],
+  items: readonly FeedItem[],
+): Subject[] {
   const seen = new Map<string, Subject>();
+  for (const { subject } of retrying) seen.set(subjectKey(subject), subject);
   for (const item of items) {
     if (!REVIEWABLE.has(item.type)) continue;
-    const key = `${item.subject.type}:${item.subject.id}`;
+    const key = subjectKey(item.subject);
     if (!seen.has(key)) {
       seen.set(key, { type: item.subject.type, id: item.subject.id });
     }
@@ -230,9 +296,11 @@ async function reviewAndStore(
   options: PassOptions,
   subject: Subject,
   runId: string,
+  /** How many times this subject's review already failed for a passing reason. */
+  previousFailures: number,
   now: () => Date,
   log: Log,
-): Promise<{ outcome: PassRun["outcome"]; costMicros: number }> {
+): Promise<{ review: ReviewOutcome; costMicros: number }> {
   const { provider, store } = options;
   // Every call's usage, kept even when the run fails half-way, so what it
   // spent is settled either way.
@@ -250,7 +318,13 @@ async function reviewAndStore(
   const spent = () => costMicros(provider.provider, provider.model, calls) ?? 0;
 
   const startedAt = now();
-  log({ level: "info", event: "run.started", runId, subject });
+  log({
+    level: "info",
+    event: "run.started",
+    runId,
+    subject,
+    ...(previousFailures === 0 ? {} : { previousFailures }),
+  });
   let result: ReviewSubjectResult;
   try {
     result = await reviewSubject({
@@ -307,8 +381,19 @@ async function reviewAndStore(
       usage,
       costMicros: spent(),
     });
-    log({ level: "warn", event: "run.failed", runId, subject, code });
-    return { outcome: "failed", costMicros: spent() };
+    const transient = isTransient(error);
+    log({
+      level: "warn",
+      event: "run.failed",
+      runId,
+      subject,
+      code,
+      transient,
+    });
+    return {
+      review: { outcome: "failed", code, transient },
+      costMicros: spent(),
+    };
   }
 
   // Outside the try: Satella has the recommendation, so a store that can't
@@ -332,7 +417,7 @@ async function reviewAndStore(
     autonomy: document.autonomy,
     attempts: result.attempts,
   });
-  return { outcome: "completed", costMicros: spent() };
+  return { review: { outcome: "completed" }, costMicros: spent() };
 }
 
 /**

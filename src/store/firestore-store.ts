@@ -9,7 +9,7 @@
  * behind the feed cursor and the day's spend, with no transaction API.
  *
  * Documents: `runs/{runId}`, `resolutions/{runId}`, `agentState/feedCursor`,
- * `spend/{YYYY-MM-DD}`.
+ * `agentState/retryQueue`, `spend/{YYYY-MM-DD}`.
  */
 import { z } from "zod";
 
@@ -33,6 +33,7 @@ import {
   validResolution,
   validRun,
 } from "./run-document.js";
+import { retryQueueSchema, validRetryQueue } from "./retry-queue.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
 import {
   type AgentStore,
@@ -76,6 +77,7 @@ const queryResponseSchema = z.array(
 );
 
 const feedCursorSchema = z.object({ cursor: z.string().min(1) });
+const retryQueueDocumentSchema = z.object({ retries: retryQueueSchema });
 const spendSchema = z.object({
   entries: z.record(
     z.string(),
@@ -274,6 +276,25 @@ export function createFirestoreStore(
         "agentState/feedCursor",
         document,
         encodeFields({ cursor: to }),
+      );
+    },
+
+    async readRetryQueue() {
+      const document = await getDocument("agentState/retryQueue");
+      return document === null
+        ? []
+        : parse(retryQueueDocumentSchema, decoded(document)).retries;
+    },
+
+    async replaceRetryQueue(retries) {
+      const valid = validRetryQueue(retries);
+      // Firestore takes no unconditional write here (every update carries a
+      // precondition). Overlapping passes don't happen: ADR 0018's timeout.
+      const document = await getDocument("agentState/retryQueue");
+      await putDocument(
+        "agentState/retryQueue",
+        document,
+        encodeFields({ retries: valid }),
       );
     },
 

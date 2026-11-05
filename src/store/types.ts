@@ -6,6 +6,7 @@
  * tests, Firestore in Cloud Run; one contract suite runs against both.
  */
 import { DomainError } from "../errors.js";
+import type { PendingRetry } from "./retry-queue.js";
 import type { RunDocument, RunResolution } from "./run-document.js";
 
 export interface RunPage {
@@ -69,6 +70,11 @@ export interface AgentStore {
    * `STORE_CONFLICT`.
    */
   advanceFeedCursor(from: string | null, to: string): Promise<void>;
+
+  /** Oldest first; empty until a review first fails for a passing reason. */
+  readRetryQueue(): Promise<PendingRetry[]>;
+  /** Replaces the whole queue: only the pass writes it, once a pass. */
+  replaceRetryQueue(retries: readonly PendingRetry[]): Promise<void>;
 
   /**
    * Reserves a run's worst-case cost against the current UTC day. Refused

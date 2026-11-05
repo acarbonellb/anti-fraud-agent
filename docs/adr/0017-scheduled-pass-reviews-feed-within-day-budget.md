@@ -1,7 +1,7 @@
 # ADR 0017 — The scheduled pass reviews each changed subject once, never holds the feed for a failure, and stops at the day's budget
 
 - **Date:** 2026-11-05
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-05 (#57)
 - **Related:** brief §2.1, §4.2, §4.3 and §6.3.3, which it departs from (point 5); ADR 0016
   (the store it writes, amended for failed runs and resolutions); ADR 0011 (the feed's contract);
   issues #8 and #45.
@@ -112,3 +112,41 @@ cursor, review what changed, store each run and advance the cursor. The store (A
 - The brief §6.3.3 carries a note pointing here.
 - Left open: Satella staging's URL and identity (#9), the deployment (#46), and on-demand
   reviews against the same budget (#48).
+
+## Amendment (2026-11-05, #57): a transient failure is tried again, a bounded number of times
+
+Point 3 holds for a failure that would happen again: one bad subject must not stall the feed. It
+was wrong for one that passes. The feed carries `event.published` once, so a 10-minute model
+outage left every event published in that window unreviewed until its next change. Point 3's
+"reviewed again on its next change" now applies only to failures that aren't transient.
+
+1. **A transient failure queues its subject.** `isTransient` decides from the typed error:
+   `LLM_UNAVAILABLE`; `LLM_HTTP_ERROR` with 408, 429 or 5xx (Anthropic's 529 included);
+   `SATELLA_UNAVAILABLE`, which covers timeouts and 5xx; and `SATELLA_RATE_LIMITED`. Anything
+   else (a 400, a 403, a 404, a contract violation, `STALE_SUBJECT` twice, a bug) would fail the
+   same way, so it is stored as failed and not queued.
+2. **The queue lives in the store** (`agentState/retryQueue`): ids, the failure count and the
+   last code, oldest first. The pass writes it once, before the cursor moves. If the write fails,
+   the pass fails and the page is read again.
+3. **Retries take at most half a pass.** Of the runs the pass can take (the page size, or fewer
+   if the budget is short), retries get `floor(room / 2)` and the feed the rest. So the feed
+   always moves, and a pass still reviews no more than a page (ADR 0018's timeout). A queued
+   subject that is also on the page is reviewed once.
+4. **Three failed reviews and the subject is abandoned.** The first review counts. A subject
+   that fails again goes to the back of the queue. On its third failure it leaves the queue with
+   a `run.abandoned` warning (subject, code, count), the line an alert can match. Its runs stay
+   stored as failed. It is reviewed again on its next change.
+
+**Rejected:**
+
+- **Retry inside the run** (backoff and try again): the Anthropic SDK already retries twice per
+  call. An outage longer than that would hold a pass for minutes against the job's timeout.
+- **Keep the cursor on a transient failure**: one subject down would hold the whole feed.
+- **Query the failed runs instead of keeping a queue**: it needs a composite index, and a run
+  keeps only the error code, not the HTTP status that tells a 429 from a 400.
+- **Unbounded retries**: a subject that keeps failing would take room from the feed forever.
+
+**Consequences:** `src/pass/retries.ts` (`isTransient`, `afterReview`), `readRetryQueue` and
+`replaceRetryQueue` on `AgentStore`, and `retriesQueued` in `PassReport` and the pass's log.
+With the defaults, the budget leaves room for 2 runs a pass while the day's spend is low, so a
+pass retries at most 1 subject.

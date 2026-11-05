@@ -9,6 +9,7 @@ import {
   validResolution,
   validRun,
 } from "./run-document.js";
+import { type PendingRetry, validRetryQueue } from "./retry-queue.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
 import {
   checkPageLimit,
@@ -26,6 +27,7 @@ export function createMemoryStore(
   const resolutions = new Map<string, RunResolution>();
   const spend = new Map<string, DayEntries>();
   let feedCursor: string | null = null;
+  let retryQueue: PendingRetry[] = [];
 
   return {
     saveRun(run) {
@@ -87,6 +89,16 @@ export function createMemoryStore(
       }
       feedCursor = to;
       return Promise.resolve();
+    },
+
+    readRetryQueue() {
+      return Promise.resolve(structuredClone(retryQueue));
+    },
+
+    replaceRetryQueue(retries) {
+      return asPromise(() => {
+        retryQueue = structuredClone(validRetryQueue(retries));
+      });
     },
 
     reserveSpend(input) {
