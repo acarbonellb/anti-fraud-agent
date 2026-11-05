@@ -179,8 +179,8 @@ finding on such a check is still dropped, as before.
 - **What doesn't change.** A system `fail`, `warn` or `unknown` still wins over any model finding
   on its check. A model `pass` or `unknown` still never stands next to the code's verdict. The
   #33 rule on approvals is untouched.
-- **Effect today.** None on the evals: `pnpm eval:replay --check` replays both sets unchanged.
-  None of the recordings has a model fail under a system pass.
+- **Effect today.** None on the evals: `pnpm eval:replay --check` replays both sets with the
+  same metrics and report.
 
 **Rejected:** dropping `pass` from the pattern checks, as the exact clone check does (#35). The
 admin would no longer see what was checked and came out clean. The fix belongs where findings
