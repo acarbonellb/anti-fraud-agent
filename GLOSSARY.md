@@ -136,8 +136,8 @@ fixed.
 - **Stale recording**: one whose requests no longer match what the code sends (the prompt, a tool,
   a check or a fixture changed), or that is missing. It must be recorded again.
 - **Auto-approved fraud rate**: share of problem cases that ended in `approve` + `auto_resolved`,
-  the only outcome that skips the admin. CI fails on a gated case that a majority of its repeated
-  runs auto-approved.
+  the only outcome that skips the admin. CI fails on a gated case that any of its repeated runs
+  auto-approved.
 - **Escalation rate**: share of cases sent to the admin (`escalated`).
 - **Autonomy accuracy**: share of cases whose autonomy matches the expected one.
 - **Brier score**: mean of (confidence − correct)², where correct is 1 or 0. Measures calibration:

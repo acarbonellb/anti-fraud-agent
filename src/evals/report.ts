@@ -43,7 +43,7 @@ export function renderReport(
     "A set recorded several times per case (#42) shows each metric's mean over",
     "the runs, with the min–max of the four an experiment is decided on, and how",
     "many runs agree on each case (`reject 2/3`). A case is right only when most",
-    "of its runs are, so a tie is wrong, and CI fails on a fraud case most runs",
+    "of its runs are, so a tie is wrong, and CI fails on a fraud case any run",
     "auto-approved. An entry's **Runs** tells a mean from a single run: two",
     "entries differ only where their ranges don't overlap.",
     "",

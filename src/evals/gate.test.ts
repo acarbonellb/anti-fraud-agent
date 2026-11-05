@@ -1,6 +1,6 @@
 // Checks what fails `pnpm eval:replay --check` over the replayed sets: a run
-// that couldn't replay, and a gated fraud case that a majority of its runs
-// approved as `auto_resolved` (#42). Pure function over hand-made results;
+// that couldn't replay, and a gated fraud case that any of its runs approved
+// as `auto_resolved` (#57). Pure function over hand-made results;
 // fakes nothing.
 import { expect, it } from "vitest";
 
@@ -37,7 +37,7 @@ it("fails on a single run's auto-approved fraud", () => {
   ]);
 });
 
-it("fails when most runs auto-approved the fraud, not when one of three did", () => {
+it("fails when any run auto-approved the fraud, even one of three", () => {
   expect(
     gateFailures([
       set([
@@ -46,18 +46,18 @@ it("fails when most runs auto-approved the fraud, not when one of three did", ()
         [escalated, clean],
       ]),
     ]),
-  ).toEqual([]);
+  ).toEqual([
+    "anthropic/claude-haiku-5-5 case 10: fraud approved as auto_resolved in 1/3 runs.",
+  ]);
   expect(
     gateFailures([
       set([
-        [autoApproved, clean],
+        [escalated, clean],
         [rejected, clean],
-        [autoApproved, clean],
+        [escalated, clean],
       ]),
     ]),
-  ).toEqual([
-    "anthropic/claude-haiku-5-5 case 10: fraud approved as auto_resolved in 2/3 runs.",
-  ]);
+  ).toEqual([]);
 });
 
 it("ignores the cases that need the external tools", () => {
