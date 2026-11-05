@@ -45,11 +45,16 @@ const stopReasons: Partial<Record<string, StopReason>> = {
   refusal: "refusal",
 };
 
+const COMPLETION_TIMEOUT_MS = 120_000;
+
 export function createAnthropicProvider(
   options: AnthropicOptions,
 ): LlmProvider {
   const client = new Anthropic({
     apiKey: options.apiKey,
+    // The SDK waits 10 minutes per attempt by default, longer than the job
+    // itself (ADR 0018). With its two retries, 3 × 2 min still fits (#57).
+    timeout: COMPLETION_TIMEOUT_MS,
     ...(options.fetch === undefined ? {} : { fetch: options.fetch }),
     ...(options.maxRetries === undefined
       ? {}

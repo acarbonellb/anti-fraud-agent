@@ -188,4 +188,25 @@ describe("OpenAI-compatible adapter", () => {
     expect(error).toBeInstanceOf(ProviderError);
     expect((error as ProviderError).code).toBe(code);
   });
+
+  it("gives up on a server that never answers", async () => {
+    // Waits until the adapter's own timeout aborts it, like a hung socket.
+    const hang: typeof globalThis.fetch = (_url, init) =>
+      new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => {
+          reject(new Error("aborted"));
+        });
+      });
+    const error = await createOpenAiCompatibleProvider({
+      provider: "lmstudio",
+      baseUrl: "http://localhost:1234/v1",
+      model: "local-model",
+      fetch: hang,
+      timeoutMs: 10,
+    })
+      .complete({ messages: [], tools: [], maxOutputTokens: 16 })
+      .catch((caught: unknown) => caught);
+
+    expect((error as ProviderError).code).toBe("LLM_UNAVAILABLE");
+  });
 });
