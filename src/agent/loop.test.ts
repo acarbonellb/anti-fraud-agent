@@ -106,6 +106,26 @@ function run(
 }
 
 describe("a run that ends in a submission", () => {
+  it("sums the prompt-cache tokens the provider reports", async () => {
+    const cached = {
+      inputTokens: 100,
+      outputTokens: 20,
+      cacheReadInputTokens: 60,
+      cacheWriteInputTokens: 30,
+    };
+    const { result } = run([
+      callTool("lookup_venue", { name: "Sala Lumbre" }, cached),
+      callTool("submit_recommendation", approval, cached),
+    ]);
+
+    expect((await result).usage).toEqual({
+      inputTokens: 200,
+      outputTokens: 40,
+      cacheReadInputTokens: 120,
+      cacheWriteInputTokens: 60,
+    });
+  });
+
   it("calls tools, feeds results back fenced, and ends on submission", async () => {
     const { provider, result } = run([
       callTool("lookup_venue", { name: "Sala Lumbre" }),

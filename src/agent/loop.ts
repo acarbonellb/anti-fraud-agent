@@ -196,6 +196,16 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     });
     usage.inputTokens += response.usage.inputTokens;
     usage.outputTokens += response.usage.outputTokens;
+    // Only when reported, so a provider without a cache shows none.
+    const { cacheReadInputTokens, cacheWriteInputTokens } = response.usage;
+    if (cacheReadInputTokens !== undefined) {
+      usage.cacheReadInputTokens =
+        (usage.cacheReadInputTokens ?? 0) + cacheReadInputTokens;
+    }
+    if (cacheWriteInputTokens !== undefined) {
+      usage.cacheWriteInputTokens =
+        (usage.cacheWriteInputTokens ?? 0) + cacheWriteInputTokens;
+    }
     if (usage.inputTokens + usage.outputTokens > limits.maxTokens) {
       return finish("max_tokens");
     }

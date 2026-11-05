@@ -86,3 +86,21 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
 - **The shipped API is the contract, not the design document.**
   - _Why:_ when they differ, the code models what was shipped, and the brief keeps the history.
   - [ADR 0011](adr/0011-shipped-agent-api-is-the-satella-contract.md)
+
+## Run on what the data needs
+
+- **The agent's store is Firestore over REST, with an in-memory twin and one contract suite for
+  both.**
+  - _Why:_ the data is one append-only document per run, one cursor and one document per day,
+    with no joins. Firestore's free tier covers it, Cloud Run reaches it with its service
+    account, and there is no password to keep. Plain `fetch` keeps it testable against the
+    wire format, with no gRPC.
+  - _Evidence:_ Cloud SQL would cost about $9–10 a month idle for the same data. The same 17
+    contract tests pass against both stores.
+  - [ADR 0016](adr/0016-agent-store-on-firestore-over-rest.md)
+- **Spend is reserved before a run and settled after, and a reservation expires.**
+  - _Why:_ two concurrent on-demand runs can't both fit under the day's budget, and a crashed
+    run releases its hold after 15 minutes. One entry per run makes a retried settle count once.
+  - _Evidence:_ tests cover a reservation past the budget, a race lost and retried, an
+    expired hold, and a hold settled after midnight.
+  - [ADR 0016](adr/0016-agent-store-on-firestore-over-rest.md)

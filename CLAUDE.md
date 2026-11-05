@@ -29,7 +29,8 @@ Language: code, commits, PRs, issues and docs in **English**. The agent's `ratio
 - **LLM providers:** Claude, OpenAI and Grok behind one provider-neutral interface with an adapter each. Before touching the Claude API, read its **current** docs (models and SDK): never write a model id from memory.
 - **Tests:** Vitest. Offline evals run from recorded fixtures (`write-tests` skill).
 - **Quality gate:** ESLint + Prettier + Husky + commitlint + lint-staged + gitleaks (pre-commit and CI). GitHub Actions.
-- **Later (brief §8):** own Postgres, GCP (Cloud Run Job + Scheduler, Cloud Run service, Secret Manager), React dashboard. Each lands with its ADR.
+- **Agent store:** Firestore over its REST API, with an in-memory twin (ADR 0016).
+- **Later (brief §8):** GCP (Cloud Run Job + Scheduler, Cloud Run service, Secret Manager), React dashboard. Each lands with its ADR.
 
 ## 4. Rules for the Satella integration
 
