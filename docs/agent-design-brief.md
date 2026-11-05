@@ -392,7 +392,7 @@ Es una web pequeña del repo del agente (React en Cloud Run) que lee **solo la b
 
 1. **Por ejecución**: topes de llamadas a herramientas, de tokens y de búsquedas (§4.2).
 2. **Por cuenta de demo**: `runs_per_hour` (por ejemplo, 5) y `runs_per_day` (por ejemplo, 20), contados en la tabla `runs` dentro de una transacción con bloqueo. Al superarlos, 429 con la hora en que se libera.
-3. **Global**: `AGENT_DAILY_BUDGET_MICROS`, el coste acumulado del día. Si se alcanza, se cortan las ejecuciones bajo demanda y solo sigue el planificador.
+3. **Global**: `AGENT_DAILY_BUDGET_MICROS`, el coste acumulado del día. Si se alcanza, se cortan las ejecuciones bajo demanda y solo sigue el planificador. **Revisado (ADR 0017, #45):** la pasada programada también se detiene al alcanzarlo y deja el cursor para el día siguiente, para que una ráfaga del feed no gaste el tope del proveedor en un día.
 4. **En el proveedor**: claves exclusivas del demo (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `XAI_API_KEY`) con límite de gasto en cada consola. **Supuesto:** confirmar qué límites admite cada proveedor.
 
 Además, **caché por `version`**: si el evento no cambió, «revisar ahora» devuelve la revisión guardada sin llamar al LLM, salvo que se pida otro modelo para comparar, lo que también consume cupo.

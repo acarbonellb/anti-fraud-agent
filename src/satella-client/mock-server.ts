@@ -68,6 +68,8 @@ export interface MockSatella {
   requests: RecordedRequest[];
   /** Simulates the subject changing while the agent reviews it. */
   setSubjectVersion(type: SubjectType, id: string, version: string): void;
+  /** Simulates something happening in Satella after the mock started. */
+  appendFeedItem(item: FeedItem): void;
   /** Simulates an admin resolving a recommendation in Satella's panel. */
   resolveReview(reviewId: string, outcome: "accepted" | "dismissed"): void;
   close(): Promise<void>;
@@ -377,6 +379,9 @@ export async function startMockSatella(
         if (context === undefined) throw new Error(`No fixture for ${id}`);
         organizers.set(id, { ...context, version });
       }
+    },
+    appendFeedItem(item) {
+      feed.push(feedItemSchema.parse(item));
     },
     resolveReview(reviewId, outcome) {
       const review = reviews.find((candidate) => candidate.id === reviewId);

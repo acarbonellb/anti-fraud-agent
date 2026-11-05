@@ -82,6 +82,7 @@ describe("toRunDocument", () => {
   it("records the run as the dashboard shows it", () => {
     expect(toRunDocument(reviewed(), metadata)).toEqual({
       runId: "run_1",
+      outcome: "completed",
       trigger: "scheduled",
       startedAt: "2026-11-05T10:00:00.000Z",
       finishedAt: "2026-11-05T10:00:04.250Z",

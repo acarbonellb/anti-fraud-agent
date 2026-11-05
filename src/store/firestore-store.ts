@@ -8,7 +8,8 @@
  * found missing, or the `updateTime` it read. That is the compare-and-set
  * behind the feed cursor and the day's spend, with no transaction API.
  *
- * Documents: `runs/{runId}`, `agentState/feedCursor`, `spend/{YYYY-MM-DD}`.
+ * Documents: `runs/{runId}`, `resolutions/{runId}`, `agentState/feedCursor`,
+ * `spend/{YYYY-MM-DD}`.
  */
 import { z } from "zod";
 
@@ -28,6 +29,8 @@ import {
 import {
   type RunDocument,
   runDocumentSchema,
+  runResolutionSchema,
+  validResolution,
   validRun,
 } from "./run-document.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
@@ -239,6 +242,22 @@ export function createFirestoreStore(
             ? encodeRunCursor(last)
             : null,
       };
+    },
+
+    async saveResolution(resolution) {
+      const parsed = validResolution(resolution);
+      const path = `resolutions/${encodeURIComponent(parsed.runId)}`;
+      // Replacing is allowed, but still against the version read.
+      await putDocument(path, await getDocument(path), encodeFields(parsed));
+    },
+
+    async getResolution(runId) {
+      const document = await getDocument(
+        `resolutions/${encodeURIComponent(runId)}`,
+      );
+      return document === null
+        ? null
+        : parse(runResolutionSchema, decoded(document));
     },
 
     async readFeedCursor() {

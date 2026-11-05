@@ -3,7 +3,7 @@
 // model as unknown rather than free. Pure function; fakes nothing.
 import { describe, expect, it } from "vitest";
 
-import { costMicros } from "./pricing.js";
+import { costMicros, worstCaseMicros } from "./pricing.js";
 
 describe("cost of model calls", () => {
   it("prices Haiku 5.5 input, cache and output at its rates", () => {
@@ -42,5 +42,21 @@ describe("cost of model calls", () => {
     const call = { inputTokens: 1000, outputTokens: 100 };
     expect(costMicros("lmstudio", "qwen/qwen3.5-9b", [call])).toBe(0);
     expect(costMicros("openai", "some-model", [call])).toBeNull();
+  });
+});
+
+describe("worst-case cost of a run", () => {
+  it("prices every token at the model's dearest rate, rounded up", () => {
+    // Haiku 5.5's dearest is long-prompt output, $2.50 per million:
+    // 200,000 tokens → $0.50; 3 tokens → 7.5 µ$, held as 8.
+    expect(worstCaseMicros("anthropic", "claude-haiku-5-5", 200_000)).toBe(
+      500_000,
+    );
+    expect(worstCaseMicros("anthropic", "claude-haiku-5-5", 3)).toBe(8);
+  });
+
+  it("holds nothing for a local model and has no figure for an unpriced one", () => {
+    expect(worstCaseMicros("lmstudio", "qwen/qwen3.5-9b", 200_000)).toBe(0);
+    expect(worstCaseMicros("openai", "some-model", 200_000)).toBeNull();
   });
 });

@@ -95,7 +95,7 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
     with no joins. Firestore's free tier covers it, Cloud Run reaches it with its service
     account, and there is no password to keep. Plain `fetch` keeps it testable against the
     wire format, with no gRPC.
-  - _Evidence:_ Cloud SQL would cost about $9–10 a month idle for the same data. The same 17
+  - _Evidence:_ Cloud SQL would cost about $9–10 a month idle for the same data. The same 21
     contract tests pass against both stores.
   - [ADR 0016](adr/0016-agent-store-on-firestore-over-rest.md)
 - **Spend is reserved before a run and settled after, and a reservation expires.**
@@ -104,3 +104,15 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
   - _Evidence:_ tests cover a reservation past the budget, a race lost and retried, an
     expired hold, and a hold settled after midnight.
   - [ADR 0016](adr/0016-agent-store-on-firestore-over-rest.md)
+- **The scheduled pass stops at the day's budget, and asks the feed only for what it can afford.**
+  - _Why:_ the feed's cursor is per page, so a pass that stopped mid-page would either re-review
+    or never move. Sizing the page to the budget at worst case means a stop never skips an item.
+    It departs from the brief on purpose: on a demo key, a feed burst shouldn't spend the
+    provider's cap in one day.
+  - _Evidence:_ a test runs the pass with room for one run: it reviews one subject, stops on the
+    next pass without reading the feed, and picks up the other item the next UTC day.
+  - [ADR 0017](adr/0017-scheduled-pass-reviews-feed-within-day-budget.md)
+- **A failed review is a stored run, not a stuck feed.**
+  - _Why:_ retrying the page re-spends on every subject already reviewed, and one subject that
+    always fails would stall the rest. The failed run keeps its stable code and what it spent.
+  - [ADR 0017](adr/0017-scheduled-pass-reviews-feed-within-day-budget.md)

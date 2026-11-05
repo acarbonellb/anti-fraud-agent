@@ -3,7 +3,12 @@
  * Nothing survives the process. It keeps the Firestore store's promises,
  * conflicts included, so code tested against it behaves the same deployed.
  */
-import { type RunDocument, validRun } from "./run-document.js";
+import {
+  type RunDocument,
+  type RunResolution,
+  validResolution,
+  validRun,
+} from "./run-document.js";
 import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
 import {
   checkPageLimit,
@@ -18,6 +23,7 @@ export function createMemoryStore(
 ): AgentStore {
   const now = options.now ?? (() => new Date());
   const runs = new Map<string, RunDocument>();
+  const resolutions = new Map<string, RunResolution>();
   const spend = new Map<string, DayEntries>();
   let feedCursor: string | null = null;
 
@@ -55,6 +61,20 @@ export function createMemoryStore(
               : null,
         };
       });
+    },
+
+    saveResolution(resolution) {
+      return asPromise(() => {
+        const parsed = validResolution(resolution);
+        resolutions.set(parsed.runId, structuredClone(parsed));
+      });
+    },
+
+    getResolution(runId) {
+      const resolution = resolutions.get(runId);
+      return Promise.resolve(
+        resolution === undefined ? null : structuredClone(resolution),
+      );
     },
 
     readFeedCursor() {

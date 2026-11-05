@@ -71,16 +71,26 @@ fixed.
 - **Deployed model**: the model the deployed agent runs, set in its environment and chosen by the
   evals (Claude Haiku 5.5 since E014). The code's fallback with nothing set stays local qwen, so
   development needs no key (ADR 0008 amendment, #42).
-- **Pass**: one scheduled sweep of the feed from the stored cursor.
-- **Agent store**: the agent's own data, apart from Satella's: runs, the feed cursor and the day's
-  spend (`AgentStore`). Firestore when deployed, in memory locally and in tests (ADR 0016).
+- **Pass**: one scheduled sweep of the feed from the stored cursor: at most 10 items, every
+  subject that changed reviewed once, the cursor advanced past the page (`pnpm pass`, ADR 0017).
+- **Reviewable item**: a feed item that starts a review. Every type but `event.minor_change` and
+  `agent_review.resolved` (ADR 0017).
+- **Agent store**: the agent's own data, apart from Satella's: runs and their resolutions, the
+  feed cursor and the day's spend (`AgentStore`). Firestore when deployed, in memory locally and
+  in tests (ADR 0016).
 - **Run document**: one run as the store keeps it: the recommendation, its autonomy, usage, cost
   and the summary trace, never a tool response (ADR 0016).
+- **Failed run**: a run that ended without a recommendation in Satella. It keeps the error's
+  stable code and what its calls cost, and the pass moves on (ADR 0017).
+- **Run resolution**: the admin's resolution of a run's recommendation, kept next to the run in
+  the store; the admin agreement rate (brief §4.3) joins them (ADR 0016 amendment).
 - **Feed cursor**: where the next pass reads the feed from. It advances only from the value read,
   so two overlapping passes can't both move it (ADR 0016).
 - **Spend hold**: a run's worst-case cost, reserved against the UTC day's budget
   (`AGENT_DAILY_BUDGET_MICROS`) before it runs and replaced by its actual cost after. It expires
   after 15 minutes, so a crashed run can't keep budget (ADR 0016).
+- **Worst-case cost**: what a run reserves before it starts: `AGENT_MAX_TOKENS` at the model's
+  dearest rate. A model with no price has none, so the pass won't run it (ADR 0017).
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.
 - **Eval case**: a fixture subject with its expected decision and autonomy (brief §5).
 - **Approved-fraud rate**: share of problem cases the agent approved. The critical metric.
