@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -268,3 +268,29 @@ Rejected:
 
 Open: an edited event that is already published may find its own page on Satella. The check can't
 tell that page from a copy without Satella's public host, which this repo doesn't hold.
+
+## Amendment (2026-11-05, #57): a capacity read from the web only holds back
+
+This brings point 4's third step into line with point 6. Before, a capacity extracted from a
+search snippet scored like Wikidata's or OSM's. Within it, it gave `venue_capacity: pass`, which
+satisfies point 5's venue evidence for an auto-approval. At 2× or more it gave a sourced
+`capacity_far_above_venue: fail`, a hard signal that could resolve a `reject` on its own. An
+independent review of the repo (#57) pointed out that the organizer names the venue, and a
+snippet only has to contain that name. One page saying "Sala X, aforo de 5.000 personas" could
+clear the exposure cap.
+
+1. **Within a web capacity, the finding is `venue_capacity: unknown`.** It keeps the source and
+   says the figure, but point 5's exposure cap decides the approval as if no one published one.
+2. **Above it, at any factor, the finding is `venue_capacity: warn`.** It escalates, and the
+   admin reads the web's figure with its source. It is never a hard `fail`.
+3. **Wikidata and OSM are unchanged.** Point 4's 1× and 2× factors still apply to them.
+
+**Rejected:**
+
+- **A stricter name match for the snippet.** It would still let one page vouch for the venue.
+- **Dropping the web step.** The admin would lose a sourced figure that often explains an
+  escalation.
+
+The change rewords a system finding the model sees, so the 14 affected cases were re-recorded
+(E015 for Haiku 5.5, E016 for qwen). The gate holds, and in E016 a wrong automatic rejection
+(case 17) now escalates.

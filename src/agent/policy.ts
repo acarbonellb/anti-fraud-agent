@@ -17,7 +17,8 @@
  *   mechanical, anyone can verify it with the rule.
  * - `reject` resolves on its own only on a hard signal: a `fail` from a
  *   hard-signal check that is a `rule` system finding or carries a source.
- *   A venue finding's source is OSM or Wikidata. A model finding's source
+ *   A venue finding's source is OSM or Wikidata: a capacity from the web
+ *   never fails (ADR 0015, amendment of #57). A model finding's source
  *   counts only if a tool retrieved that URL in this run (`web_search`):
  *   one the model wrote itself is a claim.
  * - Everything else is escalated.

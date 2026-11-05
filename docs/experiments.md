@@ -404,3 +404,43 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   #42). Next: the systematic errors
   (01, 06, 21) and Haiku's confidence band against the 0.85 threshold, as separate experiments,
   each measured over three runs.
+
+## E015 — A capacity from the web only holds back (Haiku 5.5)
+
+- **Hypothesis** (#57): the gate doesn't move, because no fraud case was let through by a web
+  capacity. Where a web capacity used to give a hard `capacity_far_above_venue` fail, a
+  rejection can now escalate instead of resolving on its own.
+- **Change** (#57, ADR 0015 amendment): a capacity read from a search snippet gives
+  `venue_capacity: unknown` within it and `warn` above it. It is never a `pass` or a hard
+  `fail`, so the exposure cap decides an approval. The finding the model sees changed in the 14
+  cases whose venue capacity came from the web: 07, 09, 10, 11, 12, 13, 14, 16, 17, 19, 23, 24, 25
+  and 26. Those were re-recorded three times each, about $0.09 (42 reviews at $0.0022).
+- **Before → after** (E014 → E015, mean over three runs, min–max), gated, 30 cases:
+  **accuracy 86.7 % (83.3–90.0) → 85.6 % (83.3–86.7)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 85.6 % → 86.7 %, **autonomy
+  accuracy 67.8 % (66.7–70.0) → 66.7 % (66.7–66.7)**, Brier 0.144 → 0.152. The ranges overlap,
+  so the change is within run-to-run noise.
+- **What went wrong or surprised:**
+  - Case 24 («Botellón +14») went from `request_info 2/3 · reject 1/3` to `request_info 3/3`.
+    It was already wrong by majority. The web's ≥ 2× capacity fail had been one of the two hard
+    signals the one `reject` rested on. `minors_alcohol` remains, but Haiku asks instead of
+    rejecting.
+  - No legitimate case relied on a web capacity, so no approval was lost.
+- **Decision:** keep. A single snippet that names the venue no longer decides an approval or an
+  automatic rejection, at the cost of noise-level metric moves. Case 24's question goes with the
+  confidence-calibration item in `docs/known-limitations.md`.
+
+## E016 — A capacity from the web only holds back (qwen 3.5 9B)
+
+- **Hypothesis** (#57): as in E015.
+- **Change:** the same as E015, with the same 14 cases re-recorded once on local qwen, which is
+  free.
+- **Before → after** (E012 → E016), gated, 30 cases: **accuracy 73.3 % → 73.3 %**,
+  **approved-fraud rate 4.0 % → 4.0 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  70.0 % → 73.3 %, **autonomy accuracy 76.7 % → 80.0 %**, Brier 0.195 → 0.206. Mean input tokens
+  about 28,000 → 29,800.
+- **What went wrong or surprised:** this is the failure the review described, observed. In E012,
+  case 17 (a session the next morning) was a wrong `reject` that resolved on its own, on the web
+  capacity's hard fail. It now escalates, so the admin sees it. Case 25 moved from `reject` to the
+  expected `request_info`. Case 24 keeps its automatic `reject` on `minors_alcohol` alone.
+- **Decision:** keep.

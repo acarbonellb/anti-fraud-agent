@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-05T20:21:00.000Z",
   "calls": [
     {
-      "requestHash": "d974f0e18a2fb5506717a6694d28b11c8a7b144a17b89b0d73a8b0b42635598a",
-      "latencyMs": 11092,
+      "requestHash": "b04625ca4448b34c4a976d84696c07cf2ed78f5ef13ba6dce968d8a21fea6148",
+      "latencyMs": 11565,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to review this event carefully. Let me analyze what I have:\n\n**Event Details:**\n- Title: \"Xana Rock: gira de invierno\"\n- Organizer ID: org_935780b688\n- Venue: Teatro Campoamor in Oviedo, Asturias\n- Genre: rock\n- Price: 16.00 € (1600 cents) for General tickets\n- Service fee: 100 cents (fixed)\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity OK ✓\n- Service fee OK ✓\n- Session dates OK ✓\n- Session timing OK ✓\n- Price benchmark OK (under 3x p90) ✓\n- Venue exists ✓\n- Venue capacity OK ✓\n\n**One warning:**\n- External ticketing link: \"bit.ly/xana-invierno-entradas\" in the description - this is flagged as a warn, not fail.\n\n**What I need to check:**\n1. Organizer context (org_935780b688) - account age, fiscal data, past events, content reports\n2. Whether \"Xana Rock\" exists outside the platform and if they have legitimate tour dates\n3. Whether this is a clone event or similar to other organizers' events\n\nLet me start by checking the organizer context:",
+          "content": "I need to review this event carefully. Let me analyze what I have:\n\n**Event Details:**\n- Title: \"Xana Rock: gira de invierno\"\n- Organizer ID: org_935780b688\n- Venue: Teatro Campoamor in Oviedo, Asturias\n- Genre: rock\n- Price: 16.00 € (1600 cents) for General tickets\n- Service fee: 100 cents fixed\n\n**Deterministic Checks Summary:**\nMost checks passed. However, there are some concerns:\n1. **external_ticketing_link**: WARN - The description contains a link to bit.ly/xana-invierno-entradas (URL shortener)\n2. **venue_capacity**: UNKNOWN - The venue capacity is not verified; one source says 1,440 but the platform applies an exposure cap\n\n**Key Issues to Investigate:**\n\n1. **The URL shortener (bit.ly)**: This is flagged as a warning. I need to check if this link points to legitimate ticket sales or could be suspicious. The deterministic check already flagged it as a warning, so I should investigate further.\n\n2. **Organizer context**: I should check the organizer's history and identity to see if there are any red flags.\n\n3. **Artist availability**: \"Xana Rock\" is listed as the artist. I should verify if this artist exists and if they have announced this date elsewhere.\n\nLet me start by checking the organizer context and then investigate the URL shortener.",
           "toolCalls": [
             {
-              "id": "5FZHQTY78ii7Yfn36sdVuHrG2YZ06XjS",
+              "id": "JL3SaGcfV8zM2ZGhYUHNHH6SbmAgrL2c",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_935780b688\"}"
             }
@@ -22,123 +22,181 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3476,
-          "outputTokens": 360
+          "inputTokens": 3494,
+          "outputTokens": 363
         }
       }
     },
     {
-      "requestHash": "ec0f041930f1c1c4519750e1e52850e82f9a22c5c90bda85d2e13f93b386fd0d",
-      "latencyMs": 4119,
+      "requestHash": "b4a80ef090c5a73b54a022ac74c20e1ae9ba23a34a76a2c446997b75c6a8e0f1",
+      "latencyMs": 7097,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Good organizer context:\n- Organizer name: \"Norte Bravo Conciertos\" (slug)\n- Status: approved\n- Account age: 930 days (~2.5 years) - reasonable\n- Fiscal data present with valid CIF checksum\n- No content reports\n- No previous agent reviews\n- 14 published events, 12 ended normally, 0 cancelled\n\nNow let me check for similar events to see if this might be a clone:",
+          "content": "Good information about the organizer:\n- Name: \"Norte Bravo Conciertos\" (slug)\n- Status: approved\n- Created: 2024-05-19 (about 2 years old, account age 930 days)\n- Fiscal data present and valid (CIF with valid checksum)\n- Owner account age: 930 days (about 2.5 years)\n- Email verified\n- No other organizers owned by this person\n- History: 14 published events, 12 ended, 0 cancelled\n- No admin unpublishes, no content reports, no previous agent reviews\n\nThis looks like a legitimate organizer with good history. Now I need to investigate the URL shortener issue and check if \"Xana Rock\" is a real artist or potentially impersonating someone else.\n\nLet me search for information about \"Xana Rock\" and also check what the bit.ly link might lead to (though I can't directly access it, I can search for mentions of this event).",
           "toolCalls": [
             {
-              "id": "sBNfkPMTYxmP2fVC5HDMOR9mhXiMvcTQ",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_36c9c3f3cb\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4187,
-          "outputTokens": 150
-        }
-      }
-    },
-    {
-      "requestHash": "41487b18bbf527cf6141dcb5170b56ef7be7c28862c3d0490c84535d334b4969",
-      "latencyMs": 2574,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "No similar events found in the same province within 60 days - good, no clone signal.\n\nNow let me search for \"Xana Rock\" to see if this artist/organizer exists outside the platform and verify their legitimacy:",
-          "toolCalls": [
-            {
-              "id": "YFFBI9Ri2VP4MQemIrPDIqrhWiqc5vfi",
+              "id": "4OOVIz0QNwpXUYX4knF6Wa0mNKMVt3JP",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Xana Rock Oviedo concierto gira de invierno\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Xana Rock Oviedo concierto 2026\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4426,
-          "outputTokens": 95
+          "inputTokens": 4208,
+          "outputTokens": 265
         }
       }
     },
     {
-      "requestHash": "805c9f7cf818eca0a25780d6ed027434763f695280a278a75c11a542f39d3dc3",
-      "latencyMs": 3553,
+      "requestHash": "5ab28b95ab1e87fdea60d2f015694d0701b1dcf5bef6003309147d4baea591a0",
+      "latencyMs": 4218,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search results don't show clear evidence of \"Xana Rock\" as a known artist outside the platform. The first result is about rock concerts in Oviedo but doesn't mention Xana Rock specifically. The second is an Instagram post that's vague.\n\nLet me also check if there's any information about \"Norte Bravo Conciertos\" or \"Xana Rock\" to verify they exist:",
+          "content": "Interesting! The search results show:\n1. There's an artist called \"Xana\" (not \"Xana Rock\") who is described as an independent Queer artist from the West Coast with dark pop rock sound\n2. The event title says \"Xana Rock\" which could be a variation or impersonation\n\nLet me search more specifically for \"Xana Rock\" to see if this is a legitimate band name or if it's trying to impersonate the artist \"Xana\".",
           "toolCalls": [
             {
-              "id": "Sw6eWGNRQ3RW9W7kdrIOnogXcDtYm9VW",
+              "id": "2idm8AmpfzBoeJ0e6fvNpoXN4AeZuAUE",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Norte Bravo Conciertos Xana Rock\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" banda Oviedo Asturias\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4850,
-          "outputTokens": 129
+          "inputTokens": 4860,
+          "outputTokens": 146
         }
       }
     },
     {
-      "requestHash": "ee6b8e51e20f1bb9f0119124cb3ec259de7245d691a5dc0d8a96daa887d30daf",
-      "latencyMs": 9387,
+      "requestHash": "9cba7149b506fe27f095ade78255b9b14d26b54b4357bc4fc16096ea97e37d27",
+      "latencyMs": 4574,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Interesting findings:\n1. There's a LinkedIn profile for \"Xana\" (xana-a81327281) who is described as an improv live loop musician - this could be the artist, but it's not clearly connected to Oviedo or the event.\n2. There's a company called \"MECANIZADOS NORTE BRAVO SL\" which seems unrelated to concerts (it's in appliances/electronics manufacturing).\n\nThe organizer on the platform is \"Norte Bravo Conciertos\" (concert promoter), but the web search shows \"MECANIZADOS NORTE BRAVO SL\" as a manufacturing company. This could be:\n- A coincidence with similar names\n- Or potentially impersonation if they're using a similar name to a known entity\n\nHowever, the organizer context shows:\n- The organizer is approved\n- Has valid fiscal data (CIF checksum valid)\n- Account age of 930 days\n- No content reports\n- 14 published events with good history (12 ended normally)\n\nThe \"Norte Bravo Conciertos\" on the platform appears to be a legitimate concert promoter based in Oviedo, Asturias. The web search result for \"MECANIZADOS NORTE BRAVO SL\" is a different company (manufacturing), not necessarily related.\n\nLet me also check if there's any issue with the bit.ly link - this was flagged as a warning but not a fail. Let me verify what that link points to:",
+          "content": "This is very concerning! The search results show:\n1. There's a well-known artist called \"Xana\" (Canadian pop musician from Vancouver)\n2. Her official site is xanaofficial.com\n3. She has no upcoming tour dates posted right now\n\nThe event is titled \"Xana Rock\" which could be:\n- An attempt to impersonate the real \"Xana\" artist\n- Or a different band with a similar name\n\nLet me search specifically for \"Xana Rock\" as a band name to see if it exists independently.",
           "toolCalls": [
             {
-              "id": "n2zGw0GN2SzvISwGhBPnNXMnZZuAgiu7",
+              "id": "jONRFS9NAHlXOPBz3kFefJkJzGCVCrlx",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"bit.ly/xana-invierno-entradas\",\"maxResults\":1}"
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock\\\" banda rock España\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5284,
-          "outputTokens": 355
+          "inputTokens": 5323,
+          "outputTokens": 160
         }
       }
     },
     {
-      "requestHash": "c346ca5f47ed64e5a3c17494bb60063364e4885fdaf497613f666d79a042ab68",
-      "latencyMs": 24059,
+      "requestHash": "e597813e582b798e345fc9998cd9538cc0c7318cc42d67003098896e71beaea5",
+      "latencyMs": 4735,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search for the bit.ly link didn't find it directly (it redirects), but found unrelated content about \"Xana\" cryptocurrency. This is expected since bit.ly links redirect and can't be easily searched.\n\nLet me reconsider the overall picture:\n\n**Positive indicators:**\n- Organizer has been approved with valid fiscal data\n- Account age of 930 days (reasonable)\n- No content reports\n- Good event history (14 published, 12 ended normally, 0 cancelled)\n- Venue exists and capacity is appropriate\n- Prices are reasonable (under benchmark)\n- No abusive terms, no off-platform payment requests\n- No similar events found (no clone signal)\n\n**Concerns:**\n- The bit.ly link in the description (flagged as warn, not fail) - this is a common practice for ticketing but worth noting\n- The organizer name \"Norte Bravo Conciertos\" vs web search showing \"MECANIZADOS NORTE BRAVO SL\" - but these could be different entities\n\nThe bit.ly link warning is already recorded in the deterministic checks and is not a fail condition. It's just a warning that needs to be noted.\n\nLooking at all the evidence:\n- No fraud signals detected\n- Organizer appears legitimate with good history\n- Venue verified\n- Prices reasonable\n- No illegal content or other hard signals\n\nThe only issue is the bit.ly link which is already flagged as a \"warn\" in the deterministic checks, not a \"fail\". This is acceptable.\n\nI should approve this event. The rationale in Spanish for the admin should explain the findings.",
+          "content": "The search results don't show a band called \"Xana Rock\" in Spain. The first result mentions an interview with \"Xana, Diego y Raúl de Celtian\" but that's about the Canadian artist Xana being interviewed at a festival. The second result is about \"La Xana del Torio\" which seems to be something else (possibly a different entity).\n\nLet me search more specifically for whether there's a Spanish band called \"Xana Rock\" or if this is impersonating the Canadian artist Xana.",
           "toolCalls": [
             {
-              "id": "drHwdx8AOySFSNn7IFkm4EoTNLoAOfGX",
+              "id": "fmWICmGAyYCUpqq2GSaOYZs9yX1SUW78",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Xana Rock Oviedo concierto 2026 bit.ly\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5837,
+          "outputTokens": 157
+        }
+      }
+    },
+    {
+      "requestHash": "c1df90b19e0a6de24844105c117cc9a2f9430329597c289a3b58eb6c1267f51f",
+      "latencyMs": 3794,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "These results are about the Canadian artist \"Xana\" (not \"Xana Rock\"). The Songkick and Ticketmaster pages show tour dates for \"Xana\" but I don't see any mention of \"Xana Rock\" specifically.\n\nLet me search for the specific event title to see if it appears elsewhere or if there's any information about this particular concert.",
+          "toolCalls": [
+            {
+              "id": "P3yIraNyMBDW278ZAhALmSkHaehs7cKQ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Xana Rock: gira de invierno\\\" Oviedo\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6437,
+          "outputTokens": 123
+        }
+      }
+    },
+    {
+      "requestHash": "25b6de0ffede1f2d4c2547b2c9951257a04848cb1197b2099bfeffb73566d85f",
+      "latencyMs": 28879,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "I've run out of searches. Let me analyze what I have:\n\n**Key Findings:**\n\n1. **Organizer**: \"Norte Bravo Conciertos\" appears legitimate - approved status, valid fiscal data, 2+ years old, good history (14 published events, 0 cancelled, no content reports).\n\n2. **Artist Issue**: The event lists \"Xana Rock\" as the artist. However:\n   - There's a well-known Canadian artist called \"Xana\" (not \"Xana Rock\")\n   - No search results found for a Spanish band called \"Xana Rock\"\n   - The real artist \"Xana\" has no upcoming tour dates posted on her official site\n\n3. **URL Shortener**: The description contains \"bit.ly/xana-invierno-entradas\" which was flagged as a warning in the deterministic checks. This is concerning because:\n   - URL shorteners can be used to hide malicious links\n   - It could redirect to off-platform payment or other suspicious sites\n\n4. **Venue Capacity**: Unknown status - but this is already noted in the deterministic checks and I shouldn't contradict them.\n\n**Assessment:**\n\nThe combination of:\n- An artist name (\"Xana Rock\") that doesn't appear to exist as a legitimate band (only the Canadian \"Xana\" exists)\n- A URL shortener in the description (bit.ly link)\n- The real artist \"Xana\" having no tour dates announced\n\nThis raises concerns about potential impersonation or fraud. However, I don't have definitive proof of fraud - there could be an innocent explanation (e.g., a local band with a similar name that just isn't well-documented online).\n\nGiven the warning about the URL shortener and the artist availability concern, I should request information to clarify:\n1. Who is \"Xana Rock\" exactly? Is it a different band or trying to impersonate Xana?\n2. What does the bit.ly link actually point to?\n\nLet me submit a recommendation to request_info since there are concerns but not definitive proof of fraud.",
+          "toolCalls": [
+            {
+              "id": "g1QFSoPfrdlGwvRGVBW78oiLrGCZiV9p",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento cumple con todos los requisitos de seguridad y legitimidad. El organizador \\\"Norte Bravo Conciertos\\\" tiene cuenta aprobada desde 2024, datos fiscales válidos (CIF con checksum correcto), sin reportes de contenido ni revisiones previas de agentes. Historial sólido: 14 eventos publicados, 12 finalizados normalmente, 0 cancelados. El recinto Teatro Campoamor existe y su aforo es compatible. Los precios están dentro del benchmark para rock en Asturias. No hay señales de fraude, clonación o contenido ilegal. La única observación es el enlace bit.ly en la descripción (ya marcado como warn por los checks determinísticos), práctica común que no invalida la publicación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024-05-18, cuenta de 930 días, CIF válido con checksum correcto, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_935780b688\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados normalmente, 0 cancelados, 0 reportes de contenido, 0 despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_935780b688\",\"title\":\"Organizer context\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la misma provincia dentro de 60 días.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/events/similar/evt_36c9c3f3cb\",\"title\":\"Similar events search\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción contiene enlace bit.ly/xana-invierno-entradas, práctica común pero requiere atención.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.internal/event/evt_36c9c3f3cb\",\"title\":\"Event data\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta señales de alerta que requieren aclaración antes de aprobar: 1) El artista \\\"Xana Rock\\\" no aparece documentado como banda independiente en España, mientras existe una artista llamada \\\"Xana\\\" (canadiense) sin fechas de gira anunciadas. Existe riesgo de impersonación. 2) La descripción contiene un enlace acortador bit.ly que podría ocultar información sobre pagos fuera de plataforma o sitios sospechosos. El organizador \\\"Norte Bravo Conciertos\\\" parece legítimo con buena historia, pero estas dos señales requieren aclaración.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"El artista 'Xana Rock' no aparece documentado como banda independiente en España. Existe una artista llamada 'Xana' (canadiense) sin fechas de gira anunciadas actualmente. Posible impersonación o nombre similar engañoso.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.bandsintown.com/a/636700-xana\",\"title\":\"Bandsintown: Xana Concerts & Live Tour Dates\"},{\"url\":\"https://xanaofficial.com\",\"title\":\"Xana | Official Site\"}]},{\"check\":\"external_ticketing_link\",\"verdict\":\"warn\",\"detail\":\"La descripción contiene un enlace acortador bit.ly/xana-invierno-entradas que podría ocultar la dirección real del sitio de venta de entradas o redirigir a pagos fuera de plataforma.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_36c9c3f3cb.jpg\",\"title\":\"Evento Xana Rock: gira de invierno\"}]}],\"infoRequest\":{\"questions\":[\"¿Quién es exactamente el artista 'Xana Rock'? ¿Es una banda local de Oviedo o intenta asociarse con la artista canadiense Xana?\",\"¿A qué sitio web conduce exactamente el enlace bit.ly/xana-invierno-entradas? ¿Es un sitio de venta de entradas legítimo o solicita pago fuera de plataforma?\"],\"draft\":\"Necesitamos clarificar la identidad del artista y verificar que el enlace acortador no oculte información fraudulenta.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5847,
-          "outputTokens": 913
+          "inputTokens": 6596,
+          "outputTokens": 994
         }
       }
     }
   ],
   "searches": [
+    {
+      "requestHash": "a0c5746dacef68333f20dded7bd9231164b84f4143757479aedc17e1a9f545d4",
+      "provider": "Tavily",
+      "query": "\"Xana Rock vuelve a Oviedo con su gira de invierno\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/reel/DD67AjVN2EH",
+            "title": "Instagram",
+            "snippet": "xanalaveyofficial\n\n☘️PRÓXIMOS CONCIERTOS☘️  \n  \n-18 enero SEVILLA  \n-25 enero VIGO  \n-31 enero OVIEDO  \n-1 febrero LEÓN   \n-15 febrero GUADALAJARA   \n-15 marzo TARRAGONA  \n  \nLos links a las entradas están en las Historias Destacadas🤘🏻  \n¡Felices fiestas!🎄\n\nsatiagoblasco0123's profile picture\n\nsatiagoblasco0123\n\nTe pediría a tí\n\nReply\n\nmagozcris's profile picture\n\nmagozcris\n\nQUEREMOS QUE VENGAS A GUATEMALA COMO CELTIAN! Y QUE NOS DEJÉS TOMARNOS FOTOS CONTIGO 😍\n\nReply [...] Photo by Celtian o"
+          },
+          {
+            "url": "https://concerts50.com/spain/oviedo/g/rock",
+            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
+            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+          },
+          {
+            "url": "https://www.ticketmaster.es/artist/xana-entradas/1248623",
+            "title": "Entradas Xana | Fechas de Gira y Conciertos en Ticketmaster",
+            "snippet": "1. 1. 1.Lip Service\n   2. 2.Sick Joke\n   3. 3.BODY\n   4. 4.Yellow\n   5. 5.Monster\n   6. 6.babyblue\n   7. 7.15\n   8. 8.Lavender Daughter\n   9. 9.FERAL\n   10. 10.Better Kind of Best Friend\n   11. 11.Homewrecking era\n   12. 12.The Kicker\n   13. 13.Pray\n   14. 14.Complex\n   15. 15.Cocaine\n   16. 16.Kitchen Light\n   17. 17.The Sex was good!\n\nCon tecnología de Setlist.fm(Abre en una pestaña nueva)\n\nMás setlists(Abre en una pestaña nueva) [...] 1. 1. 1.Lip Service\n   2. 2.BODY\n   3. 3.Monster\n   4. 4.b"
+          },
+          {
+            "url": "https://www.planomato.com/es/oviedo/p/concierto-puno-dragon-oviedo",
+            "title": "Concierto de Puño Dragón en el Concurso de Rock Ciudad de Oviedo 2026: fecha y entrada libre | Planomato",
+            "snippet": "Ciclo de Conciertos y Jornadas de Piano\n\nConcierto\n\n04 nov – 23 may\n\n#### Ciclo de Conciertos y Jornadas de Piano\n\nLe Jardin des Voix: Les Arts Florissants en Oviedo\n\nConcierto\n\n06 nov\n\n#### Le Jardin des Voix: Les Arts Florissants en Oviedo\n\nConferencia 'Todo se puede entrenar' con Toni Nadal\n\nConferencia\n\n09 nov\n\n#### Conferencia 'Todo se puede entrenar' con Toni Nadal\n\nMacbeth - Ópera de Oviedo\n\nÓpera\n\n13–21 nov\n\n#### Macbeth - Ópera de Oviedo [...] ## Descripción\n\nYa tenemos los detalles de "
+          },
+          {
+            "url": "https://www.instagram.com/p/DOleTZtCPkA",
+            "title": "Instagram",
+            "snippet": "Video by LABALLO on November 04, 2026. May be an image of card, banner, poster, magazine and text.\nPhoto by FOTKAI on November 03, 2026. May be an image of text.\nVideo by LABALLO on November 03, 2026. May be a meme of accordion, microphone, concert and text.\nPhoto by Rock4Spain on November 03, 2026. May be an image of tambourine, concert and text.\nPhoto by LABALLO on November 03, 2026. May be an image of text.\nPhoto by LABALLO on November 02, 2026. May be an image of text."
+          }
+        ]
+      }
+    },
     {
       "requestHash": "15b5fd6e54e972d435ca6af4a1f2843b9fd30c0904028a72d407cda18f8637c5",
       "provider": "Tavily",
@@ -163,108 +221,98 @@
             "snippet": "Dirección \n\nC. Pelayo, 3   \n Oviedo, Asturias 33003 España  Cómo llegar\n\nTeléfono  985 20 75 90\n\nWebsite  \n\nEl Teatro Campoamor es el teatro de ópera de Oviedo, fundado en 1892 y conocido entre otras cosas por ser el escenario de la entrega de los Premios Princesa de Asturias.\n\n## Eventos en este recinto\n\nHoy\n\n \n\n  #### Suor Angelica\n\n  Recurrente\n\n   Teatro Campoamor Oviedo   C. Pelayo, 3, Oviedo, Asturias, España [...] Recurrente\n\n   Teatro Campoamor Oviedo   C. Pelayo, 3, Oviedo, Asturias, Es"
           },
           {
+            "url": "https://www.divento.com/es/artes-escenicas/25251-teatro-campoamor-oviedo.html",
+            "title": "Teatro Campoamor, Oviedo",
+            "snippet": "# Teatro Campoamor, Oviedo\n\nConstruido en 1892, un teatro neoclásico de Juan Miguel de la Guardia con platea en forma de herradura, reconstruido tras 1934 y actualmente sede de los Premios Princesa de Asturias. [...] #### Horarios\n\nLunes:\n:   Abierto 24 horas\n\nMartes:\n:   Abierto 24 horas\n\nMiércoles:\n:   Abierto 24 horas\n\nJueves:\n:   Abierto 24 horas\n\nViernes:\n:   Abierto 24 horas\n\nSábado:\n:   Abierto 24 horas\n\nDomingo:\n:   Abierto 24 horas\n\nHorarios comprobados el: 02/10/2025\n\n## Ubicación\n\n###"
+          },
+          {
             "url": "https://www.teatrocampoamor.es",
             "title": "Teatro Campoamor | Web Oficial | Oviedo",
             "snippet": "El Teatro Campoamor es patrimonio vivo de Oviedo y emblema cultural de España. Cada temporada renueva su compromiso con la calidad, el rigor artístico y el respeto por el público, ofreciendo propuestas que enriquecen la vida cultural de la ciudad y fomentan el encuentro a través del arte.\n\nCada representación, cada concierto, es una invitación a descubrir, sentir y compartir experiencias únicas. [...] # Bienvenidos al Teatro Campoamor\n\nEl Teatro Campoamor de Oviedo es el corazón de una ciudad en"
-          },
-          {
-            "url": "https://www.operaoviedo.com",
-            "title": "Ópera de Oviedo",
-            "snippet": "nov   21\n\nMacbeth\n\n19:00h Teatro Campoamor\n\ndic   11\n\nManon Lescaut\n\n19:30h Teatro Campoamor\n\nVER AGENDA COMPLETA\n\n### Regala Emociones, Regala Ópera\n\nCOMPRAR\n\n### ¡Colabora con la Ópera de Oviedo!\n\nDESCÚBRELO\n\n### Producciones en alquiler\n\n#### En este apartado puedes consultar los montajes propiedad de la Ópera de Oviedo disponibles para alquilar.\n\nDESCÚBRELO\n\n### Fundación Ópera de Oviedo"
           }
         ]
       }
     },
     {
-      "requestHash": "e45e5b94a9dd206ce9a1b5aef97002677c17136ef69efc8480c3d8c0e39b0557",
+      "requestHash": "ab084518c3de09c3655b51bf088dade3ef7c43af161dc7f0efa8860214cc80bb",
       "provider": "Tavily",
-      "query": "Xana Rock Oviedo concierto gira de invierno",
+      "query": "Xana Rock Oviedo concierto 2026",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://rockandblog.net/conciertos-rock-oviedo",
-            "title": "Conciertos de Rock y Metal en Oviedo 2026 — Agenda y Entradas",
-            "snippet": "Ahora mismo hay 2 conciertos de rock y metal confirmados en Oviedo, desde Marzo hasta Mayo 2027. La programación se reparte sobre todo entre Sala Gong y Kuivi Almacenes. Están ordenados por fecha e incluyen la sala y el enlace oficial de compra; la lista se actualiza a diario.\n\nAgenda de la ciudad\n\n## Próximos conciertos\n\nOrdenados por fecha, con la sala, la ciudad y el enlace oficial para comprar entradas.\n\n2 conciertos en la lista. Escribe una banda, una ciudad o una sala.\n\n### Marzo 2027 [..."
+            "url": "https://www.eventticketscenter.com/xana-tickets/49340/c",
+            "title": "Xana Tickets, Concerts & 2026 Tour Dates",
+            "snippet": "| Track | Album | Release Date |\n --- \n| \"711\" | 711 | Sep 18, 2026 |\n| \"Better Kind Of Best Friend\" | The Sex Was Good Until It Wasn't | May 10, 2024 |\n| \"Complex\" | Tantrums | Apr 15, 2022 |\n| \"Goddess\" | Goddess | Sep 24, 2020 |\n| \"Homewrecking Era\" | The Sex Was Good Until It Wasn't | May 10, 2024 |\n| \"Kitchen Light\" | Tantrums | Apr 15, 2022 |\n| \"Pray\" | Pray | Oct 29, 2020 |\n| \"Yellow\" | Tantrums | Apr 15, 2022 | [...] on Feb 7, 2025. To supplement their albums, Xana has released 20 single"
           },
           {
-            "url": "https://www.instagram.com/p/DRk3ikuDNOu",
-            "title": "Instagram",
-            "snippet": "Video by Avalanch on October 28, 2026. May be an image of poster and text.\nVideo by Avalanch on October 27, 2026. May be an image of costume, poster and text.\nVideo by Avalanch on October 25, 2026. May be an image of one or more people, beard, musical instrument, microphone, poster and text.\nVideo by Avalanch on October 23, 2026. May be an image of poster and text.\nVideo by Nando Campos on October 23, 2026. May be an image of poster, concert and text. [...] oficialavalanch's profile picture\nPhot"
+            "url": "https://www.bandsintown.com/a/636700-xana",
+            "title": "Xana Concerts & Live Tour Dates: 2026-2027 Tickets | Bandsintown",
+            "snippet": "Xana is an independent Queer artist from the West Coast with a gritty dark pop rock sound. Known for her ferocious honesty and relatable subject matter, Xana has taken the world by storm with the release of countless singles, two full-length albums (Tantrums in 2022 and The Sex Was Good Until It Wasn’t in 2024) and extensive touring throughout North America. [...] Xana is an independent Queer artist from the West Coast with a gritty dark pop rock sound. Known for her ferocious honesty and relata"
           }
         ]
       }
     },
     {
-      "requestHash": "46055842524fea6d47127c531f4c12db13c41369a06f8e8b87261f9888f2ca14",
+      "requestHash": "6e0a02976d58d559232198db0fe0b576b4c61eb087e984573b0ce395aa92a758",
       "provider": "Tavily",
-      "query": "Norte Bravo Conciertos Xana Rock",
+      "query": "\"Xana Rock\" banda Oviedo Asturias",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://linkedin.com/in/xana-a81327281",
-            "title": "Xana",
-            "snippet": "# Xana [...] Description: XANA is an improv live loop musician, composer, spatial sound artist and haptic specialist sound designer. XANAs approach to sound blends in sensory experiences with scents, touch and raw materials in XANA’s music making process. XANA deconstructs words and found sound in live performances to make improvisational soundscapes, effects and protest music through XANA genres: Orchestral Noise, Ancestors Revenge and Thicc Bass using modular synthesis and field recordings as "
+            "url": "https://en.wikipedia.org/wiki/Xana_(musician)",
+            "title": "Xana (musician) - Wikipedia",
+            "snippet": "Musical artist\n\nXana Morris (/ˈɛksˌænə/ ⓘ eks-a-nə), known professionally as Xana , is a Canadian pop musician based in Vancouver. She is known for making music around the themes of queerness and identity. She released her debut album  Tantrums \"Tantrums (Xana album)\") in 2022, followed by her second album The Sex Was Good Until It Wasn't in 2024.\n\n## Early life\n\n[edit&action=edit&section=1 \"Edit section: Early life\")] [...] In 2015, Xana formed an acoustic pop-punk duo, Coffee Eyes, with Joel C"
           },
           {
-            "url": "https://tavily.com/knowledge/company/bLwmw2CiHqXC",
-            "title": "Norte Bravo",
-            "snippet": "# MECANIZADOS NORTE BRAVO SL\nID: bLwmw2CiHqXC\nHeadquarters: AMPUERO, Spain\nLinkedIn: www.linkedin.com/company/mecanizados-norte-bravo-sl · 4 followers\nIndustry: Appliances, Electrical, and Electronics Manufacturing\n\n## Headcount\n- Now: 5 · 0 yearly (0%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+            "url": "https://xanaofficial.com",
+            "title": "Xana | Official Site | 711, Tour & Merch",
+            "snippet": "Is Xana on tour?\n:   No upcoming dates are posted right now. Check xanaofficial.com/tour, track Xana on Bandsintown, or follow Substack for announcements.\n\nWhere do I buy Xana merch and vinyl?\n:   Official merch, vinyl, and CDs are at shop.xanaofficial.com.\n\nWhere do I get updates first?\n:   Subscribe to Find Me In The Blue Room on Substack (free or paid). Track Xana on Bandsintown for local show alerts. [...] Spotify can set cookies once this loads. Analytics stays off.\n\nOpen in Spotify\n\nOpen i"
           }
         ]
       }
     },
     {
-      "requestHash": "1530ca322795d480046b5dadc786c3bac5d5dee82a24ff0126028d0c7a393a8f",
+      "requestHash": "fb77a026d0f18cededd68eb64fb2109dba33d6fc8931d346a5edc1ba8ea6c8f3",
       "provider": "Tavily",
-      "query": "bit.ly/xana-invierno-entradas",
-      "maxResults": 1,
+      "query": "\"Xana Rock\" banda rock España",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://www.marketbeat.com/cryptocurrencies/xana",
-            "title": "Xana Price Prediction, News, and Analysis (XETA)",
-            "snippet": "One Xana (XETA) is currently worth $0.00 on major cryptocurrency exchanges. You can also exchange one Xana for 0.00000000 bitcoin(s) on major exchanges. The value (or market capitalization) of all available Xana in U.S. dollars is $128.17 thousand. This market cap is self-reported and is based on a circulating supply of 2,420,166,667 XETA, which has not been verified.\n\n## Xana (XETA) Price Chart for Tuesday, November, 3, 2026 [...] © 2026   Fair market value prices are updated every minute and a"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "a0c5746dacef68333f20dded7bd9231164b84f4143757479aedc17e1a9f545d4",
-      "provider": "Tavily",
-      "query": "\"Xana Rock vuelve a Oviedo con su gira de invierno\"",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://concerts50.com/spain/oviedo/g/rock",
-            "title": "Rock Concerts in Oviedo 2026-2027 | Music Events, Gigs & Tickets",
-            "snippet": "|  |  |  |\n --- \n| Sat, 21:00  Nov 14  2026  Me First and the Gimme Gimmes | Spike and The Gimme Gimmes Oviedo  Kuivi Almacenes - Oviedo, Spain |  |\n| Fri, 21:00  Jan 8  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Jan 9  2027  Puño Dragón | Puño Dragón Oviedo  Tribeca - Oviedo, Spain |  |\n| Sat, 21:00  Dec 12  2026  Triángulo de Amor Bizarro | Triángulo de Amor Bizarro Oviedo  Kuivi Almacenes - Oviedo, Spain |  | [...] | Candlelight Oviedo  Explore Events  "
+            "url": "https://www.youtube.com/watch?v=FgrKd28YjTQ",
+            "title": "Entrevista con Xana, Diego y Raúl de Celtian 🇪🇸 en Leyendas del Rock 2023 [Backstage]",
+            "snippet": "[2:46] Así que yo creo que sobre todo por las bandas de aquí merece la pena venir desde fuera alguien más quiere opinar algo por ejemplo la banda que acabamos de ver\n[2:55] aquí de dark han dicho que era la primera fecha que tenían en España y además es muy típico que haya muchas bandas sobre todo europeas que cuidar\n[3:02] única fecha es aquí y no tocar más O sea que es una oportunidad exclusiva en España para ver según qué bandas Bueno chicos ustedes van a compartir el [...] # Entrevista con X"
           },
           {
-            "url": "https://www.entradas.com/city/oviedo-7613/conciertos-y-festivales-85/pop-rock-1233",
-            "title": "Entradas de Pop & Rock en Oviedo | entradas.com",
-            "snippet": "La Familia Addams, el musical\n\nEntradas Concierto Entradas\n\n# Pop & Rock en Oviedo\n\nHaga clic en el icono de añadir para agregar su preferencia a sus favoritos.\n\nCargando\n\nTodos los resultados para: Pop & Rock en Oviedo\n\nNoan - Viaje de vuelta a casa Tour\n\nNoan - Viaje de vuelta a casa Tour\n\nGira presentación de su segundo álbum\n\n05/03/2027 ─ 21/05/20277 eventos\n\n  Mostrar los 7 eventos\n\nOviedo, vie. 05/03/2027, 21:00\n\nNoan en Oviedo\n\n  Entradas [...] Desde 35,00 €\n\nGoyo Jiménez\n\nGoyo Jiménez\n\nD"
-          },
-          {
-            "url": "https://www.planomato.com/es/oviedo/p/concierto-puno-dragon-oviedo",
-            "title": "Concierto de Puño Dragón en el Concurso de Rock Ciudad de Oviedo 2026: fecha y entrada libre | Planomato",
-            "snippet": "Ciclo de Conciertos y Jornadas de Piano\n\nConcierto\n\n04 nov – 23 may\n\n#### Ciclo de Conciertos y Jornadas de Piano\n\nLe Jardin des Voix: Les Arts Florissants en Oviedo\n\nConcierto\n\n06 nov\n\n#### Le Jardin des Voix: Les Arts Florissants en Oviedo\n\nConferencia 'Todo se puede entrenar' con Toni Nadal\n\nConferencia\n\n09 nov\n\n#### Conferencia 'Todo se puede entrenar' con Toni Nadal\n\nMacbeth - Ópera de Oviedo\n\nÓpera\n\n13–21 nov\n\n#### Macbeth - Ópera de Oviedo [...] ## Descripción\n\nYa tenemos los detalles de "
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=reLqcHyhw4I",
-            "title": "THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING",
-            "snippet": "# THE 13TH EDITION OF OVIEDO ROCK 2026 IS COMING\n## Channel: Oviedo Press\n6.12K subscribers\n1 likes\n\n### Description\n36 views\nPosted: 2026-10-23"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DVfvhDpiCCu",
+            "url": "https://www.instagram.com/p/DZuMOAaoKC1",
             "title": "Instagram",
-            "snippet": "Oviedo y Soria nos vemos 10 y 11 abril. Entradas ya a venta. Link entradas en mi bio👇🎟  \n  \nViernes 10 Abril Botánico Café Teatro, Soria  \n  \n  \nSab 11 Abril Sala Gong, Oviedo  \n\nfrancappra's profile picture\n\nfrancappra\n\n😍😍\n\nReply\n\nraulvilarferrandis_'s profile picture\n\nraulvilarferrandis\\_\n\n❤️🔥 Mola 😎👌🏻\n\n1 like\n\nReply\n\nemebejar70's profile picture\n\nemebejar70\n\nla Reina 🙌🙌🙌💪💪💪\n\n2 likes\n\nReply\n\nlee_roy_cardinal_'s profile picture\n\nlee\\_roy\\_cardinal\\_\n\n❤️❤️❤️❤️❤️\n\n1 like\n\nReply [..."
+            "snippet": "Photo by La Xana del Torio on June 17, 2022.\nPhoto by La Xana del Torio on November 03, 2026. May be an image of poster, pie and text.\nPhoto by Disparo Producciones on October 26, 2026. May be an image of poster and text.\nVideo by La Xana del Torio on October 26, 2026.\nPhoto by Disparo Producciones on October 20, 2026. May be an image of text.\nPhoto by Espazo Underground on October 19, 2026. May be an image of poster and text. [...] Photo by La Xana del Torio on October 19, 2026. May be an image"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "959076c4a065c2c202d88d039f1368ed2964689043bbb9dac03a3310351cda85",
+      "provider": "Tavily",
+      "query": "Xana Rock Oviedo concierto 2026 bit.ly",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.songkick.com/artists/431196-xana/calendar",
+            "title": "Xana Full Tour Schedule 2026 & 2027, Tour Dates & Concerts – Songkick",
+            "snippet": "## Past concerts\n\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\nXana Concert Tickets - 2026 Tour Dates\n\nView all past concerts\n\nGet your tour dates seen everywhere.\n\nTwitter\nFacebook [...] Search"
+          },
+          {
+            "url": "https://www.ticketmaster.com/xana-tickets/artist/3112613",
+            "title": "Xana Tickets, 2026-2027 Concert Tour Dates | Ticketmaster",
+            "snippet": "## Setlists\n\n1. 1. 1.Save the Bullets, Baby!\n   2. 2.The Kicker\n   3. 3.Lip Service\n   4. 4.babyblue\n   5. 5.Better Kind of Best Friend\n   6. 6.Homewrecking era\n   7. 7.Yellow\n   8. 8.15\n   9. 9.crying after sex\n   10. 10.FERAL\n   11. 11.Pray\n   12. 12.Complex\n   13. 13.Kitchen Light / Cruel Summer (Taylor Swift cover)\n   14. 14.The Sex was good!\n   15. 15.Is it Everything You Thought\n   16. 16.4ever [...] 1. 1. 1.Lip Service\n   2. 2.Sick Joke\n   3. 3.BODY\n   4. 4.Yellow\n   5. 5.Monster\n   6. 6."
           }
         ]
       }
