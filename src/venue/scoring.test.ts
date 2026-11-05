@@ -277,12 +277,31 @@ describe("estimateVenueCapacity", () => {
       "Capacidad para 1.200 espectadores en Sala Ejemplo.",
     ])("reads a capacity next to a unit or after «aforo»: %s", (snippet) => {
       const finding = fromWeb([result("Sala Ejemplo", snippet)]);
-      expect(finding.verdict).toBe("pass");
+      // Within it, still unknown: a web figure can't let an approval through.
+      expect(finding.verdict).toBe("unknown");
+      expect(finding.detail).toContain("no cuenta para aprobar");
       expect(finding.sources[0]?.url).toBe(
         "https://salas-ejemplo.test/sala-ejemplo",
       );
       expect(finding.detail).toContain("la web (salas-ejemplo.test)");
     });
+
+    it.each([
+      ["above it", 200, "warn"],
+      ["far above it", 100, "warn"],
+    ])(
+      "only escalates with tickets %s, never fails",
+      (_, capacity, verdict) => {
+        const finding = fromWeb([
+          result(
+            "Sala Ejemplo",
+            `Sala Ejemplo, aforo de ${String(capacity)} personas.`,
+          ),
+        ]);
+        expect(finding.check).toBe("venue_capacity");
+        expect(finding.verdict).toBe(verdict);
+      },
+    );
 
     it.each([
       ["a page about another venue", "Otra Sala", "Aforo de 400 personas."],

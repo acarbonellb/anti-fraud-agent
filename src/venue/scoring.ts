@@ -252,9 +252,11 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
     );
   }
 
-  const known =
-    publishedCapacity(match.place, wikidata) ??
-    (web?.ok ? capacityFromWeb(venue, web.results) : null);
+  const published = publishedCapacity(match.place, wikidata);
+  const fromWeb =
+    published === null && web?.ok ? capacityFromWeb(venue, web.results) : null;
+  if (fromWeb !== null) return scoreWebCapacity(fromWeb, tickets, onSale);
+  const known = published;
   if (known === null) {
     const failed =
       wikidata !== null && !wikidata.ok ? ` (${failureText(wikidata)})` : "";
@@ -294,6 +296,36 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
     "venue_capacity",
     "pass",
     `Aforo compatible: ${onSale}, dentro del aforo de ${count(capacity)} que publica ${source.title}.`,
+    [source],
+  );
+}
+
+/**
+ * A capacity read from one search snippet can only hold back (ADR 0015 point
+ * 6, amendment of #57). Too many tickets for it escalates; within it, the
+ * capacity still counts as unknown, so the exposure cap decides an approval.
+ * It never gives a `pass` or a hard `fail`: the organizer names the venue, and
+ * a page that names it can say anything.
+ */
+function scoreWebCapacity(
+  known: { capacity: number; source: Finding["sources"][number] },
+  tickets: number,
+  onSale: string,
+): SystemFinding {
+  const { capacity, source } = known;
+  const factor = (tickets / capacity).toFixed(1).replace(".", ",");
+  if (tickets > CAPACITY_WARN_FACTOR * capacity) {
+    return venueFinding(
+      "venue_capacity",
+      "warn",
+      `Heurística de aforo: ${onSale}, ${factor} veces el aforo de ${count(capacity)} que da ${source.title}. Una cifra de la web no está verificada, así que lo decide el admin.`,
+      [source],
+    );
+  }
+  return venueFinding(
+    "venue_capacity",
+    "unknown",
+    `Aforo sin verificar: ${source.title} da un aforo de ${count(capacity)} y ${onSale}, pero una cifra de la web no cuenta para aprobar; se aplica el tope de exposición.`,
     [source],
   );
 }

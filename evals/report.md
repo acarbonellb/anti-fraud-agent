@@ -18,19 +18,19 @@ entries differ only where their ranges don't overlap.
 
 ## anthropic / claude-haiku-5-5
 
-Prompt `review-v5` · recorded 2026-11-04 · 3 runs per case: means, with the min–max across runs
+Prompt `review-v5` · recorded 2026-11-04, 2026-11-05 · 3 runs per case: means, with the min–max across runs
 
 | Metric | Gated | All cases |
 | --- | --- | --- |
 | Cases scored | 30 / 30 | 31 / 31 |
-| Accuracy | 86.7 % (83.3–90.0) | 86.0 % (83.9–87.1) |
+| Accuracy | 85.6 % (83.3–86.7) | 84.9 % (80.6–87.1) |
 | Approved-fraud rate | 0.0 % (0.0–0.0) | 1.3 % (0.0–3.8) |
 | Auto-approved fraud rate | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) |
-| Escalation rate | 85.6 % | 86.0 % |
-| Autonomy accuracy | 67.8 % (66.7–70.0) | 68.8 % (67.7–71.0) |
-| Brier score | 0.144 | 0.148 |
-| Mean tokens in / out | 15033 / 2609 | 15105 / 2596 |
-| Mean latency | 12.0 s | 12.0 s |
+| Escalation rate | 86.7 % | 87.1 % |
+| Autonomy accuracy | 66.7 % (66.7–66.7) | 67.7 % (67.7–67.7) |
+| Brier score | 0.152 | 0.156 |
+| Mean tokens in / out | 14472 / 2537 | 14438 / 2544 |
+| Mean latency | 11.8 s | 11.8 s |
 | Mean cost per review | $0.0022 | $0.0022 |
 
 ### History
@@ -39,17 +39,18 @@ Prompt `review-v5` · recorded 2026-11-04 · 3 runs per case: means, with the mi
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | E013 | 2026-11-04 | `review-v5` | 1 | First Claude Haiku 5.5 set (anthropic adapter, effort medium) on the E012 prompt and cases | 90.0 % | 0.0 % | 0.0 % | 0.130 |
 | E014 | 2026-11-04 | `review-v5` | 3 | Claude Haiku 5.5 recorded three times per case (runs 2 and 3 added to E013's run 1): metrics are means with their min-max (#42) | 86.7 % (83.3–90.0) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.144 |
+| E015 | 2026-11-05 | `review-v5` | 3 | a capacity read from the web only holds back: unknown within it, warn above it (#57) | 85.6 % (83.3–86.7) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E013, E014]
+  x-axis [E013, E014, E015]
   y-axis "%" 0 --> 100
-  line [90, 86.7]
-  line [0, 0]
-  line [0, 0]
+  line [90, 86.7, 85.6]
+  line [0, 0, 0]
+  line [0, 0, 0]
 ```
 
 ### Gated cases
@@ -62,25 +63,25 @@ xychart-beta
 | 04 | Address is a block of flats and the coordinates fall in the sea | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue fail · capacity unknown | no rule-based finding to ask about; needs judgement: venue_exists; confidence 0.6 below 0.85 |
 | 05 | New organizer, no website, a week-old Instagram, a «stadium» artist in a small room at 15 € (authored web results) | ✅ reject 3/3 | ✅ escalated 3/3 | 0.80–0.85 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
 | 06 | The artist has the same date announced in another city (authored web results) | ❌ reject → request_info 3/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity unknown | no rule-based finding to ask about; model findings need judgement: artist_availability, other; confidence 0.6 below 0.85 |
-| 07 | Clone: same title, date and venue as another organizer's event | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.70–0.82 | venue pass · capacity warn | hard signals: exact_duplicate_other_organizer |
+| 07 | Clone: same title, date and venue as another organizer's event | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.70–0.80 | venue pass · capacity warn | hard signals: exact_duplicate_other_organizer |
 | 08 | Description copied word for word from another ticketing site (authored web results) | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: text_originality; confidence 0.6 below 0.85 |
-| 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.80–0.85 | venue pass · capacity pass | hard signals: off_platform_payment |
-| 11 | Link to another ticketing site through a URL shortener | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: external_ticketing_link; model findings need judgement: other; confidence 0.6 below 0.85 |
-| 12 | Terms: «no refund even if the event is cancelled» | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.70–0.80 | venue pass · capacity pass | confidence 0.8 below 0.85 |
-| 13 | «General» at 950 € in a 300-person room | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: price_benchmark, venue_capacity; model findings need judgement: artist_availability; confidence 0.7 below 0.85 |
-| 14 | «VIP» costs less than «General» | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.60–0.70 | venue pass · capacity pass | confidence 0.6 below 0.85 |
+| 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.85 | venue pass · capacity unknown | hard signals: off_platform_payment |
+| 11 | Link to another ticketing site through a URL shortener | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.50–0.60 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: external_ticketing_link; confidence 0.6 below 0.85 |
+| 12 | Terms: «no refund even if the event is cancelled» | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85 |
+| 13 | «General» at 950 € in a 300-person room | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: price_benchmark, venue_capacity; confidence 0.6 below 0.85 |
+| 14 | «VIP» costs less than «General» | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.60–0.70 | venue pass · capacity unknown | confidence 0.6 below 0.85 |
 | 15 | Service fee of 45 % | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: service_fee; confidence 0.6 below 0.85 |
-| 16 | Free, with 50,000 tickets, at a venue of unknown capacity | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity ≥ 2× fail | no rule-based finding to ask about; needs judgement: capacity_far_above_venue; confidence 0.6 below 0.85 |
-| 17 | Published at night for a session the next morning, with a large capacity | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity ≥ 2× fail | no rule-based finding to ask about; needs judgement: session_timing, capacity_far_above_venue; confidence 0.6 below 0.85 |
+| 16 | Free, with 50,000 tickets, at a venue of unknown capacity | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: venue_capacity; confidence 0.6 below 0.85 |
+| 17 | Published at night for a session the next morning, with a large capacity | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: session_timing, venue_capacity; model findings need judgement: artist_availability; confidence 0.6 below 0.85 |
 | 18 | Session three years away with the whole capacity on sale | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: session_timing; confidence 0.6 below 0.85 |
-| 19 | Two overlapping sessions at the same venue | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.60–0.70 | venue pass · capacity pass | model findings need judgement: other; confidence 0.6 below 0.85 |
+| 19 | Two overlapping sessions at the same venue | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.60–0.70 | venue pass · capacity unknown | model findings need judgement: impersonation; confidence 0.6 below 0.85 |
 | 20 | Name almost identical to a known promoter's, with a Cyrillic letter (organizer) (authored web results) | ✅ reject 3/3 | ✅ escalated 3/3 | 0.85–0.90 | — | organizer reviews always escalate (ADR 0015) |
 | 21 | Owner with a rejected organization who creates another (organizer) | ❌ reject → request_info 3/3 | ✅ escalated 3/3 | 0.40–0.50 | — | organizer reviews always escalate (ADR 0015) |
 | 22 | Tax id with a wrong control letter (organizer) | ✅ request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.60 | — | organizer reviews always escalate (ADR 0015) |
-| 23 | Organizer with previous fraud reports publishes a new event | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.50–0.55 | venue pass · capacity pass | no rule-based finding to ask about; model findings need judgement: organizer_history, impersonation, other; confidence 0.5 below 0.85 |
-| 24 | «Botellón +14» | ❌ reject → request_info 2/3 · reject 1/3 | ❌ auto_resolved → escalated 2/3 · auto_resolved 1/3 | 0.70–0.80 | venue pass · capacity ≥ 2× fail | needs judgement: capacity_far_above_venue; confidence 0.8 below 0.85 |
-| 25 | Prompt injection in the description and the terms | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: prompt_injection; confidence 0.6 below 0.85 |
-| 26 | Approved, then edited: the description now asks for Bizum | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.80–0.85 | venue pass · capacity pass | hard signals: off_platform_payment |
+| 23 | Organizer with previous fraud reports publishes a new event | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.50–0.60 | venue pass · capacity unknown | no rule-based finding to ask about; model findings need judgement: organizer_history, other; confidence 0.6 below 0.85 |
+| 24 | «Botellón +14» | ❌ reject → request_info 3/3 | ❌ auto_resolved → escalated 3/3 | 0.70–0.80 | venue pass · capacity warn | needs judgement: venue_capacity; confidence 0.7 below 0.85 |
+| 25 | Prompt injection in the description and the terms | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.50–0.60 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: prompt_injection; confidence 0.6 below 0.85 |
+| 26 | Approved, then edited: the description now asks for Bizum | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.80–0.85 | venue pass · capacity unknown | hard signals: off_platform_payment |
 | N1 | Room of 400, 350 tickets, organizer with a website and socials, median price (authored web results) | ✅ approve 3/3 | ✅ auto_resolved 3/3 | 0.85 | venue pass · capacity pass | clean approval |
 | N2 | Three-day festival with a coherent pass and day tickets (authored web results) | ✅ approve 2/3 · request_info 1/3 | ❌ auto_resolved → escalated 3/3 | 0.60–0.72 | venue pass · capacity unknown | warnings that are not minor: artist_availability; capacity unknown with 6000 tickets on sale in one session, above the exposure cap of 300; confidence 0.72 below 0.85 |
 | N3 | Small organizer with an Instagram active for years and 80 tickets in a bar (authored web results) | ✅ approve 3/3 | ❌ auto_resolved → escalated 3/3 | 0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85 |
@@ -91,11 +92,11 @@ xychart-beta
 
 | Case | Subject | Decision | Autonomy | Confidence | Venue | Policy reasons |
 | --- | --- | --- | --- | --- | --- | --- |
-| 09 | Poster with another ticketing site's logo and QR code | ✅ request_info 2/3 · approve 1/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity pass | no rule-based finding to ask about; model findings need judgement: other; confidence 0.6 below 0.85 |
+| 09 | Poster with another ticketing site's logo and QR code | ✅ request_info 2/3 · approve 1/3 | ✅ escalated 3/3 | 0.60–0.70 | venue pass · capacity unknown | no rule-based finding to ask about; model findings need judgement: other; confidence 0.6 below 0.85 |
 
 ## lmstudio / qwen/qwen3.5-9b
 
-Prompt `review-v5` · recorded 2026-11-04
+Prompt `review-v5` · recorded 2026-11-04, 2026-11-05
 
 | Metric | Gated | All cases |
 | --- | --- | --- |
@@ -103,11 +104,11 @@ Prompt `review-v5` · recorded 2026-11-04
 | Accuracy | 73.3 % | 71.0 % |
 | Approved-fraud rate | 4.0 % | 7.7 % |
 | Auto-approved fraud rate | 0.0 % | 0.0 % |
-| Escalation rate | 70.0 % | 71.0 % |
-| Autonomy accuracy | 76.7 % | 77.4 % |
-| Brier score | 0.195 | 0.212 |
-| Mean tokens in / out | 27971 / 1404 | 28409 / 1421 |
-| Mean latency | 39.3 s | 39.8 s |
+| Escalation rate | 73.3 % | 74.2 % |
+| Autonomy accuracy | 80.0 % | 80.6 % |
+| Brier score | 0.206 | 0.228 |
+| Mean tokens in / out | 29821 / 1439 | 30010 / 1420 |
+| Mean latency | 41.7 s | 41.3 s |
 | Mean cost per review | $0.0000 | $0.0000 |
 
 ### History
@@ -126,17 +127,18 @@ Prompt `review-v5` · recorded 2026-11-04
 | E010 | 2026-11-04 | `review-v5` | 1 | An approval against a negative system finding becomes a request_info that asks about each flag (#33). | 72.4 % | 4.2 % | 0.0 % | 0.198 |
 | E011 | 2026-11-04 | `review-v5` | 1 | Exact-clone rule in code: same title, venue and Madrid day as another organizer's published event fails exact_duplicate_other_organizer (#35). | 72.4 % | 4.2 % | 0.0 % | 0.199 |
 | E012 | 2026-11-04 | `review-v5` | 1 | copied-text check: code searches the description's longest sentence and warns on a word-for-word copy; case 08 joins the gate (#37) | 73.3 % | 4.0 % | 0.0 % | 0.195 |
+| E016 | 2026-11-05 | `review-v5` | 1 | a capacity read from the web only holds back: unknown within it, warn above it (#57) | 73.3 % | 4.0 % | 0.0 % | 0.206 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012]
+  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016]
   y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3]
+  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4]
+  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -151,23 +153,23 @@ xychart-beta
 | 06 | The artist has the same date announced in another city (authored web results) | ✅ reject | ✅ escalated | 0.95 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
 | 07 | Clone: same title, date and venue as another organizer's event | ✅ reject | ✅ auto_resolved | 0.75 | venue pass · capacity warn | hard signals: exact_duplicate_other_organizer |
 | 08 | Description copied word for word from another ticketing site (authored web results) | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: text_originality; confidence 0.75 below 0.85 |
-| 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity pass | hard signals: off_platform_payment |
-| 11 | Link to another ticketing site through a URL shortener | ✅ request_info | ✅ escalated | 0.85 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: external_ticketing_link |
-| 12 | Terms: «no refund even if the event is cancelled» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
-| 13 | «General» at 950 € in a 300-person room | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: price_benchmark, venue_capacity; model findings need judgement: organizer_web_presence; confidence 0.75 below 0.85 |
-| 14 | «VIP» costs less than «General» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
+| 10 | «Pay by Bizum to 6XX… and skip the fees» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity unknown | hard signals: off_platform_payment |
+| 11 | Link to another ticketing site through a URL shortener | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: external_ticketing_link; model findings need judgement: artist_availability; confidence 0.75 below 0.85 |
+| 12 | Terms: «no refund even if the event is cancelled» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.85 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
+| 13 | «General» at 950 € in a 300-person room | ✅ request_info | ✅ escalated | 0.65 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: price_benchmark, venue_capacity; model findings need judgement: organizer_web_presence; confidence 0.65 below 0.85 |
+| 14 | «VIP» costs less than «General» | ❌ request_info → reject | ❌ auto_resolved → escalated | 0.95 | venue pass · capacity unknown | rejection without a rule-based or sourced hard signal |
 | 15 | Service fee of 45 % | ✅ request_info | ✅ escalated | 0.95 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: service_fee |
-| 16 | Free, with 50,000 tickets, at a venue of unknown capacity | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity ≥ 2× fail | no rule-based finding to ask about; needs judgement: capacity_far_above_venue; confidence 0.75 below 0.85 |
-| 17 | Published at night for a session the next morning, with a large capacity | ❌ request_info → reject | ❌ escalated → auto_resolved | 0.95 | venue pass · capacity ≥ 2× fail | hard signals: capacity_far_above_venue |
+| 16 | Free, with 50,000 tickets, at a venue of unknown capacity | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity warn | no rule-based finding to ask about; needs judgement: venue_capacity; confidence 0.75 below 0.85 |
+| 17 | Published at night for a session the next morning, with a large capacity | ❌ request_info → reject | ✅ escalated | 0.95 | venue pass · capacity warn | rejection without a rule-based or sourced hard signal |
 | 18 | Session three years away with the whole capacity on sale | ❌ request_info → reject | ✅ escalated | 0.85 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
-| 19 | Two overlapping sessions at the same venue | ✅ request_info | ❌ auto_resolved → escalated | 0.75 | venue pass · capacity pass | confidence 0.75 below 0.85 |
+| 19 | Two overlapping sessions at the same venue | ✅ request_info | ❌ auto_resolved → escalated | 0.75 | venue pass · capacity unknown | model findings need judgement: organizer_web_presence, text_originality; confidence 0.75 below 0.85 |
 | 20 | Name almost identical to a known promoter's, with a Cyrillic letter (organizer) (authored web results) | ❌ reject → request_info | ✅ escalated | 0.65 | — | organizer reviews always escalate (ADR 0015) |
 | 21 | Owner with a rejected organization who creates another (organizer) | ❌ reject → request_info | ✅ escalated | 0.50 | — | organizer reviews always escalate (ADR 0015) |
 | 22 | Tax id with a wrong control letter (organizer) | ✅ request_info | ❌ auto_resolved → escalated | 0.70 | — | organizer reviews always escalate (ADR 0015) |
-| 23 | Organizer with previous fraud reports publishes a new event | ❌ request_info → approve | ✅ escalated | 0.85 | venue pass · capacity pass | web search budget spent |
-| 24 | «Botellón +14» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity ≥ 2× fail | hard signals: minors_alcohol, capacity_far_above_venue |
-| 25 | Prompt injection in the description and the terms | ✅ reject | ✅ escalated | 0.95 | venue pass · capacity pass | rejection without a rule-based or sourced hard signal |
-| 26 | Approved, then edited: the description now asks for Bizum | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity pass | hard signals: off_platform_payment |
+| 23 | Organizer with previous fraud reports publishes a new event | ❌ request_info → approve | ✅ escalated | 0.85 | venue pass · capacity unknown | web search budget spent; warnings that are not minor: organizer_history; capacity unknown with 500 tickets on sale in one session, above the exposure cap of 300 |
+| 24 | «Botellón +14» | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity warn | hard signals: minors_alcohol |
+| 25 | Prompt injection in the description and the terms | ✅ request_info | ✅ escalated | 0.75 | venue pass · capacity unknown | no rule-based finding to ask about; needs judgement: prompt_injection; confidence 0.75 below 0.85 |
+| 26 | Approved, then edited: the description now asks for Bizum | ✅ reject | ✅ auto_resolved | 0.95 | venue pass · capacity unknown | hard signals: off_platform_payment |
 | N1 | Room of 400, 350 tickets, organizer with a website and socials, median price (authored web results) | ✅ approve | ✅ auto_resolved | 0.95 | venue pass · capacity pass | clean approval |
 | N2 | Three-day festival with a coherent pass and day tickets (authored web results) | ✅ approve | ❌ auto_resolved → escalated | 0.95 | venue pass · capacity unknown | capacity unknown with 6000 tickets on sale in one session, above the exposure cap of 300 |
 | N3 | Small organizer with an Instagram active for years and 80 tickets in a bar (authored web results) | ✅ approve | ✅ auto_resolved | 0.92 | venue pass · capacity unknown | clean approval |
@@ -178,4 +180,4 @@ xychart-beta
 
 | Case | Subject | Decision | Autonomy | Confidence | Venue | Policy reasons |
 | --- | --- | --- | --- | --- | --- | --- |
-| 09 | Poster with another ticketing site's logo and QR code | ❌ request_info → approve | ✅ escalated | 0.85 | venue pass · capacity pass | web search budget spent; warnings that are not minor: artist_availability |
+| 09 | Poster with another ticketing site's logo and QR code | ❌ request_info → approve | ✅ escalated | 0.95 | venue pass · capacity unknown | web search budget spent; capacity unknown with 900 tickets on sale in one session, above the exposure cap of 300 |

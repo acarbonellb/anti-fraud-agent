@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-05T20:21:00.000Z",
   "calls": [
     {
-      "requestHash": "17f7c0e490fad86e1306aa5ffd4c507a485b9e6e6355f41d40adf0b70ea9cc1e",
-      "latencyMs": 2879,
+      "requestHash": "af20a7acd22bccea6e088709fc54a3d7a9578e1ad847ea9ed0fc885f3ac140b5",
+      "latencyMs": 12960,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review event evt_5fc2399015. Let me analyze the context and deterministic checks provided.\n\n**Key observations from the event data:**\n- Event title: \"Rave gratuita de doce horas\" (Free rave of twelve hours)\n- Genre: electronica\n- Artist: Kolektiv Arena (headliner)\n- Ticket price: 0 cents (free entry with registration)\n- Venue: Sala Pícaro in Toledo\n- Session capacity listed: 50,000 tickets\n\n**Deterministic checks results:**\nMost checks passed. However, there's a **venue_capacity check with \"warn\" verdict**:\n- The session lists 50,000 tickets for sale\n- The venue's website (salasdeconciertos.com) shows capacity of 150\n- This is 333x the stated capacity\n- The system notes: \"Una cifra de la web no está verificada, así que lo decide el admin\"\n\nThis is a significant red flag. A rave event listing 50,000 tickets for a venue that appears to hold only 150 people is suspicious. This could indicate:\n1. Fraudulent ticketing (selling more than capacity)\n2. Copy-pasted template with wrong numbers\n3. Intentional misrepresentation\n\n**What I need to investigate:**\n1. Check the organizer context (org_8512b0049b) - account age, history, past events\n2. Search for \"Kolektiv Arena\" to verify if this artist exists and check their tour dates\n3. Consider whether 50,000 tickets is a copy-paste error or intentional fraud\n\nLet me start by checking the organizer context and searching for the artist.",
           "toolCalls": [
             {
-              "id": "YqSwO5Zqm6DI8zN7tJzhoWiMLaA76aQi",
+              "id": "Cewum1ou8pLNjKqZjfcJ9tutQMn9AsRB",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
             }
@@ -22,43 +22,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3437,
-          "outputTokens": 42
+          "inputTokens": 3441,
+          "outputTokens": 422
         }
       }
     },
     {
-      "requestHash": "05294ab60901d55572739662cdc2a77823a3e0305931e92ea12d4f34e9afdbb2",
-      "latencyMs": 1656,
+      "requestHash": "fa3169a12ff0f596b66d97b59e2e61bafa88a5ac449578c6e45f2590435ea7b9",
+      "latencyMs": 4718,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Good information about the organizer:\n- Name: Pulso Industrial\n- Status: approved\n- Account age: 930 days (about 2.5 years) - established\n- Fiscal data: CIF tax ID present and checksum valid\n- No content reports, no admin unpublishes\n- 14 published events, 12 ended normally\n- Owner has verified email\n\nThis organizer looks legitimate on paper. Now let me search for the artist \"Kolektiv Arena\" to verify they exist and check if there are any tour dates that might conflict or indicate this is a real event.",
           "toolCalls": [
             {
-              "id": "A9QQcHR9aFBSCnewwIuvJXOcdVXPd45s",
+              "id": "hOmXOe1CvVSATp2183VEyebGk5Ga4SlV",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo aforo capacidad 150 salasdeconciertos.com\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Kolektiv Arena techno artist Spain tour dates\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3817,
-          "outputTokens": 57
+          "inputTokens": 4201,
+          "outputTokens": 171
         }
       }
     },
     {
-      "requestHash": "65c076a29a6eb4687460d2a5ace8b720435d6d0939348203854c5c2ffb54802f",
-      "latencyMs": 1552,
+      "requestHash": "8f4e5669f724473ff88767bbee206856a9bd2eacac00bf1ce90afe245303a7aa",
+      "latencyMs": 4038,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The search results mention \"Dubioza Kolektiv\" (a real techno artist) but not \"Kolektiv Arena\". The first result is about Dubioza Kolektiv's tour dates, and the second is about festivals in Spain. Neither mentions \"Kolektiv Arena\" specifically.\n\nLet me search more specifically for \"Kolektiv Arena\" to see if this artist exists outside the platform.",
           "toolCalls": [
             {
-              "id": "Roha0bXaRjmcpN6QBIYofVhue2rDE8m7",
+              "id": "K2vtLfh1tMJeg4fhbt9KeWso7LGyqNuD",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Kolektiv Arena techno Sala Pícaro Toledo\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4657,
+          "outputTokens": 130
+        }
+      }
+    },
+    {
+      "requestHash": "088def451ea7163279ce7a915c341813d8e47d28641674a588a0abfaefa0af0f",
+      "latencyMs": 3940,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results don't show \"Kolektiv Arena\" specifically. The first result is an Instagram reel with hashtags about Sala Pícaro but doesn't mention Kolektiv Arena. The second result shows Bombai at Sala Pícaro on Nov 12, which is a different event.\n\nLet me also check for similar events to see if this might be a clone or duplicate.",
+          "toolCalls": [
+            {
+              "id": "3t7ZScuI26JxIjJYoGmelF88mKK9sSah",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":60}"
             }
@@ -66,118 +88,52 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4264,
-          "outputTokens": 52
+          "inputTokens": 5234,
+          "outputTokens": 133
         }
       }
     },
     {
-      "requestHash": "af32856973f7009547393b1c7109bca8db23530cd33b98f4062a352e522e2b77",
-      "latencyMs": 1514,
+      "requestHash": "84dd09c27ff0812f45cb370b69b237ca4e44e785a650f7e17f07a37bafd2b517",
+      "latencyMs": 14564,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "No similar events found in the same province within 60 days. This is good - no obvious clone.\n\nNow let me think about the main issue: **the venue capacity discrepancy**.\n\nThe deterministic check flagged this as a \"warn\" because:\n- Event lists 50,000 tickets for sale\n- Venue website (salasdeconciertos.com) shows capacity of 150\n- This is 333x the stated capacity\n\nThe system explicitly says: \"Una cifra de la web no está verificada, así que lo decide el admin\" - meaning the admin needs to decide.\n\nLet me verify the venue capacity by checking OpenStreetMap or other sources for Sala Pícaro's actual capacity. The deterministic check already verified the venue exists at those coordinates, but I need to understand the capacity issue better.\n\nActually, looking back at the deterministic checks:\n- `venue_exists`: pass - venue verified in OpenStreetMap\n- `venue_capacity`: warn - 50,000 tickets vs 150 capacity from website\n\nThe key question is: Is this a legitimate rave event that just has wrong capacity data, or is it fraudulent?\n\nGiven:\n1. The organizer (Pulso Industrial) looks legitimate - established account, valid fiscal data, no bad history\n2. No similar events found (not a clone)\n3. Artist \"Kolektiv Arena\" doesn't appear in web searches (could be new artist or platform-only)\n4. The capacity discrepancy is extreme (50,000 vs 150)\n\nThis is a significant red flag. A rave event listing 50,000 tickets for a venue that holds 150 people is highly suspicious. This could be:\n- A copy-paste error from a template\n- Intentional fraud to sell more tickets than capacity allows\n- Misrepresentation\n\nHowever, the organizer looks legitimate and there's no evidence of other fraud indicators. The capacity issue alone might warrant requesting information to clarify.\n\nLet me also check if there are any similar events in Toledo for electronica genre to understand typical capacities.",
           "toolCalls": [
             {
-              "id": "Bq5wqQ53AbteAxUZjfqJoRQyXrEiABaE",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Kolektiv Arena Toledo Sala Pícaro 2026 rave techno\",\"maxResults\":2}"
+              "id": "Q02iiOiAhofPaJ7SJhcEyJoRqn8l0tBL",
+              "name": "get_price_benchmark",
+              "argumentsJson": "{\"genre\":\"electronica\",\"province\":\"Toledo\",\"capacityBand\":\"gt5000\"}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4399,
-          "outputTokens": 54
+          "inputTokens": 5450,
+          "outputTokens": 508
         }
       }
     },
     {
-      "requestHash": "2e9e4a829c7dd44a447120dd31997fd57f031a42fe4f061a75f87dd5d94acc6a",
-      "latencyMs": 1687,
+      "requestHash": "b8500d99ac20d43942a83eee318580eff6615a390c1e92d0618029d96edbc34a",
+      "latencyMs": 31462,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The price benchmark shows 42 comparable events with p90 at 35,000 cents (€35). The event has free entry (0 cents), which is fine for a \"gratuita\" event.\n\nNow I need to make a decision on the capacity issue. The deterministic check already flagged this as a \"warn\" and explicitly says the admin needs to decide.\n\nGiven:\n1. **Capacity discrepancy**: 50,000 tickets vs ~150 actual capacity is a massive red flag (333x over)\n2. **Organizer looks legitimate**: Pulso Industrial has been around for 930 days, valid fiscal data, no bad history\n3. **No other fraud indicators**: No off-platform payment, no abusive terms, no illegal content, etc.\n4. **Artist not found online**: \"Kolektiv Arena\" doesn't appear in web searches - could be new or platform-only\n\nThe capacity issue is serious but the system says it's a \"warn\" not a \"fail\", and explicitly asks the admin to decide. This suggests it might be an error rather than fraud.\n\nHowever, selling 50,000 tickets for a 150-person venue is extremely problematic even if unintentional. It could:\n- Lead to overcrowding and safety issues\n- Be a copy-paste template error\n- Be intentional misrepresentation\n\nGiven the extreme discrepancy (333x capacity), I should request information to clarify this before approving. The organizer needs to explain why they're listing 50,000 tickets for a venue that holds 150 people.\n\nLet me submit a recommendation to request_info with questions about the capacity discrepancy.",
           "toolCalls": [
             {
-              "id": "APcBO3Ob2LY4IW5kAbw2al3ehbUaIF7z",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Kolektiv Arena\\\" Toledo Sala Pícaro rave 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4856,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "fff0459a631a2e17d97107648387ec1a664d9937ca535cb04d9146fbbdb98346",
-      "latencyMs": 1571,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "5spgJxEHTdMi6by5TpRh08uDqKY4LL0r",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Kolektiv Arena\\\" rave techno Toledo 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5290,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "eb5362a6fde39673149687728b9f1949b5f502676427ffce75e95762240fa88a",
-      "latencyMs": 1638,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "Fug8yoSSc03Z9lPkVBEhH4cFlkgtpUTg",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Kolektiv Arena\\\" Sala Pícaro Toledo 2026 rave\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5693,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "a158c9af5108dddf515dc9db74c641291e15e7a1a7e2bde3d63e5485cb1f383a",
-      "latencyMs": 29744,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el caso y aquí está mi análisis:\n\n**Señal crítica detectada:**\n- El evento pone a la venta 50.000 entradas para una sala de conciertos con un aforo real de 150 (según salasdeconciertos.com). Esto es 333 veces el aforo real, lo cual es una señal grave de fraude o error masivo. El umbral para \"capacity_far_above_venue\" es 2 veces el aforo, y esto supera ampliamente ese umbral.\n\n**Contexto del organizador:**\n- \"Pulso Industrial\" es un organizador aprobado desde mayo de 2024, con datos fiscales válidos (CIF con checksum correcto), cuenta activa desde hace 930 días, y tiene historial de 14 eventos publicados sin cancelaciones ni denuncias. No parece ser nuevo ni sospechoso por su perfil.\n\n**Artista:**\n- \"Kolektiv Arena\" no aparece en búsquedas web como artista conocido en Toledo o España. Los resultados muestran una empresa checa llamada \"Kolektiv Ateliers\" (diseño), y un evento de \"vangoura\" en la misma sala, pero nada sobre \"Kolektiv Arena\". Esto sugiere que podría ser un nombre inventado o mal escrito.\n\n**Posibles explicaciones inocentes:**\n- Podría ser un error de configuración del organizador (poner 50.000 por defecto).\n- Podría ser una prueba o evento ficticio.\n\n**Por qué no es solo un error de configuración:**\n- El nombre del artista \"Kolektiv Arena\" no tiene presencia web verificable en Toledo.\n- No hay eventos similares ni duplicados exactos de otros organizadores.\n- El organizador tiene historial limpio, pero esto no explica por qué pondría 50.000 entradas para una sala de 150.\n\n**Decisión:**\nDada la magnitud del error (333 veces el aforo) y la falta de presencia web del artista, hay indicios de fraude o al menos de un evento no real. Sin embargo, el organizador tiene historial limpio y datos fiscales válidos, lo que sugiere que podría ser un error humano grave en lugar de una estafa intencionada.\n\n**Recomendación:**\nSolicitar información para aclarar si es un error de configuración o un intento de fraude. Necesito saber:\n1. ¿Por qué se ponen 50.000 entradas?\n2. ¿Quién es realmente \"Kolektiv Arena\"?\n3. ¿Es este evento real o una prueba?\n\nVoy a emitir una recomendación de **request_info** con las preguntas necesarias en español para el admin.",
-          "toolCalls": [
-            {
-              "id": "rNNuFLSfbWGiSQ8H4w8sWI7kLO1BTaND",
+              "id": "lc9OKF4wbYGgfXeJ0YwsWrl5rKtVcvxn",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"Señal grave de aforo: 50.000 entradas para una sala de 150 (333 veces el aforo real). El organizador \\\"Pulso Industrial\\\" tiene historial limpio y datos fiscales válidos, pero el artista \\\"Kolektiv Arena\\\" no tiene presencia web verificable en Toledo. Posible error de configuración o fraude. Necesito aclarar la situación antes de aprobar o rechazar.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La sesión pone a la venta 50.000 entradas para una sala de 150 (333 veces el aforo real). Umbral: 2 veces el aforo.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"El artista 'Kolektiv Arena' no aparece en búsquedas web como artista activo en Toledo o España. Resultados muestran empresa checa 'Kolektiv Ateliers' y evento de 'vangoura' en la misma sala, pero nada sobre 'Kolektiv Arena'.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://concerts50.com/show/vangoura-in-toledo-tickets-nov-20-2026\",\"title\":\"vangoura Toledo Tickets - Sala Pícaro Toledo | Nov 20, 2026\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué se ponen 50.000 entradas para una sala de conciertos con aforo real de 150?\",\"¿Quién es realmente 'Kolektiv Arena'? ¿Es un artista real o un nombre ficticio?\",\"¿Este evento es real o una prueba/configuración errónea?\"],\"draft\":\"Organizador con historial limpio pero señal grave de aforo (333 veces el aforo real) y artista sin presencia web verificable. Necesito aclarar si es error de configuración o fraude.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una discrepancia crítica en el aforo: la sesión lista 50.000 entradas para venta, pero el recinto Sala Pícaro tiene un aforo de aproximadamente 150 personas según su web oficial (salasdeconciertos.com). Esta diferencia es de 333 veces el aforo real, lo cual representa un riesgo significativo de seguridad y cumplimiento. Aunque el organizador Pulso Industrial parece legítimo (cuenta establecida desde 2024, datos fiscales válidos, sin reportes), la discrepancia en capacidad requiere aclaración antes de aprobar. No hay indicios de fraude adicional (sin pagos fuera de plataforma, sin términos abusivos, sin contenido ilegal), pero el aforo excesivo es una señal importante que debe ser verificada.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"La sesión con más entradas pone a la venta 50.000, 333,3 veces el aforo de 150 que da la web del recinto (salasdeconciertos.com). Una cifra de la web no está verificada, así que lo decide el admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Pulso Industrial con cuenta de 930 días, CIF válido y checksum correcto. Sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"El artista 'Kolektiv Arena' no aparece en búsquedas web externas. Podría ser un artista nuevo o exclusivo de la plataforma.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://dubioza.org/tour-dates\",\"title\":\"Tour dates – Dubioza Kolektiv\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la misma provincia dentro de 60 días. No parece ser un clon.\",\"confidence\":0.8,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué el evento lista 50.000 entradas para venta cuando el aforo real del recinto Sala Pícaro es de aproximadamente 150 personas?\",\"¿Es esta una plantilla genérica con datos incorrectos o hay un error en la configuración del evento?\",\"¿Tienen confirmación del aforo real del recinto y cómo planean gestionar la entrada de asistentes para evitar sobrepasar la capacidad?\"],\"draft\":\"Solicito información sobre la discrepancia crítica en el aforo del evento. La sesión lista 50.000 entradas pero el recinto tiene un aforo de ~150 personas según su web oficial. Esta diferencia de 333x requiere aclaración inmediata antes de aprobar, ya que representa un riesgo de seguridad y cumplimiento importante.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5786,
-          "outputTokens": 1139
+          "inputTokens": 6089,
+          "outputTokens": 1118
         }
       }
     }
@@ -194,7 +150,12 @@
           {
             "url": "https://salasdeconciertos.com/salas/sala-picaro",
             "title": "Sala Pícaro – ACCES",
-            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas [...] Sa"
+            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
+          },
+          {
+            "url": "https://qconciertos.es/salas/sala-picaro",
+            "title": "Sala Pícaro",
+            "snippet": "### Ubicación\n\nLa Sala Pícaro se encuentra en Calle Cadenas, 45001, en Toledo. Su localización en el casco antiguo, a pocos pasos de los principales puntos de interés turístico, la convierte en una parada obligatoria para quienes buscan ocio nocturno de calidad tras un día de turismo. Estar en el corazón de la ciudad imperial le confiere un encanto histórico inigualable.\n\n### Aforo y Ambiente [...] El aforo de la Sala Pícaro no está especificado, pero se trata de una sala de formato pequeño, lo "
           },
           {
             "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
@@ -204,67 +165,41 @@
           {
             "url": "https://sala.picarotoledo.com",
             "title": "sala picaro – tu sala de conciertos en toledo",
-            "snippet": "SALA PÍCARO. C/ Cadenas, 6 / 45001 Toledo. Telf: (+34) 925 221 301. ZONA PROFESIONAL. Contratacion & Producción · Rider Sala · Eventos Privados. Tienes ...Read more"
+            "snippet": "925 221 301\n\nZONA PROFESIONAL\n\nContratacion & Producción\n\nRider Sala\n\nEventos Privados\n\nTienes preguntas?  Info / FAQs\n\nNos sigues en redes?\n\nbanner inaem null “ACCES”/ null “INAEM”/"
           },
           {
-            "url": "https://turismo.toledo.es/recursos/id734-sala-picaro.html",
-            "title": "Sala Pícaro",
-            "snippet": "La sala Pícaro es un local que aúna en su propuesta de diseño y funcionalidad, abrió sus puertas en 1999, cuando esto ocurrió no solo se inauguraba un local de ocio nocturno comenzaba también así\n\n \n\n  Horario\n\n  Días de apertura: Miércoles, jueves, viernes, sábados, domingos.  \n  Días de cierre: Lunes, martes.  \n  Horario: De 19:00H a 04:00H miércoles, jueves. De 19:00H a 06:00H viernes. De 15:00H a 06:00H sábados. De 15:00H a 04:00H domingos.\n \n\n  Idiomas\n\n  Español\n Otros Servicios [...] Acta"
-          },
-          {
-            "url": "https://toledodiario.es/la-sala-picaro-de-toledo-pausa-su-agenda-de-conciertos-para-acometer-obras-que-garanticen-su-continuidad",
-            "title": "La Sala Pícaro de Toledo pausa su agenda de conciertos para acometer obras que garanticen su continuidad - Noticias Toledo y Provincia | Toledodiario",
-            "snippet": "Ir al contenido\n\n\n\nPUBLICIDAD\n\n\n\nPUBLICIDAD\n\n[](\n\n### Únete al canal de Toledodiario en Telegram para estar siempre informado\n\n## Otras noticias\n\nUna fachada no necesita llegar a fin de mes\n\nPuente de Alcántara y vista del Casco Histórico / Fotografía: Fidel Manjavacas\n\n### Una fachada no necesita llegar a fin de mes\n\nFernando Redondo Benito /  02/11/2026\n\nEl Congreso Internacional para 'Re-imaginar la ciudad histórica' en Toledo será gratuito para vecinos y asociaciones vecinales [...] Vista pa"
+            "url": "https://www.instagram.com/salapicaro.toledo?hl=en",
+            "title": "Sala Pícaro (@salapicaro.toledo) • Instagram photos and videos",
+            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nPhoto by Sala Pícaro on May 27, 2026. [...]"
           }
         ]
       }
     },
     {
-      "requestHash": "cb0d78c4244939508a0d37c33a56684664cc483599010c98e785b6da6378394c",
+      "requestHash": "143ac0b42462b6afbba8a12ecc3526ffae4273ad4c5c777f6b5e222dd7d7399c",
       "provider": "Tavily",
-      "query": "Sala Pícaro Toledo aforo capacidad 150 salasdeconciertos.com",
+      "query": "Kolektiv Arena techno artist Spain tour dates",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
         "results": [
           {
-            "url": "https://salasdeconciertos.com/salas/sala-picaro",
-            "title": "Sala Pícaro – ACCES",
-            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
+            "url": "https://dubioza.org/tour-dates",
+            "title": "Tour dates – Dubioza Kolektiv",
+            "snippet": "[{{tourDate.offers.type}}]({{tourDate.offers.url}})"
           },
           {
-            "url": "https://www.salasdeconcierto.net/es/salas/sala-picaro",
-            "title": "Sala Pícaro - SalasDeConcierto.net",
-            "snippet": "SalasDeConcierto.net\n\nSala Pícaro\n\nSalas de Conciertos Pop / Rock Aforo: 0-250\n\n# Sala Pícaro\n\nToledo / Toledo\n\n## Descripción\n\nUno de los locales más emblemáticos de Toledo, un referente en la oferta de ocio nocturno de la ciudad por su variedad de conciertos y bien ganada reputación por su programación en el circuito de salas independientes de todo el país.\n\n### Horario\n\nde miércoles a domingo de 19:00h a 06:00h\n\n## Ubicación\n\nCalle Cadenas, 6, 45001   \nToledo (Toledo)\n\n Abrir en Google Maps ["
+            "url": "https://www.songkick.com/festivals/countries/es",
+            "title": "Upcoming Music Festivals in Spain in 2026 & 2027 – Songkick",
+            "snippet": "Santuario Fest 2026\nAshbury Heights, Clock DVA, Frozen Plasma, Mayflower Madame, Vlad In Tears, Fangs on Fur, and Light Of Eternity\n\nSala Groove,\nMadrid, Spain \nCamino de San Antón\n\nSay It Loud! Vol.17 2026\n\nSay It Loud! Vol.17 2026\nDavid Rodigan, La Valentina, DJ KOCO AKA SHIMOKITA, Colectiva, Muniats, and Dance Crasher Sound\n\nSala Paral·lel 62,\nBarcelona, Spain \nAvinguda del Paral·lel, 62, Ciutat Vella\n\nJackies - Open Air House Music Barcelona 2026 [...] Rock Imperium Festival 2027\nChildren of"
           }
         ]
       }
     },
     {
-      "requestHash": "8a36ad26a937d72c19f7617709cf9b61cecabb46bab9631b254c436d876c6047",
+      "requestHash": "128ca020fa1a828c1b48f4c50b4b5c427e284a5fb981863300b930ef8a1567c2",
       "provider": "Tavily",
-      "query": "Kolektiv Arena Toledo Sala Pícaro 2026 rave techno",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://concerts50.com/show/vangoura-in-toledo-tickets-nov-20-2026",
-            "title": "vangoura Toledo Tickets - Sala Pícaro Toledo | Nov 20, 2026",
-            "snippet": "Attend the vangoura concert in Toledo at Sala Pícaro Toledo on Friday, November 20, 2026, at 8:30 PM. Get your tickets now!\n\n### Videos\n\n### Top Tracks\n\n## Venue Info\n\n### Sala Pícaro Toledo\n\nC. Cadenas, 6, 45001 Toledo, Spain\n\nsala.picarotoledo.com\n\n+34 925 22 13 01\n\n## More Upcoming vangoura Concerts [...] Sara Baras\n\n  Dec 13 · Sun, 8:00 PM\n\n   \n\n  Palacio de Congresos de Toledo - Toledo, Spain\n Hens en Círculo de Arte, Toledo 2026\n\n  Hens en Círculo de Arte, Toledo 2026\n\n  Nov 28 · Sat, 9:00"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/5aTol1VxCzuG",
-            "title": "Kolektiv",
-            "snippet": "# KOLEKTIV ATELIERS\nID: 5aTol1VxCzuG\nWebsite: www.kolektiv.cz\nLegal name: Kolektiv Ateliers a.s.\nHeadquarters: Nový Bor, Liberecký, Czechia\nLinkedIn: www.linkedin.com/company/kolektiv-ateliers · 1,967 followers\nIndustry: Design\nIndustry codes: SIC 73, 738, NAICS 54, 541\nCompany type: Partnership\nFounded: 2013\nSocial profiles: www.facebook.com/wearekolektiv, www.twitter.com/kolektivatelier, www.crunchbase.com/organization/kolektiv-ateliers, www.instagram.com/kolektivateliers [...] ## Technology\n-"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "c0e2369895a114d4d999e2691a9ec40e6508888fbe4d44bf9120ee0d5db71894",
-      "provider": "Tavily",
-      "query": "\"Kolektiv Arena\" Toledo Sala Pícaro rave 2026",
+      "query": "Kolektiv Arena techno Sala Pícaro Toledo",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
@@ -272,33 +207,12 @@
           {
             "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
             "title": "Instagram",
-            "snippet": "Photo by Sala Pícaro on September 28, 2026. May be an image of poster and text.\n\nPhoto by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026. [..."
+            "snippet": "21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h\n#picarotoledo #toledospain #djset #nightlife #livemusic #indiemusic #ociotoledo #tardeo #tardeotoledo\". \" name=\"description\"> 21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h\n#picarotoledo #toledospain #djset #nightlife #livemusic #indiemusic #ociotoledo #tardeo #tardeotoledo\"\" property=\"og:title\"> 21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h [.."
           },
           {
-            "url": "https://tavily.com/knowledge/company/5aTol1VxCzuG",
-            "title": "Kolektiv",
-            "snippet": "# KOLEKTIV ATELIERS\nID: 5aTol1VxCzuG\nWebsite: www.kolektiv.cz\nLegal name: Kolektiv Ateliers a.s.\nHeadquarters: Nový Bor, Liberecký, Czechia\nLinkedIn: www.linkedin.com/company/kolektiv-ateliers · 1,967 followers\nIndustry: Design\nIndustry codes: SIC 73, 738, NAICS 54, 541\nCompany type: Partnership\nFounded: 2013\nSocial profiles: www.facebook.com/wearekolektiv, www.twitter.com/kolektivatelier, www.crunchbase.com/organization/kolektiv-ateliers, www.instagram.com/kolektivateliers [...] ## Technology\n-"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "56e12a6ed5b6fdb64ee746aef5c03254ad1729dd39377f70646de9baf47044d0",
-      "provider": "Tavily",
-      "query": "\"Kolektiv Arena\" rave techno Toledo 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.eventbrite.com/d/oh--toledo/techno-music",
-            "title": "Discover Techno Music Events & Activities in Toledo, OH | Eventbrite",
-            "snippet": "Sales end soon\n\n### Glass City Soul Featuring The Soulful Collective\n\nFriday at 7:00 PM\n\nToledo · 23 N Huron St\n\nGlass City Soul Featuring The Soulful Collective primary image\n\nSales end soon\n\n### Glass City Soul Featuring The Soulful Collective\n\nFriday at 7:00 PM\n\nToledo · 23 N Huron St\n\nCatching Up With Jack 2026 primary image\n\nGoing fast\n\n### Catching Up With Jack 2026\n\nThu, Dec 3, 7:00 PM\n\nPerrysburg · CedarCreek Church - Perrysburg Campus\n\nCatching Up With Jack 2026 primary image [...] Goin"
-          },
-          {
-            "url": "https://concertfix.com/concerts/toledo-oh",
-            "title": "Toledo, OH Concerts 2026 - 2027 Schedule & Calendar",
-            "snippet": "JAZZ / BLUES ALTERNATIVE COUNTRY / FOLK COMEDY RAP / HIP HOP UNCATEGORIZED RELIGIOUS R&B / SOUL BLUEGRASS NEW AGE CLASSICAL CHILDREN / FAMILY WORLD HARD ROCK / METAL POP / ROCK LATIN REGGAE / REGGAETON HOLIDAY 50s / 60s ERA TECHNO / ELECTRONIC FESTIVAL / TOUR PERFORMANCE SERIES\n\n#### Toledo Venues and nearby cities\n\n Venues\n Nearby Cities\n\nStranahan Theater Frankies - OH Huntington Center Toledo's The Summit\nAll Venues in Toledo [...] ### Concerts in Belleville, MI\n\n### Sun Nov 8, 2026\n\n\n\nTICKET"
+            "url": "https://app.futuratickets.com/en/agenda/evento/bombai-en-sala-picaro-toledo",
+            "title": "Bombai en Sala Pícaro at Sala Pícaro, Toledo",
+            "snippet": "Thu 12 NovSound Galaxy en Círculo del arte ToledoCírculo del arte Toledo (Toledo) · Toledo\n Thu 12 NovProyecto Constelaciones en Círculo del arte ToledoCírculo del arte Toledo (Toledo) · Toledo\n Thu 12 NovSound Galaxy & Hidra (Proyecto Constelaciones) en Círculo del arte ToledoCírculo del arte Toledo (Toledo) · Toledo\n Thu 12 NovSound Galaxy & Hidra en Círculo del arte ToledoCírculo del arte Toledo (Toledo) · Toledo [...] Futura Tickets\n\n← Back to the agenda\n\n# Bombai en Sala Pícaro\n\nVenue\n:   S"
           }
         ]
       }
