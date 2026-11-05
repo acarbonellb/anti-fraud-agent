@@ -18,11 +18,16 @@ export interface ScriptedProvider extends LlmProvider {
 
 export function createScriptedProvider(
   script: readonly CompletionResponse[],
+  /** Another provider's name, so its prices apply to the script's usage. */
+  identity: { provider: string; model: string } = {
+    provider: "scripted",
+    model: "scripted-model",
+  },
 ): ScriptedProvider {
   const requests: CompletionRequest[] = [];
   return {
-    provider: "scripted",
-    model: "scripted-model",
+    provider: identity.provider,
+    model: identity.model,
     requests,
     complete(request) {
       // A snapshot: the loop keeps appending to the same array.

@@ -1,7 +1,7 @@
 # ADR 0016 — The agent's store is Firestore over its REST API, behind one interface with an in-memory twin
 
 - **Date:** 2026-11-05
-- **Status:** accepted
+- **Status:** accepted · amendment 2026-11-05 (#45)
 - **Related:** brief §2 («Reparto de responsabilidades»), §6.1, §6.3 and §8, which it replaces
   where they say Postgres; CLAUDE.md §3–§5; ADR 0015 (the venue providers' `fetch` seam); issues
   #8 and #44.
@@ -113,3 +113,17 @@ Costs, checked 2026-11-05:
 - Left to the next issues: the pass that uses the store, with its configuration
   (`AGENT_DAILY_BUDGET_MICROS`, the project and the emulator host); the GCP resources; the
   dashboard; and the demo-account quotas (§6.3.2), which will need their own counting.
+
+## Amendment (2026-11-05, #45): failed runs and the admin's resolution
+
+The scheduled pass (ADR 0017) needs two things point 3 and point 4 didn't cover.
+
+- **A run document is completed or failed** (`outcome`). A completed run is what point 3
+  describes. A failed run keeps what every run has (ids, trigger, dates, provider, model,
+  effort, prompt version, usage, cost), the subject without a version, and the error's stable
+  code. Nothing else: the failure can come before the context is read.
+- **The admin's resolution is its own document, `resolutions/{runId}`**: the review's id, its
+  outcome (`accepted` or `dismissed`) and the date. The run stays append-only (point 4).
+  Recording a resolution again replaces it, against the version read, since the feed can
+  deliver it twice.
+- The contract suite covers both, against both stores.

@@ -43,6 +43,13 @@ const envSchema = z
       unsetIfEmpty,
       z.enum(["low", "medium", "high", "xhigh", "max"]).default("medium"),
     ),
+    // Brief §6.3.3 and ADR 0017: the day's model spend, in integer
+    // micro-dollars ($2 by default). Every run reserves its worst case first.
+    AGENT_DAILY_BUDGET_MICROS: positiveIntWithDefault(2_000_000),
+    // The agent's store (ADR 0016). Without a project, runs stay in memory.
+    FIRESTORE_PROJECT_ID: z.preprocess(unsetIfEmpty, z.string().optional()),
+    // `host:port` of the emulator: no token is sent to it.
+    FIRESTORE_EMULATOR_HOST: z.preprocess(unsetIfEmpty, z.string().optional()),
     // `webSearch` (ADR 0015 point 8). Optional: without it the agent runs
     // without web search, and the evals can't record.
     TAVILY_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
@@ -62,6 +69,13 @@ export interface Config {
     maxWebSearches: number;
   };
   autoApproveThreshold: number;
+  /** `AGENT_DAILY_BUDGET_MICROS`: what the day's runs may cost. */
+  dailyBudgetMicros: number;
+  store: {
+    /** Undefined: the in-memory store. */
+    firestoreProjectId: string | undefined;
+    firestoreEmulatorHost: string | undefined;
+  };
   llm: {
     provider: string;
     baseUrl: string;
@@ -118,6 +132,11 @@ export function loadConfig(
       maxWebSearches: parsed.AGENT_MAX_WEB_SEARCHES,
     },
     autoApproveThreshold: parsed.AGENT_AUTO_APPROVE_THRESHOLD,
+    dailyBudgetMicros: parsed.AGENT_DAILY_BUDGET_MICROS,
+    store: {
+      firestoreProjectId: parsed.FIRESTORE_PROJECT_ID,
+      firestoreEmulatorHost: parsed.FIRESTORE_EMULATOR_HOST,
+    },
     llm: {
       provider: parsed.AGENT_LLM_PROVIDER,
       baseUrl: parsed.AGENT_LLM_BASE_URL,

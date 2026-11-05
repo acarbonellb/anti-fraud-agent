@@ -1,11 +1,12 @@
 /**
- * The agent's own store (ADR 0016): what Satella doesn't keep. Each run, the
- * feed cursor and the day's spend (brief §2, «Reparto de responsabilidades»).
+ * The agent's own store (ADR 0016): what Satella doesn't keep. Each run and
+ * the admin's resolution of it, the feed cursor and the day's spend (brief
+ * §2, «Reparto de responsabilidades»).
  * Two implementations behind one interface: in memory for local runs and
  * tests, Firestore in Cloud Run; one contract suite runs against both.
  */
 import { DomainError } from "../errors.js";
-import type { RunDocument } from "./run-document.js";
+import type { RunDocument, RunResolution } from "./run-document.js";
 
 export interface RunPage {
   /** Newest first. */
@@ -52,6 +53,13 @@ export interface AgentStore {
   saveRun(run: RunDocument): Promise<void>;
   getRun(runId: string): Promise<RunDocument | null>;
   listRuns(page: { limit: number; cursor?: string }): Promise<RunPage>;
+
+  /**
+   * Records the admin's resolution of a run's recommendation, next to the
+   * run. Recording it again replaces it: the feed can deliver it twice.
+   */
+  saveResolution(resolution: RunResolution): Promise<void>;
+  getResolution(runId: string): Promise<RunResolution | null>;
 
   /** Null until a pass first advances it: the feed's beginning. */
   readFeedCursor(): Promise<string | null>;

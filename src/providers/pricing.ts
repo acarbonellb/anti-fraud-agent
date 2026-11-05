@@ -76,3 +76,33 @@ export function costMicros(
   }, 0);
   return Math.round(scaled / 1_000_000);
 }
+
+/**
+ * The most a run within `maxTokens` can cost: every token at the model's
+ * dearest rate, rounded up. What a run reserves against the day's budget
+ * before it starts (ADR 0017). Pessimistic on purpose: a run is mostly input,
+ * so the hold is far above the actual cost, and settling returns the rest.
+ * Null for a model with no price, as `costMicros`.
+ */
+export function worstCaseMicros(
+  provider: string,
+  model: string,
+  maxTokens: number,
+): number | null {
+  if (LOCAL_PROVIDERS.has(provider)) return 0;
+  const price = PRICES[`${provider}/${model}`];
+  if (price === undefined) return null;
+  const cards =
+    price.longPrompt === undefined
+      ? [price.rates]
+      : [price.rates, price.longPrompt.rates];
+  const dearest = Math.max(
+    ...cards.flatMap((rates) => [
+      rates.input,
+      rates.output,
+      rates.cacheRead,
+      rates.cacheWrite,
+    ]),
+  );
+  return Math.ceil((maxTokens * dearest) / 1_000_000);
+}

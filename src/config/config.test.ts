@@ -40,6 +40,32 @@ describe("loadConfig", () => {
     );
   });
 
+  it("reads the day's budget in micro-dollars, $2 by default", () => {
+    expect(loadConfig({}).dailyBudgetMicros).toBe(2_000_000);
+    expect(
+      loadConfig({ AGENT_DAILY_BUDGET_MICROS: "500000" }).dailyBudgetMicros,
+    ).toBe(500_000);
+    expect(() => loadConfig({ AGENT_DAILY_BUDGET_MICROS: "0.5" })).toThrow(
+      ConfigError,
+    );
+  });
+
+  it("keeps runs in memory unless a Firestore project is set", () => {
+    expect(loadConfig({}).store).toEqual({
+      firestoreProjectId: undefined,
+      firestoreEmulatorHost: undefined,
+    });
+    expect(
+      loadConfig({
+        FIRESTORE_PROJECT_ID: "demo-agent",
+        FIRESTORE_EMULATOR_HOST: "localhost:8080",
+      }).store,
+    ).toEqual({
+      firestoreProjectId: "demo-agent",
+      firestoreEmulatorHost: "localhost:8080",
+    });
+  });
+
   it("defaults to the local LM Studio model and the provisional threshold", () => {
     const config = loadConfig({});
 

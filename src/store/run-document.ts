@@ -31,23 +31,40 @@ export const runIdSchema = z
 export const runTriggerSchema = z.enum(["scheduled", "on_demand"]);
 export type RunTrigger = z.infer<typeof runTriggerSchema>;
 
-export const runDocumentSchema = z.object({
+const usageSchema = z.object({
+  inputTokens: count,
+  outputTokens: count,
+  cacheReadInputTokens: count,
+  cacheWriteInputTokens: count,
+});
+
+/** What every run records, whether it finished or failed. */
+const runBase = {
   runId: runIdSchema,
   trigger: runTriggerSchema,
   startedAt: isoDate,
   finishedAt: isoDate,
   latencyMs: count,
+  provider: z.string().min(1),
+  model: z.string().min(1),
+  /** Null for providers that take none (only `anthropic` does). */
+  effort: z.string().min(1).nullable(),
+  promptVersion: z.string().min(1),
+  /** Summed over the calls the run made, finished or not. */
+  usage: usageSchema,
+  /** Null for a model with no price: an unknown cost is never free. */
+  costMicros: count.nullable(),
+};
+
+export const completedRunSchema = z.object({
+  ...runBase,
+  outcome: z.literal("completed"),
   subject: z.object({
     type: subjectTypeSchema,
     id: z.string().min(1),
     /** The `version` of the context that was reviewed. */
     version: z.string().min(1),
   }),
-  provider: z.string().min(1),
-  model: z.string().min(1),
-  /** Null for providers that take none (only `anthropic` does). */
-  effort: z.string().min(1).nullable(),
-  promptVersion: z.string().min(1),
   decision: decisionSchema,
   autonomy: z.enum(["auto_resolved", "escalated"]),
   autonomyReasons: z.array(z.string()),
@@ -61,14 +78,6 @@ export const runDocumentSchema = z.object({
     "max_tokens",
     "no_submission",
   ]),
-  usage: z.object({
-    inputTokens: count,
-    outputTokens: count,
-    cacheReadInputTokens: count,
-    cacheWriteInputTokens: count,
-  }),
-  /** Null for a model with no price: an unknown cost is never free. */
-  costMicros: count.nullable(),
   toolCalls: count,
   webSearches: count,
   trace: z.array(
@@ -85,7 +94,46 @@ export const runDocumentSchema = z.object({
     attempts: count,
   }),
 });
+export type CompletedRunDocument = z.infer<typeof completedRunSchema>;
+
+/**
+ * A run that ended without a recommendation in Satella: the model, a tool or
+ * Satella failed (#45 decision 4). Only the error's stable code is kept, and
+ * the subject's version stays unknown: the failure can come before its
+ * context is read.
+ */
+export const failedRunSchema = z.object({
+  ...runBase,
+  outcome: z.literal("failed"),
+  subject: z.object({ type: subjectTypeSchema, id: z.string().min(1) }),
+  error: z.object({ code: z.string().min(1).max(64) }),
+});
+export type FailedRunDocument = z.infer<typeof failedRunSchema>;
+
+export const runDocumentSchema = z.discriminatedUnion("outcome", [
+  completedRunSchema,
+  failedRunSchema,
+]);
 export type RunDocument = z.infer<typeof runDocumentSchema>;
+
+/**
+ * The admin's resolution of a run's recommendation, read from Satella when
+ * the feed says it was resolved (#45 decision 3). Kept apart from the run,
+ * which is never edited; the admin agreement rate (brief §4.3) joins them.
+ */
+export const runResolutionSchema = z.object({
+  runId: runIdSchema,
+  reviewId: z.string().min(1),
+  outcome: z.enum(["accepted", "dismissed"]),
+  resolvedAt: isoDate,
+});
+export type RunResolution = z.infer<typeof runResolutionSchema>;
+
+export function validResolution(resolution: RunResolution): RunResolution {
+  const parsed = runResolutionSchema.safeParse(resolution);
+  if (!parsed.success) throw new StoreError("STORE_INVALID_INPUT");
+  return parsed.data;
+}
 
 /**
  * A run the store can keep, or a typed error. The Zod error stays out: it can
@@ -111,13 +159,14 @@ export interface RunMetadata {
 export function toRunDocument(
   result: ReviewSubjectResult,
   metadata: RunMetadata,
-): RunDocument {
+): CompletedRunDocument {
   const { run, review } = result;
   const { recommendation, usage } = run;
   // Every field picked by name: whatever a result may carry beyond them stays
   // out of the store.
   return {
     runId: metadata.runId,
+    outcome: "completed",
     trigger: metadata.trigger,
     startedAt: metadata.startedAt.toISOString(),
     finishedAt: metadata.finishedAt.toISOString(),

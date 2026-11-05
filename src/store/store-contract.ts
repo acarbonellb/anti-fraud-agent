@@ -1,12 +1,16 @@
 /**
  * The behaviour every `AgentStore` promises, as one suite each implementation
- * runs (ADR 0016): runs saved and read back, listed newest first across
- * pages; the feed cursor advanced only from the value read; the day's spend
+ * runs (ADR 0016): runs, completed or failed, saved and read back and listed
+ * newest first across pages; an admin's resolution kept next to its run; the
+ * feed cursor advanced only from the value read; the day's spend
  * reserved, settled and expired against an injected clock.
  */
 import { beforeEach, describe, expect, it } from "vitest";
 
-import type { RunDocument } from "./run-document.js";
+import type {
+  CompletedRunDocument,
+  FailedRunDocument,
+} from "./run-document.js";
 import { type AgentStore, SPEND_HOLD_TTL_MS, StoreError } from "./types.js";
 
 export interface StoreUnderTest {
@@ -16,13 +20,43 @@ export interface StoreUnderTest {
 /** Builds a fresh, empty store that reads "now" from `now`. */
 export type MakeStore = (now: () => Date) => StoreUnderTest;
 
+export function failedRunDocument(
+  runId: string,
+  startedAt: string,
+  overrides: Partial<FailedRunDocument> = {},
+): FailedRunDocument {
+  return {
+    runId,
+    outcome: "failed",
+    trigger: "scheduled",
+    startedAt,
+    finishedAt: startedAt,
+    latencyMs: 0,
+    subject: { type: "organizer", id: "org_1" },
+    provider: "anthropic",
+    model: "claude-haiku-5-5",
+    effort: "medium",
+    promptVersion: "review-v7",
+    error: { code: "LLM_UNAVAILABLE" },
+    usage: {
+      inputTokens: 0,
+      outputTokens: 0,
+      cacheReadInputTokens: 0,
+      cacheWriteInputTokens: 0,
+    },
+    costMicros: 0,
+    ...overrides,
+  };
+}
+
 export function runDocument(
   runId: string,
   startedAt: string,
-  overrides: Partial<RunDocument> = {},
-): RunDocument {
+  overrides: Partial<CompletedRunDocument> = {},
+): CompletedRunDocument {
   return {
     runId,
+    outcome: "completed",
     trigger: "scheduled",
     startedAt,
     finishedAt: startedAt,
@@ -120,7 +154,9 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         );
 
         expect(code).toBe("STORE_CONFLICT");
-        expect((await store.getRun("run_1"))?.decision).toBe("approve");
+        expect(await store.getRun("run_1")).toMatchObject({
+          decision: "approve",
+        });
       });
 
       it("refuses a run it could not store, as a typed error", async () => {
@@ -134,6 +170,16 @@ export function describeAgentStore(name: string, make: MakeStore): void {
             "STORE_INVALID_INPUT",
           );
         }
+      });
+
+      it("reads back a failed run with its error code", async () => {
+        const run = failedRunDocument("run_failed", "2026-11-05T09:00:00.000Z");
+
+        await store.saveRun(run);
+
+        expect(await store.getRun("run_failed")).toEqual(run);
+        const page = await store.listRuns({ limit: 5 });
+        expect(page.runs.map((listed) => listed.runId)).toEqual(["run_failed"]);
       });
 
       it("refuses a page size that isn't a positive integer", async () => {
@@ -183,6 +229,39 @@ export function describeAgentStore(name: string, make: MakeStore): void {
 
         expect(page.runs).toHaveLength(2);
         expect(page.nextCursor).toBeNull();
+      });
+    });
+
+    describe("the admin's resolution", () => {
+      const resolution = {
+        runId: "run_1",
+        reviewId: "rev_1",
+        outcome: "accepted",
+        resolvedAt: "2026-11-05T11:00:00.000Z",
+      } as const;
+
+      it("has none until one is recorded", async () => {
+        expect(await store.getResolution("run_1")).toBeNull();
+      });
+
+      it("keeps it next to the run, which stays as saved", async () => {
+        const run = runDocument("run_1", "2026-11-05T09:00:00.000Z");
+        await store.saveRun(run);
+
+        await store.saveResolution(resolution);
+        // The feed can deliver the same resolution twice.
+        await store.saveResolution(resolution);
+
+        expect(await store.getResolution("run_1")).toEqual(resolution);
+        expect(await store.getRun("run_1")).toEqual(run);
+      });
+
+      it("refuses a resolution it could not store, as a typed error", async () => {
+        const code = await errorCodeOf(
+          store.saveResolution({ ...resolution, runId: ".." }),
+        );
+
+        expect(code).toBe("STORE_INVALID_INPUT");
       });
     });
 
