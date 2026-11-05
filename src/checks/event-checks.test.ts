@@ -182,6 +182,23 @@ describe("prices and fees", () => {
 
     expect(result?.finding.verdict).toBe("pass");
   });
+
+  it.each([
+    [{ type: "fixed", value: 300 } as const, "pass"],
+    [{ type: "fixed", value: 301 } as const, "warn"],
+    [{ type: "percent", value: 20 } as const, "pass"],
+    [{ type: "percent", value: 20.5 } as const, "warn"],
+  ])(
+    "puts the threshold at exactly a fifth of a 15 € ticket: %o",
+    (fee, verdict) => {
+      const [result] = finding(
+        withTickets([{ name: "General", priceCents: 1500 }], fee),
+        "service_fee",
+      );
+
+      expect(result?.finding.verdict).toBe(verdict);
+    },
+  );
 });
 
 describe("session dates", () => {
