@@ -11,6 +11,8 @@ import {
 
 const AUDIENCE = "https://staging.example.test";
 const START = new Date("2026-11-05T10:00:00Z");
+const minutesAfterStart = (minutes: number) =>
+  new Date(START.getTime() + minutes * 60_000);
 
 /** An unsigned JWT is enough: the agent only reads `exp`; Satella verifies. */
 function jwt(expiresAt: Date): string {
@@ -32,7 +34,7 @@ function fakeMetadata(responses: Response[]) {
 
 describe("createIdentityTokenSource", () => {
   it("asks the metadata server for a full token with Satella's audience", async () => {
-    const token = jwt(new Date("2026-11-05T11:00:00Z"));
+    const token = jwt(minutesAfterStart(60));
     const metadata = fakeMetadata([new Response(token)]);
     const source = createIdentityTokenSource({
       audience: AUDIENCE,
@@ -54,8 +56,8 @@ describe("createIdentityTokenSource", () => {
   });
 
   it("reuses the token until a minute before it expires", async () => {
-    const first = jwt(new Date("2026-11-05T11:00:00Z"));
-    const second = jwt(new Date("2026-11-05T12:00:00Z"));
+    const first = jwt(minutesAfterStart(60));
+    const second = jwt(minutesAfterStart(120));
     const metadata = fakeMetadata([new Response(first), new Response(second)]);
     let now = START;
     const source = createIdentityTokenSource({
@@ -65,9 +67,9 @@ describe("createIdentityTokenSource", () => {
     });
 
     await source();
-    now = new Date("2026-11-05T10:58:59Z");
+    now = new Date(minutesAfterStart(59).getTime() - 1000);
     await expect(source()).resolves.toBe(first);
-    now = new Date("2026-11-05T10:59:00Z");
+    now = minutesAfterStart(59);
     await expect(source()).resolves.toBe(second);
     expect(metadata.calls).toHaveLength(2);
   });

@@ -11,7 +11,8 @@
 #
 # It never writes a secret's value: the secrets are created empty, and the
 # closing notes print the commands that add their values. It also never resumes
-# the Scheduler trigger: that is #9's step.
+# the Scheduler trigger: that waits for a pass run on purpose against staging
+# (ADR 0018, amendment of #9).
 set -euo pipefail
 
 PROJECT="${SATELLA_GCP_PROJECT:?set SATELLA_GCP_PROJECT (direnv loads it from .env.gcloud)}"
@@ -171,10 +172,12 @@ note "1. Add each secret's value, without echoing it (the read is silent):"
 for secret in "${SECRETS[@]}"; do
   note "   read -rs v && printf '%s' \"\$v\" | gcloud --configuration=satella --project=\"\$SATELLA_GCP_PROJECT\" secrets versions add $secret --data-file=- ; unset v"
 done
-note "2. Merge to main: CI builds the image and points the job at it."
-note "3. Run it once on purpose; it should exit with SATELLA_NOT_CONFIGURED:"
-note "   gcloud --configuration=satella run jobs execute $JOB --region=$REGION --wait"
-note "4. Give Satella staging the job's identity (#9): pass-job's email"
-note "   ($(sa pass-job)) with agent:read and agent:recommend in"
+note "2. Give Satella staging the job's identity (#9): pass-job's email"
+note "   ($(sa pass-job)) with agent:read and agent:recommend in its"
 note "   AGENT_API_CREDENTIALS, and the same audience; then redeploy staging."
-note "The trigger stays paused until a pass against staging has run on purpose."
+note "3. Merge to main: CI builds the image and points the job at it. The job"
+note "   reads every secret above, so each needs a value first."
+note "4. With the author's go-ahead, run it once against staging; it should"
+note "   end with pass.report:"
+note "   gcloud --configuration=satella run jobs execute $JOB --region=$REGION --wait"
+note "The trigger stays paused until that run is checked; resuming it is a go-ahead too."

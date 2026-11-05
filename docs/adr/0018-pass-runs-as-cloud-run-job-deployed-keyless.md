@@ -172,7 +172,5 @@ first item left open.
 
 **Left open:**
 
-- loading the eval dataset into staging through the app's flows (brief §5);
-- the brief §7 checks before any third party sees staging.
-
-Both now have issues of their own.
+- loading the eval dataset into staging through the app's flows (brief §5, doubt 2 of §10): #53;
+- the brief §7 checks before any third party sees staging (doubts 4 and 5 of §10): #54.

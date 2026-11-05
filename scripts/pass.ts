@@ -64,7 +64,11 @@ try {
   process.exit(1);
 }
 
-const target = process.argv.includes("--mock") ? "mock" : config.satella;
+/** What the pass reviews: the in-process mock, or Satella staging. */
+type SatellaTarget = "mock" | NonNullable<Config["satella"]>;
+const target: SatellaTarget | undefined = process.argv.includes("--mock")
+  ? "mock"
+  : config.satella;
 if (target === undefined) {
   line({
     level: "error",
@@ -104,7 +108,7 @@ const search =
  * or staging with the job's Google identity token.
  */
 async function connectSatella(
-  to: NonNullable<typeof target>,
+  to: SatellaTarget,
 ): Promise<{ client: SatellaClient; close: () => Promise<void> }> {
   if (to !== "mock") {
     return {

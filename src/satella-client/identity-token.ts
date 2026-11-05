@@ -7,8 +7,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-
-export type Fetch = (url: string, init: RequestInit) => Promise<Response>;
+import type { Fetch } from "../venue/http.js";
 
 const METADATA_IDENTITY_URL =
   "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity";
@@ -46,12 +45,14 @@ export function createIdentityTokenSource(
       now().getTime() >= token.expiresAt - TOKEN_MARGIN_MS
     ) {
       let response: Response;
+      let value: string;
       try {
         response = await doFetch(url.toString(), {
           method: "GET",
           headers: { "Metadata-Flavor": "Google" },
           signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
         });
+        value = (await response.text()).trim();
       } catch (error) {
         throw new IdentityTokenError("metadata server unreachable", {
           cause: error,
@@ -62,7 +63,6 @@ export function createIdentityTokenSource(
           `metadata server: ${String(response.status)}`,
         );
       }
-      const value = (await response.text()).trim();
       token = { value, expiresAt: expiryOf(value) };
     }
     return token.value;
