@@ -45,6 +45,19 @@ describe("off-platform payment", () => {
     ).toContain("off_platform_payment");
   });
 
+  it.each([
+    "Las entradas admiten transferencia a otra persona hasta 24 h antes.",
+    "Transferencia de titularidad gratuita desde tu área de cliente.",
+  ])("ignores a ticket transfer, which is no payment: %s", (text) => {
+    expect(kinds(text)).not.toContain("off_platform_payment");
+  });
+
+  it("catches a bank transfer named as such", () => {
+    expect(kinds("Pago por transferencia bancaria al organizador.")).toContain(
+      "off_platform_payment",
+    );
+  });
+
   it("ignores a venue phone with no payment wording", () => {
     expect(kinds("Información en la sala: 983 123 456")).toEqual([]);
   });
@@ -77,6 +90,11 @@ describe("alcohol aimed at minors", () => {
   it.each([
     "Barra libre, +18",
     "Concierto para todos los públicos, menores acompañados",
+    // The legal notice most nightlife listings carry (#57).
+    "Prohibida la venta de alcohol a menores de 18 años.",
+    "No se servirá alcohol a menores.",
+    // Alcohol and minors in different sentences, about different things.
+    "Entrada con consumición (cerveza o refresco). Menores acompañados de un adulto.",
   ])("doesn't flag %s", (text) => {
     expect(kinds(text)).not.toContain("minors_alcohol");
   });

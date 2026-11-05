@@ -31,7 +31,10 @@ const PATTERNS: Record<TextSignalKind, readonly RegExp[]> = {
   off_platform_payment: [
     /\bbizum\b/i,
     IBAN,
-    /\btransferencia(?: bancaria)?\b/i,
+    // A bare "transferencia" is also a ticket handed to someone else (#57):
+    // only a bank transfer, or one asked for, is a payment.
+    /\btransferencia bancaria\b/i,
+    /\b(?:haz|hacer|realiza|realizar|mediante|por|v[ií]a)\s+(?:una\s+)?transferencia\b/i,
     /\bpaypal\b/i,
     /\b(?:paga|pago|pagar|reserva|reservar)\b[^.\n]{0,40}\b(?:whatsapp|efectivo)\b/i,
   ],
@@ -67,6 +70,27 @@ const ALCOHOL =
 const MINORS =
   /(?:\+\s?1[0-7]\b|\bmenores\b|\b(?:desde|a partir de)(?: los)? 1[0-7]\b|\bmayores de 1[0-7]\b)/i;
 
+// The legal notice most nightlife listings carry says the opposite of an
+// offer: "Prohibida la venta de alcohol a menores" (#57).
+const PROHIBITION =
+  /\b(?:prohibid[ao]s?|no se (?:vende|venden|sirve|sirven|servir[áa]n?|despacha)|no (?:vendemos|servimos)|venta de alcohol a menores)(?!\p{L})/iu;
+
+/**
+ * Alcohol and minors in one sentence, not inside a prohibition. Across
+ * sentences the two are usually about different things ("Entrada con
+ * cerveza. Menores acompañados"). Returns the matched words, or null.
+ */
+function alcoholOfferedToMinors(text: string): string | null {
+  for (const sentence of text.split(/[.!?\n]+/)) {
+    const alcohol = ALCOHOL.exec(sentence);
+    const minors = MINORS.exec(sentence);
+    if (alcohol && minors && !PROHIBITION.test(sentence)) {
+      return `${alcohol[0]} … ${minors[0]}`;
+    }
+  }
+  return null;
+}
+
 export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
   const signals: TextSignal[] = [];
   for (const { field, text } of texts) {
@@ -83,14 +107,9 @@ export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
         break;
       }
     }
-    const alcohol = ALCOHOL.exec(text);
-    const minors = MINORS.exec(text);
-    if (alcohol && minors) {
-      signals.push({
-        kind: "minors_alcohol",
-        field,
-        match: mask(`${alcohol[0]} … ${minors[0]}`),
-      });
+    const offer = alcoholOfferedToMinors(text);
+    if (offer !== null) {
+      signals.push({ kind: "minors_alcohol", field, match: mask(offer) });
     }
   }
   return signals;
