@@ -1,6 +1,7 @@
 /**
  * The agent's own store (ADR 0016): what Satella doesn't keep. Each run and
- * the admin's resolution of it, the feed cursor and the day's spend (brief §2, «Reparto de responsabilidades»).
+ * the admin's resolution of it, the feed cursor and the day's spend (brief
+ * §2, «Reparto de responsabilidades»).
  * Two implementations behind one interface: in memory for local runs and
  * tests, Firestore in Cloud Run; one contract suite runs against both.
  */

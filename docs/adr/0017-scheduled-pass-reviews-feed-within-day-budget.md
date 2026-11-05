@@ -55,13 +55,17 @@ cursor, review what changed, store each run and advance the cursor. The store (A
 5. **The scheduled pass stops at the day's budget too.** This **departs from the brief**
    (§6.3.3), which cuts only on-demand reviews and keeps the scheduler running.
    - Every run first reserves its worst case: `AGENT_MAX_TOKENS` at the model's dearest rate,
-     rounded up ($0.50 for Haiku 5.5 at 200,000 tokens). After the run, the hold becomes the
-     cost of the calls it made, failed or not.
+     rounded up, once for the review and once for its re-review after a stale subject ($1.00
+     for Haiku 5.5 at 200,000 tokens). After the run, the hold becomes the cost of the calls it
+     made, failed or not.
+   - The hold bounds what the loop allows, not what the provider bills: the call that crosses
+     `AGENT_MAX_TOKENS` is billed whole. The provider's spend cap stays the hard limit.
    - Before reading the feed, the pass asks it for no more items than the day's budget can
      review at worst case (at most 10). The cursor the page returns then never skips an item
      left unreviewed for lack of budget.
    - When not one more run fits, the pass reads nothing, logs `BUDGET_REACHED` with the day's
-     spend, and leaves the cursor. The next day's passes pick the feed up there.
+     spend, and leaves the cursor. The next day's passes pick the feed up there, resolutions
+     included.
    - If a reservation is still refused mid-page (another run spent meanwhile), the pass stops
      there and leaves the cursor. That page is read again later, and its subjects already
      reviewed are reviewed again.
@@ -102,8 +106,9 @@ cursor, review what changed, store each run and advance the cursor. The store (A
 - `worstCaseMicros` in `src/providers/pricing.ts`.
 - New variables (`.env.example`, config schema): `AGENT_DAILY_BUDGET_MICROS` (default
   2,000,000, $2), `FIRESTORE_PROJECT_ID` and `FIRESTORE_EMULATOR_HOST`.
-- With the defaults (Haiku 5.5, 200,000 tokens, $2), a pass reviews at most 4 subjects while the
-  day's spend is low. That is 576 a day at 10-minute passes, far above staging volume.
+- With the defaults (Haiku 5.5, 200,000 tokens, $2), a pass reviews at most 2 subjects while the
+  day's spend is low. That is 288 a day at 10-minute passes, far above staging volume. The pass
+  stops once less than one hold ($1.00) is left: the price of a hold that can't underestimate.
 - The brief §6.3.3 carries a note pointing here.
 - Left open: Satella staging's URL and identity (#9), the deployment (#46), and on-demand
   reviews against the same budget (#48).

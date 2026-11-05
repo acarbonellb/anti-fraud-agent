@@ -9,7 +9,7 @@ import { randomUUID } from "node:crypto";
 
 import { type RunLimits } from "../agent/loop.js";
 import { PROMPT_VERSION } from "../agent/prompt.js";
-import { reviewSubject } from "../agent/review.js";
+import { type ReviewSubjectResult, reviewSubject } from "../agent/review.js";
 import type { AnyAgentTool } from "../agent/tools.js";
 import { DomainError } from "../errors.js";
 import { costMicros, worstCaseMicros } from "../providers/pricing.js";
@@ -31,6 +31,9 @@ import type { VenueChecks } from "../venue/venue-checks.js";
 
 /** At most this many feed items a pass, every 10 minutes (#45). */
 export const PASS_PAGE_SIZE = 10;
+
+/** `reviewSubject`'s re-reviews after `409 STALE_SUBJECT` (#45 decision 6). */
+const STALE_RETRIES = 1;
 
 /**
  * The feed items that start a review (#45 decision 1). Not
@@ -56,7 +59,8 @@ interface LogFields {
   runId?: string;
   subject?: Subject;
   code?: string;
-  [detail: string]: unknown;
+  // Scalars only, so no Satella object can ride along (CLAUDE.md §4).
+  [detail: string]: string | number | boolean | null | Subject | undefined;
 }
 export type PassLogLine = LogFields & { correlationId: string };
 type Log = (line: LogFields) => void;
@@ -114,12 +118,14 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
 
   // A model with no price would make the budget meaningless (an unknown cost
   // is never free): refuse before anything is read or spent.
-  const worstCase = worstCaseMicros(
+  const perAttempt = worstCaseMicros(
     provider.provider,
     provider.model,
     options.limits.maxTokens,
   );
-  if (worstCase === null) throw new PassError("PASS_UNPRICED_MODEL");
+  if (perAttempt === null) throw new PassError("PASS_UNPRICED_MODEL");
+  // A stale subject is reviewed again within the same run, at full cost.
+  const worstCase = perAttempt * (1 + STALE_RETRIES);
 
   const from = await store.readFeedCursor();
   const stopped = (runs: PassRun[], resolutions: number): PassReport => ({
@@ -245,8 +251,9 @@ async function reviewAndStore(
 
   const startedAt = now();
   log({ level: "info", event: "run.started", runId, subject });
+  let result: ReviewSubjectResult;
   try {
-    const result = await reviewSubject({
+    result = await reviewSubject({
       subject,
       runId,
       satella: options.satella,
@@ -254,6 +261,7 @@ async function reviewAndStore(
       limits: options.limits,
       autoApproveThreshold: options.autoApproveThreshold,
       venueChecks: options.venueChecks,
+      maxStaleRetries: STALE_RETRIES,
       now,
       ...(options.webSearch === undefined
         ? {}
@@ -262,26 +270,6 @@ async function reviewAndStore(
         ? {}
         : { extraTools: options.extraTools }),
     });
-    const document = toRunDocument(result, {
-      runId,
-      trigger: "scheduled",
-      effort: options.effort,
-      startedAt,
-      finishedAt: now(),
-      costMicros: spent(),
-    });
-    await store.saveRun(document);
-    log({
-      level: "info",
-      event: "run.completed",
-      runId,
-      subject,
-      version: document.subject.version,
-      decision: document.decision,
-      autonomy: document.autonomy,
-      attempts: result.attempts,
-    });
-    return { outcome: "completed", costMicros: spent() };
   } catch (error) {
     // Any failure, typed or not: one bad subject must not stall the feed
     // (#45 decision 4). Only the stable code is kept.
@@ -322,6 +310,29 @@ async function reviewAndStore(
     log({ level: "warn", event: "run.failed", runId, subject, code });
     return { outcome: "failed", costMicros: spent() };
   }
+
+  // Outside the try: Satella has the recommendation, so a store that can't
+  // save it fails the pass instead of recording the run as failed.
+  const document = toRunDocument(result, {
+    runId,
+    trigger: "scheduled",
+    effort: options.effort,
+    startedAt,
+    finishedAt: now(),
+    costMicros: spent(),
+  });
+  await store.saveRun(document);
+  log({
+    level: "info",
+    event: "run.completed",
+    runId,
+    subject,
+    version: document.subject.version,
+    decision: document.decision,
+    autonomy: document.autonomy,
+    attempts: result.attempts,
+  });
+  return { outcome: "completed", costMicros: spent() };
 }
 
 /**

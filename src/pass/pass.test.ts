@@ -32,8 +32,9 @@ import { type PassLogLine, type PassOptions, runPass } from "./pass.js";
 const TOKEN = "token";
 const HAIKU = { provider: "anthropic", model: "claude-haiku-5-5" };
 // 10,000 tokens at Haiku 5.5's dearest rate ($2.50 per million output
-// tokens on the long-prompt card): the hold each run reserves.
-const WORST_CASE = 25_000;
+// tokens on the long-prompt card), twice: the review and its re-review after
+// a stale subject. The hold each run reserves.
+const WORST_CASE = 50_000;
 // One scripted call: 100 input × $0.10 + 20 output × $0.50, per million.
 const ONE_CALL = 20;
 
@@ -258,6 +259,34 @@ describe("the day's budget", () => {
     ]);
   });
 
+  it("stops mid-page when another run took the budget, leaving the cursor", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    const budget = 2 * WORST_CASE;
+    // Another run (an on-demand review) reserves once this pass has read the page.
+    const busy: AgentStore = {
+      ...store,
+      async reserveSpend(input) {
+        const reservation = await store.reserveSpend(input);
+        await store.reserveSpend({
+          runId: "run_on_demand",
+          micros: WORST_CASE,
+          budgetMicros: budget,
+        });
+        return reservation;
+      },
+    };
+
+    const report = await pass(createScriptedProvider(submits(1), HAIKU), {
+      store: busy,
+      dailyBudgetMicros: budget,
+    });
+
+    expect(report.stoppedBy).toBe("budget");
+    expect(report.runs.map((run) => run.subject.id)).toEqual(["evt_0001"]);
+    expect(await store.readFeedCursor()).toBeNull();
+  });
+
   it("refuses to run a model it can't price", async () => {
     await expect(pass(createScriptedProvider([]))).rejects.toMatchObject({
       code: "PASS_UNPRICED_MODEL",
@@ -302,6 +331,33 @@ describe("a review that fails", () => {
       settledMicros: ONE_CALL,
       heldMicros: 0,
     });
+  });
+});
+
+describe("a subject that changes during its review", () => {
+  it("is reviewed again in the same run, which records the attempts", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    const scripted = createScriptedProvider(submits(2), HAIKU);
+    let calls = 0;
+    const editedMidReview: LlmProvider = {
+      ...HAIKU,
+      complete(request) {
+        calls += 1;
+        if (calls === 1) mock.setSubjectVersion("event", "evt_0001", "v2");
+        return scripted.complete(request);
+      },
+    };
+
+    await pass(editedMidReview);
+
+    expect(await storedRuns()).toEqual([
+      expect.objectContaining({
+        outcome: "completed",
+        subject: expect.objectContaining({ version: "v2" }) as unknown,
+        review: expect.objectContaining({ attempts: 2 }) as unknown,
+        costMicros: 2 * ONE_CALL,
+      }),
+    ]);
   });
 });
 

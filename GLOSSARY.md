@@ -90,7 +90,8 @@ fixed.
   (`AGENT_DAILY_BUDGET_MICROS`) before it runs and replaced by its actual cost after. It expires
   after 15 minutes, so a crashed run can't keep budget (ADR 0016).
 - **Worst-case cost**: what a run reserves before it starts: `AGENT_MAX_TOKENS` at the model's
-  dearest rate. A model with no price has none, so the pass won't run it (ADR 0017).
+  dearest rate, for the review and its re-review after a stale subject. A model with no price has
+  none, so the pass won't run it (ADR 0017).
 - **Prompt version**: the versioned prompt a run used; the unit of retirement.
 - **Eval case**: a fixture subject with its expected decision and autonomy (brief §5).
 - **Approved-fraud rate**: share of problem cases the agent approved. The critical metric.

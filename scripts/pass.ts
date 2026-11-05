@@ -16,7 +16,7 @@
  */
 import { randomUUID } from "node:crypto";
 
-import { loadConfig } from "../src/config/config.js";
+import { type Config, ConfigError, loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
 import { runPass } from "../src/pass/pass.js";
@@ -37,11 +37,26 @@ import {
 } from "../src/venue/venue-checks.js";
 
 loadLocalEnvFile();
-const config = loadConfig(process.env);
 const correlationId = randomUUID();
 const line = (entry: Record<string, unknown>) => {
   console.log(JSON.stringify({ correlationId, ...entry }));
 };
+
+let config: Config;
+try {
+  config = loadConfig(process.env);
+} catch (error) {
+  // The variables' names and rules only: never their values.
+  line({
+    level: "error",
+    event: "pass.refused",
+    code: error instanceof ConfigError ? error.code : "UNEXPECTED",
+    ...(error instanceof ConfigError
+      ? { variables: error.issues.map((issue) => issue.variable).join(",") }
+      : {}),
+  });
+  process.exit(1);
+}
 
 if (!process.argv.includes("--mock")) {
   line({
@@ -55,9 +70,8 @@ if (
   PAID_PROVIDERS.has(config.llm.provider) &&
   !process.argv.includes("--paid")
 ) {
-  console.error(
-    `✗ ${config.llm.provider} bills per token: pass --paid to spend (CLAUDE.md §8).`,
-  );
+  // It bills per token: spending needs `--paid` (CLAUDE.md §8).
+  line({ level: "error", event: "pass.refused", code: "PAID_NOT_ALLOWED" });
   process.exit(2);
 }
 
