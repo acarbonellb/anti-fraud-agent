@@ -27,7 +27,11 @@ import {
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
-import { type AnyAgentTool, toToolDefinition } from "./tools.js";
+import {
+  type AnyAgentTool,
+  type BoundCall,
+  toToolDefinition,
+} from "./tools.js";
 import { createUntrustedFence, type UntrustedFence } from "./untrusted.js";
 
 export interface RunLimits {
@@ -261,14 +265,14 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
         continue;
       }
 
-      const args = parseArguments(call, tool.input);
-      if (!args.ok) {
+      const bound = bindArguments(call, tool);
+      if (!bound.ok) {
         trace.push({ tool: call.name, ok: false, error: "INVALID_INPUT" });
-        messages.push(toolResult(call, args.message));
+        messages.push(toolResult(call, bound.message));
         continue;
       }
 
-      const repeatKey = tool.repeatKey?.(args.value);
+      const { repeatKey } = bound.value;
       const askedKey =
         repeatKey === undefined ? undefined : `${tool.name}:${repeatKey}`;
       if (askedKey !== undefined && askedBefore.has(askedKey)) {
@@ -288,10 +292,10 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       }
 
       try {
-        const output = await tool.execute(args.value);
+        const { output, sources } = await bound.value.run();
         // Only a call that ran has an answer above to point a repeat to.
         if (askedKey !== undefined) askedBefore.add(askedKey);
-        for (const url of tool.sources?.(output) ?? []) retrievedUrls.add(url);
+        for (const url of sources) retrievedUrls.add(url);
         trace.push({ tool: call.name, ok: true });
         messages.push(toolResult(call, fence.wrap(call.name, output)));
       } catch (error) {
@@ -309,23 +313,44 @@ const BUDGET_SPENT = `No searches left in this review. Decide with the evidence 
 
 type Parsed<T> = { ok: true; value: T } | { ok: false; message: string };
 
-function parseArguments<T>(call: ToolCall, schema: z.ZodType<T>): Parsed<T> {
-  let raw: unknown;
+function readArguments(call: ToolCall): Parsed<unknown> {
   try {
-    raw = JSON.parse(call.argumentsJson === "" ? "{}" : call.argumentsJson);
+    return {
+      ok: true,
+      value: JSON.parse(call.argumentsJson === "" ? "{}" : call.argumentsJson),
+    };
   } catch {
     return { ok: false, message: "The arguments are not valid JSON." };
   }
-  const result = schema.safeParse(raw);
-  if (result.success) return { ok: true, value: result.data };
-  // Paths and rules only: enough for the model to fix its call.
-  const problems = result.error.issues
+}
+
+function bindArguments(call: ToolCall, tool: AnyAgentTool): Parsed<BoundCall> {
+  const raw = readArguments(call);
+  if (!raw.ok) return raw;
+  const bound = tool.bind(raw.value);
+  return bound.ok
+    ? { ok: true, value: bound.call }
+    : { ok: false, message: invalid(bound.error) };
+}
+
+function parseArguments<T>(call: ToolCall, schema: z.ZodType<T>): Parsed<T> {
+  const raw = readArguments(call);
+  if (!raw.ok) return raw;
+  const result = schema.safeParse(raw.value);
+  return result.success
+    ? { ok: true, value: result.data }
+    : { ok: false, message: invalid(result.error) };
+}
+
+/** Paths and rules only: enough for the model to fix its call. */
+function invalid(error: z.ZodError): string {
+  const problems = error.issues
     .map(
       (issue) =>
         `${issue.path.map(String).join(".") || "(root)"}: ${issue.message}`,
     )
     .join("; ");
-  return { ok: false, message: `Invalid arguments. ${problems}` };
+  return `Invalid arguments. ${problems}`;
 }
 
 function toolResult(call: ToolCall, content: string): ChatMessage {

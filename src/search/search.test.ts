@@ -10,6 +10,7 @@ import type { Fetch } from "../fetch.js";
 import { createAuthoredSearch } from "./authored.js";
 import { createTavilySearch, TAVILY_URL } from "./tavily.js";
 import { WebSearchError } from "./types.js";
+import type { AnyAgentTool } from "../agent/tools.js";
 import { webSearchTool } from "../agent/web-search-tool.js";
 
 const KEY = "tvly-test-key";
@@ -25,6 +26,13 @@ function tavily(answer: () => Response | Promise<Response>) {
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status });
+
+/** Runs a tool as the loop does: its schema checks the arguments first. */
+async function run(tool: AnyAgentTool, args: unknown): Promise<unknown> {
+  const bound = tool.bind(args);
+  if (!bound.ok) throw bound.error;
+  return (await bound.call.run()).output;
+}
 
 describe("Tavily", () => {
   it("posts a basic search with the key as a bearer token", async () => {
@@ -95,7 +103,7 @@ describe("Tavily", () => {
   it("tells the model search is unavailable instead of failing the run", async () => {
     const { search } = tavily(() => json({}, 432));
     const tool = webSearchTool(search);
-    await expect(tool.execute({ query: "algo" } as never)).resolves.toEqual({
+    await expect(run(tool, { query: "algo" })).resolves.toEqual({
       results: [],
       unavailable: "quota_exceeded",
     });
@@ -143,9 +151,9 @@ describe("the web_search tool", () => {
       snippet: "Fechas de la gira. ".repeat(40),
     }));
     const tool = webSearchTool(createAuthoredSearch(pages));
-    const { results } = (await tool.execute({
+    const { results } = (await run(tool, {
       query: "Barbaros del Sur gira",
-    } as never)) as { results: { snippet: string }[] };
+    })) as { results: { snippet: string }[] };
     expect(results).toHaveLength(3);
     expect(results.map((result) => result.snippet.length)).toEqual([
       300, 300, 300,
