@@ -19,6 +19,7 @@ import { randomUUID } from "node:crypto";
 import { type Config, ConfigError, loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
+import { logLine } from "../src/pass/log-line.js";
 import { runPass } from "../src/pass/pass.js";
 import {
   createConfiguredProvider,
@@ -38,8 +39,8 @@ import {
 
 loadLocalEnvFile();
 const correlationId = randomUUID();
-const line = (entry: Record<string, unknown>) => {
-  console.log(JSON.stringify({ correlationId, ...entry }));
+const line = (entry: Parameters<typeof logLine>[0]) => {
+  console.log(logLine({ correlationId, ...entry }));
 };
 
 let config: Config;

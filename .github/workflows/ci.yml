@@ -65,3 +65,42 @@ jobs:
       - name: Commit messages
         if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+
+  # Deploys the pass to its Cloud Run Job (ADR 0018) once both checks pass on
+  # main. No stored key: GitHub's OIDC token is exchanged through Workload
+  # Identity Federation, whose provider accepts only this repository on main.
+  # Skipped until the setup script has set the repository variables.
+  deploy:
+    name: Deploy the pass
+    needs: [secrets, quality]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.GCP_PROJECT_ID != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      REGION: europe-west1
+      IMAGE: europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/agent/pass:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: deployer@${{ vars.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Build and push the image
+        run: |
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+      # The job's whole configuration is here, so a change to the model, the
+      # effort or the budget is reviewed in a PR (ADR 0008, amendment of #42).
+      # `--paid` is the go-ahead to call a paid provider. Satella's variables
+      # join in #9; until then the pass exits with SATELLA_NOT_CONFIGURED.
+      - name: Point the job at it
+        run: |
+          gcloud run jobs update pass --region="$REGION" --quiet \
+            --image="$IMAGE" \
+            --args=--paid \
+            --set-env-vars="AGENT_LLM_PROVIDER=anthropic,AGENT_LLM_MODEL=claude-haiku-5-5,AGENT_LLM_EFFORT=medium,AGENT_DAILY_BUDGET_MICROS=2000000,FIRESTORE_PROJECT_ID=${{ vars.GCP_PROJECT_ID }}" \
+            --set-secrets="AGENT_LLM_API_KEY=AGENT_LLM_API_KEY:latest,TAVILY_API_KEY=TAVILY_API_KEY:latest"
