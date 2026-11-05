@@ -180,17 +180,22 @@ export function createSatellaClient(
     },
 
     async createReview(request, { idempotencyKey }) {
-      // Same limits as Satella: a request that would get a 400 fails here
-      // with a clear local error instead.
-      const body = createReviewRequestSchema.parse(request);
-      idempotencyKeySchema.parse(idempotencyKey);
+      // Same limits as Satella: a request that would get a 400 fails here,
+      // typed like Satella's 400 but with no status, since nothing was sent.
+      const body = createReviewRequestSchema.safeParse(request);
+      if (
+        !body.success ||
+        !idempotencyKeySchema.safeParse(idempotencyKey).success
+      ) {
+        throw new SatellaApiError("SATELLA_BAD_REQUEST", "createReview", null);
+      }
       const { data, status } = await call(
         "createReview",
         "/reviews",
         agentReviewSchema,
         {
           method: "POST",
-          body,
+          body: body.data,
           headers: { "idempotency-key": idempotencyKey },
         },
       );

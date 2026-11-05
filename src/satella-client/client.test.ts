@@ -411,9 +411,12 @@ describe("create review", () => {
     ],
     ["an idempotency key with spaces", reviewRequest(), "key with spaces"],
   ])("refuses locally %s, before any call", async (_, request, key) => {
-    await expect(
+    // A typed error, so the pass records SATELLA_BAD_REQUEST, not UNEXPECTED.
+    const error = await expectSatellaError(
       client.createReview(request, { idempotencyKey: key }),
-    ).rejects.toThrow();
+      "SATELLA_BAD_REQUEST",
+    );
+    expect(error.status).toBeNull();
     expect(mock.requests).toHaveLength(0);
   });
 });
