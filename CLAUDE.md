@@ -18,6 +18,7 @@ Language: code, commits, PRs, issues and docs in **English**. The agent's `ratio
 | **Satella contract** (what the agent API v1 actually serves)                                  | `src/satella-client/schemas.ts` — ADR 0011: the shipped API wins over the brief  |
 | Domain vocabulary                                                                             | `GLOSSARY.md`                                                                    |
 | Eval metrics over time and why they moved                                                     | `evals/history.jsonl` (generated) and `docs/experiments.md` (written) — ADR 0014 |
+| Known limitations (what the agent doesn't do well yet, and why)                               | `docs/known-limitations.md`                                                      |
 | Architecture decisions                                                                        | `docs/adr/` (index in `docs/adr/README.md`)                                      |
 | Review standards                                                                              | `CODING_STANDARDS.md`                                                            |
 | Issue tracker, triage labels, domain docs for skills                                          | `docs/agents/`                                                                   |
