@@ -74,5 +74,8 @@ calibration, above.
   - **Today:** a pass reviews at most 10 subjects, throttled per provider.
 - **A check's timeout is per HTTP request, not per check.** A check that makes several requests
   can take several times `PROVIDER_TIMEOUT_MS` (10 s).
+- **An abandoned subject only shows in the logs.** After three transient failures the pass gives
+  up on a subject and logs `run.abandoned` (ADR 0017 amendment). No alert is set on that line
+  yet. Fix: a log-based alert in Cloud Monitoring.
 - **The `unknown` capacity detail doesn't mention the exposure cap.** The policy then applies
   the 300-ticket cap, so the admin reads the reason in the escalation, not in the finding.

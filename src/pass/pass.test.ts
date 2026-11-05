@@ -1,7 +1,8 @@
 // Checks the scheduled pass end to end (#45): it reads the feed from the
 // stored cursor, reviews each reviewable subject once per page, stores a run
 // for each, advances the cursor, stops at the day's budget, stores a failed
-// run and moves on, and records an admin's resolution next to its run. Fakes
+// run and moves on, tries a review that failed for a passing reason again on
+// later passes, a bounded number of times, and records an admin's resolution next to its run. Fakes
 // Satella with the mock server, the model with the scripted provider (named
 // as Haiku 5.5, so its real prices apply), the store with the in-memory one
 // and the venue checks with canned findings.
@@ -331,6 +332,84 @@ describe("a review that fails", () => {
       settledMicros: ONE_CALL,
       heldMicros: 0,
     });
+  });
+});
+
+describe("a review that fails for a reason that can pass", () => {
+  const unavailable = () =>
+    Promise.reject(new ProviderError("LLM_UNAVAILABLE", "anthropic"));
+
+  it("is tried again on the next pass, and leaves the queue once it completes", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+
+    const first = await pass({ ...HAIKU, complete: unavailable });
+    const second = await pass(createScriptedProvider(submits(1), HAIKU));
+
+    expect(first.retriesQueued).toBe(1);
+    expect(second.runs).toEqual([
+      expect.objectContaining({ subject: evt1, outcome: "completed" }),
+    ]);
+    expect(second.retriesQueued).toBe(0);
+    expect(await store.readRetryQueue()).toEqual([]);
+    expect(mock.reviews.map((review) => review.subject.id)).toEqual([
+      "evt_0001",
+    ]);
+  });
+
+  it("is given up after three failed reviews, with a line to alert on", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    const log: PassLogLine[] = [];
+    const down = { ...HAIKU, complete: unavailable };
+
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      await pass(down, { log: (line) => log.push(line) });
+    }
+
+    expect(await storedRuns()).toHaveLength(3);
+    expect(await store.readRetryQueue()).toEqual([]);
+    expect(log.filter((line) => line.event === "run.abandoned")).toEqual([
+      expect.objectContaining({
+        level: "warn",
+        subject: evt1,
+        code: "LLM_UNAVAILABLE",
+        failures: 3,
+      }),
+    ]);
+  });
+
+  it("isn't queued when another try would fail the same way", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    const badRequest = () =>
+      Promise.reject(new ProviderError("LLM_HTTP_ERROR", "anthropic", 400));
+
+    const report = await pass({ ...HAIKU, complete: badRequest });
+
+    expect(report.retriesQueued).toBe(0);
+    expect(await store.readRetryQueue()).toEqual([]);
+  });
+
+  it("takes at most half a pass, so the feed still moves", async () => {
+    await store.replaceRetryQueue(
+      [evt1, org1].map((subject) => ({
+        subject,
+        failures: 1,
+        code: "SATELLA_UNAVAILABLE",
+      })),
+    );
+    mock.appendFeedItem(feedItem("event.published", evt2));
+
+    const report = await pass(createScriptedProvider(submits(2), HAIKU), {
+      pageSize: 2,
+    });
+
+    expect(mock.reviews.map((review) => review.subject.id)).toEqual([
+      "evt_0001",
+      "evt_0002",
+    ]);
+    expect(await store.readRetryQueue()).toEqual([
+      expect.objectContaining({ subject: org1 }),
+    ]);
+    expect(report.retriesQueued).toBe(1);
   });
 });
 
