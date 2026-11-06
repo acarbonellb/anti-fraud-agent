@@ -25,16 +25,13 @@ import { runPass } from "../src/pass/pass.js";
 import { reviewEvidence } from "../src/agent/review-evidence.js";
 import { createConfiguredProvider } from "../src/providers/from-config.js";
 import { isPaidProvider } from "../src/providers/pricing.js";
-import {
-  createSatellaClient,
-  type SatellaClient,
-} from "../src/satella-client/client.js";
+import { createSatellaClient } from "../src/satella-client/client.js";
 import { createIdentityTokenSource } from "../src/satella-client/identity-token.js";
 import { createConfiguredSearch } from "../src/search/from-config.js";
 import { createFirestoreStore } from "../src/store/firestore-store.js";
 import { createMemoryStore } from "../src/store/memory-store.js";
 import { createVenueThrottles } from "../src/venue/venue-checks.js";
-import { startLocalSatella } from "./local-satella.js";
+import { type SatellaConnection, startLocalSatella } from "./local-satella.js";
 
 loadLocalEnvFile();
 const correlationId = randomUUID();
@@ -92,9 +89,7 @@ const store =
  * The Satella the pass reviews: the in-process mock and its fictitious feed,
  * or staging with the job's Google identity token.
  */
-function connectSatella(
-  to: SatellaTarget,
-): Promise<{ client: SatellaClient; close: () => Promise<void> }> {
+function connectSatella(to: SatellaTarget): Promise<SatellaConnection> {
   if (to === "mock") return startLocalSatella(correlationId);
   return Promise.resolve({
     client: createSatellaClient({

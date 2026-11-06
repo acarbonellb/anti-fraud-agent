@@ -11,9 +11,15 @@ import { startMockSatella } from "../src/satella-client/mock-server.js";
 
 const TOKEN = "local";
 
+/** A Satella to review against, and how to let it go when done. */
+export interface SatellaConnection {
+  client: SatellaClient;
+  close: () => Promise<void>;
+}
+
 export async function startLocalSatella(
   correlationId: string,
-): Promise<{ client: SatellaClient; close: () => Promise<void> }> {
+): Promise<SatellaConnection> {
   const mock = await startMockSatella({
     fixtures: {
       feed: fixtures.feed,

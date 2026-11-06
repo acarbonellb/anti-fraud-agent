@@ -32,18 +32,26 @@ export function createScriptedProvider(
     complete(request) {
       // A snapshot: the loop keeps appending to the same array.
       requests.push({ ...request, messages: [...request.messages] });
-      const next = script[requests.length - 1];
+      const turn = requests.length;
+      const next = script[turn - 1];
       if (next === undefined) {
         return Promise.reject(
-          new Error(`Script exhausted at call ${String(requests.length)}`),
+          new Error(`Script exhausted at call ${String(turn)}`),
         );
       }
-      return Promise.resolve(next);
+      // Ids are this provider's, by turn and position: unique within a run
+      // even when a script repeats the same response object.
+      const toolCalls = next.message.toolCalls.map((call, index) => ({
+        ...call,
+        id: `call_${String(turn)}_${String(index)}`,
+      }));
+      return Promise.resolve({
+        ...next,
+        message: { ...next.message, toolCalls },
+      });
     },
   };
 }
-
-let nextCallId = 0;
 
 /** A response that calls one tool. */
 export function callTool(
@@ -52,7 +60,8 @@ export function callTool(
   usage: TokenUsage = { inputTokens: 100, outputTokens: 20 },
 ): CompletionResponse {
   const call: ToolCall = {
-    id: `call_${String((nextCallId += 1))}`,
+    // The scripted provider gives each call its id when it replays it.
+    id: "",
     name,
     argumentsJson: typeof args === "string" ? args : JSON.stringify(args),
   };

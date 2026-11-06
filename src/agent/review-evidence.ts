@@ -25,15 +25,12 @@ export function reviewEvidence(
   options: ReviewEvidenceOptions,
 ): Pick<ReviewSubjectInput, "venueChecks" | "extraTools" | "webSearch"> {
   const { fetch, throttles, search } = options;
-  if (search === undefined) {
-    return {
-      venueChecks: createVenueChecks({ fetch, throttles }),
-      extraTools: [],
-    };
-  }
-  return {
-    venueChecks: createVenueChecks({ fetch, throttles, search }),
-    extraTools: [webSearchTool(search)],
-    webSearch: search,
-  };
+  const venueChecks = createVenueChecks({
+    fetch,
+    throttles,
+    ...(search === undefined ? {} : { search }),
+  });
+  return search === undefined
+    ? { venueChecks, extraTools: [] }
+    : { venueChecks, extraTools: [webSearchTool(search)], webSearch: search };
 }
