@@ -1,10 +1,14 @@
 // Checks the deterministic organizer checks over contexts built from the
-// fictitious fixture. Pure function; fakes nothing.
+// fictitious fixture, and their history part that event reviews reuse. Pure
+// functions; fake nothing.
 import { expect, it } from "vitest";
 
 import { fixtures } from "../satella-client/fixtures.js";
 import type { OrganizerReviewContext } from "../satella-client/schemas.js";
-import { runOrganizerChecks } from "./organizer-checks.js";
+import {
+  organizerHistoryChecks,
+  runOrganizerChecks,
+} from "./organizer-checks.js";
 
 function checks(
   change: (draft: OrganizerReviewContext) => void = () => undefined,
@@ -66,4 +70,27 @@ it("warns, as a heuristic, about a rejected organization and fraud reports", () 
       ["heuristic", "warn"],
     ],
   );
+});
+
+it("checks only the history for an event's organizer: a warn on a rejected organization", () => {
+  const draft = structuredClone(fixtures.organizerContext);
+  draft.owner.otherOrganizers = [
+    { status: "rejected", createdAt: "2026-09-01T10:00:00.000Z" },
+  ];
+
+  const history = organizerHistoryChecks(draft);
+
+  expect(
+    history.map((item) => [item.finding.check, item.finding.verdict]),
+  ).toEqual([["organizer_history", "warn"]]);
+  expect(history[0]?.finding.detail).toContain("rechazada");
+});
+
+it("passes the history of a clean organizer, so the admin sees it was checked", () => {
+  expect(
+    organizerHistoryChecks(fixtures.organizerContext).map((item) => [
+      item.finding.check,
+      item.finding.verdict,
+    ]),
+  ).toEqual([["organizer_history", "pass"]]);
 });

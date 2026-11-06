@@ -123,12 +123,13 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const toolsByName = new Map(tools.map((tool) => [tool.name, tool]));
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
   const systemFindings = input.systemFindings ?? [];
-  // Each check the code ran, and whether it only passed there.
+  // Each check the code ran, and whether it reached a negative verdict there.
   const systemChecks = new Map<string, boolean>();
   for (const item of systemFindings) {
-    const passed = item.finding.verdict === "pass";
+    const negative =
+      item.finding.verdict === "fail" || item.finding.verdict === "warn";
     for (const check of [item.finding.check, ...(item.covers ?? [])]) {
-      systemChecks.set(check, (systemChecks.get(check) ?? true) && passed);
+      systemChecks.set(check, (systemChecks.get(check) ?? false) || negative);
     }
   }
 
@@ -394,18 +395,21 @@ function limitFallback(endedBy: RunEnd): Proposal {
 }
 
 /**
- * System findings win over the model's on a check the code ran, with one
- * exception: a system `pass` can't silence a model `fail` or `warn`. A pass
- * only means a pattern didn't match ("B1zum" slips past the Bizum rule), so
- * it is no evidence against what the model caught (#57). `systemPassed` is
+ * On a check the code ran, the model's `fail` or `warn` stands unless the
+ * code itself reached a negative verdict there, which wins; the model's
+ * `pass` and `unknown` are dropped. A system `pass` only means a pattern
+ * didn't match ("B1zum" slips past the Bizum rule, #57), and a system
+ * `unknown` means the code had no evidence (a sparse price benchmark, #82):
+ * neither is evidence against what the model caught. `systemNegative` is
  * undefined when the code didn't run the check.
  */
 function keepsModelFinding(
   finding: Finding,
-  systemPassed: boolean | undefined,
+  systemNegative: boolean | undefined,
 ): boolean {
-  if (systemPassed === undefined) return true;
+  if (systemNegative === undefined) return true;
   return (
-    systemPassed && (finding.verdict === "fail" || finding.verdict === "warn")
+    !systemNegative &&
+    (finding.verdict === "fail" || finding.verdict === "warn")
   );
 }

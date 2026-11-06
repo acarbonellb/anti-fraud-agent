@@ -13,7 +13,9 @@ import {
   escalated,
   EXPOSURE_CAP_TICKETS,
   MODEL_CONFIDENCE_FLOOR,
+  MONEY_CAP_CENTS,
   OPEN_SPACE_EXPOSURE_CAP_TICKETS,
+  OPEN_SPACE_MONEY_CAP_CENTS,
 } from "./policy.js";
 
 const THRESHOLD = 0.85;
@@ -29,7 +31,11 @@ const model = (
   sources: Finding["sources"] = [],
 ): Finding => ({ check, verdict, detail: "detalle", confidence: 0.9, sources });
 
-const EVENT: AutonomySubject = { type: "event", maxTicketsOnSale: 100 };
+const EVENT: AutonomySubject = {
+  type: "event",
+  maxTicketsOnSale: 100,
+  moneyOnSaleCents: 150_000,
+};
 const ORGANIZER: AutonomySubject = { type: "organizer" };
 
 function decide(
@@ -96,8 +102,14 @@ describe("approve", () => {
       cleanSystem,
       [model("venue_capacity", "warn")],
     ],
+    // A copy the model noticed and the code missed reaches the admin (#82).
     [
-      "two minor model warnings",
+      "a model warning on the text's originality",
+      cleanSystem,
+      [model("text_originality", "warn")],
+    ],
+    [
+      "two model warnings",
       cleanSystem,
       [
         model("organizer_web_presence", "warn"),
@@ -121,9 +133,11 @@ describe("approve", () => {
 
 describe("approve needs venue evidence (ADR 0015)", () => {
   const checks = [rule("postal_code_province", "pass")];
+  // At 10 € a ticket, far under the money cap: these cases are about tickets.
   const event = (maxTicketsOnSale: number): AutonomySubject => ({
     type: "event",
     maxTicketsOnSale,
+    moneyOnSaleCents: maxTicketsOnSale * 1000,
   });
 
   it.each([
@@ -221,6 +235,7 @@ describe("the exposure cap depends on the venue type (#78)", () => {
     decide("approve", [...checks, finding], [], 0.95, {
       type: "event",
       maxTicketsOnSale: tickets,
+      moneyOnSaleCents: tickets * 1000,
     });
 
   it("lets a park of unknown capacity resolve with 6,000 tickets in a session", () => {
@@ -256,6 +271,78 @@ describe("the exposure cap depends on the venue type (#78)", () => {
     expect(verdict.reasons).toContain(
       "capacity unknown with 301 tickets on sale in one session, above the exposure cap of 300",
     );
+  });
+});
+
+describe("the money cap on an unknown capacity (#82)", () => {
+  const checks = [rule("postal_code_province", "pass"), venue("pass")];
+  const approve = (
+    capacityFinding: SystemFinding,
+    moneyOnSaleCents: number,
+    maxTicketsOnSale = 280,
+  ) =>
+    decide("approve", [...checks, capacityFinding], [], 0.95, {
+      type: "event",
+      maxTicketsOnSale,
+      moneyOnSaleCents,
+    });
+  const park = { ...capacity("unknown"), venueType: "leisure=park" };
+
+  it("pins the provisional caps", () => {
+    expect(MONEY_CAP_CENTS).toBe(1_500_000);
+    expect(OPEN_SPACE_MONEY_CAP_CENTS).toBe(100_000_000);
+  });
+
+  it("escalates 280 tickets at 950 € in a room, stating both amounts", () => {
+    // Case 13: under the ticket cap, far above the money cap.
+    const verdict = approve(capacity("unknown"), 280 * 95_000);
+
+    expect(verdict.autonomy).toBe("escalated");
+    expect(verdict.reasons).toEqual([
+      "capacity unknown with 266.000,00 € on sale, above the money cap of 15.000,00 €",
+    ]);
+  });
+
+  it("escalates ten sessions of 300 at 8 €", () => {
+    const verdict = approve(capacity("unknown"), 10 * 300 * 800, 300);
+
+    expect(verdict.autonomy).toBe("escalated");
+  });
+
+  it("resolves at the cap, and escalates a cent above it", () => {
+    expect(approve(capacity("unknown"), MONEY_CAP_CENTS).autonomy).toBe(
+      "auto_resolved",
+    );
+    expect(approve(capacity("unknown"), MONEY_CAP_CENTS + 1).autonomy).toBe(
+      "escalated",
+    );
+  });
+
+  it("doesn't apply to a verified capacity", () => {
+    expect(approve(capacity("pass"), 280 * 95_000).autonomy).toBe(
+      "auto_resolved",
+    );
+  });
+
+  it("lets a three-day festival in a park resolve under the open-space cap", () => {
+    // Case N2: 590.000 € over three sessions of 6,000 tickets at most.
+    expect(approve(park, 59_000_000, 6000).autonomy).toBe("auto_resolved");
+    expect(approve(park, OPEN_SPACE_MONEY_CAP_CENTS + 1, 6000).reasons).toEqual(
+      [
+        "capacity unknown with 1.000.000,01 € on sale, above the money cap of 1.000.000,00 €",
+      ],
+    );
+  });
+
+  it("judges a free event by the ticket cap only", () => {
+    expect(approve(capacity("unknown"), 0, EXPOSURE_CAP_TICKETS).autonomy).toBe(
+      "auto_resolved",
+    );
+    expect(
+      approve(capacity("unknown"), 0, EXPOSURE_CAP_TICKETS + 1).reasons,
+    ).toEqual([
+      `capacity unknown with ${String(EXPOSURE_CAP_TICKETS + 1)} tickets on sale in one session, above the exposure cap of ${String(EXPOSURE_CAP_TICKETS)}`,
+    ]);
   });
 });
 
