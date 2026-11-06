@@ -24,6 +24,7 @@ export const CHECKS = {
   price_benchmark:
     "A price far above comparable events, by Satella's price benchmark.",
   service_fee: "Service fees out of proportion.",
+  discounts: "A large active discount with no usage limit.",
   session_dates: "Overlapping sessions of the event.",
   session_timing: "A session imminent after publishing, or very far away.",
   off_platform_payment:

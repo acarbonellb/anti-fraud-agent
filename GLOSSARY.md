@@ -110,8 +110,9 @@ fixed.
 
 ## Evals
 
-- **Problem case / legitimate case**: brief §5 cases 1–26 depict fraud or something off; N1–N5
-  are legitimate events, there to measure false positives.
+- **Problem case / legitimate case**: brief §5 cases 1–26, and the numbered cases spec #71 added
+  after them, depict fraud or something off; N1–N5 are legitimate events, there to measure false
+  positives.
 - **Expected outcome**: the decision (or decisions: case 4 takes two, case 25 «never approve») and
   the autonomy a case should end with, from brief §5 refined by ADR 0012.
 - **External case**: a case only the external tools (#7: venue, capacity, web presence…) can
