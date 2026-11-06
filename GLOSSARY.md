@@ -41,6 +41,12 @@ fixed.
 - **Hard signal**: a finding strong enough to allow an auto-resolved `reject` (off-platform
   payment, illegal content including alcohol aimed at minors, exact duplicate of another
   organizer, capacity several times the venue's), from a rule check or with sources (ADR 0012).
+- **Evidence tier**: the review's confidence, derived in code from the evidence behind its
+  decision, never taken from the model (ADR 0019): 0.95 for a request backed only by `rule`
+  findings or a rejection on a hard signal, 0.90 for a clean approval with the capacity verified,
+  0.85 for one under the exposure cap. `AGENT_AUTO_APPROVE_THRESHOLD` is the lowest tier that
+  resolves on its own. An escalated review shows the model's number capped at 0.84; the model's
+  number (`modelConfidence`) only holds back, below 0.5.
 - **Deterministic check**: a check computed in code on the review context before the model runs
   (`src/checks/`). Its findings are authoritative over the model's.
 - **Rule finding / heuristic finding**: a deterministic finding that is a certain inconsistency

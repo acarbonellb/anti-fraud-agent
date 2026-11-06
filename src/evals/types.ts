@@ -60,7 +60,10 @@ export interface EvalCase {
 export interface CaseOutcome {
   decision: Decision;
   autonomy: Autonomy;
+  /** Derived from the evidence tier (ADR 0019): what Satella would be sent. */
   confidence: number;
+  /** The number the model proposed, to compare with `confidence`. */
+  modelConfidence: number;
   /** The policy's reasons for the autonomy. */
   reasons: string[];
   /** Whether the case searched authored pages, not the real web. */
