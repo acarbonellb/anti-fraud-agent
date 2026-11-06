@@ -3,7 +3,8 @@
 // recommendation lands in Satella with the policy's autonomy, and a subject
 // that changes during the review is re-reviewed instead of retried. The
 // exact-clone check asks Satella for similar events before the model, and the
-// copied-text check searches the description. Fakes Satella with the mock
+// copied-text check searches the description, and the organizer's history is
+// checked on its events. Fakes Satella with the mock
 // server, the model with the scripted provider, the venue checks with canned
 // findings and the web with the authored search.
 import { afterEach, beforeEach, expect, it } from "vitest";
@@ -269,6 +270,72 @@ it("holds back an approval when another site has the description word for word",
   );
   expect(result.review.decision).toBe("request_info");
   expect(result.review.autonomy).toBe("escalated");
+});
+
+it("holds back an approval of an event whose organizer has fraud reports", async () => {
+  await mock.close();
+  const organizer = structuredClone(fixtures.organizerContext);
+  organizer.history.contentReports = [
+    { category: "fraud", status: "actioned", count: 3 },
+  ];
+  mock = await startMockSatella({
+    fixtures: {
+      events: [fixtures.eventContext],
+      organizers: [organizer],
+      similar: { evt_0001: fixtures.similarEvents },
+    },
+    tokens: { [TOKEN]: ["agent:read", "agent:recommend"] },
+  });
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+
+  const result = await review(provider);
+
+  expect(provider.requests[0]?.messages[1]?.content).toContain(
+    "denuncia(s) por fraude",
+  );
+  expect(result.review.findings).toContainEqual(
+    expect.objectContaining({ check: "organizer_history", verdict: "warn" }),
+  );
+  expect(result.review.decision).toBe("request_info");
+  expect(result.review.autonomy).toBe("escalated");
+});
+
+it("checks the organizer history of an event with a clean organizer", async () => {
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+
+  const result = await review(provider);
+
+  expect(result.review.findings).toContainEqual(
+    expect.objectContaining({ check: "organizer_history", verdict: "pass" }),
+  );
+  expect(result.review.decision).toBe("approve");
+});
+
+it("goes on without a history finding when Satella can't serve the organizer", async () => {
+  const satella = satellaClient();
+  const unavailable: SatellaClient = {
+    ...satella,
+    getOrganizerContext: () =>
+      Promise.reject(
+        new SatellaApiError("SATELLA_UNAVAILABLE", "getOrganizerContext", null),
+      ),
+  };
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+  ]);
+
+  const result = await review(provider, verifiedVenue, unavailable);
+
+  expect(result.review.decision).toBe("approve");
+  expect(
+    result.review.findings.filter(
+      (finding) => finding.check === "organizer_history",
+    ),
+  ).toEqual([]);
 });
 
 it("never runs the venue checks on an organizer, and escalates it", async () => {
