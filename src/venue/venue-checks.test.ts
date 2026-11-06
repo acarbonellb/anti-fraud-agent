@@ -112,6 +112,24 @@ describe("venue checks", () => {
     expect(calls[1]?.url).toContain("wd%3AQ2635919+wdt%3AP1083");
   });
 
+  it("carries the verified venue's OSM type on the capacity finding, for the exposure cap", async () => {
+    const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(capacity?.finding.verdict).toBe("unknown");
+    expect(capacity?.venueType).toBe("amenity=theatre");
+  });
+
+  it("carries no venue type when the venue isn't verified", async () => {
+    const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT + 0.01, LON),
+    );
+    expect(capacity?.finding.verdict).toBe("unknown");
+    expect(capacity).not.toHaveProperty("venueType");
+  });
+
   it("asks what lies at the point only when the name doesn't verify the venue", async () => {
     const { fetch, calls } = fakeFetch({
       search: () => json([]),

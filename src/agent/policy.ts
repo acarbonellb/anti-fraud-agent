@@ -26,8 +26,9 @@
  * External evidence (ADR 0015) tightens two of those:
  *
  * - an event's `approve` also needs venue evidence: the venue verified, and
- *   its capacity verified or, when no one publishes it, at most
- *   `EXPOSURE_CAP_TICKETS` on sale in any session;
+ *   its capacity verified or, when no one publishes it, at most the
+ *   exposure cap on sale in any session: `OPEN_SPACE_EXPOSURE_CAP_TICKETS`
+ *   for an open space, `EXPOSURE_CAP_TICKETS` for any other or unknown type;
  * - an organizer review never resolves on its own: no structured evidence
  *   backs a new organizer.
  *
@@ -65,6 +66,32 @@ export const HARD_SIGNAL_CHECKS: ReadonlySet<string> = new Set<CheckId>([
  * Provisional until the evals tune it.
  */
 export const EXPOSURE_CAP_TICKETS = 300;
+
+/**
+ * OSM `category=type` of the open spaces: a park or a square publishes no
+ * capacity, yet a festival there sells thousands per session (case N2). A
+ * short list that grows when a real case needs it (a beach, a fairground).
+ */
+export const OPEN_SPACE_TYPES: ReadonlySet<string> = new Set([
+  "leisure=park",
+  "leisure=recreation_ground",
+  "place=square",
+]);
+
+/**
+ * The exposure cap of an open space (ADR 0015, amendment of #78). A starting
+ * value from one case: N2 sells 6,000 in one session, so 5,000 would leave it
+ * escalating; with no cap, any "park" with 50,000 tickets would resolve on its
+ * own. To be revised with real festivals from the feed.
+ */
+export const OPEN_SPACE_EXPOSURE_CAP_TICKETS = 10_000;
+
+/** An unknown type keeps the prudent cap. */
+function exposureCap(venueType: string | undefined): number {
+  return venueType !== undefined && OPEN_SPACE_TYPES.has(venueType)
+    ? OPEN_SPACE_EXPOSURE_CAP_TICKETS
+    : EXPOSURE_CAP_TICKETS;
+}
 
 export type Autonomy = "auto_resolved" | "escalated";
 
@@ -232,20 +259,24 @@ function venueGaps(
   systemFindings: readonly SystemFinding[],
   maxTicketsOnSale: number,
 ): string[] {
-  const verdictOf = (...names: string[]) =>
-    systemFindings.find((item) => names.includes(item.finding.check))?.finding
-      .verdict;
-  const venue = verdictOf("venue_exists");
-  const capacity = verdictOf("venue_capacity", "capacity_far_above_venue");
+  const findingOf = (...names: string[]) =>
+    systemFindings.find((item) => names.includes(item.finding.check));
+  const venue = findingOf("venue_exists")?.finding.verdict;
+  const capacityFinding = findingOf(
+    "venue_capacity",
+    "capacity_far_above_venue",
+  );
+  const capacity = capacityFinding?.finding.verdict;
+  const cap = exposureCap(capacityFinding?.venueType);
   return [
     ...(venue === "pass" || venue === "fail" || venue === "warn"
       ? []
       : [`venue not verified (${venue ?? "not checked"})`]),
     ...(capacity === undefined
       ? ["venue capacity not checked"]
-      : capacity === "unknown" && maxTicketsOnSale > EXPOSURE_CAP_TICKETS
+      : capacity === "unknown" && maxTicketsOnSale > cap
         ? [
-            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(EXPOSURE_CAP_TICKETS)}`,
+            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(cap)}`,
           ]
         : []),
   ];

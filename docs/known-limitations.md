@@ -21,11 +21,6 @@ have resolved itself.
 
 ## Costs the admin time
 
-- **Festivals in open spaces escalate** (N2).
-  - **Symptom:** a park has no published capacity, and the event puts 6,000 tickets on sale per
-    session. That is above the 300-ticket exposure cap (`EXPOSURE_CAP_TICKETS`).
-  - **Fix:** a cap per capacity band or per venue type (`leisure=park`). Or accept this
-    as the price of catching case 16.
 - **Organizer requests never resolve on their own** (case 22).
   - **Symptom:** a wrong tax-id checksum is a mechanical request, yet it escalates. ADR 0015
     point 7 overrides ADR 0012 point 3 for organizers.

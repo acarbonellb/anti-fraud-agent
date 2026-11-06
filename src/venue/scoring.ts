@@ -240,9 +240,13 @@ export type WebCapacitySearch =
   | { ok: true; results: readonly SearchResult[] }
   | { ok: false; failure: SearchFailure };
 
-/** `estimateVenueCapacity` (ADR 0015 point 4), compared per session. */
+/**
+ * `estimateVenueCapacity` (ADR 0015 point 4), compared per session. A
+ * verified venue's type goes with the finding: the policy's exposure cap
+ * depends on it (ADR 0015, amendment of #78).
+ */
 export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
-  const { venue, match, wikidata, web, maxTicketsOnSale: tickets } = evidence;
+  const { match, maxTicketsOnSale: tickets } = evidence;
   const onSale = `la sesión con más entradas pone a la venta ${count(tickets)}`;
   if (match === null) {
     return venueFinding(
@@ -251,6 +255,18 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
       `Aforo desconocido: el recinto no está verificado en OpenStreetMap, así que no hay aforo publicado; ${onSale}.`,
     );
   }
+  return {
+    ...scoreVerifiedCapacity(evidence, match, onSale),
+    venueType: typeText(match.place),
+  };
+}
+
+function scoreVerifiedCapacity(
+  evidence: CapacityEvidence,
+  match: Match,
+  onSale: string,
+): SystemFinding {
+  const { venue, wikidata, web, maxTicketsOnSale: tickets } = evidence;
 
   const published = publishedCapacity(match.place, wikidata);
   const fromWeb =

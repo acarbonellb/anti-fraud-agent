@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#78)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -294,3 +294,36 @@ clear the exposure cap.
 The change rewords a system finding the model sees, so the 14 affected cases were re-recorded
 (E015 for Haiku 5.5, E016 for qwen). The gate holds, and in E016 a wrong automatic rejection
 (case 17) now escalates.
+
+## Amendment (2026-11-06, #78): the exposure cap depends on the venue type
+
+This refines point 5. A festival in a park has no published capacity, so with a flat cap of 300
+it escalated whenever a session put more on sale. N2 (a three-day festival in a park, 6,000
+tickets in its first session) escalated in every run for that reason, and so would any open-air
+festival in the feed.
+
+1. **The cap goes by the verified venue's OpenStreetMap `category=type`.**
+   - **Open space** (`leisure=park`, `leisure=recreation_ground`, `place=square`): **10,000**
+     tickets on sale per session (`OPEN_SPACE_EXPOSURE_CAP_TICKETS`).
+   - **Any other or unknown type:** the 300 of point 5 (`EXPOSURE_CAP_TICKETS`). A venue that
+     doesn't verify has no type, and keeps the prudent cap.
+   - The list (`OPEN_SPACE_TYPES`) is short and grows when a real case needs it (a beach, a
+     fairground).
+2. **10,000 is a starting value chosen from one case.** N2 puts 6,000 on sale in one session,
+   so 5,000 would leave it escalating. To be revised with real festivals from the feed.
+3. **The capacity finding carries the type** (`SystemFinding.venueType`), so the policy reads
+   it with the verdict it already weighs. Only a verified match sets it.
+
+Point 3's venue types include `leisure=park` but not yet `leisure=recreation_ground` or
+`place=square`: a venue tagged so doesn't verify, and escalates before the cap matters. They are
+listed so the cap is ready when point 3 admits them.
+
+**Rejected:**
+
+- **A cap per capacity band** (the spec's other option). The band comes from the tickets the
+  organizer puts on sale, so it would raise the cap exactly when the organizer asks for more.
+  The venue type comes from OSM.
+- **No cap for open spaces.** Any "park" with 50,000 tickets would resolve on its own.
+- **5,000.** Below N2's 6,000 per session.
+
+Case 16 (a free rave with 50,000 tickets) is in a pub and still escalates.
