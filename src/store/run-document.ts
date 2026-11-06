@@ -85,6 +85,7 @@ export const completedRunSchema = z.object({
       tool: z.string(),
       ok: z.boolean(),
       error: z.string().optional(),
+      note: z.string().optional(),
     }),
   ),
   review: z.object({
@@ -209,9 +210,13 @@ export function toRunDocument(
     costMicros: metadata.costMicros,
     toolCalls: run.toolCalls,
     webSearches: run.webSearches,
-    trace: run.trace.map(({ tool, ok, error }) =>
-      error === undefined ? { tool, ok } : { tool, ok, error },
-    ),
+    // Undefined fields stay out: Firestore stores no `undefined`.
+    trace: run.trace.map(({ tool, ok, error, note }) => ({
+      tool,
+      ok,
+      ...(error === undefined ? {} : { error }),
+      ...(note === undefined ? {} : { note }),
+    })),
     review: {
       id: review.id,
       created: result.created,

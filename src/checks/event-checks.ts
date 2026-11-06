@@ -15,8 +15,8 @@ import {
 } from "./text-signals.js";
 import { type SystemFinding, systemFinding } from "./types.js";
 
-/** Service fee above this share of the ticket price is suspicious (case 15). */
-export const SERVICE_FEE_MAX_RATIO = 0.2;
+/** Service fee above this percent of the ticket price is suspicious (case 15). */
+export const SERVICE_FEE_MAX_PERCENT = 20;
 /** A first session sooner than this after publishing is imminent (case 17). */
 export const IMMINENT_HOURS = 12;
 /** A session further than this after publishing is suspiciously far (case 18). */
@@ -205,35 +205,68 @@ function vipBelowGeneral(context: EventReviewContext): SystemFinding {
 
 function serviceFee(context: EventReviewContext): SystemFinding {
   const check = "service_fee";
-  let worst: { name: string; ratio: number } | null = null;
+  // Shares compare by cross-multiplying, like the price benchmark: no float
+  // decides, neither the threshold nor which ticket is worst
+  // (CODING_STANDARDS). The percent is computed for the message only.
+  let worst: { name: string; share: FeeShare } | null = null;
   for (const session of context.sessions) {
     for (const ticketType of session.ticketTypes) {
       if (ticketType.priceCents === 0) continue;
-      const rule = ticketType.serviceFee ?? context.event.serviceFee;
-      const ratio =
-        rule.type === "percent"
-          ? rule.value / 100
-          : rule.type === "fixed"
-            ? rule.value / ticketType.priceCents
-            : 0;
-      if (worst === null || ratio > worst.ratio)
-        worst = { name: ticketType.name, ratio };
+      const share = feeShare(
+        ticketType.serviceFee ?? context.event.serviceFee,
+        ticketType.priceCents,
+      );
+      if (share === null || !above(share, SERVICE_FEE_MAX_SHARE)) continue;
+      if (worst === null || above(share, worst.share)) {
+        worst = { name: ticketType.name, share };
+      }
     }
   }
-  if (worst === null || worst.ratio <= SERVICE_FEE_MAX_RATIO) {
+  if (worst === null) {
     return systemFinding(
       "heuristic",
       check,
       "pass",
-      `Los gastos de gestión no superan el ${percent(SERVICE_FEE_MAX_RATIO)} del precio.`,
+      `Los gastos de gestión no superan el ${String(SERVICE_FEE_MAX_PERCENT)} % del precio.`,
     );
   }
+  const percent = Math.round((100 * worst.share.fee) / worst.share.of);
   return systemFinding(
     "heuristic",
     check,
     "warn",
-    `Los gastos de gestión de «${worst.name}» son el ${percent(worst.ratio)} del precio (umbral: ${percent(SERVICE_FEE_MAX_RATIO)}).`,
+    `Los gastos de gestión de «${worst.name}» son el ${String(percent)} % del precio (umbral: ${String(SERVICE_FEE_MAX_PERCENT)} %).`,
   );
+}
+
+/** A fee as a share of the price, `fee / of`, kept as two numbers. */
+interface FeeShare {
+  fee: number;
+  of: number;
+}
+
+const SERVICE_FEE_MAX_SHARE: FeeShare = {
+  fee: SERVICE_FEE_MAX_PERCENT,
+  of: 100,
+};
+
+function feeShare(
+  rule: EventReviewContext["event"]["serviceFee"],
+  priceCents: number,
+): FeeShare | null {
+  switch (rule.type) {
+    case "none":
+      return null;
+    case "percent":
+      return { fee: rule.value, of: 100 };
+    case "fixed":
+      // Both in cents: the share stays a ratio of integers.
+      return { fee: rule.value, of: priceCents };
+  }
+}
+
+function above(a: FeeShare, b: FeeShare): boolean {
+  return a.fee * b.of > b.fee * a.of;
 }
 
 function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
@@ -309,10 +342,6 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
 
 export function euros(cents: number): string {
   return `${(cents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-}
-
-function percent(ratio: number): string {
-  return `${String(Math.round(ratio * 100))} %`;
 }
 
 /** Dates are UTC inside; the admin reads them in Europe/Madrid (CLAUDE.md §5). */

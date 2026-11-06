@@ -1,7 +1,7 @@
 # ADR 0017 — The scheduled pass reviews each changed subject once, never holds the feed for a failure, and stops at the day's budget
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#57)
+- **Status:** accepted · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#57)
 - **Related:** brief §2.1, §4.2, §4.3 and §6.3.3, which it departs from (point 5); ADR 0016
   (the store it writes, amended for failed runs and resolutions); ADR 0011 (the feed's contract);
   issues #8 and #45.
@@ -150,3 +150,14 @@ outage left every event published in that window unreviewed until its next chang
 `replaceRetryQueue` on `AgentStore`, and `retriesQueued` in `PassReport` and the pass's log.
 With the defaults, the budget leaves room for 2 runs a pass while the day's spend is low, so a
 pass retries at most 1 subject.
+
+## Amendment (2026-11-06, #57): the page limit counts feed items, not subjects
+
+The consequences above say that with the defaults "a pass reviews at most 2 subjects". The limit
+the pass sends Satella counts feed items, not subjects. A resolution or an `event.minor_change`
+takes a slot too, and then the pass reviews fewer than 2. The same holds for the retry amendment
+above: of the 2 runs' room, a pass retries at most 1 subject and reads 1 feed item.
+
+Sizing the page in subjects was rejected. The feed can't be asked for a number of subjects: only
+reading the items shows how many subjects they hold, and a cursor past items left unreviewed
+would skip them.

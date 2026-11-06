@@ -15,7 +15,10 @@ import type {
   TokenUsage,
   ToolCall,
 } from "../providers/types.js";
-import type { Finding } from "../satella-client/schemas.js";
+import {
+  type Finding,
+  REVIEW_MAX_FINDINGS,
+} from "../satella-client/schemas.js";
 import {
   type AutonomySubject,
   type AutonomyVerdict,
@@ -41,6 +44,11 @@ export interface TraceEntry {
   ok: boolean;
   /** A stable code, never the error's text. */
   error?: string;
+  /**
+   * Something the run did to a call that worked. `FINDINGS_TRUNCATED`: Satella's
+   * limit cut some of the model's findings from the submission.
+   */
+  note?: "FINDINGS_TRUNCATED";
 }
 
 /** What a run recommends: the model's proposal with the system findings first. */
@@ -87,8 +95,6 @@ export interface RunReviewInput {
 const MAX_OUTPUT_TOKENS_PER_CALL = 4096;
 /** Reminders to submit before giving up on a model that only talks. */
 const MAX_NUDGES = 2;
-/** Satella accepts up to 30 findings per recommendation. */
-const MAX_FINDINGS = 30;
 
 export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const { provider, tools, limits } = input;
@@ -150,12 +156,23 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     const modelFindings = base.findings.filter((finding) =>
       keepsModelFinding(finding, systemChecks.get(finding.check)),
     );
+    // System findings go first, so a cut drops the model's first; it would
+    // reach the system's only if they alone passed Satella's limit. The trace
+    // keeps that it happened.
+    const findings = [
+      ...systemFindings.map((item) => item.finding),
+      ...modelFindings,
+    ];
+    if (findings.length > REVIEW_MAX_FINDINGS) {
+      trace.push({
+        tool: SUBMIT_TOOL.name,
+        ok: true,
+        note: "FINDINGS_TRUNCATED",
+      });
+    }
     const recommendation: Recommendation = {
       ...base,
-      findings: [
-        ...systemFindings.map((item) => item.finding),
-        ...modelFindings,
-      ].slice(0, MAX_FINDINGS),
+      findings: findings.slice(0, REVIEW_MAX_FINDINGS),
     };
     return {
       promptVersion: prompt.version,
@@ -166,18 +183,16 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       // A run that didn't finish never resolves on its own.
       autonomy:
         endedBy === "submitted"
-          ? withSearchBudget(
-              decideAutonomy({
-                subject: input.subject,
-                decision: recommendation.decision,
-                confidence: recommendation.confidence,
-                systemFindings,
-                modelFindings,
-                retrievedUrls,
-                autoApproveThreshold: input.autoApproveThreshold,
-              }),
-              searchBudgetSpent && recommendation.decision === "approve",
-            )
+          ? decideAutonomy({
+              subject: input.subject,
+              decision: recommendation.decision,
+              confidence: recommendation.confidence,
+              systemFindings,
+              modelFindings,
+              retrievedUrls,
+              autoApproveThreshold: input.autoApproveThreshold,
+              searchBudgetSpent,
+            })
           : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
       usage,
       toolCalls,
@@ -223,9 +238,17 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     }
 
     for (const call of response.message.toolCalls) {
-      if (call.name === SUBMIT_TOOL.name) {
-        const proposal = parseArguments(call, SUBMIT_TOOL.input);
-        if (proposal.ok) return finish("submitted", proposal.value);
+      // A valid submission ends the run even at the limit; every other call,
+      // a wasted one included, counts toward it.
+      const proposal =
+        call.name === SUBMIT_TOOL.name
+          ? parseArguments(call, SUBMIT_TOOL.input)
+          : null;
+      if (proposal?.ok === true) return finish("submitted", proposal.value);
+      if (toolCalls >= limits.maxToolCalls) return finish("max_tool_calls");
+      toolCalls += 1;
+
+      if (proposal !== null) {
         trace.push({ tool: call.name, ok: false, error: "INVALID_INPUT" });
         messages.push(toolResult(call, proposal.message));
         continue;
@@ -237,9 +260,6 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
         messages.push(toolResult(call, `Unknown tool: ${call.name}.`));
         continue;
       }
-
-      if (toolCalls >= limits.maxToolCalls) return finish("max_tool_calls");
-      toolCalls += 1;
 
       const args = parseArguments(call, tool.input);
       if (!args.ok) {
@@ -286,25 +306,6 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
 const REPEATED_CALL =
   "Already searched with these words in this review; its results are above. Search for something else or decide.";
 const BUDGET_SPENT = `No searches left in this review. Decide with the evidence you have and call ${SUBMIT_TOOL.name}.`;
-
-/**
- * Escalates an approval made with the search budget spent. A rejection or a
- * request doesn't rest on what the model didn't get to read: the policy
- * weighs it as usual.
- */
-function withSearchBudget(
-  verdict: AutonomyVerdict,
-  holdBack: boolean,
-): AutonomyVerdict {
-  if (!holdBack) return verdict;
-  return {
-    autonomy: "escalated",
-    reasons: [
-      "web search budget spent",
-      ...(verdict.autonomy === "escalated" ? verdict.reasons : []),
-    ],
-  };
-}
 
 type Parsed<T> = { ok: true; value: T } | { ok: false; message: string };
 

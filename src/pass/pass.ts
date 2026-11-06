@@ -19,6 +19,7 @@ import type { LlmProvider, TokenUsage } from "../providers/types.js";
 import type {
   FeedItem,
   FeedItemType,
+  FeedPage,
   SatellaClient,
   Subject,
 } from "../satella-client/index.js";
@@ -151,13 +152,14 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   const stopped = async (
     runs: PassRun[],
     resolutions: number,
+    page: FeedPage | null,
   ): Promise<PassReport> => {
     await saveQueue();
     return {
       stoppedBy: "budget",
       runs,
       resolutions,
-      skippedItems: 0,
+      skippedItems: page === null ? 0 : skippedItems(page),
       cursor: from,
       retriesQueued: queue.length,
     };
@@ -177,7 +179,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       code: "BUDGET_REACHED",
       ...spend,
     });
-    return await stopped([], 0);
+    return await stopped([], 0, null);
   }
 
   // Retries take at most half the pass, so the feed always moves and a pass
@@ -214,7 +216,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
         subject,
         ...reservation.spend,
       });
-      return await stopped(runs, resolutions);
+      return await stopped(runs, resolutions, page);
     }
 
     const failures =
@@ -245,12 +247,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
     stoppedBy: "end_of_page",
     runs,
     resolutions,
-    skippedItems:
-      page.skippedTypes.length +
-      page.items.filter(
-        (item) =>
-          !REVIEWABLE.has(item.type) && item.type !== "agent_review.resolved",
-      ).length,
+    skippedItems: skippedItems(page),
     cursor: to ?? from,
     retriesQueued: queue.length,
   };
@@ -269,6 +266,17 @@ function logAbandoned(retry: PendingRetry, runId: string, log: Log): void {
     code: retry.code,
     failures: retry.failures,
   });
+}
+
+/** Items that start no review, and those of types the agent doesn't know. */
+function skippedItems(page: FeedPage): number {
+  return (
+    page.skippedTypes.length +
+    page.items.filter(
+      (item) =>
+        !REVIEWABLE.has(item.type) && item.type !== "agent_review.resolved",
+    ).length
+  );
 }
 
 /**
