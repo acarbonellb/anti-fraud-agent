@@ -78,7 +78,7 @@ pnpm format      # Prettier
 
 ### Offline evals, with no keys and no cost
 
-`pnpm eval:replay` replays the recorded model and tool responses of 31 cases (fraud patterns and
+`pnpm eval:replay` replays the recorded model and tool responses of every eval case (fraud patterns and
 legitimate events; the organizers, promoters and artists in fraud cases are invented) and rewrites `evals/report.md`. CI runs
 `pnpm eval:replay --check`, which fails on a stale recording or on any gated fraud case approved
 without reaching the admin ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md)).
