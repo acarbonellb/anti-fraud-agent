@@ -17,6 +17,16 @@ export interface SystemFinding {
   covers?: readonly string[];
 }
 
+/**
+ * How sure a check in code is of its verdict. A computed check is certain of
+ * what it found, but one with no data reached no verdict to be sure of: the
+ * admin mustn't read "100 %" next to "sin datos" (#75). One rule for every
+ * check, not a value per check. The policy reads the verdict, not this.
+ */
+export function systemConfidence(verdict: Finding["verdict"]): number {
+  return verdict === "unknown" ? 0 : 1;
+}
+
 export function systemFinding(
   certainty: SystemFinding["certainty"],
   check: string,
@@ -25,6 +35,12 @@ export function systemFinding(
 ): SystemFinding {
   return {
     certainty,
-    finding: { check, verdict, detail, confidence: 1, sources: [] },
+    finding: {
+      check,
+      verdict,
+      detail,
+      confidence: systemConfidence(verdict),
+      sources: [],
+    },
   };
 }

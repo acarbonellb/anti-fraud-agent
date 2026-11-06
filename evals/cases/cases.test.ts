@@ -1,6 +1,5 @@
-// Checks the dataset as built: the 31 cases of brief §5 and those the staging
-// passes added are there, each named
-// by its file; their contexts parse with the contract schemas at any clock;
+// Checks the dataset as built: the brief §5 cases and the calibration ones
+// (spec #71) are there, each named by its file; their contexts parse with the contract schemas at any clock;
 // no field leaks the answer; and each fixture triggers exactly the
 // deterministic and venue findings it is meant to, so a case tests the agent
 // and not a typo in its fixture. Fakes nothing but the network: the venue
@@ -35,6 +34,8 @@ const CLOCKS = [
 
 const IDS = [
   ...Array.from({ length: 26 }, (_, i) => String(i + 1).padStart(2, "0")),
+  // Spec #71's calibration cases, after the brief's.
+  "28",
   "N1",
   "N2",
   "N3",
@@ -43,7 +44,7 @@ const IDS = [
   "N6",
 ];
 
-it("holds the 31 cases of brief §5 and N6 in order, one file each", () => {
+it("holds the brief §5 cases and the calibration ones in order, one file each", () => {
   expect(EVAL_CASES.map((c) => c.id)).toEqual(IDS);
   const files = readdirSync(new URL(".", import.meta.url))
     .filter((file) => /^(\d\d|N\d)-.+\.ts$/.test(file))
@@ -126,6 +127,7 @@ const EXPECTED_FLAGS: Record<string, string[]> = {
   "24": ["rule minors_alcohol"],
   "25": ["heuristic prompt_injection"],
   "26": ["rule off_platform_payment"],
+  "28": ["heuristic discounts"],
 };
 
 it.each(EVAL_CASES.map((c) => [c.id, c] as const))(
