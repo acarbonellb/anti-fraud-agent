@@ -275,6 +275,7 @@ async function review(
       decision: run.recommendation.decision,
       autonomy: run.autonomy.autonomy,
       confidence: run.recommendation.confidence,
+      modelConfidence: run.modelConfidence,
       reasons: run.autonomy.reasons,
       authoredWeb: fixtures.web !== undefined,
       venue: run.recommendation.findings

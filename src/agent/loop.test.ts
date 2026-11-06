@@ -167,15 +167,30 @@ describe("a run that ends in a submission", () => {
   });
 
   it("takes autonomy from the policy, not from anything the model says", async () => {
-    const { result } = run([
-      callTool("submit_recommendation", {
-        ...approval,
-        confidence: 0.5,
-        autonomy: "auto_resolved",
-      }),
-    ]);
+    const { result } = run(
+      [
+        callTool("submit_recommendation", {
+          ...approval,
+          autonomy: "auto_resolved",
+        }),
+      ],
+      // No venue checks: an approval without venue evidence escalates.
+      { systemFindings: [] },
+    );
 
     expect((await result).autonomy.autonomy).toBe("escalated");
+  });
+
+  it("shows the evidence tier as the confidence and keeps the model's number (#77)", async () => {
+    const { result } = run([
+      callTool("submit_recommendation", { ...approval, confidence: 0.7 }),
+    ]);
+
+    const outcome = await result;
+    // A verified venue of unknown capacity under the exposure cap.
+    expect(outcome.recommendation.confidence).toBe(0.85);
+    expect(outcome.autonomy.confidence).toBe(0.85);
+    expect(outcome.modelConfidence).toBe(0.7);
   });
 
   it("lets the model fix an invalid submission", async () => {
@@ -263,7 +278,7 @@ describe("deterministic findings", () => {
     );
     expect(user).toContain("28013 es de Madrid");
     expect(outcome.recommendation.findings[0]).toEqual(postalCodeFail.finding);
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["mechanical request: postal_code_province"],
     });
@@ -375,7 +390,7 @@ describe("deterministic findings", () => {
     const outcome = await result;
 
     expect(outcome.recommendation.findings).toEqual([farAbove.finding]);
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["hard signals: capacity_far_above_venue"],
     });
@@ -463,7 +478,7 @@ describe("an approval against a negative system finding (#33)", () => {
       expect.stringContaining(highFee.finding.detail),
     ]);
     expect(outcome.recommendation.rationale).toContain("Todo en orden.");
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "escalated",
       reasons: [
         "no rule-based finding to ask about",
@@ -478,7 +493,7 @@ describe("an approval against a negative system finding (#33)", () => {
     });
     const outcome = await result;
     expect(outcome.recommendation.decision).toBe("request_info");
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["mechanical request: postal_code_province"],
     });
@@ -657,7 +672,7 @@ describe("run limits", () => {
 
     expect(outcome.endedBy).toBe("max_tool_calls");
     expect(executed).toEqual(["lookup_venue:A", "lookup_venue:B"]);
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "escalated",
       reasons: ["run ended by max_tool_calls"],
     });
@@ -718,7 +733,7 @@ describe("run limits", () => {
     expect(outcome.endedBy).toBe("submitted");
     expect(outcome.webSearches).toBe(1);
     expect(outcome.recommendation.decision).toBe("approve");
-    expect(outcome.autonomy).toEqual({
+    expect(outcome.autonomy).toMatchObject({
       autonomy: "escalated",
       reasons: ["web search budget spent"],
     });
@@ -747,7 +762,7 @@ describe("run limits", () => {
       { systemFindings: [...venueVerified, offPlatform] },
     );
 
-    expect((await result).autonomy).toEqual({
+    expect((await result).autonomy).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["hard signals: off_platform_payment"],
     });

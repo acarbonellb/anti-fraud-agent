@@ -21,28 +21,12 @@ have resolved itself.
 
 ## Costs the admin time
 
-- **Confidence is poorly calibrated.**
-  - **Symptom:** in E014, Haiku 5.5 is right 86.7 % of the time but reports 0.60–0.80, so it
-    escalates 85.6 % of gated cases. N3 and N4 escalate a correct approval at 0.80 in all three
-    runs.
-  - **Why it waits:** over-escalation is the safe error, since no gated fraud was approved in any
-    of E014's three runs. Tuning the threshold on 31 cases would fit it to the test set, where one
-    case is 3.3 points. So it waits for the deployed agent's own cases and the admin agreement
-    rate.
-  - **Fix:** tune `AGENT_AUTO_APPROVE_THRESHOLD` over several runs, or derive confidence from
-    the evidence instead of the model's number.
-
 - **Only parks reach the open-space exposure cap** (#78).
   - **Symptom:** `OPEN_SPACE_TYPES` lists `leisure=recreation_ground` and `place=square`, but the
     venue check's `VENUE_TYPES` doesn't, so `nearestVenue` never matches a square or a recreation
     ground and a festival there keeps the 300-ticket cap.
   - **Fix:** add both to `VENUE_TYPES` when a real case needs them, with a venue lookup recording
     that shows the tags.
-
-## Seen on the first reviews of staging
-
-Both reviews were escalated, so neither resolved anything on its own. They point at
-calibration, above.
 
 ## Operation
 

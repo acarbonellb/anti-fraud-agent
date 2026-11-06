@@ -25,7 +25,7 @@ function reviewed(): ReviewSubjectResult {
       endedBy: "submitted",
       recommendation: {
         decision: "request_info",
-        confidence: 0.9,
+        confidence: 0.84,
         rationale: "Falta el aforo del recinto.",
         findings: [finding],
         infoRequest: {
@@ -33,7 +33,12 @@ function reviewed(): ReviewSubjectResult {
           draft: "Hola, ¿nos indicas el aforo?",
         },
       },
-      autonomy: { autonomy: "escalated", reasons: ["needs judgement"] },
+      autonomy: {
+        autonomy: "escalated",
+        reasons: ["needs judgement"],
+        confidence: 0.84,
+      },
+      modelConfidence: 0.9,
       usage: {
         inputTokens: 12_000,
         outputTokens: 800,
@@ -52,7 +57,7 @@ function reviewed(): ReviewSubjectResult {
       subject: { type: "event", id: "evt_1", version: "v42" },
       decision: "request_info",
       autonomy: "escalated",
-      confidence: 0.9,
+      confidence: 0.84,
       rationale: "Falta el aforo del recinto.",
       findings: [finding],
       infoRequest: null,
@@ -95,7 +100,8 @@ describe("toRunDocument", () => {
       decision: "request_info",
       autonomy: "escalated",
       autonomyReasons: ["needs judgement"],
-      confidence: 0.9,
+      confidence: 0.84,
+      modelConfidence: 0.9,
       findings: [finding],
       rationale: "Falta el aforo del recinto.",
       infoRequest: {

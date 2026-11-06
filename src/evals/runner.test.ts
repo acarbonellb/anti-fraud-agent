@@ -96,6 +96,8 @@ describe("record then replay", () => {
       inputTokens: 200,
     });
     expect(organizer.result.outcome?.decision).toBe("request_info");
+    // The model's number is kept next to the derived one (#77).
+    expect(organizer.result.outcome?.modelConfidence).toBe(0.7);
     expect(event.recording).toMatchObject({
       caseId: "N1",
       provider: "scripted",

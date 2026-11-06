@@ -25,6 +25,7 @@ export function caseResult(
             decision: "approve",
             autonomy: "auto_resolved",
             confidence: 0.5,
+            modelConfidence: 0.5,
             reasons: [],
             authoredWeb: false,
             venue: [],
