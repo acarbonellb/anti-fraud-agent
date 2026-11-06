@@ -12,7 +12,10 @@ import {
 } from "../checks/price-benchmark.js";
 import { copiedTextCheck } from "../checks/copied-text.js";
 import { exactCloneCheck } from "../checks/exact-clone.js";
-import { runOrganizerChecks } from "../checks/organizer-checks.js";
+import {
+  organizerHistoryChecks,
+  runOrganizerChecks,
+} from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
 import type { WebSearch } from "../search/types.js";
@@ -133,7 +136,7 @@ async function prepareEvent(
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
   const { webSearch } = input;
-  const [benchmark, similar, copiedText, venue] = await Promise.all([
+  const [benchmark, similar, organizer, copiedText, venue] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
     orIfSatellaFails(
       input.satella.getPriceBenchmark(benchmarkQuery(context)),
@@ -141,6 +144,11 @@ async function prepareEvent(
     ),
     // Without them there is no clone finding; the model still has the tool.
     orIfSatellaFails(input.satella.findSimilarEvents(id), []),
+    // Without it there is no history finding; the review goes on.
+    orIfSatellaFails(
+      input.satella.getOrganizerContext(context.organizerId),
+      null,
+    ),
     webSearch === undefined ? [] : copiedTextCheck(context, webSearch),
     input.venueChecks(context),
   ]);
@@ -150,6 +158,7 @@ async function prepareEvent(
       ...runEventChecks(context, now),
       priceBenchmarkCheck(context, benchmark),
       ...exactCloneCheck(context, similar),
+      ...(organizer === null ? [] : organizerHistoryChecks(organizer)),
       ...copiedText,
       ...venue,
     ],
