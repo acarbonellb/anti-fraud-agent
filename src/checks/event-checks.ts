@@ -405,7 +405,7 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
         "heuristic",
         "session_timing",
         "pass",
-        "Las fechas de las sesiones no son inminentes ni lejanas.",
+        "Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.",
       ),
     );
   }
