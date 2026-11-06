@@ -104,7 +104,8 @@ describe("loadConfig", () => {
       baseUrl: "http://localhost:1234/v1",
       model: "qwen/qwen3.5-9b",
       apiKey: undefined,
-      effort: "medium",
+      // Only anthropic takes an effort: none is sent, none is recorded.
+      effort: null,
     });
   });
 

@@ -36,13 +36,7 @@ import {
   validRun,
 } from "./run-document.js";
 import { retryQueueSchema, validRetryQueue } from "./retry-queue.js";
-import {
-  chargeExpired,
-  type DayEntries,
-  reserve,
-  settle,
-  totalOf,
-} from "./spend.js";
+import { type DayEntries, reserve, settle, chargedSpend } from "./spend.js";
 import {
   type AgentStore,
   type DaySpend,
@@ -331,10 +325,10 @@ export function createFirestoreStore(
       const at = now();
       const day = utcDay(at);
       // Writes only when a hold expired unsettled, to record its charge.
-      return updateSpend(day, (entries) => ({
-        result: totalOf(day, entries, at),
-        entries: chargeExpired(entries, at),
-      }));
+      return updateSpend(day, (entries) => {
+        const read = chargedSpend(day, entries, at);
+        return { result: read.spend, entries: read.entries };
+      });
     },
   };
 

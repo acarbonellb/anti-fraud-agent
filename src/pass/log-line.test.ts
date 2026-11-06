@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { type LogWriter, logLine } from "./log-line.js";
 
 /** What the pass's `log` accepts, without a pass to run. */
-const fields: LogWriter<object> = () => undefined;
+const writeLine: LogWriter<object> = () => undefined;
 const evt1 = { type: "event", id: "evt_0001" } as const;
 
 describe("logLine", () => {
@@ -43,17 +43,18 @@ describe("logLine", () => {
 describe("the pass's log fields", () => {
   it("take scalars, and the subject's type and id under `subject`", () => {
     expect(() => {
-      fields({ subject: evt1, runs: 2, code: "X", transient: null });
+      writeLine({ subject: evt1, runs: 2, code: "X", transient: null });
     }).not.toThrow();
   });
 
   it("refuse an object, so no Satella data rides along", () => {
     // @ts-expect-error an array of runs is no id nor count
-    fields({ runs: [{ runId: "run_1" }] });
+    writeLine({ runs: [{ runId: "run_1" }] });
     // @ts-expect-error an object is refused under any other name
-    fields({ context: evt1 });
+    writeLine({ context: evt1 });
+    const copied = { type: "event", id: "evt_0001", name: "Concierto" };
     // @ts-expect-error `subject` takes a subject, not any object
-    fields({ subject: { type: "event", id: "evt_0001", name: "Concierto" } });
+    writeLine({ subject: copied });
   });
 
   it("refuse an object on the line written out", () => {

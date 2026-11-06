@@ -1,5 +1,5 @@
 /**
- * The day's spend as both stores keep it (ADR 0016 point 5): one entry per
+ * The day's spend as both stores keep it (ADR 0016 point 6): one entry per
  * run, a hold with its expiry until the run settles, then its actual cost.
  * Settling overwrites the entry, so a retried settle can't count twice. A hold
  * that expires unsettled is charged at its reserved amount. Pure, so the
@@ -48,14 +48,32 @@ export function chargeExpired(
   );
 }
 
-export function totalOf(day: string, entries: DayEntries, now: Date): DaySpend {
+/** The entries as they stand once expired holds are charged: once per operation. */
+const charged = (entries: DayEntries, now: Date): DayEntries =>
+  chargeExpired(entries, now) ?? entries;
+
+/** Sums entries already charged. */
+function sum(day: string, entries: DayEntries): DaySpend {
   let settledMicros = 0;
   let heldMicros = 0;
-  for (const entry of Object.values(chargeExpired(entries, now) ?? entries)) {
+  for (const entry of Object.values(entries)) {
     if (entry.expiresAt === null) settledMicros += entry.micros;
     else heldMicros += entry.micros;
   }
   return { day, settledMicros, heldMicros };
+}
+
+/**
+ * A read of the day's spend: its total, and the entries to write back when a
+ * hold expired unsettled (null when nothing changed, so no write is needed).
+ */
+export function chargedSpend(
+  day: string,
+  entries: DayEntries,
+  now: Date,
+): { spend: DaySpend; entries: Record<string, SpendEntry> | null } {
+  const next = chargeExpired(entries, now);
+  return { spend: sum(day, next ?? entries), entries: next };
 }
 
 export function reserve(
@@ -66,11 +84,11 @@ export function reserve(
 ): { reservation: Reservation; entries: Record<string, SpendEntry> | null } {
   // A retried reservation replaces the run's own hold, not adds to it.
   const others = Object.fromEntries(
-    Object.entries(chargeExpired(entries, now) ?? entries).filter(
+    Object.entries(charged(entries, now)).filter(
       ([runId]) => runId !== input.runId,
     ),
   );
-  const spend = totalOf(day, others, now);
+  const spend = sum(day, others);
   if (
     spend.settledMicros + spend.heldMicros + input.micros >
     input.budgetMicros
@@ -99,7 +117,7 @@ export function settle(
   now: Date,
 ): Record<string, SpendEntry> {
   return {
-    ...(chargeExpired(entries, now) ?? entries),
+    ...charged(entries, now),
     // A slow run settling after its hold was charged replaces the charge.
     [hold.runId]: { micros: actualMicros, expiresAt: null },
   };

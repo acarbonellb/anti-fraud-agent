@@ -191,10 +191,7 @@ async function record(ids: readonly string[]): Promise<void> {
   );
   console.log(
     `Recording ${String(cases.length)} case(s) × run(s) ${runs.join(", ")} with ${provider.provider}/${provider.model}` +
-      // Only anthropic takes an effort.
-      (provider.provider === "anthropic"
-        ? ` (effort ${config.llm.effort})…`
-        : "…"),
+      (config.llm.effort === null ? "…" : ` (effort ${config.llm.effort})…`),
   );
   for (const run of runs)
     for (const evalCase of cases) {

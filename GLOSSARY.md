@@ -79,7 +79,8 @@ fixed.
 - **Effort**: how much Claude thinks before it answers (`AGENT_LLM_EFFORT`: `low` to `max`,
   default `medium`). Thinking is billed as output.
 - **Paid provider**: one that bills per token (`anthropic`). The scripts call it only with
-  `--paid`.
+  `--paid`. It alone gets the paid key (`AGENT_LLM_API_KEY`) and Anthropic's endpoint; the local
+  providers get their own optional key, `AGENT_LLM_LOCAL_API_KEY` (ADR 0008 amendment of #89).
 - **Deployed model**: the model the deployed agent runs, set in its environment and chosen by the
   evals (Claude Haiku 5.5 since E014). The code's fallback with nothing set stays local qwen, so
   development needs no key (ADR 0008 amendment, #42).

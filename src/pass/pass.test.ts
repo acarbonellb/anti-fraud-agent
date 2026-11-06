@@ -554,6 +554,61 @@ describe("two overlapping passes", () => {
       { subject: evt2, failures: 1, code: "LLM_UNAVAILABLE" },
     ]);
   });
+
+  it("keep both sets of retries when each has a new failure: the loser's page is read again", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    const unavailable = () =>
+      Promise.reject(new ProviderError("LLM_UNAVAILABLE", "anthropic"));
+    // The slow pass reads both items and holds its first review until the
+    // fast one, which reads only evt1, has failed it and finished; then its
+    // own review of evt2 fails.
+    let release: () => void = () => undefined;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let started: () => void = () => undefined;
+    const reviewing = new Promise<void>((resolve) => {
+      started = resolve;
+    });
+    const slowScripted = createScriptedProvider(submits(1), HAIKU);
+    let slowCalls = 0;
+    const slowProvider: LlmProvider = {
+      ...HAIKU,
+      async complete(request) {
+        slowCalls += 1;
+        if (slowCalls > 1) return unavailable();
+        started();
+        await held;
+        return slowScripted.complete(request);
+      },
+    };
+
+    const slow = pass(slowProvider, { pageSize: 2 });
+    await reviewing;
+    const fast = await pass(
+      { ...HAIKU, complete: unavailable },
+      {
+        pageSize: 1,
+      },
+    );
+    release();
+
+    expect(fast.retriesQueued).toBe(1);
+    await expect(slow).rejects.toMatchObject({ code: "STORE_CONFLICT" });
+    // The loser's cursor didn't move: the feed resumes where the fast pass
+    // left it, before evt2.
+    expect(fast.cursor).not.toBeNull();
+    expect(await store.readFeedCursor()).toBe(fast.cursor);
+
+    const next = await pass({ ...HAIKU, complete: unavailable });
+
+    expect(next.runs.map((run) => run.subject)).toEqual([evt1, evt2]);
+    expect((await store.readRetryQueue()).retries).toEqual([
+      { subject: evt1, failures: 2, code: "LLM_UNAVAILABLE" },
+      { subject: evt2, failures: 1, code: "LLM_UNAVAILABLE" },
+    ]);
+  });
 });
 
 describe("a subject that changes during its review", () => {

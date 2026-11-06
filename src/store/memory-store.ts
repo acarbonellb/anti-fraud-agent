@@ -10,13 +10,7 @@ import {
   validRun,
 } from "./run-document.js";
 import { type PendingRetry, validRetryQueue } from "./retry-queue.js";
-import {
-  chargeExpired,
-  type DayEntries,
-  reserve,
-  settle,
-  totalOf,
-} from "./spend.js";
+import { type DayEntries, reserve, settle, chargedSpend } from "./spend.js";
 import {
   checkPageLimit,
   decodeRunCursor,
@@ -137,9 +131,9 @@ export function createMemoryStore(
     daySpend() {
       const at = now();
       const day = utcDay(at);
-      const charged = chargeExpired(spend.get(day) ?? {}, at);
-      if (charged !== null) spend.set(day, charged);
-      return Promise.resolve(totalOf(day, spend.get(day) ?? {}, at));
+      const read = chargedSpend(day, spend.get(day) ?? {}, at);
+      if (read.entries !== null) spend.set(day, read.entries);
+      return Promise.resolve(read.spend);
     },
   };
 }

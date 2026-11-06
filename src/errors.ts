@@ -11,3 +11,12 @@ export abstract class DomainError extends Error {
     this.name = new.target.name;
   }
 }
+
+/**
+ * The code an edge logs or maps for whatever was thrown: a domain error's
+ * own, `UNEXPECTED` for anything else, whose message could carry more than
+ * ids.
+ */
+export function codeOf(error: unknown): string {
+  return error instanceof DomainError ? error.code : "UNEXPECTED";
+}

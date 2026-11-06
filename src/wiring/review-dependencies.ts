@@ -58,6 +58,10 @@ export interface ReviewerOptions {
 /** What reviews a subject, whatever Satella it reads. */
 export interface Reviewer {
   provider: LlmProvider;
+  // `search` and `throttles` stay exposed raw, next to the `evidence` built
+  // from them, for the evals alone: `pnpm eval` wraps the search and the
+  // venue fetch to record every call (`recordCase`), so it can't take the
+  // evidence ready-made. The pass and a local review use `evidence`.
   /** Undefined without a Tavily key: reviews run without web search. */
   search: WebSearch | undefined;
   /** Shared across a command's runs: the providers' limits are per client. */
@@ -70,8 +74,9 @@ export interface Reviewer {
 }
 
 /**
- * The model and the evidence, behind the paid gate. The evals stop here:
- * each case reviews against its own fixtures, with no store or Satella.
+ * The model and the evidence, behind the paid gate. The evals stop here
+ * (each case reviews against its own fixtures, with no store or Satella), and
+ * so does a local review, which stores nothing and starts the mock itself.
  */
 export function buildReviewer(
   config: Config,
