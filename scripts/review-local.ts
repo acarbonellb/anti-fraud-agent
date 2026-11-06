@@ -16,10 +16,11 @@ import { reviewSubject } from "../src/agent/review.js";
 import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
+import { startLocalSatella } from "../src/satella-client/local-satella.js";
 import {
-  buildReviewDependencies,
+  buildReviewer,
   PaidNotAllowedError,
-  type ReviewDependencies,
+  type Reviewer,
 } from "../src/wiring/review-dependencies.js";
 
 loadLocalEnvFile();
@@ -29,20 +30,18 @@ const subject = process.argv.includes("organizer")
   : { type: "event" as const, id: fixtures.eventContext.event.id };
 
 const runId = randomUUID();
-let dependencies: ReviewDependencies;
+let reviewer: Reviewer;
 try {
-  // Always the mock: this script reviews the fixtures, never staging.
-  dependencies = await buildReviewDependencies(config, {
-    paid: process.argv.includes("--paid"),
-    mock: true,
-    correlationId: runId,
-  });
+  // The reviewer alone: one review stores no run, so no store is built.
+  reviewer = buildReviewer(config, { paid: process.argv.includes("--paid") });
 } catch (error) {
   if (!(error instanceof PaidNotAllowedError)) throw error;
   console.error(`✗ ${error.message}`);
   process.exit(2);
 }
-const { provider, evidence, satella } = dependencies;
+const { provider, evidence } = reviewer;
+// Always the mock: this script reviews the fixtures, never staging.
+const satella = await startLocalSatella(runId);
 const started = performance.now();
 try {
   const result = await reviewSubject({
