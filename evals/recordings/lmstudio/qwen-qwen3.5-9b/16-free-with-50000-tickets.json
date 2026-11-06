@@ -3,137 +3,86 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "6ef0ac18b7f17dd0e5c79cd50ec144177da58e7d223609e5b12d64f9cec665a6",
-      "latencyMs": 5210,
+      "requestHash": "daa48367cfdd6e8cd099bb6c6d226edc00b5f30ebdf4c8afcfe8046c93bb22f4",
+      "latencyMs": 9059,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to investigate this event further. The deterministic checks show a warning about venue capacity (50,000 tickets sold vs 150 capacity from salasdeconciertos.com), but I need to understand the organizer's history and check if there are similar events that might indicate cloning or fraud.\n\nLet me start by checking the organizer context to see their history and any past issues.",
+          "content": "I need to investigate this event further, particularly focusing on the venue capacity issue and whether this is a legitimate free techno event or potentially fraudulent.\n\nKey concerns from the data:\n1. The venue \"Sala Pícaro\" has unknown capacity (not in Wikidata/OpenStreetMap)\n2. The ticket type shows capacity of 50,000 tickets for sale\n3. This is a \"free\" event (priceCents: 0) but with 50,000 capacity - seems suspicious\n\nLet me check the organizer context and search for similar events or information about this venue/organizer to understand if this is legitimate.",
           "toolCalls": [
             {
-              "id": "YN3iXjk1noxf1LRcNbQnNeObflXEmxVh",
+              "id": "PlEy7cg639lr8289TKfihXmRLkG04STX",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3490,
-          "outputTokens": 124
-        }
-      }
-    },
-    {
-      "requestHash": "6b06f9eeff265737d0f5363849f1a34d794d94e37d5d04d8c1a5ef4a3e31fce3",
-      "latencyMs": 3735,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The organizer looks legitimate - they have a valid tax ID, account age of 930 days (about 2.5 years), no content reports, and no previous admin unpublishes. They've published 14 events with 12 ended successfully.\n\nNow I need to check for similar events that might indicate cloning or fraud. Let me search for similar events near this event's date.",
-          "toolCalls": [
+            },
             {
-              "id": "CrN9sFds446LSmCvPRKpRZLH7UPxEFtU",
+              "id": "9ka908XcYp5gP7qW5I09U9TYIPyJMN4C",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3952,
-          "outputTokens": 135
-        }
-      }
-    },
-    {
-      "requestHash": "0820abee30859c51dd5891508fe8b4cf7451ef67aaef7de7ca0a96eabc80143f",
-      "latencyMs": 5012,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "No similar events found, which is good - no cloning detected.\n\nNow I need to investigate the venue capacity issue more carefully. The deterministic check shows a warning about 50,000 tickets being sold against a 150 capacity from salasdeconciertos.com. However, the event description says \"Entrada gratuita con inscripción\" (free entry with registration), and the ticket type shows capacity of 50,000 but only 310 taken so far.\n\nLet me search for information about Sala Pícaro to verify its actual capacity and understand if 50,000 is realistic or if this is a red flag.",
-          "toolCalls": [
+            },
             {
-              "id": "Mg5LCWsb9UiStt8Yz5H4jzIbYMDVihWD",
+              "id": "HSu2m9uLQlBy8xot6ZPVrgzt3bak86vx",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo capacidad aforo\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo venue capacity aforo\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4170,
-          "outputTokens": 186
+          "inputTokens": 3457,
+          "outputTokens": 280
         }
       }
     },
     {
-      "requestHash": "5d427f5949eed81bc36c8bcaeb121fd7e32eabc9cdd9f810cc8b267d74275d8b",
-      "latencyMs": 5627,
+      "requestHash": "1a6fff298cb81b4c490d627eeb8a7a87a0870b562efb5836dc69849045a89666",
+      "latencyMs": 12225,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search confirms that Sala Pícaro is indeed a small venue with capacity around 150-250 people, not 50,000. The event has 50,000 tickets available for sale against a venue that can only hold about 150-250 people. This is a massive discrepancy - the event is selling tickets far above the venue's real capacity.\n\nThis is a serious issue. Let me also check if there are any other red flags I should investigate. The event is described as \"Rave gratuita de doce horas\" (free rave for 12 hours) with techno music. Let me search for information about this specific event or organizer to see if there's any pattern of suspicious activity.",
+          "content": "Let me analyze what I've found:\n\n**Organizer context:**\n- Organizer \"Pulso Industrial\" is approved, has been operating since May 2024 (930 days old)\n- Has valid tax ID with correct checksum\n- Published 14 events, 12 ended successfully, no cancellations\n- No content reports, no admin unpublishes\n- Team structure looks normal (owner, manager, 2 scanners)\n\n**Similar events:** None found in the same province within 60 days - this is good, no obvious clones.\n\n**Web search:** Failed due to quota_exceeded - not helpful here.\n\n**Key issue remaining:** The venue capacity check shows \"unknown\" because neither Wikidata nor OpenStreetMap publish the capacity for \"Sala Pícaro\", and the web search failed. However, the ticket type shows a capacity of 50,000 tickets being sold.\n\nThis is a significant red flag:\n- The venue is described as a \"sala\" (club/venue) in Toledo\n- A typical small club like \"Sala Pícaro\" would have a capacity far below 50,000 people\n- Even large venues rarely exceed 10,000-20,000 capacity\n- 50,000 is more typical of a stadium or very large arena\n\nThe deterministic check already flagged this as \"unknown\" for venue_capacity because the platform couldn't verify it. But selling 50,000 tickets against what appears to be a small club venue is suspicious.\n\nLet me search for more information about Sala Pícaro specifically and also check if there's any pattern with this organizer selling unrealistic capacities.",
           "toolCalls": [
             {
-              "id": "SbWO5b57AgeVoRNIXHEBnsE9pye1PRY5",
+              "id": "AYSJAz16LMduIB6LhaRlhktiwC9MyGbt",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Pulso Industrial Toledo organizador eventos\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4841,
-          "outputTokens": 204
-        }
-      }
-    },
-    {
-      "requestHash": "edb7426e8d73de79549cfa55860a8e436d0d13bd20e0fb1cd44d12b66b5e697d",
-      "latencyMs": 5790,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "Interesting - the web search shows a \"Pulso Industrial\" that appears to be an engineering services company based in Argentina (www.pulsoindustrial.com.ar), not related to the Spanish event organizer. This could be a coincidence or potentially impersonation, but the platform data shows this is a legitimate Spanish organizer with proper fiscal data.\n\nThe main issue I'm seeing is the **capacity_far_above_venue** problem - 50,000 tickets being sold against a venue that can only hold about 150-250 people. This is a massive discrepancy (333+ times the actual capacity).\n\nLet me check if there's any information about this specific event online to see if it's been reported or if there are other similar events.",
-          "toolCalls": [
+              "argumentsJson": "{\"query\":\"\\\"Pulso Industrial\\\" Toledo promoter events\",\"maxResults\":3}"
+            },
             {
-              "id": "rmVxrflwcJ6UyfYuF4LdRNjErtfOqaKC",
+              "id": "Nznr7KOxId7hWWLZfibeyW3MVkwrqOZE",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Rave gratuita de doce horas\\\" Toledo Sala Pícaro\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Sala Pícaro\\\" Toledo club venue\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5507,
-          "outputTokens": 210
+          "inputTokens": 4225,
+          "outputTokens": 459
         }
       }
     },
     {
-      "requestHash": "3432e6c7944609dc7929cf27f157504f3f5f9e6e5c2026ea1343d18207c2984f",
-      "latencyMs": 23749,
+      "requestHash": "bca6265370257afdd970c90434cd67e1bc5db1a3f1ec3b73229ec48e7b1fa20c",
+      "latencyMs": 30246,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results confirm that Sala Pícaro is indeed a small venue in Toledo's historic center, opened in 1999, with multiple floors but still a small capacity (not 50,000). The Instagram post shows similar events happening there with reasonable hours.\n\nNow I have enough information to make a recommendation. The key issue is:\n\n**capacity_far_above_venue**: The event has 50,000 tickets available for sale against a venue that can only hold approximately 150-250 people. This is over 333 times the actual capacity, which is a massive discrepancy and a strong signal of potential fraud or serious error.\n\nThis is a \"Hard signal\" according to the check types - when tickets are sold several times the venue's capacity, it indicates either:\n1. Fraudulent intent (selling more tickets than can physically be accommodated)\n2. Serious misunderstanding of the venue\n3. Potential scam\n\nGiven that:\n- The organizer looks legitimate on paper (valid tax ID, account age, no content reports)\n- No similar events found (no cloning)\n- But the capacity discrepancy is extreme (50,000 vs ~150)\n\nThis is a serious issue that warrants rejection. The capacity_far_above_venue check is described as a \"Hard signal\" in the instructions.\n\nLet me submit my recommendation to reject this event due to the massive capacity discrepancy.",
+          "content": "The web searches are failing due to quota issues. Let me think about what I have:\n\n**What's clear:**\n1. The organizer is legitimate (approved, valid fiscal data, good history)\n2. No similar events found (no obvious cloning)\n3. The venue exists at the address (verified by OpenStreetMap)\n4. BUT the capacity issue remains unresolved\n\nThe deterministic check already noted: \"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 50.000.\"\n\nThis is the critical issue: The ticket type shows capacity of 50,000, but we cannot verify the actual venue capacity. Given that:\n- It's called \"Sala Pícaro\" (typically a small club)\n- Located at Calle de las Cadenas 6 in Toledo (a street address, not a stadium)\n- OpenStreetMap shows it as amenity=pub (not a large venue)\n\nA pub/club with 50,000 capacity is physically impossible. This suggests either:\n1. The organizer is misrepresenting the venue capacity (fraudulent)\n2. There's a data entry error that needs clarification\n\nGiven the deterministic check already flagged this as \"unknown\" for venue_capacity, and the fact that 50,000 tickets against what appears to be a small club/pub is highly suspicious, I should request information to clarify the actual venue capacity.\n\nHowever, let me also consider: could this be a legitimate free event where they're just setting an artificially high capacity? That would still be misleading but perhaps not fraudulent if they're not actually selling that many tickets. But the platform's rules likely require accurate capacity declarations.\n\nGiven the evidence:\n- Organizer is legitimate (no fraud signals there)\n- No similar events/clones found\n- Venue exists at correct address\n- BUT venue capacity cannot be verified and 50,000 seems unrealistic for a \"sala\"/pub\n\nThis warrants requesting information to clarify the actual venue capacity. The organizer should explain why they're listing 50,000 capacity for what appears to be a small venue.\n\nLet me submit a recommendation with request_info to ask about the venue capacity discrepancy.",
           "toolCalls": [
             {
-              "id": "fsjAOnkT5OCXYsZRiPDG5R0UTwDn3UPK",
+              "id": "rblq7CLIsF3XYq7l8QhhOkmVDOSDK1bj",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una discrepancia crítica de capacidad: 50.000 entradas disponibles para venta contra un recinto que tiene una capacidad real de aproximadamente 150-250 personas (según múltiples fuentes verificadas). Esta diferencia representa más de 333 veces la capacidad real del local, lo cual constituye una señal de alerta grave (\\\"Hard signal\\\") de posible fraude o error serio. Aunque el organizador parece legítimo fiscalmente y no hay indicios de clonación de eventos, vender entradas contra una capacidad tan superior a la real del recinto es incompatible con una operación honesta y pone en riesgo a los usuarios que podrían comprar entradas para un evento que no puede acoger físicamente a esa cantidad de personas.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"La sesión tiene 50.000 tickets disponibles contra una capacidad real del recinto de aproximadamente 150-250 personas (según salasdeconciertos.com, SalasDeConcierto.net y turismo.toledo.es). Esta diferencia de más de 333 veces la capacidad real es una señal de alerta grave de posible fraude o error serio.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"},{\"url\":\"https://www.salasdeconcierto.net/es/salas/sala-picaro\",\"title\":\"SalasDeConcierto.net\"},{\"url\":\"https://turismo.toledo.es/recursos/id734-sala-picaro.html\",\"title\":\"turismo.toledo.es\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 50.000, 333,3 veces el aforo de 150 que da la web (salasdeconciertos.com). Una cifra de la web no está verificada, así que lo decide el admin.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una discrepancia crítica en la capacidad del recinto que requiere aclaración. Aunque el organizador \\\"Pulso Industrial\\\" tiene historial limpio y datos fiscales válidos, y el local existe en la dirección indicada, la ficha de entrada muestra una capacidad de 50.000 tickets para un espacio descrito como \\\"sala\\\" (y verificado en OpenStreetMap como amenity=pub). Esta capacidad es físicamente improbable para un club pequeño. Los checks determinísticos ya marcaron venue_capacity como \\\"unknown\\\" porque ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló por cuota excedida. Necesitamos información del organizador sobre la capacidad real del recinto para determinar si esta declaración es un error o una representación engañosa.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 50.000 tickets, lo cual es físicamente improbable para un local verificado como amenity=pub en una calle residencial.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Pulso Industrial' aprobado desde mayo 2024, con CIF válido y checksum correcto, cuenta con equipo completo (owner, manager, 2 scanners).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia de Toledo dentro de los 60 días previos al evento.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad real del recinto «Sala Pícaro» en Calle de las Cadenas 6, Toledo?\",\"¿Por qué se declara una capacidad de 50.000 tickets para un local verificado como amenity=pub en OpenStreetMap?\"],\"draft\":\"Organizador necesita aclarar la discrepancia entre la capacidad declarada (50.000) y el tipo de recinto (sala/pub pequeño).\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6250,
-          "outputTokens": 875
+          "inputTokens": 4854,
+          "outputTokens": 1144
         }
       }
     }
@@ -146,111 +95,37 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://salasdeconciertos.com/salas/sala-picaro",
-            "title": "Sala Pícaro – ACCES",
-            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
-            "title": "Instagram",
-            "snippet": "Photo by Sala Pícaro on September 28, 2026. May be an image of poster and text.\n\nPhoto by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026. [..."
-          },
-          {
-            "url": "https://sala.picarotoledo.com",
-            "title": "sala picaro – tu sala de conciertos en toledo",
-            "snippet": "925 221 301\n\nZONA PROFESIONAL\n\nContratacion & Producción\n\nRider Sala\n\nEventos Privados\n\nTienes preguntas?  Info / FAQs\n\nNos sigues en redes?\n\nbanner inaem null “ACCES”/ null “INAEM”/"
-          },
-          {
-            "url": "https://www.instagram.com/salapicaro.toledo?hl=en",
-            "title": "Sala Pícaro (@salapicaro.toledo) • Instagram photos and videos",
-            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nPhoto by Sala Pícaro on May 27, 2026. [...]"
-          },
-          {
-            "url": "https://toledoguiaturisticaycultural.com/sala-picaro",
-            "title": "▷ Sala Pícaro 2026 | Conciertos en Toledo | MÁS TOLEDO",
-            "snippet": "Fecha: 20 de febrero 2026  \nHora: 20 h  \nPrecio: 22 €\n\nCOMPRA TU ENTRADA PARA «LOS NIÑOS DEL CAMINITO LNDC» AQUÍ\n\n### Lucas Colman\n\nFecha: 20 de marzo 2026  \nHora: 21,30 h  \nPrecio: 12 €\n\nCOMPRA TU ENTRADA PARA «LUCAS COLMAN» AQUÍ\n\n### Delacueva\n\nFecha: 27 de marzo 2026  \nHora: 20,30 h  \nPrecio: 13,50 €\n\nCOMPRA TU ENTRADA PARA «DELACUEVA» AQUÍ\n\n### Periferia + Skylines\n\nFecha: 24 de abril 2026  \nHora: 20,30 h  \nPrecio: 15,48 €\n\nCOMPRA TU ENTRADA PARA «PERIFERIA + SKYLINES» AQUÍ [...] ### Compart"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "0998f88c7724252fcc3bbd532e10c68356c234b2946bd6af8f4c74cd493bd9ed",
+      "requestHash": "46cc888b6f3c46b8e947ebef351c08347fc4dd855602d37d25436b1539abc95b",
       "provider": "Tavily",
-      "query": "Sala Pícaro Toledo capacidad aforo",
+      "query": "Sala Pícaro Toledo venue capacity aforo",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.salasdeconcierto.net/es/salas/sala-picaro",
-            "title": "Sala Pícaro - SalasDeConcierto.net",
-            "snippet": "SalasDeConcierto.net\n\nSala Pícaro\n\nSalas de Conciertos Pop / Rock Aforo: 0-250\n\n# Sala Pícaro\n\nToledo / Toledo\n\n## Descripción\n\nUno de los locales más emblemáticos de Toledo, un referente en la oferta de ocio nocturno de la ciudad por su variedad de conciertos y bien ganada reputación por su programación en el circuito de salas independientes de todo el país.\n\n### Horario\n\nde miércoles a domingo de 19:00h a 06:00h\n\n## Ubicación\n\nCalle Cadenas, 6, 45001   \nToledo (Toledo)\n\n Abrir en Google Maps ["
-          },
-          {
-            "url": "https://salasdeconciertos.com/salas/sala-picaro",
-            "title": "Sala Pícaro – ACCES",
-            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
-          },
-          {
-            "url": "https://qconciertos.es/salas/sala-picaro",
-            "title": "Sala Pícaro",
-            "snippet": "El aforo de la Sala Pícaro no está especificado, pero se trata de una sala de formato pequeño, lo que garantiza una experiencia muy cercana con los artistas. El ambiente es sofisticado pero relajado, ideal para disfrutar de una copa mientras se escucha buena música. Es un espacio que atrae a un público adulto, melómano y respetuoso con la actuación. La atmósfera íntima es uno de sus mayores atractivos, permitiendo apreciar cada matiz de la interpretación musical. [...] ### Ubicación\n\nLa Sala Píc"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "b252fb977cdc65b5c5830a0894d073d0afe495cbb6eac9dbf812a4a55d81d1f4",
+      "requestHash": "0d42290325f0499bd79ea13fb717dc6f44a2b6e98379e71c553091314f84a215",
       "provider": "Tavily",
-      "query": "Pulso Industrial Toledo organizador eventos",
+      "query": "\"Pulso Industrial\" Toledo promoter events",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://factoryevents.es/empresa-organizadora-de-eventos-toledo",
-            "title": "Agencia de organización de eventos en Toledo",
-            "snippet": "En Factory Events, nos enorgullece ser la productora de eventos líder en Toledo. Nuestra dedicación y experiencia en la industria de eventos nos han convertido en el socio de confianza para crear experiencias excepcionales en todo el país. [...] En Factory Events, creamos experiencias de entretenimiento excepcionales para tus eventos en Toledo. Ofrecemos una amplia gama de opciones para cautivar a tu audiencia. Nuestro enfoque personalizado garantiza que el entretenimiento se adapte a la perfecc"
-          },
-          {
-            "url": "https://guiatelefone.com/empresas/toledo-pr/artigos-para-decoracao-de-festas-e-eventos/equipamentos-e-artigos-para-festas-e-eventos",
-            "title": "Equipamentos e Artigos para Festas e Eventos em Toledo, PR",
-            "snippet": "## São Jorge Locadora de Máquinas\n\nEquipamentos e Artigos para Festas e Eventos\n\n1 avaliação\n\nRua Carlos Barbosa, 3025 - brc-1A, Vila Industrial, Toledo, PR\n\n(45) 3278-7373\n\nBairros\n\n Vila Industrial\n\nCidades próximas\n\n Cascavel\n Santa Tereza do Oeste\n Palotina\n Medianeira [...] em produtos de qualidade e versatilidade é fundamental para o sucesso de qualquer celebração, seja uma festa de aniversário, casamento ou evento corporativo. [...] Equipamentos e artigos para festas e eventos são essenci"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/4vQbJUx671lr",
-            "title": "Pulso Industrial",
-            "snippet": "# Pulso Industrial\nID: 4vQbJUx671lr\nWebsite: www.pulsoindustrial.com.ar\nLinkedIn: www.linkedin.com/company/pulsoindustrial · 25 followers\nIndustry: Engineering Services\nCompany type: Self-Employed\nSocial profiles: www.instagram.com/pulso.industrial\nEmail: pulsoindustrialinfo@gmail.com\nPhone: 2477-659789 [...] Phone: 2477-659789\nDescription: Pulso Industrial is a company that specializes in optimizing productive processes in the food industry. They offer services such as process optimization, eng"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "e92cabf8ff6b4925ee29dad4f3d61d4223b4d8d34e668a140faea7162c539645",
+      "requestHash": "5a6597c83877f62c34a7ee1c91ae1d1feeade9d74dbc52143e6241df204a064d",
       "provider": "Tavily",
-      "query": "\"Rave gratuita de doce horas\" Toledo Sala Pícaro",
+      "query": "\"Sala Pícaro\" Toledo club venue",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/DQ1wwNjFQdz",
-            "title": "Instagram",
-            "snippet": "21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h\n#picarotoledo #toledospain #djset #nightlife #livemusic #indiemusic #ociotoledo #tardeo #tardeotoledo\". \" name=\"description\"> 21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h\n#picarotoledo #toledospain #djset #nightlife #livemusic #indiemusic #ociotoledo #tardeo #tardeotoledo\"\" property=\"og:title\"> 21:00h a 04:00h\nJUE > 21:00h a 04:00h\nVIE > 21:00h a 06:00h\nSAB > 16:00h a 06:00h [.."
-          },
-          {
-            "url": "https://www.mapquest.com/es/castilla-la-mancha/sala-picaro-528235553",
-            "title": "Sala Picaro",
-            "snippet": "Sala Picaro se encuentra en el casco histórico de Toledo y es un espacio emblemático conocido por su variada programación de conciertos. Desde su inauguración en 1999, ha ofrecido un ambiente alternativo donde se combinan música y conversación.\n\nEl local cuenta con amplios ventanales y tres plantas, proporcionando un espacio versátil para disfrutar de la música en vivo. Su carta de bebidas incluye una selección diversa, ideal para acompañar una tarde o noche de entretenimiento musical. [...] _Ge"
-          },
-          {
-            "url": "https://turismo.toledo.es/recursos/id734-sala-picaro.html",
-            "title": "Sala Pícaro",
-            "snippet": "La sala Pícaro es un local que aúna en su propuesta de diseño y funcionalidad, abrió sus puertas en 1999, cuando esto ocurrió no solo se inauguraba un local de ocio nocturno comenzaba también así\n\n \n\n  Horario\n\n  Días de apertura: Miércoles, jueves, viernes, sábados, domingos.  \n  Días de cierre: Lunes, martes.  \n  Horario: De 19:00H a 04:00H miércoles, jueves. De 19:00H a 06:00H viernes. De 15:00H a 06:00H sábados. De 15:00H a 04:00H domingos.\n \n\n  Idiomas\n\n  Español\n Otros Servicios [...] Wifi"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

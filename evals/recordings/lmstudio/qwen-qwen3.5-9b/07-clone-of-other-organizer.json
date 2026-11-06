@@ -3,54 +3,142 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "fd8526b26dfe1c2f65ccc09b95bc888f5b65bd1657e6b9a7206845e9d941cd90",
-      "latencyMs": 4921,
+      "requestHash": "aaec5c792020449f781bfede16bfcc7611369cbd774da231b2f9904301dd4bbe",
+      "latencyMs": 4518,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "DpiPSSKjWaXyXJKGcD0mJWKarlYHSptb",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_32f1e2bfa3\",\"windowDays\":60}"
-            },
-            {
-              "id": "Oo239LKzyYlqWRGvwusveqtfMXoHGqIg",
+              "id": "gnCxls04Byv45KWUoQGFWpH9c18kxXvU",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_11a50865f9\"}"
+            },
+            {
+              "id": "RDbDE0raWpmKI2n8TueDz19Ffdlgmgwh",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_32f1e2bfa3\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3571,
+          "inputTokens": 3529,
           "outputTokens": 94
         }
       }
     },
     {
-      "requestHash": "7ae27f7035532c0240b28520c6a38aae7dead42ba5564559da4b227590b3aac0",
-      "latencyMs": 19290,
+      "requestHash": "b8ba915caefa7ef866baa82f61f80d3cd92186a201e468c58b397644f49c2927",
+      "latencyMs": 1995,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He encontrado una señal de clonación clara: el evento \"Gran Gala de Zarzuela: La Verbena Eterna\" en Teatro Liceo del 27/11/2026 ya está publicado por otro organizador con el mismo título, recinto y fecha. Esto es un fallo grave (exact_duplicate_other_organizer).\n\nAdemás, `find_similar_events` confirma que existe otro evento idéntico (mismo título exacto, mismo recinto) en la ventana de 60 días.\n\nEl contexto del organizador \"Escenarios Charros\" parece legítimo: cuenta con datos fiscales válidos, cuenta creada hace 50 días, y no tiene historial de eventos cancelados ni reportes de contenido. Sin embargo, el hecho de que sea un evento idéntico a uno ya publicado por otro organizador es una señal de fraude o clonación que debe ser rechazada.\n\nNo hay indicios de que el organizador sea nuevo o sospechoso más allá de este evento duplicado. La decisión debe ser **reject** debido al clon exacto.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "D0TEr0R8gKlD2DxzbcsOj90G1RczIGBu",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de clonación clara: otro organizador ya publica «Gran Gala de Zarzuela: La Verbena Eterna» en Teatro Liceo el 27/11/2026, con el mismo título, recinto y fecha. Esto es un fallo grave (exact_duplicate_other_organizer) que indica fraude o clonación. El organizador \\\"Escenarios Charros\\\" tiene datos fiscales válidos y no tiene historial negativo, pero la duplicidad exacta de evento con otro organizador es suficiente para rechazarlo.\",\"findings\":[{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"fail\",\"detail\":\"Otro organizador ya publica «Gran Gala de Zarzuela: La Verbena Eterna» en Teatro Liceo el 27/11/2026, mismo título, recinto y día.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/evt_4b14cec598\",\"title\":\"Gran Gala de Zarzuela: La Verbena Eterna\"}]},{\"check\":\"similar_event\",\"verdict\":\"fail\",\"detail\":\"Evento similar encontrado con título idéntico y mismo recinto en la ventana de 60 días.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/events/evt_4b14cec598\",\"title\":\"Gran Gala de Zarzuela: La Verbena Eterna\"}]}]}"
+              "id": "c9KNcOAFSK9U4iZaKNSk25iNpW3PVLwg",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" Teatro Liceo Salamanca 27/11/2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4172,
-          "outputTokens": 620
+          "inputTokens": 4130,
+          "outputTokens": 66
+        }
+      }
+    },
+    {
+      "requestHash": "ad4a9a94f6481469c8793126e9ddc56bce761694c4bcdf519041d618af6a3ce0",
+      "latencyMs": 1325,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "2rx4vcPqLazT0MMzlHrTZwJRZIiYplVO",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Teatro Liceo\\\" Salamanca aforo capacidad\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4291,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "ec501614f5051b4f0c1ddbc188770e47bed1e1f5fe6fb7443b36b6982f1f4a3d",
+      "latencyMs": 1376,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "7EwDUKLLKkpLsnIrd0CIms2II5gjtI2X",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Escenarios Charros\\\" Salamanca organizador zarzuela\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4433,
+          "outputTokens": 49
+        }
+      }
+    },
+    {
+      "requestHash": "993d1dbfee35404e791dc4231b2f2a61f9cc6b0d325e3ef75cd1ece6b691fa95",
+      "latencyMs": 1738,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "1WxiymT95GKqILTIM11jpKaobJeVnu4G",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\" 27/11/2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4577,
+          "outputTokens": 62
+        }
+      }
+    },
+    {
+      "requestHash": "1fb1a4ec6c93bd0eca412e2720cf4b6e793f629ce8f7c66bd5228cedb8777f77",
+      "latencyMs": 12570,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "zoJ6AuZIL8hBOJUut4LSijwZl6jpgF4R",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento presenta una señal de clonación clara: el check \\\"exact_duplicate_other_organizer\\\" falló porque otro organizador ya publica un evento con el mismo título (\\\"Gran Gala de Zarzuela: La Verbena Eterna\\\"), en el mismo recinto (Teatro Liceo) y la misma fecha (27/11/2026). Además, find_similar_events confirma que existe otro evento idéntico en el mercado. Esto indica una duplicación intencionada para captar ventas sin ofrecer un producto diferenciado, lo cual es fraude de plataforma. El organizador \\\"Escenarios Charros\\\" es nuevo (50 días) y no tiene historial previo, pero la señal de clonación es suficiente para rechazar.\",\"findings\":[{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"fail\",\"detail\":\"Otro organizador ya publica «Gran Gala de Zarzuela: La Verbena Eterna» en Teatro Liceo el 27/11/2026, mismo título, recinto y día.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/79570602\",\"title\":\"OpenStreetMap: Teatro Liceo (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"fail\",\"detail\":\"Evento similar encontrado: «Gran Gala de Zarzuela: La Verbena Eterna» en Teatro Liceo el 27/11/2026 (título idéntico, misma fecha y recinto).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/79570602\",\"title\":\"OpenStreetMap: Teatro Liceo (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4734,
+          "outputTokens": 473
         }
       }
     }
@@ -63,33 +151,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.valladolid.es/es/actualidad/noticias/gran-gala-dedicada-zarzuela-conmemorara-25-anos-reapertura.ficheros/975989-PROGRAMA_ZARZUELA.PDF",
-            "title": "https://www.valladolid.es/es/actualidad/noticias/gran-gala-dedicada-zarzuela-conmemorara-25-anos-reapertura.ficheros/975989-PROGRAMA_ZARZUELA.PDF",
-            "snippet": "de títulos de Zarzuela como Don Gil de Alcalá, Los Gavilanes, La Chulapo-na, La Tabernera del Puerto, Luisa Fernanda, El Barberillo de Lavapiés, El Gato Montés, Agua, Azucarillos y Aguardiente, El Bateo, Curro Vargas, operetas como La Gran Duquesa de Gerolstein, Katiuska, El Niño Judío, La Canción del Olvido y antologías de diverso formato. [...] Durante estos más de veinte años, el coro Cal-derón Lírico, ha participado en los estrenos de producciones operísticas internacionales como La Bohème, "
-          },
-          {
-            "url": "http://zarzuelerias.blogspot.com/2017/05/el-coro-en-la-zarzuela.html",
-            "title": "Zarzuelerías: El coro en la zarzuela.",
-            "snippet": "Hay muchas obras que me gustaría trabajar con el coro de la Zarzuela. Cuando se hacía la temporada de ópera en Madrid antes de la reapertura del Teatro Real no tuvimos la posibilidad de acometer títulos como Aida, Turandot, el Réquiem de Verdi, aunque para estas obras habría que reforzar ampliamente el coro. En zarzuela hay muchas obras de Arrieta, Barbieri  y Gaztambide , incluso de Marqués, Bretón y Pedrell, que permanecen injustamente en el olvido. Otro estilo que, a mi modo de ver está [...]"
-          },
-          {
-            "url": "https://open.spotify.com/intl-fr/album/75r7jTCtLz9x507TU6ZzjA",
-            "title": "Grandes Éxitos de la Zarzuela - Compilation par The Royal ...",
-            "snippet": "La Gran Vía : \"Los Marineritos\" · Federico Chueca, J.Valverde Durán, The Royal Alhambra Orchestra · El Rey Que Rabió : \"Coro de los Doctores\" · Ruperto Chapí,"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=k6BtZ4R7SdQ",
-            "title": "Gala de opera y zarzuela 2026",
-            "snippet": "I Antología de la Zarzuela Parte II. AGRUPACIÓN CORAL MAESTRO IBÁÑEZ · 37K views ; The Orchestra That Disobeyed Beethoven (And He Never Knew). La"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=OqvmK_dSWYA",
-            "title": "VIVA LA ZARZUELA  Concierto Completo",
-            "snippet": "¿Te apasiona la zarzuela y la música clásica? Disfruta del concierto íntegro \"Viva la Zarzuela\", un evento solidario único celebrado el"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
@@ -99,33 +161,47 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.salasdeconcierto.net/es/salas/teatro-liceo-salamanca",
-            "title": "Teatro Liceo Salamanca - SalasDeConcierto.net",
-            "snippet": "SalasDeConcierto.net\n\nTeatro Liceo Salamanca\n\nTeatros Pop / Rock Aforo: 250-750\n\n# Teatro Liceo Salamanca\n\nSalamanca / Salamanca\n\n## Ubicación\n\nPlaza del Liceo, s/n, 37002   \nSalamanca (Salamanca)\n\n Abrir en Google Maps\n\n## Programación\n\nCargando conciertos...\n\n## Archivo\n\nCargando conciertos...\n\n### Información\n\nAforo\n:   N/D\n\nTeléfono\n:   923 28 17 16\n\nEmail\n:   entradas@infotactile.com\n\nPopularidad\n:   1.324\n\nActualizado hace unos segundos"
-          },
-          {
-            "url": "https://cadenaser.com/castillayleon/2025/03/27/los-rincones-desconocidos-del-teatro-liceo-de-salamanca-radio-salamanca",
-            "title": "Los rincones desconocidos del Teatro Liceo de Salamanca | Radio Salamanca | Cadena SER",
-            "snippet": "Es el tercero en capacidad de Castilla y León el aforo es para más de 600 personas entre el patio de butacas, el anfiteatro y los palcos. Se respira un ambiente acogedor donde adultos, niños y familias pueden compartir momentos agradables en un entorno artístico y cultural. La pintura del techo es obra del profesor de Bellas Artes de la Universidad de Salamanca, José María Larrondo. [...] Dejamos la parte más visita para descubrir lo que menos se ve. La zona de paso para los artistas entre los c"
-          },
-          {
-            "url": "https://www.aytosalamanca.es/en/w/el-teatro-liceo-y-el-centro-de-las-artes-esc%C3%A9nicas-y-de-la-m%C3%BAsica-ampl%C3%ADan-su-aforo-y-pasar%C3%A1n-de-un-tercio-a-un-50-",
-            "title": "El Teatro Liceo y el Centro de las Artes Escénicas y de la Música amplían su aforo y pasarán de un tercio a un 50% - Ayto Salamanca",
-            "snippet": "En el CAEM el aforo será ahora de 622 butacas y se ampliará el número de entradas a la venta para los conciertos de Fuel Fandango (4 de junio), La Oreja de Van Gogh (11 de junio) y Nil Moliner (12 de junio), entre otros.\n\nEn el Teatro Liceo el nuevo aforo es de 333 butacas y ya se han activado la venta en las obras de teatro programadas desde este fin de semana: El manuscrito de indias (29 de mayo), Una Noche sin luna (5 de junio) y La RED (12 de junio). [...] El resto de espacios en los que hay"
-          },
-          {
-            "url": "https://www.redescena.net/escenario/2496/teatro-liceo-de-salamanca",
-            "title": "Teatro Liceo de Salamanca",
-            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Liceo\n\n Aforo: 667\n Ancho de boca: 1000\n Fondo desde boca: 1150\n Fondo desde boca: 1150\n Altura de boca: 717\n\nFlecha derecha SERVICIOS\n\nFlecha derecha HISTORIA [...] El edificio es de nueva planta y ocupa el solar donde se levantó en 1843 el  \n originario Teatro Liceo, del que se reproduce el diseño de la sala y la sencillez en  \n la construcción y l"
-          },
-          {
-            "url": "https://www.salamancaconventionbureau.com/recurso/teatro-liceo-9",
-            "title": "Teatro Liceo | Salamanca Convention Bureau",
-            "snippet": "Merced a una recuperación ejemplar que ha incorporado las ruinas del antiguo Convento de San Antonio el Real, la ciudad recupera el escenario idóneo, de repertorio y ópera, especialmente de la época Barroca. El aforo supera las 600 personas.\n\nAforo: 667 personas.\n\nSala de Ensayos: 75 personas.\n\nSala de la Palabra: 90 personas.\n\n### COMPARTIR\n\n \n \n\n \n \n\nVOLVER AL LISTADO DE INFRAESTRUCTURAS VOLVER AL LISTADO DE RECURSOS [...] Contactar con nosotros\n\n Síguenos y Comparte\n\nEmail: info@salamancaconv"
-          }
-        ]
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "be653373db4a39d6fd0f8124671ce5823f5494ff8b95de6763d26b6a1e1a2325",
+      "provider": "Tavily",
+      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" Teatro Liceo Salamanca 27/11/2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "07c5523dce989ef351f7074abea1196c9deae9348ede813bd9f68dc567cbcd1b",
+      "provider": "Tavily",
+      "query": "\"Teatro Liceo\" Salamanca aforo capacidad",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "bcea6264afde6d0a1f00cb9a9abc0d1ad5242eb168531ce29dad27c2bf1e0135",
+      "provider": "Tavily",
+      "query": "\"Escenarios Charros\" Salamanca organizador zarzuela",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "958f62cc42a57b748a05000adc938ad0427018f91e6c13452d654ef8e622bc4a",
+      "provider": "Tavily",
+      "query": "\"Gran Gala de Zarzuela: La Verbena Eterna\" 27/11/2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
       }
     }
   ]

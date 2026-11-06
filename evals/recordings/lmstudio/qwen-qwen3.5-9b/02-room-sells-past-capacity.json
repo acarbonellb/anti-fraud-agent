@@ -3,115 +3,59 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "5f8fcace4379167441cac1714e68f47a07344e6e5c407abb860c202cb9e80f45",
-      "latencyMs": 2957,
+      "requestHash": "cd87352044421dad06af381ce50efa704a3b228e504d7c673a03ea9a369c439c",
+      "latencyMs": 14340,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event and make a recommendation. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Hiru Haize en directo\"\n- Artist: Hiru Haize (rock band)\n- Venue: Teatro Albéniz, Madrid\n- Date: 2026-11-27\n- Price: 22.00€ for General tickets\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP below general) ✓\n- Service fee within limits ✓\n- No problematic discounts ✓\n- Session dates don't overlap ✓\n- Session timing is reasonable ✓\n- Price benchmark: 22€ is well below the p90 of 35€ for comparable events ✓\n- Venue exists at coordinates ✓\n- **Venue capacity: WARN** - selling 1,100 tickets vs OSM's listed capacity of 898 (1.2x). This could be explained by a terrace or expanded capacity.\n\n**What I need to check:**\n1. Organizer context (org_c301c6a2f4) - account age, fiscal data, past events, content reports\n2. Whether Hiru Haize is a real artist and if they have tour dates announced elsewhere (artist_availability check)\n3. Whether there are similar events from other organizers that might indicate cloning\n\nLet me start by checking the organizer context and searching for the artist's availability.",
           "toolCalls": [
             {
-              "id": "GzGrKEJ0vdsPTSSLnkoUrg7nr6S8yXor",
+              "id": "SXN02ELAvFWQqdtGUxkA9TjZqbwPyL5b",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c301c6a2f4\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3506,
-          "outputTokens": 41
-        }
-      }
-    },
-    {
-      "requestHash": "d11227db4d2d77d8cd3d405957fcf1ddf6a614f8967400def2791a9ec8799819",
-      "latencyMs": 1946,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
+            },
             {
-              "id": "6J1G9me5efTtspL7WVmUgGBtTY3j6Vuu",
+              "id": "iaJcfK03uKwX82gbmq31Vma7POz1h6X5",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize banda rock concierto 2026 Madrid Teatro Albéniz\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock concierto 2026 tour dates\",\"maxResults\":2}"
+            },
+            {
+              "id": "dMmDCsxVRmPrHb6Tf9SHBUJUkezNtuxa",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_c6ca54cd26\",\"windowDays\":30}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3899,
-          "outputTokens": 54
+          "inputTokens": 3522,
+          "outputTokens": 492
         }
       }
     },
     {
-      "requestHash": "32fca75ce471048d52928760436f09f33fd156a7773176e8f32cbc312e057cf9",
-      "latencyMs": 1650,
+      "requestHash": "e08945c59846d08b2ae958a5e9822446dc7b40a360ea2cc3e9ac8b2a54938489",
+      "latencyMs": 32769,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Let me analyze the findings:\n\n**Organizer context (org_c301c6a2f4 - Itsasargi Kontzertuak):**\n- Status: approved\n- Created: 2024-05-20 (account age ~930 days, so about 2.5 years)\n- Fiscal data: CIF present, checksum valid, address present\n- Owner account age: 930 days, email verified\n- Other organizers owned: none (empty array)\n- History: 14 published events, 0 cancelled, 12 ended\n- No admin unpublishes, no content reports, no previous agent reviews\n- Team: owner + manager + 2 scanners\n\nThis looks like a legitimate organizer with good history. The name \"Itsasargi\" means \"moon\" in Basque, and they're based in Madrid. The event is for Hiru Haize (also a Basque band name - \"three winds\"). This seems consistent culturally.\n\n**Web search:**\n- Quota exceeded, so no results returned. This is evidence that I couldn't find external tour dates, but it doesn't mean the artist doesn't exist.\n\n**Similar events:**\n- Empty array - no similar events found in the same province within 30 days. No cloning signal.\n\n**Key remaining concern:**\nThe venue capacity warning (1,100 tickets vs OSM's 898). The deterministic check says this could be explained by a terrace or expanded capacity. However, I should verify if there's any indication of this in the event description or if this is genuinely concerning.\n\nLooking at the event data again:\n- Description mentions \"El teatro abre también su terraza para la ocasión\" (The theatre also opens its terrace for the occasion)\n- This explains the capacity discrepancy! The venue has a terrace that can accommodate more people.\n\nLet me check if there are any other concerns I might have missed. The event seems legitimate:\n- Organizer is approved with good history\n- Fiscal data valid\n- No red flags in deterministic checks (only a warn on capacity which is explained by the terrace)\n- No similar events suggesting cloning\n- Artist name is consistent with Basque culture\n\nThe web search quota exceeded doesn't provide evidence of fraud - it just means I couldn't verify external tour dates. But given:\n1. The organizer has a clean history (no content reports, no admin unpublishes)\n2. The venue capacity warning is explained by the terrace mentioned in the description\n3. No similar events found\n4. All other checks pass\n\nI should approve this event. The confidence should be moderate-high since the only \"issue\" (capacity) has a clear explanation in the event description itself.",
           "toolCalls": [
             {
-              "id": "gZsmqv7L8l7qsFl1vbiLHsduADJfQL55",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize banda rock España\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4274,
-          "outputTokens": 44
-        }
-      }
-    },
-    {
-      "requestHash": "50d40fcf537531febaf0fd7431c9b2177c3bc6f4b20e4dc03311872817185f05",
-      "latencyMs": 1851,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "kx1Xmfswg1Skb5FV6lXxtDAHExUh1iwB",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Teatro Albéniz\\\" Madrid aforo capacidad 898\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4642,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "b590a4bafab575fadbc638260f9916f4c46802153e40525b4c462d8a75e2c587",
-      "latencyMs": 52440,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Organizador (Itsasargi Kontzertuak):**\n   - Cuenta aprobada desde 2024, con 930 días de antigüedad.\n   - Datos fiscales válidos (CIF con checksum correcto).\n   - Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\n   - Equipo estable (1 dueño, 1 manager, 2 scanners).\n\n2. **Evento:**\n   - Título: \"Hiru Haize en directo\" para presentación de disco.\n   - Género rock, fecha 27/11/2026, Teatro Albéniz Madrid.\n   - Precio general: 22 € (dentro del benchmark).\n   - Tarifas y comisiones dentro de lo razonable.\n\n3. **Aforo:**\n   - OpenStreetMap indica 898 espectadores.\n   - El evento pone a la venta 1.100 entradas (1,2 veces el aforo oficial).\n   - Deterministic_checks ya marcaron esto como \"warn\" con explicación plausible: terraza o aforo ampliado.\n\n4. **Artista:**\n   - \"Hiru Haize\" no aparece en búsquedas web fiables. Solo hay referencias a una banda antigua llamada \"Haizea\" (1970s, rock psicodélico vasco), pero no a \"Hiru Haize\".\n   - No hay tour dates oficiales ni presencia web verificable para esta banda específica.\n\n5. **Ubicación:**\n   - Teatro Albéniz existe y su capacidad de 898 está confirmada en dos fuentes (UMusic Hotels y The Vendry).\n   - Las coordenadas del evento coinciden con el teatro.\n\n**Puntos de atención:**\n- La banda \"Hiru Haize\" no tiene presencia web verificable fuera de la plataforma. Podría ser una banda emergente, pero también podría indicar que el nombre es inventado o copiado.\n- El aforo ligeramente superior al oficial (1.100 vs 898) ya está advertido por los checks determinísticos; necesita justificación adicional (ej. terraza).\n\n**Decisión:**\nDada la falta de información verificable sobre la banda \"Hiru Haize\" y el aforo que supera el oficial sin explicación clara en el texto del evento, recomiendo **request_info** para pedir:\n- Confirmación de la existencia real de la banda y su discografía.\n- Justificación del aforo ampliado (¿terrazza? ¿aforo oficial actualizado?).",
-          "toolCalls": [
-            {
-              "id": "vmbFWyDez5A883VxFCGLCv9lV0bw8tjR",
+              "id": "7FIEkDgD946pLOIacq1gx0y1QsmMD2bF",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta dos señales que requieren aclaración antes de aprobar: 1) La banda \\\"Hiru Haize\\\" no tiene presencia web verificable fuera de la plataforma (solo referencias a una banda antigua llamada \\\"Haizea\\\" de los años 70), lo que podría indicar un nombre inventado o copiado. 2) El aforo de venta (1.100) supera el oficial del Teatro Albéniz (898) en un 22%, aunque los checks determinísticos ya lo marcaron como \\\"warn\\\" con explicación plausible (terrazza). Se necesita información adicional para descartar fraude y justificar el aforo ampliado.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Itsasargi Kontzertuak: cuenta aprobada desde 2024 (930 días), datos fiscales válidos, historial limpio sin cancelaciones ni denuncias.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_c301c6a2f4\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias por contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_c301c6a2f4\",\"title\":\"Organizer context\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La banda 'Hiru Haize' no tiene presencia web verificable fuera de la plataforma. Solo hay referencias a una banda antigua llamada 'Haizea' (1970s, rock psicodélico vasco), pero no a 'Hiru Haize'. No se encontraron tour dates oficiales ni discografía reciente.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://en.wikipedia.org/wiki/Haizea\",\"title\":\"Haizea - Wikipedia\"},{\"url\":\"https://music.youtube.com/channel/UCqrWbZZHyhR43GjMh2NCmiA\",\"title\":\"Haizea YouTube\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El evento pone a la venta 1.100 entradas, mientras que OpenStreetMap y fuentes externas confirman un aforo oficial de 898 espectadores para el Teatro Albéniz (superación del 22%). Los checks determinísticos ya lo marcaron como 'warn' con explicación plausible (terrazza o aforo ampliado).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz\"},{\"url\":\"https://www.umusic-hotels.com/es/umusic-hotel-madrid/teatro-albeniz\",\"title\":\"UMusic Hotels: Teatro Albéniz\"}]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"La descripción del evento ('Presentación del nuevo disco de Hiru Haize. El teatro abre también su terraza para la ocasión.') no ha sido verificada contra fuentes externas, pero el nombre de la banda no aparece en búsquedas fiables.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar la existencia real de la banda 'Hiru Haize' y proporcionar enlaces a su discografía o tour dates oficiales?\",\"¿Cuál es la justificación del aforo ampliado (1.100 entradas) frente al oficial del Teatro Albéniz (898 espectadores)? ¿Incluye terraza o aforo actualizado?\"],\"draft\":\"Solicitamos información adicional para aclarar: 1) La existencia real de la banda 'Hiru Haize' y su presencia fuera de la plataforma. 2) La justificación del aforo ampliado (1.100 vs 898 oficiales).\"}}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"Evento legítimo con organizador aprobado y buena historia (14 eventos publicados, 0 cancelados, sin reportes de contenido). Datos fiscales válidos (CIF con checksum correcto). El único hallazgo es una advertencia sobre capacidad del recinto (1.100 entradas vs aforo OSM de 898), pero la descripción del evento explica que \\\"el teatro abre también su terraza para la ocasión\\\", lo cual justifica el aforo ampliado. No hay eventos similares en la misma provincia que sugieran clonación. Todos los demás checks determinísticos pasan. La búsqueda web no pudo obtener resultados por cuota excedida, pero esto no indica fraude. Se recomienda aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Itsasargi Kontzertuak aprobado desde 2024-05-20, datos fiscales válidos (CIF con checksum correcto), cuenta de propietario verificada hace 930 días, sin otros organizadores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_c301c6a2f4\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 0 cancelados, 12 finalizados, sin despublicaciones por admin, sin reportes de contenido, sin revisiones anteriores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_c301c6a2f4\",\"title\":\"Organizer context\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Sesión con más entradas pone a la venta 1.100 vs aforo OSM de 898 (1,2 veces). Explicado por terraza mencionada en descripción del evento.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la misma provincia dentro de 30 días.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/events/evt_c6ca54cd26/similar\",\"title\":\"Similar events search\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"Búsqueda web por cuota excedida no pudo verificar fechas de gira externas para Hiru Haize.\",\"confidence\":0.3,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5076,
-          "outputTokens": 1557
+          "inputTokens": 4516,
+          "outputTokens": 1248
         }
       }
     }
@@ -124,96 +68,17 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://miyamotointernational.com/es/proyectos/la-terraza-del-teatro-griego-completamente-renovada",
-            "title": "Renovación completa de la terraza del Teatro Griego - Miyamoto International",
-            "snippet": "El Teatro Griego, un emblemático recinto al aire libre para conciertos, espectáculos y eventos en el Parque Griffith de Los Ángeles, celebraría su 90.º aniversario en 2020. Sin embargo, debido a la COVID-19, el recinto no pudo abrir sus puertas para celebraciones presenciales. No obstante, esta pausa temporal resultó ser una excelente oportunidad para dedicar el año a una necesaria modernización sísmica de las gradas elevadas del teatro. El Departamento de Recreación y Parques de Los Ángeles [.."
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=-QJTlMlBC7I",
-            "title": "Reabre el Teatro Argentino de la Ciudad de Buenos Aires",
-            "snippet": "[3:48] importa donde vos pongas el escenario dónde pongas al público sino que donde seas te vas a poder conectar una luz vas a tener disponibilidad técnica de buen\n[3:57] sonido va a visuales eh buenas por todos lados y la última etapa va a ser la terraza del teatro que va a\n[4:05] tener una capacidad para 300 personas maro más o menos aproximadamente donde también vamos a contar con un espacio\n[4:12] para que hayan representaciones artísticas O sea que puede haber tres eventos en [...] [4:19] s"
-          },
-          {
-            "url": "https://milagrossocorro.com/2010/06/teatro-bar",
-            "title": "Teatro Bar – Milagros Socorro",
-            "snippet": "Saltar al contenido.\n\n# Milagros Socorro\n\n## Sitio oficial de Milagros Socorro\n\n. Y, por último o más bien, para empezar, está la terraza del edificio D&D, en cuya planta baja se encuentra Teatro Bar, que ha sido incorporada a las actividades de éste. La terraza es básicamente, el acceso al lugar, pero también hay unas mesitas para quienes sientan el deseo de estarse un rato al fresco de la noche. Y no molestan a nadie, porque a esa hora las oficinas que ocupan la torre están vacías. [...] Como "
-          },
-          {
-            "url": "https://www.instagram.com/p/DXX0ie5jgaE",
-            "title": "Instagram",
-            "snippet": "cultura\\_fca\n\nEl miércoles 15 de abril La Comuna, Grupo de Teatro de la FCA compartió \"La calle de la gran ocasión, de Luisa Josefina Hernández\" en el marco del Día Mundial del Arte en la FCA, en la Terraza de las Artes a las 14:00 horas\n\n## No comments yet.\n\nStart the conversation.\n\n38\n\nLog in to like or comment.\n\nMore posts from cultura\\_fca\n\nPhoto by Cultura FCA on October 30, 2026. May be a graphic of map, poster, magazine, calendar and text.\n\nPhoto by Cultura FCA on November 03, 2026."
-          },
-          {
-            "url": "https://blog.esmadrid.com/blog/es/2016/07/29/de-terrazas-en-los-museos",
-            "title": "Terrazas de museo. Bloggin' Madrid - Blog de turismo de Madrid",
-            "snippet": "Cualquier motivo es bueno para quedar en una terraza. Y si además es antes o después de disfrutar de una buena exposición, un concierto o una obra de teatro, pues mejor que mejor. En estas terrazas de los museos o centros de arte y cultura de Madrid las tardes se alargan y llenan de puro placer. Iremos buscando más rincones refrescantes para que tengas donde elegir este verano.\n\nEn el ático del Museo Thyssen-Bornemisza se abre El Mirador, con fabulosas vistas de Madrid. [...] Matadero Madrid, en"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "6350eba882d03d1bba1d487724ffbc4c7995bc075d89c34244106e98378f6146",
+      "requestHash": "678bc068e14a1ab70f11d245cd9022633f180eb6dafa466b27edcf1112074d0f",
       "provider": "Tavily",
-      "query": "Hiru Haize banda rock concierto 2026 Madrid Teatro Albéniz",
+      "query": "Hiru Haize banda rock concierto 2026 tour dates",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/popular/teatro-alb%C3%A9niz-madrid",
-            "title": "Teatro Albéniz Madrid",
-            "snippet": "Log In\n\nSign Up\n\n# Teatro Albéniz Madrid\n\nThe Teatro Albéniz in Madrid recently hosted a concert by Joaquina on March 23, 2026. According to recent reviews, the theater is known for its amazing setting and staging, with high-level light and... more\n\n## teatros madrid\n\n## teatro albeniz\n\nGRACIAS, MADRID ❤️\n\nTodavía sigo asimilando todo lo que vivimos ayer en el Teatro Albéniz. [...] 💎 Ultimando ensayos para el concierto en el Teatro Albéniz @umusicfestival \n\nMañana nos vemos, MADRID ❤️‍🔥\n\n🎥 @d"
-          },
-          {
-            "url": "https://www.umusic-hotels.com/umusic-hotel-madrid/theater-albeniz",
-            "title": "Discover the Albéniz Theater in Madrid | UMusic Hotel",
-            "snippet": "After captivating millions of spectators in Hollywood, Shanghai, Brazil, Mexico and Portugal, Henry & Klauss will take the stage at UMusic Hotel Teatro Albéniz from 21 November 2026 to 10 January 2027, with performances on Fridays, Saturdays and Sundays.\n\nRecommended for ages 4 and over. Children under 16 must be accompanied by a responsible adult.\n\n21 November 2026 – 10 January 2027\n\nBUY YOUR TICKETS\n\n### MERCEDES CAÑAS\n\nAddress: UMUSIC HOTEL TEATRP ALBÉNIZ - Calle Paz, 11, 28012, MADRID [...] "
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "de0b0d732f066eb7c273834b983f2fa533a0163be6f0295fa76eeb5660a60858",
-      "provider": "Tavily",
-      "query": "Hiru Haize banda rock España",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://en.wikipedia.org/wiki/Haizea",
-            "title": "Haizea - Wikipedia",
-            "snippet": "Haizea ('Wind') was a Basque band, playing psychedelic rock, progressive rock and folk-rock. Haizea released two albums, Haizea and Hontz Gaua. The first album Haizea was released in 1977 (IOIOTS-149 LS), being more folk than progressive. The second album, Hontz gaua (XOXOA 111 03) was released in 1979, as psychedelic folk. [...] |  |\n\n| This article related to the Basque Country \"Basque Country (greater region)\") is a stub. You can help Wikipedia by adding missing information. |\n\n v\n t\n e\n\n|  |"
-          },
-          {
-            "url": "https://music.youtube.com/channel/UCqrWbZZHyhR43GjMh2NCmiA",
-            "title": "Haizea",
-            "snippet": "3.0 ( was a Basque band, playing psychedelic rock, progressive rock and folk-rock. Haizea released two albums, Haizea and Hontz Gaua. The first album Haizea was released in 1977, being more folk than progressive. The second album, Hontz gaua was released in 1979, as psychedelic folk. The band's line up was originally Xabier Lasa; C. Busto; Xabier Iriondo; Gabriel Berrena; and Amaia Zubiria. From Wikipedia ( under Creative Commons Attribution CC-BY-SA 3.0 ( [...] AboutImage 21132,067 views Haizea"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "355f8884b2bc894895f13f3b9e5f9ed72222b274d42b0ebace5c9c4ded658115",
-      "provider": "Tavily",
-      "query": "\"Teatro Albéniz\" Madrid aforo capacidad 898",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.umusic-hotels.com/es/umusic-hotel-madrid/teatro-albeniz",
-            "title": "Descubre el Teatro Albéniz en Madrid | UMusic Hotel",
-            "snippet": "2 Niveles\n\nReconocido como edificio histórico de intrerés cultural por la Comunidad de Madrid, el Teatro Albéniz está situado dentro del nuevo UMusic Hotel Madrid, en el corazón de la escena musical y de ocio de la ciudad. Recientemente reformado, el espacio tiene capacidad para 898 espectadores, manteniendo sus elementos protegidos e históricos que le dan carácter y encanto.\n\nHorario Apertura Taquilla:"
-          },
-          {
-            "url": "https://thevendry.com/venue/248460/teatro-albeniz-madrid-(teatro-albeniz)-madrid-spain/space/141765",
-            "title": "The Theatre at Teatro Albéniz Madrid (Teatro Albéniz) - Performance Space in in Madrid, Spain | The Vendry",
-            "snippet": "Log In-madrid-spain/space/141765)\n\nBrowse more Performance Spaces in Madrid, Spain\n\n# The Theatre\n\n## Located In:Teatro Albéniz Madrid (Teatro Albéniz)-madrid-spain)\n\nSeated: 898\n\n## Teatro Albéniz Madrid (Teatro Albéniz)\n\n#### Teatro Albéniz Madrid (Teatro Albéniz)-madrid-spain)\n\n##### The Theatre\n\n##### Address\n\nTeatro Albéniz Madrid (Teatro Albéniz)\n\n11 Calle de la Paz Madrid, MD 28012\n\nBusiness Space Location Map\n\n##### Capacity\n\nSeated: 898\n\n##### F&B Options\n\nIn-house catering"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

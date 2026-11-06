@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "b0f5146013dfbc393a717d59b15737a4d5c2ba46bbc158d55303c2b4edc84856",
-      "latencyMs": 3278,
+      "requestHash": "96f365ecdde1b6cdbac840e055f47d763735c5842c2c87a2161a8f3222f3532b",
+      "latencyMs": 2710,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "wa74RhKrKXPOtBvZcBrTfGsjMB9kqtBs",
+              "id": "cEABcQiLU5gqU82I6oktmQ16C9hcPQMo",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_97613611b0\"}"
             }
@@ -22,65 +22,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3524,
+          "inputTokens": 3540,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "74b62a1eee4092424b6a7a435fce5000c6fe8c6252f46d970250a47201eadd82",
-      "latencyMs": 1893,
+      "requestHash": "e724c37a3895ef6c81663e45dde44fecc989af27d743cbab50ad65d17eeb73fc",
+      "latencyMs": 1542,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "1z3eNx6SzS1hFirTVIxj8ZjPyTtqtqCV",
+              "id": "NvSwjsaMWMTLWsnEgRfdhNOWQ15ijE9V",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Lope de Vega Sevilla aforo capacidad 1100\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Rocío del Aljibe flamenco Sevilla 2026\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3917,
+          "inputTokens": 3933,
           "outputTokens": 52
         }
       }
     },
     {
-      "requestHash": "394b0d311243bb8dd4e97c5cb554d290e7dd36865740701d771da2adfa59242c",
-      "latencyMs": 1848,
+      "requestHash": "e2ece98c4a732eb1f373f1f5c1a364841b1d45d0e5a0f4f8d43f8397d62402ed",
+      "latencyMs": 1320,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "PrbIM27b3jcqBgP0tKNyURauuj58JdrS",
+              "id": "QRc2P4zokbSF6fVJdm6jhUrajIWNoHPg",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Lope de Vega Sevilla dirección Avenida Honduras s/n\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Teatro Lope de Vega Sevilla aforo capacidad\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4364,
-          "outputTokens": 49
+          "inputTokens": 4080,
+          "outputTokens": 47
         }
       }
     },
     {
-      "requestHash": "0f9b688238101fde7959508a3785f15ca5501868a60f381e3f97f10bef8b8660",
-      "latencyMs": 1927,
+      "requestHash": "79b2ed04d4c2cee31c1d138271ff258bb917b3035d5307ebcf427bc5c5befb48",
+      "latencyMs": 1395,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "aSF2FaeqkLxz9jS8F5BVVpAQL58QWlB0",
+              "id": "ELbiTssIsyGQj4J2RVc478A1JCDrB8gu",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Teatro Lope de Vega Madrid 28013\",\"maxResults\":2}"
             }
@@ -88,30 +88,74 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4741,
+          "inputTokens": 4222,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "174c0a6040f1f881a4d7888866c692d8dee1e69434fa577b727235b3af385cf4",
-      "latencyMs": 25337,
+      "requestHash": "4c173d1acedb0e43cb59e5ba694c52d9582a48c955882ac83038258d96e82137",
+      "latencyMs": 1290,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "e0lUMKidxUwTlikSbWCVGwWuWwv4jMEy",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una inconsistencia geográfica grave: el código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Además, las fuentes verifican que el Teatro Lope de Vega en Sevilla tiene dirección Avenida de María Luisa s/n (41013), no Avenida Honduras s/n, y su aforo real es de 709 espectadores, no 1.100 como indica Wikidata. La venta de 220 entradas podría ser compatible con el aforo real, pero la combinación de datos geográficos incorrectos (CP de Madrid para un evento en Sevilla) y la dirección falsa apuntan a una posible falsificación del evento o uso de información de otro teatro (el de Madrid). Esta es una señal clara de fraude.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 es de Madrid, pero la provincia declarada es Sevilla. Esto indica una inconsistencia geográfica grave.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El aforo real del Teatro Lope de Vega en Sevilla es de 709 espectadores (según redescena.net), no 1.100 como indica Wikidata. La venta de 220 entradas podría ser compatible, pero la discrepancia en el aforo declarado sugiere posible uso de datos incorrectos.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.redescena.net/escenario/47/teatro-lope-de-vega-de-sevilla\",\"title\":\"Teatro Lope de Vega de Sevilla\"}]},{\"check\":\"venue_exists\",\"verdict\":\"warn\",\"detail\":\"La dirección declarada (Avenida Honduras s/n) no coincide con la dirección real del Teatro Lope de Vega en Sevilla, que es Avenida de María Luisa s/n según múltiples fuentes. Esto sugiere posible falsificación de datos del recinto.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://conciertosensevilla.es/sala/teatro-lope-de-vega\",\"title\":\"Conciertos en Teatro Lope De Vega Sevilla 2026\"},{\"url\":\"https://www.guiatelefonosgratis.com/telefono-teatro-lope-de-vega\",\"title\":\"Teléfono Teatro Lope De Vega Sevilla - 【Atención cliente 600 950 746】\"}]},{\"check\":\"similar_event\",\"verdict\":\"warn\",\"detail\":\"Existe un Teatro Lope de Vega en Madrid (Gran Vía, 57, 28013) que coincide con el código postal declarado. Esto sugiere que el evento podría estar usando datos del teatro de Madrid para un evento en Sevilla.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.madridmusicals.com/es/madrid-theaters/lope-de-vega-theater\",\"title\":\"Teatro Lope de Vega | Ahora en pantalla: El Rey León - El rey león\"}]}]}"
+              "id": "aIX3oJ8t6s8fhVRHdowozfyI1OerbYaR",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Teatro Lope de Vega Sevilla vs Madrid\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5188,
-          "outputTokens": 796
+          "inputTokens": 4367,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "da185d5e90687adc3fc7e8d1c6825d3ab4c302c9c7bc5aacb23d414cbf8e36e3",
+      "latencyMs": 1455,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "xgJiXCP1Sskf0aFA6TwEQNji4xX0VKtW",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Teatro Lope de Vega\\\" Sevilla 41003\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4508,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "631959529d756181b69c9ee7cb1d0e54605123596ef9f20dc36f5b81f43468bf",
+      "latencyMs": 19502,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "wNpPEjOJ3McNrANgVeuA9YWEeUIjzRG9",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una inconsistencia geográfica crítica: el código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Aunque las verificaciones deterministas ya marcaron este fallo en \\\"postal_code_province\\\", esta discrepancia no tiene explicación inocente y sugiere un error grave o posible intento de ocultar la ubicación real del evento. Además, el nombre del recinto \\\"Teatro Lope de Vega\\\" existe tanto en Madrid como en Sevilla, lo que añade ambigüedad. Dado que el código postal es un dato oficial y verificable, y no coincide con la provincia declarada, esto constituye una señal de alerta suficiente para rechazar el evento hasta que se aclare su ubicación real.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"fail\",\"detail\":\"El código postal 28013 corresponde a Madrid, pero la provincia declarada es Sevilla. Esta inconsistencia no tiene explicación inocente y sugiere un error grave o posible intento de ocultar la ubicación real del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Tablao Compás Producciones' tiene datos fiscales válidos, cuenta con 930 días de antigüedad y no ha sido despublicado por administradores. No hay señales de fraude en su identidad.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador ha publicado 14 eventos, cancelados 0 y finalizados 12. No hay denuncias por contenido ni recomendaciones previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"El recinto 'Teatro Lope de Vega' existe en las coordenadas declaradas según OpenStreetMap.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/37522264\",\"title\":\"OpenStreetMap: Teatro Lope de Vega (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"El aforo de 220 entradas es compatible con la capacidad real del recinto según Wikidata.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q2635919\",\"title\":\"Wikidata (Q2635919, CC0)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar la disponibilidad de Rocío del Aljibe en otras fechas o lugares debido a limitaciones de búsqueda web.\",\"confidence\":0.5,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4596,
+          "outputTokens": 744
         }
       }
     }
@@ -124,75 +168,27 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.grangalaflamenco.com/blog/pilares-flamenco-cante-baile-toque",
-            "title": "Los tres pilares del flamenco: Cante, Baile y Toque | Guía para entender el arte flamenco",
-            "snippet": "### La importancia del «Cuadro Flamenco» tradicional\n\nCuando todos estos elementos se unen en el escenario, forman lo que llamamos un «Cuadro Flamenco». Es aquí donde se aprecia la polirritmia, una de las señas de identidad más características del flamenco. La interacción entre las palmas, el taconeo del bailaor, los golpes en la guitarra y la percusión (como el cajón) crea un entramado rítmico de gran riqueza y complejidad. [...] En el universo del flamenco, estos elementos no funcionan de mane"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=evxnOWfTNuI",
-            "title": "Toque | Flamenco vivo | Rocío Aristimuño",
-            "snippet": "[45:23] [Aplausos]\n[45:43] Bueno si sin antes de despedirnos quiero presentar a este tip no Rocío aristimuño al baile aplauso\n[45:52] [Aplausos]\n[46:03] en la guitarra y en el cante Fernanda de Córdoba\n[46:07] [Aplausos]\n[46:21] bueno Y en el canto y el cajón José ausina Muchas gracias\n[46:25] [Aplausos]\n[46:35] [Música]\n[47:00] [Música]\n[47:29] Ay Por cierto te pusiste estar arándana la orilla de un banano del color de la [...] [26:33] [Aplausos]\n[26:40] [Música]\n[26:56] [Música]\n[27:18] [Músic"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=qsSn7ZUM9Sw",
-            "title": "Cante: Cañejo, baile: Rocio Hernández, toque: Juanma el Churrero. 11/10/26.Alegrías",
-            "snippet": "# Cante: Cañejo, baile: Rocio Hernández, toque: Juanma el Churrero. 11/10/26.Alegrías\n## Channel: Tertulia Flamenca de Ceuta\n762 subscribers\n1 likes\n\n### Description\n267 views\nPosted: 2026-10-13"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=haTHEaBlAOI",
-            "title": "Flamenco Alegrias. Cante, Toque, y Baile. Live flamenco performance in Alicante, Spain.",
-            "snippet": "### Transcript\n[0:00] para dónde a la entr la derecha la izquierda vamos all\n[0:10] [Música]\n[0:19] [Música]\n[0:39] Dale dale ya\n[0:47] [Música]\n[1:11] bonito Mira qué bonito\n[1:21] está mi cuando\n[1:30] Mira qué bonito está\n[1:36] [Música]\n[1:41] [Aplausos]\n[1:41] [Música]\n[2:01] [Música]\n[2:25] ti que por mi puerta pase lo que cuidado si me da\n[2:34] mi que por mi puerta pas si yo no com\n[2:43] uno con los buenos\n[2:46] [Música]\n[2:48] de si yo\n[2:50] [Música] [...] [2:50] [Música]\n[2:52] no q"
-          },
-          {
-            "url": "https://www.instagram.com/rocioconde",
-            "title": "Rocío Conde (@rocioconde) • Instagram photos and videos",
-            "snippet": "Australia 🇦🇺\n rocioconde's highlight story picture\n\n  Gente que amo\n rocioconde's highlight story picture\n\n  Canada 🇨🇦\n rocioconde's highlight story picture\n\n  Happiest Day\n rocioconde's highlight story picture\n\n  New York 🌃\n\nVideo by Rocío Conde on November 17, 2019.\n\nVideo by Rocío Conde on May 01, 2020.\n\nVideo by Rocío Conde on April 29, 2022.\n\nPhoto by Tablao Flamenco Toronto on October 10, 2026.\n\nPhoto by Rocío Conde on August 18, 2026. May be an image of dancing and poster. [...] Log "
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "9341443ebaf09f30ed9d119b4c196f8e3c7445c5d5aa41100e2da2f79bbe1c29",
+      "requestHash": "a15068aa0fc90582b28eacbbe309dc22cee778ffe4f5ecbd06b55a47401a62ec",
       "provider": "Tavily",
-      "query": "Teatro Lope de Vega Sevilla aforo capacidad 1100",
+      "query": "Rocío del Aljibe flamenco Sevilla 2026",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.redescena.net/escenario/47/teatro-lope-de-vega-de-sevilla",
-            "title": "Teatro Lope de Vega de Sevilla",
-            "snippet": "#### Teatro Lope de Vega\n\n Aforo: 709\n Ancho de boca: 1100\n Fondo desde boca: 2180\n Anchura máxima: 2050\n Fondo desde boca: 2180\n Altura máxima (boca): 1813\n Hombro izquierdo: 322\n Hombro derecho: 323\n Altura de boca: 1000\n\nFlecha derecha SERVICIOS\n\n### Servicios generales\n\n:   Acceso adaptado\n:   Bar\n:   Calefacción\n:   Guardarropa\n:   Refrigeración\n:   Renovación de aire\n\nFlecha derecha GALERÍA DE FOTOS\n\n[](\n\n[](\n\nFlecha derecha MAPA [...] .\n\nInstitución a la que pertenece:\n:   Ayuntamiento de"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/IzV1F5sVByBL",
-            "title": "Teatro Lope de Vega",
-            "snippet": "# Teatro Lope de Vega\nID: IzV1F5sVByBL\nWebsite: www.sevilla.org/teatro-lope-de-vega/\nHeadquarters: MULA, Portugal\nLinkedIn: www.linkedin.com/company/teatro-lope-de-vega · 33 followers\nIndustry: Performing Arts\nIndustry codes: SIC 78, 783, NAICS 5121, 512131 [...] www.twitter.com/share?url=www.sevilla.org/teatro-lope-de-vega/eventos/largo-viaje-hacia-la-novhe&text=largo%20viaje%20hacia%20la%20noche%20-%20ágora%20producciones%20/%20eugene%20o’neill, www.twitter.com/share?url=www.sevilla.org/teatro"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "e096386c95f0fa2bd13d7658e34c7151e153ca01574969113340812af53f1d03",
+      "requestHash": "f57f2c309f013e57d75a794e20ebde2c5a10c6fbf0e6498ae84fdeb4a1ab82ef",
       "provider": "Tavily",
-      "query": "Teatro Lope de Vega Sevilla dirección Avenida Honduras s/n",
+      "query": "Teatro Lope de Vega Sevilla aforo capacidad",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://conciertosensevilla.es/sala/teatro-lope-de-vega",
-            "title": "Conciertos en Teatro Lope De Vega Sevilla 2026",
-            "snippet": "Dirección: Avenida de María Luisa, s/n, 41013 Sevilla Zona: Parque de María Luisa / Prado\n\nEl Teatro Lope de Vega es uno de los grandes teatros históricos de Sevilla, junto al Parque de María Luisa. Acoge programación de música, flamenco y artes escénicas durante todo el año y es sede habitual de la Bienal de Flamenco.\n\n## Preguntas frecuentes\n\n## La agenda de Teatro Lope De Vega de un vistazo"
-          },
-          {
-            "url": "https://www.guiatelefonosgratis.com/telefono-teatro-lope-de-vega",
-            "title": "Teléfono Teatro Lope De Vega Sevilla - 【Atención cliente 600 950 746】",
-            "snippet": "Para cualquier información que necesites adquirir de manera presencial, dejamos a tu disposición la ubicación del Teatro Lope de Vega: Av. de María Luisa, s/n, 41013 Sevilla.\n\nEs recomendable que, antes de acudir a sus oficinas, verifiques si ofrecen atención al cliente en persona y horario laboral. Hazlo mediante sus opciones de contacto como su número telefónico o medios online.\n\n### Dejar un comentario Cancelar respuesta [...] En general, el Teatro Lope de Vega centraliza sus servicios como u"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
@@ -202,18 +198,17 @@
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.madridmusicals.com/es/madrid-theaters/lope-de-vega-theater",
-            "title": "Teatro Lope de Vega | Ahora en pantalla: El Rey León - El rey león",
-            "snippet": "Saltar al contenido principal\n\n‌‌‌‌\n\n‌‌\n\n## Preguntas frecuentes sobre el Teatro Lope de Vega\n\n77 años.\n\nEl Lope de Vega está en la calle Gran Vía, 57, entre la calle San Bernardo y la calle Isabel, en Madrid, España.\n\nEl teatro está en la calle Gran Vía, 57, Centro, 28013 Madrid, España.\n\nSe puede llegar fácilmente al teatro en cualquier medio de transporte, ya sea en bici, en coche, en autobús o en metro. [...] Address:  C. Gran Vía, 57, 28013 Madrid, España.\n En metro: El teatro está muy cerc"
-          },
-          {
-            "url": "https://www.entradas.com/city/madrid-370/venue/teatro-lope-de-vega-18830",
-            "title": "Teatro Lope de Vega en Madrid | Entradas.com",
-            "snippet": "Entradas Concierto Entradas\n\n# Teatro Lope de Vega\n\nTeatro Lope de Vega\n\n# Teatro Lope de Vega\n\nC/ Gran Via, 57, 28013 MADRID\n\n(7416)\n\nCómo llegar y otra información\n\nHaga clic en el icono de añadir para agregar su preferencia a sus favoritos.\n\n135 eventos\n\nLista   Calendario  Ten en cuenta: El calendario no es completamente accesible para la tecnología de asistencia.\n\nCategoría\n\ncerrar\n\n Musicales y shows\n\n  (130)\n\n   checked\n\n  + Musicales\n\n    (130)\n\n     checked\n Teatro\n\n  (127)\n\n   checked "
-          }
-        ]
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "df93a88c789d96cd7167b8e408c280dc19c4cbadc4dd0071179e405ac6958410",
+      "provider": "Tavily",
+      "query": "Teatro Lope de Vega Sevilla vs Madrid",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
       }
     }
   ]

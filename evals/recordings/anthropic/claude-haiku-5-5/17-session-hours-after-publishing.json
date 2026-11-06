@@ -3,36 +3,41 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:06:00.000Z",
+  "clock": "2026-11-06T13:58:00.000Z",
   "calls": [
     {
-      "requestHash": "d60ed37a02003f99bf2b6883950d21a7dfe8f7b753723044ffc04ec6dd3dfc7b",
-      "latencyMs": 1202,
+      "requestHash": "7f3b51d0ff0c642ce1e215b0855a30f3e02a2da2b8fea351831da568fe351094",
+      "latencyMs": 1976,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_013GBrg8NDNK3KNKKsu5kdni",
+              "id": "toolu_01LaQWEhhzdUeCPg53EmPRkJ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c68156293b\"}"
             },
             {
-              "id": "toolu_018MuGgTD9gpNVC2LZPUVoGS",
+              "id": "toolu_01DvzS1DB9qjFZgqUidQmptA",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":14}"
+              "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01CBznUEJmuA4oz1Pj8qVqVC",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Orquesta Brisa del Cantábrico concierto Santander\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS8QUKEAgTGAI4AUIIdGhpbmtpbmcSDK6NFf4E4OGBWCEBMhoMI01QY/burXo0t8VfIjBrnuMS/baueqEmBeVodLiIPBp+rX0t5FlVo3mf4onjobXnjrXuH9Tfda2hqGp3FE8qjgVi6K3BdH0dhBBKbu+B1tK6uHSBTyHdQm9+1FE9YaTljJWEyD/7K6XdrdCVtw3wnI20J+RVb04mt+hiph6GsRBo8kFKYBfsifofov/BiXbJQe2CmGUA+yZZE/9rTzA9UxPWq8UZ7xkHhCKDqsNuUAONmxk6zbf6maAQffgynSEkbawByE87NmS+G52N2LVubPScJAQzi9LhK7pFWRRBwLEnIgNu7xWUvyERGibhYxL1B+rtMUugV8d/r34MuqtlmuDuBYJBFT2aGKOAbItBBIFcteScfBbB3Z2lxeaAOEqEfqlKBhzXuOj9p4JvlQmF2OMPtUxuA1Z9uiVVtkPUbp/IqlpTS4L1L0ioECMx0kCj/wOwJuf/dt+B2p7QHVKMhO6+SVzoMsi65+nV43w/D4VyHN4s7MT1mGFRc1QyU8YbiMxTmZja5Rghz5LJxtk4WuCBE4PL++OKd/c+WeJy/fM4g1st+JdvwubetUc8vm+usIyruPXWJsMxc9uFsPvvGPfQoGTvBCubqiJwXZtpSSkKzvRcoKkFVKMBw0t6BVRyEr9UNGF4DThlbkVctj1OHhxekDige5wrdQkjOXWL6+cstnFfL4jt61kMyb4Kt4KroPooJmTK1LNdHsYE3bNAV3S588gcR+MYxQSMsR90vkFKbt8o/qkwSKaEODL2XuSXfkCKdJ1aObGqiQe929o5CJrLtfym5aXOeUEAcyg73FWrhtKovRMb4dULG8OagAZ/eYmt0+CHys4dtuHT7Jm/qeHcrinJaswQ4J9cjRQawZxk+MlqB7NFVXZ9hlst9ZxHoFq8GtFxfm3xDpxuCBAYykJVQli9u5B92/IvO8LCEgrm0a6ClSwBYX1Iwp1k5jkYAQ=="
+              "signature": "CAQSwwUKEAgTGAI4AUIIdGhpbmtpbmcSDOgNCp3B0nhM7ZUwTBoMD86yFI9mXd1tF9bhIjAEpfDNvPYzpJorzPX06N+ol3ZMM3E80agOPT2jfFwyGP8kX+7XcF6j6O0IwywneNcq4AQIiCTN/ltK2PyxuJ1AFjkYXu13u3QQcFUjw6AQB+5opyHC9iq4K38U+dwmSIyEdt9oRq/Jxgl9ln7mlxd9ngPMfaVFnnz4OV+uwOf+iLr3REJMgpm9ofja+yBqeprG1JzBNJZNzs9JfRG/b4C5ejfDycrpK7bMOU/Z+8x5aM3//H5dZE2+hQDnJyZw3l0oq+SFblKGGxjqAMt7KAnx08nmpnLabnJ/997WLgyvn6+3CsCobGhfiTCj5tJNkns4QlR1HRgtM+PluCMAF/plC2f8yzw4lFSlCPUGA6jTv8CyAJb43pobQ9DykKsOjFPsoEsF1KMrx2PSdcX6o09OZ/EkjUCUIjnQg1Om2FKbNG95m4tsLEPIP3tzsxRuxrkTyhnULo9q1ICHOCP1kgb2Pcc+K30BHE1BFMQHDxRygJahxjO6OmCYB0dXJhG7SudSSbqO3t3P+8zToI8yBAjV8VKlRSWE94wqfVwXdq0rzuKxwTJ2aK/+SK4g5EcWcq3w9ASoumeZKlHUq06awH7FOtD6UOTheaYdIMhD1dgyFrPGkRbPJQ1zSErIaxRLXRE+ykYTS0ty/HaK37iL0zxCfYFAmgfZsizLXhdRzET9uWHX80c0c0um5aPciOyoMZAVeyRogSBmSegl6hHmBZ3TE4U4ytX0UhMj8eiJgT4axgMKrjPr90IYpH0S4xvH0Z6bBFHojWmpoDOr+DqGui2JUEi4bBS/O8/WCdS+bzSIXAll5CQX4t6GVj6rqQ+0v1wRFFHvd4SEI5kimzT/eNB3wBfF6/pau2MrQilsK2IxvoCZEhgB"
             },
             {
               "type": "tool_use",
-              "id": "toolu_013GBrg8NDNK3KNKKsu5kdni",
+              "id": "toolu_01LaQWEhhzdUeCPg53EmPRkJ",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_c68156293b"
@@ -43,50 +48,19 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_018MuGgTD9gpNVC2LZPUVoGS",
+              "id": "toolu_01DvzS1DB9qjFZgqUidQmptA",
               "name": "find_similar_events",
               "input": {
                 "eventId": "evt_249509afef",
-                "windowDays": 14
+                "windowDays": 30
               },
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4885,
-          "outputTokens": 186,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4881
-        }
-      }
-    },
-    {
-      "requestHash": "bb10f7fcfb99747f26936d5b7fc9e5b7377b23bb81400c3d0e942d0b9099ac13",
-      "latencyMs": 1678,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01AyPnwJsuacZBUyh92hY2R3",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Orquesta Brisa del Cantábrico concierto Santander\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSsggKEAgTGAI4AUIIdGhpbmtpbmcSDGWXuYjLMc3ZopnXKhoMlRsrGXa+mYfjTBcZIjDTu/VU0Dqb1sv7TEU/M1hyI5g/YoDCxfPVCQjx82ikLLY3tfs+1VLWS6Qg3xbYpN0qzwctibplnfm7FTdv2H/zj0dpDff7gyJzWZKp97Epzclgm5mPqwMm+994+tuAHzFdZbl6hXoxtxdTYeQ97XWypZX/vRRBUgomDeWH3j8tbn/iHo5apj51zpcdmh4arDvATUUD50fOrYQv+tlbkURFzlvfiVhHL2L3vdAgHktu+2ZVSmxTT/IORwvxYchLiOQz4F+Xc+/4JYsWDoxoZg+RnNwXe3wyLTgAa88+oWmJTk3bcA8u4LMnJeIYm9C9dDrifuHKb6xy8hjNdkUnkWaD9AeKBlMeFpAWiHuGwPaKtbOSvzHk6+M+opkAvdke/LhPY8+9Lb0xJKoUBrrtNqsDxPqKOrGr8Q9ckLGGzefgf/nU6YwQ5MRDCxVms5AbMCtKrlu0NQxL1xR1rp8jx7X5wM18Q2zd76tPLYP+anWCyKgsB4Xb6lEuXDp+/K+QZOt8bxUJWS2NN7VR71zsTISAJeqI6r7GPGFcDUnzBKefZ1JcPMIjd3zNNmzQhmV+iHeeZBdJPOEjtN56NkSXzmzyIr2t/4UIMqkWkaWQSNC2k8QZN/NIzXbNItJfyA4JhwZy393uKEWpH+pLNKX8iGIyuKdNKKGWXfgZzJfsike4v2FasutsEAnQniL1oKYr2PnkhiW2oUiWnzw4xC+w8BkGKhFfF36N5+WccGgLTG2wC2osbepGoVm1A1Q14l239a1HG7QikT0QQ7DVtuAnXzwCGsAk1XHcfFLUQtTG+IEvD7+CCj+BH11ESvf//tGHFGQ6ZgQ5ReO1zkyKFsPxFqRCFB/oPfcWP6quurZ11/Nq3CgzXGGitW6jTNoxVWBElWgCBrH855+VI3D6yXdZoHH15adEFSWf/5tlnV022oq9ZZoae2AF12/9t+0ACiIPF5rAiibWd+pcDb/okAVUXKMHvuGGP+ZiAVvGIsvs9l8CiadaVUF4KbsDHOhpgMOcPLf2Hbq9TbSaM/sVXvwkv/vLOSH68LleDwBNXZdyPuqDFQSYeuR+9ZYPINe7o8QEaABW8HFjfECNkgZOJfwuemTxVHTZOGgb0bc7nct3d0mXigrzqc0/G2li68ZDeAWQt/86gpsRIQ3CjfL82cAutFcZJpHHunGjCad1klqy4mJt4tNF2Xt5eSy+MCTJEBxREREds3iOTGQkMXXMUE50FTXGyGLkvQyrScsxNu9W2S+yJ0+AI5edeI9oS2UwE9S30TkhQ3DsECXmiUDmEpdiJ9pyFe2cwLdwEyc7YhYF7fMUZBtChIcwzTe/0oXqTaCv3cfoTRRIS7t7JTn+cFvn02rdS3oYAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01AyPnwJsuacZBUyh92hY2R3",
+              "id": "toolu_01CBznUEJmuA4oz1Pj8qVqVC",
               "name": "web_search",
               "input": {
                 "query": "Orquesta Brisa del Cantábrico concierto Santander",
@@ -100,141 +74,141 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5638,
-          "outputTokens": 260,
-          "cacheReadInputTokens": 4881,
-          "cacheWriteInputTokens": 755
+          "inputTokens": 4895,
+          "outputTokens": 265,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4891
         }
       }
     },
     {
-      "requestHash": "8b92a79903acf31dd0906d52230a9e8b5902815ba2c024e332d1d9c3424f9e99",
-      "latencyMs": 10221,
+      "requestHash": "f370539e5e47c4a6a0815f6b8cbf111f77461f9d69207c4571b966f025322731",
+      "latencyMs": 10205,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_012oS3neHH1T4dCoSgZHRVN7",
+              "id": "toolu_01FPsPYXGk7c1E9joxjpwYnd",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas ni reportes) y el recinto (Escenario Santander, verificado en OpenStreetMap) no muestran señales de fraude. Los controles deterministas pasan y no hay eventos similares de otros organizadores en la ventana de 14 días. Sin embargo, quedan dos puntos sin resolver: (1) la búsqueda web falló por cuota agotada, así que no he podido comprobar que la Orquesta Brisa del Cantábrico exista ni que actúe el 6/11/2026 en otro sitio; (2) el aforo del recinto es desconocido y se ponen a la venta 3.000 entradas generales, y la primera sesión empieza unas 10 horas después de la publicación. Ninguno de los dos puntos es prueba de fraude, pero no puedo aprobar sin verificarlos. Se pide información al organizador y se puede repetir la revisión cuando haya resultados.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Alborada Conciertos S.L.: CIF con checksum válido, dirección y código postal 39004 en Santander, cuenta de 930 días, email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la presencia del organizador fuera de la plataforma.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"unknown\",\"detail\":\"No se ha detectado un nombre parecido a una promotora conocida en los datos disponibles, pero no hay comprobación externa.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Escenario Santander figura en OpenStreetMap como amenity=arts_centre a 1 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"No hay aforo publicado en Wikidata ni OpenStreetMap. Se ponen a la venta 3.000 entradas generales sin dato de comparación.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"unknown\",\"detail\":\"No se puede evaluar sin el aforo real del recinto.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia con un margen de 14 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 15 € está por debajo del p90 de 35 € de eventos comparables.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La sesión del 6/11/2026 a las 9:00 empieza unas 10 horas después de la publicación (5/11/2026 a las 23:00, hora local). Puede ser un descuido o una publicación de último momento.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se ha podido comprobar en la web que la orquesta actúe en esa fecha. La búsqueda falló por cuota agotada.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"La descripción es muy breve (una frase) y no se ha podido buscar si está copiada de otra web.\",\"confidence\":0.3,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede el organizador confirmar la contratación de la Orquesta Brisa del Cantábrico para el 6/11/2026 en Escenario Santander, con un enlace o documento de contrato o programa?\",\"¿Cuál es el aforo real del recinto para este concierto y cómo se justifican las 3.000 entradas generales a la venta?\",\"¿Tiene el organizador un sitio web, redes sociales u otros eventos publicados fuera de la plataforma que se puedan verificar?\",\"¿Por qué la primera sesión está programada tan poco después de la publicación del evento? ¿Se ha publicado con prisa o hay algún error en la fecha?\",\"¿Puede ampliar la descripción del evento con el programa, los intérpretes y las condiciones de acceso?\"],\"draft\":\"Hola, hemos recibido el evento «Concierto al amanecer» (Alborada Conciertos) y necesitamos algunas aclaraciones antes de publicarlo: 1) Confirmad la contratación de la Orquesta Brisa del Cantábrico para el 6 de noviembre de 2026 en Escenario Santander, con un contrato o un enlace a su programación. 2) Indicad el aforo real del recinto para este concierto, porque se ponen a la venta 3.000 entradas generales. 3) Facilitad la web o las redes sociales del organizador. 4) Explicad por qué la sesión empieza tan poco después de la publicación (el 6/11 a las 9:00). 5) Ampliad la descripción con el programa e intérpretes. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.55,\"rationale\":\"El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas ni reportes) tiene un historial limpio y no hay clones detectados. Las comprobaciones deterministas pasan (código postal, pagos, condiciones, precios, comisiones, descuentos, sesiones). Sin embargo, quedan dos puntos sin resolver: (1) el aforo del recinto no se ha podido verificar (ni Wikidata ni OpenStreetMap lo publican) y se ponen a la venta 3.000 entradas en un recinto cuyo aforo real se desconoce; (2) la búsqueda web no pudo ejecutarse (cuota agotada), así que no se ha confirmado que la Orquesta Brisa del Cantábrico exista ni que actúe en esa fecha. Además, la sesión es el 6/11/2026 a las 19:00, unas 8 horas después de la publicación. Nada indica fraude, pero conviene aclarar el aforo y la actuación antes de aprobar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Alborada Conciertos S.L., CIF con checksum válido, dirección presente en Santander, cuenta de 930 días con email verificado y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, 0 revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar la presencia web del organizador fuera de la plataforma: la búsqueda web falló por cuota agotada.\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó una promotora conocida con nombre similar en la revisión disponible.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay otro evento con mismo título, fecha y recinto; ningún otro organizador usa el nombre del recinto en Cantabria.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Escenario Santander no está publicado en Wikidata ni OpenStreetMap, así que no se puede comparar con las 3.000 entradas de la sesión.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"unknown\",\"detail\":\"No se puede concluir si las 3.000 entradas superan varias veces el aforo real, al no conocerse el aforo.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo confirmar en la web que la Orquesta Brisa del Cantábrico exista ni que tenga esta fecha anunciada en otro sitio; la búsqueda falló por cuota.\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La sesión (6/11/2026 19:00 hora local) empieza unas 8 horas después de la publicación (6/11/2026 10:00 UTC).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada general de 15 € por debajo del p90 de 35 € de eventos comparables.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap a 1 m de las coordenadas.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander\"}]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real del Escenario Santander para este concierto y qué documentación lo acredita (contrato de cesión del recinto o ficha técnica)?\",\"¿Por qué se ponen a la venta 3.000 entradas y cómo se distribuye el aaforo en el recinto (zona de pie, sentados, etc.)?\",\"Facilitar la web o redes sociales oficiales de Alborada Conciertos y de la Orquesta Brisa del Cantábrico, con enlaces a eventos pasados o a su propia presencia.\",\"¿Existe contrato o confirmación de la actuación de la Orquesta Brisa del Cantábrico para el 6/11/2026?\",\"Confirmar que la venta de entradas y la fecha del concierto son correctas, dado que la sesión está a unas 8 horas de la publicación.\"],\"draft\":\"Hola, estamos revisando el evento «Concierto al amanecer» antes de publicarlo. Para continuar necesitamos: 1) El aforo real del Escenario Santander y la documentación que lo acredite, ya que las 3.000 entradas a la venta no podemos contrastarlas con fuentes públicas. 2) La distribución del aforo en el recinto. 3) Los enlaces a la web o redes oficiales de Alborada Conciertos y de la Orquesta Brisa del Cantábrico. 4) La confirmación de la actuación de la orquesta en esa fecha. 5) Confirmar que la fecha y hora de la sesión (6/11/2026, 19:00) son correctas, ya que empieza unas 8 horas después de la publicación. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "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"
+              "signature": "CAQS/gsKEAgTGAI4AUIIdGhpbmtpbmcSDENkyTXSsXfUrGP6HRoMiJ5ZktrKUy1Sh2z2IjDWI2cqgi/MNqigLKvfRNZ0v6SfAaIC+iHrCXrLzgdA5DmvRRhtumC/mf93tA1JFy4qmwuDr5VWAdz9GvfNerx9gZ+/a0nQ0bfxMI8UUUhw17k29Be0yyxsI2IgT5GrvBesC/sd3dSEamnW/p1Zag6sDh0Pcvb9Nn/eWA8zqb/POsqNIremVQXPGLhuctWeZejNYEcQ+6TM6WzbMfWzd0Gntj4YdUwPxnwVbVF7MYWEDOP7o1P12CKJCnAptQyDGoZ7cZqbVrGC1/oVgnzDcxloo/VDjoI5E51Ru2IcTxiOlmNDm9NrjzJCU2GbPBfTMTcVwz6DgZAeJkK0G+3nPEbAn24NtmZKkYKAYFFNiZm4+X5uQJ9HP3cGhPfCaQin3rHYfMPdDso2NoI+g3+74GJYtWVzGl7SBxA0LgtKDTrBQIC9/KUNHVeEKbmmswCBbIF3xiWV6yrtlQc/yvIv/k1GWAvg4by4TCg2tsm0RDGIBH1euVPO8jbLJBUffhqnV1u39rVLGcnBa+GpSLwWnfnbc1rhQGJ8glfu5jl/FaDTQVP2gSV67+oD9M/wHudxRnqskhdWUdB1eDRRdC491JJAn08aSxBc6jODv6E5JuE3G/kRoLF/ZsNslzZ+0cM3uvUxYYfsvoSuTFsOQFKdOUxAxOzzMqSPmYPvvjW2SHfiMNIzhwx2Pi6E7zgtID7VRaLgJz2E3tqZ1GXBzAH2OzMyg84ojuk4ksI7GUkK0It5Dm+k4Ls1/M8GaPJEwZ+AxMRLz2qufoPfAPin+L8lJlO5VLFOGDP07hMnp8XgoGTBV5r5MFUHxlshhUzjZTu3vlN0QvdiHY0oIkmg/hLcOoflCvX/kPrI5r7fYgNDTRQ1K9/0iTjgnUd7y7jHEtcei129KhbmHIJ7abjB4AGRvvwnlv1PHwsuhqWUGBdAn4DcRm941jweNVDVn5xyLGSIJ5/ovvqdeei49icKxIvAryw1q1JFaz51c7hktixQNsLBXn2WDtgvrfa/d0KsQU8BhQPkXsEntNs7rdE/zcNLrPbnIC7P/ZFR0WTmrumTSgaAFiDIJoS9sMCOYiT2/Hp475WHtwjx7TAh1rGdrzknuqDkAsZfTwqWvKmNTMfernN4260qhiiTMAyyopMsPGG578hg0ZAtJA3+5Tmf3jm7BRsCsGiWUM9HFz9g9BokOvghzJ265WXPPA5aAI081LPvXRr36GWGERFXb3l2UGGYk2kuyuSThecZOKq8Ce3oszcfhSoTAIdh5R/RyvN0YX4ZWDXi22Q79maqp2H/CNOrVR19S+vabXONSLgzv1LpDOqrvMoL8P1Rjct3nAQKWRQsXr18zrgnAO2U2JYId863vp+yz+5QT/Cb8jty6OWzGMyMF9zZYJUvby4WR0RfjcMD9DgQyHi4BM8UZmfk638h8KKUIpa22JBz+mjS8LvMUdRkUo7gjgUVsprD8Fl0ZXAmkoXp8RhqpKMB/9vtvMyxgEf5rAwMXsfIOamB3kmaXBCRgJ7P9uDiw1jAZVxXbWg5dbRnz/NenQYUTOuGoc5UiOBciXi1p+4rk+yhfYLx8ypcHboCdwf+oy9f5rJI5hYLs0TJLXFWneWQvOa3y95Xb+qn4TZZlFv1J7sKKvUqlEzU8xdXw3BZGlPBemdHR48uPMt1KgmRp3CSJAVRkBaKaCJjNgy9Qmv+rrnSF7/f8GCPZg2ZTv0bIMBLqc3VG2YyGli0mKOIjLfXk1JpdOH1oYA+Gi1dJbnnibLHDDFbRwUsD0En5CidxLYGVNdvwy6bAOY49M7QwDGVlJHRtIDzOYGgs1m/OcsBNLhkOWMxO0WKF4hP4l2PqvcrOZyfoY/P16seva1tqlc3IsjSArITkjzu7xIQ/yajswt8sMLJ6IziFIPnrqulBRI5rYQpP2HzRldu2Nc0tq0VJQJJcR+voomLOgHEJ0pVs0dZZGsgB3kgESAest7giBtVPHddBA7FGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_012oS3neHH1T4dCoSgZHRVN7",
+              "id": "toolu_01FPsPYXGk7c1E9joxjpwYnd",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.5,
-                "rationale": "El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas ni reportes) y el recinto (Escenario Santander, verificado en OpenStreetMap) no muestran señales de fraude. Los controles deterministas pasan y no hay eventos similares de otros organizadores en la ventana de 14 días. Sin embargo, quedan dos puntos sin resolver: (1) la búsqueda web falló por cuota agotada, así que no he podido comprobar que la Orquesta Brisa del Cantábrico exista ni que actúe el 6/11/2026 en otro sitio; (2) el aforo del recinto es desconocido y se ponen a la venta 3.000 entradas generales, y la primera sesión empieza unas 10 horas después de la publicación. Ninguno de los dos puntos es prueba de fraude, pero no puedo aprobar sin verificarlos. Se pide información al organizador y se puede repetir la revisión cuando haya resultados.",
+                "confidence": 0.55,
+                "rationale": "El organizador (Alborada Conciertos S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas ni reportes) tiene un historial limpio y no hay clones detectados. Las comprobaciones deterministas pasan (código postal, pagos, condiciones, precios, comisiones, descuentos, sesiones). Sin embargo, quedan dos puntos sin resolver: (1) el aforo del recinto no se ha podido verificar (ni Wikidata ni OpenStreetMap lo publican) y se ponen a la venta 3.000 entradas en un recinto cuyo aforo real se desconoce; (2) la búsqueda web no pudo ejecutarse (cuota agotada), así que no se ha confirmado que la Orquesta Brisa del Cantábrico exista ni que actúe en esa fecha. Además, la sesión es el 6/11/2026 a las 19:00, unas 8 horas después de la publicación. Nada indica fraude, pero conviene aclarar el aforo y la actuación antes de aprobar.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Alborada Conciertos S.L.: CIF con checksum válido, dirección y código postal 39004 en Santander, cuenta de 930 días, email verificado y sin otras organizaciones del propietario.",
+                    "detail": "Alborada Conciertos S.L., CIF con checksum válido, dirección presente en Santander, cuenta de 930 días con email verificado y sin otras organizaciones del titular.",
                     "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "detail": "14 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, 0 revisiones previas.",
                     "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_web_presence",
                     "verdict": "unknown",
-                    "detail": "La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la presencia del organizador fuera de la plataforma.",
-                    "confidence": 0.2,
+                    "detail": "No se pudo verificar la presencia web del organizador fuera de la plataforma: la búsqueda web falló por cuota agotada.",
+                    "confidence": 0.1,
                     "sources": []
                   },
                   {
                     "check": "impersonation",
-                    "verdict": "unknown",
-                    "detail": "No se ha detectado un nombre parecido a una promotora conocida en los datos disponibles, pero no hay comprobación externa.",
-                    "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "venue_exists",
                     "verdict": "pass",
-                    "detail": "Escenario Santander figura en OpenStreetMap como amenity=arts_centre a 1 m de las coordenadas del evento.",
-                    "confidence": 0.9,
-                    "sources": [
-                      {
-                        "url": "https://www.openstreetmap.org/way/786247177",
-                        "title": "OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)"
-                      }
-                    ]
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "unknown",
-                    "detail": "No hay aforo publicado en Wikidata ni OpenStreetMap. Se ponen a la venta 3.000 entradas generales sin dato de comparación.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "capacity_far_above_venue",
-                    "verdict": "unknown",
-                    "detail": "No se puede evaluar sin el aforo real del recinto.",
-                    "confidence": 0.2,
+                    "detail": "No se detectó una promotora conocida con nombre similar en la revisión disponible.",
+                    "confidence": 0.4,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia con un margen de 14 días.",
+                    "detail": "No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
                     "confidence": 0.6,
                     "sources": []
                   },
                   {
-                    "check": "price_benchmark",
+                    "check": "exact_duplicate_other_organizer",
                     "verdict": "pass",
-                    "detail": "El precio de 15 € está por debajo del p90 de 35 € de eventos comparables.",
-                    "confidence": 0.7,
+                    "detail": "No hay otro evento con mismo título, fecha y recinto; ningún otro organizador usa el nombre del recinto en Cantabria.",
+                    "confidence": 0.6,
                     "sources": []
                   },
                   {
-                    "check": "session_timing",
-                    "verdict": "warn",
-                    "detail": "La sesión del 6/11/2026 a las 9:00 empieza unas 10 horas después de la publicación (5/11/2026 a las 23:00, hora local). Puede ser un descuido o una publicación de último momento.",
-                    "confidence": 0.6,
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del Escenario Santander no está publicado en Wikidata ni OpenStreetMap, así que no se puede comparar con las 3.000 entradas de la sesión.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "unknown",
+                    "detail": "No se puede concluir si las 3.000 entradas superan varias veces el aforo real, al no conocerse el aforo.",
+                    "confidence": 0.3,
                     "sources": []
                   },
                   {
                     "check": "artist_availability",
                     "verdict": "unknown",
-                    "detail": "No se ha podido comprobar en la web que la orquesta actúe en esa fecha. La búsqueda falló por cuota agotada.",
-                    "confidence": 0.2,
+                    "detail": "No se pudo confirmar en la web que la Orquesta Brisa del Cantábrico exista ni que tenga esta fecha anunciada en otro sitio; la búsqueda falló por cuota.",
+                    "confidence": 0.1,
                     "sources": []
                   },
                   {
-                    "check": "text_originality",
-                    "verdict": "unknown",
-                    "detail": "La descripción es muy breve (una frase) y no se ha podido buscar si está copiada de otra web.",
-                    "confidence": 0.3,
+                    "check": "session_timing",
+                    "verdict": "warn",
+                    "detail": "La sesión (6/11/2026 19:00 hora local) empieza unas 8 horas después de la publicación (6/11/2026 10:00 UTC).",
+                    "confidence": 0.9,
                     "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Entrada general de 15 € por debajo del p90 de 35 € de eventos comparables.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "Recinto verificado en OpenStreetMap a 1 m de las coordenadas.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/way/786247177",
+                        "title": "OpenStreetMap: Escenario Santander"
+                      }
+                    ]
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Puede el organizador confirmar la contratación de la Orquesta Brisa del Cantábrico para el 6/11/2026 en Escenario Santander, con un enlace o documento de contrato o programa?",
-                    "¿Cuál es el aforo real del recinto para este concierto y cómo se justifican las 3.000 entradas generales a la venta?",
-                    "¿Tiene el organizador un sitio web, redes sociales u otros eventos publicados fuera de la plataforma que se puedan verificar?",
-                    "¿Por qué la primera sesión está programada tan poco después de la publicación del evento? ¿Se ha publicado con prisa o hay algún error en la fecha?",
-                    "¿Puede ampliar la descripción del evento con el programa, los intérpretes y las condiciones de acceso?"
+                    "¿Cuál es el aforo real del Escenario Santander para este concierto y qué documentación lo acredita (contrato de cesión del recinto o ficha técnica)?",
+                    "¿Por qué se ponen a la venta 3.000 entradas y cómo se distribuye el aaforo en el recinto (zona de pie, sentados, etc.)?",
+                    "Facilitar la web o redes sociales oficiales de Alborada Conciertos y de la Orquesta Brisa del Cantábrico, con enlaces a eventos pasados o a su propia presencia.",
+                    "¿Existe contrato o confirmación de la actuación de la Orquesta Brisa del Cantábrico para el 6/11/2026?",
+                    "Confirmar que la venta de entradas y la fecha del concierto son correctas, dado que la sesión está a unas 8 horas de la publicación."
                   ],
-                  "draft": "Hola, hemos recibido el evento «Concierto al amanecer» (Alborada Conciertos) y necesitamos algunas aclaraciones antes de publicarlo: 1) Confirmad la contratación de la Orquesta Brisa del Cantábrico para el 6 de noviembre de 2026 en Escenario Santander, con un contrato o un enlace a su programación. 2) Indicad el aforo real del recinto para este concierto, porque se ponen a la venta 3.000 entradas generales. 3) Facilitad la web o las redes sociales del organizador. 4) Explicad por qué la sesión empieza tan poco después de la publicación (el 6/11 a las 9:00). 5) Ampliad la descripción con el programa e intérpretes. Gracias."
+                  "draft": "Hola, estamos revisando el evento «Concierto al amanecer» antes de publicarlo. Para continuar necesitamos: 1) El aforo real del Escenario Santander y la documentación que lo acredite, ya que las 3.000 entradas a la venta no podemos contrastarlas con fuentes públicas. 2) La distribución del aforo en el recinto. 3) Los enlaces a la web o redes oficiales de Alborada Conciertos y de la Orquesta Brisa del Cantábrico. 4) La confirmación de la actuación de la orquesta en esa fecha. 5) Confirmar que la fecha y hora de la sesión (6/11/2026, 19:00) son correctas, ya que empieza unas 8 horas después de la publicación. Gracias."
                 }
               },
               "caller": {
@@ -245,10 +219,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5987,
-          "outputTokens": 2499,
-          "cacheReadInputTokens": 5636,
-          "cacheWriteInputTokens": 349
+          "inputTokens": 5835,
+          "outputTokens": 2466,
+          "cacheReadInputTokens": 4891,
+          "cacheWriteInputTokens": 942
         }
       }
     }

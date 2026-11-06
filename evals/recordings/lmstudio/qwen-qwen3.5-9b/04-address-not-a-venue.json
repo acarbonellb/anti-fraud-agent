@@ -3,106 +3,45 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "d693242a40083be01bf7d9b45dcb12c917b8ea3d64d091d0ed2c105c946814a5",
-      "latencyMs": 10773,
+      "requestHash": "f7414f413c9693e4e357d0df90c8af49617e235ca84650bf9822c943be05cd1e",
+      "latencyMs": 10589,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The deterministic checks have flagged a critical issue: **venue_exists** is a **fail**. The coordinates provided (39.41, -0.2) fall outside any municipality in Valencia and are located in the sea according to OpenStreetMap. Furthermore, the venue \"Espacio Marea\" does not exist at those coordinates in OSM.\n\nThis is a major red flag for fraud or a complete fabrication of the event details. The description says \"con vistas al puerto\" (with views of the port), but the coordinates are literally in the sea. This suggests the organizer might be using fake location data to hide the real venue, or they are running a scam where no physical event will take place at the advertised location.\n\nI need to investigate this further before making a recommendation. I should:\n1.  Check the organizer's history and identity to see if they have a track record of legitimate events or if this is a new/fraudulent account.\n2.  Search for the artist \"Nadia Corell\" to verify their existence and tour dates, ensuring they aren't being impersonated or used in a scam.\n3.  Search for the venue name \"Espacio Marea\" to see if it exists elsewhere or if it's a known fake venue.\n\nLet's start by checking the organizer context.",
+          "content": "The deterministic checks have already run and provided authoritative findings. I need to focus on the key issues:\n\n1. **venue_exists: fail** - The venue coordinates (39.41, -0.2) fall outside any municipality according to OpenStreetMap (in the sea), and \"Espacio Marea\" is not found at those coordinates in OSM. This is a serious red flag.\n\n2. **venue_capacity: unknown** - The venue capacity is unknown because it's not verified in OpenStreetMap, but they're selling 600 tickets for a session.\n\nThe venue existence failure is the most critical issue here. A venue that doesn't exist at the stated coordinates (or is in the sea) suggests either:\n- Fraudulent event creation\n- Copy-pasted data from another event\n- Misleading information\n\nI should investigate this further before making a recommendation. Let me check:\n1. The organizer's history and context to see if they have other events or patterns\n2. Search for \"Espacio Marea Valencia\" to see if this venue exists elsewhere\n3. Check if there are similar events that might be clones\n\nLet me start by getting the organizer context and searching for the venue.",
           "toolCalls": [
             {
-              "id": "ZgMb4F0VmWbxaFwJnAY3JNpeLtfUJI1k",
+              "id": "odwsktk4Xmmc7yWsMJU2ndiS8aB1bz6E",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3452,
-          "outputTokens": 314
-        }
-      }
-    },
-    {
-      "requestHash": "aeeb5818637d8c1f8ae6fba72f3d1cc1d4de8cb8a01ece95f2963a807f6518dc",
-      "latencyMs": 9368,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The organizer \"Ona Clara Events\" looks legitimate on paper:\n- Account age: 930 days (about 2.5 years) - established.\n- Fiscal data: Present and checksum valid.\n- History: 14 published events, 12 ended, 0 cancelled by admin, no content reports, no previous agent reviews.\n- Team: Has a manager and scanners.\n\nThis suggests the organizer is not a brand-new or suspicious account. However, the venue issue remains critical. The coordinates are in the sea. This could mean:\n1.  The organizer made a mistake in entering the coordinates (unlikely to be just \"in the sea\").\n2.  The organizer is intentionally using fake coordinates to hide the real venue (fraud).\n3.  The venue name \"Espacio Marea\" is misleading or doesn't exist at that location.\n\nLet's search for the artist \"Nadia Corell\" to verify their existence and see if they have any tour dates announced elsewhere. This will help determine if this is a real event with a real artist, or if the artist is being impersonated.",
-          "toolCalls": [
+            },
             {
-              "id": "Yqb9SOisdn18XZrpR3Dg03W5n2ojZaON",
+              "id": "CT65e7hC9yoI7ZoyvSco30wGUWdWz7s5",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Nadia Corell concert tour dates 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia recinto musical\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4099,
-          "outputTokens": 285
+          "inputTokens": 3468,
+          "outputTokens": 340
         }
       }
     },
     {
-      "requestHash": "dc4fef689fcc1cff39f84497e1c5055b3d66117dc11b00ecdd2e44449708c7b4",
-      "latencyMs": 3938,
+      "requestHash": "95ad2f386bd25a482a449762fb909c7c39c8b175786fbe0d9be31de3e9c18f56",
+      "latencyMs": 8283,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The search results show \"Nadia Reid\" (a real artist) with tour dates in 2026, but the event lists \"Nadia Corell\". This is a different name. Let me search specifically for \"Nadia Corell\" to see if this artist exists or if it's a misspelling/impersonation.",
+          "content": "The web search returned no results (quota exceeded), but I have the organizer context. Let me analyze what I have:\n\n**Organizer Context:**\n- Organizer: \"Ona Clara Events\" - status \"approved\", created 2024-05-20\n- Fiscal data: Present, CIF checksum valid, address in Valencia 46024\n- Owner account age: 930 days (about 2.5 years)\n- History: 14 published events, 12 ended, 0 cancelled, 0 unpublished by admin\n- No content reports, no previous agent reviews\n- Team: owner + manager + 2 scanners\n\nThis organizer looks legitimate on paper - approved status, valid fiscal data, reasonable history. However, the venue issue is critical.\n\n**Key Issue:** The venue \"Espacio Marea\" at coordinates (39.41, -0.2) is flagged as non-existent by OpenStreetMap because those coordinates are in the sea outside any municipality. This is a serious problem.\n\nLet me search for similar events to see if this might be a clone event, and also check if there's an \"Espacio Marea\" venue that exists elsewhere in Valencia.",
           "toolCalls": [
             {
-              "id": "5wV6Em44J8tljJx8fsKay5jFsMkLfdDD",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Nadia Corell\\\" musician artist\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4968,
-          "outputTokens": 115
-        }
-      }
-    },
-    {
-      "requestHash": "f6e0e8137f05d2f6a707d94501b5a50f4d2537d2335446a899494cc654f90b0e",
-      "latencyMs": 7213,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results don't show a musician named \"Nadia Corell\". The first result mentions \"Nadia\" (likely Nadia Reid or another artist) but not \"Corell\". The second result mentions \"Ida-Marie Corell\" as an independent artist in Germany, but that's a different person. There's no evidence of a musician named \"Nadia Corell\" online.\n\nThis is suspicious. The event lists \"Nadia Corell\" as the headliner, but web searches don't find this artist. This could be:\n1.  A new/unknown artist (possible).\n2.  An impersonation or fake artist name (fraud signal).\n\nLet me also search for the venue \"Espacio Marea\" to see if it exists elsewhere or if it's a known fake venue.",
-          "toolCalls": [
-            {
-              "id": "EALJpjGW2LW3Exq36v2FW5BXgIl3rhyY",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia venue\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5537,
-          "outputTokens": 215
-        }
-      }
-    },
-    {
-      "requestHash": "e3fee2cfafc20eea93653c363ac0e66b1c66901c465dd16aafcb836cae6aecb0",
-      "latencyMs": 7154,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The search results don't mention \"Espacio Marea\" specifically. The first result talks about unique venues in Valencia but doesn't name \"Espacio Marea\". The second result mentions \"La Casa de la Mar\" (House of the Sea) which is a live music venue near the sea, but that's a different name. The third result is about Roig Arena.\n\nThere's no evidence that \"Espacio Marea\" exists as a known venue in Valencia. Combined with the fact that the coordinates are in the sea and OSM doesn't have this venue at those coordinates, this strongly suggests the venue details are fabricated.\n\nLet me also check if there are any similar events from other organizers to see if this is a clone or duplicate event.",
-          "toolCalls": [
-            {
-              "id": "QWVd32yz7LgQk9FKmgUPAcLSOidgEwJI",
+              "id": "o7PoL7SsPwSLnhEoYmG3LjbPU5DM2leC",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\",\"windowDays\":60}"
             }
@@ -110,30 +49,96 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6167,
-          "outputTokens": 205
+          "inputTokens": 4216,
+          "outputTokens": 309
         }
       }
     },
     {
-      "requestHash": "f2b271419bc3cf0097c3250c3ebcd0f5d56e8d2f680bb5073a45a9a4d9f77263",
-      "latencyMs": 35549,
+      "requestHash": "861a46bf8d75aaf938d9290d8fb45baa7d26f57639a024c212b6f0f344f2c914",
+      "latencyMs": 2831,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "No similar events found, which is expected since this might be a unique event or the first of its kind. However, the lack of similar events doesn't help with the fraud assessment.\n\nLet me summarize the findings:\n\n**Critical Issues:**\n1. **Venue exists: FAIL** - The coordinates (39.41, -0.2) are in the sea, outside any municipality. OpenStreetMap does not have \"Espacio Marea\" at those coordinates. This is a major red flag for fraud or fabrication.\n\n2. **Artist availability/identity: Unknown/Suspicious** - Web searches don't find a musician named \"Nadia Corell\". The search results show \"Nadia Reid\" (a real artist) but not \"Nadia Corell\". This could be an impersonation or fake artist name.\n\n3. **Venue capacity: Unknown** - Since the venue doesn't exist at the given coordinates, we can't verify its capacity.\n\n**Positive indicators:**\n- Organizer \"Ona Clara Events\" has a legitimate history (14 published events, 2.5 years old, valid fiscal data).\n- No content reports against the organizer.\n- All other deterministic checks pass (prices, fees, terms, etc.).\n\n**Decision:**\nThe venue issue is a critical fraud signal. The coordinates are literally in the sea, and the venue name \"Espacio Marea\" doesn't exist at those coordinates. This suggests the organizer is either:\n1. Using fake location data to hide the real venue (fraud).\n2. Running a scam where no physical event will take place.\n\nThe artist name \"Nadia Corell\" also doesn't appear in web searches, which adds to the suspicion.\n\nGiven the critical venue fraud signal (coordinates in the sea, venue not found at those coordinates), I should **reject** this event. The evidence is strong enough that this appears to be a fraudulent event with fabricated location details.\n\nHowever, let me reconsider: The organizer has a legitimate history. Could this be an honest mistake? Unlikely - putting coordinates in the sea is not a simple typo. This looks intentional.\n\nI'll proceed with a **reject** decision due to the critical venue fraud signal.",
+          "content": "No similar events found in the same province within 60 days. This doesn't indicate cloning, but it also doesn't help with the venue issue.\n\nLet me search more specifically for \"Espacio Marea\" to see if this venue exists under a different name or location:",
           "toolCalls": [
             {
-              "id": "yt4MmEUJlf5LtWW0ml3L857xB3tZB7H0",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento presenta señales claras de fraude relacionadas con el recinto. Las coordenadas proporcionadas (39.41, -0.2) caen literalmente en el mar, fuera de cualquier término municipal de Valencia, según OpenStreetMap. Además, el recinto \\\"Espacio Marea\\\" no existe en esas coordenadas en OSM. Esta es una señal crítica de fraude o fabricación de datos del evento. Aunque el organizador \\\"Ona Clara Events\\\" tiene un historial legítimo (14 eventos publicados, 2.5 años de antigüedad, datos fiscales válidos), la ubicación del evento es claramente falsa. El nombre del artista \\\"Nadia Corell\\\" tampoco aparece en búsquedas web, lo que añade sospecha adicional. La descripción menciona \\\"vistas al puerto\\\", pero las coordenadas están en el mar, lo que confirma la incoherencia. Se recomienda rechazar el evento por fraude evidente en los datos de ubicación.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de todo término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas. Los datos de OSM pueden contener errores.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"warn\",\"detail\":\"No se encontró evidencia en la web de un artista llamado «Nadia Corell». Las búsquedas muestran a «Nadia Reid» (artista real con giras en 2026) pero no a «Nadia Corell», lo que sugiere posible impersonación o nombre falso.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.songkick.com/concerts/43133910-nadia-reid-at-rough-trade-liverpool\",\"title\":\"Nadia Reid, Pavey Ark, and Miles Temp Liverpool, Rough Trade Liverpool, 18 Apr 2026 – Songkick\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"El organizador «Ona Clara Events» tiene presencia web legítima con logo y portada, cuenta de 930 días, datos fiscales válidos y historial de 14 eventos publicados sin reportes de contenido.\",\"confidence\":0.85,\"sources\":[]}]}"
+              "id": "gUc6YG10BltH8CKKaGGb7QFVVUpGZkCM",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia concierto\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6451,
-          "outputTokens": 1126
+          "inputTokens": 4604,
+          "outputTokens": 103
+        }
+      }
+    },
+    {
+      "requestHash": "929485083b88e0423fc249a7e2fd357414e2ee7541404673feae249a8bc20563",
+      "latencyMs": 1957,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search is hitting quota limits. Let me try a different approach - search for the venue address specifically:",
+          "toolCalls": [
+            {
+              "id": "0WsA3pCsUnkWIiuTqh9pqJl2YpsbqT9U",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico 221\\\" Valencia\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4794,
+          "outputTokens": 71
+        }
+      }
+    },
+    {
+      "requestHash": "517c1d3d0937e3121233f7fef89cc93e344d6ee9fdc8ccf880d93d08c63dfa23",
+      "latencyMs": 2120,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search is consistently returning quota exceeded. Let me try one more search with a different query to see if I can find any information about this venue:",
+          "toolCalls": [
+            {
+              "id": "WKYfG7gt2jWNRHuSbxgC3diJJcXEn9xQ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Espacio Marea recinto Valencia puerto\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4952,
+          "outputTokens": 76
+        }
+      }
+    },
+    {
+      "requestHash": "d45ef2331e2501067de9ae80e4b0e17b0b549803aa46bce027c8dc98b7cc013a",
+      "latencyMs": 31750,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search is consistently failing due to quota limits. I need to work with the information I have from the deterministic checks and organizer context.\n\n**Summary of findings:**\n\n1. **Venue existence: FAIL** - The venue coordinates (39.41, -0.2) are in the sea outside any municipality according to OpenStreetMap. The venue \"Espacio Marea\" is not found at those coordinates. This is a critical issue.\n\n2. **Organizer appears legitimate:**\n   - Approved status\n   - Valid fiscal data (CIF checksum valid)\n   - 930 days account age (about 2.5 years)\n   - 14 published events, 12 ended successfully\n   - No content reports or previous agent reviews\n\n3. **No similar events found** - Doesn't indicate cloning.\n\n4. **Web searches failed** - Due to quota limits, couldn't verify if \"Espacio Marea\" exists elsewhere.\n\n**The critical issue:** The venue existence check failed because the coordinates are in the sea. This is a hard signal that something is wrong. The organizer has a legitimate history, but they're promoting an event at a non-existent venue location.\n\nPossible explanations:\n- The organizer made a mistake with the coordinates/address\n- The venue name is copied from another event but the address/coordinates are wrong\n- This could be fraudulent\n\nGiven that:\n- The venue existence check failed (hard signal)\n- The organizer has no history of issues\n- No similar events found (not a clone)\n- Web searches couldn't verify the venue exists elsewhere\n\nThis is a case where I should **request_info** to clarify the venue situation. The organizer might have made an error with the coordinates, or there might be a legitimate venue that needs verification.\n\nLet me submit a recommendation requesting information about the venue:",
+          "toolCalls": [
+            {
+              "id": "sFUdP65Ry5U7Timw4s2sKeroiJoaHsWU",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un problema crítico con la existencia del recinto. Las coordenadas proporcionadas (39.41, -0.2) caen fuera de cualquier término municipal según OpenStreetMap (en el mar), y no se encuentra \\\"Espacio Marea\\\" en esas coordenadas. Esto es una señal de alerta importante que requiere aclaración antes de aprobar o rechazar.\\n\\nEl organizador \\\"Ona Clara Events\\\" parece legítimo: cuenta con 930 días de antigüedad, datos fiscales válidos (CIF con checksum correcto), 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido. Sin embargo, la ubicación del recinto es cuestionable.\\n\\nNo se encontraron eventos similares en la provincia que pudieran indicar clonación. Las búsquedas web no pudieron verificarse por límites de cuota.\\n\\nSe necesita información adicional para confirmar si:\\n1. El organizador cometió un error con las coordenadas o dirección del recinto\\n2. Existe un recinto \\\"Espacio Marea\\\" en otra ubicación válida en Valencia\\n3. Hay alguna explicación legítima para la discrepancia entre la dirección y las coordenadas\\n\\nRecomiendo solicitar información al organizador para aclarar la situación del recinto antes de tomar una decisión final.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de todo término municipal según OpenStreetMap (en el mar), y no existe el recinto «Espacio Marea» en esas coordenadas. Esta es una señal crítica que requiere aclaración.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Ona Clara Events' con 930 días de antigüedad, datos fiscales válidos (CIF con checksum correcto), 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la provincia Valencia dentro de los últimos 60 días. No indica clonación pero tampoco confirma originalidad.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podría confirmar la dirección exacta y las coordenadas correctas del recinto 'Espacio Marea' en Valencia?\",\"¿Existe un recinto llamado 'Espacio Marea' en otra ubicación válida dentro del término municipal de Valencia?\",\"¿Hubo algún error al introducir las coordenadas o la dirección del evento?\"],\"draft\":\"Estimado organizador, hemos detectado una discrepancia importante con la información del recinto para su evento 'Sunset Sessions junto al mar'. Las coordenadas proporcionadas (39.41, -0.2) localizan un punto en el mar fuera de cualquier término municipal según OpenStreetMap, y no encontramos el recinto 'Espacio Marea' en esa ubicación. Necesitamos aclarar esto antes de poder procesar su evento.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5115,
+          "outputTokens": 1202
         }
       }
     }
@@ -146,111 +151,47 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/DYX42dyClpN",
-            "title": "Instagram",
-            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and The Roof  \n🗓️ 17.05.2026  \n  \n¿Vienes con la marea o te quedas en la orilla? 🌊\n\ncolominaclaudia's profile picture\n\ncolominaclaudia\n\nElla también icónica como siempre adoro jajajaj😍\n\nReply [...] Repl"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=VxokmcmE6OU",
-            "title": "Mareas del Atardecer Cuban Sunset House with Ocean Deep Rhythm",
-            "snippet": "[2:13:54] [música]\n[2:13:57] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda secretos.\n[2:14:02] [música]\n[2:14:03] Tú y yo podemos bailar. Ya se esconde entre sombras, trompeta deja de hablar.\n[2:14:09] Son [música] cubanos no se envuelve como ola sobre cristal. Cuerpo que giran sin tocar pero sienten igual. Manos [música] [...] [1:08:15] [música]\n[1:08:18] Suave, [música] no corras.\n[1:08:25] La noche respira, sal y el bajo [música] flota.\n[1:08:36] [música]\n[1:08:42] [música"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=xQENVYfVRY8",
-            "title": "Deep House Sunset Session 🌅 DJ Set en Terraza de Hotel 5 Estrellas | Luxury Lounge Vibes",
-            "snippet": "Disfruta de una sesión exclusiva de Deep House en una espectacular terraza de hotel de 5 estrellas al atardecer. Un ambiente elegante, gente disfrutando de cócteles, vistas increíbles y la mejor música electrónica para crear el mood perfecto de lounge, sunset y luxury vibes.\n\nEste set está pensado para acompañar tardes de verano, terrazas, chill out, hoteles, beach clubs y momentos de relax con un sonido profundo, elegante y envolvente. [...] Perfecto para: • Relax • Terrazas y rooftop vibes • B"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=HH0JThOsK9I",
-            "title": "Mareas del Anochecer Cuban Sunset House with Ocean Deep Rhythm",
-            "snippet": "[1:33:36] [música]\n[1:33:40] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda secretos\n[1:33:45] [música]\n[1:33:46] tú y yo podemos bailar. Ya se esconde entre sombras. Trompeta deja de hablar.\n[1:33:53] Son cubanos, nos envuelve como ola sobre cristal. [música] Cuerpo que giran sin tocar pero sienten igual. Manos tiemblan [...] [16:33] [música]\n[16:34] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda [música] secretos. Tú y yo podemos bailar. Ya se\n[16:43] esco"
-          },
-          {
-            "url": "https://www.mapquest.com/cl/region-metropolitana-de-santiago/red2one-rooftop-bar-523094672",
-            "title": "Red2one | Rooftop Bar",
-            "snippet": "Ubicado en el piso 21 de W Santiago, Red2One es el rooftop bar del hotel y uno de sus espacios más emblemáticos. Con vistas panorámicas de Santiago y la Cordillera de los Andes, su propuesta combina coctelería de inspiración local, gastronomía para compartir, música y una programación que evoluciona durante el año. Al atardecer, el espacio se transforma en un punto de encuentro sobre la ciudad, conectando el paisaje, la vida nocturna y la energía de W Santiago.\n\nMore\n\nHours\n\nClosed until 6 pm [."
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "357166fc7feeb28bf57ab3af1213989c0d9d1d2a59ec73a4921b32d5b4d68ffd",
+      "requestHash": "2e9b4cbbf3adcfb37746f63d5adeb04e48ed1549f41fa0f8cb4d1221d9816dd1",
       "provider": "Tavily",
-      "query": "Nadia Corell concert tour dates 2026",
+      "query": "Espacio Marea Valencia recinto musical",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.songkick.com/concerts/43133910-nadia-reid-at-rough-trade-liverpool",
-            "title": "Nadia Reid, Pavey Ark, and Miles Temp Liverpool, Rough Trade Liverpool, 18 Apr 2026 – Songkick",
-            "snippet": "Search for events or artists\n\nSearch for events or artists\n\nSongkick\nShow navigation\n\nLanguage\n\nLog in\nsearch\nspotify icon\nNadia Reid Concert Tickets - 2026 Tour Dates\n\n# Nadia Reid, Pavey Ark, Miles Temp, Gallus, OORYA, Steel, TiTs Up, and Peach\n\nNadia Reid\nPavey Ark\nPavey Ark\nVenue\n\nReviews\n\n## Line-up [...] ## Line-up\n\nNadia Reid Concert Tickets - 2026 Tour Dates.\nChevron right icon\nNadia Reid Concert Tickets - 2026 Tour Dates.\nChevron right icon\nNadia Reid Concert Tickets - 2026 Tour Dates.\n"
-          },
-          {
-            "url": "https://www.songkick.com/pt/concerts/43011207-nadia-reid-at-bristol-folk-house",
-            "title": "Nadia Reid e juni habel Bristol Ingressos, Bristol Folk House, 26 Apr 2026 – Songkick",
-            "snippet": "Pesquisar\n\nPesquisar\n\nSongkick\nShow navigation\n\nIdioma\n\nLog in\nsearch\nspotify icon\nNadia Reid Concert Tickets - 2026 Tour Dates\n\n# Nadia Reid e juni habel\n\nsk-15767915305819797’s profile image\nsteve-oldfield’s profile image\njamvin35’s profile image\nNadia Reid\njuni habel\njuni habel\nLocal\n\nAvaliações\n\nAvaliações\n\n## Programação\n\nNadia Reid Concert Tickets - 2026 Tour Dates.\nChevron right icon\nNadia Reid Concert Tickets - 2026 Tour Dates.\nChevron right icon\n\n## Local\n\n## Informações adicionais [..."
-          },
-          {
-            "url": "https://www.songkick.com/concerts/43011207-nadia-reid-at-bristol-folk-house",
-            "title": "Nadia Reid and juni habel Bristol, Bristol Folk House, 26 Apr 2026 – Songkick",
-            "snippet": "Steve Aoki Concert Tickets - 2026 Tour Dates.\nWiz Khalifa Concert Tickets - 2026 Tour Dates.\nMAX Concert Tickets - 2026 Tour Dates.\nTegan and Sara Concert Tickets - 2026 Tour Dates.\nAtlus Concert Tickets - 2026 Tour Dates.\nBlack Cat Concert Tickets - 2026 Tour Dates.\nNot For Radio Concert Tickets - 2026 Tour Dates.\nJack Murnin Concert Tickets - 2026 Tour Dates.\nChuyin Concert Tickets - 2026 Tour Dates.\nsearch icon [...] RIKAS Concert Tickets - 2026 Tour Dates\nThe Clause Concert Tickets - 2026 To"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "5d98be952e12ec539fa6adbdcc812e23058d815dde2824235a95d674ca142d59",
+      "requestHash": "9ed60e9c070cabef9cbc24b613a8656314c709ccbca4d945a7a7d8baa2e719f4",
       "provider": "Tavily",
-      "query": "\"Nadia Corell\" musician artist",
+      "query": "\"Espacio Marea\" Valencia concierto",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://oraloa.com/en/pages/our-artists",
-            "title": "Our artists – Oraloa",
-            "snippet": "Since then, Nadia has worked with various companies. Her works can be seen on a variety of products (postcards, calendars, puzzles, Christmas tree ornaments, collector plates, music boxes, etc.) in practically every country in the world. Thanks to the income from licensing her images, Nadia was able to keep the originals of her artworks rather than sell them and, having built up a large collection, was able to fulfill a long-held dream: opening her own private museum in the homeland of Russian ["
-          },
-          {
-            "url": "https://brill.com/view/journals/artp/13/4/article-p287_1.xml?language=en",
-            "title": "Abstracts from the 11th Visual Science of Art Conference (VSAC)Wiesbaden, Germany, August 21st–23rd, 2025 in: Art & Perception Volume 13 Issue 4 (2025)",
-            "snippet": "### Synesthesia and the Social Sculpture of Now\n\nIda-Marie Corell\n\nIndependent artist, Germany [...] ### Synesthesia and the Social Sculpture of Now\n\nIda-Marie Corell\n\nIndependent artist, Germany [...] ### Conversation: Art in Full Sense and the Sensuality of the Embodied Experience in Multidisciplinary Practices\n\nMariana Malta1 and Ida-Marie Corell2\n\n1Independent artist, United Kingdom 2Independent artist, Germany\n\n### Between Sensing and Being: Embodiment in Performative Arts\n\nMariana Malta\n\nI"
-          },
-          {
-            "url": "https://chicagopuppetfest.org/peopleinpuppetry",
-            "title": "People in Puppetry: A Global Gallery – Chicago International Puppet Theater Festival",
-            "snippet": "## Nadia Parisi\n\nAlençon, France  \nDesigner/Builder, Director, Puppeteer, Teaching Artist\n\n## Dante Ingram\n\nChicago, IL, USA  \nDesigner/Builder, Producer, Puppeteer  \nPhoto by Erik Saari\n\n## Bridget Sanders\n\nNew Zealand  \nDesigner/Builder, Producer, Puppeteer, Teaching Artist\n\n## Chad Williams\n\nNew York, NY, USA  \nDirector, Producer, Puppeteer, Unlisted  \n(Writer)\n\n## Michelle Finston\n\nNew York, NY, USA  \nDesigner/Builder, Director, Puppeteer, Teaching Artist\n\n## K80 Correll [...] ## K80 Correll"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "9c6d2d942f5037cbf74eeebee5b4bc93004835088a650ff0765007f386e14ccf",
+      "requestHash": "08d3eb25721d713eb5dea915496f36e53b8fc76ed5376e25fd2eeb81339efd63",
       "provider": "Tavily",
-      "query": "\"Espacio Marea\" Valencia venue",
+      "query": "\"Avenida del Puerto Chico 221\" Valencia",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.eventoplus.com/en/venues-for-events/venues-for-events/valencia",
-            "title": "Unique spaces in Valencia",
-            "snippet": "Unique venues in Valencia offer you unique settings and personalized services to make every celebration unforgettable. Renting a room in an exclusive setting, such as a historic palace, a charming Valencian farmhouse or a terrace with views of the Mediterranean, can make all the difference at any event. From corporate meetings and brand presentations to private celebrations, Valencia has an unrivaled offering. Discover original spaces that combine tradition, modernity and functionality for a [.."
-          },
-          {
-            "url": "https://lacasadelamar.com/en/live-music-venue-in-valencia",
-            "title": "Live music venue in Valencia | La Casa de la Mar",
-            "snippet": "Home\n Local\n Terraza Lumiere\n Concerts\n Letter\n Plans for the week\n Events\n Our story\n How to get there\n Contact\n\nThe House of the Sea\n\n# Live music venue in Valencia\n\nA unique space near the sea where music, a great atmosphere and culture come together  \nReady for the perfect plan?\n\nLook what we have this month\n\n## Welcome to La Casa de la Mar [...] An old industrial building transformed into a cultural space with soul, where each area (the room, the hall or the terraces) offers a different way"
-          },
-          {
-            "url": "https://finance.yahoo.com/news/roig-arena-opens-valencia-spains-070000421.html",
-            "title": "Roig Arena Opens in Valencia, Spain's Largest Indoor Venue",
-            "snippet": "VALENCIA, Spain, Sept. 10, 2025 /PRNewswire/ -- Roig Arena in Valencia has officially opened its doors as the largest indoor venue in Spain. Fully funded by Juan Roig, President of the Mercadona supermarket chain, the arena has a concert capacity of up to 20,000 people and a sports capacity of 15,600. [...] \"Spain now has a venue equipped with the latest technology and ready to host the finest national and international events,\" said Víctor Sendra, Managing Director of Roig Arena. [...] This sys"
-          }
-        ]
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "81fe264cf9d228915f64808937a811b275f794ab8821698f2408a6ed567c0919",
+      "provider": "Tavily",
+      "query": "Espacio Marea recinto Valencia puerto",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
       }
     }
   ]

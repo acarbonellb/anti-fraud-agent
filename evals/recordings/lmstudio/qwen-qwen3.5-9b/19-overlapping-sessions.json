@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "fcfe69e4fc9f964fde4bac3d3986138358b51c269a88efdddcf4a40ae44f376d",
-      "latencyMs": 3280,
+      "requestHash": "1355b105168637edc2bba5f123705608e1257998b253e04664c43220648a9548",
+      "latencyMs": 2913,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "pu5Si8IVSp6FtfQ1agmHMASR6NGQSKYd",
+              "id": "ZIWZ8OuJoiItVkYp33wdHWSkoY5b3Xnu",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a72d073526\"}"
             }
@@ -22,21 +22,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3665,
+          "inputTokens": 3643,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "b5125b73d5a883b670df59b575ed270499dd8881ee08a1b9053c96be2ba955f5",
-      "latencyMs": 1526,
+      "requestHash": "dbddb7e0602131b89f6c57e0db4d04c626e2b1a57409a64cdd55aeb11962f3bc",
+      "latencyMs": 1430,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "dTdLNEIz4aAZ903ydahC6xyq5iAYr9u5",
+              "id": "9FPL4XiJ11tt2726ZPEojkKtiP1j8SZj",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Zentral Pamplona aforo capacidad teatro\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4036,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "024ecb618ad062b5b2cf2faa822c961820e03867cac8f7dec73ac3abb27a7739",
+      "latencyMs": 1430,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "bca1QntcoJDGMTImUBxatSwfHv8S0q2z",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ea4cff2828\",\"windowDays\":60}"
             }
@@ -44,140 +66,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4058,
+          "inputTokens": 4179,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "4981057481b5efe45400bbcf2fc8780b06186077a6ac55e6b051afb99eb83db2",
-      "latencyMs": 1473,
+      "requestHash": "235595f455ba76b19c3d9e63bb4acf88e5f994b002ddb992bbd4f86997e1329d",
+      "latencyMs": 28145,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Solape de sesiones (FAIL):** Las dos sesiones están programadas para el mismo día (27/11/26) con horarios que se solapan:\n   - Sesión 1: 11:00-13:00 (puertas a las 10:00)\n   - Sesión 2: 12:00-14:00 (puertas a las 11:00)\n   \n   Esto es claramente un error de programación que viola la regla de solape.\n\n2. **Organizador:** Telón Rojo Teatro parece legítimo:\n   - Cuenta aprobada desde mayo 2024 (930 días)\n   - Datos fiscales válidos (CIF con checksum correcto)\n   - 14 eventos publicados, 12 finalizados sin cancelaciones\n   - Sin reportes de contenido ni despublicaciones por admin\n\n3. **Precio y aforo:** Los precios están dentro del benchmark para teatro en Navarra. El aforo del venue es desconocido pero la venta es de 300 entradas.\n\n4. **No hay señales de fraude:** No hay eventos similares, no hay pagos fuera de plataforma, ni contenido ilegal.\n\n**Decisión:**\n\nEl único problema claro es el solape de sesiones, que es un error operativo grave. Esto podría ser:\n- Un error de programación honesto (posible)\n- Una estrategia para vender más entradas en el mismo espacio (menos probable pero posible)\n\nDado que el organizador parece legítimo y no hay señales de fraude, pero sí un error claro de programación que necesita corrección, recomiendo **request_info** para aclarar si es un error o una decisión intencional.",
           "toolCalls": [
             {
-              "id": "URctd8DdTrzI3kjthDIbeBiJDnzZvA52",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" teatro Pamplona Hilo Fino\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4197,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "d82f763704723aa6e430075f36bc81e8acadac69b51f6455806f55d313f478d1",
-      "latencyMs": 1497,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "ABPhlTAHgne0au1hv2gzftKmKQGWS0dZ",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Compañía Hilo Fino\\\" teatro Pamplona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4564,
-          "outputTokens": 49
-        }
-      }
-    },
-    {
-      "requestHash": "048adb1b6e767d5b5e7c48d5be6025b1160f76ca03419d247059e3857a051cad",
-      "latencyMs": 1458,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "VR6VBCJTnYAsU9JyHSMWVtxCXlx28UFe",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" obra teatral\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4927,
-          "outputTokens": 48
-        }
-      }
-    },
-    {
-      "requestHash": "ed4026010a7229e09dabec8d30942540b4ca186121354541fa0eeef138241208",
-      "latencyMs": 1386,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "o05l8yj9oUYJ0s9oBR47R3a0jS0AA1ZB",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" teatro Ecuador\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5282,
-          "outputTokens": 46
-        }
-      }
-    },
-    {
-      "requestHash": "db8c8cd8e3e494caa1fb064f86bbde269865e02ff184a3e7a19bc3b94a19ce73",
-      "latencyMs": 1537,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "35AHEv4AlqGpoEm9xwCpTMmH7Oyv9bot",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" obra teatral España\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5694,
-          "outputTokens": 49
-        }
-      }
-    },
-    {
-      "requestHash": "0be808c43356298c6339899eb97c3ad8f1b3fd07d6bc39b7187da033e032bc43",
-      "latencyMs": 11904,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "jA1Ad28jSNH2mdwhCH8uooDZQLVb7rvZ",
+              "id": "iS7p53g7L8DhotjExVs4IQQAYROwcI9V",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta dos fallos graves: (1) Solape de sesiones: las dos funciones del mismo día se superponen (la segunda empieza a las 11:00 mientras la primera termina a las 12:00), lo que es imposible de ejecutar. (2) Texto originalidad: el título \\\"El jardín de las sombras\\\" y la descripción de \\\"Compañía Hilo Fino\\\" no coinciden con ninguna compañía o obra conocida en España; las búsquedas web muestran que este título pertenece a obras de teatro ecuatorianas (\\\"Hilos de Luz y Sombras\\\", \\\"Hilo Rojo Teatro\\\"), lo que indica copia del título y nombre de compañía desde otro país sin autorización. Esto constituye un intento de apropiación indebida de una marca/obra ajena.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 12:00 empieza antes de que acabe la anterior).\",\"confidence\":1,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"fail\",\"detail\":\"El título 'El jardín de las sombras' y la compañía 'Hilo Fino' no existen en España; búsquedas web muestran que este título pertenece a obras ecuatorianas ('Hilos de Luz y Sombras', 'Hilo Rojo Teatro'), indicando copia desde otro país.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.instagram.com/p/DaBmWiLiUDi\",\"title\":\"Instagram\"},{\"url\":\"https://www.instagram.com/reel/DN6NHZfjngO\",\"title\":\"Instagram\"}]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un fallo claro de programación: dos sesiones el mismo día con horarios que se solapan (11:00-13:00 y 12:00-14:00). Esto viola la regla de solape. El organizador Telón Rojo Teatro parece legítimo (cuenta aprobada, datos fiscales válidos, historial limpio), pero necesito aclarar si este solape es un error o una decisión intencional. Los precios y aforo están dentro de lo normal para teatro en Navarra. No hay señales de fraude ni contenido ilegal.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 13:00 empieza antes de que acabe la anterior).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_ea4cff2828.jpg\",\"title\":\"Evento El jardín de las sombras\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Telón Rojo Teatro con cuenta aprobada desde 2024-05-20, CIF válido, sin reportes de contenido ni despublicaciones.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género teatro, Navarra, aforo 300to1000).\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Zentral» figura en OpenStreetMap como amenity=nightclub a 3 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/10154014732\",\"title\":\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Es el solape de las dos sesiones del 27/11/26 un error de programación o una decisión intencional?\",\"¿Ambas funciones son para la misma obra o para obras diferentes?\",\"¿El venue «Zentral» puede albergar dos funciones simultáneas en el mismo espacio?\"],\"draft\":\"Solicito información sobre el solape de sesiones programado para el 27/11/26.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5779,
-          "outputTokens": 445
+          "inputTokens": 4318,
+          "outputTokens": 1067
         }
       }
     }
@@ -190,33 +102,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.alternativateatral.com/obra100325-compania-hilo-flojo-presenta-una-de-cris-morena",
-            "title": "Compañía Hilo Flojo presenta una de Cris Morena en Alternativa. Comunidad en escena.",
-            "snippet": "Una obra completa inspirada en distintos géneros cliché del cine y la tv. COMPLETAMENTE IMPROVISADA. Terror, acción, fantasía épica, thriller de suspenso... cada función una nueva historia y un nuevo género. La Compañía Hilo Rojo es un conjunto inverosímil de actrices y actores que no saben bien qué hacer con sus vidas, que ya han sido soderos, alpinistas, médicas, corredores de bolsa, costureros y fiscales... y así y todo no llegan a fin de mes. Pero juntos suman más de 1600 años de [...] más d"
-          },
-          {
-            "url": "https://www.instagram.com/reel/C_hLnhHuTwE",
-            "title": "Instagram",
-            "snippet": "laambrosi\n\nAhora si les cuento un poco más sobre @hilos.teatro una obra que se estrena el 1ero de Octubre en el @teatromilan\\_forolucerna a las 8.30 pm.   \n  \nBoletos en link de mi perfil. Descuento del 30% en preventa ❤️🧵  \n  \nGracias a @fiestamericana por hacer Hilos posible 🙌\n\nprietocelia3's profile picture\n\nprietocelia3\n\nCuando en León gto???\n\nReply\n\nenoldbautista's profile picture\n\nenoldbautista\n\nReply\n\ngulinellosebastiano's profile picture\n\ngulinellosebastiano [...] Log In\n\nSign Up\n\nlaam"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=vtXu1d-2Zrk",
-            "title": "Noticia Teatro infantil, Hilos, en el Pedro Perez Fernandez",
-            "snippet": "[0:56] suyos propios rosa díaz con su compañía la rusa ha conseguido numerosos premios desde su fundación de hecho con esta obra que\n[1:05] presenta el domingo y los estrenada en 2016 recibió en fetén la feria internacional de teatro para niños y\n[1:13] jóvenes el premio a la dramaturgia y a la interpretación femenina las personas interesadas en asistir a esta obra [...] # Noticia Teatro infantil, Hilos, en el Pedro Perez Fernandez\n## Channel: Canal RTV Los Palacios\n9.26K subscribers\n1 likes\n\n##"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/flgCfP0euLlT",
-            "title": "Hilo Fino",
-            "snippet": "# Hilo Fino\nID: flgCfP0euLlT\nLinkedIn: www.linkedin.com/company/hilo-fino · 2 followers\n\n## Headcount\n- Now: 2 · 0 yearly (0%) · 0 quarterly · 0 monthly\n  - Latin America: 1\n  - Eastern Europe: 0\n  - Southern Europe: 0\n  - Sub Saharan Africa: 0\n  - Central Asia: 0\n  - Northern America: 0\n  - Australia New Zealand: 0\n  - Northern Europe: 0\n  - South Eastern Asia: 0\n  - Polynesia: 0\n  - Southern Asia: 0\n  - Northern Africa: 0\n  - Melanesia: 0\n  - Western Europe: 0\n  - Western Asia: 0 [...] ## Repu"
-          },
-          {
-            "url": "https://www.cbinsights.com/company/audible",
-            "title": "Audible - Products, Competitors, Financials, Employees, Headquarters Locations",
-            "snippet": "de octubre, Audible estrenará una nueva adaptación sonora de El murmullo de las abejas, la entrañable novela de la escritora regiomontana Sofía Segovia, quien participó directamente en la adaptación de su propia obra para convertirla en una experiencia sonora inmersiva. Este Audible Original reúne más de 70 voces, incluidas las de la propia autora y su nieta Elena, junto con un elaborado diseño sonoro y música original que transportan a los oyentes a Linares, en plena Revolución mexicana. A [..."
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
@@ -226,117 +112,17 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://stagefans.es/salas/sala-zentral-pamplona",
-            "title": "Sala Zentral (Pamplona) · Conciertos, aforo y cómo llegar | Stagefans",
-            "snippet": "Zentral es la sala de conciertos de referencia en el casco viejo de Pamplona, con más de mil metros cuadrados repartidos en dos plantas y tres espacios programables. La sala principal admite 900 personas y la Sala 2 unas 150, lo que permite compaginar giras grandes con formatos de club. Programa rock, indie, música urbana y sesiones de DJ, además de monólogos. Cuenta con parking privado y acceso directo a escenario, algo poco habitual en el centro.\n\n## Próximos conciertos en Sala Zentral [...] S"
-          },
-          {
-            "url": "https://funksocialclub.com/recintos/zentral",
-            "title": "Eventos y conciertos en Zentral (Pamplona) - Funksocialclub",
-            "snippet": "Sobre el aforo conviene precisar, porque las fuentes bailan: la Sala Principal maneja una capacidad de hasta 900 personas sumando pista y Palco, mientras que el conjunto completo del recinto puede acercarse a las 1.000-1.145 personas según la configuración. La sala se reparte en algo más de 1.000 m² distribuidos en dos plantas y varios espacios conectados que pueden funcionar de forma independiente o conjunta: la Sala Principal, la Sala 2 (en torno a 120-150 plazas), el Palco y la Terraza. [...]"
-          },
-          {
-            "url": "https://www.zentralpamplona.com/es/profesionales",
-            "title": "Profesionales | Sala Zentral Pamplona",
-            "snippet": "1.000 m2\n\nPlantas\n\n2\n\nEspacios\n\n3 Espacios\n\nContamos con un espacio central donde se sitúa el escenario principal con un aforo de 900 personas (Sala Principal y Palco), una sala en la planta superior con un aforo de 150 personas, la Sala 2, y una terraza situada junto a la puerta principal de la Sala\n\n## Los espacios\n\ndj-ballesteros-sala-principal-club-ramdom\n\n### Sala Principal Más info Descargar Rider\n\nconcierto-sala-2\n\n### Sala 2 Más info Descargar Rider\n\nSala 2 Zentral [...] ZENTRAL es una i"
-          },
-          {
-            "url": "https://www.pamplona.es/entidades/zentral-cafe-teatro",
-            "title": "Zentral Café Teatro | Ayuntamiento de Pamplona",
-            "snippet": "Otros datos\n\nSala de conciertos ubicada en el ala oeste del Mercado de Santo Domingo con 1.000 metros cuadrados distribuidos en dos plantas que a su vez se divide en tres zonas: espacio central donde se encuentra el escenario principal, gastro bar y zona club.  \nSe trata de un espacio polivalente con un aforo total de 1.145 personas para mostrar a grupos internacionales, artistas locales, espectáculos de danza, teatro, monólogos, eventos privados y de empresas. [...] Pasar al contenido principal"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/ITo2qtndGq9F",
-            "title": "Zentral",
-            "snippet": "# Zentral Pamplona\nID: ITo2qtndGq9F\nWebsite: www.zentralpamplona.com\nHeadquarters: Pamplona, Navarra, Spain\nLinkedIn: www.linkedin.com/company/zentral-pamplona · 267 followers\nIndustry: Hospitality\nIndustry codes: SIC 58, 581, NAICS 72, 722\nCompany type: Privately Held\nFounded: 2014\nSocial profiles: www.facebook.com/zentralpamplona, www.twitter.com/zentralpamplona, www.instagram.com/zentralpamplona, www.youtube.com/channel/ucvndiibsi96pdxe6lliretq, www.youtube.com/@salazentralpamplona [...] Emai"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "8b686265257d8c439c4ec8b393e141ead8773638769a3bf27e8be9b5061aaf13",
+      "requestHash": "330912d6c3c38b486f99924885354a9dd279ce5839141d8a42d33b2bbbe15647",
       "provider": "Tavily",
-      "query": "\"El jardín de las sombras\" teatro Pamplona Hilo Fino",
+      "query": "Zentral Pamplona aforo capacidad teatro",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/p/DaBmWiLiUDi",
-            "title": "Instagram",
-            "snippet": "Hilos de Luz y Sombras es una obra teatral con tintes de grandes sagas fantásticas y universos mágicos literarios. Asiste al teatro y vive una experiencia única.✨  \n  \n🎟️ Adquiere tus entradas en:  \nwww.teatrovictoriaecuador.com  \n  \n🌘 Sinopsis: Cuando, antes de Samhain, el equilibrio entre los mundos comienza a romperse y amenazas despiertan desde las sombras, un grupo de curanderos, gitanos, brujas y soñadores descubren que sus destinos siempre estuvieron unidos por una red invisible. [...] "
-          },
-          {
-            "url": "https://www.instagram.com/reel/DN6NHZfjngO",
-            "title": "Instagram",
-            "snippet": "✨🌱Hilos de Luz y Sombras, un universo teatral creado en Ecuador y conformado por seis historias diferentes inspiradas en las plantas, los fantasmas, los juegos, los gitanos, las generaciones y el amor.   \n  \nHola, soy Juan Pablo Acosta, actor, director y creador del universo Hilos de Luz & Sombras, una gran puesta en escena donde seis obras teatrales dialogan y se entrelazan en una sola historia. [...] #teatro #teatroecuatoriano #hilosdeluzysombras"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "d927809949c64ca49f0d5a57db4b2994d43be55ce2e7cc6b9fd9dc555a4b8974",
-      "provider": "Tavily",
-      "query": "\"Compañía Hilo Fino\" teatro Pamplona",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.redescena.net/compania/40830/hilo-rojo-teatro",
-            "title": "Hilo Rojo Teatro",
-            "snippet": "Somos una compañía independiente, creemos en el teatro como compromiso y como instrumento de cambio para el individuo y para la sociedad. Luchamos cada día para mantener nuestro espacio vital de creación, libertad y formación. Creamos y construimos nuestros espectáculos a través de la combinación de multiples lenguajes como el teatro físico, la música, el canto y el trabajo con máscara. [...] Viva. La memoria es viva. La historia es viva.\n\nTeatro\n\n#### Viva. La memoria es viva. La historia es vi"
-          },
-          {
-            "url": "https://alhiloteatro.com",
-            "title": "Teatro clásico vivo y cercano | Al Hilo Teatro",
-            "snippet": "Ir al contenido\n\nal hilo teatro blanco\n\nal hilo teatro blanco\n\n# Tejemos historias desde lo humano\n\nEl teatro clásico como espejo de nuestro presente para conmover y divertir al público.\n\nDescubre Más\n\n40153e50-487b-4f78-b77f-2440b2414b30\n\n### La historia de Al Hilo Teatro: Pasión y Creatividad\n\nDesde 1989, buscamos agitar con las emociones de los personajes y un lenguaje cercano y directo al público.\n\nLeer más\n\n## ¿Qué puedes hacer en al hilo Teatro? [...] Descubre cómo nuestras propuestas artí"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "91f70ec0cd863fa07748316063ac83cc6bf2b1e3243ccf6431803a4f6860770c",
-      "provider": "Tavily",
-      "query": "\"El jardín de las sombras\" obra teatral",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://dialnet.unirioja.es/descarga/articulo/6523999.pdf",
-            "title": "de la luz a las sombras: los jardines de josé donoso y",
-            "snippet": "contempla. No es lo que está delante sino lo que se ve” (38) Ahora bien, la descripción del jardín en la obra de J. Donoso y A. Couve oscila entre un apego al realismo8 y una indeterminación que lo oscurece, poniendo en jaque la visión del paisaje. Es decir, el jardín está sujeto paradójicamente a una representación que lo expone ante la mirada del sujeto, pero también ante una palabra que entorpece el tránsito ocular9. Este ejercicio paisajístico inventa un espacio donde se es visionario y [..."
-          },
-          {
-            "url": "https://www.instagram.com/p/CxDxnWpLlki",
-            "title": "\"🌟 Tenemos el placer de invitarte a disfrutar de El Jardin ...",
-            "snippet": "El Jardin de las sombras está conformado por los artistas guayaquileños Dennis Darquea Bossano y Estefania Villacis. SEPTIEMBRE 17 Y 24 ⏰ ...Read more"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "585bec03899712721b897e0e6fca14a2ba7fd6d784d0265bac328bd1abcd454f",
-      "provider": "Tavily",
-      "query": "\"El jardín de las sombras\" teatro Ecuador",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.mapquest.com/cl/region-metropolitana-de-santiago/teatro-nescafe-de-las-artes-528355097",
-            "title": "Teatro Nescafe de Las Artes, Avenida Manuel Montt 032, Santiago, CL - MapQuest",
-            "snippet": "Android app Google Play\nDownload on the App Store\n\nAdvertisement\n\nAdvertisement\n\n# Teatro Nescafe de Las Artes\n\ntripadvisor logo\n\n(72)\n\nAdvertisement\n\nAdvertisement\n\n## Photos\n\nIMG_20180818_225622_537_large.jpg\nDSC_1810_large.jpg\nLindo teatro pero muy chicas las sillas\nDSC_1808_large.jpg\n\nTop review\n\n“Fui en ocasión a la obra del Coco llamada Viejos de Mierda. Es un teatro no muy grande que permite v...”\n\nHours\n\nAdvertisement\n\n## Reviews\n\ntripadvisor logo\n\n(72) [...] (72)\n\nFui a ver una obra arg"
-          },
-          {
-            "url": "https://www.mapquest.com/es/teatro-principal-de-alicante-522929450",
-            "title": "Teatro Principal de Alicante",
-            "snippet": "El Teatro Principal de Alicante es un importante espacio cultural, inaugurado en 1847. Ofrece una variada programación de eventos, incluyendo obras de teatro clásico y contemporáneo, así como festivales internacionales, como el Festival Internacional de Teatro Clásico de Alicante. [...] El teatro también organiza visitas guiadas que permiten conocer su historia arquitectónica y su legado cultural. Con una trayectoria de 175 años, es un lugar emblemático para disfrutar de las artes escénicas en l"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

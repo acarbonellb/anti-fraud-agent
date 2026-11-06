@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-06T12:36:00.000Z",
+  "clock": "2026-11-06T13:34:00.000Z",
   "calls": [
     {
-      "requestHash": "767c0753f3de03ab62c4bbb43cdde66627037c2c6e5af0b08d192678ac220c09",
-      "latencyMs": 3114,
+      "requestHash": "7f3b51d0ff0c642ce1e215b0855a30f3e02a2da2b8fea351831da568fe351094",
+      "latencyMs": 15702,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event carefully. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Concierto al amanecer\" (Dawn Concert)\n- Artist: Orquesta Brisa del Cantábrico\n- Genre: clásica (classical)\n- Venue: Escenario Santander, Santander, Cantabria\n- Date: 2026-11-06 at 18:00 (doors open 17:00)\n- Ticket price: 1500 cents (€15.00) for General admission\n- Capacity: 3000 tickets\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP below general) ✓\n- Service fee within limits ✓\n- No problematic discounts ✓\n- No overlapping sessions ✓\n- Session timing: WARN - event published less than 12 hours before session starts (published at 10:00, doors open at 17:00 on same day)\n- Price benchmark: pass (€15 is well below the €35 p90 benchmark for classical music in Cantabria)\n- Venue exists: verified on OpenStreetMap ✓\n- Venue capacity: unknown (no data available)\n\n**Key concerns to investigate:**\n\n1. **Session timing warning**: The event was published at 10:00 and doors open at 17:00 the same day. This is less than 12 hours notice. I should check if this is a legitimate last-minute booking or potentially suspicious.\n\n2. **Venue capacity unknown**: The venue exists but its real capacity isn't documented. The event sells 3000 tickets. I need to verify if this is reasonable for the venue.\n\n3. **Organizer context**: I should check the organizer's history and identity to see if there are any red flags.\n\n4. **Artist availability**: \"Orquesta Brisa del Cantábrico\" - I should verify if this orchestra exists and has other tour dates that might conflict or indicate a fake event.\n\nLet me start by checking the organizer context and then search for information about the artist/venue capacity.",
           "toolCalls": [
             {
-              "id": "7uGVDtUioGSJWGpjz2sSc315O9CYw1ok",
+              "id": "iHFGT1eUNUtTsKGmIGJXZO5ey2HkS36l",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c68156293b\"}"
             }
@@ -22,184 +22,106 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3516,
-          "outputTokens": 41
+          "inputTokens": 3471,
+          "outputTokens": 543
         }
       }
     },
     {
-      "requestHash": "f3c319024f126ddf38205ab242d8b09a354507fec1f5f741d53af53f6305e863",
-      "latencyMs": 1619,
+      "requestHash": "5c075099feabb75602a3489204cadaba86ba408ea94586656aca6b731084e9d9",
+      "latencyMs": 8924,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Good information about the organizer:\n- Name: Alborada Conciertos\n- Status: approved\n- Created: 2024-05-20 (about 2 years old, account age 930 days)\n- Fiscal data present and valid (CIF with valid checksum)\n- Owner account age: 930 days (reasonable)\n- Email verified\n- No other organizers owned by same person\n- Team: owner + manager + 2 scanners (reasonable team structure)\n- History: 14 published events, 0 cancelled, 12 ended - good track record\n- No admin unpublishes\n- No content reports\n- No previous agent reviews\n\nThis looks like a legitimate organizer with a clean history. Now I need to check:\n1. The artist \"Orquesta Brisa del Cantábrico\" - does this exist and is it available?\n2. The venue capacity issue - 3000 tickets for Escenario Santander\n\nLet me search for the orchestra and also try to find information about the venue's capacity from web sources (since OSM/Wikidata didn't have it).",
           "toolCalls": [
             {
-              "id": "oeHp8Owd06rKzPpGvuVCfUJDxPeydaCD",
+              "id": "OcZv3hZsAYCqfV5RyKbft8YcYpFb3P84",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Orquesta Brisa del Cantábrico Santander concierto 2026\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Orquesta Brisa del Cantábrico Santander concierto\",\"maxResults\":2}"
+            },
+            {
+              "id": "GiyUjpddGTwiHWk0T0K1Tw8FmJcSbnd2",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Escenario Santander aforo capacidad Santander\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3899,
-          "outputTokens": 53
+          "inputTokens": 4356,
+          "outputTokens": 334
         }
       }
     },
     {
-      "requestHash": "7fa7645aded88b7c5597709bd9842d126770f6d908669822b19d2e0c23ee02dc",
-      "latencyMs": 1537,
+      "requestHash": "6d2fa8afe05db7bbecb172ecf5eb8018b78dcd4f65abef95374cd7adeb05ade3",
+      "latencyMs": 3634,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The web searches hit quota limits. Let me try a different approach - search for the venue with slightly different terms and also check if there are any similar events that might indicate cloning or fraud patterns.",
           "toolCalls": [
             {
-              "id": "ag7cjcrJWMaoVwg4hVS23olEbGcSB2dr",
+              "id": "K4BnMwVNoxpIvGip8yxDXTJ9zBGToF5N",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" Santander\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Escenario Santander Santander concierto capacidad\",\"maxResults\":2}"
+            },
+            {
+              "id": "is03udPdOSSgIb3a7k9jbFcDQ0DaLKN5",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_249509afef\",\"windowDays\":30}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4368,
-          "outputTokens": 49
+          "inputTokens": 4860,
+          "outputTokens": 134
         }
       }
     },
     {
-      "requestHash": "806a5f6024b506c6e8c9a1a698a17cc91b6b73eda12d15c7193e8780289d4796",
-      "latencyMs": 1683,
+      "requestHash": "8ec5fdd43c6ec6946ca8ce16381e1d02dfe718fdcbf50f54d3d4058ed6bfc583",
+      "latencyMs": 2368,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The web searches are hitting quota limits consistently. Let me try one more search with different phrasing to see if I can get any results about the venue capacity or the orchestra.",
           "toolCalls": [
             {
-              "id": "fhPUTreIkNxZEQx1rIqSFB0C0tPfo3PV",
+              "id": "qdgZ8DuuEJhZYrR2mLoWeUfuPCaOCzOn",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" concierto 2026 Santander\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"\\\"Escenario Santander\\\" Santander amenity arts_centre\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4743,
-          "outputTokens": 55
+          "inputTokens": 5156,
+          "outputTokens": 84
         }
       }
     },
     {
-      "requestHash": "aa01f5496223f0d8d5462575ffec0ff54bd5fd8e7050ccc0585a6a229db77372",
-      "latencyMs": 1597,
+      "requestHash": "12121c21874a40c15932b9055db3474543fa2e04554c8ed46fa532ba4f1a922f",
+      "latencyMs": 43427,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The web searches keep hitting quota limits. This is a limitation I need to work with. Let me summarize what I know:\n\n**What's clear:**\n1. Organizer is legitimate (Alborada Conciertos, approved status, clean history, valid fiscal data)\n2. Venue exists and is verified on OpenStreetMap\n3. Price is reasonable (€15 vs €35 p90 benchmark)\n4. No obvious fraud signals in the deterministic checks\n\n**Issues to address:**\n1. **Venue capacity unknown**: The venue's real capacity isn't documented anywhere. The event sells 3000 tickets. Without knowing the actual capacity, I can't verify if this is reasonable or potentially selling more than the venue can hold. This is a significant gap.\n\n2. **Session timing warning**: Event published at 10:00, doors open at 17:00 same day (less than 12 hours notice). The deterministic check flagged this as a warn. I need to assess if this is legitimate or suspicious.\n\n3. **Artist verification**: Couldn't verify the orchestra exists outside the platform due to web search quota limits.\n\n4. **No similar events found** - good sign, no cloning detected.\n\nGiven that:\n- The organizer has a clean history (14 published, 12 ended, 0 cancelled)\n- Fiscal data is valid\n- Venue exists\n- Price is reasonable\n- No obvious fraud signals\n\nBut the venue capacity is unknown and I can't verify it through web searches due to quota limits. Also, the session timing warning suggests this might be a last-minute event which could be legitimate or could indicate rushed booking.\n\nThe key question: Is selling 3000 tickets at a venue with unknown capacity potentially problematic? The deterministic check says \"unknown\" for venue capacity because neither Wikidata nor OSM publish it, and web search failed (quota_exceeded).\n\nGiven the evidence:\n- Strong signals of legitimacy (organizer history, fiscal data, venue exists)\n- One warning about session timing (less than 12 hours notice)\n- Unknown venue capacity - this is a gap I can't fill due to tool limitations\n\nThe session timing warning is noted but not a fail. The unknown capacity is concerning but without evidence that the venue can't hold 3000 people, it's not necessarily fraud. It could be a legitimate large venue.\n\nGiven the clean organizer history, valid fiscal data, existing venue, reasonable pricing, and no similar events (no cloning), I lean towards approving but with low confidence due to the unknown capacity issue. However, since I can't verify the capacity and there's a warning about session timing, I should consider whether this warrants requesting more information.\n\nActually, looking at the guidelines: \"Approve only when nothing points to fraud.\" The unknown capacity doesn't necessarily point to fraud - it could be a legitimate large venue. The session timing warning is also not fraud, just potentially unusual.\n\nBut wait - the deterministic check for venue_capacity says \"unknown\" with detail that no data is available and web search failed due to quota_exceeded. This means I genuinely cannot verify if 3000 tickets is appropriate for this venue.\n\nGiven:\n- No evidence of fraud\n- Unknown capacity (can't verify)\n- Session timing warning (not a fail, just a warn)\n\nI think the safest approach is to **approve** with low confidence, noting the limitations. The organizer is legitimate, venue exists, prices are reasonable, and there's no evidence of fraud. The unknown capacity could be resolved by the admin if needed, but it's not a clear fraud signal.\n\nActually, let me reconsider. The guidelines say \"Approve only when nothing points to fraud.\" Unknown capacity doesn't point to fraud - it just means I can't verify. But selling tickets against an unknown venue capacity is a risk. However, since the deterministic check already ran and found the venue exists, and the capacity is simply not documented (not that it's impossible), this might be acceptable.\n\nLet me also consider: the event has been published by an organizer with 14 events, 12 ended successfully. This suggests they know what they're doing. The session timing warning is noted but not a fail condition.\n\nI'll go with **approve** with low confidence (around 0.6-0.7) due to the unknown capacity and session timing warning, but no clear fraud signals.\n\nWait - I should record all my findings properly before submitting. Let me compile:\n\n**Findings:**\n1. Organizer identity: pass (valid fiscal data, clean history)\n2. Session timing: warn (less than 12 hours notice)\n3. Venue capacity: unknown (can't verify due to lack of data)\n4. No similar events found (good - no cloning)\n5. Price benchmark: pass (reasonable pricing)\n\nGiven the evidence, I'll approve with low confidence and note the limitations in the rationale.",
           "toolCalls": [
             {
-              "id": "Ut0QRhIXpCbdatuJ185FK1PRqzqRvSQM",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" tour dates 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4836,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "cb1c93f1b56affce62a09af05247fa04e135a3f0bc300f4bacd06830aedb3a65",
-      "latencyMs": 1672,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "eNo4K7DLZPapyit4B3zsqeMgdIBM3s9j",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" Santander 2026 concierto\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5237,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "c2b54a0730894886deae260fa1ba34dc82f905cf64ff3aa2ad0bc6948925884d",
-      "latencyMs": 1579,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "pWNMzZLzX75drNnYAN7pnIypJUlqr7FM",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" Santander 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5330,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "3b1ddb30df5ceaef005bbecb3d8dfb2d6598ff415cd1749f8799af57327f2800",
-      "latencyMs": 2043,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "eH31k0hKoj3dcO55n3oJPeRFORaUusi0",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Orquesta Brisa del Cantábrico\\\" Santander 2026 concierto \\\"Concierto al amanecer\\\"\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5837,
-          "outputTokens": 63
-        }
-      }
-    },
-    {
-      "requestHash": "0c3a8974f62b03a355d4f8a41c9bc2618f1c2b5db2daa7c36af87fe8020a5f6f",
-      "latencyMs": 17889,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "pqYA8zbuD6Q34NHUTiQ0v3htwOcXnaQt",
+              "id": "GeaUFMTuvECVuj3FcjPz9BKhDq1aPtj9",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude clara: el artista \\\"Orquesta Brisa del Cantábrico\\\" no existe en la realidad. Las búsquedas web confirman que la orquesta real es \\\"Orquesta Sinfónica del Cantábrico\\\" (OSCAN), con conciertos oficiales programados para 2026 en Santander, pero nunca bajo el nombre \\\"Brisa del Cantábrico\\\". El evento de esta plataforma usa un nombre falso para el artista y una fecha (6/11/26) que no coincide con los conciertos reales de la OSCAN en esas fechas. Esto indica un intento de suplantar identidad artística, lo cual es fraude. Además, el aforo a la venta (3.000) supera 3 veces el aforo real del recinto (1.000), lo que también es una señal de alerta grave.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"El artista 'Orquesta Brisa del Cantábrico' no existe en la realidad; las búsquedas web confirman que la orquesta real es 'Orquesta Sinfónica del Cantábrico' (OSCAN), con conciertos oficiales programados para 2026 en Santander, pero nunca bajo el nombre 'Brisa del Cantábrico'.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://eldiariocantabria.publico.es/cultura/orquesta-sinfonica-cantabrico-dara-bienvenida-2026-conciertos-torrelavega-castro-urdiales-santander/20251226170827186418.html\",\"title\":\"La Orquesta Sinfónica del Cantábrico dará la bienvenida a 2026 con conciertos en Torrelavega, Castro Urdiales y Santander\"},{\"url\":\"https://oscan.es/evento/concierto-de-ano-nuevo-santander-2026-parroquia-de-los-antiguos-franciscanos\",\"title\":\"Concierto de Año Nuevo Santander 2026 - OSCAN\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"La sesión con más entradas pone a la venta 3.000, 3 veces el aforo de 1.000 que da la web del recinto (www.santandercreativa.com). Una cifra de la web no está verificada, así que lo decide el admin.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.santandercreativa.com/entidades/escenario-santander\",\"title\":\"la web (www.santandercreativa.com)\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.65,\"rationale\":\"El evento presenta señales de legitimidad: organizador con historial limpio (14 eventos publicados, 12 finalizados, sin cancelaciones), datos fiscales válidos, recinto verificado en OpenStreetMap y precios razonables (€15 vs p90 de €35 para género clásico). No hay indicios de fraude ni contenido ilegal. Sin embargo, el aforo del recinto no está documentado públicamente y la venta es de 3.000 entradas, lo que no puede verificarse completamente. Además, la sesión comienza menos de 12 horas después de publicarse (advertencia). No se encontraron eventos similares que sugieran clonación. Se aprueba con confianza baja debido a las limitaciones en verificar el aforo real del recinto.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Alborada Conciertos con datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, sin otros organizadores del mismo dueño, historial limpio (14 publicados, 12 finalizados, 0 cancelados), sin reportes de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La sesión comienza a las 17:00 del mismo día que se publicó el evento (10:00), menos de 12 horas de antelación.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo real del recinto «Escenario Santander» no está documentado en Wikidata ni OpenStreetMap, y las búsquedas web fallaron por cuota excedida; la venta es de 3.000 entradas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en otras organizaciones en la misma provincia con fechas cercanas (ventana de 30 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de €15 está por debajo del p90 de €35 para conciertos clásicos en Cantabria con aforo 1000-5000.\",\"confidence\":0.9,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5936,
-          "outputTokens": 668
+          "inputTokens": 5331,
+          "outputTokens": 1641
         }
       }
     }
@@ -212,33 +134,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.youtube.com/watch?v=jgNb6YRdb2c",
-            "title": "Concierto \"Amanecer\" para Dos Cornos y Orquesta.",
-            "snippet": "### Description\n348 views\nPosted: 2017-09-19\nLes presento el Concierto \"Amanecer\", para dúo de cornos y orquesta, compuesta en 2016 por el compositor venezolano José Luís Colmenares, y estrenada mundialmente en noviembre de ese mismo año en el Teatro de la Ópera de Maracay, estado Aragua, Venezuela. El dúo de cornos, en esa ocasión, lo conformaron el mismo José L. Colmenares y el maestro Carmelo Cacioppo: en el vídeo cornistas izquierdo y derecho respectivamente. [...] Fue en el marco del concie"
-          },
-          {
-            "url": "https://www.facebook.com/100063651725848/videos",
-            "title": "BRISAS DEL AMANECER Eventos y Recepciones",
-            "snippet": "BRISAS DEL AMANECER Eventos y Recepciones , el lugar donde no importa la edad para vivir una experiencia única, el mejor lugar en la ciudad de Latacunga para realizar tus eventos, ven y visítanos. Contáctanos al 0987437234\n\na year ago\n\n · \n\n729 views\n\nImage 20\n\nImage 21\n\n8\n\nImage 22: Video thumbnail 0:54\n\nBrisas del Amanecer 🌄\n\na year ago\n\n · \n\n251 views\n\nSee more on Facebook\n\nSee more on Facebook\n\nEmail or phone number\n\n \n\nPassword\n\n \n\nLog In\n\nForgot password?\n\nor\n\nCreate new account [...] Log"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=Uh5cBEUG7BE",
-            "title": "AMANECER SANDINO - Brisas del Titicaca",
-            "snippet": "### Transcript\n[0:00] [Música]\n[0:11] [Música]\n[0:17] el paraíso le vida linda puro a tu\n[0:25] izquierda amor imposible perp es inosidable\n[0:33] lindaa gigante amor\n[0:41] imposible trayéndote este corazón que nunca te suo más ahora cumplendo\n[0:50] cholita de tu tanto su trayéndote este corazón\n[1:04] cholita un canto linda cañita amor\n[1:10] impos Linda urita amor imp ahino\n[1:19] [Música]\n[1:29] [Música]\n[1:40] [Música]\n[1:48] ties mucho cariño\n[1:55] [Música]\n[2:07] [Música] [...] [2:07] ["
-          },
-          {
-            "url": "https://brisadelcantabrico.com/actualidad-2",
-            "title": "Actualidad – Brisa del Cantábrico",
-            "snippet": "Brisa del Cantábrico\n\n## Actualidad\n\nBrisa del Cantábrico By Themespride"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=yh4kMJTJQbM",
-            "title": "Tiquy, canto vital -“Brisa de amanecer” (Canon)",
-            "snippet": "### Transcript\n[0:01] que placer produce San poder que feliz\n[0:08] será quien goe la visa de\n[0:15] amanecer vienda se produce al correr que\n[0:22] feliz será y b se de la brisa aman J el\n[0:32] aso dice San José que feliz será que de\n[0:40] la p la pias en produlce s cer que feliz\n[0:54] será de la mesa\n[1:00] J la que feliz será que Jos de la\n[1:07] prisa te amanecer [...] # Tiquy, canto vital -“Brisa de amanecer” (Canon)\n## Channel: Ximena Sarta\n427 subscribers\n5 likes\n\n### Description\n125 v"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
@@ -248,117 +144,47 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.santander.es/servicios-ciudadano/areas-tematicas/musica/escenario-santander",
-            "title": "Escenario Santander | Portal Ayuntamiento Santander",
-            "snippet": "Conocedores de la rutina musical de la ciudad de Santander su filosofía es alimentar la constante programación de otras salas y abrir nuevos caminos de contenidos dentro de un espacio que disfruta de diferentes aforos, de 0 a 250 personas o de 500 a 1000 como aforo máximo. Capaz de transformarse en un club con las mejores propuestas alternativas, de vestirse como una sala lista para las artes escénicas, un cine o un mercado de vanguardia, e incluso una gran discoteca en la que disfrutar los [..."
-          },
-          {
-            "url": "https://funksocialclub.com/recintos/escenario-santander",
-            "title": "Eventos y conciertos en Escenario Santander (Santander) - Funksocialclub",
-            "snippet": "En cuanto a capacidad, conviene matizar porque la sala es deliberadamente flexible: su espacio polivalente maneja aforos adaptables de 250, 500 y hasta 1.000 personas como máximo, lo que le permite transformarse según las necesidades de cada evento. Cuenta además con el Escenario Club, un espacio más recogido de unos 400 metros cuadrados y 250 personas dedicado a la música y el humor en formato íntimo. Esa elasticidad es justo su gran baza, capaz de pasar del concierto de club al gran [...] Para"
-          },
-          {
-            "url": "https://www.santandercreativa.com/entidades/escenario-santander",
-            "title": "Escenario Santander - Entidades - Santander Creativa",
-            "snippet": "Sala polivalente con una capacidad máxima de 1.000 personas, lo que le permite transformarse en un espacios de diferentes formatos, que va desde un gran aforo a formatos más pequeños según necesidades, permitiendo albergar diferentes propuesta artísticas: conciertos, fiestas, presentaciones, cine, mercado, sala de exposiciones, congresos, incluso grandes eventos aprovechando el gran marco donde está situada. [...] La sala cuenta con un escenario 11m. x 6m.  \nPantalla 6m x 4m  \nProyector Sanyo 50"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DQJ7jEolcfF",
-            "title": "Instagram",
-            "snippet": "🎸 Así son las Rock Nights en Escenario Santander 🎸   \n  \nUn ciclo pensado para disfrutar del rock en su formato más auténtico: cerca, sin artificios y con un sonido impecable.  \n  \nEn cada Rock Night el público y las bandas comparten algo que solo se da en espacios pequeños: proximidad, energía y conexión real.  \nSon conciertos con aforo reducido, ambiente cuidado y artistas que traen el mejor rock, blues o soul desde distintos rincones del mundo. [...] No hay grandes efectos, solo música de v"
-          },
-          {
-            "url": "https://santanderescenario.com/contacto",
-            "title": "Contacto - Escenario Santander",
-            "snippet": "Escenario Santander\n\n### Información\n\n### Incidencias Venta tickets\n\nInformación en relación a venta de entradas:  \ninfo@elsilenciomusic.com\n\n### Eventos\n\ninfo@elsilenciomusic.com\n\n## Nuestros espacios\n\nEntendemos los espacios como un lugar en el que la comunidad vive momentos con artistas y canciones increíbles. Donde la evolución mira al pasado con cariño y respeto.\n\n### Escenario Santander\n\nAv. de la Constitución, 39, 39012 Santander, Cantabria\n\ninfo@silenciomusic.com\n\n### Email Contacto [..."
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "0c5c21f25bf5e91deb474b65e3869919d96e418f94c53c3f14d69128b98d9a32",
+      "requestHash": "724fff10f464985841ebc4b0d5afe4e55163a9c2ab570e4d78ba553ba1b42ef3",
       "provider": "Tavily",
-      "query": "Orquesta Brisa del Cantábrico Santander concierto 2026",
+      "query": "Orquesta Brisa del Cantábrico Santander concierto",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://eldiariocantabria.publico.es/cultura/orquesta-sinfonica-cantabrico-dara-bienvenida-2026-conciertos-torrelavega-castro-urdiales-santander/20251226170827186418.html",
-            "title": "La Orquesta Sinfónica del Cantábrico dará la bienvenida a 2026 con conciertos en Torrelavega, Castro Urdiales y Santander",
-            "snippet": "Con una duración aproximada de una hora y quince minutos, estos conciertos son una apuesta de la OSCAN por acercar la música sinfónica a públicos diversos y consolidar una tradición musical asociada a las fechas navideñas e inicio de año.\n\nPROGRAMA PARA TODOS LOS PÚBLICOS\n\nBajo la dirección musical de Paula Sumillera, la formación cántabra ha organizado un programa para todos los públicos, que combina tradición, brillantez orquestal y un marcado carácter festivo. [...] SANTANDER\n\nA ellas se suma"
-          },
-          {
-            "url": "https://oscan.es/evento/concierto-de-ano-nuevo-santander-2026-parroquia-de-los-antiguos-franciscanos",
-            "title": "Concierto de Año Nuevo Santander 2026 - OSCAN - OSCAN - Orquesta Sinfónica del Cantábrico",
-            "snippet": "Bajo la  dirección de Paula Sumillera, la orquesta interpretará una selección de piezas que invitan a la celebración. Desde la suite de El cascanueces hasta los valses que han hecho famosa a la familia Strauss, cada nota está pensada para crear un ambiente festivo y especial.\n\n Fecha y hora: 4 de enero, 19:00 horas.\n Ubicación: Parroquia de Santa María de los Ángeles (antiguos Franciscanos), Santander.\n Precio: 15 euros.\n Venta de entradas:  🎟️ Comprar entradas aquí. [...] Por primera vez, la O"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "6533e60c0e23b61ec7c22e393456be16726b52b9e69b4500dac2f53926e76682",
+      "requestHash": "f72b6f5e858db78cf98ca5b86f27dc1472ba34907ada03efd774e79dd423ab47",
       "provider": "Tavily",
-      "query": "\"Orquesta Brisa del Cantábrico\" Santander",
+      "query": "Escenario Santander aforo capacidad Santander",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://oscan.es/evento/concierto-orquesta-sinfonica-del-cantabrico-bajo-cielo-mar-del-plata",
-            "title": "Concierto Orquesta Sinfónica del Cantábrico: Bajo el Cielo de Mar del Plata | Santander",
-            "snippet": "Bajo la dirección musical de Paula Sumillera, la orquesta propone un recorrido geográfico y sonoro que conecta continentes. Un plan cultural diferente para la tarde del jueves en Santander, donde la exigencia y solidez del gran formato sinfónico profesional se ponen al servicio de la emoción, el ritmo y la identidad del tango contemporáneo.\n\n### El repertorio: de la aridez de Almería a la inmensidad del Aconcagua [...] El programa es un viaje musical minuciosamente construido. Para dar vida a es"
-          },
-          {
-            "url": "https://palaciofestivales.com/evento/orquesta-sinfonica-del-cantabrico",
-            "title": "Orquesta Sinfónica del Cantábrico OSCAN - Palacio de Festivales de Cantabria",
-            "snippet": "Bajo la dirección artística de su titular, Paula Sumillera, la orquesta ha actuado en escenarios como el Palacio de Festivales de Cantabria, el Teatro Municipal Concha Espina, el Teatro Casyc o la Catedral de Santander, entre otros. La plantilla goza de gran versatilidad y adapta sus producciones a las características de cada lugar.\n\nRecorrido artístico [...] Fundada en 2019 por el impulso e iniciativa de un colectivo de músicos profesionales, la Orquesta Sinfónica del Cantábrico (OSCAN) nace pa"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "d65b327aabe0b097f4640b9ed508204cec71bc8dd3239c3e5e81cfd584f90660",
+      "requestHash": "1e618ee774faac6ad1a4c361487a0899fb921348006119dfb48e2572f351a2f0",
       "provider": "Tavily",
-      "query": "\"Orquesta Brisa del Cantábrico\" tour dates 2026",
+      "query": "Escenario Santander Santander concierto capacidad",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://music.apple.com/ng/concerts/ce.90ecbb3b-e6ae-47ef-896f-72191df2b884",
-            "title": "‎León Benavente - 2026 Brisa Festival 2026 Tour & Concert Dates | Apple Music",
-            "snippet": "Jul 24\n\n# León Benavente\n\nGet Tickets\n\n 24 July 2026 · Friday\n\n  19:00\n\nPowered by Bandsintown\n\n##"
-          },
-          {
-            "url": "https://www.vividseats.com/su-majestad-la-brisa-tickets/performer/391174",
-            "title": "Su Majestad La Brisa Tickets & 2026 Tour Dates",
-            "snippet": "Su Majestad La Brisa tour dates for 2026 or 2027 may be available now. For any confirmed future Su Majestad La Brisa tour dates, Vivid Seats will have tickets. View all top 2026 concerts and tour rumor information for top artists.\n\n### Su Majestad La Brisa Floor Seats [...] Su Majestad La Brisa has become one of the top Latin Music artists in the 2026 music scene, delighting fans with a unique Latin Music sound. Su Majestad La Brisa tickets provide an opportunity to be there in person for the ne"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "e205c7a08d9bd5780a3b3850469310327fdea09e41358911d2ad3220c4df1058",
+      "requestHash": "7d3200aff7c1c4b56630648ea6f4f7f3e66f36cdae0ecc9d3d7a51960d285876",
       "provider": "Tavily",
-      "query": "\"Orquesta Brisa del Cantábrico\" Santander 2026",
+      "query": "\"Escenario Santander\" Santander amenity arts_centre",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://eldiariocantabria.publico.es/cultura/orquesta-sinfonica-cantabrico-dara-bienvenida-2026-conciertos-torrelavega-castro-urdiales-santander/20251226170827186418.html",
-            "title": "La Orquesta Sinfónica del Cantábrico dará la bienvenida a 2026 con conciertos en Torrelavega, Castro Urdiales y Santander",
-            "snippet": "Con una duración aproximada de una hora y quince minutos, estos conciertos son una apuesta de la OSCAN por acercar la música sinfónica a públicos diversos y consolidar una tradición musical asociada a las fechas navideñas e inicio de año.\n\nPROGRAMA PARA TODOS LOS PÚBLICOS\n\nBajo la dirección musical de Paula Sumillera, la formación cántabra ha organizado un programa para todos los públicos, que combina tradición, brillantez orquestal y un marcado carácter festivo. [...] SANTANDER\n\nA ellas se suma"
-          },
-          {
-            "url": "https://eldiariocantabria.publico.es/articulo/cultura/orquesta-sinfonica-cantabrico-dara-bienvenida-2026-conciertos-torrelavega-castro-urdiales-santander/20251226170827186418.html",
-            "title": "La Orquesta Sinfónica del Cantábrico dará la bienvenida a 2026 con conciertos en Torrelavega, Castro Urdiales y Santander",
-            "snippet": "Con una duración aproximada de una hora y quince minutos, estos conciertos son una apuesta de la OSCAN por acercar la música sinfónica a públicos diversos y consolidar una tradición musical asociada a las fechas navideñas e inicio de año.\n\nPROGRAMA PARA TODOS LOS PÚBLICOS\n\nBajo la dirección musical de Paula Sumillera, la formación cántabra ha organizado un programa para todos los públicos, que combina tradición, brillantez orquestal y un marcado carácter festivo. [...] El repertorio incluirá la "
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

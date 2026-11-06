@@ -490,3 +490,66 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     change in decisions.
 - **Decision:** keep. The hypothesis holds: the new case is right and nothing else moved beyond
   noise.
+
+## E019 — A session already held warns while it still sells (Haiku 5.5)
+
+- **Hypothesis** (#72): the new case 27 (an event whose only session is already past and still
+  has tickets on sale) ends in `request_info`, escalated. Accuracy on the other cases and the
+  auto-approved fraud rate (0 %) don't move, since no existing case has a past session.
+- **Change** (#72): `session_timing` also measures against the review time, not only against
+  publication. A `heuristic` `warn` (never a `fail`, #71) when a session that has already started
+  still has standard tickets on sale, or when every session is past; a festival halfway through
+  stays quiet while its started days have nothing on sale. The imminence warning now applies only
+  to a session after publication. Its vocabulary description and its `pass` text changed, so every
+  event request changed and all 33 cases were re-recorded three times on Haiku 5.5, about $0.20
+  (99 reviews at E018's cost per review).
+- **The hypothesis was false for case 17 as first built.** Its session was pinned to 09:00 Madrid
+  on the clock's day, so any recording made after that hour (these run at about 13:30 UTC) saw the
+  session already held, and the new check fired on a case meant to test imminence only. Case 17
+  was rewritten to keep its point: published 3 h before the review for a session 8 h after
+  publishing, so it is imminent and still ahead of the review at any clock, and only the
+  imminence warning fires.
+- **Before → after** (E018 → E019, mean over three runs, min–max), gated, 31 → 32 cases:
+  **accuracy 84.9 % (80.6–87.1) → 88.5 % (84.4–90.6)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 88.2 % → 86.5 %, **autonomy accuracy
+  66.7 % (64.5–67.7) → 69.8 % (68.8–71.9)**, Brier 0.166 → 0.155. Mean input tokens about
+  13,600 → 13,600.
+- **What went wrong or surprised:**
+  - Case 27 is right in all three runs: `request_info`, escalated, citing `session_timing`.
+  - Case 17, rewritten, stays right in all three runs on the imminence warning alone.
+  - Most of the accuracy move is case 24 («Botellón +14»): it asked in all three runs of E018 and
+    now rejects on its `minors_alcohol` hard signal, resolving on its own, in two of three. #72
+    doesn't touch that case; it is run-to-run noise, not the check's effect. Case 07 (exact clone)
+    went from two rejections of three to three, also noise.
+  - N1 escalated in one run of three on a confidence just under the bar; still right by majority.
+  - N1–N5 kept their majority decisions, and no gated fraud case was approved.
+- **Decision:** keep. The hypothesis holds on what the check touches (case 27 right, nothing
+  auto-approved), once case 17 was rebuilt so it no longer had a past session; the accuracy gain
+  is mostly noise and is not credited to #72.
+
+## E020 — A session already held warns while it still sells (qwen 3.5 9B)
+
+- **Hypothesis** (#72): as in E019.
+- **Change:** the same as E019 (including the rewritten case 17), with all 33 cases re-recorded
+  once on local qwen, which is free. Recording run 1 also re-measured the venue lookups (OSM,
+  Wikidata); only volatile fields (`place_id`, `display_name` streets, number formatting) changed.
+- **Before → after** (E017 → E020), gated, 31 → 32 cases: **accuracy 71.0 % → 78.1 %**,
+  **approved-fraud rate 0.0 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  74.2 % → 78.1 %, **autonomy accuracy 80.6 % → 78.1 %**, Brier 0.245 → 0.188. Mean input tokens
+  about 29,600 → 22,200.
+- **What went wrong or surprised:**
+  - Case 27 is wrong: qwen rejected it (0.85), escalated. It upgraded the `session_timing` warning
+    to a `fail`, called it a hard signal of fraud and cited a source URL it made up. The admin still
+    decides, since a rejection without a rule-based or sourced hard signal escalates, but the
+    reasoning reads the admin-fixable state as fraud evidence, which #71 rules out.
+  - Case 17, rewritten, is now right (`request_info`; it was a confident wrong `reject` in E017).
+  - Case 23 (organizer with previous fraud reports) became an `approve`, escalated by the web
+    search budget and the exposure cap: that single case is the whole approved-fraud move.
+    Cases 11, 16, 19 and N5 became right, 13 became a wrong `reject`. With one run per case, all of
+    this is re-recording noise, not the check's effect, and the token drop is fewer tool rounds.
+  - N1–N3 kept their outcome. N4 still approves but escalated, on a spent web search budget,
+    instead of resolving on its own: the autonomy move.
+- **Decision:** keep. On qwen the hypothesis holds only in part: nothing was auto-approved, but the
+  new case is wrong because the small model inflates the warning into a fraud signal. Noted for the
+  prompt ticket (#76); the accuracy and approved-fraud moves are noise from a one-run set and are
+  not credited to #72.
