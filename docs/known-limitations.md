@@ -46,10 +46,6 @@ have resolved itself.
 Both reviews were escalated, so neither resolved anything on its own. They point at
 calibration, above.
 
-- **An already-held session passes.** `session_timing` measures sessions against publication,
-  not against the review, so an event whose only session is in the past raises nothing. Such
-  events only reach the agent on a first pass over an old feed, or after an edit. Fix: a check
-  that a session has already started at review time.
 - **A `reject` without direct evidence.**
   - **Symptom:** the model admitted there was no direct evidence of fraud and drafted a
     `request_info`, but still recommended `reject`.

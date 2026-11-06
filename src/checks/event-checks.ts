@@ -276,6 +276,10 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
     .map((session) => ({
       start: Date.parse(session.startsAt),
       end: Date.parse(session.endsAt),
+      onSale: session.ticketTypes.some(
+        (type) =>
+          type.kind === "standard" && type.capacityTaken < type.capacity,
+      ),
     }))
     .sort((a, b) => a.start - b.start);
   const reference =
@@ -305,8 +309,12 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
   const first = sessions[0];
   const last = sessions.at(-1);
   const timing: SystemFinding[] = [];
+  // "Hours after publishing" only reads right for a session after it: an
+  // unpublished event measures from now, and a past session there is the
+  // review-time warning's below.
   if (
     first !== undefined &&
+    first.start >= reference &&
     first.start - reference < IMMINENT_HOURS * HOUR_MS
   ) {
     timing.push(
@@ -325,6 +333,35 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
         "session_timing",
         "warn",
         `Hay una sesión (${madrid(last.start)}) a más de ${String(DISTANT_DAYS)} días de la publicación.`,
+      ),
+    );
+  }
+  // Against the review time, not publication: a past event still in the
+  // feed is for the admin to fix, so it escalates but is no fraud evidence
+  // (#71). A festival halfway through stays quiet while its started days
+  // have nothing left on sale.
+  const startedOnSale = sessions.find(
+    (session) => session.start <= now.getTime() && session.onSale,
+  );
+  const allPast =
+    last !== undefined &&
+    sessions.every((session) => session.end <= now.getTime());
+  if (allPast) {
+    timing.push(
+      systemFinding(
+        "heuristic",
+        "session_timing",
+        "warn",
+        `Todas las sesiones ya han terminado (la última fue el ${madrid(last.start)})${startedOnSale === undefined ? "" : " y aún hay entradas a la venta"}.`,
+      ),
+    );
+  } else if (startedOnSale !== undefined) {
+    timing.push(
+      systemFinding(
+        "heuristic",
+        "session_timing",
+        "warn",
+        `La sesión del ${madrid(startedOnSale.start)} ya ha empezado y aún tiene entradas a la venta.`,
       ),
     );
   }
