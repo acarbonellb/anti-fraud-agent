@@ -9,7 +9,10 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { runEventChecks } from "../../src/checks/event-checks.js";
+import {
+  IMMINENT_HOURS,
+  runEventChecks,
+} from "../../src/checks/event-checks.js";
 import { runOrganizerChecks } from "../../src/checks/organizer-checks.js";
 import {
   benchmarkQuery,
@@ -35,6 +38,7 @@ const CLOCKS = [
 const IDS = [
   ...Array.from({ length: 26 }, (_, i) => String(i + 1).padStart(2, "0")),
   // Spec #71's calibration cases, after the brief's.
+  "27",
   "28",
   "N1",
   "N2",
@@ -126,6 +130,7 @@ const EXPECTED_FLAGS: Record<string, string[]> = {
   "24": ["rule minors_alcohol"],
   "25": ["heuristic prompt_injection"],
   "26": ["rule off_platform_payment"],
+  "27": ["heuristic session_timing"],
   "28": ["heuristic discounts"],
 };
 
@@ -211,24 +216,27 @@ function strings(value: unknown, key = ""): string[] {
   return [];
 }
 
-// Case 17's story is told in Madrid time; the clocks above fall in winter
-// (UTC+1) and in summer (UTC+2).
+// Case 17 is imminent after publishing, not already held: its session is
+// ahead of the review at every clock, and the warning reads in Madrid time,
+// winter (UTC+1) and summer (UTC+2).
 it.each(CLOCKS)(
-  "case 17 is published at 23:00 for 09:00 the next day, Madrid time, at %s",
+  "case 17 starts after the review and within 12 h of publishing, at %s",
   (clock) => {
     const evalCase = EVAL_CASES.find((c) => c.id === "17");
     const event = evalCase?.build(clock).event;
-    const madrid = (iso: string | null | undefined) =>
-      new Date(iso ?? "").toLocaleString("en-GB", {
-        timeZone: "Europe/Madrid",
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    const published = madrid(event?.event.publishedAt);
-    const starts = madrid(event?.sessions[0]?.startsAt);
-    expect(published).toMatch(/ 23:00$/);
-    expect(starts).toMatch(/ 09:00$/);
-    expect(starts.slice(0, 3)).not.toBe(published.slice(0, 3));
+    if (event === undefined) throw new Error("case 17 is an event case");
+    const starts = Date.parse(event.sessions[0]?.startsAt ?? "");
+    const published = Date.parse(event.event.publishedAt ?? "");
+    expect(starts).toBeGreaterThan(clock.getTime());
+    expect(starts - published).toBeLessThan(IMMINENT_HOURS * 3_600_000);
+    const madrid = new Date(starts).toLocaleString("es-ES", {
+      timeZone: "Europe/Madrid",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+    const [warning] = runEventChecks(event, clock).filter(
+      ({ finding }) => finding.verdict === "warn",
+    );
+    expect(warning?.finding.detail).toContain(`(${madrid})`);
   },
 );

@@ -26,7 +26,8 @@ export const CHECKS = {
   service_fee: "Service fees out of proportion.",
   discounts: "A large active discount with no usage limit.",
   session_dates: "Overlapping sessions of the event.",
-  session_timing: "A session imminent after publishing, or very far away.",
+  session_timing:
+    "A session imminent after publishing or very far away, or already held at review time while still selling.",
   off_platform_payment:
     "Asks to pay outside the platform (Bizum, transfer, phone). Hard signal.",
   external_ticketing_link: "Links to other ticketing sites or URL shorteners.",

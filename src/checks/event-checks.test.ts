@@ -300,6 +300,109 @@ describe("session dates", () => {
     expect(result?.finding.verdict).toBe("warn");
   });
 
+  describe("against the review time", () => {
+    function pastWarnings(ctx: Context) {
+      return finding(ctx, "session_timing").filter(
+        (item) =>
+          item.finding.verdict === "warn" &&
+          item.finding.detail.includes("ya ha"),
+      );
+    }
+
+    it("warns, as a heuristic, about a session already started that still sells", () => {
+      const [result] = finding(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+        }),
+        "session_timing",
+      );
+
+      expect(result?.certainty).toBe("heuristic");
+      expect(result?.finding.verdict).toBe("warn");
+      // 20:00 UTC on 31 October is 21:00 in Madrid (UTC+1 from 25 October).
+      expect(result?.finding.detail).toContain("31/10/26, 21:00");
+      expect(result?.finding.detail).toContain("entradas a la venta");
+    });
+
+    it("warns when every session is past, even with nothing left on sale", () => {
+      const results = pastWarnings(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+          for (const type of session.ticketTypes) {
+            type.capacityTaken = type.capacity;
+          }
+        }),
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.certainty).toBe("heuristic");
+      expect(results[0]?.finding.detail).toContain("Todas las sesiones");
+      expect(results[0]?.finding.detail).toContain("31/10/26, 21:00");
+    });
+
+    it("stays quiet about a festival whose sold-out first day is past and later days ahead", () => {
+      const results = finding(
+        context((draft) => {
+          const session = firstSession(draft);
+          draft.event.publishedAt = "2026-10-01T10:00:00.000Z";
+          draft.sessions = [
+            {
+              ...session,
+              id: "ses_day1",
+              startsAt: "2026-11-01T16:00:00.000Z",
+              endsAt: "2026-11-01T23:00:00.000Z",
+              ticketTypes: session.ticketTypes.map((type) => ({
+                ...type,
+                capacityTaken: type.capacity,
+              })),
+            },
+            {
+              ...session,
+              id: "ses_day2",
+              startsAt: "2026-11-02T16:00:00.000Z",
+              endsAt: "2026-11-02T23:00:00.000Z",
+            },
+          ];
+        }),
+        "session_timing",
+      );
+
+      expect(results.map((item) => item.finding.verdict)).toEqual(["pass"]);
+    });
+
+    it("doesn't also call a past session imminent when the event is unpublished", () => {
+      const results = finding(
+        context((draft) => {
+          draft.event.publishedAt = null;
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+        }),
+        "session_timing",
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.finding.detail).toContain("Todas las sesiones");
+    });
+
+    it("counts a session starting exactly now as started", () => {
+      const results = pastWarnings(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = NOW.toISOString();
+          session.endsAt = "2026-11-02T12:00:00.000Z";
+        }),
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.finding.detail).toContain("ya ha empezado");
+    });
+  });
+
   it("ignores cancelled sessions", () => {
     const [result] = finding(
       context((draft) => {
