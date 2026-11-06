@@ -112,8 +112,8 @@ export function nearestVenue(
   venue: VenueToVerify,
   places: readonly Place[],
 ): NearbyPlace | null {
+  if (!hasCoordinates(venue)) return null;
   const { latitude, longitude } = venue;
-  if (latitude === null || longitude === null) return null;
   let best: NearbyPlace | null = null;
   for (const place of places) {
     if (!isVenueType(place)) continue;
@@ -142,7 +142,10 @@ export function verifiedMatch(
     : null;
 }
 
-function hasCoordinates(venue: VenueToVerify): boolean {
+/** Both coordinates: one alone locates nothing. */
+export function hasCoordinates<T extends VenueToVerify>(
+  venue: T,
+): venue is T & { latitude: number; longitude: number } {
   return venue.latitude !== null && venue.longitude !== null;
 }
 
@@ -314,7 +317,7 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
   }
   return {
     ...scoreVerifiedCapacity(evidence, match, onSale),
-    venueType: typeText(match.place),
+    venueType: osmTag(match.place),
   };
 }
 
@@ -576,7 +579,17 @@ function placeName(place: Place, venue: VenueToVerify): string {
   return place.name ?? venue.name;
 }
 
+/** How the place's type reads in a finding's text, for the model and the admin. */
 function typeText(place: Place): string {
+  return `${place.category}=${place.type}`;
+}
+
+/**
+ * The place's OSM `category=type` tag, the key `OPEN_SPACE_TYPES` matches.
+ * Apart from `typeText` on purpose: rewording a finding must not move the
+ * exposure cap (#78).
+ */
+export function osmTag(place: Pick<Place, "category" | "type">): string {
   return `${place.category}=${place.type}`;
 }
 

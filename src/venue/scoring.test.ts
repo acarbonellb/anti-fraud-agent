@@ -4,8 +4,11 @@
 // responses written as literals.
 import { describe, expect, it } from "vitest";
 
+import { OPEN_SPACE_TYPES } from "../agent/policy.js";
 import type { Place, PointPlace } from "./nominatim.js";
 import {
+  hasCoordinates,
+  osmTag,
   scoreCapacity,
   scoreVenue,
   type VenueToVerify,
@@ -351,5 +354,35 @@ describe("estimateVenueCapacity", () => {
     expect(finding.detail).toBe(
       "Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL) (umbral: 2 veces).",
     );
+  });
+});
+
+describe("the venue type the exposure cap keys on (#78)", () => {
+  it("is the OSM tag, in the form the open-space list uses", () => {
+    const park = place({ category: "leisure", type: "park" });
+    expect(osmTag(park)).toBe("leisure=park");
+    expect(OPEN_SPACE_TYPES.has(osmTag(park))).toBe(true);
+  });
+
+  it("goes with the capacity finding of a verified venue", () => {
+    const park = place({ category: "leisure", type: "park" });
+    const finding = scoreCapacity({
+      venue,
+      match: { place: park, distanceM: 10 },
+      wikidata: null,
+      web: null,
+      maxTicketsOnSale: 6000,
+    });
+    expect(finding.venueType).toBe("leisure=park");
+  });
+});
+
+describe("hasCoordinates", () => {
+  it.each([
+    [37.1, -3.6, true],
+    [null, -3.6, false],
+    [37.1, null, false],
+  ] as const)("(%s, %s) is %s", (latitude, longitude, expected) => {
+    expect(hasCoordinates({ ...venue, latitude, longitude })).toBe(expected);
   });
 });

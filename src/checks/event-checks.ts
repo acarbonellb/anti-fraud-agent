@@ -310,6 +310,8 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
     .map((session) => ({
       start: Date.parse(session.startsAt),
       end: Date.parse(session.endsAt),
+      // A guest list isn't sold: places left on one don't put a session on
+      // sale.
       onSale: session.ticketTypes.some(
         (type) =>
           type.kind === "standard" && type.capacityTaken < type.capacity,
