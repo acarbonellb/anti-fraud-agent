@@ -52,10 +52,9 @@ describe("the pass's log fields", () => {
     writeLine({ runs: [{ runId: "run_1" }] });
     // @ts-expect-error an object is refused under any other name
     writeLine({ context: evt1 });
+    const copied = { type: "event", id: "evt_0001", name: "Concierto" };
     // @ts-expect-error `subject` takes a subject, not any object
-    writeLine({
-      subject: { type: "event", id: "evt_0001", name: "Concierto" },
-    });
+    writeLine({ subject: copied });
   });
 
   it("refuse an object on the line written out", () => {
