@@ -200,6 +200,35 @@ describe("the requests it sends", () => {
       },
     });
   });
+  it("records an expired, unsettled hold in the day document as settled spend on the next read", async () => {
+    let clock = new Date("2026-11-05T10:00:00.000Z");
+    const { fake, store } = setup(() => clock);
+    await store.reserveSpend({
+      runId: "run_crashed",
+      micros: 4_000,
+      budgetMicros: 10_000,
+    });
+    clock = new Date("2026-11-05T10:15:00.000Z");
+
+    await store.daySpend();
+
+    expect(fake.documents.get("spend/2026-11-05")?.fields).toEqual({
+      entries: {
+        mapValue: {
+          fields: {
+            run_crashed: {
+              mapValue: {
+                fields: {
+                  micros: { integerValue: "4000" },
+                  expiresAt: { nullValue: null },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  });
 });
 
 describe("concurrent writers", () => {

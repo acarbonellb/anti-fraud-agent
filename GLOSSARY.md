@@ -114,7 +114,8 @@ fixed.
   so two overlapping passes can't both move it (ADR 0016).
 - **Spend hold**: a run's worst-case cost, reserved against the UTC day's budget
   (`AGENT_DAILY_BUDGET_MICROS`) before it runs and replaced by its actual cost after. It expires
-  after 15 minutes, so a crashed run can't keep budget (ADR 0016).
+  after 15 minutes; a hold that expires unsettled (a run killed mid-pass) is charged at its
+  reserved amount, so a crash still counts against the day (ADR 0016, ADR 0017 amendment).
 - **Worst-case cost**: what a run reserves before it starts: `AGENT_MAX_TOKENS` at the model's
   dearest rate, for the review and its re-review after a stale subject. A model with no price has
   none, so the pass won't run it (ADR 0017).

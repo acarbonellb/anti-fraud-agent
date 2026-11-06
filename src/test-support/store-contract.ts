@@ -3,8 +3,8 @@
  * runs (ADR 0016): runs, completed or failed, saved and read back and listed
  * newest first across pages; an admin's resolution kept next to its run; the
  * feed cursor advanced only from the value read and the retry queue replaced
- * only from the version read; the day's spend
- * reserved, settled and expired against an injected clock.
+ * only from the version read; the day's spend reserved, settled, and charged
+ * when a hold expires unsettled, against an injected clock.
  */
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -463,22 +463,57 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         expect(next.ok).toBe(true);
       });
 
-      it("stops counting a hold once it expires", async () => {
+      it("charges an expired, unsettled hold at its reserved amount, once", async () => {
+        // A run killed mid-pass never settles: its hold must not just vanish.
         await store.reserveSpend({
           runId: "run_crashed",
-          micros: 9_000,
+          micros: 4_000,
           budgetMicros: BUDGET,
         });
 
         advanceClock(SPEND_HOLD_TTL_MS);
 
-        expect((await store.daySpend()).heldMicros).toBe(0);
-        const reservation = await store.reserveSpend({
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 4_000,
+          heldMicros: 0,
+        });
+        // Read again and written over by other runs: still charged once.
+        expect((await store.daySpend()).settledMicros).toBe(4_000);
+        const fits = await store.reserveSpend({
           runId: "run_2",
-          micros: 9_000,
+          micros: 6_000,
           budgetMicros: BUDGET,
         });
-        expect(reservation.ok).toBe(true);
+        expect(fits.ok).toBe(true);
+        advanceClock(SPEND_HOLD_TTL_MS);
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 10_000,
+          heldMicros: 0,
+        });
+        const refused = await store.reserveSpend({
+          runId: "run_3",
+          micros: 1,
+          budgetMicros: BUDGET,
+        });
+        expect(refused.ok).toBe(false);
+      });
+
+      it("leaves an unexpired hold held", async () => {
+        await store.reserveSpend({
+          runId: "run_live",
+          micros: 4_000,
+          budgetMicros: BUDGET,
+        });
+
+        advanceClock(SPEND_HOLD_TTL_MS - 1);
+
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 0,
+          heldMicros: 4_000,
+        });
       });
 
       it("still records the cost of a run settled after its hold expired", async () => {
