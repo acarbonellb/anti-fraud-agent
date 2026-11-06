@@ -22,7 +22,11 @@ import { randomUUID } from "node:crypto";
 import { type Config, ConfigError, loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
-import { logLine } from "../src/pass/log-line.js";
+import {
+  type LogEntry,
+  logLine,
+  type LogWriter,
+} from "../src/pass/log-line.js";
 import { runPass } from "../src/pass/pass.js";
 import {
   buildReviewDependencies,
@@ -32,8 +36,15 @@ import {
 
 loadLocalEnvFile();
 const correlationId = randomUUID();
-const line = (entry: Parameters<typeof logLine>[0]) => {
+/** The sink: every line reaching it was checked where it was written. */
+const write = (entry: LogEntry) => {
   console.log(logLine({ correlationId, ...entry }));
+};
+/** The script's own lines, checked like the pass's: only `subject` may hold one (#91). */
+const line: LogWriter<{ level: LogEntry["level"]; event: string }> = (
+  entry,
+) => {
+  write(entry);
 };
 
 let config: Config;
@@ -82,9 +93,8 @@ try {
     // Only `anthropic` takes an effort: record it only where it was sent.
     effort: config.llm.provider === "anthropic" ? config.llm.effort : null,
     ...evidence,
-    log: (entry) => {
-      line(entry);
-    },
+    // Already checked by the pass's own writer.
+    log: write,
   });
   line({
     level: "info",
