@@ -1,14 +1,18 @@
 name: CI
 
 # Runs on every PR and on every push to `main` (after a squash, the push run
-# is the only one that tests the real merged code).
+# is the only one that tests the real merged code). A manual run is there for
+# the secret scan: on that event gitleaks scans the whole history, not a range.
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
+# The event is in the key so a manual scan on `main` and a push run (with
+# its deploy) never cancel each other.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -33,6 +37,8 @@ jobs:
 
   quality:
     name: Format · Lint · Types · Tests · Commits
+    # A manual run is only for the full-history secret scan.
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

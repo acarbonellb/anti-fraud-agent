@@ -174,7 +174,7 @@ for secret in "${SECRETS[@]}"; do
 done
 note "2. Give Satella staging the job's identity (#9): pass-job's email"
 note "   ($(sa pass-job)) with agent:read and agent:recommend in its"
-note "   AGENT_API_CREDENTIALS, and the same audience; then redeploy staging."
+note "   agent API credentials, and the same audience; then redeploy staging."
 note "3. Merge to main: CI builds the image and points the job at it. The job"
 note "   reads every secret above, so each needs a value first."
 note "4. With the author's go-ahead, run it once against staging; it should"
