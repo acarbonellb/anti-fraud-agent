@@ -15,6 +15,7 @@ import {
 const venue: VenueToVerify = {
   name: "Sala Ejemplo",
   city: "Granada",
+  province: "Granada",
   country: "ES",
   latitude: 37.1751633,
   longitude: -3.5987706,
@@ -29,6 +30,7 @@ function place(overrides: Partial<Place> = {}): Place {
     category: "amenity",
     type: "pub",
     name: "Sala Ejemplo",
+    displayName: "Sala Ejemplo, Granada, Andalucía, España",
     tags: {},
     ...overrides,
   };

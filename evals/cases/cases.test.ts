@@ -1,4 +1,5 @@
-// Checks the brief §5 dataset as built: all 31 cases are there, each named
+// Checks the dataset as built: the 31 cases of brief §5 and those the staging
+// passes added are there, each named
 // by its file; their contexts parse with the contract schemas at any clock;
 // no field leaks the answer; and each fixture triggers exactly the
 // deterministic and venue findings it is meant to, so a case tests the agent
@@ -39,9 +40,10 @@ const IDS = [
   "N3",
   "N4",
   "N5",
+  "N6",
 ];
 
-it("holds the 31 cases of brief §5 in order, one file each", () => {
+it("holds the 31 cases of brief §5 and N6 in order, one file each", () => {
   expect(EVAL_CASES.map((c) => c.id)).toEqual(IDS);
   const files = readdirSync(new URL(".", import.meta.url))
     .filter((file) => /^(\d\d|N\d)-.+\.ts$/.test(file))
@@ -61,7 +63,7 @@ it("gives authored web pages to the cases whose entities are invented", () => {
   const clock = CLOCKS[0] ?? new Date();
   expect(
     EVAL_CASES.filter((c) => c.build(clock).web !== undefined).map((c) => c.id),
-  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4"]);
+  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4", "N6"]);
 });
 
 describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(
@@ -166,6 +168,9 @@ const EXPECTED_VENUE: Record<string, string[]> = {
   "18": ["venue_exists pass", "venue_capacity pass"],
   N1: ["venue_exists pass", "venue_capacity pass"],
   N5: ["venue_exists unknown", "venue_capacity unknown"],
+  // No coordinates: found by name, town and province (#74). No open source
+  // publishes its capacity, and 250 tickets is under the exposure cap.
+  N6: ["venue_exists pass", "venue_capacity unknown"],
 };
 const TOOL_RESPONSES = loadToolRecordings(
   fileURLToPath(new URL("../tool-responses", import.meta.url)),

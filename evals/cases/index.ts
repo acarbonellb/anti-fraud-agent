@@ -1,4 +1,7 @@
-/** The brief §5 dataset, in its order: problem cases 1–26, then N1–N5. */
+/**
+ * The brief §5 dataset, in its order: problem cases 1–26, then N1–N5. Then
+ * the cases the staging passes added: N6 (#74).
+ */
 import type { EvalCase } from "../../src/evals/types.js";
 import { evalCase as case01 } from "./01-bar-sells-past-capacity.js";
 import { evalCase as case02 } from "./02-room-sells-past-capacity.js";
@@ -31,6 +34,7 @@ import { evalCase as caseN2 } from "./N2-three-day-festival.js";
 import { evalCase as caseN3 } from "./N3-small-organizer-bar.js";
 import { evalCase as caseN4 } from "./N4-free-charity-event.js";
 import { evalCase as caseN5 } from "./N5-new-venue-without-web.js";
+import { evalCase as caseN6 } from "./N6-theatre-without-coordinates.js";
 
 export const EVAL_CASES: readonly EvalCase[] = [
   case01,
@@ -64,4 +68,5 @@ export const EVAL_CASES: readonly EvalCase[] = [
   caseN3,
   caseN4,
   caseN5,
+  caseN6,
 ];
