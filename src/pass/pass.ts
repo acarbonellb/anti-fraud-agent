@@ -23,6 +23,7 @@ import type {
   SatellaClient,
   Subject,
 } from "../satella-client/index.js";
+import type { SearchCounts } from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import {
   type FailedRunDocument,
@@ -112,6 +113,11 @@ export interface PassReport {
   cursor: string | null;
   /** Subjects left to try again on a later pass. */
   retriesQueued: number;
+  /**
+   * The web searches the pass's completed reviews ran, the code's included,
+   * and how many failed: a quota running out shows here the same day (#82).
+   */
+  searches: SearchCounts;
 }
 
 export class PassError extends DomainError {
@@ -139,6 +145,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   // A stale subject is reviewed again within the same run, at full cost.
   const worstCase = perAttempt * (1 + STALE_RETRIES);
 
+  const searches: SearchCounts = { total: 0, failed: 0 };
   const from = await store.readFeedCursor();
   const queued = await store.readRetryQueue();
   let queue = queued;
@@ -162,6 +169,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       skippedItems: page === null ? 0 : skippedItems(page),
       cursor: from,
       retriesQueued: queue.length,
+      searches,
     };
   };
 
@@ -231,6 +239,8 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       log,
     );
     await store.settleSpend(reservation.hold, outcome.costMicros);
+    searches.total += outcome.searches.total;
+    searches.failed += outcome.searches.failed;
     runs.push({ runId, subject, outcome: outcome.review.outcome });
     const next = afterReview(queue, subject, outcome.review);
     queue = next.queue;
@@ -250,6 +260,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
     skippedItems: skippedItems(page),
     cursor: to ?? from,
     retriesQueued: queue.length,
+    searches,
   };
 }
 
@@ -308,7 +319,12 @@ async function reviewAndStore(
   previousFailures: number,
   now: () => Date,
   log: Log,
-): Promise<{ review: ReviewOutcome; costMicros: number }> {
+): Promise<{
+  review: ReviewOutcome;
+  costMicros: number;
+  /** None for a failed review: its counts went with it. */
+  searches: SearchCounts;
+}> {
   const { provider, store } = options;
   // Every call's usage, kept even when the run fails half-way, so what it
   // spent is settled either way.
@@ -402,6 +418,7 @@ async function reviewAndStore(
     return {
       review: { outcome: "failed", code, transient },
       costMicros: spent(),
+      searches: { total: 0, failed: 0 },
     };
   }
 
@@ -426,7 +443,11 @@ async function reviewAndStore(
     autonomy: document.autonomy,
     attempts: result.attempts,
   });
-  return { review: { outcome: "completed" }, costMicros: spent() };
+  return {
+    review: { outcome: "completed" },
+    costMicros: spent(),
+    searches: result.run.searches,
+  };
 }
 
 /**
