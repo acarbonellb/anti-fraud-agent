@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Link to another ticketing site through a URL shortener",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(

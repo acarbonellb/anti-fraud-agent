@@ -16,6 +16,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Active 95 % discount code with no usage limit",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(

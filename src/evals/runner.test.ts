@@ -16,7 +16,13 @@ import { createAuthoredSearch } from "../search/authored.js";
 import { WebSearchError } from "../search/types.js";
 import { fakeVenueFetch } from "../test-support/fake-venue-fetch.js";
 import type { Recording } from "./recording.js";
-import { recordCase, replayCase, replaySet } from "./runner.js";
+import {
+  fooledCase,
+  fooledSet,
+  recordCase,
+  replayCase,
+  replaySet,
+} from "./runner.js";
 import { toolRecordingSchema } from "./tool-recording.js";
 import type { EvalCase } from "./types.js";
 
@@ -331,4 +337,138 @@ it("produces recordings that survive a JSON round trip", async () => {
     JSON.parse(JSON.stringify(event.toolRecording)),
   );
   expect(await replayCase(eventCase, parsed, tools)).toEqual(event.result);
+});
+
+describe("the fooled model (#82)", () => {
+  // The scripted run only gathers what the code asks the venue providers
+  // and the web; the fooled run then replays it with no model at all.
+  async function recordedWeb(evalCase: EvalCase) {
+    const { recording, toolRecording } = await recordCase(
+      evalCase,
+      createScriptedProvider([callTool("submit_recommendation", approval)]),
+      CLOCK,
+      network,
+    );
+    if (recording === null) throw new Error("the scripted run failed");
+    return { toolRecording, searches: recording.searches };
+  }
+
+  it("lets a clean event resolve as an approval while the web answers, and holds it back while it is down", async () => {
+    const { toolRecording, searches } = await recordedWeb(eventCase);
+    const result = await fooledCase(eventCase, toolRecording, searches);
+    expect(result.runs).toEqual([
+      {
+        web: "recorded",
+        outcome: {
+          decision: "approve",
+          autonomy: "auto_resolved",
+          reasons: ["clean approval"],
+        },
+        failure: null,
+      },
+      {
+        web: "down",
+        outcome: {
+          decision: "approve",
+          autonomy: "escalated",
+          reasons: ["web search unavailable"],
+        },
+        failure: null,
+      },
+    ]);
+  });
+
+  it("turns the approval into the request a rule asks for", async () => {
+    const offPlatform: EvalCase = {
+      ...eventCase,
+      id: "10",
+      build: () => ({
+        ...eventCase.build(CLOCK),
+        event: {
+          ...fixtures.eventContext,
+          event: {
+            ...fixtures.eventContext.event,
+            description:
+              "Concierto acústico en la sala. Para reservar, envía un Bizum al 600 000 000.",
+          },
+        },
+      }),
+    };
+    const { toolRecording, searches } = await recordedWeb(offPlatform);
+    const result = await fooledCase(offPlatform, toolRecording, searches);
+    const request = {
+      decision: "request_info",
+      autonomy: "auto_resolved",
+      reasons: ["mechanical request: off_platform_payment"],
+    };
+    expect(result.runs.map((run) => run.outcome)).toEqual([request, request]);
+  });
+
+  it("fails a case whose own search has no recording, instead of reading it as the web down", async () => {
+    const { toolRecording } = await recordedWeb(eventCase);
+    const result = await fooledCase(eventCase, toolRecording, []);
+    expect(result.runs[0]).toEqual({
+      web: "recorded",
+      outcome: null,
+      failure: "stale: missing_tool_response",
+    });
+    expect(result.runs[1]?.outcome?.autonomy).toBe("escalated");
+  });
+
+  it("takes the authored pages down too when the web is down", async () => {
+    const authored: EvalCase = {
+      ...eventCase,
+      build: () => ({ ...eventCase.build(CLOCK), web: [] }),
+    };
+    const { toolRecording } = await recordedWeb(eventCase);
+    const result = await fooledCase(authored, toolRecording, []);
+    expect(result.runs.map((run) => run.outcome?.autonomy)).toEqual([
+      "auto_resolved",
+      "escalated",
+    ]);
+  });
+
+  it("runs only the gated fraud cases, with the code's searches from any recording", async () => {
+    const fraud: EvalCase = { ...eventCase, id: "08", decidedBy: "code" };
+    const external: EvalCase = {
+      ...eventCase,
+      id: "09",
+      requires: ["external"],
+    };
+    const { toolRecording, searches } = await recordedWeb(eventCase);
+    const recording = (calls: typeof searches): Recording => ({
+      caseId: "08",
+      provider: "scripted",
+      model: "scripted-model",
+      promptVersion: REVIEW_PROMPT.version,
+      clock: CLOCK.toISOString(),
+      calls: [],
+      searches: calls,
+    });
+    const down = searches.map((call) => ({
+      ...call,
+      response: { failure: "quota_exceeded" as const },
+    }));
+    const results = await fooledSet(
+      [eventCase, fraud, external],
+      [
+        // One set saw the web down, the other got its answer: the answer wins.
+        {
+          provider: "a",
+          model: "a",
+          runs: [new Map([["08", recording(down)]])],
+        },
+        {
+          provider: "b",
+          model: "b",
+          runs: [new Map([["08", recording(searches)]])],
+        },
+      ],
+      new Map(toolRecording === null ? [] : [["08", toolRecording]]),
+    );
+    expect(results.map((r) => [r.caseId, r.decidedBy])).toEqual([
+      ["08", "code"],
+    ]);
+    expect(results[0]?.runs[0]?.outcome?.reasons).toEqual(["clean approval"]);
+  });
 });

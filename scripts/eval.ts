@@ -15,9 +15,10 @@
  *                              and rewrite the report
  *   pnpm eval:replay --check   CI: no model, no network; fails on stale or
  *                              missing recordings, on auto-approved fraud among
- *                              the gated cases, on metrics the history doesn't
- *                              hold, on an entry with no experiment section, or
- *                              on a report that changed
+ *                              the gated cases, on a code-decided case the
+ *                              fooled model got approved (#82), on metrics the
+ *                              history doesn't hold, on an entry with no
+ *                              experiment section, or on a report that changed
  *
  * Both writing modes append one history entry per set whose metrics or prompt
  * versions moved, and then require `--note` (#21, ADR 0014).
@@ -32,7 +33,7 @@ import { fileURLToPath } from "node:url";
 import { EVAL_CASES } from "../evals/cases/index.js";
 import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
-import { gateFailures } from "../src/evals/gate.js";
+import { fooledGateFailures, gateFailures } from "../src/evals/gate.js";
 import {
   experimentIds,
   historyFailures,
@@ -44,7 +45,7 @@ import {
 } from "../src/evals/history.js";
 import { renderReport } from "../src/evals/report.js";
 import { addNewToolCalls } from "../src/evals/tool-recording.js";
-import { recordCase, replaySet } from "../src/evals/runner.js";
+import { fooledSet, recordCase, replaySet } from "../src/evals/runner.js";
 import {
   loadRecordingSets,
   loadToolRecordings,
@@ -99,13 +100,36 @@ if (!replayOnly) await record(only);
 
 const sets = [];
 const toolRecordings = loadToolRecordings(TOOL_RESPONSES);
-for (const set of loadRecordingSets(RECORDINGS)) {
+const recordingSets = loadRecordingSets(RECORDINGS);
+for (const set of recordingSets) {
   sets.push(await replaySet(EVAL_CASES, set, toolRecordings));
 }
 const current = sets.map(measureSet);
+// No model recording takes part: it reads only the venue responses and the
+// code's own searches, so it holds even while the model's recordings are stale.
+const fooled = await fooledSet(EVAL_CASES, recordingSets, toolRecordings);
 
 if (check) {
-  const report = renderReport(sets, history);
+  const report = renderReport(sets, history, fooled);
+  const fooledFailures = fooledGateFailures(fooled);
+  // Its own block, first: readable whatever else fails below it.
+  console.log("Fooled-model gate:");
+  for (const failure of fooledFailures) console.error(`  ✗ ${failure}`);
+  const byModel = fooled.filter((result) => result.decidedBy === "model");
+  if (fooledFailures.length === 0) {
+    console.log(
+      `  ✓ ${String(fooled.length - byModel.length)} code-decided case(s) held back.`,
+    );
+  }
+  for (const result of byModel) {
+    const runs = result.runs
+      .map(
+        (run) =>
+          `${run.web}: ${run.outcome === null ? (run.failure ?? "—") : `${run.outcome.decision} · ${run.outcome.autonomy}`}`,
+      )
+      .join(", ");
+    console.log(`  · model-decided case ${result.caseId}: ${runs}`);
+  }
   const failures = [
     ...gateFailures(sets),
     ...historyFailures({
@@ -123,7 +147,7 @@ if (check) {
     );
   }
   for (const failure of failures) console.error(`✗ ${failure}`);
-  if (failures.length > 0) process.exit(1);
+  if (failures.length + fooledFailures.length > 0) process.exit(1);
   console.log(`✓ ${String(sets.length)} recording set(s) replay cleanly.`);
 } else {
   const plan = planHistory({
@@ -141,7 +165,10 @@ if (check) {
     process.exit(1);
   }
   appendFileSync(HISTORY, serializeHistory(plan.append));
-  writeFileSync(REPORT, renderReport(sets, [...history, ...plan.append]));
+  writeFileSync(
+    REPORT,
+    renderReport(sets, [...history, ...plan.append], fooled),
+  );
   for (const entry of plan.append) {
     console.log(
       `History: ${entry.id} appended for ${entry.provider}/${entry.model}. Write its \`## ${entry.id}\` section in docs/experiments.md.`,

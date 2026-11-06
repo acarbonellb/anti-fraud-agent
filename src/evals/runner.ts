@@ -41,10 +41,17 @@ import {
 import type { ReportSet } from "./report.js";
 import type { RecordingSet } from "./store.js";
 import { createAuthoredSearch } from "../search/authored.js";
-import type { WebSearch } from "../search/types.js";
+import { type WebSearch, WebSearchError } from "../search/types.js";
+import {
+  createFooledModel,
+  FOOLED_WEBS,
+  type FooledResult,
+  type FooledRun,
+} from "./fooled-model.js";
 import {
   createRecordingSearch,
   createReplaySearch,
+  type SearchCall,
 } from "./search-recording.js";
 import {
   createRecordingFetch,
@@ -172,6 +179,121 @@ export async function replayCase(
   }
 }
 
+/**
+ * Any clock does: the fixtures are built from it and the checks read it, so
+ * the case means the same at every one, and no request the code makes to the
+ * venue providers or the web carries a date.
+ */
+export const FOOLED_CLOCK = new Date("2026-11-02T10:00:00.000Z");
+
+/**
+ * Runs a case with the fooled model (#82): the real review, the case's
+ * fixtures and the venue responses replayed, once per web in `FOOLED_WEBS`.
+ * The model never searches, so only the code's own queries (copied text,
+ * capacity fallback) need an answer, and `searches` holds them as recorded.
+ * One with no recording is a failure of the case, not a failed search: read
+ * as a failure, the fail-closed rule would let it pass unexamined.
+ */
+export async function fooledCase(
+  evalCase: EvalCase,
+  toolRecording: ToolRecording | null,
+  searches: readonly SearchCall[],
+): Promise<FooledResult> {
+  const runs: FooledRun[] = [];
+  for (const web of FOOLED_WEBS) {
+    try {
+      const outcome = await review(
+        evalCase,
+        1,
+        createFooledModel(),
+        createReplayFetch(toolRecording),
+        web === "down" ? WEB_DOWN : createReplaySearch(searches),
+        REPLAY_THROTTLES,
+        FOOLED_CLOCK,
+        REVIEW_PROMPT,
+        defaultThreshold,
+        web === "down",
+      );
+      runs.push({
+        web,
+        outcome: {
+          decision: outcome.decision,
+          autonomy: outcome.autonomy,
+          reasons: outcome.reasons,
+        },
+        failure: null,
+      });
+    } catch (error) {
+      runs.push({
+        web,
+        outcome: null,
+        failure: failed(evalCase, error).failure,
+      });
+    }
+  }
+  return {
+    caseId: evalCase.id,
+    title: evalCase.title,
+    decidedBy: evalCase.decidedBy,
+    runs,
+  };
+}
+
+/** Tavily's free quota run out, as in both recording sets (#82). */
+const WEB_DOWN: WebSearch = {
+  provider: "down",
+  search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+};
+
+/**
+ * Every gated fraud case, with the fooled model. The code's searches come
+ * from every recording of the case, in any set: the code sends the same
+ * queries whatever the model. Where two recordings disagree on one, the
+ * answer wins over the failure: the web down is the other run's condition.
+ */
+export async function fooledSet(
+  cases: readonly EvalCase[],
+  sets: readonly RecordingSet[],
+  toolRecordings: ReadonlyMap<string, ToolRecording>,
+): Promise<FooledResult[]> {
+  const results: FooledResult[] = [];
+  for (const evalCase of cases.filter(isGatedFraud)) {
+    results.push(
+      await fooledCase(
+        evalCase,
+        toolRecordings.get(evalCase.id) ?? null,
+        codeSearches(sets, evalCase.id),
+      ),
+    );
+  }
+  return results;
+}
+
+/** The cases the gate holds: fraud, and runnable with the tools that exist. */
+export function isGatedFraud(evalCase: EvalCase): boolean {
+  return (
+    isProblemCase(evalCase.id) &&
+    !(evalCase.requires?.includes("external") ?? false)
+  );
+}
+
+function codeSearches(
+  sets: readonly RecordingSet[],
+  caseId: string,
+): SearchCall[] {
+  const byHash = new Map<string, SearchCall>();
+  for (const set of sets)
+    for (const run of set.runs)
+      for (const call of run.get(caseId)?.searches ?? []) {
+        if (call.origin !== "recorded") continue;
+        const kept = byHash.get(call.requestHash);
+        if (kept === undefined || "failure" in kept.response) {
+          byHash.set(call.requestHash, call);
+        }
+      }
+  return [...byHash.values()];
+}
+
 /** Replay makes no request worth spacing out. */
 const REPLAY_THROTTLES: VenueThrottles = {
   nominatim: noThrottle,
@@ -235,12 +357,16 @@ async function review(
   clock: Date,
   prompt: Prompt,
   autoApproveThreshold: number,
+  /** The web is down for the authored pages too: only the fooled model asks. */
+  webDown = false,
 ): Promise<Omit<CaseOutcome, "latencyMs" | "costMicros">> {
   const fixtures = evalCase.build(clock);
   // Invented organizers, artists and texts have no real web: their pages are
   // authored, and searched in code in both modes (ADR 0015 point 9).
   const search =
-    fixtures.web === undefined ? webSearch : createAuthoredSearch(fixtures.web);
+    fixtures.web === undefined || webDown
+      ? webSearch
+      : createAuthoredSearch(fixtures.web);
   const mock = await startMockSatella({
     fixtures: {
       events: fixtures.event === undefined ? [] : [fixtures.event],

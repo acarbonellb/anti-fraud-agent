@@ -53,6 +53,13 @@ export interface EvalCase {
     decisions: readonly Decision[];
     autonomy: Autonomy;
   };
+  /**
+   * For the gated fraud cases: whether the code alone keeps the case from
+   * resolving as an approval, whatever the model proposes (`code`), or that
+   * rests on the model's judgement (`model`). Checked against the fooled-model
+   * run, so it can't drift (#82). Absent on the cases the gate doesn't hold.
+   */
+  decidedBy?: "code" | "model";
   /** Fixtures are built from the clock, never from fixed dates. */
   build(clock: Date): CaseFixtures;
 }

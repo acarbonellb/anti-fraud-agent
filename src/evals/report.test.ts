@@ -10,6 +10,7 @@ import { caseResult } from "../test-support/fake-results.js";
 import type { HistoryEntry } from "./history.js";
 import { computeMetrics } from "./metrics.js";
 import { renderReport, type ReportSet } from "./report.js";
+import type { FooledOutcome, FooledResult, FooledRun } from "./fooled-model.js";
 import type { CaseResult } from "./types.js";
 
 const scored: CaseResult = {
@@ -326,5 +327,54 @@ describe("repeated runs", () => {
     expect(report).toContain(
       "| E002 | 2026-11-04 | `review-v2` | 3 | Three runs. | 60.0 % (56.7–63.3) | 1.3 % (0.0–4.0) | 0.0 % (0.0–0.0) | 0.040 |",
     );
+  });
+});
+
+describe("the fooled-model gate (#82)", () => {
+  const run = (
+    web: FooledRun["web"],
+    autonomy: FooledOutcome["autonomy"],
+    reasons: string[],
+  ): FooledRun => ({
+    web,
+    outcome: { decision: "approve", autonomy, reasons },
+    failure: null,
+  });
+  const fooled: FooledResult[] = [
+    {
+      caseId: "05",
+      title: "A «stadium» artist | small room",
+      decidedBy: "model",
+      runs: [
+        run("recorded", "auto_resolved", ["clean approval"]),
+        run("down", "escalated", ["web search unavailable"]),
+      ],
+    },
+    {
+      caseId: "06",
+      title: "Artist booked elsewhere",
+      decidedBy: "code",
+      runs: [
+        run("recorded", "escalated", ["capacity unknown"]),
+        run("down", "escalated", ["web search unavailable"]),
+      ],
+    },
+  ];
+
+  it("lists the model-decided cases with what the fooled model got on each web", () => {
+    const report = renderReport([set], [], fooled);
+    expect(report).toContain("## Fooled-model gate");
+    expect(report).toContain(
+      "Code-decided: 1 of 2 gated fraud cases. Model-decided: 1.",
+    );
+    expect(report).toContain(
+      "| 05 | A «stadium» artist \\| small room | approve · auto_resolved (clean approval) | approve · escalated (web search unavailable) |",
+    );
+    expect(report).not.toContain("| 06 |");
+    expect(report.endsWith("\n")).toBe(true);
+  });
+
+  it("leaves the section out when nothing ran with the fooled model", () => {
+    expect(renderReport([set])).not.toContain("Fooled-model gate");
   });
 });

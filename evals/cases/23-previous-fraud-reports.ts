@@ -16,6 +16,7 @@ export const evalCase: EvalCase = {
   // context and runs its history check (ADR 0012's heuristic
   // `organizer_history`), so the reports reach the agent in code (#82).
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = buildOrganizer(clock, {

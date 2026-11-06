@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Terms: «no refund even if the event is cancelled»",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "auto_resolved" },
   build(clock) {
     const organizer = establishedOrganizer(
