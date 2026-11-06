@@ -138,23 +138,71 @@ describe("loadConfig", () => {
     );
   });
 
-  it("reads the model and its key from the environment", () => {
+  it("reads a local server's own key, not the paid one", () => {
     const config = loadConfig({
       AGENT_LLM_PROVIDER: "ollama",
       AGENT_LLM_BASE_URL: "https://api.example.test/v1",
       AGENT_LLM_MODEL: "some-model",
-      AGENT_LLM_API_KEY: "sk-test",
+      AGENT_LLM_LOCAL_API_KEY: "local-test",
+      AGENT_LLM_API_KEY: "sk-ant-test",
       AGENT_AUTO_APPROVE_THRESHOLD: "0.9",
     });
 
-    expect(config.llm.apiKey).toBe("sk-test");
+    expect(config.llm.apiKey).toBe("local-test");
     expect(config.autoApproveThreshold).toBe(0.9);
+  });
+
+  it.each(["lmstudio", "ollama"])(
+    "never hands the paid key to %s",
+    (provider) => {
+      // A .env that keeps a real key while pointing at a shared local server
+      // would otherwise send it there (#89).
+      const config = loadConfig({
+        AGENT_LLM_PROVIDER: provider,
+        AGENT_LLM_API_KEY: "sk-ant-test",
+      });
+
+      expect(config.llm.apiKey).toBeUndefined();
+    },
+  );
+
+  it("gives anthropic the paid key and never the local one", () => {
+    const config = loadConfig({
+      AGENT_LLM_PROVIDER: "anthropic",
+      AGENT_LLM_API_KEY: "sk-ant-test",
+      AGENT_LLM_LOCAL_API_KEY: "local-test",
+    });
+
+    expect(config.llm.apiKey).toBe("sk-ant-test");
+  });
+
+  it("points anthropic at the public endpoint, not AGENT_LLM_BASE_URL", () => {
+    // A local base URL left in .env must not receive the paid key (#89).
+    const config = loadConfig({
+      AGENT_LLM_PROVIDER: "anthropic",
+      AGENT_LLM_API_KEY: "sk-ant-test",
+      AGENT_LLM_BASE_URL: "http://localhost:1234/v1",
+    });
+
+    expect(config.llm.baseUrl).toBe("https://api.anthropic.com");
+  });
+
+  it("reads anthropic's base URL override", () => {
+    const config = loadConfig({
+      AGENT_LLM_PROVIDER: "anthropic",
+      AGENT_LLM_API_KEY: "sk-ant-test",
+      AGENT_LLM_ANTHROPIC_BASE_URL: "https://gateway.example.test",
+    });
+
+    expect(config.llm.baseUrl).toBe("https://gateway.example.test");
   });
 
   it.each([
     ["AGENT_AUTO_APPROVE_THRESHOLD", "1.5"],
     ["AGENT_LLM_BASE_URL", "ftp://example.test"],
     ["AGENT_LLM_EFFORT", "extreme"],
+    // The paid key never travels in clear.
+    ["AGENT_LLM_ANTHROPIC_BASE_URL", "http://gateway.example.test"],
   ])("rejects %s=%s", (variable, value) => {
     expect(() => loadConfig({ [variable]: value })).toThrow(ConfigError);
   });

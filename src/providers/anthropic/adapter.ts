@@ -24,6 +24,11 @@ import {
 
 export interface AnthropicOptions {
   apiKey: string;
+  /**
+   * Passed explicitly: left out, the SDK reads `ANTHROPIC_BASE_URL` on its
+   * own and would send the key wherever it points (#89).
+   */
+  baseUrl: string;
   /** e.g. `claude-haiku-5-5`, from the current models docs. */
   model: string;
   /** Explicit, so every run records it (#30); the model's default is `medium`. */
@@ -51,6 +56,10 @@ export function createAnthropicProvider(
 ): LlmProvider {
   const client = new Anthropic({
     apiKey: options.apiKey,
+    baseURL: options.baseUrl,
+    // `ANTHROPIC_LOG=debug` would log whole requests, review contexts
+    // included (CLAUDE.md §4: ids only). Failures surface as ProviderError.
+    logLevel: "off",
     // The SDK waits 10 minutes per attempt by default, longer than the job
     // itself (ADR 0018). With its two retries, 3 × 2 min still fits (#57).
     timeout: COMPLETION_TIMEOUT_MS,
