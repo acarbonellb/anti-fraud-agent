@@ -461,8 +461,8 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
 - **What went wrong or surprised:**
   - Case 28 is right: `request_info`, escalated, on the `discounts` warning.
   - Every other case saw the same request plus a `pass`, and the single run moved a lot anyway.
-    Cases 03, 11, 16 and 19 became confident wrong `reject`s (0.95) and 04, 18, 20, 23 and 25
-    became right. Case 23's approval of fraud became a `request_info`, which is the whole
+    Cases 03, 11, 16 and 19 became confident wrong `reject`s (0.95), 18, 20 and 23 became right,
+    and 04 and 25 switched to a `reject` that is still accepted. Case 23's approval of fraud became a `request_info`, which is the whole
     approved-fraud move. None of the wrong rejections resolved on its own: none rests on a hard
     signal. With one run per case, all of this is re-recording noise, not the check's effect.
   - N1–N4 kept their outcome. N5 stays wrong but moved from `reject` to `approve`, escalated
