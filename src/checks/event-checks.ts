@@ -4,7 +4,8 @@
  * They run in code before the model, and their findings are authoritative
  * (ADR 0012). Each `detail` names its rule in Spanish, for the admin.
  *
- * Heuristic thresholds are provisional until the evals (#6) tune them.
+ * Heuristic thresholds are provisional: the eval cases exercise them, and
+ * real reviews will tune them (#6).
  */
 import type { EventReviewContext } from "../satella-client/schemas.js";
 import { provinceCode, provinceName } from "./provinces.js";

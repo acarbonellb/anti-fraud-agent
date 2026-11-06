@@ -99,7 +99,7 @@ export type CompletedRunDocument = z.infer<typeof completedRunSchema>;
 
 /**
  * A run that ended without a recommendation in Satella: the model, a tool or
- * Satella failed (#45 decision 4). Only the error's stable code is kept, and
+ * Satella failed (ADR 0017 point 3). Only the error's stable code is kept, and
  * the subject's version stays unknown: the failure can come before its
  * context is read.
  */
@@ -119,7 +119,7 @@ export type RunDocument = z.infer<typeof runDocumentSchema>;
 
 /**
  * The admin's resolution of a run's recommendation, read from Satella when
- * the feed says it was resolved (#45 decision 3). Kept apart from the run,
+ * the feed says it was resolved (ADR 0017 point 4). Kept apart from the run,
  * which is never edited; the admin agreement rate (brief §4.3) joins them.
  */
 export const runResolutionSchema = z.object({

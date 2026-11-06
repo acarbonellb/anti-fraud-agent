@@ -1,7 +1,7 @@
 # ADR 0013 — Offline evals replay recorded model responses, and CI gates on fraud that skips the admin
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-06 (#57)
 - **Related:** brief §4.3, §5 and D8; ADR 0008 (local model first; the evals choose the default
   model); ADR 0012 (the autonomy policy the gate leans on); issues #6 and #7.
 
@@ -105,3 +105,24 @@ ADR 0015 refines point 5: each external case loses its tag with the tool that se
 checks: 01, 02, 04, N5; `webSearch`: 05, 06, 08, 20), and case 09 stays external as a known gap.
 External tool responses are recorded at the provider boundary with the same request hash and
 staleness.
+
+## Amendment (2026-11-06, #57): the cost of finding wording in the hash
+
+The consequences above list a check's `detail` text among the changes that need re-recording.
+That cost is wider than it looks. The system findings travel inside the first user message, so
+rewording one Spanish `detail` stales every recording of every case where that check runs, not
+only the case that motivated the change. A check that runs on every event stales the whole set.
+For a paid recording set (Haiku 5.5 today), that means paid calls, which need the author's
+go-ahead (CLAUDE.md §8).
+
+The strict hash stays. The wording is what the model reads, so an answer recorded for other words
+answers a different question, which point 2 exists to refuse.
+
+- **Keep finding wording stable.** Change a `detail` text only when the change is worth a
+  re-recording, and batch such changes so one re-recording pays for several.
+- **Order the re-recording.** Record the free local set first, then the paid set once, then write
+  the single history entry (ADR 0014), so no entry is written from a stale set.
+
+**Rejected:** hashing a normalized request (wording stripped or templated). Replay would then
+reuse an answer to words the model never saw, and a wording change that moves the model would
+stay green in CI.
