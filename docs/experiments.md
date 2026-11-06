@@ -553,3 +553,54 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   new case is wrong because the small model inflates the warning into a fraud signal. Noted for the
   prompt ticket (#76); the accuracy and approved-fraud moves are noise from a one-run set and are
   not credited to #72.
+
+## E021 — A venue without coordinates is looked up by name and town (Haiku 5.5)
+
+- **Hypothesis** (#74): the new case N6 (a real theatre stored without coordinates, an invented
+  company, 250 tickets) verifies the venue instead of leaving it `unknown`, and resolves its
+  approval on its own, so the escalation rate falls by that case. The auto-approved fraud rate
+  stays at 0 %.
+- **Change** (#74, ADR 0015 amendment): when the venue has no coordinates, `venue_exists` searches
+  Nominatim by `name, town, province` and passes only on a place of a compatible type whose name
+  matches and whose address carries the town. A venue with coordinates is looked up exactly as
+  before, so no existing request changed: `--check` found only N6 missing, and only N6 was
+  recorded, three times on Haiku 5.5 (a few cents). Recording run 1 also re-measured N6's venue
+  lookup; only its `place_id` changed.
+- **Before → after** (E019 → E021, mean over three runs, min–max), gated, 32 → 33 cases:
+  **accuracy 88.5 % (84.4–90.6) → 88.9 % (84.8–90.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.5 % → 86.9 %, **autonomy accuracy
+  69.8 % (68.8–71.9) → 67.7 % (66.7–69.7)**, Brier 0.155 → 0.152. The other 32 cases replay
+  unchanged; every move is N6 joining the set.
+- **What went wrong or surprised:**
+  - The venue now verifies: the system's `venue_exists` is `pass` in all three runs, with the
+    theatre's OSM page as its source, and `venue_capacity` stays `unknown` (250 tickets, under
+    the cap of 300), so the policy finds no venue gap.
+  - N6 is right on the decision (`approve`, 3/3) but escalates in all three runs on the model's
+    own confidence: 0.80, below the 0.85 bar. Its rationale lowers the confidence because the
+    venue was matched by name, without coordinates, and its capacity is unknown. The model docks
+    for the same gap the code already weighs, so the escalation moved from the venue check to
+    the confidence and did not go away.
+  - The escalation rate rises instead of falling: the case is new, so there was no escalated run
+    of it to remove.
+- **Decision:** keep. The check does what #74 asked (the venue verifies, with its source, and
+  nothing is auto-approved), but the autonomy half of the hypothesis is false on Haiku: N6 still
+  reaches the admin. A name match counting as weaker evidence in the model's eyes is a
+  confidence-calibration question, left to the prompt ticket (#76), not a reason to change the
+  check.
+
+## E022 — A venue without coordinates is looked up by name and town (qwen 3.5 9B)
+
+- **Hypothesis** (#74): as in E021.
+- **Change:** the same as E021, with N6 recorded once on local qwen, which is free. No other case
+  changed.
+- **Before → after** (E020 → E022), gated, 32 → 33 cases: **accuracy 78.1 % → 78.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  78.1 % → 78.8 %, **autonomy accuracy 78.1 % → 75.8 %**, Brier 0.188 → 0.183. Every move is N6
+  joining the set.
+- **What went wrong or surprised:**
+  - The venue verifies here too (`venue_exists` `pass`, OSM source), and qwen approves with 0.95.
+  - N6 escalates anyway, on a spent web search budget: an approval past the budget escalates
+    (ADR 0015). qwen also wrote its own `venue_capacity` as `warn`. With one run, this is one
+    sample of the small model's search habit, not the check's effect.
+- **Decision:** keep. As on Haiku, the venue half of the hypothesis holds and the autonomy half
+  doesn't: the escalation comes from the model's searching, not from the venue.

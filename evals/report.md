@@ -22,15 +22,15 @@ Prompt `review-v5` · recorded 2026-11-06 · 3 runs per case: means, with the mi
 
 | Metric | Gated | All cases |
 | --- | --- | --- |
-| Cases scored | 32 / 32 | 33 / 33 |
-| Accuracy | 88.5 % (84.4–90.6) | 87.9 % (84.8–90.9) |
+| Cases scored | 33 / 33 | 34 / 34 |
+| Accuracy | 88.9 % (84.8–90.9) | 88.2 % (85.3–91.2) |
 | Approved-fraud rate | 0.0 % (0.0–0.0) | 1.2 % (0.0–3.6) |
 | Auto-approved fraud rate | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) |
-| Escalation rate | 86.5 % | 86.9 % |
-| Autonomy accuracy | 69.8 % (68.8–71.9) | 70.7 % (69.7–72.7) |
-| Brier score | 0.155 | 0.158 |
-| Mean tokens in / out | 13618 / 2462 | 13718 / 2466 |
-| Mean latency | 11.8 s | 11.8 s |
+| Escalation rate | 86.9 % | 87.3 % |
+| Autonomy accuracy | 67.7 % (66.7–69.7) | 68.6 % (67.6–70.6) |
+| Brier score | 0.151 | 0.155 |
+| Mean tokens in / out | 13546 / 2451 | 13645 / 2456 |
+| Mean latency | 11.7 s | 11.7 s |
 | Mean cost per review | $0.0021 | $0.0021 |
 
 ### History
@@ -42,17 +42,18 @@ Prompt `review-v5` · recorded 2026-11-06 · 3 runs per case: means, with the mi
 | E015 | 2026-11-05 | `review-v5` | 3 | a capacity read from the web only holds back: unknown within it, warn above it (#57) | 85.6 % (83.3–86.7) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
 | E018 | 2026-11-06 | `review-v5` | 3 | an active discount above 50 % with no usage limit warns (#73) | 85.0 % (80.7–87.1) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.166 |
 | E019 | 2026-11-06 | `review-v5` | 3 | a session already held at review time warns while it still sells, or when every session is past (#72) | 88.5 % (84.4–90.6) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.155 |
+| E021 | 2026-11-06 | `review-v5` | 3 | a venue without coordinates is looked up by name and town (#74) | 88.9 % (84.9–90.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.151 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E013, E014, E015, E018, E019]
+  x-axis [E013, E014, E015, E018, E019, E021]
   y-axis "%" 0 --> 100
-  line [90, 86.7, 85.6, 85, 88.5]
-  line [0, 0, 0, 0, 0]
-  line [0, 0, 0, 0, 0]
+  line [90, 86.7, 85.6, 85, 88.5, 88.9]
+  line [0, 0, 0, 0, 0, 0]
+  line [0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -91,6 +92,7 @@ xychart-beta
 | N3 | Small organizer with an Instagram active for years and 80 tickets in a bar (authored web results) | ✅ approve 3/3 | ❌ auto_resolved → escalated 3/3 | 0.75–0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85 |
 | N4 | Free charity event with a realistic capacity (authored web results) | ✅ approve 3/3 | ❌ auto_resolved → escalated 3/3 | 0.75–0.80 | venue pass · capacity unknown | confidence 0.75 below 0.85 |
 | N5 | New venue with no web presence but a verifiable commercial address | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.60 | venue unknown · capacity unknown | no rule-based finding to ask about; confidence 0.6 below 0.85 |
+| N6 | Real theatre stored without coordinates, established organizer, 250 tickets (authored web results) | ✅ approve 3/3 | ❌ auto_resolved → escalated 3/3 | 0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85 |
 
 ### Cases that need the external tools (#7)
 
@@ -104,15 +106,15 @@ Prompt `review-v5` · recorded 2026-11-06
 
 | Metric | Gated | All cases |
 | --- | --- | --- |
-| Cases scored | 32 / 32 | 33 / 33 |
-| Accuracy | 78.1 % | 75.8 % |
+| Cases scored | 33 / 33 | 34 / 34 |
+| Accuracy | 78.8 % | 76.5 % |
 | Approved-fraud rate | 3.7 % | 7.1 % |
 | Auto-approved fraud rate | 0.0 % | 0.0 % |
-| Escalation rate | 78.1 % | 78.8 % |
-| Autonomy accuracy | 78.1 % | 78.8 % |
-| Brier score | 0.188 | 0.196 |
-| Mean tokens in / out | 22188 / 1435 | 22181 / 1453 |
-| Mean latency | 40.0 s | 40.5 s |
+| Escalation rate | 78.8 % | 79.4 % |
+| Autonomy accuracy | 75.8 % | 76.5 % |
+| Brier score | 0.183 | 0.190 |
+| Mean tokens in / out | 22427 / 1433 | 22413 / 1450 |
+| Mean latency | 39.9 s | 40.4 s |
 | Mean cost per review | $0.0000 | $0.0000 |
 
 ### History
@@ -134,17 +136,18 @@ Prompt `review-v5` · recorded 2026-11-06
 | E016 | 2026-11-05 | `review-v5` | 1 | a capacity read from the web only holds back: unknown within it, warn above it (#57) | 73.3 % | 4.0 % | 0.0 % | 0.206 |
 | E017 | 2026-11-06 | `review-v5` | 1 | an active discount above 50 % with no usage limit warns (#73) | 71.0 % | 0.0 % | 0.0 % | 0.245 |
 | E020 | 2026-11-06 | `review-v5` | 1 | a session already held at review time warns while it still sells, or when every session is past (#72) | 78.1 % | 3.7 % | 0.0 % | 0.188 |
+| E022 | 2026-11-06 | `review-v5` | 1 | a venue without coordinates is looked up by name and town (#74) | 78.8 % | 3.7 % | 0.0 % | 0.183 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016, E017, E020]
+  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016, E017, E020, E022]
   y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3, 71, 78.1]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4, 0, 3.7]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3, 71, 78.1, 78.8]
+  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4, 0, 3.7, 3.7]
+  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -183,6 +186,7 @@ xychart-beta
 | N3 | Small organizer with an Instagram active for years and 80 tickets in a bar (authored web results) | ✅ approve | ✅ auto_resolved | 0.92 | venue pass · capacity unknown | clean approval |
 | N4 | Free charity event with a realistic capacity (authored web results) | ✅ approve | ❌ auto_resolved → escalated | 0.92 | venue pass · capacity unknown | web search budget spent |
 | N5 | New venue with no web presence but a verifiable commercial address | ✅ request_info | ✅ escalated | 0.65 | venue unknown · capacity unknown | no rule-based finding to ask about; confidence 0.65 below 0.85 |
+| N6 | Real theatre stored without coordinates, established organizer, 250 tickets (authored web results) | ✅ approve | ❌ auto_resolved → escalated | 0.95 | venue pass · capacity unknown | web search budget spent |
 
 ### Cases that need the external tools (#7)
 

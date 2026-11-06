@@ -1,0 +1,209 @@
+{
+  "caseId": "N6",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v5",
+  "clock": "2026-11-06T14:23:00.000Z",
+  "calls": [
+    {
+      "requestHash": "583fde624097feddf1d83c32baafcc24895dd3ad54dba33237f2c650b200ffda",
+      "latencyMs": 1666,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01FCD5aWTPD8LsFRfD1y1Upv",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_2a23484650\"}"
+            },
+            {
+              "id": "toolu_01MUaVzTfEo4cTLpWGWckeuU",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_9a213b428f\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01X4VgSRK17SG46BTmGcEPXQ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Tramoya Andante \\\"El reloj de arena\\\" teatro\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSzQUKEAgTGAI4AUIIdGhpbmtpbmcSDPaUXY8imT5EcqlbMRoMOC8t7WJ+ktNmGm3qIjBB6gm8TJn964p+/hQYTDOwvwze6G0vP9vHvUw8w4PrMttZIX17YIlVeKuwT1RFbzkq6gTDBDYpvGisOy8YddjCOsVVnDtsOuH23Al6t+iW7niWtkENXtcitb16yeXFIQpnz2KbXknSZ5QjqFgKcEHyMyLlvkPX31a7SRVirdBDXZN6EWcrqcrcVZZddPpHGQqRUQUiwJ7JnLSw1Z4liYQQzrgDNHzlSUepDLogLC/4a2iVfB6dyEEz459akvrYmnJ+qqCE10W6fVP2AiPrMS/UE4IiaZKMx6WCZDPSOACRzyNXdB+t/ElvsbP3ZUKsamHIs+5EqC4IeKDohOo6qxhMo0ytGsUtDe+ba8HACrfor05TbxP42g9RxMKjpt3T549I6fAzd36fWor79IkXLGztJNFteQOLkHJEETN+KklSr4+aCCc4h79u8//ZYxdjSCMin2FtVLHxq6Ie95t5QyFV7npRcWlyHmIK9A/uctFGNHyZpsj20FyVo9oVcC8qMEEcLApBT7meRoJViQy2WFvGWJJE1aHzWVl74MdPpHYFEePqL0Q1BcsLVHNHP12Ypuu5RFEslnHE+4W6BzbklqGEq4LOdaUVydlpuOChQKlTXSp0qm9f+OMBpXYNJW+bE2fsrKvpD27XLgO+/+4EwH3W3TILli47nBfcUV0RaWPjCJ8o1QPTayNos5W2iaZtno4vTKJ67CSBkIT/eN8K44deiLPTXLEW5IQFErGrBeVh6hzs9OCKEC+jrYMy05G1VKJqzqdg0kFIpC5TowwNXK2EToRQJBLD10cDRqnsvLmfLzyC34tQ9lUkesq7UZs/u4iOzMDmZsghoN/aW8qJOpfSudOoN4qRKabNQcRwlArkBs83YcjkZJ/eMWpc0ZAYAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01FCD5aWTPD8LsFRfD1y1Upv",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_2a23484650"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01MUaVzTfEo4cTLpWGWckeuU",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_9a213b428f",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01X4VgSRK17SG46BTmGcEPXQ",
+              "name": "web_search",
+              "input": {
+                "query": "Tramoya Andante \"El reloj de arena\" teatro",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5024,
+          "outputTokens": 267,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5020
+        }
+      }
+    },
+    {
+      "requestHash": "2275ab4c29abe37f4050a0aa357bdc924ff60fe4af8808b5dc405501ebfb6090",
+      "latencyMs": 9434,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01LPZ2XLKoWzMwJamqGVb7so",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.8,\"rationale\":\"No hay indicios de fraude. La organizadora Tramoya Andante Producciones S.L. tiene CIF válido, cuenta de 1130 días, 22 eventos publicados y ninguno cancelado, ninguna unpublicación administrativa, ninguna denuncia de contenido y ningún otro organizador vinculado al propietario. Su web externa confirma la compañía y el estreno de «El reloj de arena» el 27/11/2026 en el Teatro Salón Cervantes de Alcalá de Henares. No hay eventos similares de otros organizadores en la ventana de 30 días, y los precios están dentro del benchmark. El único punto abierto es que el aforo del recinto no se pudo verificar (250 entradas a la venta frente a un aforo desconocido). Es un riesgo menor para un teatro municipal de este tipo y no justifica retener el evento, pero conviene que el admin lo tenga presente. Confianza 0.8 y no 0.9 porque la verificación del recinto se limita al nombre y no hay coordenadas.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Tramoya Andante Producciones S.L.: CIF con checksum válido, dirección en Alcalá de Henares (28801), cuenta de propietario con 1130 días y email verificado. No tiene otras organizaciones.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"22 eventos publicados, 20 terminados, 0 cancelados. Ninguna unpublicación administrativa, ninguna denuncia de contenido y ninguna revisión previa.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web de la compañía describe una compañía de teatro de texto activa desde 2016 y anuncia la gira 2026 con «El reloj de arena», con entradas de patio y anfiteatro en el Teatro Salón Cervantes.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://tramoya-andante.example.test/\",\"title\":\"Tramoya Andante — compañía de teatro\"},{\"url\":\"https://tramoya-andante.example.test/gira\",\"title\":\"El reloj de arena — gira\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se encontró una marca conocida similar al nombre del organizador. La web encontrada coincide con la del organizador registrado.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"La búsqueda de eventos similares de otros organizadores en la misma provincia con ±30 días no devolvió resultados.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay otro evento con el mismo título, fecha y recinto de otro organizador.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La fuente web del artista anuncia el estreno el 27/11/2026 en Alcalá de Henares, en línea con la fecha de la plataforma. No aparecen otras fechas en conflicto.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://tramoya-andante.example.test/gira\",\"title\":\"El reloj de arena — gira\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Salón Cervantes no aparece en Wikidata, OpenStreetMap ni la búsqueda web. Se venden 250 entradas (180 patio + 70 anfiteatro). No hay indicio de exceso, pero no se pudo confirmar.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precios de 12 € y 16 € por debajo del p90 de 35 € de eventos comparables de teatro en Madrid con aforo menor de 300.\",\"confidence\":0.8,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSvA0KEAgTGAI4AUIIdGhpbmtpbmcSDAFfwqZb+wTTiSylrxoM5HYubVYffIxOOITrIjDtnm8B+QzAEw+r1dX7rCIUVT3vSVX/Fsj9mDDL1Nq7R1/SS5bkVj44OY6CzmlfZCoq2QzQzYqip5m/75YzaTcbLvOdBwaNuZwlBL1p/bZLR3pXaqL2OGytDDVTBSAxbcv93CDtW0FzRN/rKvXHDfVBa77PDT3FmkhNst5lFmQwUPwfxVWTC4oasXR+xpv7FiKHjIRVEGDYdVurov3TBLd8GtD12Bx8LC4KBWm9iDB6UKObJGGev2/dclz4+9gvGhFK/ebGb5nfuw9KSIOhTc8d6qIeaoUeR9W9OVER/XK6rfaCLC1PrpXV7z7MK3dCBUMQ/WmqDncvndEb8Rh6oPHxhns2HLXikjvK08EftQ55hwBSpfwYKnKgL/gymU7PR2b+9FfwnZBG9MABiWYc6al4hTC2Qnck9nDhfYMJ9727YJQoRxMUT0h3fsICkLbaydWNAL8OIWk0CEGDrmK/gnuZXjvuJ0ldXfAASLFUnFGvkvpbkVPOHv3FN3w45qw7m2XDL1wOnlOtDP1fSQMnRnv4b+/vglEoVdKicdFShbqDVk/rezTpevFotPrv39R1qQXznJQg55WUtyl+aCpfASpGpCOYfe3HQShIWcViJt//MQgd1g44ur519/iGNGzZ0BY7+MmXRH/9mgB/2CMpqK2BabAE46WECPMe2B2iMlwDeQAUDdgv5mtPJcS5kBoDazyTSA+SJlazm2yFhTFsHgbTWXHjOdH6SXfB4LuYWiIU5bq2KXTqUgH2iPHOR1Jnz4w3TxoUa03lzjZoaRYBMeW5NTHZSq/IlgREG8+N6qfx4J05sDF5jL5YWoHm81WBHtBmueYxWU1xCkhO4EIYSdsFz4ieoM9SZ06j0dMqtkOcudz+7QjbbLL6BWDrwQ29IVFxceij9Ex5Gi32ztok/aT49+as62KZ9HSM+sqtGX+Uw9jtrYaruvtQDsEL/fqIprUKEwup1Y5qCRfp+C99ammZP0yXSfMnbnxuHfRD5WpqZ76Ax16YhXHbjpGnpPvmkLlN5IINdgmy0J5+n0qnsCg4pBLypy4mPNhuDv1AiKffSQSf2vtivZSIaKkNH7xVZlTqT8tOpeUvUyX4hpV2B0Ff5rjUXyRjLIXEJBvVw5Asg0EFREhvgMi08zxQivi7KSI29WzzfLVUsyUYRUGpaVk3Nm7icjFyY2A1Up7j5hSgR0RViCJXyBK6OhRJKqOuW7gGMPMnpcCwTtQf6J7qQVXAJe9beXGmUDnfP6u8yheTO/3huKeENSsN9T1z2yoZvE3B8q90YUbhJ8WFdI77/bEzRLCVu0LnFTudmXx0vphDC6S9OGkqL6VKnxFNxdjl5zHa6au2fRECUJF1qUv+gzDQgfqyu2H7DqykXkVvJ0CEQris/sxFeqE+lshcZEXceukQKMo8cStl+NFPMtu+IwWj0r2D//zmPGRImw7/xlT2VPPMhWyMxzX38Z7ZKTSG4TkBv2R0vXMGgctaO6gVH3zUgyPmioKlGT0dybVovyI0LavdRanroI8MClNRb3SuEf0Ue6a2XktNm4wphKEAD4yRuUZ9sd1iVYQWns0/4M7B6AvxeTu9tlnhO8FvfvF99BgOkSGJwWe/RIeRTJ7jLIjZm/hOTGV6wXOcQt+RLM7DlQzhmNnLH52aCH3L9O6QtLQSmCiwi8lfYKiqH+P6/Qr9jflsqa/Is9Oj6/2oPfWIhXrzFRmbAtZJT9bgncuir9j1nPfcfOkDxXeLa1m5T+u+heC+NOyemmBB+tEvN/GvzFUvYH1EdUxy8zSLOS/kC02qpclXkfB2C6EieogNQyhLoCXu0jQbh2MPbWY5NYOGPsV1TO4hV31yMUzYsLxvBNydbLICuizd0iarEIkTAgfZq32M4gY0/NXl0gWchBI9p9Zy668dYtri8PUXAGW2Z8+SFSsKvscOgKn3b5ec3yTaGe5fKTi9MAz6MmO8GzpxUWk7B778QPgLPr12Ts0LkmagSBwtG3wbQN+aCrZpQNgjNwosxsCPqJDRmHWPfQOvUwiBbp7wTm0VOI633XNpfdfDCHLDbZQiOifSUFRyPljSc7n3cuDlq/JFasciFk+ngpBAsmRpIpyiNGOErmXA1QqRZFccLRC30Bn/iaDgsWeAxBxYK60z6UUn3P06VMxqQuGFGlEn6H2XfUjDFrbGWFDV2zglc3ZDBqsvqi8JRtyJioXRFB4ViQOOB3ivRq3VrxHczAUxUCRxfVO9RhgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01LPZ2XLKoWzMwJamqGVb7so",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.8,
+                "rationale": "No hay indicios de fraude. La organizadora Tramoya Andante Producciones S.L. tiene CIF válido, cuenta de 1130 días, 22 eventos publicados y ninguno cancelado, ninguna unpublicación administrativa, ninguna denuncia de contenido y ningún otro organizador vinculado al propietario. Su web externa confirma la compañía y el estreno de «El reloj de arena» el 27/11/2026 en el Teatro Salón Cervantes de Alcalá de Henares. No hay eventos similares de otros organizadores en la ventana de 30 días, y los precios están dentro del benchmark. El único punto abierto es que el aforo del recinto no se pudo verificar (250 entradas a la venta frente a un aforo desconocido). Es un riesgo menor para un teatro municipal de este tipo y no justifica retener el evento, pero conviene que el admin lo tenga presente. Confianza 0.8 y no 0.9 porque la verificación del recinto se limita al nombre y no hay coordenadas.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Tramoya Andante Producciones S.L.: CIF con checksum válido, dirección en Alcalá de Henares (28801), cuenta de propietario con 1130 días y email verificado. No tiene otras organizaciones.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "22 eventos publicados, 20 terminados, 0 cancelados. Ninguna unpublicación administrativa, ninguna denuncia de contenido y ninguna revisión previa.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "pass",
+                    "detail": "La web de la compañía describe una compañía de teatro de texto activa desde 2016 y anuncia la gira 2026 con «El reloj de arena», con entradas de patio y anfiteatro en el Teatro Salón Cervantes.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://tramoya-andante.example.test/",
+                        "title": "Tramoya Andante — compañía de teatro"
+                      },
+                      {
+                        "url": "https://tramoya-andante.example.test/gira",
+                        "title": "El reloj de arena — gira"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se encontró una marca conocida similar al nombre del organizador. La web encontrada coincide con la del organizador registrado.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "La búsqueda de eventos similares de otros organizadores en la misma provincia con ±30 días no devolvió resultados.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "pass",
+                    "detail": "No hay otro evento con el mismo título, fecha y recinto de otro organizador.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "pass",
+                    "detail": "La fuente web del artista anuncia el estreno el 27/11/2026 en Alcalá de Henares, en línea con la fecha de la plataforma. No aparecen otras fechas en conflicto.",
+                    "confidence": 0.7,
+                    "sources": [
+                      {
+                        "url": "https://tramoya-andante.example.test/gira",
+                        "title": "El reloj de arena — gira"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del Teatro Salón Cervantes no aparece en Wikidata, OpenStreetMap ni la búsqueda web. Se venden 250 entradas (180 patio + 70 anfiteatro). No hay indicio de exceso, pero no se pudo confirmar.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precios de 12 € y 16 € por debajo del p90 de 35 € de eventos comparables de teatro en Madrid con aforo menor de 300.",
+                    "confidence": 0.8,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6213,
+          "outputTokens": 1863,
+          "cacheReadInputTokens": 5020,
+          "cacheWriteInputTokens": 1191
+        }
+      }
+    }
+  ],
+  "searches": []
+}

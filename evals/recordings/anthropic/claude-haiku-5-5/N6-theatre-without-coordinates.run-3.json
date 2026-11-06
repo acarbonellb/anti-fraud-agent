@@ -1,0 +1,212 @@
+{
+  "caseId": "N6",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 3,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-06T14:23:00.000Z",
+  "calls": [
+    {
+      "requestHash": "bef40d4b1540568c276bd077703aa87c3520ada6a2c8ddbe3c253f973de397dd",
+      "latencyMs": 1364,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01VYLm5sSB7QdLwgoyQda6Wn",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_2a23484650\"}"
+            },
+            {
+              "id": "toolu_01KGgwikVxXusAyxkpTFcfHJ",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_9a213b428f\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_011yBPLfTChsgj2eJ3TNfniJ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Tramoya Andante compañía teatro \\\"El reloj de arena\\\"\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSxQUKEAgTGAI4AUIIdGhpbmtpbmcSDKZmm6JI4FWRWLoUIxoM98jfq9fPSw97Cuo0IjA7tyDmHnsLoo1Y9UMH6CULLygkSt5KsLpfzBRGQ5HqdVna43JHHhTvhl3OGIoznj8q4gQzn1ebnymO/qb+zVBqqeN5sYJ1zZUwC0XNDNKSSI7oIhBvGkMzV4v05R2fA2iogOBjGb40NtOYxyU7rBRzqmAzGnxFKEUokPLY65rHGionDxXcbLM2ZUmHFGVT5HK9jhh0pCl/VdCXYeUa5NHCzyaFYiu66t/FinazZVWAqN/Y9GFIf4Eee8xAIraBdFsOaA2CDFLpctUzPOw0I/sqlqdko6ODZO0nPwL2V2iwNWNvzKnj0XjhtlLijrGT1V1zWMnw27EUYGNF1c21qsoXoFZTd3KJbjJaWCH6QIv/D3AI/sIGh7Fe1pJtXyXg0APYx0ACxYBU/7Lr2wgDcNjqPyT1UEdlebHSAZXpQUwunAD7hm9O6DDkHskZ9nX67uxBFkMvb1yU+iNdB6AlVd0xzPvzmbVIQTRy/194xxFn3hNu7D+9dpTEcuxVvh/f+7dQZWgkf7Cbqk8giZd2cU07mUCCakHX9kE1mecmudC5KzVjcs1hFXtRWGYWzOn78joNnIi1R3SBnN5auiegXFjcOtF2gtK9vX3jOkdaLLT+9KcQ44Lp0TViXiRYeMmxVd0YUmyFRpdOgrpcrBYP26zhziusbbMRAuYeXbLravbcEvzwIvTxX62cnidpAee1a9AckVZHYQULQNEyf5fpIfiKYbIMhgxjozaTNelH+LVSTwJC5bPpeqgNjy/r+qGNuBH/MHJRhzjWlPod4zP91V1JVnu6+urWFe/CnGYmmn3BDZDE4lxfnl3A3LWle1XeJPuyvTQCgSeU+K3XXIfelu/Gt6gVQAUTBCHIOho+nbPQqS+WzRTwGAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01VYLm5sSB7QdLwgoyQda6Wn",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_2a23484650"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01KGgwikVxXusAyxkpTFcfHJ",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_9a213b428f",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_011yBPLfTChsgj2eJ3TNfniJ",
+              "name": "web_search",
+              "input": {
+                "query": "Tramoya Andante compañía teatro \"El reloj de arena\"",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5024,
+          "outputTokens": 266,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5020
+        }
+      }
+    },
+    {
+      "requestHash": "5c4ce7d6551676519b739bb37ed3b9fc54184af2080407257509eac908d04975",
+      "latencyMs": 6816,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01Gi8B5nVFDcLTRFTBaphx9B",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.8,\"rationale\":\"El evento \\\"El reloj de arena\\\" (Tramoya Andante) no presenta indicios de fraude. El organizador tiene más de tres años de antigüedad, CIF válido, 22 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por admin, y su web externa anuncia la misma gira y fecha con el mismo recinto. No hay eventos similares de otros organizadores ni duplicados. Precios dentro del benchmark y sin incidencias de tasas, descuentos, sesiones ni condiciones. La única incógnita es el aforo del Teatro Salón Cervantes, que no consta en OpenStreetMap ni en Wikidata; el evento pone a la venta 250 entradas (180 patio + 70 anfiteatro), cifra plausible para un teatro de este tipo. Confianza moderada por no poder confirmar el aforo real.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Tramoya Andante Producciones S.L., CIF con checksum válido, dirección en Alcalá de Henares (28801), cuenta de 1130 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"22 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web de la compañía describe una actividad de teatro desde 2016 y la gira 2026 con El reloj de arena, con fecha de estreno el 27-11-2026 en Teatro Salón Cervantes (Alcalá de Henares).\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://tramoya-andante.example.test/\",\"title\":\"Tramoya Andante — compañía de teatro\"},{\"url\":\"https://tramoya-andante.example.test/gira\",\"title\":\"El reloj de arena — gira\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se encontraron indicios de suplantación; el nombre coincide con la compañía verificada en su web.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devolvió eventos similares de otros organizadores en la ventana de 30 días.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay otro evento con mismo título, fecha y recinto.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"No se pudo confirmar el aforo del Teatro Salón Cervantes. Las 250 entradas puestas a la venta (sesión única) son plausibles para un teatro, pero no verificables con datos públicos.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"unknown\",\"detail\":\"Sin aforo publicado no se puede comparar; no hay señal de exceso.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precios de 12 € y 16 € por debajo del p90 de 35 € de 42 eventos comparables (teatro, Madrid, aforo <300).\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"pass\",\"detail\":\"La descripción es breve y coincide con la del propio organizador en su web; sin señales de copia de otro sitio.\",\"confidence\":0.6,\"sources\":[]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSkwoKEAgTGAI4AUIIdGhpbmtpbmcSDHJiLdAkqm4t0XzaMxoMZpJmFiSZrxntR7v5IjC3EypJh9NXIymZOr1svvWCbutylKyk5l6/KIcRvXv2Kb58bVKla3Mpy0YYdqqp1GcqsAl3NBOsYR5Q3KcowfyzSP0D+TRXIn7tA6VR32TQfV7GZ7WObEJQM0iDBxSO96MsYXZmIrQAeUTirruApUSoKILyT318KYZWTmapM7xP/iBtnRSgZU7DEEOCK67bY07hdpJ2+WbXuuQ6iUh4rfZ1QS6k59nQ04E+pfiVrUNc+RBJ3ehJ2KDidoj4mRIqeawWQqAJLjubPFWP3+6Bq4KZIeUe4k+OjSbKStclQDxW507G/mZXnDpfphtW0cK7ceVh5g/9BbQUX0eD85gnllBwlIAf/ooMwEzv7Tc5skyQPHGTSQiy7mRy9AICxybOMXFynnyCSkNpPZ2f6/A5IkbrvfkiAtGwIgoqwseHIJbiko3cM3WVD/q8IHmqqJqRictmNEcVxT52BwRIcjOcB4Lrqn7JxVmsE+3n+jTagv8k9Cqh0TrAvGpMm5oKew0X7HWNus+6JH3Dj0RJgPwOnx6Pd7pu57jYyHZmBpROd1ZdbNkjaF9e4WcTuL5kJR28u/qQ/xOS9mLNG+uKn/jaZfEnaRALiTEYwY15LNxY8T8nsst4wkyYiKHWon8RPF+qpapx/LfdD4F3ZwcJkqDTiaBlYBzwx0xA9IUPwp6hl183NlbWUZzGay5R9MxHghMOBajTtgaMwEFvQKXb5B/gv0LeFcGYvgLYlUgeE9CtP56Pai8VRwniny8jupYK5VJ7X7lBiB0qyMrITM04czUisNrejgFqlFPLy+is5hyrSSNKqXwNjywxZZaMv7QAGX6AWhkLMbUvL0eZTdE/ZmPdb8zI/r4GANFPM6TOeVqmFjw7WnE8527CJW/sJOnHb6O3BUNa1zahy/xjvPgSWw8IUYBSWSSzDHKi0F+OO6K0kn00S/W8/3rjRF5UodkOY9g+xnT5iHyndZJdFXA8M2YILRHPCVdXaQcNQYlu1g9YOL8CT5DY9byejV/R6bnhz5CC1BH5hsC3dOpDhyh73Z3puEQ0JTrnuVZjUCjF2kGKJhn4NHuwbP3hutskOHDv04dWwfkj5YVmPr2wIvvr3f5D7kwcpnqsLTM6jV4uQr+1f4ID3HSoNqbIFU7n0wmaVwvixgozqbCLk6lg5v9uRfAJuLXFK1ghfku4ywk5hapjDcKi5BUII2qL85agWjXkxLcXWEezZ9TGRzQXfK9ql9mViVAl+6Ibl4ZuEohYjxl+AzVM33Z3hxhV9MJpTTnZNzVX3vyp86FUczmIPXlwL+2eVP2Naef3hSo5q3bQFopGt3g+ab8UK5JUNtMQHG2Bb5b5GUO/NkeM4U11GpvOxcY0QxQvh4OMmmDlsluELntWG1dcIx2rUCvTvA4nieoZ+bii6A+YUR+yPkfeSbhESfyu45PCgwEIo8MVV3Di/lqbzNrpRkVAyabrZR2nfmqP4wHcX+umihC075nnTwnAiEX63NFQCqZPiAaFHBmAVAWqi96apDeDur9fKY3fPtlQvmjJuXJZt+jyEMz1eOy57aH+s6XtknPbQ8YqeEbHcDJlSjVpErPs+zE2SXXtvNsz6ZN2pgyeOZymvmSSp+cAJgYPQ9oz8l+yO4QFjEA+Lh8+FYesZo4ghBT5c9Jpdo5YH/jfVHVLCK0YAQ=="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Gi8B5nVFDcLTRFTBaphx9B",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.8,
+                "rationale": "El evento \"El reloj de arena\" (Tramoya Andante) no presenta indicios de fraude. El organizador tiene más de tres años de antigüedad, CIF válido, 22 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por admin, y su web externa anuncia la misma gira y fecha con el mismo recinto. No hay eventos similares de otros organizadores ni duplicados. Precios dentro del benchmark y sin incidencias de tasas, descuentos, sesiones ni condiciones. La única incógnita es el aforo del Teatro Salón Cervantes, que no consta en OpenStreetMap ni en Wikidata; el evento pone a la venta 250 entradas (180 patio + 70 anfiteatro), cifra plausible para un teatro de este tipo. Confianza moderada por no poder confirmar el aforo real.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Tramoya Andante Producciones S.L., CIF con checksum válido, dirección en Alcalá de Henares (28801), cuenta de 1130 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "22 eventos publicados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "pass",
+                    "detail": "La web de la compañía describe una actividad de teatro desde 2016 y la gira 2026 con El reloj de arena, con fecha de estreno el 27-11-2026 en Teatro Salón Cervantes (Alcalá de Henares).",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://tramoya-andante.example.test/",
+                        "title": "Tramoya Andante — compañía de teatro"
+                      },
+                      {
+                        "url": "https://tramoya-andante.example.test/gira",
+                        "title": "El reloj de arena — gira"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se encontraron indicios de suplantación; el nombre coincide con la compañía verificada en su web.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "find_similar_events no devolvió eventos similares de otros organizadores en la ventana de 30 días.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "pass",
+                    "detail": "No hay otro evento con mismo título, fecha y recinto.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "No se pudo confirmar el aforo del Teatro Salón Cervantes. Las 250 entradas puestas a la venta (sesión única) son plausibles para un teatro, pero no verificables con datos públicos.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "unknown",
+                    "detail": "Sin aforo publicado no se puede comparar; no hay señal de exceso.",
+                    "confidence": 0.4,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Precios de 12 € y 16 € por debajo del p90 de 35 € de 42 eventos comparables (teatro, Madrid, aforo <300).",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "pass",
+                    "detail": "La descripción es breve y coincide con la del propio organizador en su web; sin señales de copia de otro sitio.",
+                    "confidence": 0.6,
+                    "sources": []
+                  }
+                ]
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6212,
+          "outputTokens": 1616,
+          "cacheReadInputTokens": 5020,
+          "cacheWriteInputTokens": 1190
+        }
+      }
+    }
+  ],
+  "searches": []
+}
