@@ -58,9 +58,6 @@ calibration, above.
 - **A venue without coordinates goes unverified.** `verifyVenue` doesn't look a venue up by name
   and city, so a real theatre stored without coordinates was reported as unknown. Fix: a name
   and city lookup when coordinates are missing.
-- **"No data" reads as certainty.** A finding with no data carries a confidence of 1. The
-  confidence is about the deterministic check, but the admin sees "100 %" next to "no data". Fix:
-  decide the confidence of such findings, or how Satella shows them.
 - **Noise in the findings.** The model also lists what it didn't check ("not searched") and adds
   weak arguments, such as how many tickets sold. Fix: prompt rules, measured on the evals.
 

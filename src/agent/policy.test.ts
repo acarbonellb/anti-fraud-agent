@@ -187,6 +187,32 @@ describe("approve needs venue evidence (ADR 0015)", () => {
     expect(verdict.autonomy).toBe("escalated");
     expect(verdict.reasons).toContain(reason);
   });
+
+  // An `unknown` finding's confidence is what the admin sees (#75); the
+  // policy reads its verdict, so the confidence it carries changes nothing.
+  it.each([
+    ["auto-resolves", EXPOSURE_CAP_TICKETS],
+    ["escalates", EXPOSURE_CAP_TICKETS + 1],
+  ])(
+    "%s an unknown capacity the same whatever confidence it carries",
+    (_, tickets) => {
+      const withConfidence = (confidence: number) => {
+        const item = capacity("unknown");
+        return { ...item, finding: { ...item.finding, confidence } };
+      };
+      const [asShown, asBefore] = [0, 1].map((confidence) =>
+        decide(
+          "approve",
+          [...checks, venue("pass"), withConfidence(confidence)],
+          [],
+          0.95,
+          event(tickets),
+        ),
+      );
+      expect(capacity("unknown").finding.confidence).toBe(0);
+      expect(asShown).toEqual(asBefore);
+    },
+  );
 });
 
 describe("web search can hold back, never let through (ADR 0015)", () => {
