@@ -34,15 +34,17 @@ const CLOCKS = [
 
 const IDS = [
   ...Array.from({ length: 26 }, (_, i) => String(i + 1).padStart(2, "0")),
+  // Spec #71's calibration cases, after the brief's.
+  "27",
+  "28",
   "N1",
   "N2",
   "N3",
   "N4",
   "N5",
-  "27",
 ];
 
-it("holds the 31 cases of brief §5 in order, then the staging ones, one file each", () => {
+it("holds the brief §5 cases and the calibration ones in order, one file each", () => {
   expect(EVAL_CASES.map((c) => c.id)).toEqual(IDS);
   const files = readdirSync(new URL(".", import.meta.url))
     .filter((file) => /^(\d\d|N\d)-.+\.ts$/.test(file))
@@ -128,6 +130,7 @@ const EXPECTED_FLAGS: Record<string, string[]> = {
   "25": ["heuristic prompt_injection"],
   "26": ["rule off_platform_payment"],
   "27": ["heuristic session_timing"],
+  "28": ["heuristic discounts"],
 };
 
 it.each(EVAL_CASES.map((c) => [c.id, c] as const))(

@@ -22,6 +22,13 @@ export const SERVICE_FEE_MAX_PERCENT = 20;
 export const IMMINENT_HOURS = 12;
 /** A session further than this after publishing is suspiciously far (case 18). */
 export const DISTANT_DAYS = 548;
+/**
+ * An active discount above this percent with no usage limit is suspicious:
+ * it can sell the whole event at a fraction of its price. A 2x1 (exactly
+ * 50 %) is a common legitimate promotion, and a large discount with a limit
+ * is a normal one (#71, slice 2).
+ */
+export const UNLIMITED_DISCOUNT_MAX_PERCENT = 50;
 
 const HOUR_MS = 3_600_000;
 const DAY_MS = 24 * HOUR_MS;
@@ -35,6 +42,7 @@ export function runEventChecks(
     ...textSignals(context),
     vipBelowGeneral(context),
     serviceFee(context),
+    discounts(context),
     ...sessionDates(context, now),
   ];
 }
@@ -237,6 +245,32 @@ function serviceFee(context: EventReviewContext): SystemFinding {
     check,
     "warn",
     `Los gastos de gestión de «${worst.name}» son el ${String(percent)} % del precio (umbral: ${String(SERVICE_FEE_MAX_PERCENT)} %).`,
+  );
+}
+
+function discounts(context: EventReviewContext): SystemFinding {
+  const check = "discounts";
+  const worst = context.discounts
+    .filter(
+      (discount) =>
+        discount.active &&
+        discount.maxUses === null &&
+        discount.percent > UNLIMITED_DISCOUNT_MAX_PERCENT,
+    )
+    .sort((a, b) => b.percent - a.percent)[0];
+  if (worst === undefined) {
+    return systemFinding(
+      "heuristic",
+      check,
+      "pass",
+      `Ningún descuento activo de más del ${String(UNLIMITED_DISCOUNT_MAX_PERCENT)} % carece de límite de usos.`,
+    );
+  }
+  return systemFinding(
+    "heuristic",
+    check,
+    "warn",
+    `Hay un descuento activo del ${String(worst.percent)} % sin límite de usos (umbral: ${String(UNLIMITED_DISCOUNT_MAX_PERCENT)} %).`,
   );
 }
 

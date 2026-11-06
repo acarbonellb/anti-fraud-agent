@@ -95,6 +95,7 @@ export interface EventSpec {
   editedHoursAfterPublishing?: number;
   imageUrls?: string[];
   collaborators?: string[];
+  discounts?: EventReviewContext["discounts"];
 }
 
 export const DEFAULT_TERMS =
@@ -171,7 +172,7 @@ export function buildEvent(
         })),
       };
     }),
-    discounts: [],
+    discounts: spec.discounts ?? [],
     moderation: { canUnpublish: false },
     organizerId,
   };
