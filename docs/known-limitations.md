@@ -51,9 +51,6 @@ calibration, above.
     `request_info`, but still recommended `reject`.
   - **Fix:** the prompt prefers `request_info` in that case. The change has to be measured on
     the evals.
-- **A venue without coordinates goes unverified.** `verifyVenue` doesn't look a venue up by name
-  and city, so a real theatre stored without coordinates was reported as unknown. Fix: a name
-  and city lookup when coordinates are missing.
 - **Noise in the findings.** The model also lists what it didn't check ("not searched") and adds
   weak arguments, such as how many tickets sold. Fix: prompt rules, measured on the evals.
 
