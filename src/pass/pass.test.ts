@@ -3,7 +3,8 @@
 // for each, advances the cursor, stops at the day's budget, stores a failed
 // run and moves on, tries a review that failed for a passing reason again on
 // later passes, a bounded number of times, without dropping an overlapping
-// pass's retries, and records an admin's resolution next to its run. Fakes
+// pass's retries, logs a failed review before a store that is down too, and
+// records an admin's resolution next to its run. Fakes
 // Satella with the mock server, the model with the scripted provider (named
 // as Haiku 5.5, so its real prices apply), the store with the in-memory one
 // and the venue checks with canned findings.
@@ -27,7 +28,7 @@ import {
 } from "../satella-client/mock-server.js";
 import type { FeedItem, Subject } from "../satella-client/schemas.js";
 import { createMemoryStore } from "../store/memory-store.js";
-import type { AgentStore } from "../store/types.js";
+import { type AgentStore, StoreError } from "../store/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
 import { type PassLogLine, type PassOptions, runPass } from "./pass.js";
 
@@ -363,6 +364,59 @@ describe("a review that fails", () => {
       settledMicros: ONE_CALL,
       heldMicros: 0,
     });
+  });
+});
+
+describe("a review that fails while the store is down", () => {
+  it("logs the review's code first, then the store's, and the pass moves on", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    const scripted = createScriptedProvider(submits(1), HAIKU);
+    let calls = 0;
+    const unreachableFirst: LlmProvider = {
+      ...HAIKU,
+      complete(request) {
+        calls += 1;
+        if (calls === 1) {
+          return Promise.reject(
+            new ProviderError("LLM_UNAVAILABLE", "anthropic"),
+          );
+        }
+        return scripted.complete(request);
+      },
+    };
+    // Down for the failed run's write only: the rest of the pass is the
+    // behaviour under test, not a store that never answers.
+    const memory = store;
+    let failedWrites = 0;
+    const flaky: AgentStore = {
+      ...memory,
+      saveRun(run) {
+        if (run.outcome === "failed" && failedWrites++ === 0) {
+          return Promise.reject(new StoreError("STORE_UNAVAILABLE", 503));
+        }
+        return memory.saveRun(run);
+      },
+    };
+    const log: PassLogLine[] = [];
+
+    const report = await pass(unreachableFirst, {
+      store: flaky,
+      log: (line) => log.push(line),
+    });
+
+    const lines = log.filter((line) => line.subject?.id === "evt_0001");
+    expect(lines.map((line) => [line.event, line.code])).toEqual([
+      ["run.started", undefined],
+      ["run.failed", "LLM_UNAVAILABLE"],
+      ["run.unsaved", "STORE_UNAVAILABLE"],
+    ]);
+    expect(report.stoppedBy).toBe("end_of_page");
+    expect(report.runs.map((run) => [run.subject.id, run.outcome])).toEqual([
+      ["evt_0001", "failed"],
+      ["evt_0002", "completed"],
+    ]);
+    expect(await store.readFeedCursor()).not.toBeNull();
   });
 });
 

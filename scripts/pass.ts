@@ -90,7 +90,10 @@ try {
     level: "info",
     event: "pass.report",
     stoppedBy: report.stoppedBy,
-    runs: report.runs,
+    // Counts and ids only: each run's own lines already carry its subject.
+    runs: report.runs.length,
+    failedRuns: report.runs.filter((run) => run.outcome === "failed").length,
+    cursor: report.cursor,
     resolutions: report.resolutions,
     skippedItems: report.skippedItems,
     retriesQueued: report.retriesQueued,
