@@ -23,7 +23,7 @@ import {
   type AutonomySubject,
   type AutonomyVerdict,
   decideAutonomy,
-  ESCALATED_CONFIDENCE_CAP,
+  escalated,
   holdBackApproval,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
@@ -191,11 +191,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
             autoApproveThreshold: input.autoApproveThreshold,
             searchBudgetSpent,
           })
-        : {
-            autonomy: "escalated",
-            reasons: [`run ended by ${endedBy}`],
-            confidence: Math.min(base.confidence, ESCALATED_CONFIDENCE_CAP),
-          };
+        : escalated([`run ended by ${endedBy}`], base.confidence);
     const recommendation: Recommendation = {
       ...base,
       confidence: autonomy.confidence,

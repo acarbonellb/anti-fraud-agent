@@ -120,9 +120,9 @@ export const EVIDENCE_TIERS = {
 export const ESCALATED_CONFIDENCE_CAP = 0.84;
 
 /**
- * Below this, the model doubts its own decision, and an auto-resolution
- * escalates whatever the evidence. A safety net: no case expected to resolve
- * reports under 0.6 today (ADR 0019).
+ * Below this, the model doubts its own decision more than it trusts it, and
+ * an auto-resolution escalates whatever the evidence (ADR 0019). A safety
+ * net set at even odds, not a threshold fitted to any case.
  */
 export const MODEL_CONFIDENCE_FLOOR = 0.5;
 
@@ -176,42 +176,60 @@ type EvidenceVerdict =
 export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
   const { modelConfidence, autoApproveThreshold } = input;
   const evidence = decideOnEvidence(input);
-  const holds = [
-    ...(evidence.autonomy === "auto_resolved" &&
+  const belowThreshold =
+    evidence.autonomy === "auto_resolved" &&
     evidence.tier < autoApproveThreshold
       ? [
           `evidence tier ${String(evidence.tier)} below ${String(autoApproveThreshold)}`,
         ]
-      : []),
-    ...(modelConfidence < MODEL_CONFIDENCE_FLOOR
-      ? [
-          `model confidence ${String(modelConfidence)} below ${String(MODEL_CONFIDENCE_FLOOR)}`,
-        ]
-      : []),
-  ];
+      : [];
   // An approval can't rest on evidence the model didn't get to read. A
   // rejection or a request doesn't depend on it: the evidence decides alone.
   const budget =
     input.searchBudgetSpent && input.decision === "approve"
       ? ["web search budget spent"]
       : [];
-  if (
+  const otherwiseResolves =
     evidence.autonomy === "auto_resolved" &&
-    holds.length + budget.length === 0
-  ) {
+    belowThreshold.length + budget.length === 0;
+  // The floor holds back a resolution; on a review that escalates anyway, it
+  // would only add noise to the reasons (#77).
+  const floor =
+    otherwiseResolves && modelConfidence < MODEL_CONFIDENCE_FLOOR
+      ? [
+          `model confidence ${String(modelConfidence)} below ${String(MODEL_CONFIDENCE_FLOOR)}`,
+        ]
+      : [];
+  if (otherwiseResolves && floor.length === 0) {
     return {
       autonomy: "auto_resolved",
       reasons: evidence.reasons,
       confidence: evidence.tier,
     };
   }
-  return {
-    autonomy: "escalated",
-    reasons: [
+  return escalated(
+    [
       ...budget,
       ...(evidence.autonomy === "escalated" ? evidence.reasons : []),
-      ...holds,
+      ...belowThreshold,
+      ...floor,
     ],
+    modelConfidence,
+  );
+}
+
+/**
+ * An escalated verdict: the model's number, capped so it never reads as
+ * confident enough to have resolved. Also for a run that ended before the
+ * policy could weigh it.
+ */
+export function escalated(
+  reasons: string[],
+  modelConfidence: number,
+): AutonomyVerdict {
+  return {
+    autonomy: "escalated",
+    reasons,
     confidence: Math.min(modelConfidence, ESCALATED_CONFIDENCE_CAP),
   };
 }

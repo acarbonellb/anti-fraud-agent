@@ -10,6 +10,7 @@ import type { Finding } from "../satella-client/schemas.js";
 import {
   type AutonomySubject,
   decideAutonomy,
+  escalated,
   EXPOSURE_CAP_TICKETS,
   MODEL_CONFIDENCE_FLOOR,
   OPEN_SPACE_EXPOSURE_CAP_TICKETS,
@@ -682,10 +683,33 @@ describe("the confidence comes from the evidence tier (#77)", () => {
     },
   );
 
+  it("adds the floor only to a review that would otherwise resolve", () => {
+    expect(
+      decide("request_info", [heuristic("service_fee")], [], 0.3).reasons,
+    ).toEqual([
+      "no rule-based finding to ask about",
+      "needs judgement: service_fee",
+    ]);
+  });
+
   it("resolves at the floor", () => {
     expect(MODEL_CONFIDENCE_FLOOR).toBe(0.5);
     expect(
       decide("approve", cleanSystem, [], MODEL_CONFIDENCE_FLOOR).autonomy,
     ).toBe("auto_resolved");
+  });
+});
+
+describe("an escalation built outside the policy", () => {
+  it("records its reasons and caps the model's number below the threshold", () => {
+    expect(escalated(["run ended by max_tool_calls"], 0.97)).toEqual({
+      autonomy: "escalated",
+      reasons: ["run ended by max_tool_calls"],
+      confidence: 0.84,
+    });
+  });
+
+  it("keeps a lower model number", () => {
+    expect(escalated(["run ended by max_tokens"], 0.4).confidence).toBe(0.4);
   });
 });
