@@ -98,6 +98,27 @@ describe("postal code and province", () => {
   });
 });
 
+describe("confidence of a finding", () => {
+  // A check with no data reached no verdict to be confident in, so the admin
+  // mustn't read "100 %" next to "sin datos" (#75).
+  it("is 0 for every check that had no data, and 1 for the rest", () => {
+    const findings = runEventChecks(
+      context((draft) => {
+        draft.venue = null;
+      }),
+      NOW,
+    ).map((item) => item.finding);
+
+    expect(findings.some((item) => item.verdict === "unknown")).toBe(true);
+    for (const item of findings) {
+      expect([item.check, item.confidence]).toEqual([
+        item.check,
+        item.verdict === "unknown" ? 0 : 1,
+      ]);
+    }
+  });
+});
+
 describe("texts", () => {
   it("fails off-platform payment as a rule, naming where it was found", () => {
     const [result] = finding(

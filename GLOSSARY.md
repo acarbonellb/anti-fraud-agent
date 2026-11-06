@@ -36,7 +36,8 @@ fixed.
 - **Autonomy**: `auto_resolved` (clear case, no human needed) or `escalated` (a human must look).
   Decided by the policy, not by the model.
 - **Finding**: the result of one check (`pass` / `warn` / `fail` / `unknown`), with a confidence
-  and its sources.
+  and its sources. A finding computed in code carries confidence 1, or 0 when it is `unknown`:
+  a check with no data reached no verdict to be confident in.
 - **Hard signal**: a finding strong enough to allow an auto-resolved `reject` (off-platform
   payment, illegal content including alcohol aimed at minors, exact duplicate of another
   organizer, capacity several times the venue's), from a rule check or with sources (ADR 0012).
@@ -50,7 +51,8 @@ fixed.
   auto-approval requires them (ADR 0015).
 - **Exposure cap**: the most tickets on sale per session (300) an event may have to resolve an
   approval on its own while its venue's capacity is unknown (ADR 0015).
-- **Mechanical request**: a `request_info` whose every negative finding is a rule finding.
+- **Mechanical request**: a `request_info` whose every negative finding is a rule finding. It
+  may resolve on its own, for an event or an organizer (ADRs 0012 and 0015).
 - **Copied-text check**: the one web search run in code: the description's longest sentence. A
   page that holds it word for word gives a heuristic `text_originality` warning (ADR 0015).
 - **Held-back approval**: a model `approve` with a negative system finding. The agent sends it as
