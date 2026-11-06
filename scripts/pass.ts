@@ -1,7 +1,8 @@
 /**
  * One scheduled pass over Satella's feed (#45, ADR 0017): the entry point the
- * Cloud Run Job runs every 10 minutes (#46). Configured from the environment;
- * the store is Firestore with FIRESTORE_PROJECT_ID set, in memory otherwise.
+ * Cloud Run Job runs every 10 minutes (#46). Configured from the environment
+ * and wired by the composition root (#92): the store is Firestore with
+ * FIRESTORE_PROJECT_ID set, in memory otherwise.
  *
  * With `--mock` it runs against the in-process mock and its fictitious feed.
  * Without it, it reviews Satella staging (#9) with the job's Google identity
@@ -13,7 +14,8 @@
  *   pnpm pass --paid            # Satella staging: what the job runs
  *
  * Writes one JSON line per log entry (ids and codes only) and exits 0 when
- * the pass ran, budget stop included; 1 when it failed.
+ * the pass ran, budget stop included; 1 when it failed; 2 when a paid
+ * provider was refused for want of `--paid`.
  */
 import { randomUUID } from "node:crypto";
 
@@ -22,16 +24,11 @@ import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
 import { logLine } from "../src/pass/log-line.js";
 import { runPass } from "../src/pass/pass.js";
-import { reviewEvidence } from "../src/agent/review-evidence.js";
-import { createConfiguredProvider } from "../src/providers/from-config.js";
-import { isPaidProvider } from "../src/providers/pricing.js";
-import { createSatellaClient } from "../src/satella-client/client.js";
-import { createIdentityTokenSource } from "../src/satella-client/identity-token.js";
-import { createConfiguredSearch } from "../src/search/from-config.js";
-import { createFirestoreStore } from "../src/store/firestore-store.js";
-import { createMemoryStore } from "../src/store/memory-store.js";
-import { createVenueThrottles } from "../src/venue/venue-checks.js";
-import { type SatellaConnection, startLocalSatella } from "./local-satella.js";
+import {
+  buildReviewDependencies,
+  PaidNotAllowedError,
+  type ReviewDependencies,
+} from "../src/wiring/review-dependencies.js";
 
 loadLocalEnvFile();
 const correlationId = randomUUID();
@@ -55,69 +52,36 @@ try {
   process.exit(1);
 }
 
-/** What the pass reviews: the in-process mock, or Satella staging. */
-type SatellaTarget = "mock" | NonNullable<Config["satella"]>;
-const target: SatellaTarget | undefined = process.argv.includes("--mock")
-  ? "mock"
-  : config.satella;
-if (target === undefined) {
+let dependencies: ReviewDependencies;
+try {
+  dependencies = await buildReviewDependencies(config, {
+    paid: process.argv.includes("--paid"),
+    mock: process.argv.includes("--mock"),
+    correlationId,
+  });
+} catch (error) {
   line({
     level: "error",
     event: "pass.refused",
-    code: "SATELLA_NOT_CONFIGURED",
+    code: error instanceof DomainError ? error.code : "UNEXPECTED",
   });
-  process.exit(1);
+  // 2, as every script that refuses to spend: the command was wrong, not the pass.
+  process.exit(error instanceof PaidNotAllowedError ? 2 : 1);
 }
-if (isPaidProvider(config.llm.provider) && !process.argv.includes("--paid")) {
-  // It bills per token: spending needs `--paid` (CLAUDE.md §8).
-  line({ level: "error", event: "pass.refused", code: "PAID_NOT_ALLOWED" });
-  process.exit(2);
-}
-
-const { firestoreProjectId, firestoreEmulatorHost } = config.store;
-const store =
-  firestoreProjectId === undefined
-    ? createMemoryStore()
-    : createFirestoreStore({
-        projectId: firestoreProjectId,
-        ...(firestoreEmulatorHost === undefined
-          ? {}
-          : { emulatorHost: firestoreEmulatorHost }),
-      });
-
-/**
- * The Satella the pass reviews: the in-process mock and its fictitious feed,
- * or staging with the job's Google identity token.
- */
-function connectSatella(to: SatellaTarget): Promise<SatellaConnection> {
-  if (to === "mock") return startLocalSatella(correlationId);
-  return Promise.resolve({
-    client: createSatellaClient({
-      baseUrl: to.baseUrl,
-      getAccessToken: createIdentityTokenSource({ audience: to.audience }),
-      correlationId,
-    }),
-    close: () => Promise.resolve(),
-  });
-}
-const satella = await connectSatella(target);
+const { provider, store, evidence, satella } = dependencies;
 
 try {
   const report = await runPass({
     satella: satella.client,
     correlationId,
-    provider: createConfiguredProvider(config.llm),
+    provider,
     store,
     limits: config.runLimits,
     autoApproveThreshold: config.autoApproveThreshold,
     dailyBudgetMicros: config.dailyBudgetMicros,
     // Only `anthropic` takes an effort: record it only where it was sent.
     effort: config.llm.provider === "anthropic" ? config.llm.effort : null,
-    ...reviewEvidence({
-      fetch: globalThis.fetch,
-      throttles: createVenueThrottles(),
-      search: createConfiguredSearch(config.webSearch),
-    }),
+    ...evidence,
     log: (entry) => {
       line(entry);
     },
