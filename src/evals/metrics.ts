@@ -11,7 +11,7 @@ export interface Metrics {
   failed: number;
   /** The decision is one of the expected ones. */
   accuracy: number | null;
-  /** Problem cases (1–26) that ended in `approve`: the critical metric. */
+  /** Problem cases (the numbered ones) that ended in `approve`: the critical metric. */
   approvedFraudRate: number | null;
   /**
    * Problem cases that ended in `approve` + `auto_resolved`: the only

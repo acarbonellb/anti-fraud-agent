@@ -315,3 +315,59 @@ describe("session dates", () => {
     expect(result?.finding.verdict).toBe("pass");
   });
 });
+
+describe("discounts", () => {
+  type Discount = Context["discounts"][number];
+  const discount = (change: Partial<Discount>): Discount => ({
+    scope: "event",
+    percent: 10,
+    maxUses: 50,
+    timesUsed: 0,
+    active: true,
+    ...change,
+  });
+  const withDiscounts = (...discounts: Discount[]) =>
+    finding(
+      context((draft) => {
+        draft.discounts = discounts;
+      }),
+      "discounts",
+    );
+
+  it("warns, as a heuristic, about an active discount above 50% with no limit", () => {
+    const [result] = withDiscounts(discount({ percent: 51, maxUses: null }));
+
+    expect(result?.certainty).toBe("heuristic");
+    expect(result?.finding.verdict).toBe("warn");
+    expect(result?.finding.detail).toContain("51 %");
+  });
+
+  it.each([
+    ["exactly 50% with no limit (a 2x1)", { percent: 50, maxUses: null }],
+    ["95% with a usage limit", { percent: 95, maxUses: 20 }],
+    ["95% inactive", { percent: 95, maxUses: null, active: false }],
+  ])("passes a discount of %s", (_, change) => {
+    const [result] = withDiscounts(discount(change));
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  it("passes an event with no discounts", () => {
+    const [result] = withDiscounts();
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  it("warns once, naming the one that qualifies among several", () => {
+    const results = withDiscounts(
+      discount({ percent: 20, maxUses: null }),
+      discount({ percent: 95, maxUses: 10 }),
+      discount({ percent: 80, maxUses: null }),
+      discount({ percent: 90, maxUses: null, active: false }),
+    );
+
+    expect(results).toHaveLength(1);
+    expect(results[0]?.finding.verdict).toBe("warn");
+    expect(results[0]?.finding.detail).toContain("80 %");
+  });
+});
