@@ -2,7 +2,8 @@
 // recording keeps each response with the hash of its request, its origin and
 // its attribution; replay serves them by hash, in any order, and a request
 // with no recorded response throws a typed stale error; a repeat run adds only
-// new requests to the case's file. Fakes `fetch`.
+// new requests to the case's file; a Nominatim response is recorded with only
+// the fields the venue checks read (#85). Fakes `fetch`.
 import { describe, expect, it } from "vitest";
 
 import type { Fetch } from "../fetch.js";
@@ -12,6 +13,7 @@ import {
   addNewToolCalls,
   createReplayFetch,
   hashToolRequest,
+  reduceToolRecording,
   type ToolRecording,
 } from "./tool-recording.js";
 
@@ -50,6 +52,175 @@ describe("tool recordings", () => {
       response: { status: 200, json: [{ name: "Sala" }] },
     });
     expect(wikidata?.response).toEqual({ status: 504, text: "busy" });
+  });
+
+  it("keeps only the fields the scorer reads from a venue search (#85)", async () => {
+    const raw = {
+      place_id: 1,
+      licence: "Data © OpenStreetMap contributors",
+      osm_type: "way",
+      osm_id: 42,
+      lat: "43.01",
+      lon: "-7.55",
+      category: "amenity",
+      type: "theatre",
+      place_rank: 30,
+      importance: 0.2,
+      addresstype: "amenity",
+      name: "Sala",
+      display_name: "Sala, Lugo, España",
+      boundingbox: ["43.0", "43.1", "-7.6", "-7.5"],
+      extratags: {
+        wikidata: "Q1",
+        capacity: "400",
+        email: "info@sala.example",
+        phone: "+34 600 000 000",
+        opening_hours: "Mo-Su 20:00-03:00",
+      },
+    };
+    const recorder = createRecordingFetch(() =>
+      Promise.resolve(new Response(JSON.stringify([raw]), { status: 200 })),
+    );
+    const response = await recorder.fetch(SEARCH, { method: "GET" });
+
+    expect(recorder.calls()[0]?.response).toEqual({
+      status: 200,
+      json: [
+        {
+          osm_type: "way",
+          osm_id: 42,
+          lat: "43.01",
+          lon: "-7.55",
+          category: "amenity",
+          type: "theatre",
+          name: "Sala",
+          display_name: "Sala, Lugo, España",
+          extratags: { wikidata: "Q1", capacity: "400" },
+        },
+      ],
+    });
+    // The live run reads the response as the provider sent it.
+    expect(await response.json()).toEqual([raw]);
+  });
+
+  it("records a venue without those fields without them (#85)", async () => {
+    const bare = {
+      osm_type: "node",
+      osm_id: 8,
+      lat: "1",
+      lon: "2",
+      category: "shop",
+      type: "kiosk",
+      extratags: null,
+    };
+    const recorder = createRecordingFetch(() =>
+      Promise.resolve(
+        new Response(
+          JSON.stringify([
+            {
+              osm_type: "node",
+              osm_id: 7,
+              lat: "43.01",
+              lon: "-7.55",
+              category: "amenity",
+              type: "bar",
+              importance: 0.1,
+              extratags: { website: "https://bar.example" },
+            },
+            bare,
+          ]),
+          { status: 200 },
+        ),
+      ),
+    );
+    await recorder.fetch(SEARCH, { method: "GET" });
+
+    expect(recorder.calls()[0]?.response).toEqual({
+      status: 200,
+      json: [
+        {
+          osm_type: "node",
+          osm_id: 7,
+          lat: "43.01",
+          lon: "-7.55",
+          category: "amenity",
+          type: "bar",
+          extratags: {},
+        },
+        bare,
+      ],
+    });
+  });
+
+  it("keeps a reverse lookup's address, which the locality is read from (#85)", async () => {
+    const reverse =
+      "https://nominatim.openstreetmap.org/reverse?lat=43&lon=-7&format=jsonv2";
+    const recorder = createRecordingFetch(() =>
+      Promise.resolve(
+        new Response(
+          JSON.stringify({
+            place_id: 3,
+            licence: "x",
+            osm_type: "way",
+            osm_id: 9,
+            lat: "43",
+            lon: "-7",
+            category: "building",
+            type: "residential",
+            importance: 0,
+            address: { city: "Lugo", country: "España" },
+            boundingbox: ["1", "2", "3", "4"],
+          }),
+          { status: 200 },
+        ),
+      ),
+    );
+    await recorder.fetch(reverse, { method: "GET" });
+
+    expect(recorder.calls()[0]?.response).toEqual({
+      status: 200,
+      json: {
+        osm_type: "way",
+        osm_id: 9,
+        lat: "43",
+        lon: "-7",
+        category: "building",
+        type: "residential",
+        address: { city: "Lugo", country: "España" },
+      },
+    });
+  });
+
+  it("reduces a committed recording the way recording does, keeping its keys (#85)", () => {
+    const call = {
+      requestHash: hashToolRequest({ method: "GET", url: SEARCH }),
+      method: "GET",
+      url: SEARCH,
+      origin: "recorded" as const,
+      attribution: "OSM",
+      response: {
+        status: 200,
+        json: [{ osm_id: 1, place_rank: 30, extratags: { email: "a@b.c" } }],
+      },
+    };
+    const other = {
+      ...call,
+      url: WIKIDATA,
+      response: { status: 504, text: "busy" },
+    };
+    const reduced = reduceToolRecording({ caseId: "N1", calls: [call, other] });
+
+    expect(reduced).toEqual({
+      caseId: "N1",
+      calls: [
+        {
+          ...call,
+          response: { status: 200, json: [{ osm_id: 1, extratags: {} }] },
+        },
+        other,
+      ],
+    });
+    expect(reduceToolRecording(reduced)).toEqual(reduced);
   });
 
   it("replays by request hash, in any order", async () => {
