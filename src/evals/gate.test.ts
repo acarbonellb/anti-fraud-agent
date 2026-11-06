@@ -23,6 +23,7 @@ function set(runs: CaseResult[][]): ReportSet {
     model: "claude-haiku-5-5",
     promptVersions: ["review-v4"],
     recordedOn: ["2026-11-04"],
+    liveSearches: { attempted: 0, failed: 0 },
     runs,
   };
 }

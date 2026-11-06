@@ -203,11 +203,20 @@ export async function replaySet(
     runs.push(results);
   }
   const recordings = set.runs.flatMap((run) => [...run.values()]);
+  // Read from the recordings, not the replay: a stale case still tells
+  // whether the web answered when it was recorded.
+  const live = recordings
+    .flatMap((recording) => recording.searches)
+    .filter((call) => call.origin === "recorded");
   return {
     provider: set.provider,
     model: set.model,
     promptVersions: distinct(recordings.map((r) => r.promptVersion)),
     recordedOn: distinct(recordings.map((r) => r.clock.slice(0, 10))),
+    liveSearches: {
+      attempted: live.length,
+      failed: live.filter((call) => "failure" in call.response).length,
+    },
     runs,
   };
 }

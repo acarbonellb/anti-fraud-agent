@@ -20,6 +20,11 @@ export interface ReportSet {
   promptVersions: string[];
   /** Distinct `YYYY-MM-DD` dates of the recordings' clocks. */
   recordedOn: string[];
+  /**
+   * The recorded searches against the real web, over every run, and how many
+   * failed (#82). Authored pages never fail, so they stay out.
+   */
+  liveSearches: { attempted: number; failed: number };
   /** One list of case results per run: `runs[0]` is run 1. */
   runs: CaseResult[][];
 }
@@ -94,6 +99,8 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
         ? ` · ${String(runs.length)} runs per case: means, with the min–max across runs`
         : ""),
     "",
+    liveSearchLine(set.liveSearches),
+    "",
     "| Metric | Gated | All cases |",
     "| --- | --- | --- |",
     row(
@@ -138,6 +145,20 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
       cases.filter((results) => results[0]?.external === true),
     ),
   ];
+}
+
+/**
+ * Whether the metrics were measured with the web: a set whose every live
+ * search failed describes an agent that never had web evidence (#82).
+ */
+function liveSearchLine({
+  attempted,
+  failed,
+}: ReportSet["liveSearches"]): string {
+  const counts = `Live web searches: ${String(failed)} failed of ${String(attempted)} attempted`;
+  return attempted > 0 && failed === attempted
+    ? `${counts}: recorded while web search was down, so these metrics describe the agent without web evidence.`
+    : `${counts}.`;
 }
 
 /** The set's entries of `evals/history.jsonl`, in the order they were appended. */

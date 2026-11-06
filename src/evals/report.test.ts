@@ -55,6 +55,7 @@ const set: ReportSet = {
   model: "qwen/qwen3.5-9b",
   promptVersions: ["review-v2"],
   recordedOn: ["2026-11-02"],
+  liveSearches: { attempted: 12, failed: 2 },
   runs: [[scored, stale]],
 };
 
@@ -73,6 +74,31 @@ it("shows the metrics of each provider and model", () => {
   expect(report).toContain("| Brier score | 0.040 | 0.040 |");
   expect(report).toContain("| Mean latency | 4.3 s | 4.3 s |");
   expect(report).toContain("| Mean cost per review | $0.0022 | $0.0022 |");
+});
+
+describe("the live web searches of a set (#82)", () => {
+  it("says how many failed of those attempted", () => {
+    const report = renderReport([set]);
+    expect(report).toContain("Live web searches: 2 failed of 12 attempted.");
+    expect(report).not.toContain("web search was down");
+  });
+
+  it("says when the set was recorded while search was down", () => {
+    const report = renderReport([
+      { ...set, liveSearches: { attempted: 12, failed: 12 } },
+    ]);
+    expect(report).toContain(
+      "Live web searches: 12 failed of 12 attempted: recorded while web search was down, so these metrics describe the agent without web evidence.",
+    );
+  });
+
+  it("doesn't call a set with no live searches down", () => {
+    const report = renderReport([
+      { ...set, liveSearches: { attempted: 0, failed: 0 } },
+    ]);
+    expect(report).toContain("Live web searches: 0 failed of 0 attempted.");
+    expect(report).not.toContain("web search was down");
+  });
 });
 
 it("lists each case with expected versus actual and the policy's reasons", () => {

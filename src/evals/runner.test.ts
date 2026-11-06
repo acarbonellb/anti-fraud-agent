@@ -13,6 +13,7 @@ import {
 } from "../test-support/scripted-provider.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import { createAuthoredSearch } from "../search/authored.js";
+import { WebSearchError } from "../search/types.js";
 import { fakeVenueFetch } from "../test-support/fake-venue-fetch.js";
 import type { Recording } from "./recording.js";
 import { recordCase, replayCase, replaySet } from "./runner.js";
@@ -269,6 +270,57 @@ describe("repeated runs", () => {
       ],
     ]);
   });
+});
+
+it("counts a set's live searches and failures, leaving the authored web out (#82)", async () => {
+  const down = {
+    ...network,
+    search: {
+      provider: "down",
+      search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+    },
+  };
+  const live = await recordCase(
+    eventCase,
+    createScriptedProvider([callTool("submit_recommendation", approval)]),
+    CLOCK,
+    down,
+  );
+  // Its description is searched in the authored pages, never the real web.
+  const authoredCase: EvalCase = {
+    ...eventCase,
+    id: "N2",
+    build: () => ({ ...eventCase.build(CLOCK), web: [] }),
+  };
+  const authored = await recordCase(
+    authoredCase,
+    createScriptedProvider([callTool("submit_recommendation", approval)]),
+    CLOCK,
+    down,
+  );
+  if (live.recording === null || authored.recording === null) {
+    throw new Error("the scripted run failed");
+  }
+
+  const set = await replaySet(
+    [eventCase, authoredCase],
+    {
+      provider: "scripted",
+      model: "scripted-model",
+      runs: [
+        new Map([
+          ["N1", live.recording],
+          ["N2", authored.recording],
+        ]),
+      ],
+    },
+    new Map([
+      ["N1", live.toolRecording ?? { caseId: "N1", calls: [] }],
+      ["N2", authored.toolRecording ?? { caseId: "N2", calls: [] }],
+    ]),
+  );
+
+  expect(set.liveSearches).toEqual({ attempted: 1, failed: 1 });
 });
 
 // Keeps the shape the CLI writes honest: a recording is plain JSON.
