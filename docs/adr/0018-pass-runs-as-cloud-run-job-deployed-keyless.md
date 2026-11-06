@@ -128,7 +128,7 @@ Four facts shaped the rest:
   but couldn't grant itself roles, read the secrets or resume the trigger.
 - **Left open:**
   - the dashboard's service and its service account (#47, on hold);
-  - Satella's credential and the Vercel bypass token, if staging needs one (brief §8, #9);
+  - Satella's credential and a bypass token for staging's deployment protection, if it needs one (brief §8, #9);
   - alerting on failed passes beyond the budget alert.
 
 ## Amendment (2026-11-05, #9): the pass reaches Satella staging with its identity token
@@ -143,7 +143,7 @@ first item left open.
    - **Reuse.** The token is reused until a minute before its `exp`. The agent reads `exp`
      without verifying the signature: Satella is the verifier.
    - **On Satella's side.** Satella lists `pass-job`'s email, with `agent:read` and
-     `agent:recommend`, in its `AGENT_API_CREDENTIALS`, under the same audience. That
+     `agent:recommend`, in its agent API credentials, under the same audience. That
      configuration lives in Satella's environment, not here.
 2. **Satella's origin and audience are secrets, although neither is a credential.** This
    replaces "two secrets" in point 5 with four: `SATELLA_STAGING_BASE_URL` and
@@ -152,7 +152,7 @@ first item left open.
      becomes public with the repository, and the staging host may not appear anywhere public
      (CLAUDE.md §1).
    - **Who sets them.** The author adds their values the way the keys were added.
-3. **No Vercel bypass token.** Staging has no deployment protection (checked 2026-11-05): an
+3. **No bypass token.** Staging has no deployment protection (checked 2026-11-05): an
    unauthenticated call reaches the app's own 401. Brief §8's assumption doesn't apply.
 4. **The pass picks its Satella at startup.**
    - **`--mock`.** It reviews the in-process mock.

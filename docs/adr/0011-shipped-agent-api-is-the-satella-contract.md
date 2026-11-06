@@ -12,7 +12,7 @@ rules made it the only source of the contract: «Satella is reached only through
 as described in the brief. Do not read, copy or infer anything from Satella's code».
 
 The first `satella-client` (#11) followed §13 to the letter. Satella then shipped the API
-(its ADR 0018, epic SAT-345), and the shipped API differs from §13 in names and shapes:
+(with its own ADR and epic), and the shipped API differs from §13 in names and shapes:
 
 - `POST /reviews` takes `subject: { type, id, version }` and flat `agentRunId`,
   `promptVersion`, `provider` and `model`, not `subjectVersion` and an `agent` object;
@@ -36,7 +36,7 @@ would have rejected every real response as a contract violation.
    shipped API wins. The brief is not edited.
 2. **The contract is learned in two ways, both read-only.** One is reading Satella's `main`,
    limited to its agent API surface: the routes under `/api/agent/v1`, the services and
-   validations behind them, and Satella's ADR 0018. The other is asking Satella's maintainers.
+   validations behind them, and Satella's ADR for that API. The other is asking Satella's maintainers.
    Nothing else in Satella's code is read, and nothing about its internals is inferred into
    this repo.
 3. **No Satella code is copied here.** Only the contract: field names, types, limits, status
@@ -82,9 +82,9 @@ would have rejected every real response as a contract violation.
 
 ## Amendment (2026-11-02): both gaps closed, and the feed tolerates new types
 
-Satella closed the two gaps listed in point 5. SAT-353 puts session date and time changes in the
+Satella closed the two gaps listed in point 5. One change puts session date and time changes in the
 feed as `event.substantial_change` and `event.minor_change`, with a `kind` (`postponement`,
-`start_time` or `minor`). SAT-354 sends `maxCents` as `null` below 5 prices, like the
+`start_time` or `minor`). The other sends `maxCents` as `null` below 5 prices, like the
 percentiles.
 
 The first of those changes would have stopped the agent cold. The client validated feed item

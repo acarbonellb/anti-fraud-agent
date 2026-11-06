@@ -3,7 +3,7 @@
  * source for the client, the mock server and the fixtures (CODING_STANDARDS
  * "One source for the contract").
  *
- * Source of truth: the v1 API as Satella shipped it (its ADR 0018, SAT-345),
+ * Source of truth: the v1 API as Satella shipped it,
  * which refines brief §13 in field names and shapes. Where the two differ,
  * the shipped API wins: it is what the agent talks to.
  *
