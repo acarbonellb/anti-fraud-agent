@@ -9,31 +9,24 @@
  *
  *   pnpm tsx scripts/reduce-tool-responses.ts
  */
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  reduceToolRecording,
-  toolRecordingSchema,
-} from "../src/evals/tool-recording.js";
+import { EVAL_CASES } from "../evals/cases/index.js";
+import { loadToolRecordings, writeToolRecording } from "../src/evals/store.js";
+import { reduceToolRecording } from "../src/evals/tool-recording.js";
 
 const TOOL_RESPONSES = fileURLToPath(
   new URL("../evals/tool-responses", import.meta.url),
 );
 
-let changed = 0;
-for (const file of readdirSync(TOOL_RESPONSES).filter((name) =>
-  name.endsWith(".json"),
-)) {
-  const path = join(TOOL_RESPONSES, file);
-  const before = readFileSync(path, "utf8");
-  const recording = toolRecordingSchema.parse(JSON.parse(before));
-  // Same format as the store writes, so an unchanged file stays byte-identical.
-  const after = `${JSON.stringify(reduceToolRecording(recording), null, 2)}\n`;
-  if (after !== before) {
-    writeFileSync(path, after);
-    changed += 1;
+let reduced = 0;
+for (const [caseId, recording] of loadToolRecordings(TOOL_RESPONSES)) {
+  const evalCase = EVAL_CASES.find((c) => c.id === caseId);
+  // The store names files by case, so a recording without one has no path.
+  if (evalCase === undefined) {
+    throw new Error(`No eval case for tool recording ${caseId}`);
   }
+  writeToolRecording(TOOL_RESPONSES, evalCase, reduceToolRecording(recording));
+  reduced += 1;
 }
-console.log(`${String(changed)} tool response file(s) reduced`);
+console.log(`${String(reduced)} tool response file(s) rewritten`);

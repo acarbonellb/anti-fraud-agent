@@ -54,7 +54,7 @@ describe("tool recordings", () => {
     expect(wikidata?.response).toEqual({ status: 504, text: "busy" });
   });
 
-  it("keeps only the fields the scorer reads from a venue search (#85)", async () => {
+  it("keeps only the fields the scorer reads from a venue search", async () => {
     const raw = {
       place_id: 1,
       licence: "Data © OpenStreetMap contributors",
@@ -103,7 +103,7 @@ describe("tool recordings", () => {
     expect(await response.json()).toEqual([raw]);
   });
 
-  it("records a venue without those fields without them (#85)", async () => {
+  it("records a venue without those fields without them", async () => {
     const bare = {
       osm_type: "node",
       osm_id: 8,
@@ -152,7 +152,7 @@ describe("tool recordings", () => {
     });
   });
 
-  it("keeps a reverse lookup's address, which the locality is read from (#85)", async () => {
+  it("keeps only the locality of a reverse lookup's address", async () => {
     const reverse =
       "https://nominatim.openstreetmap.org/reverse?lat=43&lon=-7&format=jsonv2";
     const recorder = createRecordingFetch(() =>
@@ -168,7 +168,13 @@ describe("tool recordings", () => {
             category: "building",
             type: "residential",
             importance: 0,
-            address: { city: "Lugo", country: "España" },
+            address: {
+              house_number: "12",
+              road: "Rúa da Raíña",
+              city: "Lugo",
+              postcode: "27001",
+              country: "España",
+            },
             boundingbox: ["1", "2", "3", "4"],
           }),
           { status: 200 },
@@ -186,12 +192,12 @@ describe("tool recordings", () => {
         lon: "-7",
         category: "building",
         type: "residential",
-        address: { city: "Lugo", country: "España" },
+        address: { city: "Lugo" },
       },
     });
   });
 
-  it("reduces a committed recording the way recording does, keeping its keys (#85)", () => {
+  it("reduces a committed recording the way recording does, keeping its keys", () => {
     const call = {
       requestHash: hashToolRequest({ method: "GET", url: SEARCH }),
       method: "GET",
