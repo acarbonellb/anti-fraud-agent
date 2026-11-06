@@ -23,7 +23,10 @@ import type {
   OrganizerReviewContext,
   Subject,
 } from "../satella-client/schemas.js";
-import { maxTicketsOnSale } from "../checks/tickets-on-sale.js";
+import {
+  maxTicketsOnSale,
+  moneyOnSaleCents,
+} from "../checks/tickets-on-sale.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
 import { type RunLimits, type RunResult, runReview } from "./loop.js";
 import type { AutonomySubject } from "./policy.js";
@@ -153,6 +156,7 @@ async function prepareEvent(
     autonomySubject: {
       type: "event",
       maxTicketsOnSale: maxTicketsOnSale(context),
+      moneyOnSaleCents: moneyOnSaleCents(context),
     },
   };
 }
