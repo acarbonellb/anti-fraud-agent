@@ -9,6 +9,7 @@ import type { z } from "zod";
 
 import type { SystemFinding } from "../checks/types.js";
 import { DomainError } from "../errors.js";
+import type { SearchCounts } from "../search/counting.js";
 import type {
   ChatMessage,
   LlmProvider,
@@ -73,7 +74,13 @@ export interface RunResult {
   modelConfidence: number;
   usage: TokenUsage;
   toolCalls: number;
+  /** The model's searches: what counts against `maxWebSearches`. */
   webSearches: number;
+  /**
+   * Every search the review ran, the code's included (copied text, capacity
+   * fallback): the credits it spent, and how many failed (#82).
+   */
+  searches: SearchCounts;
   trace: TraceEntry[];
 }
 
@@ -95,6 +102,11 @@ export interface RunReviewInput {
    */
   systemFindings?: readonly SystemFinding[];
   fence?: UntrustedFence;
+  /**
+   * The review's search counts, read when the run ends: a failed search holds
+   * back an approval (#82). Without it, the run searched nothing.
+   */
+  searchCounts?: () => SearchCounts;
   /** Defaults to the active prompt; the evals swap it to compare versions. */
   prompt?: Prompt;
 }
@@ -157,6 +169,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const askedBefore = new Set<string>();
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
+    const searches = input.searchCounts?.() ?? { total: 0, failed: 0 };
     const base = holdBackApproval(
       proposal ?? limitFallback(endedBy),
       systemFindings,
@@ -190,6 +203,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
             retrievedUrls,
             autoApproveThreshold: input.autoApproveThreshold,
             searchBudgetSpent,
+            searchUnavailable: searches.failed > 0,
           })
         : escalated([`run ended by ${endedBy}`], base.confidence);
     const recommendation: Recommendation = {
@@ -208,6 +222,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       usage,
       toolCalls,
       webSearches,
+      searches,
       trace,
     };
   };
@@ -299,11 +314,15 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       }
 
       try {
-        const { output, sources } = await bound.value.run();
+        const { output, sources, failure } = await bound.value.run();
         // Only a call that ran has an answer above to point a repeat to.
         if (askedKey !== undefined) askedBefore.add(askedKey);
         for (const url of sources) retrievedUrls.add(url);
-        trace.push({ tool: call.name, ok: true });
+        trace.push(
+          failure === undefined
+            ? { tool: call.name, ok: true }
+            : { tool: call.name, ok: false, error: failure },
+        );
         messages.push(toolResult(call, fence.wrap(call.name, output)));
       } catch (error) {
         const code = error instanceof DomainError ? error.code : "TOOL_FAILED";

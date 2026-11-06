@@ -163,6 +163,11 @@ export interface AutonomyInput {
    * evidence than it got (ADR 0015 amendment, #31).
    */
   searchBudgetSpent: boolean;
+  /**
+   * A web search of the run failed (the code's or the model's): nobody could
+   * check the subject against the web. Absent means every search ran (#82).
+   */
+  searchUnavailable?: boolean;
 }
 
 const isNegative = (finding: Finding) =>
@@ -189,9 +194,15 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
     input.searchBudgetSpent && input.decision === "approve"
       ? ["web search budget spent"]
       : [];
+  // Fail closed, as for a venue nobody could verify: a search outage looks
+  // like "nothing found", and an approval can't rest on that (#82).
+  const unavailable =
+    input.searchUnavailable === true && input.decision === "approve"
+      ? ["web search unavailable"]
+      : [];
   const otherwiseResolves =
     evidence.autonomy === "auto_resolved" &&
-    belowThreshold.length + budget.length === 0;
+    belowThreshold.length + budget.length + unavailable.length === 0;
   // The floor holds back a resolution; on a review that escalates anyway, it
   // would only add noise to the reasons (#77).
   const floor =
@@ -210,6 +221,7 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
   return escalated(
     [
       ...budget,
+      ...unavailable,
       ...(evidence.autonomy === "escalated" ? evidence.reasons : []),
       ...belowThreshold,
       ...floor,

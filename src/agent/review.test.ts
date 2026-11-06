@@ -6,7 +6,7 @@
 // copied-text check searches the description. Fakes Satella with the mock
 // server, the model with the scripted provider, the venue checks with canned
 // findings and the web with the authored search.
-import { afterEach, beforeEach, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   callTool,
@@ -25,7 +25,7 @@ import {
   startMockSatella,
 } from "../satella-client/mock-server.js";
 import { createAuthoredSearch } from "../search/authored.js";
-import type { WebSearch } from "../search/types.js";
+import { type WebSearch, WebSearchError } from "../search/types.js";
 import { PROMPT_VERSION } from "./prompt.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
@@ -68,7 +68,7 @@ const COVERS = ["venue_exists", "venue_capacity", "capacity_far_above_venue"];
 const osm = { url: "https://www.openstreetmap.org/node/1", title: "OSM" };
 const venueFinding = (
   check: string,
-  verdict: "pass" | "fail",
+  verdict: "pass" | "fail" | "unknown",
   detail: string,
 ): SystemFinding => ({
   certainty: "heuristic",
@@ -269,6 +269,94 @@ it("holds back an approval when another site has the description word for word",
   );
   expect(result.review.decision).toBe("request_info");
   expect(result.review.autonomy).toBe("escalated");
+});
+
+describe("with web search down (#82)", () => {
+  const down: WebSearch = {
+    provider: "down",
+    search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+  };
+  // A capacity fallback that searches, as the real one does when neither
+  // Wikidata nor OSM publishes the capacity.
+  const venueSearchingTheWeb: VenueChecks = async (_context, search) => {
+    const found = await search
+      ?.search({ query: "Lumbre Madrid aforo", maxResults: 5 })
+      .then(
+        () => true,
+        () => false,
+      );
+    return [
+      venueFinding("venue_exists", "pass", "Recinto verificado."),
+      venueFinding(
+        "venue_capacity",
+        found === true ? "pass" : "unknown",
+        "Aforo sin publicar.",
+      ),
+    ];
+  };
+
+  async function reviewWithSearchDown() {
+    const provider = createScriptedProvider([
+      callTool("web_search", { query: "Noche jazz Lumbre organizador" }),
+      callTool("submit_recommendation", approval),
+    ]);
+    const result = await review(
+      provider,
+      venueSearchingTheWeb,
+      satellaClient(),
+      down,
+    );
+    return { provider, result };
+  }
+
+  it("tells the admin the description's originality went unchecked", async () => {
+    const { result } = await reviewWithSearchDown();
+    expect(result.review.findings).toContainEqual(
+      expect.objectContaining({
+        check: "text_originality",
+        verdict: "unknown",
+      }),
+    );
+  });
+
+  it("never lets the approval resolve on its own, and says why", async () => {
+    const { result } = await reviewWithSearchDown();
+    expect(result.review.decision).toBe("approve");
+    expect(result.review.autonomy).toBe("escalated");
+    expect(result.run.autonomy.reasons).toContain("web search unavailable");
+  });
+
+  it("tells the model search is down, and traces its search as failed", async () => {
+    const { provider, result } = await reviewWithSearchDown();
+    expect(lastToolResult(provider, "web_search")).toContain("quota_exceeded");
+    expect(result.run.trace).toContainEqual({
+      tool: "web_search",
+      ok: false,
+      error: "WEB_SEARCH_FAILED",
+    });
+  });
+
+  it("counts every search the review ran, the code's included", async () => {
+    const { result } = await reviewWithSearchDown();
+    // Copied text, capacity fallback and the model's one.
+    expect(result.run.searches).toEqual({ total: 3, failed: 3 });
+    expect(result.run.webSearches).toBe(1);
+  });
+});
+
+it("counts the searches that worked as run, none failed", async () => {
+  const provider = createScriptedProvider([
+    callTool("web_search", { query: "Noche jazz Lumbre organizador" }),
+    callTool("submit_recommendation", approval),
+  ]);
+  const result = await review(
+    provider,
+    verifiedVenue,
+    satellaClient(),
+    createAuthoredSearch([]),
+  );
+  expect(result.run.searches).toEqual({ total: 2, failed: 0 });
+  expect(result.review.autonomy).toBe("auto_resolved");
 });
 
 it("never runs the venue checks on an organizer, and escalates it", async () => {

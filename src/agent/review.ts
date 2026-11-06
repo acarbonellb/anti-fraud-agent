@@ -15,6 +15,7 @@ import { exactCloneCheck } from "../checks/exact-clone.js";
 import { runOrganizerChecks } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
+import { countSearches } from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
@@ -31,6 +32,7 @@ import type { Prompt } from "./prompt.js";
 import { satellaTools } from "./satella-tools.js";
 import type { AnyAgentTool } from "./tools.js";
 import type { UntrustedFence } from "./untrusted.js";
+import { webSearchTool } from "./web-search-tool.js";
 
 export interface ReviewSubjectInput {
   subject: Subject;
@@ -41,7 +43,11 @@ export interface ReviewSubjectInput {
   autoApproveThreshold: number;
   /** For events, before the model (ADR 0015 point 2). */
   venueChecks: VenueChecks;
-  /** For the code's own search of a copied description; skipped without it. */
+  /**
+   * The review's web search: the copied-text check, the capacity fallback and
+   * the model's `web_search` tool, all counted as one (#82). Without it, the
+   * review runs without web search.
+   */
   webSearch?: WebSearch;
   /** Tools beyond Satella's own (deterministic checks, web research). */
   extraTools?: readonly AnyAgentTool[];
@@ -66,14 +72,24 @@ export async function reviewSubject(
   input: ReviewSubjectInput,
 ): Promise<ReviewSubjectResult> {
   const { subject, satella } = input;
-  const tools = [...satellaTools(satella), ...(input.extraTools ?? [])];
   const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
 
   for (let attempt = 1; ; attempt += 1) {
     const now = input.now?.() ?? new Date();
+    // Counted per attempt: each one is a review of its own version, and its
+    // policy weighs the searches it ran.
+    const counted =
+      input.webSearch === undefined
+        ? undefined
+        : countSearches(input.webSearch);
+    const tools = [
+      ...satellaTools(satella),
+      ...(counted === undefined ? [] : [webSearchTool(counted.search)]),
+      ...(input.extraTools ?? []),
+    ];
     const { context, systemFindings, autonomySubject } =
       subject.type === "event"
-        ? await prepareEvent(input, subject.id, now)
+        ? await prepareEvent(input, subject.id, now, counted?.search)
         : await prepareOrganizer(input, subject.id);
 
     const run = await runReview({
@@ -85,6 +101,7 @@ export async function reviewSubject(
       subject: autonomySubject,
       context,
       systemFindings,
+      ...(counted === undefined ? {} : { searchCounts: counted.counts }),
       ...(input.fence === undefined ? {} : { fence: input.fence }),
       ...(input.prompt === undefined ? {} : { prompt: input.prompt }),
     });
@@ -127,9 +144,9 @@ async function prepareEvent(
   input: ReviewSubjectInput,
   id: string,
   now: Date,
+  webSearch: WebSearch | undefined,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
-  const { webSearch } = input;
   const [benchmark, similar, copiedText, venue] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
     orIfSatellaFails(
@@ -139,7 +156,7 @@ async function prepareEvent(
     // Without them there is no clone finding; the model still has the tool.
     orIfSatellaFails(input.satella.findSimilarEvents(id), []),
     webSearch === undefined ? [] : copiedTextCheck(context, webSearch),
-    input.venueChecks(context),
+    input.venueChecks(context, webSearch),
   ]);
   return {
     context,

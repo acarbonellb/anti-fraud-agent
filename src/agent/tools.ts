@@ -20,6 +20,12 @@ export interface AgentTool<Input = unknown, Output = unknown> {
    */
   sources?(output: Output): string[];
   /**
+   * A stable code when the call ran but couldn't do its job (a search the
+   * provider refused): the model still reads the output, and the trace marks
+   * the call as failed (#82).
+   */
+  failure?(output: Output): string | undefined;
+  /**
    * Calls with the same key in one run ask the same thing: the loop answers
    * a repeat without running it or spending the budget (#31).
    */
@@ -47,7 +53,12 @@ export type BindResult =
 export interface BoundCall {
   /** See `AgentTool.repeatKey`. */
   readonly repeatKey: string | undefined;
-  run(): Promise<{ output: unknown; sources: string[] }>;
+  run(): Promise<{
+    output: unknown;
+    sources: string[];
+    /** See `AgentTool.failure`. */
+    failure: string | undefined;
+  }>;
 }
 
 export function defineTool<Input, Output>(
@@ -68,7 +79,11 @@ export function defineTool<Input, Output>(
           repeatKey: tool.repeatKey?.(input),
           async run() {
             const output = await tool.execute(input);
-            return { output, sources: tool.sources?.(output) ?? [] };
+            return {
+              output,
+              sources: tool.sources?.(output) ?? [],
+              failure: tool.failure?.(output),
+            };
           },
         },
       };

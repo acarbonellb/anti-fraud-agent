@@ -56,6 +56,12 @@ export function webSearchTool(search: WebSearch) {
       }
     },
     sources: (output) => output.results.map((result) => result.url),
+    // The code of the error the search threw: one code however it failed,
+    // the failure itself is what the model reads.
+    failure: (output) =>
+      "unavailable" in output
+        ? new WebSearchError(output.unavailable).code
+        : undefined,
     repeatKey: ({ query }) => queryKey(query),
   });
 }

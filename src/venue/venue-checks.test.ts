@@ -358,8 +358,9 @@ describe("the web search fallback for capacity", () => {
   it("searches only when neither Wikidata nor OSM publishes it", async () => {
     const { search, queries } = counting("Sala Lumbre: aforo de 300 personas.");
     const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
-    const [, capacity] = await createVenueChecks({ fetch, throttles, search })(
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
       eventAt(LAT, LON),
+      search,
     );
     expect(queries).toHaveLength(1);
     expect(queries[0]).toContain("aforo");
@@ -373,7 +374,7 @@ describe("the web search fallback for capacity", () => {
     const { fetch } = fakeFetch({
       search: () => json(nominatimHit({ capacity: "898" })),
     });
-    await createVenueChecks({ fetch, throttles, search })(eventAt(LAT, LON));
+    await createVenueChecks({ fetch, throttles })(eventAt(LAT, LON), search);
     expect(queries).toEqual([]);
   });
 });

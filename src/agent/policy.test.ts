@@ -321,6 +321,46 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
   });
 });
 
+describe("a web search that failed in the run (#82)", () => {
+  const unavailable = (
+    decision: "approve" | "reject" | "request_info",
+    systemFindings: SystemFinding[],
+  ) =>
+    decideAutonomy({
+      subject: EVENT,
+      retrievedUrls: new Set(),
+      decision,
+      modelConfidence: 0.95,
+      systemFindings,
+      modelFindings: [],
+      autoApproveThreshold: THRESHOLD,
+      searchBudgetSpent: false,
+      searchUnavailable: true,
+    });
+
+  it("escalates an approval that would otherwise resolve on its own", () => {
+    expect(unavailable("approve", cleanSystem)).toMatchObject({
+      autonomy: "escalated",
+      reasons: ["web search unavailable"],
+    });
+  });
+
+  it("leaves a rejection on a hard signal alone", () => {
+    expect(unavailable("reject", [rule("off_platform_payment")]).autonomy).toBe(
+      "auto_resolved",
+    );
+  });
+
+  it("leaves a mechanical request alone", () => {
+    expect(
+      unavailable("request_info", [
+        rule("postal_code_province"),
+        heuristic("service_fee", "pass"),
+      ]).autonomy,
+    ).toBe("auto_resolved");
+  });
+});
+
 describe("organizer reviews (ADR 0015, amendment of #79)", () => {
   it("resolve a request backed only by rule findings on their own", () => {
     expect(
