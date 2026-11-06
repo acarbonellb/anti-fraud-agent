@@ -2,19 +2,19 @@
   "caseId": "14",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "62aac66fa95b09521acfca580898f6ffbcafcf766cb798018cd74d45d332bb12",
-      "latencyMs": 2870,
+      "requestHash": "86adfae8fdc7797b5c409ec95ec2c976f89d4ea33319fd3467971c1f83cb70c7",
+      "latencyMs": 2812,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "ihRjfyw3YodmNAF9mGpAtlIh0uwqpz10",
+              "id": "eIrmN6p4Lk1xbz0po8J7vQbLpwue0DtW",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f5d65ea921\"}"
             }
@@ -22,26 +22,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3529,
+          "inputTokens": 3680,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "2101c89d847cfb6d83d47dade1277adb92936d4e600b8aaaa56e89b797144a1a",
-      "latencyMs": 2672,
+      "requestHash": "5e3ce2b5a3bacb485822c13bb0c7534d060161b61a5547d1169d622be0922e21",
+      "latencyMs": 1494,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "PpsVGVZakSEwgvxriae1ttTyoXIa551P",
+              "id": "QyQJ3TcRkJNyB2vtSfJ1VAY7DV0zw1hR",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda indie Burgos concierto 2026\",\"maxResults\":3}"
-            },
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4056,
+          "outputTokens": 50
+        }
+      }
+    },
+    {
+      "requestHash": "67381514d41c504874793a7c7de0616921df7c0579f92549a712aae82df7b7dd",
+      "latencyMs": 1253,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
             {
-              "id": "eCMAf9TVPHrdg37TQAmo2ogEF5bEwtDY",
+              "id": "48Z9VgmeN6i3SPrqHTbgo2JQ7ZoTeCUJ",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Teatro Principal Burgos aforo capacidad\",\"maxResults\":3}"
             }
@@ -49,57 +66,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3905,
-          "outputTokens": 94
+          "inputTokens": 4197,
+          "outputTokens": 44
         }
       }
     },
     {
-      "requestHash": "32071990933ae6bc071b8c265be7bee6ef45977e2ac8dd678f71e80c647de4d4",
-      "latencyMs": 2396,
+      "requestHash": "868e3f0f1c956ea4f93301a16d2c04bf2f3d4d88cb48b438429ba4f56681e98e",
+      "latencyMs": 40233,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "kjQWrrkBdqqxFyoQbJGKg8ZKu6uOn2v4",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda\",\"maxResults\":2}"
-            },
-            {
-              "id": "OTUdOR5dKs6e9O8cxGGWr3pkR8yhIUtl",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Principal Burgos aforo\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4169,
-          "outputTokens": 85
-        }
-      }
-    },
-    {
-      "requestHash": "a02a2f1752cde21826ca06a653a502320b1fe46c24c5909debaf47e4c833895a",
-      "latencyMs": 13859,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "BsR0YauQljrBCCMGTCwniYNcx7FvogwN",
+              "id": "3uaXstCMlV5IjXdldgo5y5sSYWG6XSiE",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento presenta un fallo claro en la lógica de precios: el ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es una señal de fraude o error grave. Además, el aforo del Teatro Principal no está disponible públicamente y la venta de 400 entradas podría superar la capacidad real del recinto, aunque esto último requiere confirmación. El organizador Meseta Beat tiene historial limpio (14 eventos publicados, sin cancelaciones ni denuncias), pero el fallo en precios es suficiente para rechazar. Las búsquedas web fallaron por cuota excedida, pero no aportan evidencia de clonación o ilegalidad.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"El ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es una señal de fraude o error grave.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Teatro Principal», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 400.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Meseta Beat con CIF válido, cuenta activa desde 2024-05-20, sin denuncias ni cambios sustanciales.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento presenta un fallo claro en la lógica de precios: el ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inusual y podría indicar una configuración errónea o una práctica poco transparente. Además, el aforo del Teatro Principal no está disponible públicamente ni en Wikidata ni en OpenStreetMap, y la búsqueda web falló por cuota excedida; sin embargo, la venta de 400 entradas (350 General + 50 VIP) podría estar cerca o superar la capacidad real del recinto. Aunque el check de venue_capacity es \\\"unknown\\\", la combinación de precios invertidos y aforo incierto sugiere que se necesita aclarar cómo se determinó la capacidad y por qué los precios están así. El organizador (Meseta Beat) parece legítimo: cuenta con datos fiscales válidos, está aprobado desde 2024, tiene historial sin cancelaciones ni reportes de contenido, y no hay señales de fraude en su perfil. No hay indicios de pago fuera de plataforma, enlaces externos abusivos, términos injustos o contenido ilegal. La decisión es request_info para pedir explicación sobre la estructura de precios VIP/General y confirmar el aforo real del Teatro Principal antes de aprobar.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"El ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inusual y podría indicar una configuración errónea o falta de transparencia.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_e15aa9110b.jpg\",\"title\":\"Evento: Noche indie con Las Ardillas Rojas\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Principal no está disponible públicamente ni en Wikidata ni en OpenStreetMap, y la búsqueda web falló por cuota excedida; sin embargo, se venden 400 entradas (350 General + 50 VIP).\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador Meseta Beat está aprobado desde 2024-05-20, tiene datos fiscales válidos (CIF con checksum correcto), cuenta con equipo y no ha sido despublicado por admin ni reportado por contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene 14 eventos publicados, 12 finalizados, 0 cancelados y 0 reportes de contenido; no hay cambios sustanciales ni despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 09003 corresponde a Burgos.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género indie, Burgos, aforo 300to1000).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Principal» figura en OpenStreetMap como amenity=theatre a 4 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué el ticket VIP cuesta menos que el ticket General? ¿Es una estrategia promocional o un error de configuración?\",\"¿Cuál es el aforo real del Teatro Principal en Burgos y cómo se determinó la capacidad para vender 400 entradas (350 General + 50 VIP)?\",\"¿Existe alguna justificación para la estructura de precios actual, especialmente considerando que el VIP incluye 'acceso a la prueba de sonido'?\"],\"draft\":\"Se necesita aclarar la estructura de precios y el aforo real del recinto antes de aprobar.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4424,
-          "outputTokens": 525
+          "inputTokens": 4332,
+          "outputTokens": 1537
         }
       }
     }
@@ -140,26 +130,6 @@
       "provider": "Tavily",
       "query": "Teatro Principal Burgos aforo capacidad",
       "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "76c8ff8385e9511f4d9bf3d3a45771805330d657f3866b928b106218218968ee",
-      "provider": "Tavily",
-      "query": "Las Ardillas Rojas banda",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "48ce351203072e92293eeb01f811237a45bfa824842b892b7d62001fa93342d8",
-      "provider": "Tavily",
-      "query": "Teatro Principal Burgos aforo",
-      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"

@@ -2,24 +2,107 @@
   "caseId": "24",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "4301816d5f4ca329e802c494affdb58d86b08a057f790304cfdb6e6dd1dccd97",
-      "latencyMs": 4265,
+      "requestHash": "5c9598759553201eb7f7b33426a5cb95376cfb592f983399c4ba6d6ac5b96821",
+      "latencyMs": 2937,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "B7xWBmPMJUjTKjWaNzxHVJZxVYElSZbk",
+              "id": "e4sYEwOP8CEOQI1RtqXdwSnXlHp6qx7F",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c8cafdb37b\"}"
-            },
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3664,
+          "outputTokens": 38
+        }
+      }
+    },
+    {
+      "requestHash": "5cf741792e0b7c6292b668e1a9ab918e25e41b44dd9e36c4d423c2cea1dd0abb",
+      "latencyMs": 1738,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
             {
-              "id": "bYE9RPajcyWk94kQDUu2jxAsmrQtsIHU",
+              "id": "JXPKrsx0MdWtoUpL75BxrT6rz2XrraIH",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Botellón +14 de fin de curso Teatro Darymelia Jaén 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4049,
+          "outputTokens": 59
+        }
+      }
+    },
+    {
+      "requestHash": "7b681f641867bcb10f2e9b14793b5878004053b05b69777793b0cdf8a17fd3ff",
+      "latencyMs": 1281,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "dQ13EbIdgwDdcU49hdhkgkVG8oXsrwt6",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"DJ Olivo concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4201,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "6d3b9c581c7a8e5efeff964306d988cd26abd141f204e0a345203afc29bb29d7",
+      "latencyMs": 1343,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "bOEfDqlvx3jxppla7Tag8ffsE3VCVgC7",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Teatro Darymelia Jaén aforo capacidad\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4340,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "892b5729bb85706c840dde07a0831612caba2cd73874b770491edb1142ce01d6",
+      "latencyMs": 1469,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "3uSIWSDqxrYCIUo6ViadV8HqYOu1Zim8",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_1551f43933\",\"windowDays\":60}"
             }
@@ -27,57 +110,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3513,
-          "outputTokens": 91
+          "inputTokens": 4481,
+          "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "1533360dfa5655b8228ec3383797cb8071eb5c0824a5b9e288fdfeef48b23e28",
-      "latencyMs": 3069,
+      "requestHash": "4a2b7306e6269234d6e3246329cbcf828e8abb56740bd276d6af0647c4765bb5",
+      "latencyMs": 26094,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el organizador. Aquí está mi análisis:\n\n**Hallazgos determinísticos ya confirmados:**\n- El código postal 23004 corresponde a Jaén (pass)\n- No hay pago fuera de la plataforma (pass)\n- No hay enlaces externos a ticketeras ni acortadores (pass)\n- Las condiciones no niegan la devolución (pass)\n- **Fallo crítico:** El evento ofrece alcohol a menores de edad: el título dice \"Botellón +14\" y la descripción menciona \"cervezas … +14\". Esto es un fallo en la regla de alcohol y menores.\n- No hay prompt injection (pass)\n- Las entradas VIP no cuestan menos que las generales (pass)\n- Los gastos de gestión no superan el 20% (pass)\n- Ningún descuento activo problemático (pass)\n- Las sesiones no se solapan ni tienen problemas de timing (pass)\n- El precio está dentro del benchmark (pass)\n- El recinto \"Darymelia\" existe en OpenStreetMap (pass)\n- **Aforo desconocido:** Ni Wikidata ni OpenStreetMap publican el aforo, y la búsqueda web falló por cuota excedida. La sesión con más entradas pone a la venta 800.\n\n**Contexto del organizador:**\n- \"Juerga Joven Producciones\" está aprobado desde mayo de 2024 (930 días)\n- Tiene datos fiscales válidos (CIF con checksum correcto)\n- Ha publicado 14 eventos, cancelado 0, finalizado 12\n- Sin reportes de contenido ni despublicaciones por admin\n- Equipo: 1 dueño, 1 manager, 2 scanners\n\n**Búsquedas web:**\n- No encontré resultados para el evento específico (cuota excedida)\n- No encontré información sobre \"DJ Olivo\" en conciertos 2026 (cuota excedida)\n- No encontré aforo del Teatro Darymelia (cuota excedida)\n\n**Análisis:**\n1. **Fallo determinístico claro:** El evento viola la regla de alcohol y menores al ofrecer \"cervezas\" en un evento \"+14\". Esto es un fallo directo que debe ser rechazado.\n\n2. **Aforo desconocido:** Aunque no hay evidencia directa de fraude, el aforo del recinto no está disponible públicamente. Sin embargo, esto no es un fallo determinístico por sí mismo (verdict: unknown), y la venta de 800 entradas podría ser legítima si el aforo real lo permite.\n\n3. **Organizador sólido:** El organizador tiene historial limpio, datos fiscales válidos y cuenta con equipo adecuado.\n\n4. **No hay señales de clonación:** No hay eventos similares en la provincia en las fechas cercanas.\n\n**Decisión:**\nEl fallo determinístico en \"minors_alcohol\" es un motivo directo de rechazo según las instrucciones: \"Reject only on direct evidence of fraud or illegal content: a deterministic check from the task that failed\". La venta de alcohol a menores de 14 años es ilegal y constituye fraude.",
           "toolCalls": [
             {
-              "id": "DoeisWO7E0ahnEu3WDJEUsviMkCzVRLO",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Botellón +14 de fin de curso\\\" \\\"Teatro Darymelia\\\" Jaén\",\"maxResults\":2}"
-            },
-            {
-              "id": "NEGgGMJj62L1sh9iqNDNpIISLgxLOhCB",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"DJ Olivo\\\" tour dates 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4024,
-          "outputTokens": 108
-        }
-      }
-    },
-    {
-      "requestHash": "b138b268f39d270bf096eaaa4b61dffd537894ce009bef58196c0fd1664cc5d6",
-      "latencyMs": 15778,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "Ntn52dkKOmdrIhxCzyFb5xH1gXA1u39y",
+              "id": "jgl5VGBHaKvxDNhhW5Q0CSkgI43Cme6d",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento es rechazado por violación grave de la regla de protección a menores: el título «Botellón +14» y la descripción que ofrece «cervezas … +14» promueven el consumo de alcohol en un entorno de fiesta para menores de 18 años. El check determinístico ya marcó fail en minors_alcohol por este motivo. Además, el aforo del Teatro Darymelia es desconocido (unknown) y se venden entradas para 800 personas; sin datos oficiales del recinto, no podemos confirmar que la capacidad no sea superada, lo que añade un riesgo operativo. El organizador tiene historial limpio y fiscalidad válida, pero el contenido del evento es inadecuado por sí solo para aprobarlo.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"El título «Botellón +14» y la descripción que ofrece cervezas a +14 violan la regla de protección a menores al promover consumo de alcohol en entorno de fiesta para menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Darymelia no figura en Wikidata ni OpenStreetMap; la búsqueda web falló por cuota excedida. Se venden entradas para 800 personas sin confirmación de capacidad real.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/539737386\",\"title\":\"OpenStreetMap: Darymelia (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Juerga Joven Producciones S.L. con CIF válido y cuenta activa desde 2024-05-20.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Jaén con título y fechas cercanas.\",\"confidence\":0.85,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento debe ser rechazado por un fallo determinístico en la regla de alcohol y menores: el título \\\"Botellón +14\\\" y la descripción que menciona \\\"cervezas … +14\\\" ofrecen alcohol a menores de edad, lo cual es ilegal. Este es un motivo directo de rechazo según las políticas de la plataforma. El organizador tiene historial limpio y datos fiscales válidos, pero el contenido del evento viola normas legales fundamentales.\",\"findings\":[{\"check\":\"minors_alcohol\",\"verdict\":\"fail\",\"detail\":\"Regla de alcohol y menores: el texto ofrece alcohol a menores de edad: «Botellón … +14» en el título; «cervezas … +14» en la descripción.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Darymelia», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 800.\",\"confidence\":0.5,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4306,
-          "outputTokens": 592
+          "inputTokens": 4619,
+          "outputTokens": 1005
         }
       }
     }
@@ -104,20 +160,30 @@
       }
     },
     {
-      "requestHash": "f3316fc62d11baddb9eab631e8c62ff1d675ef479c83c7a03e3c0af3b8c942fe",
+      "requestHash": "c9986812fd61b0ef9d58297eccb773016d24eddec0b7b009e68e7bc5fac8f3eb",
       "provider": "Tavily",
-      "query": "\"Botellón +14 de fin de curso\" \"Teatro Darymelia\" Jaén",
-      "maxResults": 2,
+      "query": "Botellón +14 de fin de curso Teatro Darymelia Jaén 2026",
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "d7e2b0e4530ae309870a59f16d3074e30185bff27f6c373bb5a1073f0bb024c4",
+      "requestHash": "62da9d0a60dc2fca23a01c25a614d81e1ea81bb8ec0033b1dc24ed58af453e25",
       "provider": "Tavily",
-      "query": "\"DJ Olivo\" tour dates 2026",
-      "maxResults": 2,
+      "query": "DJ Olivo concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "fb3c3e050d564d73bacccedc56d89ed2425b0d72072edd89d482ac773e7485b5",
+      "provider": "Tavily",
+      "query": "Teatro Darymelia Jaén aforo capacidad",
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"

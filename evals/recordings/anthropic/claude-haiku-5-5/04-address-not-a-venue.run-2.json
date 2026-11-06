@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "e3c94164137ba941b493f4f902c0fe0ba9c77d9fb7ff61328305a3cdee47972c",
-      "latencyMs": 1233,
+      "requestHash": "2befb9e9496e023759a581b5c37768662ca919349f78671a58712558b48b0b11",
+      "latencyMs": 1224,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01NR5VrVLxfkbis1qayqp5f3",
+              "id": "toolu_01U2ctdge1pkPughJU91waAQ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
             },
             {
-              "id": "toolu_01N41h1BFNzzKKgGXKj3fSE8",
+              "id": "toolu_019CZP3fKTyttaLwaLo8TSxJ",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\",\"windowDays\":30}"
+              "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\"}"
+            },
+            {
+              "id": "toolu_01SC9ZeJNodD88pgJvvfUX65",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia Avenida del Puerto Chico\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSmAYKEAgTGAI4AUIIdGhpbmtpbmcSDIk8QRxzb9a44Kz4MhoMVBna3x9SPMOOemSPIjApQIF+9zbnLQsio73L04dmK7/Cwqv6XHaG4+TaxifTTBnIRpu79Iad6A+Q1S4kJ0oqtQV34pr06v3ONYhMWzYVyxd6GHF19/T3zEjztclY293cFJKlK2aUAHh9s3PbOlg8p5i7+LMs8ZLDRshlW0p/k/iE4EHslQ3HSKNUJY9+aVW9Unih3gZSESZywLmmMS/rxwotOX7rYoMyKcud5+TqOpTs73k1RwilE+ktD7/NBBuAmLiDAyvEZp9gah/7ub3R3JSyOLu6FBG2uUCcukN0zXquPyg1NWElqfQJru/OwYRmsMDpilmy9KdoymJ+iqHu6x+TloU9UnfeVdbaFidOQwizMQhbgTBBljIHdtuG/Ogol5BldDtkwrxdw6umcA1L0jp6NkNv0Tl9/rVP6V6gcJrPqTbWCHre8+p0xCdoKatC/BhkYN0lcTieStqd5qrQJ9rkMEk6vF8bUBJu1F4h+INMUPm5uRL256rNzWgNOFCRkbc0AryzAKcDdW+8zcc7rlWGMlBPXEoDDotF88skkAgFcHSg+BYODjNqARIQXsurn/dLHM02Es/HJHO+U58EBYA/XZnRI+WDw0eXvufIum9DDSMHH2XSSQPWfaGWcsO50a0Iq/IgTU49zcDn1+rsn6YumjmiAc2+c+1rRdhyZ+wmzUGlOx/B/27S/umZN2vM0y2sREaPZuIt58XZ7d00OKN0joW1n6rFk3VfH+P+PxaXnMgnDtQAfHcTleiTqfpW8BekmE6sWUtqMb9rJE2cLHIaZjTOR9InVcbnNKnWi8FQApg3sn5zD7YTi8JI7mjNLSYGTClWghVBB9kTX72PPkYWkqqbIxM9DGSkhfCXAhdyKafYNaauUbT4/x9E/EB+eR7Dyz4DtJ6UlgS8+e9T/WyilUMUT6JeMkXsurX0D49G9pmkRI6ypCwGboZTl37mi6DdqcIE1cs/iAbxSIOR4jYC4fhL3FAxQStA0DocB/+t/ZX/hEcYAQ=="
+              "signature": "CAQSogUKEAgTGAI4AUIIdGhpbmtpbmcSDCk8muT3KgL1yi5y2RoMmgAfZcSGObNikEkUIjCHYaYttSrpcW7+m/DyOEP3Lr/SDN8aH89mNlpX6YJL/59sOi0TDZ7MihqW+yyW0rIqvwRVC+PqKWM7lKdlZTIcmpKk/GuYG82AsluOz+CqvlqUffqKDqbQNay50pWoIbuxEbzIRWAMJpnLihcLTF5LtHXF068gSikDUErVV9/J4G93d8m3/rkH8UbbJH0vJwEdV+1TYYLxIHKWXuApxpFQV54oOC7BtSc38lRG/0PgALqY3EG6rNf+BQN7O1KNPfyL5lMQSAynbFfGVyuy16keXizPBfLfYkZ3e+Z1RrVB6uLdFxgyIvn9mkc4S8meVHpa+cfJmQhoXaNjxyP2PJiN1rmG+Vozwp1SbVYh7tviavmR+1OF4hLVj4NmCc6YSZdo4KxjYjTZ8vUUXm/vWc5Y/mW6W4ILkJN6StfJiiYnfQOdFf77vk/3wMujjD+eSmrx2cBp0ifqmkS9324iHCQNv6LEbKhS6ZQbRCDaw6MD9i+N5x5wfwfRwNER1OT7+qq5dFBMWs7PdAOMiKLrNwF2pa/Xy6qq7eM8pf4FFnNhz19pwwCWTvgxb2BdtayXYWFB3rWo1Zd4tS0fLyQC/sI+qd5T/rEF99+WK8ZOIQkmxYbZqpMplA4ex3irKHG1w3IW1B30gDKCFiFV8cuZX1mF1W8pWfuqUqEYbbL8cpSgtaMRrSPqIduArIQtvooSa7r2fm5zyFh85mWro2YQjnGGlHtncYGQIxmApHfEoqe8Wav2qgGQ/8ozghicWo/m/Af4/pEd2Q3v8RiwoxRPV3q8237Roi0FIRQW7L0vFmJbhO+mEogzFbLbj/+6d1zZKIagvhgB"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01NR5VrVLxfkbis1qayqp5f3",
+              "id": "toolu_01U2ctdge1pkPughJU91waAQ",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_774c4a6e05"
@@ -44,53 +49,21 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01N41h1BFNzzKKgGXKj3fSE8",
+              "id": "toolu_019CZP3fKTyttaLwaLo8TSxJ",
               "name": "find_similar_events",
               "input": {
-                "eventId": "evt_80bf453bd4",
-                "windowDays": 30
+                "eventId": "evt_80bf453bd4"
               },
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4980,
-          "outputTokens": 200,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4976
-        }
-      }
-    },
-    {
-      "requestHash": "a58698fff273fb45b4f417775a8ad3ec02ccf8c724399d3665d492d8db81cd94",
-      "latencyMs": 2828,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01QghMa9CMSRkFq91dor3TBy",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Nadia Corell DJ house Sunset Sessions Valencia 2026\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01QghMa9CMSRkFq91dor3TBy",
+              "id": "toolu_01SC9ZeJNodD88pgJvvfUX65",
               "name": "web_search",
               "input": {
-                "query": "Nadia Corell DJ house Sunset Sessions Valencia 2026",
+                "query": "Espacio Marea Valencia Avenida del Puerto Chico",
                 "maxResults": 3
               },
               "caller": {
@@ -101,47 +74,47 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5764,
-          "outputTokens": 476,
-          "cacheReadInputTokens": 4976,
-          "cacheWriteInputTokens": 786
+          "inputTokens": 5201,
+          "outputTokens": 234,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5197
         }
       }
     },
     {
-      "requestHash": "df9268200260f361a9e697e98cad7711378fef8d63693af437bf50c6f905c081",
-      "latencyMs": 7815,
+      "requestHash": "bf0863d357a3610b03b5270b66d8e19c0efb0949693d920dac02d00b680081eb",
+      "latencyMs": 10255,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01LTY89xk7JVRFap8rzKbAMh",
+              "id": "toolu_01MEa6RdWweVnBXd8fU4qj6E",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Ona Clara Events S.L.) tiene buen historial: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes. Los textos, precios, comisiones, descuentos y condiciones pasan todas las comprobaciones. Sin embargo, el recinto no se verifica: las coordenadas del evento (39,41; -0,20) caen fuera de todo término municipal según OpenStreetMap, y el recinto «Espacio Marea» no aparece en esas coordenadas. Por eso el aforo tampoco se puede verificar, y se venden 600 entradas en un recinto sin capacidad conocida. No hay eventos similares de otros organizadores. La búsqueda web de la artista (Nadia Corell) no devolvió resultados por cuota agotada, así que la disponibilidad de la artista queda sin confirmar. Dado que el fallo puede deberse a un error de OSM o a una dirección mal introducida, no hay base para rechazar; hace falta aclarar el recinto antes de aprobar.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Según OpenStreetMap, las coordenadas del evento caen en el mar y no coinciden con el recinto «Espacio Marea». Puede ser un error de geolocalización de OSM o de la dirección introducida; hay que confirmarlo con el organizador.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"No hay aforo verificado para el recinto. Se venden 600 entradas en la única sesión, y sin aforo conocido no se puede comparar.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Ona Clara Events S.L., CIF con checksum válido, dirección y código postal de Valencia, email verificado, cuenta de 930 días y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar la presencia del organizador fuera de la plataforma: la búsqueda web no devolvió resultados por cuota agotada.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Valencia en los 30 días de la ventana.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar que la artista Nadia Corell tenga esta fecha (27-11-2026) anunciada solo aquí; la búsqueda web falló por cuota agotada.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 25 € por debajo del p90 (35 €) de eventos comparables.\",\"confidence\":0.6,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la dirección exacta del recinto Espacio Marea y en qué local se celebra el evento? Indíquenlo con el enlace de Google Maps o similar.\",\"¿Puede aportar un documento que acredite el uso del recinto para el 27/11/2026 (contrato de alquiler, carta del titular o similar)?\",\"¿Cuál es el aforo oficial del recinto y cómo se justifican las 600 entradas de la sesión?\",\"¿Puede confirmar la contratación de la artista Nadia Corell para esta fecha, con un enlace o contacto verificable?\",\"¿Tiene una web o redes sociales del organizador con eventos anteriores?\"],\"draft\":\"Hola, hemos recibido el evento «Sunset Sessions junto al mar» para su publicación. Antes de poder aprobarlo necesitamos aclarar algunos puntos: la ubicación del recinto Espacio Marea (Avenida del Puerto Chico 221) no coincide con las coordenadas registradas, por lo que necesitamos la dirección exacta y un documento que acredite el uso del local para el 27/11/2026. También necesitamos el aforo oficial del recinto, la confirmación de la contratación de la artista para esa fecha y, si es posible, enlaces a su web o redes sociales. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"La organizadora parece sólida (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin, sin reportes). El evento no tiene clones ni precios fuera de rango. El problema es el recinto: según OpenStreetMap, las coordenadas del evento (39,41; -0,20) caen en el mar y no aparece «Espacio Marea» allí. La propia heurística advierte de que OSM puede contener errores, así que podría ser un fallo de geolocalización y no fraude. No hay evidencia directa de fraude, por lo que recomiendo pedir información al organizador para confirmar la ubicación del recinto antes de decidir. La búsqueda web de verificación del recinto no devolvió resultados (cuota agotada), así que no hay fuente externa que confirme ni contradiga su existencia.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Según la comprobación automática, las coordenadas del evento caen fuera de todo término municipal (en el mar) y OpenStreetMap no tiene «Espacio Marea» en esas coordenadas. La dirección (Avenida del Puerto Chico 221, 46024 Valencia) no se ha podido confirmar externamente: la búsqueda web no devolvió resultados por cuota agotada. Puede tratarse de un error de geolocalización, pero hay que confirmar el recinto.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"No hay aforo verificado para el recinto. La entrada general pone a la venta 600 plazas, cifra que no se puede contrastar con el aforo real.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con checksum válido, dirección fiscal en Valencia (46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Dónde se celebra exactamente el evento? Confirme la dirección completa de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia) y aporte el nombre comercial del local.\",\"¿Tiene el local licencia o permiso de actividad para aforo público? Aporte una copia o referencia.\",\"Aporte el aforo oficial del recinto para la sesión del 27/11/2026 y explique cómo se corresponde con las 600 entradas de la modalidad General.\",\"Si el recinto está en un espacio al aire libre o en una terraza junto al puerto, indique la zona exacta y cómo se accede.\"],\"draft\":\"Hola, hemos revisado el evento «Sunset Sessions junto al mar» (27/11/2026) y necesitamos confirmar algunos datos antes de publicarlo. La ubicación indicada para Espacio Marea (Avenida del Puerto Chico 221, Valencia) no coincide con la localización que tenemos registrada para ese recinto. Por favor, indíquenos la dirección exacta y el nombre comercial del local, su licencia o permiso de actividad, su aforo oficial y cómo se corresponde con las 600 entradas a la venta. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSwgcKEAgTGAI4AUIIdGhpbmtpbmcSDDDexhPOLSHcBfJBYBoMP5pe2qgCSuxnspvGIjDMxboww5Q2DxcTGd1kAzSYVAp0AUb8ysNVm+BnT/WoVfnvLBRq009K8zhhyAyZFMYq3wYEsLYfgocGEy8E+TKKfqvlr/rXC3NgEiu8wBL9AFTlydz495/zwOpszGg3PM36puw4XN9vR+vNybF+Hvqf0LIGVFuGjxtN9Db5ofhDN1RNkK4dhld5ZiBe3yP+sfoqZP+Z/Aul+m2ub9mYBM7hNNw+NdoKEF4RI/M5E9UFT2o+OF9gR/vdU2hB64IVHuY/q9uG6o49fmxqRdJEO+/ZArJuy5tDraNLigIV9gxCE+Nt4RMDawYlDBYZn7X+RbX4jkGa3SuvVdmHlU2wuzrWs4sKzJZijZrtDtMvpH8CzD+PJfObsnRSsMTn5E+kWViuvZHqas6tjFieluDfCSfa5tW/fVdqmjb17Z4R7lHcyvUOcxJW9eptKwGTfxRh6DFUijZ1Y5YwDJKxG46kpQNma0sU08jSfRU1bINGfDU77es8zG14IWollbEaXHUE36CAddVWBx4B4YS1/qXvM0hCRM3XE+lkOqKjA8HrTtacyE2QZ7+4BL5UgWeVmp9TuIci7lZ6614A36rAzswISVrMtJoFD3SxLmoHBLXGOtpO9R0AHhDs7VcRLeZDRIRVA3ek+IM8DtE0Y5tHMthqzn+vZDQJXiALiUwLZOHnRAgkaFfHmJRPOyw6ZD2cvCeQwompo9p0lE1PSk3+Qh1rXRUmrk1u9klpc0iOC0w/yfADjwY4XQkCwc8MW1eiyqEG/CtVPhHnn5sMg/VHcS9Kqq+j1eH5tJkyqiiVIWkcLZRDfHHbCCY91VGdythPWsPurW868Ex78EfLrfNEoT837Ea9k4RR1Wj4+oLShDqLp1r7E5I+vP0YmQf/Q1eMUBdKwKcaIftan8w3Sjb67yCCqSerko72E8BhD0Y15LgGwlu023I4lLHDWWfYkibFe1uBcek5G2PLtwiHv4SOlq51KIRcb98fprpPQGhtA2LZ2uskJrv0OMDO+UzTaEzopUowlCDMgiwxKyn8qziKAg+abGGkrQkbmGbDgRN6ZkWf3rQl02q+XEfoFsy0vfpQrdUCs5/NhRa9GLH5IrrzxTfOM4uQjxT9GLWBXHWdPVlOQc/4fOcTEhAThq04HZbQ8LZ/WwczwRQTmhSpxgWPG7I2gSBsb2qFNowZkBcCyBFQ3TSU0auIn3EjkNcq8GYkJoZ239FzHBgB"
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01LTY89xk7JVRFap8rzKbAMh",
+              "id": "toolu_01MEa6RdWweVnBXd8fU4qj6E",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
                 "confidence": 0.6,
-                "rationale": "El organizador (Ona Clara Events S.L.) tiene buen historial: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes. Los textos, precios, comisiones, descuentos y condiciones pasan todas las comprobaciones. Sin embargo, el recinto no se verifica: las coordenadas del evento (39,41; -0,20) caen fuera de todo término municipal según OpenStreetMap, y el recinto «Espacio Marea» no aparece en esas coordenadas. Por eso el aforo tampoco se puede verificar, y se venden 600 entradas en un recinto sin capacidad conocida. No hay eventos similares de otros organizadores. La búsqueda web de la artista (Nadia Corell) no devolvió resultados por cuota agotada, así que la disponibilidad de la artista queda sin confirmar. Dado que el fallo puede deberse a un error de OSM o a una dirección mal introducida, no hay base para rechazar; hace falta aclarar el recinto antes de aprobar.",
+                "rationale": "La organizadora parece sólida (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin, sin reportes). El evento no tiene clones ni precios fuera de rango. El problema es el recinto: según OpenStreetMap, las coordenadas del evento (39,41; -0,20) caen en el mar y no aparece «Espacio Marea» allí. La propia heurística advierte de que OSM puede contener errores, así que podría ser un fallo de geolocalización y no fraude. No hay evidencia directa de fraude, por lo que recomiendo pedir información al organizador para confirmar la ubicación del recinto antes de decidir. La búsqueda web de verificación del recinto no devolvió resultados (cuota agotada), así que no hay fuente externa que confirme ni contradiga su existencia.",
                 "findings": [
                   {
                     "check": "venue_exists",
                     "verdict": "fail",
-                    "detail": "Según OpenStreetMap, las coordenadas del evento caen en el mar y no coinciden con el recinto «Espacio Marea». Puede ser un error de geolocalización de OSM o de la dirección introducida; hay que confirmarlo con el organizador.",
-                    "confidence": 0.7,
+                    "detail": "Según la comprobación automática, las coordenadas del evento caen fuera de todo término municipal (en el mar) y OpenStreetMap no tiene «Espacio Marea» en esas coordenadas. La dirección (Avenida del Puerto Chico 221, 46024 Valencia) no se ha podido confirmar externamente: la búsqueda web no devolvió resultados por cuota agotada. Puede tratarse de un error de geolocalización, pero hay que confirmar el recinto.",
+                    "confidence": 0.6,
                     "sources": [
                       {
                         "url": "https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2",
@@ -152,62 +125,40 @@
                   {
                     "check": "venue_capacity",
                     "verdict": "unknown",
-                    "detail": "No hay aforo verificado para el recinto. Se venden 600 entradas en la única sesión, y sin aforo conocido no se puede comparar.",
+                    "detail": "No hay aforo verificado para el recinto. La entrada general pone a la venta 600 plazas, cifra que no se puede contrastar con el aforo real.",
                     "confidence": 0.5,
                     "sources": []
                   },
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Razón social Ona Clara Events S.L., CIF con checksum válido, dirección y código postal de Valencia, email verificado, cuenta de 930 días y sin otras organizaciones del propietario.",
-                    "confidence": 0.8,
+                    "detail": "CIF con checksum válido, dirección fiscal en Valencia (46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.85,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido y sin revisiones previas.",
-                    "confidence": 0.8,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_web_presence",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar la presencia del organizador fuera de la plataforma: la búsqueda web no devolvió resultados por cuota agotada.",
-                    "confidence": 0.2,
+                    "detail": "14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.85,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No se encontraron eventos similares de otros organizadores en Valencia en los 30 días de la ventana.",
-                    "confidence": 0.6,
-                    "sources": []
-                  },
-                  {
-                    "check": "artist_availability",
-                    "verdict": "unknown",
-                    "detail": "No se pudo verificar que la artista Nadia Corell tenga esta fecha (27-11-2026) anunciada solo aquí; la búsqueda web falló por cuota agotada.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "Precio de 25 € por debajo del p90 (35 €) de eventos comparables.",
-                    "confidence": 0.6,
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.",
+                    "confidence": 0.7,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Cuál es la dirección exacta del recinto Espacio Marea y en qué local se celebra el evento? Indíquenlo con el enlace de Google Maps o similar.",
-                    "¿Puede aportar un documento que acredite el uso del recinto para el 27/11/2026 (contrato de alquiler, carta del titular o similar)?",
-                    "¿Cuál es el aforo oficial del recinto y cómo se justifican las 600 entradas de la sesión?",
-                    "¿Puede confirmar la contratación de la artista Nadia Corell para esta fecha, con un enlace o contacto verificable?",
-                    "¿Tiene una web o redes sociales del organizador con eventos anteriores?"
+                    "¿Dónde se celebra exactamente el evento? Confirme la dirección completa de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia) y aporte el nombre comercial del local.",
+                    "¿Tiene el local licencia o permiso de actividad para aforo público? Aporte una copia o referencia.",
+                    "Aporte el aforo oficial del recinto para la sesión del 27/11/2026 y explique cómo se corresponde con las 600 entradas de la modalidad General.",
+                    "Si el recinto está en un espacio al aire libre o en una terraza junto al puerto, indique la zona exacta y cómo se accede."
                   ],
-                  "draft": "Hola, hemos recibido el evento «Sunset Sessions junto al mar» para su publicación. Antes de poder aprobarlo necesitamos aclarar algunos puntos: la ubicación del recinto Espacio Marea (Avenida del Puerto Chico 221) no coincide con las coordenadas registradas, por lo que necesitamos la dirección exacta y un documento que acredite el uso del local para el 27/11/2026. También necesitamos el aforo oficial del recinto, la confirmación de la contratación de la artista para esa fecha y, si es posible, enlaces a su web o redes sociales. Gracias."
+                  "draft": "Hola, hemos revisado el evento «Sunset Sessions junto al mar» (27/11/2026) y necesitamos confirmar algunos datos antes de publicarlo. La ubicación indicada para Espacio Marea (Avenida del Puerto Chico 221, Valencia) no coincide con la localización que tenemos registrada para ese recinto. Por favor, indíquenos la dirección exacta y el nombre comercial del local, su licencia o permiso de actividad, su aforo oficial y cómo se corresponde con las 600 entradas a la venta. Gracias."
                 }
               },
               "caller": {
@@ -218,10 +169,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6337,
-          "outputTokens": 1897,
-          "cacheReadInputTokens": 5762,
-          "cacheWriteInputTokens": 573
+          "inputTokens": 6135,
+          "outputTokens": 2285,
+          "cacheReadInputTokens": 5197,
+          "cacheWriteInputTokens": 936
         }
       }
     }
@@ -238,9 +189,9 @@
       }
     },
     {
-      "requestHash": "4f40c6dbdb8ae6e8e37a2c07125f9ced09679ecaba3bc2a71f508eaedbe01fcf",
+      "requestHash": "6613b54e7e4bf86a15a8105141520426acba0c9fab9f71cd7db3bfa2974ccaeb",
       "provider": "Tavily",
-      "query": "Nadia Corell DJ house Sunset Sessions Valencia 2026",
+      "query": "Espacio Marea Valencia Avenida del Puerto Chico",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

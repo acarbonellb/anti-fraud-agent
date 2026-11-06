@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "f6f30b542ca488dea372da492a0e9f8a33c61f11278bafcf3c2ab86d8c353631",
-      "latencyMs": 1530,
+      "requestHash": "f590323fcbf98287bc110efb219b8821eed5c8360a7363045ccded73458d0c59",
+      "latencyMs": 1439,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_014a31hEnWTC3LLYv5ZKsnKN",
+              "id": "toolu_01Ng8nYt1g2VYA5cDaRCJNFk",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_d23a73c5fb\"}"
             },
             {
-              "id": "toolu_01VKXeggiNwNszoqH9QCwo3h",
+              "id": "toolu_01JGDTHW27NBaJHe6oEwofhQ",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_12f51c9410\",\"windowDays\":60}"
+              "argumentsJson": "{\"eventId\":\"evt_12f51c9410\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01WcVceL3vtkuLNYdHnUod6P",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Viento de Cierzo gira aniversario 20 años concierto\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS8gYKEAgTGAI4AUIIdGhpbmtpbmcSDCq3zhpxRNvH92pp4xoMvY/84sx+TzyilXdfIjDhjEOgrr1y/eCtfHKJT0ht1K717pnJmYWfk5UAlsd3zBCIvmTdHu6XG4sL5GT4mJkqjwbgwbU2VHxUeNSBeWHfQNvoT0xw/bs/KXOoTjFgLiFOnzOkaUxAgzTKRbbB/DKZq9Q5KI0MVDXlmivLblN0lY0TsUbOWYy6L3WTA8V3v1OVgjEcnVE6yxCiSuErGfpH3ZmWF2GdQBCiOGQYdGHzOaTJk9De4F4SRj3PK6WphCOTtOlveebtQ0h8DUnoNu4kedQhF+2TtkD3NSvr2Noy2gW4Nd1s2HBJrP0XMskqDUEm6CCi5Y3L1qGEyKWAMlK/Na2i9r3bn+dJc1HRtFRIQTYUxZDcZKRiNOIh9SBhrQN83vdVu6MOaEJ2Q/Ane7+YmE2aXZ1H/OmqM8Z4pZYwnNhsc29kUqgWD91DtkstQ8j2SO7EHt7lUlr3soHkEqWYJvtOgIsBWhxywZjvht2/Uu8YDIvp7iLXymllctyADO9JkluPORoV9RwxJsuP2Jl8w9G/55zsK6R4AORXZ/4pJWd6MfoZLhshP4/sgtmGp7nSGysMQlbfovwFRLRq0aDNJ0o9m4dE4AyGCfpg9GnFZn8Kl73eU13DX8HOtN/kDKpOqlHunUXUS5dzOxYyfDqSPdo0SURfZl8AsbQhd4trZmU4SBha2JUZtODboWi8+A0T8WmULV5WtwVFKq+X9exHUdJMmueZ/oihqIvjq9A6z04ZZW5TXG0v0nL6XdIkfxRQ6QlRt2/MdOjrGobAeIFAIq2iRUwONBrTsamaAcsL8GcLRs/DSqoqZg8QYfp4oS4x6mD+rg6sxFL0E/YRRhxu0LxPqKsb1tofaew6f71Lk9YhjlKmQC2OlAHemCeA6nm+JPedMjF/X36lloV9jUf13ElqLUWBf+JOlJkoXKt9GsnUHnv1w2vOaHLsFnRUGwmmZ4LarfZ2kyoEjhLolC3/jQ3k+l0+P02nxPDGXFd1pu2wRMev+M02GlDyXsoxwlFT8Y9DnKHcc78XcZ0h1jL50Rg8AFJou7g6Q/gtGpTDnq7aZa3symZGqXI33BcH4wDFx6/EoFIsJ96gKidmvk/FEELO1C3tsJCfmfyPuUY8mLMYAQ=="
+              "signature": "CAQSwQUKEAgTGAI4AUIIdGhpbmtpbmcSDOKf2nWE4b8QRyZXNBoMXjDFTfAthxDoOZ2wIjAN4iraLwJX7NSRzYbBQrwrKSEBHOMynAsyYIUqX2PuIvqssi0R9Q6JPj6iCUjZCREq3gQF7pIEuTytSxvwFTTyxfejkSwSrOAdBlXRYCIPxV9K/r5qx7LGkwj/imX/iRkX5WLWF7LcgPYKgHNV5oKBCkX/ivlLx703gzdZHGPDsVGyL6JDsbtIQ3w1qOvbYmmH+WogU2L00+dDCydfvkCYG20HOcl2ffdJ4PSUW3fUxrm/ypzRT3BDi7NZp8bVdsUMULbOvbW6nVAXGxOQcYhkyb8BwMwPX5Yi7ijiTmQF1id+tJ05IC2S9W1Ya6iWq7f7IdieWYa3eJ03L20sOk8USWnNydsgJ0WVFl+OyECfFXxcF7b/Fj9Srj6kveSQSCcC5N0hwex2rjrYOXL8wuTgNVSLqsS0aKP155K9EMWhS43gG2qlktG/LmqANCQe3GZ4W4CAJkZHJc9jswXBmR0X40UCGbe3jpdHASb+gbN9DR30jtA58RxwmzESQcBytUGux2LUwXOl/VUCsgdhYBDjQb5E8OOhRzri1aCP/oa50W0NtuzyRcMjZGHZFXhJXilYZ4U46tQGxYQnkudQ/sFz9NykIChCnFyXGpkGV3gCvuhsN4ESfdXb+U3Zj70S7zyjNik27yFk+ZbgkfEjcbrcuIAvDPNQicJsmygKCwldTWqobCvA7eTRlRrPceidqjzosk53HuAEBUJECg5osvMhlwZJriKUvbes+wsIRG0Ur1YRoCl3kAvyelcyhU8ShvgpRnFA58ZZSyrxhl5ugTtCagiBmK4uY9CS37TAi6FTLmAjvf5jhV25EAhCiXyOTAvt7CnonllstiNxxyoc4nMyILeWTlkH15N6jH254E1XVsUYAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_014a31hEnWTC3LLYv5ZKsnKN",
+              "id": "toolu_01Ng8nYt1g2VYA5cDaRCJNFk",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_d23a73c5fb"
@@ -44,53 +49,22 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01VKXeggiNwNszoqH9QCwo3h",
+              "id": "toolu_01JGDTHW27NBaJHe6oEwofhQ",
               "name": "find_similar_events",
               "input": {
                 "eventId": "evt_12f51c9410",
-                "windowDays": 60
+                "windowDays": 30
               },
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4971,
-          "outputTokens": 246,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4967
-        }
-      }
-    },
-    {
-      "requestHash": "d7f74c08dc71a461a61573f7a1fb9a4ea0c9d1fc17410ea259a783dba44e042d",
-      "latencyMs": 1133,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01SFvGudP8894VHYqYnmBFK7",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Viento de Cierzo grupo gira aniversario 20 años conciertos\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSgwYKEAgTGAI4AUIIdGhpbmtpbmcSDMqOJvgud2alu3RjFBoMitDb0R2Dod2EkLI0IjBw8dDWpjqWXuOeRc/SfSLbmR75u900GRORTCDh26gSwGSUtlcW2z52WMc83dPlh2EqoAUtf/KOcOPrgrR8b2suRNt8j7qfgErF+tLbzUuNHu4KH58B5XTpTS5KFnOIjWttYFiFakQT1W8i3o5wM+3Pj6vZf7dhMD7nDgJCkAaPk9OBEXiX+mcT76Y9jM73eAvqmYzn/zw1FhSAlTxlgBSPlcRJSrdNltctgFnXXjrzDbuid7WSxICdBiSZO2PFEfXOVvNoAZ0vaSm5pbO59YpPI55VZLMxh5MPxdmMTPjRvmGeIBrtW8o/llU7Ycc6fQM9DW/pVssr4c44PcEKEaP405hPOiKSj51WjHzyukbFDVVieJbtPdz7Xt6cP4XkGcaSL8BCkjhKB91QxWPP/nzOrr1tWs5Gf5j+D0iXE7ZcXIcmKyViquUCHlaZSMP4TP0LsFZ2wduvVrQPZvaUdJ+CPPmPlADRcbRdLUUrz8ln1BJ/KApo9pAidgzR/gPfq9R/VkNMrbppoZI90vlz+f4Bfl9H88EuANlAIi1B9X7bY2PNJu34CjZWP9URsi2angsrufNol8143Z2BJqNPWVlh0dFEDwWnO7XOCcAlmwC+9b5p8ANHq96IvlFX2eiWI0BMod7XM5gse3RbW93YV2kk2enoWcBo9N6X5JFfnD8c7l1Fflg/7Z733F5VRBo9JVUUktjyFksDotxoJ3wlIDxRw/UksvHzfNPa9ajvpTqfLXKl75Q17HA3/LjW0O5K4OFQuanKvNuc74Izoy/gZ3nTG2VZ3UfzCmbod797Uqc89q5unkkgNztd+rey39w9z5hijh7dZqsFfR1PoL/KD5agZPX0q9dnEpST4cCPKDD3ZIfwkOVqILw3xJwPvauy2pI1hwPr5F323kL8KvEDOnb/cwT5qannUlBY0U0badEqkaAq2nEc4S7QRCRl9M+ajRHPuvIYAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01SFvGudP8894VHYqYnmBFK7",
+              "id": "toolu_01WcVceL3vtkuLNYdHnUod6P",
               "name": "web_search",
               "input": {
-                "query": "Viento de Cierzo grupo gira aniversario 20 años conciertos",
+                "query": "Viento de Cierzo gira aniversario 20 años concierto",
                 "maxResults": 3
               },
               "caller": {
@@ -101,107 +75,85 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5800,
-          "outputTokens": 132,
-          "cacheReadInputTokens": 4967,
-          "cacheWriteInputTokens": 831
+          "inputTokens": 5192,
+          "outputTokens": 268,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5188
         }
       }
     },
     {
-      "requestHash": "5aaabdf9ab9754e42613971cfd340319fae9752b2d458a51db8032cfbd181164",
-      "latencyMs": 8097,
+      "requestHash": "3c25970e7b96bb9a7ffb78d35a5decbf69e7672e2bacaa67b7683fab983d33f2",
+      "latencyMs": 8319,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01DqTYGHSfjaqRucockNMTbx",
+              "id": "toolu_01J2m8RKXAGbUTuPjYnXfUgS",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Horizonte Lejano Eventos S.L.) tiene un historial limpio: CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes. El recinto existe según OpenStreetMap y el aforo es compatible con Wikidata. No hay clones en la misma provincia en ±60 días, y las comprobaciones de precios, comisiones, pagos y condiciones han pasado. Sin embargo, la sesión está fijada para el 5/11/2029, unos 3 años después de la publicación, lo que resulta inusual, y no he podido verificar al artista fuera de la plataforma porque la búsqueda web no estuvo disponible (cuota agotada). Por eso no recomiendo aprobar todavía: conviene confirmar la fecha y la contratación del artista antes de publicar la venta. No hay indicios de fraude.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Sociedad S.L. con CIF válido (checksum correcto), dirección presente, cuenta de 930 días y email verificado. El propietario no tiene otras organizaciones.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, 0 cambios sustanciales y sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados (cuota agotada), así que no se pudo verificar la presencia externa de la promotora ni del artista.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó ningún nombre parecido a una promotora conocida en los datos disponibles.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en La Rioja en la ventana de ±60 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La única sesión es el 5/11/2029, a más de 548 días de la publicación (06/11/2026). Una fecha tan lejana exige confirmar que es correcta.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar en la web si Viento de Cierzo tiene esa fecha anunciada en otro sitio. Se necesita confirmación del organizador.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada de otra web, porque la búsqueda no estuvo disponible. La descripción es breve y genérica.\",\"confidence\":0.3,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Es correcta la fecha de la sesión (5 de noviembre de 2029)? Si no lo es, ¿cuál es la fecha real del concierto?\",\"¿Puede confirmar el organizador que Viento de Cierzo está contratado para esa fecha y aportar un enlace o contrato con el artista o su representante?\",\"¿Tiene la promotora presencia web o redes sociales verificables, y cuáles son?\",\"¿Cuál es la fuente de la descripción del evento, o la ha escrito la propia promotora?\"],\"draft\":\"Hola, hemos revisado el evento «Gira del aniversario de Viento de Cierzo» y necesitamos algunos datos antes de poder publicarlo a la venta:\\n\\n1. La única sesión está fijada para el 5 de noviembre de 2029, unos tres años después de la publicación. ¿Es esa la fecha correcta? Si no, indíquenos la fecha real.\\n2. Confirme por favor que Viento de Cierzo está contratado para esa fecha y envíe algún documento o enlace que lo acredite (contrato, comunicado del artista o de su representante).\\n3. Indique la web o las redes sociales de la promotora y del artista para poder verificarlas.\\n\\nQuedamos a la espera de su respuesta. Un saludo.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"La organizadora (Horizonte Lejano Eventos S.L.) parece legítima: CIF con checksum válido, cuenta de 930 días, 14 eventos publicados y terminados sin cancelaciones, sin retiradas por admin ni reportes de contenido. No he encontrado clones en la misma provincia en ±30 días y el precio (35 €) está dentro del benchmark de pop en La Rioja. El recinto y el aforo están verificados en el chequeo automático. Sin embargo, la sesión está fijada para el 5/11/2029, unos tres años después de la publicación, lo que no tiene una explicación clara. Además, no he podido confirmar externamente la gira ni al artista: la búsqueda web no devolvió resultados por cuota agotada. Como no hay evidencia directa de fraude, pido aclaración antes de decidir. Si la fecha se confirma y el artista aparece en fuentes externas, el evento puede aprobarse.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Horizonte Lejano Eventos S.L., CIF con checksum válido, domicilio en Logroño (CP 26001), email verificado, cuenta creada en mayo de 2024 y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"La búsqueda de eventos similares en la provincia, con ventana de 30 días, no encontró ninguno.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la presencia externa de la promotora ni de la gira.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudieron comprobar las fechas de la gira de Viento de Cierzo en fuentes externas porque la búsqueda web falló por cuota agotada.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué la sesión está fijada para el 5 de noviembre de 2029? ¿Es la fecha real del concierto o un error de introducción? Si es real, ¿qué motivo hay para venderla con tanta antelación?\",\"¿Puede aportar un enlace a la web o redes oficiales de Viento de Cierzo o de la gira del vigésimo aniversario que confirme esta fecha y este recinto?\",\"¿Tiene contrato o confirmación del representante de Viento de Cierzo para esta actuación en el Palacio de los Deportes de La Rioja?\"],\"draft\":\"Hola, hemos revisado el evento «Gira del aniversario de Viento de Cierzo» y necesitamos algunos datos antes de poder publicarlo. La sesión aparece programada para el 5 de noviembre de 2029, unos tres años después de la publicación. ¿Es esa la fecha correcta? Si lo es, por favor explíquenos el motivo. También le pedimos un enlace oficial (web o redes sociales) de Viento de Cierzo o de la gira que confirme la fecha y el recinto, y, si es posible, la confirmación de la actuación por parte del artista o su representante. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSlgkKEAgTGAI4AUIIdGhpbmtpbmcSDIaZXbxJd2aQcTHgnBoM2oZtLuqYSyeqkKM0IjDlZqRrG/Zm041A9Ul8iDA2/b09/GcaD/mXJCPxUyV2U+V9/wm+DeKyDlfJ8M39gE8qswiRke0MQA5aU2vlC+aMeEJJdIMZhqwjZ/nNNqxEwZtEa3Fos7fV/qvqNBp+6VK+mtWeLEGTVjYg637UzzkzIANxaxXAq2R2JI2MQru/1lFM1Qpl84kOZbZIe/FfZpMXfh6cly6zl0i9ao8pH5MlyiMcFNmo9MPyiq59B6XbIuJnkskJ6hgC267YEdzHUiXpsNWeKJT8qbGMVIj2GTtry4J0NsMgawU66lrdiqttkia5aUKyxX+3psbWmQkR8u3QYC2hjjq7TZAE0/VNLMiNXfkdXfSI2hI/7EeFPxmHzEKkTxTylHcATLx7z2SbGqm2DZlCSTrEHkL/VcPaosWVFnFKtP274e7JlfFYPEvJQvvIwXVj4yFAOPProcOaY6bW1u0A3C/EweQ/3ITcvmpORBm24TtBvNidkkkS3pTQ6Bre8Yo/loEYNd/MsrG5MkIG8f4GUgUCe0Cc9YPoWsoeYeokhYdGCuC6Itpkqx/EjotAU3iPZVQXjlmFNGPj1rOt17S+rY6bT/tVPQy8s1DVu3rcDzcus4elob130WnsQvOVLSQI/wbRlZbtCgeHW0Av6hae+Z/E0Xh/NEqcBKXVkgD9u2wWD6992ye37qbN6bb9uM1OlgCHwcqaqAzD/8YEvI7x0UwQFlPP1BayHi0M0NLkcPnWV3e3ADttsU1hKp8Ydju6KrkN0tU04NQkOOHud3BUF+EZkjFKRXxS+gcK+cfV+Y3gMUSOzPfpCsieDOWYHtQaZaGFrp0PJ0dDKuDtIFIA2ALVuxnctTLVbZFWjAcFO0JJeBhqi89JuAF5wkMLD9c8nYvpDpvVR0ymPOcBy2yZiGnm6X0TPkF0JRltZ0lfC1nfTL5f4X5mrL5chhVvs0yExPwlvEbilJ9zDz9psB9NSUDLhCb/l5EwPydTJhXOd+3RIGPupdedBHcCR+78M81zvw889UOyZDS/laFuLmbpXO3FhuiB5cC4CFvfH7oak1vuB97DowoHY51V47PFQyFDK+h0zL8Zl21NPeXav7niAK8AUG65bUxI2LWujKiFL7WBP2I9DNcG7ykJaFKHyTRrNZ7NKiCdAI7qXpQ4NKibLkR20/KiP780/50rCEz70jx7scTO9mA6ddeyFxrNZ0W6YRmYCFLr2oedxHx7i8YbcyxijHmAP/SZz7HQ682Oa8fCB77OXkUzgOlQjo8ooZwyZMFjI0Pke9Bhn/tCuvey+8bAFjryHpQF+Jgibv6mHK+nusrWTd1LUV2TzGZQQ9Kz3+xIDXI9Dvc2dbvqe3WGp09xuG7V/cPfMYGXgDi/gqZdY88smIaj3C4Q5uotnlsmyJL66Gjc2bcreyrxWnGrlAXLBWpJRod/LGQfl7/fXPiX0vxFo6BNNRMqZKADeR1KiI1J0cI5j0rOZYXZ9qFhykAvmOErPbfViPKV7fAPEzymGAE="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01DqTYGHSfjaqRucockNMTbx",
+              "id": "toolu_01J2m8RKXAGbUTuPjYnXfUgS",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.6,
-                "rationale": "El organizador (Horizonte Lejano Eventos S.L.) tiene un historial limpio: CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes. El recinto existe según OpenStreetMap y el aforo es compatible con Wikidata. No hay clones en la misma provincia en ±60 días, y las comprobaciones de precios, comisiones, pagos y condiciones han pasado. Sin embargo, la sesión está fijada para el 5/11/2029, unos 3 años después de la publicación, lo que resulta inusual, y no he podido verificar al artista fuera de la plataforma porque la búsqueda web no estuvo disponible (cuota agotada). Por eso no recomiendo aprobar todavía: conviene confirmar la fecha y la contratación del artista antes de publicar la venta. No hay indicios de fraude.",
+                "confidence": 0.5,
+                "rationale": "La organizadora (Horizonte Lejano Eventos S.L.) parece legítima: CIF con checksum válido, cuenta de 930 días, 14 eventos publicados y terminados sin cancelaciones, sin retiradas por admin ni reportes de contenido. No he encontrado clones en la misma provincia en ±30 días y el precio (35 €) está dentro del benchmark de pop en La Rioja. El recinto y el aforo están verificados en el chequeo automático. Sin embargo, la sesión está fijada para el 5/11/2029, unos tres años después de la publicación, lo que no tiene una explicación clara. Además, no he podido confirmar externamente la gira ni al artista: la búsqueda web no devolvió resultados por cuota agotada. Como no hay evidencia directa de fraude, pido aclaración antes de decidir. Si la fecha se confirma y el artista aparece en fuentes externas, el evento puede aprobarse.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Sociedad S.L. con CIF válido (checksum correcto), dirección presente, cuenta de 930 días y email verificado. El propietario no tiene otras organizaciones.",
-                    "confidence": 0.85,
+                    "detail": "Razón social Horizonte Lejano Eventos S.L., CIF con checksum válido, domicilio en Logroño (CP 26001), email verificado, cuenta creada en mayo de 2024 y sin otras organizaciones del titular.",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido, 0 cambios sustanciales y sin revisiones previas.",
-                    "confidence": 0.85,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_web_presence",
-                    "verdict": "unknown",
-                    "detail": "La búsqueda web no devolvió resultados (cuota agotada), así que no se pudo verificar la presencia externa de la promotora ni del artista.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "impersonation",
-                    "verdict": "pass",
-                    "detail": "No se detectó ningún nombre parecido a una promotora conocida en los datos disponibles.",
-                    "confidence": 0.5,
+                    "detail": "14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No hay eventos similares de otros organizadores en La Rioja en la ventana de ±60 días.",
-                    "confidence": 0.7,
+                    "detail": "La búsqueda de eventos similares en la provincia, con ventana de 30 días, no encontró ninguno.",
+                    "confidence": 0.6,
                     "sources": []
                   },
                   {
-                    "check": "session_timing",
-                    "verdict": "warn",
-                    "detail": "La única sesión es el 5/11/2029, a más de 548 días de la publicación (06/11/2026). Una fecha tan lejana exige confirmar que es correcta.",
-                    "confidence": 0.8,
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la presencia externa de la promotora ni de la gira.",
+                    "confidence": 0.2,
                     "sources": []
                   },
                   {
                     "check": "artist_availability",
                     "verdict": "unknown",
-                    "detail": "No se pudo comprobar en la web si Viento de Cierzo tiene esa fecha anunciada en otro sitio. Se necesita confirmación del organizador.",
+                    "detail": "No se pudieron comprobar las fechas de la gira de Viento de Cierzo en fuentes externas porque la búsqueda web falló por cuota agotada.",
                     "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "text_originality",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar si la descripción está copiada de otra web, porque la búsqueda no estuvo disponible. La descripción es breve y genérica.",
-                    "confidence": 0.3,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Es correcta la fecha de la sesión (5 de noviembre de 2029)? Si no lo es, ¿cuál es la fecha real del concierto?",
-                    "¿Puede confirmar el organizador que Viento de Cierzo está contratado para esa fecha y aportar un enlace o contrato con el artista o su representante?",
-                    "¿Tiene la promotora presencia web o redes sociales verificables, y cuáles son?",
-                    "¿Cuál es la fuente de la descripción del evento, o la ha escrito la propia promotora?"
+                    "¿Por qué la sesión está fijada para el 5 de noviembre de 2029? ¿Es la fecha real del concierto o un error de introducción? Si es real, ¿qué motivo hay para venderla con tanta antelación?",
+                    "¿Puede aportar un enlace a la web o redes oficiales de Viento de Cierzo o de la gira del vigésimo aniversario que confirme esta fecha y este recinto?",
+                    "¿Tiene contrato o confirmación del representante de Viento de Cierzo para esta actuación en el Palacio de los Deportes de La Rioja?"
                   ],
-                  "draft": "Hola, hemos revisado el evento «Gira del aniversario de Viento de Cierzo» y necesitamos algunos datos antes de poder publicarlo a la venta:\n\n1. La única sesión está fijada para el 5 de noviembre de 2029, unos tres años después de la publicación. ¿Es esa la fecha correcta? Si no, indíquenos la fecha real.\n2. Confirme por favor que Viento de Cierzo está contratado para esa fecha y envíe algún documento o enlace que lo acredite (contrato, comunicado del artista o de su representante).\n3. Indique la web o las redes sociales de la promotora y del artista para poder verificarlas.\n\nQuedamos a la espera de su respuesta. Un saludo."
+                  "draft": "Hola, hemos revisado el evento «Gira del aniversario de Viento de Cierzo» y necesitamos algunos datos antes de poder publicarlo. La sesión aparece programada para el 5 de noviembre de 2029, unos tres años después de la publicación. ¿Es esa la fecha correcta? Si lo es, por favor explíquenos el motivo. También le pedimos un enlace oficial (web o redes sociales) de Viento de Cierzo o de la gira que confirme la fecha y el recinto, y, si es posible, la confirmación de la actuación por parte del artista o su representante. Gracias."
                 }
               },
               "caller": {
@@ -212,10 +164,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6021,
-          "outputTokens": 1787,
-          "cacheReadInputTokens": 5798,
-          "cacheWriteInputTokens": 221
+          "inputTokens": 6151,
+          "outputTokens": 1862,
+          "cacheReadInputTokens": 5188,
+          "cacheWriteInputTokens": 961
         }
       }
     }
@@ -232,9 +184,9 @@
       }
     },
     {
-      "requestHash": "7d5190f2a3b1617fcad60e3eb4fa33546403581fb9bd77585e2af7e550f9c07a",
+      "requestHash": "44509cc08ca51174a4a40c7c3313a564c477cb91abd163032e7d5830a9df67d1",
       "provider": "Tavily",
-      "query": "Viento de Cierzo grupo gira aniversario 20 años conciertos",
+      "query": "Viento de Cierzo gira aniversario 20 años concierto",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

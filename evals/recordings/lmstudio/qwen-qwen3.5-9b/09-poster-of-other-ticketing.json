@@ -2,46 +2,19 @@
   "caseId": "09",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "ce110fcc8192f942637c5be018b0e000255f876b3f07ac2da9b9715882e0e729",
-      "latencyMs": 10979,
+      "requestHash": "060bbcf711af9586d16178e1dee2449e76d7ff54237042802e64475ffdcfa886",
+      "latencyMs": 2997,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to review this event and make a recommendation. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Festival de bandas locales del Alto Aragón\"\n- Genre: rock\n- Date: 2026-11-27\n- Venue: Palacio de los Deportes, Huesca\n- Artists: Peña Ventana (headliner), Las Tremolinas\n- Price: 15€ general ticket\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP below general) ✓\n- Service fee within limits ✓\n- Discounts OK ✓\n- Session dates don't overlap ✓\n- Session timing OK ✓\n- Price benchmark OK (under 3x p90) ✓\n- Venue exists at coordinates ✓\n- **Venue capacity: unknown** - This is the only check marked \"unknown\"\n\n**Key issue to investigate:**\nThe venue capacity is unknown. The event is selling 900 tickets, but we don't know the actual capacity of \"Palacio de los Deportes\". I need to check if this could be a problem (selling more than capacity).\n\nLet me search for information about this venue and also check if there are similar events that might indicate cloning or fraud.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "1h0oFr1kxVbaVyH5ON9K0Aja4jsx259n",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca capacidad aforo\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3517,
-          "outputTokens": 350
-        }
-      }
-    },
-    {
-      "requestHash": "0b837d6701a84f213fb1025ef06dfea4d27649819c72baa2ed4a15abd0a57455",
-      "latencyMs": 3517,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The web search failed due to quota exceeded. Let me try a different approach - check for similar events that might be clones, and also get organizer context to understand the organizer's history.",
-          "toolCalls": [
-            {
-              "id": "8oHjqhu3KvGaNeLv7bNempNvZGS547zO",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
-            },
-            {
-              "id": "xjbmQE5PsmXFIKaQxeBa6VZxaR686Hp1",
+              "id": "sfkZNzs0jcwDUMy3gHmqzkXclLv6eizZ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             }
@@ -49,74 +22,74 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3964,
-          "outputTokens": 130
+          "inputTokens": 3668,
+          "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "3056212a16cae951869fe2623c3519ceb42c257ea302a9f3a1b40cc7b5ead736",
-      "latencyMs": 7226,
+      "requestHash": "9e68912c890f40cfb814113045e762671b7f1874397be22e5134a87f5b4e3abc",
+      "latencyMs": 1440,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Good information gathered:\n\n**Organizer context:**\n- Organizer: \"Cierzo Sonoro\" (slug)\n- Status: approved\n- Created: 2024-05-20 (about 930 days old, so ~2.5 years)\n- Fiscal data: present and checksum valid\n- Owner account age: 930 days (~2.5 years)\n- Team: owner + manager + 2 scanners\n- History: 14 published events, 12 ended, 0 cancelled, 0 unpublished by admin\n- No content reports\n- No previous agent reviews\n\nThis looks like a legitimate, established organizer with good history.\n\n**Similar events:** None found in the same province within 60 days - no cloning signal.\n\n**Remaining concern:** Venue capacity is unknown. The event sells 900 tickets. I need to determine if this is problematic.\n\nLet me search for more information about the venue capacity using a different query approach, or check if there's any other evidence.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "HqMhsq54kuU31cYezpg3IEE7swcyW1m0",
+              "id": "oZ773H8xTkMlqxM9g54GAVxV5nwpCTuq",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca capacidad\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca aforo capacidad\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4521,
-          "outputTokens": 267
+          "inputTokens": 4059,
+          "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "42d4bc632b9368289f525293a7a2294bd38fb44ff0a182f8322326381282f9c7",
-      "latencyMs": 2194,
+      "requestHash": "a0e071c71ebb13fb9d0e6f6f1a4ac70bf58d2d163a15ccffa84414e952271fe5",
+      "latencyMs": 1442,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search keeps failing with quota_exceeded. Let me try one more search with a different phrasing to see if I can find venue capacity information.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "FA4mGgdQFgGJ9WeE8X2chtijX9w5nV04",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Palacio Deportes Huesca aforo capacidad eventos\",\"maxResults\":2}"
+              "id": "hQtYbrMUBUwl8I2vdWt6KH257FIOga9C",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4885,
-          "outputTokens": 79
+          "inputTokens": 4204,
+          "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "07c9d9cfd440ba01fb69026efe44f0f4848b440aae2601215c4784505e1b46ed",
-      "latencyMs": 31862,
+      "requestHash": "ee0f860c6ba6dd632d0f1bb808dfcd6ae801e43e963b65bec1d5ba3829a398e0",
+      "latencyMs": 26118,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search is consistently failing with quota_exceeded. This means I cannot get external information about the venue capacity from the web.\n\nLet me reconsider what I know:\n\n1. **Venue exists** - Confirmed by OpenStreetMap check\n2. **Capacity unknown** - Neither Wikidata, OpenStreetMap, nor web search could provide it\n3. **Event sells 900 tickets** - This is the capacity taken\n4. **Organizer is legitimate** - Established organizer with good history, valid fiscal data\n5. **No similar events/clones** - No cloning signal\n6. **All other deterministic checks pass**\n\nThe key question: Is selling 900 tickets at a venue with unknown capacity problematic?\n\nAccording to the instructions:\n- \"venue_capacity\" check is already done and shows \"unknown\"\n- The instruction says: \"Deterministic checks... have already run in code. Their findings come with the task and are authoritative: build on them, don't redo or contradict them.\"\n\nSince the venue capacity check returned \"unknown\" (not \"fail\"), this isn't a hard rejection signal. The organizer is legitimate, there's no evidence of fraud, and all other checks pass.\n\nHowever, I should consider whether this warrants a request for information. The instructions say:\n- \"Approve only when nothing points to fraud.\"\n- \"Reject when there is clear evidence of fraud or illegal content.\"\n- \"Ask for information (request_info) when something is off but could have an innocent explanation.\"\n\nThe venue capacity being unknown is not necessarily fraud - it's just a data limitation. The organizer appears legitimate. There's no indication they're trying to sell more than capacity - they might genuinely believe 900 fits, or the venue might actually hold that many.\n\nGiven:\n- Legitimate organizer with good history\n- No fraud signals\n- All other checks pass\n- Capacity unknown but not a hard fail signal\n\nI think this should be **approved** with low confidence due to the capacity uncertainty, but since it's not a hard rejection signal and the organizer is legitimate, approval seems appropriate.\n\nActually, let me reconsider the confidence level. The instructions say confidence must reflect the evidence. With venue capacity unknown, I should probably give lower confidence. But the decision itself - approve vs reject vs request_info - depends on whether there's fraud or not.\n\nThere's no fraud here. The organizer is legitimate. The capacity uncertainty is a data issue, not a fraud signal. So I should **approve** with moderate-to-low confidence.\n\nLet me finalize my recommendation:",
+          "content": null,
           "toolCalls": [
             {
-              "id": "5MSIhe7DZ7AQRKAAmVmFPMUieNwWy7wU",
+              "id": "KrHlFzmnDq1z2d1oYeXEQo9R0zdeQHi7",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.65,\"rationale\":\"Organizador legítimo con historial sólido (Cierzo Sonoro, 2,5 años activo, 14 eventos publicados, sin cancelaciones ni reportes). Todos los checks determinísticos pasan salvo la capacidad del recinto que es desconocida (no disponible en Wikidata/OpenStreetMap y búsqueda web falló por cuota). No hay señales de fraude, clonación o contenido ilegal. La venta de 900 entradas no contradice ningún check de capacidad ya realizado. Se aprueba con confianza moderada-baja debido a la incertidumbre sobre la capacidad real del Palacio de los Deportes.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024, fiscalidad válida (CIF con checksum correcto), cuenta de propietario 930 días, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin reportes de contenido ni revisiones anteriores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la misma provincia dentro de 60 días; no hay señal de clonación.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del recinto, y la búsqueda web falló por cuota_exceeded; la sesión con más entradas pone a la venta 900.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 22004 corresponde a Huesca.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento es legítimo: el organizador Cierzo Sonoro está aprobado desde 2024, con datos fiscales válidos y sin historial de problemas. El recinto «Palacio de los Deportes» existe en Huesca (verificado en OpenStreetMap). Los precios están dentro del benchmark local para rock en Huesca. No hay pagos fuera de plataforma, ni enlaces externos, ni términos abusivos, ni contenido ilegal o dirigido a menores. Las sesiones no se solapan y tienen fechas razonables. El único punto incierto es el aforo del recinto (no publicado en Wikidata ni OSM), pero la venta de 900 entradas no supera el umbral de «capacidad muy por encima» dado que no hay dato oficial contradictorio, y el check de venue_capacity ya marcó unknown sin fail. No hay eventos similares recientes que sugieran clonación. Todo indica un evento genuino sin señales de fraude.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024-05-20, CIF válido, dirección en Huesca, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 22004 corresponde a Huesca.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Palacio de los Deportes» figura en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Palacio de los Deportes», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 900.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Huesca, aforo 300to1000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días en la provincia de Huesca con título parecido.\",\"confidence\":0.8,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5061,
-          "outputTokens": 1207
+          "inputTokens": 4344,
+          "outputTokens": 1010
         }
       }
     }
@@ -143,29 +116,9 @@
       }
     },
     {
-      "requestHash": "35e0def5388b59bd1915272015dfd21f4e19143132dc3fd8d1f8fc2b2364791c",
+      "requestHash": "900b216c376e7b420b02ee4ce44317e032bc840f80f027b0652befa60242db76",
       "provider": "Tavily",
-      "query": "Palacio de los Deportes Huesca capacidad aforo",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "01366a3b3944bf45728d3cb3bf4211728dab72bb309231ad45278d1184116ce7",
-      "provider": "Tavily",
-      "query": "Palacio de los Deportes Huesca capacidad",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "28e3cad91cdfd6eacad7be9c42282ac8832e47ee664bec254680776c47f8eb66",
-      "provider": "Tavily",
-      "query": "Palacio Deportes Huesca aforo capacidad eventos",
+      "query": "Palacio de los Deportes Huesca aforo capacidad",
       "maxResults": 2,
       "origin": "recorded",
       "response": {

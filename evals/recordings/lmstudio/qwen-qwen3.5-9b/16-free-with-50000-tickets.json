@@ -2,87 +2,138 @@
   "caseId": "16",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "daa48367cfdd6e8cd099bb6c6d226edc00b5f30ebdf4c8afcfe8046c93bb22f4",
-      "latencyMs": 9059,
+      "requestHash": "0d71480271207e891211dffb9d6c84128df2009a59ac5264b8efbf7f454615b7",
+      "latencyMs": 6042,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to investigate this event further, particularly focusing on the venue capacity issue and whether this is a legitimate free techno event or potentially fraudulent.\n\nKey concerns from the data:\n1. The venue \"Sala Pícaro\" has unknown capacity (not in Wikidata/OpenStreetMap)\n2. The ticket type shows capacity of 50,000 tickets for sale\n3. This is a \"free\" event (priceCents: 0) but with 50,000 capacity - seems suspicious\n\nLet me check the organizer context and search for similar events or information about this venue/organizer to understand if this is legitimate.",
+          "content": "I need to investigate this event further, particularly focusing on the venue capacity issue and whether this is a legitimate rave or potentially fraudulent.\n\nKey concerns from the data:\n1. The venue \"Sala Pícaro\" has unknown capacity (not in Wikidata or OSM)\n2. The ticket capacity is set to 50,000 tickets for a venue that might be small\n3. This is described as a \"free rave\" with techno music\n\nLet me check the organizer context and search for information about this event/organizer to determine if there's fraud or if this needs more info.",
           "toolCalls": [
             {
-              "id": "PlEy7cg639lr8289TKfihXmRLkG04STX",
+              "id": "ImRX7OeaSP57YYdebBZXRgd0xnT8h68c",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
-            },
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3608,
+          "outputTokens": 170
+        }
+      }
+    },
+    {
+      "requestHash": "3feb5cd0cbe3d42681a95af04602edd806001cd8f39032f0ae78ffee884b2be8",
+      "latencyMs": 5922,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The organizer \"Pulso Industrial\" looks legitimate:\n- Account age: 930 days (about 2.5 years)\n- Fiscal data present with valid CIF checksum\n- No content reports\n- No previous admin unpublishes\n- Has published 14 events, ended 12\n\nNow I need to investigate the venue capacity issue more carefully. The deterministic check shows:\n- Venue exists (verified in OSM)\n- Capacity is unknown (not in Wikidata/OSM)\n- Ticket capacity set to 50,000\n\nThis is a red flag - a \"Sala\" (room/hall) typically wouldn't have 50,000 capacity. Let me search for information about this venue and the event to see if there's evidence of fraud or if this needs clarification.",
+          "toolCalls": [
             {
-              "id": "9ka908XcYp5gP7qW5I09U9TYIPyJMN4C",
+              "id": "OrGthg7m1X5x4TgiijFzVaLZ1Q8LWDKP",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo aforo capacidad\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4116,
+          "outputTokens": 222
+        }
+      }
+    },
+    {
+      "requestHash": "937dc15bff4d6257a0351c3f54427d966eb4b76fdf0509f47611b01bad004fa5",
+      "latencyMs": 2072,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search failed due to quota exceeded. Let me try searching for the organizer and event name to see if there's external information about this rave.",
+          "toolCalls": [
+            {
+              "id": "bpKEklYP2GvP8FGVWGGIewkWIIZYqXJf",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Pulso Industrial Toledo rave gratuita doce horas\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4429,
+          "outputTokens": 77
+        }
+      }
+    },
+    {
+      "requestHash": "c7ba8e54d844574aabb092a433cb0370fc246979024bd45c6db7c2fd1e06d670",
+      "latencyMs": 1805,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "Let me try searching for the venue name specifically to see if it's a known small venue.",
+          "toolCalls": [
+            {
+              "id": "U3NL5crDQZYzJTptI1xIbUfoLx1G6Fjs",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Sala Pícaro\\\" Toledo\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4597,
+          "outputTokens": 65
+        }
+      }
+    },
+    {
+      "requestHash": "35546f178ce8dae133014a4d8984aefd7bf95a3c71d5806b0b2985670f43fad7",
+      "latencyMs": 2309,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web searches are failing due to quota issues. Let me check if there are similar events from other organizers that might indicate this is a clone or fraudulent event.",
+          "toolCalls": [
+            {
+              "id": "dLiSQD4waPoXlns8iF2p6Q0jGLQ93AEN",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":60}"
-            },
-            {
-              "id": "HSu2m9uLQlBy8xot6ZPVrgzt3bak86vx",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo venue capacity aforo\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3457,
-          "outputTokens": 280
+          "inputTokens": 4753,
+          "outputTokens": 85
         }
       }
     },
     {
-      "requestHash": "1a6fff298cb81b4c490d627eeb8a7a87a0870b562efb5836dc69849045a89666",
-      "latencyMs": 12225,
+      "requestHash": "f5f2d1da3cc768215f15bd7ca09a623bcb8dfac51242a9f439edd6c701ec1d28",
+      "latencyMs": 27685,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "Let me analyze what I've found:\n\n**Organizer context:**\n- Organizer \"Pulso Industrial\" is approved, has been operating since May 2024 (930 days old)\n- Has valid tax ID with correct checksum\n- Published 14 events, 12 ended successfully, no cancellations\n- No content reports, no admin unpublishes\n- Team structure looks normal (owner, manager, 2 scanners)\n\n**Similar events:** None found in the same province within 60 days - this is good, no obvious clones.\n\n**Web search:** Failed due to quota_exceeded - not helpful here.\n\n**Key issue remaining:** The venue capacity check shows \"unknown\" because neither Wikidata nor OpenStreetMap publish the capacity for \"Sala Pícaro\", and the web search failed. However, the ticket type shows a capacity of 50,000 tickets being sold.\n\nThis is a significant red flag:\n- The venue is described as a \"sala\" (club/venue) in Toledo\n- A typical small club like \"Sala Pícaro\" would have a capacity far below 50,000 people\n- Even large venues rarely exceed 10,000-20,000 capacity\n- 50,000 is more typical of a stadium or very large arena\n\nThe deterministic check already flagged this as \"unknown\" for venue_capacity because the platform couldn't verify it. But selling 50,000 tickets against what appears to be a small club venue is suspicious.\n\nLet me search for more information about Sala Pícaro specifically and also check if there's any pattern with this organizer selling unrealistic capacities.",
+          "content": "No similar events found. Now let me analyze the key issue:\n\n**Critical Finding:** The venue capacity check shows \"unknown\" because neither Wikidata nor OpenStreetMap publish the capacity for \"Sala Pícaro\". However, the ticket capacity is set to 50,000 tickets. \n\nLooking at the venue name \"Sala Pícaro\" and its location in Toledo - a \"Sala\" (room/hall) in Spain typically has much smaller capacity than 50,000. A 50,000 capacity venue would be a large stadium or arena, not a \"sala\".\n\nThe deterministic check already flagged this as \"unknown\" for venue_capacity because the capacity isn't publicly listed. But setting 50,000 tickets for what appears to be a small room is suspicious.\n\nLet me check if there's any indication of fraud by looking at the event details more carefully:\n- Free entry (priceCents: 0)\n- Techno music genre\n- Artist: \"Kolektiv Arena\"\n- Session from Nov 27-28, 2026\n\nThe main concern is the capacity mismatch. Without knowing the actual venue capacity, I cannot verify if 50,000 tickets is appropriate. This could be:\n1. A legitimate large venue named \"Sala Pícaro\" (unlikely given the name)\n2. Fraudulent overbooking attempt\n3. Missing information\n\nGiven that:\n- The organizer looks legitimate (established, good history)\n- No similar events found (not a clone)\n- Web searches failed (quota exceeded)\n- Venue capacity is unknown but ticket capacity is 50,000\n\nThis situation requires clarification because the capacity check returned \"unknown\" and we have a potential mismatch between venue type (\"Sala\") and claimed capacity (50,000). This could be fraud or it could be innocent - we need to ask for information.\n\nI should recommend **request_info** to ask about the actual venue capacity and confirm why 50,000 tickets are being sold.",
           "toolCalls": [
             {
-              "id": "AYSJAz16LMduIB6LhaRlhktiwC9MyGbt",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Pulso Industrial\\\" Toledo promoter events\",\"maxResults\":3}"
-            },
-            {
-              "id": "Nznr7KOxId7hWWLZfibeyW3MVkwrqOZE",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Sala Pícaro\\\" Toledo club venue\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4225,
-          "outputTokens": 459
-        }
-      }
-    },
-    {
-      "requestHash": "bca6265370257afdd970c90434cd67e1bc5db1a3f1ec3b73229ec48e7b1fa20c",
-      "latencyMs": 30246,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The web searches are failing due to quota issues. Let me think about what I have:\n\n**What's clear:**\n1. The organizer is legitimate (approved, valid fiscal data, good history)\n2. No similar events found (no obvious cloning)\n3. The venue exists at the address (verified by OpenStreetMap)\n4. BUT the capacity issue remains unresolved\n\nThe deterministic check already noted: \"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 50.000.\"\n\nThis is the critical issue: The ticket type shows capacity of 50,000, but we cannot verify the actual venue capacity. Given that:\n- It's called \"Sala Pícaro\" (typically a small club)\n- Located at Calle de las Cadenas 6 in Toledo (a street address, not a stadium)\n- OpenStreetMap shows it as amenity=pub (not a large venue)\n\nA pub/club with 50,000 capacity is physically impossible. This suggests either:\n1. The organizer is misrepresenting the venue capacity (fraudulent)\n2. There's a data entry error that needs clarification\n\nGiven the deterministic check already flagged this as \"unknown\" for venue_capacity, and the fact that 50,000 tickets against what appears to be a small club/pub is highly suspicious, I should request information to clarify the actual venue capacity.\n\nHowever, let me also consider: could this be a legitimate free event where they're just setting an artificially high capacity? That would still be misleading but perhaps not fraudulent if they're not actually selling that many tickets. But the platform's rules likely require accurate capacity declarations.\n\nGiven the evidence:\n- Organizer is legitimate (no fraud signals there)\n- No similar events/clones found\n- Venue exists at correct address\n- BUT venue capacity cannot be verified and 50,000 seems unrealistic for a \"sala\"/pub\n\nThis warrants requesting information to clarify the actual venue capacity. The organizer should explain why they're listing 50,000 capacity for what appears to be a small venue.\n\nLet me submit a recommendation with request_info to ask about the venue capacity discrepancy.",
-          "toolCalls": [
-            {
-              "id": "rblq7CLIsF3XYq7l8QhhOkmVDOSDK1bj",
+              "id": "x0S5KsTK8OT9LflE46tVcBN2vk5p6Hr2",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta una discrepancia crítica en la capacidad del recinto que requiere aclaración. Aunque el organizador \\\"Pulso Industrial\\\" tiene historial limpio y datos fiscales válidos, y el local existe en la dirección indicada, la ficha de entrada muestra una capacidad de 50.000 tickets para un espacio descrito como \\\"sala\\\" (y verificado en OpenStreetMap como amenity=pub). Esta capacidad es físicamente improbable para un club pequeño. Los checks determinísticos ya marcaron venue_capacity como \\\"unknown\\\" porque ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló por cuota excedida. Necesitamos información del organizador sobre la capacidad real del recinto para determinar si esta declaración es un error o una representación engañosa.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 50.000 tickets, lo cual es físicamente improbable para un local verificado como amenity=pub en una calle residencial.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Pulso Industrial' aprobado desde mayo 2024, con CIF válido y checksum correcto, cuenta con equipo completo (owner, manager, 2 scanners).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia de Toledo dentro de los 60 días previos al evento.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad real del recinto «Sala Pícaro» en Calle de las Cadenas 6, Toledo?\",\"¿Por qué se declara una capacidad de 50.000 tickets para un local verificado como amenity=pub en OpenStreetMap?\"],\"draft\":\"Organizador necesita aclarar la discrepancia entre la capacidad declarada (50.000) y el tipo de recinto (sala/pub pequeño).\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento presenta una discrepancia importante: el aforo del recinto «Sala Pícaro» es desconocido (no figura en Wikidata ni OpenStreetMap), pero se ponen a la venta 50.000 entradas. Un local llamado «sala» típicamente no tiene capacidad para 50.000 personas (esto sería un estadio o arena). El organizador Pulso Industrial parece legítimo (930 días de antigüedad, datos fiscales válidos, sin reportes), pero necesitamos clarificar la capacidad real del recinto para descartar sobreventa fraudulenta. La búsqueda web falló por cuota excedida. Se requiere información sobre el aforo real del local y confirmación de que 50.000 entradas es correcto.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Pícaro», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 50.000.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Pulso Industrial con 930 días de antigüedad, CIF válido, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en otras organizadoras en la provincia de Toledo con fechas cercanas (ventana de 60 días).\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real del recinto «Sala Pícaro» en Toledo?\",\"¿Por qué se ponen a la venta 50.000 entradas para un local llamado «sala» que típicamente no tiene esa capacidad?\",\"¿Existe algún acuerdo especial o configuración que justifique este número de entradas?\"],\"draft\":\"Necesitamos confirmar el aforo real del recinto y entender por qué se venden 50.000 entradas cuando el local parece ser una sala pequeña.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4854,
-          "outputTokens": 1144
+          "inputTokens": 4921,
+          "outputTokens": 1067
         }
       }
     }
@@ -99,30 +150,30 @@
       }
     },
     {
-      "requestHash": "46cc888b6f3c46b8e947ebef351c08347fc4dd855602d37d25436b1539abc95b",
+      "requestHash": "33cc70c3dcc57f79b29defb7ce983b96e587f0d0cc6cfb2281a5ac7763cb7402",
       "provider": "Tavily",
-      "query": "Sala Pícaro Toledo venue capacity aforo",
-      "maxResults": 3,
+      "query": "Sala Pícaro Toledo aforo capacidad",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "0d42290325f0499bd79ea13fb717dc6f44a2b6e98379e71c553091314f84a215",
+      "requestHash": "82660fcbb379a6f29ec1524ba61146d7a0472eb269247f01702951dc0de4f4e7",
       "provider": "Tavily",
-      "query": "\"Pulso Industrial\" Toledo promoter events",
-      "maxResults": 3,
+      "query": "Pulso Industrial Toledo rave gratuita doce horas",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "5a6597c83877f62c34a7ee1c91ae1d1feeade9d74dbc52143e6241df204a064d",
+      "requestHash": "a619424be2d7818629f46b0305336bd7db1f3f7cfa578b83acdc7770b891edd0",
       "provider": "Tavily",
-      "query": "\"Sala Pícaro\" Toledo club venue",
-      "maxResults": 3,
+      "query": "\"Sala Pícaro\" Toledo",
+      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"

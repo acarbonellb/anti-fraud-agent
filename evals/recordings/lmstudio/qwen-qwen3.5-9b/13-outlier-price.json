@@ -2,46 +2,41 @@
   "caseId": "13",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "d104c70b11e7bfd86eedc1590e77fdec75db1c9701478e6f358cf555160836cc",
-      "latencyMs": 4154,
+      "requestHash": "d044800e65c6fec198b3248733b42785f520d55894df82362c83e7850546b586",
+      "latencyMs": 2578,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "sIZRrsJtEJvSHripC6kiZXVJRziYmjVw",
+              "id": "LPsnDqMCXwbxEoXyAijSUrHqnHqJxViV",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_9f3669c2c6\"}"
-            },
-            {
-              "id": "fE7tzFvdkNqmam89RprueEZl2zRRjc2N",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_37bff18a82\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3497,
-          "outputTokens": 93
+          "inputTokens": 3648,
+          "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "813bc13c97d5fda248b3a75b125da19d257f1a36f66064bec08117af6d94b34c",
-      "latencyMs": 1529,
+      "requestHash": "f693d25162209cc8218bab026b8259dba320154c4842b0c804969d35268364e9",
+      "latencyMs": 1469,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "v8SDLq81qU73S6ehuNIGAZ9DJ3Fn6JyN",
+              "id": "kBO5RLTWpPCToLaaXhfhfeKDYKouM5GF",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Trío Azahar jazz copla Sala Hangar Córdoba\",\"maxResults\":2}"
             }
@@ -49,21 +44,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4012,
+          "inputTokens": 4039,
           "outputTokens": 49
         }
       }
     },
     {
-      "requestHash": "c74a463eb1c8d9f38ac446f04f3b50b59da297219e401038eb06f9212313995d",
-      "latencyMs": 1310,
+      "requestHash": "01c7bdedf2ee35253deabdf8e8eb3a3e7fd48adc509d8e7b48e52379a4a5b599",
+      "latencyMs": 1602,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "11S7Mo4YaxcTlyOwmaGzxaPZw9sNYzYJ",
+              "id": "sr65z0AyeCBW5f5YwQeuaBZRLlYRfNKo",
+              "name": "get_price_benchmark",
+              "argumentsJson": "{\"genre\":\"jazz\",\"province\":\"Córdoba\",\"capacityBand\":\"lt300\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4181,
+          "outputTokens": 58
+        }
+      }
+    },
+    {
+      "requestHash": "23bf3992c844241429352f1215f804d8b505b2fdc3e5519264745b710a7d5641",
+      "latencyMs": 1282,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "0bdE9hFDNhZ213DDj7dakhiGTuWkgdPk",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Sala Hangar Córdoba aforo capacidad\",\"maxResults\":2}"
             }
@@ -71,30 +88,74 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4154,
+          "inputTokens": 4372,
           "outputTokens": 45
         }
       }
     },
     {
-      "requestHash": "77580033746620271da0013ce05157e64e3ada8ec090b9e2d37e9403d0a433e2",
-      "latencyMs": 11250,
+      "requestHash": "31e211c2d091bb3fad4c5a861b92e00fa6a70f2a8f272740adae42116567119a",
+      "latencyMs": 1250,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "O13o5Lopf3xQZY7zHp60Ymozw8cHAyzV",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El evento presenta un precio de entrada (950,00 €) que es 27,1 veces superior al p90 del benchmark para conciertos de jazz en Córdoba con aforo inferior a 300 (35,00 €), superando ampliamente el umbral de 3 veces. Esta disparidad no tiene justificación plausible y constituye una señal clara de fraude o error grave. El organizador es legítimo y sin historial negativo, pero la anomalía de precio es un hallazgo determinante que invalida la publicación del evento.\",\"findings\":[{\"check\":\"price_benchmark\",\"verdict\":\"fail\",\"detail\":\"El precio de 950,00 € para entradas generales es 27,1 veces el p90 (35,00 €) de eventos comparables en Córdoba (género jazz, aforo lt300), superando con mucho el umbral de 3 veces establecido. No hay justificación plausible para tal disparidad.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal.example.com/benchmarks\",\"title\":\"Benchmark de precios Satella\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador Patio Andalusí Producciones está aprobado desde 2024, con datos fiscales válidos y sin historial negativo.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Córdoba en las próximas 60 días.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "id": "CHvwIFWF9wGTmoRDDLj88Q1O1DoIdhpt",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Azahar Córdoba concierto\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4292,
-          "outputTokens": 426
+          "inputTokens": 4510,
+          "outputTokens": 44
+        }
+      }
+    },
+    {
+      "requestHash": "16ebba86c186ff40045279fe986374997dc723195cd03f1b2eec8803b5ca1af9",
+      "latencyMs": 1387,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "siMUKTNYDLZ3btyiPaLcbVXWrlbSIaIn",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Sala Hangar Córdoba OpenStreetMap amenity bar\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4647,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "36c6df7b7d33fb463b5c8392bc57fc11bddd694a746e125db2fa2785e95cfae0",
+      "latencyMs": 20853,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "dGUlKUWQt9BS2zUClvJPz4ofQHyQjtjY",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El evento presenta una anomalía de precio extrema: la entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) del benchmark para conciertos de jazz en Córdoba con aforo menor a 300. El umbral de alerta es 3 veces el p90, y este caso supera ampliamente ese límite. Aunque el organizador \\\"Patio Andalusí Producciones\\\" tiene historial limpio (14 eventos publicados, sin cancelaciones ni denuncias), la discrepancia de precio no tiene explicación inocente en un género como jazz donde los precios suelen ser accesibles. La búsqueda web falló por cuota excedida, pero el hallazgo del benchmark es determinante: un precio 27 veces superior al mercado comparable indica posible error grave o intento de fraude. Se rechaza por \\\"price_benchmark\\\" con evidencia objetiva.\",\"findings\":[{\"check\":\"price_benchmark\",\"verdict\":\"fail\",\"detail\":\"La entrada general cuesta 950,00 €, que es 27,1 veces el p90 (35,00 €) de 42 eventos comparables en Córdoba para jazz con aforo lt300. El umbral de alerta es 3 veces el p90.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://api.example.test/benchmark\",\"title\":\"Price benchmark: jazz, Córdoba, lt300\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Patio Andalusí Producciones' con CIF válido, cuenta activa desde 2024-05-20 (930 días), email verificado y sin denuncias previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 denuncias de contenido y sin revisiones previas como agente.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Sala Hangar figura en OpenStreetMap como amenity=bar a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3787471847\",\"title\":\"OpenStreetMap: Sala Hangar (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 14006 corresponde a Córdoba.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"La sesión está programada para el 27 de noviembre de 2026, sin solapamientos.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión (100 € fijos) no superan el 20 % del precio de la entrada.\",\"confidence\":0.9,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4788,
+          "outputTokens": 806
         }
       }
     }
@@ -134,6 +195,26 @@
       "requestHash": "2aea9bbb7106e03a2fed4d156e01f531ebf2d0b6fbb712d270e96a3acbd85843",
       "provider": "Tavily",
       "query": "Sala Hangar Córdoba aforo capacidad",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "440d00c58bc21d793fe38eda5e09c2669ead2a82cc1a849775380d0c1d69260b",
+      "provider": "Tavily",
+      "query": "Trío Azahar Córdoba concierto",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "e6077a7caa9a965f8d7f45a865e53ca69bf07f6fa4efb1b1897d93d8620ccbb9",
+      "provider": "Tavily",
+      "query": "Sala Hangar Córdoba OpenStreetMap amenity bar",
       "maxResults": 2,
       "origin": "recorded",
       "response": {

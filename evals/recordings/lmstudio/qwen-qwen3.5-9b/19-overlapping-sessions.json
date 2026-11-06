@@ -2,19 +2,19 @@
   "caseId": "19",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "1355b105168637edc2bba5f123705608e1257998b253e04664c43220648a9548",
-      "latencyMs": 2913,
+      "requestHash": "6e50b0919d116ddc8426615bd9a95b6f486c18f8361b1333214230a2f58505df",
+      "latencyMs": 2970,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "ZIWZ8OuJoiItVkYp33wdHWSkoY5b3Xnu",
+              "id": "lkhvfpxhUTpLQbey4CN6TOpDWVtsrYjn",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a72d073526\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3643,
+          "inputTokens": 3794,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "dbddb7e0602131b89f6c57e0db4d04c626e2b1a57409a64cdd55aeb11962f3bc",
-      "latencyMs": 1430,
+      "requestHash": "98379d070bbb0634685682ecdd1a717fd67ffead58363b65e8595245b0f6e875",
+      "latencyMs": 1408,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "9FPL4XiJ11tt2726ZPEojkKtiP1j8SZj",
+              "id": "LYxqMPhV23ko38H8YEhEmBcmtKkiYNha",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Zentral Pamplona aforo capacidad teatro\",\"maxResults\":2}"
             }
@@ -44,21 +44,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4036,
+          "inputTokens": 4187,
           "outputTokens": 46
         }
       }
     },
     {
-      "requestHash": "024ecb618ad062b5b2cf2faa822c961820e03867cac8f7dec73ac3abb27a7739",
-      "latencyMs": 1430,
+      "requestHash": "ed1dfd331eb16cfbcc31e6a66569e724bb413617956715ecad84661b8e25312f",
+      "latencyMs": 1380,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "bca1QntcoJDGMTImUBxatSwfHv8S0q2z",
+              "id": "ULP6oGiM3ZL1USfXZXoqUQ8Y8kBa5R2b",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ea4cff2828\",\"windowDays\":60}"
             }
@@ -66,30 +66,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4179,
+          "inputTokens": 4330,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "235595f455ba76b19c3d9e63bb4acf88e5f994b002ddb992bbd4f86997e1329d",
-      "latencyMs": 28145,
+      "requestHash": "55f122896337e1dae582b0c845cca79e32dc451c5ddaf59c5a00766e60ad7771",
+      "latencyMs": 38374,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Solape de sesiones (FAIL):** Las dos sesiones están programadas para el mismo día (27/11/26) con horarios que se solapan:\n   - Sesión 1: 11:00-13:00 (puertas a las 10:00)\n   - Sesión 2: 12:00-14:00 (puertas a las 11:00)\n   \n   Esto es claramente un error de programación que viola la regla de solape.\n\n2. **Organizador:** Telón Rojo Teatro parece legítimo:\n   - Cuenta aprobada desde mayo 2024 (930 días)\n   - Datos fiscales válidos (CIF con checksum correcto)\n   - 14 eventos publicados, 12 finalizados sin cancelaciones\n   - Sin reportes de contenido ni despublicaciones por admin\n\n3. **Precio y aforo:** Los precios están dentro del benchmark para teatro en Navarra. El aforo del venue es desconocido pero la venta es de 300 entradas.\n\n4. **No hay señales de fraude:** No hay eventos similares, no hay pagos fuera de plataforma, ni contenido ilegal.\n\n**Decisión:**\n\nEl único problema claro es el solape de sesiones, que es un error operativo grave. Esto podría ser:\n- Un error de programación honesto (posible)\n- Una estrategia para vender más entradas en el mismo espacio (menos probable pero posible)\n\nDado que el organizador parece legítimo y no hay señales de fraude, pero sí un error claro de programación que necesita corrección, recomiendo **request_info** para aclarar si es un error o una decisión intencional.",
+          "content": "He revisado el evento y el organizador. Aquí están los hallazgos clave:\n\n**Problema crítico detectado:**\n- **Solape de sesiones (session_dates: fail):** Las dos sesiones del mismo día (27/11/26) se solapan: la primera termina a las 14:00, pero la segunda empieza a las 13:00. Esto es una contradicción técnica grave que no tiene explicación inocente.\n\n**Contexto del organizador:**\n- \"Telón Rojo Teatro\" es un organizador aprobado desde mayo de 2024 con 14 eventos publicados y 12 finalizados sin cancelaciones.\n- Datos fiscales válidos, cuenta antigua (930 días), equipo completo.\n- Sin reportes de contenido ni despublicaciones por admin.\n\n**Otros puntos:**\n- El local \"Zentral\" existe en Pamplona (verificado en OpenStreetMap).\n- Los precios están dentro del benchmark para teatro en Navarra.\n- No hay eventos similares detectados.\n- La búsqueda web sobre el aforo falló por cuota excedida, pero esto no es un problema de fraude.\n\n**Conclusión:**\nEl solape de sesiones es una falla técnica grave que indica inconsistencia en la publicación del evento. No tiene explicación inocente y contradice la lógica básica de programación de eventos. Esto constituye evidencia directa de error/fraud (posible intento de duplicar entradas o error malicioso).\n\n**Recomendación:** RECHAZAR por el solape de sesiones detectado, que es una falla determinista grave sin explicación inocente posible.",
           "toolCalls": [
             {
-              "id": "iS7p53g7L8DhotjExVs4IQQAYROwcI9V",
+              "id": "5TmWpYscvjdeWDrcUMrUIqBNUPGhR1Sf",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un fallo claro de programación: dos sesiones el mismo día con horarios que se solapan (11:00-13:00 y 12:00-14:00). Esto viola la regla de solape. El organizador Telón Rojo Teatro parece legítimo (cuenta aprobada, datos fiscales válidos, historial limpio), pero necesito aclarar si este solape es un error o una decisión intencional. Los precios y aforo están dentro de lo normal para teatro en Navarra. No hay señales de fraude ni contenido ilegal.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 13:00 empieza antes de que acabe la anterior).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_ea4cff2828.jpg\",\"title\":\"Evento El jardín de las sombras\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Telón Rojo Teatro con cuenta aprobada desde 2024-05-20, CIF válido, sin reportes de contenido ni despublicaciones.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género teatro, Navarra, aforo 300to1000).\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Zentral» figura en OpenStreetMap como amenity=nightclub a 3 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/10154014732\",\"title\":\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Es el solape de las dos sesiones del 27/11/26 un error de programación o una decisión intencional?\",\"¿Ambas funciones son para la misma obra o para obras diferentes?\",\"¿El venue «Zentral» puede albergar dos funciones simultáneas en el mismo espacio?\"],\"draft\":\"Solicito información sobre el solape de sesiones programado para el 27/11/26.\"}}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta un fallo crítico en la programación: dos sesiones del mismo día (27/11/26) se solapan temporalmente. La primera sesión termina a las 14:00, pero la segunda empieza a las 13:00. Esta contradicción técnica grave no tiene explicación inocente y representa un error de publicación que podría permitir la venta de entradas para sesiones que no pueden coexistir. El organizador \\\"Telón Rojo Teatro\\\" tiene historial limpio (14 eventos, 12 finalizados sin cancelaciones), datos fiscales válidos y cuenta antigua, pero el solape de sesiones es una falla determinista grave que contradice la lógica básica de programación de eventos teatrales. No hay evidencia de fraude adicional, pero este error técnico grave justifica el rechazo por inconsistencia en la publicación del evento.</parameter>\\n<parameter=findings>\\n[{\\\"check\\\": \\\"session_dates\\\", \\\"verdict\\\": \\\"fail\\\", \\\"detail\\\": \\\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 14:00 empieza antes de que acabe la anterior).\\\", \\\"confidence\\\": 0.95, \\\"sources\\\": [{\\\"url\\\": \\\"https://deterministic_checks_nonce_47e9e7c345e4d93749780751\\\", \\\"title\\\": \\\"Deterministic checks\\\"}]}, {\\\"check\\\": \\\"organizer_identity\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Organizador 'Telón Rojo Teatro' aprobado desde 2024-05-20, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, sin reportes de contenido ni despublicaciones por admin.\\\", \\\"confidence\\\": 0.9, \\\"sources\\\": []}, {\\\"check\\\": \\\"venue_exists\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Recinto 'Zentral' verificado en OpenStreetMap como amenity=nightclub a 3m de las coordenadas del evento.\\\", \\\"confidence\\\": 0.85, \\\"sources\\\": [{\\\"url\\\": \\\"https://www.openstreetmap.org/node/10154014732\\\", \\\"title\\\": \\\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\\\"}]}, {\\\"check\\\": \\\"price_benchmark\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Precio de 22€ está dentro del benchmark para teatro en Navarra (p90=35€, umbral 3x).\\\", \\\"confidence\\\": 0.8, \\\"sources\\\": []}, {\\\"check\\\": \\\"similar_event\\\", \\\"verdict\\\": \\\"unknown\\\", \\\"detail\\\": \\\"No se encontraron eventos similares de otros organizadores en Navarra con título parecido en los últimos 60 días.\\\", \\\"confidence\\\": 0.7, \\\"sources\\\": []}]\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 14:00 empieza antes de que acabe la anterior).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://deterministic_checks_nonce_47e9e7c345e4d93749780751\",\"title\":\"Deterministic checks\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Telón Rojo Teatro' aprobado desde 2024-05-20, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto 'Zentral' verificado en OpenStreetMap como amenity=nightclub a 3m de las coordenadas del evento.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/10154014732\",\"title\":\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 22€ está dentro del benchmark para teatro en Navarra (p90=35€, umbral 3x).\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Navarra con título parecido en los últimos 60 días.\",\"confidence\":0.7,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4318,
-          "outputTokens": 1067
+          "inputTokens": 4469,
+          "outputTokens": 1463
         }
       }
     }

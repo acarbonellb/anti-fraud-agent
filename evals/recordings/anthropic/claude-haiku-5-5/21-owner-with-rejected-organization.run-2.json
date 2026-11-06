@@ -3,24 +3,62 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "05a9883706dfa821d668c2a8b67ba4878b05116ce5e49aade4b14a9f9de08ead",
-      "latencyMs": 1485,
+      "requestHash": "b09501c93bf1826f65dce24b94a9f8a5d99acbe5a5229a6bd1be70dbbc398ed3",
+      "latencyMs": 2466,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01KBLz3wbJaME6YSvLVUi96k",
+              "id": "toolu_01EYHJp8HFhkND6p2cNezntu",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Fiestas del Levante Feliz\\\" Alicante\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Fiestas del Levante Feliz\\\" Alicante fiestas conciertos\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSvggKEAgTGAI4AUIIdGhpbmtpbmcSDG7Dykg52FR/iHL4QRoMCzXuw3lbRqucQVSMIjDlZnp8KrteP521FjREtVFBD2NjcsO+ilxukQS8tJrja7XMTEnolcrposErdXKlirkq2wfmUBP/DyJPN4insyixpRf0gKm4niML5YO7zbxey23A6Pn8duO6tfvICmc0acZewxgrkStK9iPTGRj4pfycZqBX1eXyEtu0cvjc9+y9iQWzy2DHuQDcgc1LElqEmcEmtoqMe/sOLMTG9Z8i1onw8O9qqKiQkV8R8FXrGluWJbwrd163Krhd8XGfekHV6CYeQ9y9xvYIMSHopLzBwO2RHvommFRobcUQcFkhv9TXwBEEkuSzSYgg6tiaT8AKSHgqwk/pUoniybvfgr5+N40ZkI+J9Y44UjEPHoPszUMg/VBLdHGQ2SioudFPALn8CAbvyLnpRAAMYp3HPWEzCBfb6KwWDkVi78nDUSeGHQBjT9a8grc+80J+1+8FiTxAmmMA9ePwcHsxkWubDiQjgOJH4AKrKuSXhlDjksrNzodLPrQNFDssVKVsk80KK54Cb3splP4Xx/YB2vdmD3yqBgmAM3b/O49mkoKms7hEEv62nKL13txE79ESs2+ioTgxFUNjbX4ImPkBE4vH9C/ZdXag07E4FNg5epHdqKj3YG8iWQ6jE7w82yrwy5ogzbkGhweSUsuiqdeSbDRfeNL2Yilh+FwjeypUaSj2b6aBwbnHgUHCqRqkCY9c0ceFyzlfec/0o1N5TkpkEfSHTfEwW0OtpcBCYP4g5S9xtY0gy6YNos+iF41s21QKdEK5wiG3KfIWwt2CfPz2tuajcx0aq3zAkA4Z1mylZUET46mJKFoS0qUQFPZmxnDGvtCor2vky/Nb9Bifuk3FtLk8UWcJ2IOl7oaRv4UOoDSusR8P8c2JDq1gD/mVF3wjsJTEXNCf1j1UXnxjeaj2ZR5dnCIWlslV1owD+IerTEnIDxp/XmM4Kb1IhAY8Gy79E2xFEAaMxjyKH/GGQtepd1UM4YBnroMCO87FHl9+PsPQx4Kj//B06LNE8jPDDEUoGLXJ78g/8hEm1m7juhTm6SZMQrSd6JM4orWdNlS858qIZupKW0FtYsZYWer2C2C4wvpk7hFPsx4GbZYHgX57CQA0+45weo+GJbB7SMMHj/7pPRc63aVP9Nuscno74GWjWik1o0foOjkPQtNgyxhrEVz1M/28wdiM7Lm7zSFaZDAE9FE0hH6Cgi+h45me44+EkW1pklWfmsMs2MX2u7k9j5l/F38naiX1aAb3iBIHRCm6sAHUw5MI47UFG9suisYww/KjPtxfDbR2957emtpFj1mCe7fLXbLn3UGnyLOe/YjXCDOhEvTxmskCkGmbcGLE9pq22EURrQWoGm2DbSvzj7RNSLLSNORksWKut3mpZ1gCLlGz3BAYAQ=="
             },
             {
-              "id": "toolu_01DK4dcBuymeErVfLpss78dh",
+              "type": "tool_use",
+              "id": "toolu_01EYHJp8HFhkND6p2cNezntu",
+              "name": "web_search",
+              "input": {
+                "query": "\"Fiestas del Levante Feliz\" Alicante fiestas conciertos",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4129,
+          "outputTokens": 253,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4125
+        }
+      }
+    },
+    {
+      "requestHash": "d1bfa788e1f4ae0b10066e4612b8876f6df6a1eb810f84df094b22a4527522ec",
+      "latencyMs": 1151,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01LezrdLi8GbGUWfULeQTu5j",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_1d214909f8\"}"
             }
@@ -29,23 +67,11 @@
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS2QcKEAgTGAI4AUIIdGhpbmtpbmcSDJRp0bqV5iPzb8Gm7RoMmkB/GQNuiLBl1yctIjAPiKaveXtESyQmFrfx0UKH9iVVtCZeRiYwMEQYKERBG2dp7Gncw9RL6T/9AdwwSeoq9gbbhNkfVk11UBtuTYng6ckuSoC/mqq+n4DsVK/8WE3ANFl0SFYOhz3q8bx1GQwGd+bTmlFVka3RJVWkfgC87+IbZpKOhNjRlyngmsKgJT/ntCT+kzZEHhuqYDZuxViLZGex2FY4gzz52gqQLUwrXkEBZ/VsWx9XQOV5BTXlO6rHnEq2Rn/NWPiG4VIPw3NiCg3rFEG1bEYSxNf/CI1s0gyzXquBL9WVtXYKiuN0I8zcz0IucvtFwbcbbkWqLsOBo09y1cj99tUXFD0vyE1DSpnlq+x66909cDY7lex/QTeRkGYQLe1q7vuHL7+VAYCnSV9arRfswKl54z69vbEKui8I7p4bi6+KUi68Rm1nvDHySk6tf+XPnF0+ZQpd910BuY8lu0Mcl9ltCPTrNl71BpKEmzv3fY0DRud8o/x29KBcqvAiY9xiyQO0Oyiq5LCMt4ypKnwKnT3xl0TOBJOS1Ce9NvhmYQDFob8Xfsq8biot/NQ4yFD5DghPsc16QGsaKn5QwG+oYFX8xI5cHU3RWqM3Cd0NpqXugUHUbR6Dzyqif24emgKNBS69RnhkGWm0QgQ3IQWxh+UD1YrweMNNUN5UufLUUTz+Z979IMFZlvTINXHCzqLtbVYHSnrgwI9nuk5e3nxkZ608eBlOka0u0xWnIdmk4fhmNyNZXJFV3SywyREGca+PdD5XstiZOIusuZR5bCQkB8kYYni/lWV6/ZtIM5QkKKEVKCCENcn733dXuSTpYqc0/FAd4mr5+TbT66jeZh2vkhTYhMKKqXssiDtl48WT6nX6rx///QMq3vhP96u2qNoXwe+dSQYdrkjUhr0c/I/96fLPbFvf1tYVh4UeuBSoFdRlOh2xKjZM4IiA+ug3CGSDoPJSu6wUkRBLAPFqmvVUE9iaRfLXBal+33xA9yO/hABGraLZ0T1ebGiuy54LhczehfhzyeP07tPWNcN48HiYR/oLAUnKxmKXNnU1XaNu5eLqigLmFPHnrAl1kGZb7lE9BoR12AEWiJ4pVI0c91aB7CNTUNQXRlgE9KqVqS1ekVSC0Ap39zFtz78fHO8N3FATIB8NdUKYsXF7hya89s7P/mdEBcZFFqb553UwlLqVA8KD9GXBphEeT7yPAbLuCURQYbeqjJJF/rEJ34K1ZKE7aBaekO7IGSCm33xCvduBWBCAGAE="
+              "signature": "CAQSjQcKEAgTGAI4AUIIdGhpbmtpbmcSDFcYqF7Cf7EYHB1B0hoMGbjXBSxtbea6oNC7IjBHgC73mh4eHR20b1NVNWzJmm5WMBhTpmipWqbzluci5sdIbvpzGOfz+qErPndk5IUqqgbNOrXoT5w/rdEA7BWoexYK4QFP4rVdaz0IGE0BbSCUlcrdqdis6fTLXeayqCGaIquUX9qXpOUNEecF2iHAAv3cdML+nPB20L9UOKp4IkWQLIekm6QFsVeRBYFv3uS7uIF3nK4eekyOwfCn+dFtmLojS6CrV/ccPb7E0Kg4yI13+C1/ylxzPeFZWuRroCScWbzj8DvDuaBt5QrlGWRLXoKJf14oANhTBU8ewMfO7zD/cMeMqmXLpYe0r6A/BvNJTfhDc0kqKdCFQlIWyvmDfDUfXDcA4vVe5vmOBIiDNzWwkC1909cHS9qhXZzlNIrfEIhGplloL4wrhNvIEEfD0Q+pO4i/20//OxW0wvJiX9k23S6DZHe7El9n5v5To43OafJ062lfcKYBziAxz7zpf5X5Qn1KcybIXHhUXxsvpWnVYuCCjK8fZ8qB/0yxLjbB1tbHUZSdDjOGsS8cLOSiVl1VCemXjppS+6a/DGuhG3iOgMnped/9Fxh0plK4Sf8FXqxBu6VVXqXpa6uR7cvFX7c2+gdGkt2UW4q9hUd7HJf1SGMqdfM5aRKWa0kL/HCoPpBLd46inizv4YCr8owDInH5BVDlMKHXwaybm14lcCus4JAH4R6n6IN5m4H9NRB09zh6OoXAR5Jy8awo1jt1zMKXWF8nU4H5AQ9xJOP4y3iXEnSS1xeN0NpJ8gtcbcoNdAvUBBgbvSUn7JkYG6dEQr5RCzb7/mNjcZbJReavEV8JU/3lISAywfUJ0wyQVcEh9lTLPmLwo4JO94l+ocAgnrQiGgIaJxyvDVCvC47vpe0i5nnjG7b2xkiLNH1oJv/u5rxYx+k64L/NkXh0z8HhWwNzbiYe79QLe81KXd2l8bykj0WHOxEUjABed4Cp8yVx1i/iQwBhMrM0wT4B2X1eAbHxw7lvhPAKy9R2Ng7p+ztbRSrp62SsYnXGtlcwPKemm5pAuQjihHHEDn4PhHptEdggQOgji84FhlJQ7BgQM5Pe+LnlXtOGzeaxSvPRT1e7jUGQf7hLUUE9oVn0Zwi/fDoO1MI8iV2EPhu3XGauPGZaU82YWbwqFNxo280YAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01KBLz3wbJaME6YSvLVUi96k",
-              "name": "web_search",
-              "input": {
-                "query": "\"Fiestas del Levante Feliz\" Alicante",
-                "maxResults": 3
-              },
-              "caller": {
-                "type": "direct"
-              }
-            },
-            {
-              "type": "tool_use",
-              "id": "toolu_01DK4dcBuymeErVfLpss78dh",
+              "id": "toolu_01LezrdLi8GbGUWfULeQTu5j",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_1d214909f8"
@@ -58,87 +84,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3908,
-          "outputTokens": 261,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 3904
+          "inputTokens": 4475,
+          "outputTokens": 138,
+          "cacheReadInputTokens": 4125,
+          "cacheWriteInputTokens": 348
         }
       }
     },
     {
-      "requestHash": "fc5de1ab059c7ba3f10b6b479b2110c93f01966657875e3d130e36de8fdc137a",
-      "latencyMs": 7566,
+      "requestHash": "6383977c690d6b7f5233bb732f31f1c7d10aa1b281aaf4a9bf2d565ccfca1746",
+      "latencyMs": 6876,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01QRD2ag38F8k2USmnmjLqjw",
+              "id": "toolu_01XLcZCPCF6HHGvFhaikTt5j",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.4,\"rationale\":\"El organizador no muestra fraude claro, pero la revisión es poco concluyente y hay una señal que merece aclaración. Lo que pasa: el CIF es válido, el email está verificado, la cuenta tiene 75 días, no hay reportes de contenido ni cancelaciones, y el equipo está completo. Lo que pesa en contra: el dueño tiene otra organización rechazada (creada el 2026-09-07) y no sabemos el motivo; no tiene eventos publicados; y la descripción es genérica. La búsqueda web no pudo completarse porque se agotó la cuota, así que no he podido verificar la presencia del organizador fuera de la plataforma. Por eso la confianza es baja. Recomiendo pedir información antes de decidir, sobre todo el motivo del rechazo anterior.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con dígito de control válido, razón social 'Fiestas del Levante Feliz S.L.', dirección presente, email verificado, cuenta de 75 días. Sin señales de identidad falsa en los datos de la plataforma.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"El dueño tiene otra organización rechazada (creada el 2026-09-07). No consta el motivo del rechazo. El organizador actual no tiene eventos publicados, cancelados ni finalizados, ni reportes de contenido, ni desvinculaciones previas por admin.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados porque se agotó la cuota. No se ha podido verificar web, redes sociales ni eventos previos fuera de la plataforma. Hay que comprobarlo manualmente.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"unknown\",\"detail\":\"No hay señal de suplantación en los datos disponibles, pero no pude comparar el nombre con promotores conocidos por la falta de búsqueda web.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"La descripción del organizador es muy genérica ('Organizamos fiestas y conciertos en la costa.') y no indica una actividad concreta ni un historial verificable.\",\"confidence\":0.4,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál fue el motivo del rechazo de la organización anterior del mismo dueño (creada el 2026-09-07)? ¿Está relacionada con este organizador?\",\"¿Qué organizaciones o empresas tiene el dueño y qué relación tienen con 'Fiestas del Levante Feliz S.L.'?\",\"¿Tiene web, redes sociales o eventos anteriores verificables fuera de la plataforma? Indique los enlaces.\",\"¿Qué tipo de eventos organizan exactamente (fiestas, conciertos, aforos habituales, ciudades)?\",\"¿Puede aportar un documento que acredite la actividad de la sociedad (por ejemplo, certificado de situación censal o escritura)?\"],\"draft\":\"Hola,\\n\\nEstamos revisando la solicitud de alta de su organizador 'Fiestas del Levante Feliz'. Para poder continuar, necesitamos la siguiente información:\\n\\n1. Motivo del rechazo de la organización anterior de su mismo titular (creada el 7 de septiembre de 2026) y si tiene relación con esta.\\n2. Otras empresas o proyectos del titular y su relación con 'Fiestas del Levante Feliz S.L.'.\\n3. Enlaces a su web, redes sociales o eventos anteriores verificables.\\n4. Tipo de eventos que organizan, ciudades y aforos habituales.\\n5. Documento que acredite la actividad de la sociedad (por ejemplo, certificado de situación censal).\\n\\nCon esta información revisaremos de nuevo la solicitud. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"No hay evidencia directa de fraude, pero la revisión es escasa y hay puntos que requieren aclaración. El CIF es válido y la cuenta tiene 75 días con email verificado. El organizador no tiene eventos publicados, ni reportes de contenido, ni desactivaciones de admin. Sin embargo, el dueño tiene otra organización rechazada (creada el 2026-09-07) cuyo motivo no consta en el contexto. La búsqueda web para verificar la presencia del organizador fuera de la plataforma no pudo realizarse (cuota agotada), así que no hay confirmación externa de su existencia ni de sus actividades. La descripción es genérica. Procede solicitar información al organizador antes de decidir; no hay base para rechazar.\",\"findings\":[{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"Búsqueda web de 'Fiestas del Levante Feliz' Alicante no realizada por límite de cuota agotado; no se ha podido confirmar la existencia del organizador ni sus perfiles o eventos fuera de la plataforma. Conviene revisarlo manualmente o pedir web/redes al organizador.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Sin eventos publicados, sin reportes ni desactivaciones. El dueño tiene una organización previa rechazada (2026-09-07) cuyo motivo no aparece en el contexto; conviene consultarlo antes de aprobar.\",\"confidence\":0.5,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la página web, perfiles en redes sociales o cualquier referencia pública del organizador (fuera de la plataforma)?\",\"¿Cuál es la organización previa rechazada del mismo titular (creada el 07/09/2026) y en qué se relaciona con este proyecto?\",\"¿Qué eventos de fiestas o conciertos han organizado anteriormente y dónde se pueden verificar (contratos con recintos, referencias de artistas)?\",\"¿Quién es el responsable de contacto y el domicilio fiscal, para confirmar la identidad de la sociedad Fiestas del Levante Feliz S.L.?\"],\"draft\":\"Hola, para completar la revisión de vuestra cuenta de organizador en la plataforma necesitamos la siguiente información: (1) página web o redes sociales públicas de la organización; (2) aclaración sobre otra organización rechazada asociada a vuestro titular (septiembre de 2026); (3) ejemplos verificables de eventos anteriores o contratos con recintos; (4) datos de contacto y domicilio fiscal de la sociedad. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS6QgKEAgTGAI4AUIIdGhpbmtpbmcSDHcBsztrvNY6ApYeJRoMAOP2YYd7Lk+jaU9aIjB72JLELMryV+1c6ae1ph8z98mf+zc02K21WnGU3ocmbeDaLV9NCt63xuWA3YdeKu8qhgiduYD08TtiYINoTvgxICIax25UH+f5vRCFn4WDuxC5JQ8du7mKjMsZFf4CkhKCi+2ffwJXvsNnGhI3/URIu1r2n/yjHrYcJ870QdElfXzV83hdCTGKqdlYYdolPGfuz/fvkCrwBriPT9sV8ROR4C9bSfD66XAebMFDZIP0EY6/sZH2HIEqcjhPje4oTVdhJmBQvL8o88qtEoPI6djEYUy7ZMTZHL3bOs7NWzpfeKtU7qojOVhZiTC41sSSX9BL8rDVKe67piPQxt4UWjchXdOW06+/O6OawFQ9SX5/QztNcFl2dxeCgyQ26EffLH/hhbrElsB+yJo5su2dMoytvcUSG7Oom9etBNkB1kib4RgoQy/1m2lNXdP38PVLWm9chljpME1q5LE1AQkyB/CRtnoLEHupl3kHoGZBMbEN+RH2++J+6IYfNRWq/JsONR9oz7mp4Chwgb8VrPUyaC0YcxW1ONAQxWeONdzzXIvc0ps0uLmsZNMo0M5WTrZEhCwgsJLwaSMP5TO/QwysC3wromsnL0ySM2rwoJa+RazUJBO7CqBiXZAvn0rO8+VXY6UJJovh6vMM8Yl6URUIWd6pHCNeQryqwgbUGRyZQnu1CfqLO9Q8IbUoCNdx9yF87P0EDAtI9tghC2kOKx7HiVZFHC0J6biVC0Z1vCUeZDf6yN1LxnaSKcIDXuc5XarFGySyOoMRLxwOTtZsWphYJLrUFH0sy/EX2bq+oBHw/9Z4X6yfQPIJ/8gSH0aP+1lY+7Ux2Er7rc22eSckgROjW4bisRN4XXxnp3na4fBTkIn1/dJvATRryhKZ1+MMkQsTdQqzYG4dCEx3fdseBVe5Kj9ADABSeSE/e2CjRilLjCY5YM3YzlCXZfw7ZB62yLOQo+JlLdxfMBd/naG8owbjR+oMReobWR4HBwmzXoWJ4qpqNBL2N5TZvHQ4wt5nxuJQBXTeGDh+jnfg59X2bwubPyLVCGUijWK3UiPwIUhqdJxwDE60dahSxTJf25yWhZBzsZzvR+sHey5tDvK9yoO//O//rCwTx3xZ8dABaBgCp0ci9+qsThQDB7uwBj2yXPIO005Sws/n2Js7D7WwwmagFsl4oeK3L9lcpKrpo+ZHdFVcGbdnLD/PTp9JL1JTk1VGX5cbTQtIcA7RUlNghNR3E0w5sO7ulzRUWgQDIpdnOsxSIx62UpBgCtx6D/EWCXM5/D8n0AuUBXSA4pSUzelDykYXL1tCcX792dleAq+nthv7UEH+0z8QnySYU1zGVQmX/mfepo0O3t1ka60J3yRQ/iRVYZs3sqSK/ipEsyoaRB9890vtlqrHzYNqbBNlh1V850QQW2ofvr7uWaCJFvk1hvAHFmftEG736pbmGAE="
+              "signature": "CAQSng4KEAgTGAI4AUIIdGhpbmtpbmcSDMb/AmjbvnXFlwAJOBoMVLfjsiyOUcE9CccSIjBBB5Ehu1jQhznn01dCwGNDHXtX6i/nbu7EX50XJIN/zrUYUyPkJCcMwSpe0spRTnUquw00bufYccXrMYlSw445zu78KOLkjwiRC6rqQgI1398PQ023GWrOCLSBuBmGQZ/bJ195Lhv63CZlXqEd8K1ADOufVAJQZ2uSKlLNkvepxk3PTPR6ROsJP/DdmMmGrz8ApPDmg+dfhCzqgXu68TCfJ6dNO3imjHzb32nO1zULuiGUzm80351Qg9x0RvD7XHckSA8n0U541Zwi5EIJc9uGwDg3Mgrcu4VvRrO6R2iM7AVMULbpU0lj+OKYvSVsdi8ZLp2WIlzu/9rmgJXLUtOqVxITONZsmbibEbg/BntgfoBAhEuAC2/GglZz2k1PtwZ3cbalYN5kFvJHIWHKiQ6PcnTjkYipnV3rv4g3ZPnP4n8duXN6NbMyrtb04QuZvQuwGWfu5hpcHXwLcJIsnUXXyvHw1N2qG/oCEWj9EDvIa4TK0T3ncNZPLNIeb8Igin6a8RkjEZZi7Kum0gNV6j5S9KlgC7yFi/nY5Da5aaUDGxeJ1UDa+oXVXMXEQycrzIYtvzyQ/3307FhhhcoTwRsm+EtQYxkZoOjEDxy3JLdALE3j7y/47p8NvesHuRuJUlvH0LBmrjEwPRSqZiXcQ/7La2jlQ1zt/FyikYiDlreBwu8UdtBdOba5LptRvZjLfaziz6uNwSoqwgWUx3uyTX59IInx6t9127Kg1VJjh4nK0x5bYlWa/C5RsX4qU5fc2zA40OYxyO/pNJD39j0YEBqRyX66EyNoo6oWSxGXW6s4WEtaLGw3bQ4xXgSGGZPcGRyHz/8pjKYW/juc2jelhf+Si2zoMii0tgkgablHruK7sYOEe8vMzPUz0NMCuMs5bV0P7vrQ1vpzd81t4rdD3payvdNA1UVZtzORFbZL7DxPFVv7YvaWorXjLF6K2zEfa0Otdr5cbKcdPIIgV8di/zhS4dQuTPchuP4NeddNfAQlZ3R7Tr4bvJoGfpxxVe0+gHSwa0n2ic9pvU2U7Z1336umjK/eCPBkrQ/Ed270/S0LTpVpVX3mY93ubgPM4TfGAW/1/QetFNt0OmU28X4uy+sji3HXoazZx9r+2oVW62LShpzncLrhoSJfwaEjjKkwq2RdJY/APOLNrT3rti1/y9Bpjqe3E2tlc9f4zW2YbD542zI9+1ChW0vqnQAqhTVg5NOX6oF5HOnXUry8UBFuY+YDxzfjuM8pByGOrWCDZPtadZxL2RKd4J6vjrLvfz6tKKauPXcb18vrAkdOZBsvACTFnIZL6MVa9kboh5LrUgiAG580HoploNJXZHDJ5L75KRDjTavk84T/Xk6yM6h0yMUk2mV1V63kMtUtyHAeEI8XCyIQ1Z9nHVQecW3IBHxtg1PHwEbdWQEPcW/Ftzo6g98udWBRUs9+AsvBpRbTMC31nh0lEJxF7RI9k6SqhJh01dhTel+8PhI1AmRv24FtcMelfFTH5dN+Uw+kuX+uJWQXXvnBl23/sdTH64uCzsBHXlL/Jp5PVGKyo8mqzeBUTMCwLZbs/eh2vcGdhIjnGfav9aarU6jSwAHCZwsCpb3NDu2tryLWgMl2qSLhf6ENw7thUjwsP/bzy3idsgmMpbtJzwNi9CJCMfrJXdfBDNWqfwPqxhYmIvydpnRKqGpZOodPWMo84a+boXU5D8OymGsdn9MXy8Q1VUOIIVX1Y79SEkROGvMZxhwIS3AzadtyzWmSQNB7Aw27ouJKCHybVoP6NxidTYUI/vIGy6XuwB5sja9OXLvP1yGTNyBadOI29gMYzMP35a61oUDusLSIa0Xhm6A9UPdWMJZSUq3/0Mj2z7S5O6s7e46dyeufqSuPG/IjjQtLXKCgHWjYj633o8mU8B/2hzTaOLj5ZiP/GdAUFkBivXGGPWfK4H8Rx8he1T66avnVjmGn529YQQo1lFyvfCWw91NcYhL8sm4dNVONapXNfD5NVr17NWEp6EfjyQM9wF8kb54PvfyYkiiPdMCkKUyT/WI3G2iR4AUVqWiTe0U5mekCnbuo/407XkvMDZxYuu63c4xICpgQ0JpnC9feAVQPPfSpEHDqHOWBkgX0o31j3rb9/++YpBvGFipUxpuj013fWNUt0YlDGP5UHl9LdK4GIyHiuPotrI+wkwUgMDbqmzt4w7uoCqXIrPkLQwyBKucuS4KU/KXS8NIYYhEMHWN561w0NKpJccq0fBJ+wP14hbQZ3njXr1IzNOvosQVyimgMVr7F3nySbVvVyhDK5y1bPbh+NHvq1MdRQ6UtSztlBFXMNE5OVDyfgVvrTNsQ/rlrMJySc4eAz5No3AJRT0V98FFoWrbBG2oRb/IiGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01QRD2ag38F8k2USmnmjLqjw",
+              "id": "toolu_01XLcZCPCF6HHGvFhaikTt5j",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.4,
-                "rationale": "El organizador no muestra fraude claro, pero la revisión es poco concluyente y hay una señal que merece aclaración. Lo que pasa: el CIF es válido, el email está verificado, la cuenta tiene 75 días, no hay reportes de contenido ni cancelaciones, y el equipo está completo. Lo que pesa en contra: el dueño tiene otra organización rechazada (creada el 2026-09-07) y no sabemos el motivo; no tiene eventos publicados; y la descripción es genérica. La búsqueda web no pudo completarse porque se agotó la cuota, así que no he podido verificar la presencia del organizador fuera de la plataforma. Por eso la confianza es baja. Recomiendo pedir información antes de decidir, sobre todo el motivo del rechazo anterior.",
+                "confidence": 0.5,
+                "rationale": "No hay evidencia directa de fraude, pero la revisión es escasa y hay puntos que requieren aclaración. El CIF es válido y la cuenta tiene 75 días con email verificado. El organizador no tiene eventos publicados, ni reportes de contenido, ni desactivaciones de admin. Sin embargo, el dueño tiene otra organización rechazada (creada el 2026-09-07) cuyo motivo no consta en el contexto. La búsqueda web para verificar la presencia del organizador fuera de la plataforma no pudo realizarse (cuota agotada), así que no hay confirmación externa de su existencia ni de sus actividades. La descripción es genérica. Procede solicitar información al organizador antes de decidir; no hay base para rechazar.",
                 "findings": [
                   {
-                    "check": "organizer_identity",
-                    "verdict": "pass",
-                    "detail": "CIF con dígito de control válido, razón social 'Fiestas del Levante Feliz S.L.', dirección presente, email verificado, cuenta de 75 días. Sin señales de identidad falsa en los datos de la plataforma.",
-                    "confidence": 0.7,
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "Búsqueda web de 'Fiestas del Levante Feliz' Alicante no realizada por límite de cuota agotado; no se ha podido confirmar la existencia del organizador ni sus perfiles o eventos fuera de la plataforma. Conviene revisarlo manualmente o pedir web/redes al organizador.",
+                    "confidence": 0.3,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "warn",
-                    "detail": "El dueño tiene otra organización rechazada (creada el 2026-09-07). No consta el motivo del rechazo. El organizador actual no tiene eventos publicados, cancelados ni finalizados, ni reportes de contenido, ni desvinculaciones previas por admin.",
-                    "confidence": 0.6,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_web_presence",
-                    "verdict": "unknown",
-                    "detail": "La búsqueda web no devolvió resultados porque se agotó la cuota. No se ha podido verificar web, redes sociales ni eventos previos fuera de la plataforma. Hay que comprobarlo manualmente.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "impersonation",
-                    "verdict": "unknown",
-                    "detail": "No hay señal de suplantación en los datos disponibles, pero no pude comparar el nombre con promotores conocidos por la falta de búsqueda web.",
-                    "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "other",
-                    "verdict": "warn",
-                    "detail": "La descripción del organizador es muy genérica ('Organizamos fiestas y conciertos en la costa.') y no indica una actividad concreta ni un historial verificable.",
-                    "confidence": 0.4,
+                    "detail": "Sin eventos publicados, sin reportes ni desactivaciones. El dueño tiene una organización previa rechazada (2026-09-07) cuyo motivo no aparece en el contexto; conviene consultarlo antes de aprobar.",
+                    "confidence": 0.5,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Cuál fue el motivo del rechazo de la organización anterior del mismo dueño (creada el 2026-09-07)? ¿Está relacionada con este organizador?",
-                    "¿Qué organizaciones o empresas tiene el dueño y qué relación tienen con 'Fiestas del Levante Feliz S.L.'?",
-                    "¿Tiene web, redes sociales o eventos anteriores verificables fuera de la plataforma? Indique los enlaces.",
-                    "¿Qué tipo de eventos organizan exactamente (fiestas, conciertos, aforos habituales, ciudades)?",
-                    "¿Puede aportar un documento que acredite la actividad de la sociedad (por ejemplo, certificado de situación censal o escritura)?"
+                    "¿Cuál es la página web, perfiles en redes sociales o cualquier referencia pública del organizador (fuera de la plataforma)?",
+                    "¿Cuál es la organización previa rechazada del mismo titular (creada el 07/09/2026) y en qué se relaciona con este proyecto?",
+                    "¿Qué eventos de fiestas o conciertos han organizado anteriormente y dónde se pueden verificar (contratos con recintos, referencias de artistas)?",
+                    "¿Quién es el responsable de contacto y el domicilio fiscal, para confirmar la identidad de la sociedad Fiestas del Levante Feliz S.L.?"
                   ],
-                  "draft": "Hola,\n\nEstamos revisando la solicitud de alta de su organizador 'Fiestas del Levante Feliz'. Para poder continuar, necesitamos la siguiente información:\n\n1. Motivo del rechazo de la organización anterior de su mismo titular (creada el 7 de septiembre de 2026) y si tiene relación con esta.\n2. Otras empresas o proyectos del titular y su relación con 'Fiestas del Levante Feliz S.L.'.\n3. Enlaces a su web, redes sociales o eventos anteriores verificables.\n4. Tipo de eventos que organizan, ciudades y aforos habituales.\n5. Documento que acredite la actividad de la sociedad (por ejemplo, certificado de situación censal).\n\nCon esta información revisaremos de nuevo la solicitud. Gracias."
+                  "draft": "Hola, para completar la revisión de vuestra cuenta de organizador en la plataforma necesitamos la siguiente información: (1) página web o redes sociales públicas de la organización; (2) aclaración sobre otra organización rechazada asociada a vuestro titular (septiembre de 2026); (3) ejemplos verificables de eventos anteriores o contratos con recintos; (4) datos de contacto y domicilio fiscal de la sociedad. Gracias."
                 }
               },
               "caller": {
@@ -149,19 +153,19 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4807,
-          "outputTokens": 1672,
-          "cacheReadInputTokens": 3904,
-          "cacheWriteInputTokens": 901
+          "inputTokens": 5110,
+          "outputTokens": 1448,
+          "cacheReadInputTokens": 4473,
+          "cacheWriteInputTokens": 635
         }
       }
     }
   ],
   "searches": [
     {
-      "requestHash": "8a9ef4e9b4de023bb54069efadd2a648f6e85624adc3fe2d1fea28cd7410d348",
+      "requestHash": "420eb8aa75d9593d9a26db8eae49cad8df39e32fca777a8ee0896524a42de034",
       "provider": "Tavily",
-      "query": "\"Fiestas del Levante Feliz\" Alicante",
+      "query": "\"Fiestas del Levante Feliz\" Alicante fiestas conciertos",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

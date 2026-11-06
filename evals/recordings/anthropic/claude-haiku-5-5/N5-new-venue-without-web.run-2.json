@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "290dbccb02667244512aae848bf239a199c90c7eb061ee74a6a8c5321b7e21ac",
-      "latencyMs": 1196,
+      "requestHash": "c0d0c44f5aa5595b618a6d29078252427c13f64efba664d3f542f606bdc3d0b8",
+      "latencyMs": 1499,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01Kg1ZV3tY6YqGyqUaATc5Ym",
+              "id": "toolu_01UaHkqYmWQLNaXxe8zrcfFa",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_003766f918\"}"
             },
             {
-              "id": "toolu_01LZty3y8xC4kA49zU3w2FSX",
+              "id": "toolu_01Q2CLUmY61qAadeA6Wk44DC",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\"}"
+              "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01WWp3QhpM2rTW4TcCeLdPVa",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Espacio Tinta\\\" Mérida polígono El Prado\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSngYKEAgTGAI4AUIIdGhpbmtpbmcSDOsNr29dbKhAytst9xoMUo90duXCoVq7j+fgIjBrUpsDe2AQ8aJ7R5KORrTDv1dr8+ozW7paa5l20vPnx+cnML0EcwtC+lE3MSUScJcquwWGCw5yBePEq128PkI0momroOmGGSsgnwVq8wk5mvzrGeJgqIFdCQkFW0D8oGUubTC/X0X6dTp2EmY4xPCkAo0t2Nhb4lD/iBZXJmPuFn3u/9loH5YhB2zAiTjl1qucWskBIqfbZFvmZmkCRXaxqfT81iwANh2uxhVCiCGGccUdkf63O6RDZswwbmJjiWxV7A8GDRb9oPswNLZx1PV575cKrjQGjKIWcerBGmu9uaNbCkGyIAXUfGKbHn2eDRvSMw/0/Ns4olLn388Brx8SYBWFgjUv7hfnZlKvRcIuGC36ukJdD/2d6wtyXnEFvjwqL1cNAZHNhlPxYNku0xAOo7tdxcgMeYQEcanGeQ4p9jtsx6tUNMHI/FulgvCV0MHI9UWXsrBCfFp16FI43U4o0iYVoicA448EqHQZCtSmPtLck260JsdvtHH8u38NBTg16VKp8WEorQcZcncKKXheX7tjRyXOBVwDsjCthOEatyuh4at6vB3HTUFmhFyA9VOnpZRi4ZMtbdQhtyl5tKXuziQB+ALNnHnVbiOUaFYXAvDL93ADQBYnDRiVVlyTGgxswuvXcl8kTIOP3QHFn4Aq5kmiRLJGEJUq7btPWhmF75vSx6NtsD/2So9z/Ml2oBS1H+YzLklCCAFrIcNDuoRjOPEs9m+F6jaB8CNCHDzw3D1H00byowMC7qrqKbNDBzgXVTdJWT0KwFICyjhEwlvy5oety4TwnQtbiNWUoYAk5UJipreugunRV2Rqxj/SvpEVEvpYI17VgOEI1uT43BVTtsmitf4KX6BvnNsaqLT6vN6GgDSMH5LRfTtJtPue+Vqar/CejT6GuLia3BUHY/iQbrgiD9bj7aklfQ15jflJP7ZrCpL3JnIQ+OBvNRWgylQKh8hHPmPyHqXb8yW0n3ZzHxUcZBn+SnyM2anMS7oYAQ=="
+              "signature": "CAQSzgUKEAgTGAI4AUIIdGhpbmtpbmcSDHASta3P0u3lL4AY7hoMDaRXJIpMWKepuUufIjAK1CNrGmb7WchInWQSp2z/9UcYraR7ukTkLQZ84GPF53bbQVkVwqDnFxhb0XHDS+sq6wTd/8L8tqe/GfBm8wXERgnpQo621a5tYOow4PSXAzHa9x43UTYBc6FdpMwceWBGIkYqvR/0cxzEfBzCMP7HXjGgLBw1PpgxVxkQEeU49TLol6Bhofe77wj658aBrEXNUPXNUMcfSXatPW7f5T9hIzT4JibQ1Gpw6+is1DVgF7Z6Mb3AhFzspTz0CErFtrUb17sZI4UENhBMuW0XK3qz00iEFh+kxV/+CpRCrGRa1v0ulX1j904Rq8MeMVUYOqLVnK+osBzWXhlpzMNDa/b87k9+ki25scpjoD2ec1hg8fZl2ekjkZ+4bISrp+dH+P3dU/BADDqlf921c3LAluI4IFXoQtYl9oz/OdS+u0rRuB9Wj8iX4d2IkprsmK3giyOERwyL3I8EG2eqiF+mlLyggj62yhtZkwhn0+1Iza/71N5p4JNXcWi9nTbWNaqsspgFGAZtU0Z6Ky+QGir9QJy/d9VA+MpV2jVlrVZte8Ad+F5BXgRY9fhqubH9yKe5/vzbcvOkHb9lwvWieGkKGrxUo1oXroStIPwAUPl80VJPrpTgqTu71LyWK4FQzeRPyPQAFYk8Nos4uaOAFGJBfHrqhZx8wD1dWoPrFxb97MBibGl1o3GVNy/YFBFu63MU+9bjQMrpVoYi/YOQOoxcJ3S5gZDMGY+1H5fI5uji152rdqXQ88540UTd7MfJc8ttGctuxJcp7moJF8Wl7wQmAbKiAgbHaK4HjrHI3KKA6xFoPAUrrY2FQ8osatYHVheGfDeOngpUJTbQ4zTwRAxVWUigoi74Z+clG1EIz6Bzyh2EG0DOWffntGTgw37/hqi9GAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01Kg1ZV3tY6YqGyqUaATc5Ym",
+              "id": "toolu_01UaHkqYmWQLNaXxe8zrcfFa",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_003766f918"
@@ -44,10 +49,23 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01LZty3y8xC4kA49zU3w2FSX",
+              "id": "toolu_01Q2CLUmY61qAadeA6Wk44DC",
               "name": "find_similar_events",
               "input": {
-                "eventId": "evt_8a3417cf99"
+                "eventId": "evt_8a3417cf99",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01WWp3QhpM2rTW4TcCeLdPVa",
+              "name": "web_search",
+              "input": {
+                "query": "\"Espacio Tinta\" Mérida polígono El Prado",
+                "maxResults": 3
               },
               "caller": {
                 "type": "direct"
@@ -57,175 +75,101 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4811,
-          "outputTokens": 184,
+          "inputTokens": 5032,
+          "outputTokens": 269,
           "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4807
+          "cacheWriteInputTokens": 5028
         }
       }
     },
     {
-      "requestHash": "15e4f7fa4d62bdfa10cfff015dd52c04c1c41c4b407abf58b7ada71493341bd0",
-      "latencyMs": 1628,
+      "requestHash": "3e5396b160ac123d980220aa54d7549c3ef279d9fc911f61b61d32d9d8656c24",
+      "latencyMs": 10126,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01PqGeQ1xUKbtUXheDEVRmWk",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Tinta\\\" Mérida polígono El Prado nave 12\",\"maxResults\":3}"
-            },
-            {
-              "id": "toolu_01Fyhten4yA9eWZ3eztsM84k",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Guadiana Directo\\\" Mérida conciertos\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSxwcKEAgTGAI4AUIIdGhpbmtpbmcSDFNOj3lfzessqf6nTRoM3dHDB0rzU1hDmbFoIjAIa3gzjk89eez0cQYqAN7oeJLrq9bIlk2jLwQnN0P1MUvkBNuRvd9gCoiVITaNoQQq5AYGf6icn9ULZbEFJgC1bPc2uGz10+zBXyj3hH3UZg8CJt2d9Fen8h+BIP5b/jgVh82hrSV2d80nhCvlXePeySpNK1rzX2zk6r6yKOK8jUoCwhkBe2YX/+PL+Jf7jyNTGJhN1TtGfvcdksTgpM2Kd74XlFEHAzyGaH2sySCmc85JOazOasAZ65t6NwgrYcb3rU3Yoz/ssK/MqM4jst38jU+4xnvua2dZ90UP0+i9oWFsijwLUPDBYPp2s5bM9OdlbYf3mZvRzdNhJlPZQUWPnEeKKHcTGsk8NkcmmC8fOIORmENDE9PrdctVaQGVygkc4aq/1H59YueMMQ/fjVYpb7PnnNhAPxU5fMytyWxwwaVqs9mgfsxYMkv2XRgLhrNS+B2ZU7kFRx9i2HcfDfsL2aXW5w4UugXmD7EcLBn2r/UDkzZAkopSTPQifvI7oB5kpRIhMKnWpCIr65W3iG3P4E5VqnqTCkELh04DPpgFk4SacPb2sQq/rzQib0pG8JUP1M/K7bbntqxT71lSeUleHRQRA6ZM8kN6lnV9zUErckXvtZSNKEcTYo3nQBi+27vo2PTzuA3hmvDucLvUvjgbQpkCQOJUEZGXGJ96e7R8+hHrQx4p8Ln/UTEcF97q60WvxgKzxzxjFw/7rZBY+86w6NysTHnV0V57sLYD3nKgfy0tRZdKnxpsvoJo4acKosYEH1xZnUslMbjv0SJE5a2e5ySGmdtqmdZNCJsKyNTEOF/yNoSnL8YmDH01dRRrLVNt1ZF3TuZgtF7X2jRdtbDmjDK16sjb4ytrB4bWvETR8fxxW+Jo9Kj1f/mNQCooVkwelPFcBtRlsCdMB37S8yw7NKaCm9A2fCYXKSBy7dna7FLi4Vk760XW0KLCwERyZG0ZlAJCHxHnWaPSqJwQLYu9CzNoJ4t6kP22vOaaFXPVb1zJ5z9tDJj6Xku8vE+Rg+W6c4eb8DnHSpw/FEKrRWO7lJnMgwZockkzYK+Kj1tOEXZaY+ULzE83PCWVsnxsBEkkubvXTJS3Hj4X0tdAhALr2uO11E/NJy4TnQ1cU8eiberJqXRO/NsbkgRsRZjhq7/0sTD1N/aTUwGoAXD5NG4Yf8WA3bL7lAaFdv9tUQEqHP45E5geCA1uPU9oukm0rpUtH5cOW1XJGAE="
-            },
-            {
-              "type": "tool_use",
-              "id": "toolu_01PqGeQ1xUKbtUXheDEVRmWk",
-              "name": "web_search",
-              "input": {
-                "query": "\"Espacio Tinta\" Mérida polígono El Prado nave 12",
-                "maxResults": 3
-              },
-              "caller": {
-                "type": "direct"
-              }
-            },
-            {
-              "type": "tool_use",
-              "id": "toolu_01Fyhten4yA9eWZ3eztsM84k",
-              "name": "web_search",
-              "input": {
-                "query": "\"Guadiana Directo\" Mérida conciertos",
-                "maxResults": 3
-              },
-              "caller": {
-                "type": "direct"
-              }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5554,
-          "outputTokens": 291,
-          "cacheReadInputTokens": 4807,
-          "cacheWriteInputTokens": 745
-        }
-      }
-    },
-    {
-      "requestHash": "68ae3690cbfcc7c9b0967244fb99a466630d53ddd620237c556d423ae1abbe3a",
-      "latencyMs": 8926,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_014qYXXJDHq1PbML7R7L32GL",
+              "id": "toolu_01JsFXoxsw9e1vDfcxSnaGqz",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador tiene historial limpio (approved, 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones ni reportes, sin retiradas por admin). Las comprobaciones deterministas pasan casi todas, y el precio (12 €) está muy por debajo del p90 comparable. No hay eventos similares de otros organizadores. El punto pendiente es el recinto: «Espacio Tinta» no aparece en OpenStreetMap, así que no se puede verificar existencia ni aforo, y la venta de 300 entradas no tiene respaldo de aforo publicado. La descripción dice que es una sala nueva, lo que podría explicar la ausencia en mapas, pero no lo confirma. Las búsquedas web no se pudieron completar (cuota agotada), así que no hay verificación externa del recinto, del grupo ni del organizador. No hay indicios claros de fraude, pero tampoco pruebas suficientes para aprobar. Se pide documentación del recinto antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Guadiana Directo S.L., CIF con checksum válido, dirección en Mérida (06800), cuenta del propietario de 930 días con email verificado y sin otras organizaciones.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web de la promotora no se completó por límite de cuota; no se ha verificado su presencia externa.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detecta un nombre parecido a una promotora conocida en los datos disponibles; verificación externa no realizada.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"«Espacio Tinta» no figura en OpenStreetMap en Mérida. La descripción presenta el espacio como una sala nueva, lo que podría explicarlo, pero no hay confirmación de existencia ni de la dirección (nave 12, Polígono El Prado Nuevo). La búsqueda web no se completó.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Sin aforo verificado del recinto. Se venden 300 entradas en la única sesión (20 ya vendidas) sin dato de capacidad real que lo respalde.\",\"confidence\":0.4,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 12 € por debajo del p90 (35 €) de 42 eventos comparables en Badajoz (rock, 300-1000).\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"El cabeza de cartel «Los Lagartos Azules» no se ha podido comprobar fuera de la plataforma; la búsqueda web no estuvo disponible.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Dirección completa y documentación del recinto «Espacio Tinta» (licencia de actividad, contrato de alquiler o escritura de la nave 12, Polígono Industrial El Prado Nuevo, Mérida).\",\"Aforo máximo autorizado del recinto y justificación de la venta de 300 entradas.\",\"Confirmación de la fecha de apertura del espacio y de la sesión del 27/11/2026.\",\"Confirmación de la participación de «Los Lagartos Azules» en esa fecha (contrato o enlace a su web o redes oficiales).\",\"Enlace a la web o redes sociales oficiales de Guadiana Directo y de Espacio Tinta, si existen.\"],\"draft\":\"Hola. Hemos recibido el evento «Inauguración de Espacio Tinta» (27/11/2026, Mérida). Para completar la revisión necesitamos: 1) La dirección completa y documentación del recinto (licencia de actividad o contrato de alquiler de la nave 12, Polígono Industrial El Prado Nuevo). 2) El aforo máximo autorizado y cómo se ha calculado el número de entradas a la venta (300). 3) Confirmación de la apertura del espacio y de la sesión del 27/11/2026. 4) Confirmación de la actuación de Los Lagartos Azules en esa fecha (contrato o enlace oficial). 5) Enlaces a la web o redes sociales oficiales de la promotora y del espacio. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"El organizador (Guadiana Directo S.L.) parece legítimo: cuenta de 930 días, CIF con checksum válido, 14 eventos publicados y ninguno cancelado ni retirado por administración, sin reportes de contenido y sin otras organizaciones del titular. No he encontrado similares ni clones en la provincia en ±30 días. Las comprobaciones deterministas de pagos, condiciones, precios, comisiones, descuentos, sesiones y código postal han pasado.\\n\\nEl punto que impide aprobar es el recinto: «Espacio Tinta» no aparece en OpenStreetMap en Mérida, así que no se puede verificar que exista en esa dirección ni su aforo. La sesión pone a la venta 300 entradas sin un aforo verificado. La descripción dice que es una sala nueva, lo que podría explicar la ausencia de datos, pero es algo que hay que comprobar con documentación. La búsqueda web se agotó por cuota, así que no pude confirmar la existencia del recinto, la presencia del organizador fuera de la plataforma ni la disponibilidad del artista (Los Lagartos Azules) en esa fecha. No hay evidencia directa de fraude, por lo que la recomendación es pedir información y no rechazar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Guadiana Directo S.L., CIF con checksum válido, dirección en Mérida (06800), cuenta de 930 días con email verificado y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por administración, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar la presencia del organizador fuera de la plataforma: la búsqueda web devolvió error de cuota agotada y no hubo resultados.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devolvió eventos similares de otros organizadores en la provincia en ±30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"El recinto «Espacio Tinta» no figura en OpenStreetMap en Mérida (dato de la comprobación determinista). La descripción indica que es una sala nueva, lo que puede explicarlo, pero no está verificado. No pude contrastarlo en la web por cuota agotada.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Sin aforo verificado para el recinto. La entrada general pone a la venta 300 plazas, sin dato externo que lo respalde.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si Los Lagartos Azules tienen anunciada otra fecha el 27/11/2026: la búsqueda web no estuvo disponible por cuota agotada.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Dónde está exactamente el recinto? Indique la dirección completa de la nave 12 del Polígono Industrial El Prado Nuevo y un teléfono o correo de contacto del local.\",\"¿Qué documentación tiene el local (licencia de actividad o apertura, o declaración responsable) y cuál es su aforo máximo autorizado?\",\"¿Cómo se ha calculado el aforo de 300 plazas para la entrada general?\",\"Confirme la fecha del 27/11/2026 con el artista Los Lagartos Azules y facilite un contacto o un enlace oficial de la banda.\",\"¿Tiene una web o redes sociales de la sala o de Guadiana Directo donde se pueda ver el espacio o eventos anteriores?\"],\"draft\":\"Hola, antes de aprobar el evento «Inauguración de Espacio Tinta» necesitamos verificar algunos datos. Por favor, indíquenos la dirección completa del recinto (nave 12, Polígono Industrial El Prado Nuevo, Mérida) y un contacto del local; la documentación de apertura o la licencia de actividad y el aforo máximo autorizado; cómo ha calculado las 300 plazas de la entrada general; la confirmación de la actuación de Los Lagartos Azules el 27/11/2026; y una web o redes sociales donde podamos ver la sala o eventos anteriores. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSkwkKEAgTGAI4AUIIdGhpbmtpbmcSDOvdcTtDeTnGnVNtkxoMQ6pPYZmNZAa+bKwhIjAWTKPHVSk4YrGU+2HJZggaGp7GMZiFVE7xowXCE5ab3kipxhLdPZZjTihAtfL4XlYqsAiXGjwK75HhgIdvSDvkMNH5QdISpNsMlXzKx4nl+FpPEkwAJMkIIS5ch3Y+Ns1KR7lGKrYN/5ECSCOA53Q52VJ08vOSou0dQpvDVYinkp7ufBhAZhqlDDWa9QiV+ObunyW01bOdtEt4iGtCwjkwP4qXxlkV6ifKp6yG2d69qOw70L7/8wpW2MgGZTO+mh+ae7fMysnCM3fP/lVJhGhUWDhDn5Rmhfh4lf+T3FSnH7owEgqsplsZkOJJe3B7DTr8ahzY99YdYkUkK/YjBiyw8oWF0AHWB6SaIgTp2M4h0roiY7K3XcRsTE4WGmO+GQv7ExSM6hd4Nf3LJ/66zyMJHjuCKOOLRPlYM29qLyRyyl3VoHbHYIPm/6WxHYa6kj9yAdecmEEpS3oWb8PwOA44oB6COTbpnRq+/D8aFHNHnROOVvFpHVNlnE/TwCVyEpCQjHoUUGQcT5r6DPw+HrzdJzaAntQRVQIG8Rj91XMXKl1uAPS/L7SmVepCiOCKZNToCXb+UcfHxtvl6b4bNLboa2LbsdQzWcM4YMQMiijWM7GNGOdZK1B9loANd4LCcIIjGUK2UnVN/jOPsiBep37yZrAau369KT2f8A/berQA2vLoaHmn4NnhBDwCE2sZfUXJcdk7zhgdMGL13DgEiXGqP/rFC9uJgEeSUTON94pKiOI1Ln+BMVmeAMBLs5KrnRZlRQ5ZNvPyKKMNDDDI+8RslwTROPQMt2BPh8p/L6rv/VULTEUHADeiWMvtsRI4MdregoPC4w/bS33iW//XViShI7Pf3lg/MZ5KAxUFba5GSgx9SYe+Hcmoq0DHLisE23dEUhegdNEt0pDTwrAoatSbVKV/447Jyuuui7AUXjCnv8/70glB/iCw/et035WG11aGqtQE7jLtN8eYJyNuyOrykrsdQdB9mNcxFhWyxJ/LSC1rmxmx6g4R9WfyY5KJgrMJOI1+n/x69IneFA/0Jv4dnwjaPEz3nz5Okq43sRJPzfvvcT6epfvz8mzgSbDyqvztryVvFPieNGQYtFiTXZsNNPADcEm5+joWQ3Vbjy9rd/z0HEN2BpwMhxGiAPMB6R3qhAtLewAUXdnr3ZUHbCCpayVsp8o6amVnhLFt3fefU8VHYRYB+FcsH03Fz4RwFPsg4IPLSXJuZoor2l2YEF71AmV5dvijql4wJLsOIN2y/0ORWeBdHlMlUFm5CrXYu2iCsL1txl1cfQinJzekLVsQBBTKX1uBuBmGMFzKmMo8zJIqLGUn2WrrvTDxyGzfUVtn/SslMap4BfTa8Low7deG6g6xaGQSONPlRnFLtoD8K+hh45NfznA4DpUCDBkGsUr/P3kvNdtH2Hp+LqpyHoRFpEqM0Mzs5EQhro9+tX/6jSLMocByd1gzeCcO824QTvcCqoLWw6g3TydbTp7QYKaPeYUJGAE="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_014qYXXJDHq1PbML7R7L32GL",
+              "id": "toolu_01JsFXoxsw9e1vDfcxSnaGqz",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.6,
-                "rationale": "El organizador tiene historial limpio (approved, 930 días de antigüedad, CIF válido, 14 eventos publicados sin cancelaciones ni reportes, sin retiradas por admin). Las comprobaciones deterministas pasan casi todas, y el precio (12 €) está muy por debajo del p90 comparable. No hay eventos similares de otros organizadores. El punto pendiente es el recinto: «Espacio Tinta» no aparece en OpenStreetMap, así que no se puede verificar existencia ni aforo, y la venta de 300 entradas no tiene respaldo de aforo publicado. La descripción dice que es una sala nueva, lo que podría explicar la ausencia en mapas, pero no lo confirma. Las búsquedas web no se pudieron completar (cuota agotada), así que no hay verificación externa del recinto, del grupo ni del organizador. No hay indicios claros de fraude, pero tampoco pruebas suficientes para aprobar. Se pide documentación del recinto antes de decidir.",
+                "confidence": 0.5,
+                "rationale": "El organizador (Guadiana Directo S.L.) parece legítimo: cuenta de 930 días, CIF con checksum válido, 14 eventos publicados y ninguno cancelado ni retirado por administración, sin reportes de contenido y sin otras organizaciones del titular. No he encontrado similares ni clones en la provincia en ±30 días. Las comprobaciones deterministas de pagos, condiciones, precios, comisiones, descuentos, sesiones y código postal han pasado.\n\nEl punto que impide aprobar es el recinto: «Espacio Tinta» no aparece en OpenStreetMap en Mérida, así que no se puede verificar que exista en esa dirección ni su aforo. La sesión pone a la venta 300 entradas sin un aforo verificado. La descripción dice que es una sala nueva, lo que podría explicar la ausencia de datos, pero es algo que hay que comprobar con documentación. La búsqueda web se agotó por cuota, así que no pude confirmar la existencia del recinto, la presencia del organizador fuera de la plataforma ni la disponibilidad del artista (Los Lagartos Azules) en esa fecha. No hay evidencia directa de fraude, por lo que la recomendación es pedir información y no rechazar.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Guadiana Directo S.L., CIF con checksum válido, dirección en Mérida (06800), cuenta del propietario de 930 días con email verificado y sin otras organizaciones.",
-                    "confidence": 0.85,
+                    "detail": "Guadiana Directo S.L., CIF con checksum válido, dirección en Mérida (06800), cuenta de 930 días con email verificado y sin otras organizaciones del titular.",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.",
-                    "confidence": 0.85,
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por administración, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_web_presence",
                     "verdict": "unknown",
-                    "detail": "La búsqueda web de la promotora no se completó por límite de cuota; no se ha verificado su presencia externa.",
+                    "detail": "No se pudo verificar la presencia del organizador fuera de la plataforma: la búsqueda web devolvió error de cuota agotada y no hubo resultados.",
                     "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "impersonation",
-                    "verdict": "pass",
-                    "detail": "No se detecta un nombre parecido a una promotora conocida en los datos disponibles; verificación externa no realizada.",
-                    "confidence": 0.4,
-                    "sources": []
-                  },
-                  {
-                    "check": "venue_exists",
-                    "verdict": "unknown",
-                    "detail": "«Espacio Tinta» no figura en OpenStreetMap en Mérida. La descripción presenta el espacio como una sala nueva, lo que podría explicarlo, pero no hay confirmación de existencia ni de la dirección (nave 12, Polígono El Prado Nuevo). La búsqueda web no se completó.",
-                    "confidence": 0.4,
-                    "sources": []
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "unknown",
-                    "detail": "Sin aforo verificado del recinto. Se venden 300 entradas en la única sesión (20 ya vendidas) sin dato de capacidad real que lo respalde.",
-                    "confidence": 0.4,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No hay eventos similares de otros organizadores en la provincia en la ventana de fechas.",
-                    "confidence": 0.7,
+                    "detail": "find_similar_events no devolvió eventos similares de otros organizadores en la provincia en ±30 días.",
+                    "confidence": 0.6,
                     "sources": []
                   },
                   {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "Precio de 12 € por debajo del p90 (35 €) de 42 eventos comparables en Badajoz (rock, 300-1000).",
-                    "confidence": 0.7,
+                    "check": "venue_exists",
+                    "verdict": "unknown",
+                    "detail": "El recinto «Espacio Tinta» no figura en OpenStreetMap en Mérida (dato de la comprobación determinista). La descripción indica que es una sala nueva, lo que puede explicarlo, pero no está verificado. No pude contrastarlo en la web por cuota agotada.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "Sin aforo verificado para el recinto. La entrada general pone a la venta 300 plazas, sin dato externo que lo respalde.",
+                    "confidence": 0.5,
                     "sources": []
                   },
                   {
                     "check": "artist_availability",
                     "verdict": "unknown",
-                    "detail": "El cabeza de cartel «Los Lagartos Azules» no se ha podido comprobar fuera de la plataforma; la búsqueda web no estuvo disponible.",
+                    "detail": "No se pudo comprobar si Los Lagartos Azules tienen anunciada otra fecha el 27/11/2026: la búsqueda web no estuvo disponible por cuota agotada.",
                     "confidence": 0.2,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "Dirección completa y documentación del recinto «Espacio Tinta» (licencia de actividad, contrato de alquiler o escritura de la nave 12, Polígono Industrial El Prado Nuevo, Mérida).",
-                    "Aforo máximo autorizado del recinto y justificación de la venta de 300 entradas.",
-                    "Confirmación de la fecha de apertura del espacio y de la sesión del 27/11/2026.",
-                    "Confirmación de la participación de «Los Lagartos Azules» en esa fecha (contrato o enlace a su web o redes oficiales).",
-                    "Enlace a la web o redes sociales oficiales de Guadiana Directo y de Espacio Tinta, si existen."
+                    "¿Dónde está exactamente el recinto? Indique la dirección completa de la nave 12 del Polígono Industrial El Prado Nuevo y un teléfono o correo de contacto del local.",
+                    "¿Qué documentación tiene el local (licencia de actividad o apertura, o declaración responsable) y cuál es su aforo máximo autorizado?",
+                    "¿Cómo se ha calculado el aforo de 300 plazas para la entrada general?",
+                    "Confirme la fecha del 27/11/2026 con el artista Los Lagartos Azules y facilite un contacto o un enlace oficial de la banda.",
+                    "¿Tiene una web o redes sociales de la sala o de Guadiana Directo donde se pueda ver el espacio o eventos anteriores?"
                   ],
-                  "draft": "Hola. Hemos recibido el evento «Inauguración de Espacio Tinta» (27/11/2026, Mérida). Para completar la revisión necesitamos: 1) La dirección completa y documentación del recinto (licencia de actividad o contrato de alquiler de la nave 12, Polígono Industrial El Prado Nuevo). 2) El aforo máximo autorizado y cómo se ha calculado el número de entradas a la venta (300). 3) Confirmación de la apertura del espacio y de la sesión del 27/11/2026. 4) Confirmación de la actuación de Los Lagartos Azules en esa fecha (contrato o enlace oficial). 5) Enlaces a la web o redes sociales oficiales de la promotora y del espacio. Gracias."
+                  "draft": "Hola, antes de aprobar el evento «Inauguración de Espacio Tinta» necesitamos verificar algunos datos. Por favor, indíquenos la dirección completa del recinto (nave 12, Polígono Industrial El Prado Nuevo, Mérida) y un contacto del local; la documentación de apertura o la licencia de actividad y el aforo máximo autorizado; cómo ha calculado las 300 plazas de la entrada general; la confirmación de la actuación de Los Lagartos Azules el 27/11/2026; y una web o redes sociales donde podamos ver la sala o eventos anteriores. Gracias."
                 }
               },
               "caller": {
@@ -236,10 +180,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6063,
-          "outputTokens": 2032,
-          "cacheReadInputTokens": 5552,
-          "cacheWriteInputTokens": 509
+          "inputTokens": 5966,
+          "outputTokens": 2115,
+          "cacheReadInputTokens": 5028,
+          "cacheWriteInputTokens": 936
         }
       }
     }
@@ -256,19 +200,9 @@
       }
     },
     {
-      "requestHash": "90338ce16ed55ff963262064d6043e4fcccad00edc7fead70e8794a2b6708a19",
+      "requestHash": "b7bb3a16a3ce41f57246ab5741ebd5cb531083fa59b9b37a5f6930170f1394ae",
       "provider": "Tavily",
-      "query": "\"Espacio Tinta\" Mérida polígono El Prado nave 12",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "bf293e366bb54a5ce0778eafbe9a2f62925c2b71f2e18fdf44acc0d25384f6dd",
-      "provider": "Tavily",
-      "query": "\"Guadiana Directo\" Mérida conciertos",
+      "query": "\"Espacio Tinta\" Mérida polígono El Prado",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

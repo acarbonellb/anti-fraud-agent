@@ -2,19 +2,19 @@
   "caseId": "15",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "cd189a9932e1880785fd9ddcb8006f9a9f224b9f3829c6fffd92a109102f8fe3",
-      "latencyMs": 2803,
+      "requestHash": "f2eeec4668c120e7ae0aa631739e3e04cc800b81572c847d670e7350354b3294",
+      "latencyMs": 10802,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event and make a recommendation. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Cabaret de invierno\"\n- Organizer ID: org_3639566f71\n- Venue: Sala La Planeta in Girona\n- Price: 20€ (2000 cents) for General tickets\n- Service fee: 45% (which is flagged as a warning, above the 20% threshold)\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP cheaper than general) ✓\n- Service fee warning (45% vs 20% threshold) - this is a warn, not fail\n- No problematic discounts ✓\n- Session dates/timing OK ✓\n- Price benchmark OK (under 3x p90) ✓\n- Venue exists and capacity matches ✓\n\n**What I need to check:**\n1. Organizer context - account age, fiscal data checks, team, past events, content reports, previous recommendations\n2. Whether there are similar events from other organizers that might indicate cloning\n3. The service fee warning needs consideration - is 45% acceptable or concerning?\n\nLet me get the organizer context first to understand their history and any red flags:",
           "toolCalls": [
             {
-              "id": "1AACNRAUFuK7rq2BG5S8oMi94VRA8NqY",
+              "id": "ufbS34GtGHB2Nk8Y3LmFLEhYmJSmMkxQ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_3639566f71\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3491,
-          "outputTokens": 42
+          "inputTokens": 3642,
+          "outputTokens": 354
         }
       }
     },
     {
-      "requestHash": "91e44b94bcd67fa5a18eb63ed2f3346c5dd63d57e72995ce2e6192511df40203",
-      "latencyMs": 1587,
+      "requestHash": "e01637576f34c4764425d67b05a4957a83f30160e935aa38e7ed3f6f9993c476",
+      "latencyMs": 5149,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Good information about the organizer:\n- Name: Tramontana Escena\n- Status: approved\n- Account age: 930 days (about 2.5 years) - reasonable age\n- Fiscal data: present and checksum valid ✓\n- No other organizers owned by same person\n- Team: owner, manager, 2 scanners\n- History: 14 published events, 0 cancelled, 12 ended - good track record\n- No admin unpublishes\n- No content reports\n- No previous agent reviews\n\nThis looks like a legitimate organizer with a clean history.\n\nNow let me check for similar events to see if this might be a clone:",
           "toolCalls": [
             {
-              "id": "GqZqlKPFsL8oZfcMb1qFjOnFbcOPIYAU",
+              "id": "fWz1qgvWhcY9CSTSW4VqdtpmYV40EIkg",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_4a09b3616d\",\"windowDays\":60}"
             }
@@ -44,140 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3878,
-          "outputTokens": 53
+          "inputTokens": 4341,
+          "outputTokens": 194
         }
       }
     },
     {
-      "requestHash": "5d4821d20045b79456835ce7d676950a42b8e121c4e69bff07bc29065a38993a",
-      "latencyMs": 1573,
+      "requestHash": "8a0ece76f4ec3cafebeea6f5ff80f43db9e85578b92ebd44f65222f174a325a1",
+      "latencyMs": 20145,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "No similar events found in the same province (Girona) with similar titles near this event's dates. This is good - no clone signal.\n\n**Summary of findings:**\n\n1. **Organizer identity**: Clean - approved status, valid fiscal data, 930 days old account, no content reports, clean history\n2. **Venue**: Exists and capacity matches (already verified by deterministic checks)\n3. **Price benchmark**: OK - under 3x p90 for comparable events\n4. **Service fee**: Warning at 45% (above 20% threshold), but this is a \"warn\" not \"fail\". The deterministic check flagged it as warn, not fail. I need to consider if this alone warrants rejection or if it's acceptable. Looking at the instructions: reject only on direct evidence of fraud or illegal content. A service fee warning is not a hard signal for fraud.\n5. **No similar events**: No clone detected\n6. **All other deterministic checks passed**\n\nThe service fee at 45% is concerning but it's marked as \"warn\" in the deterministic checks, not \"fail\". The instructions say to reject only on direct evidence of fraud or illegal content - a high service fee alone doesn't constitute fraud. It could be a business decision for a small venue.\n\nThere's no evidence of fraud here:\n- Organizer is legitimate with clean history\n- Venue exists and capacity matches\n- Prices are reasonable (under 3x benchmark)\n- No similar events suggesting cloning\n- All other checks pass\n\nThe service fee warning is noted but doesn't rise to the level of fraud. I should recommend approval.\n\nLet me submit the recommendation:",
           "toolCalls": [
             {
-              "id": "YRVl3zsLz8f8fpE3uHiVH4pX4wgtFbdo",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Tramontana Escena Girona cabaret invierno 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4012,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "03fe20f5be20c4ddfa6873da44ece15b4a5d8311418ff746d5ecfd27659b4587",
-      "latencyMs": 1469,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "XsA57yyUHV8OaUy8EMpMNecMIr3Wnpsd",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Sala La Planeta Girona cabaret 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4155,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "c5a0fd1ccd179caa0a84e17f8166dd83996a74b00cf7aaf0be25e38d2b4f7da2",
-      "latencyMs": 1560,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "3o929zAeJEORCgI37SKYL1omTaXBtrfn",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" \\\"Sala La Planeta\\\" Girona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4296,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "ec03ffcbad1b276cadff039b2df93571cd2bd09e0613e9a72281308e369ac078",
-      "latencyMs": 1422,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "42ygfUGeHdP2WmJpREzQtFe2a3x3sUJz",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4440,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "24ae243abaeccdbca8a33d4c447ca8f56422f845a81797a8242c7b42ebb9b71d",
-      "latencyMs": 1422,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "IEUT2xMkFDyUfmtAb9E2lrFqMQxx3e1D",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" cabaret Girona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4579,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "5156d62f734518b8462298d1095d9ca4d3da30dabdf2a782d48887457c8309fe",
-      "latencyMs": 38331,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "9fM4xWHXeIj218tbhE7gWoJfH6gA1zlz",
+              "id": "AHfYBKakKMJAvBQMBdCcYMylM2P48wG2",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Cabaret de invierno\\\" del organizador Tramontana Escena cumple con todos los requisitos de seguridad y transparencia. Las verificaciones deterministas confirman: código postal correcto para Girona, sin pagos fuera de plataforma, sin enlaces externos a ticketeras, términos no abusivos (se devuelven en cancelación), sin alcohol a menores, sin inyección de prompts, precios sanos (ninguna VIP más barata que general), servicio de gestión del 45% (advertencia leve pero aceptable), descuentos sin límites excesivos, sesiones no solapadas ni mal temporizadas. El precio está dentro del p90 de eventos comparables en Girona para cabaret con aforo <300. El recinto \\\"Sala La Planeta\\\" existe y coincide con las coordenadas (OpenStreetMap) y el aforo de 150 entradas es compatible con la capacidad real de 162 (Wikidata). El organizador tiene historial limpio: cuenta aprobada desde 2024, fiscalidad verificada (CIF válido), sin eventos cancelados ni denuncias de contenido. No hay eventos similares en Girona cerca de esta fecha que sugieran clonación. La búsqueda web no encontró información externa contradictoria (límite de búsquedas alcanzado). La única advertencia es el servicio de gestión del 45%, pero está dentro de los umbrales aceptables para este tipo de evento y género. Se aprueba con confianza alta.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 17001 corresponde a Girona.\",\"confidence\":0.99,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/1012156\",\"title\":\"OpenStreetMap: Sala de Teatre La Planeta (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"warn\",\"detail\":\"Los gastos de gestión de «General» son el 45 % del precio (umbral: 20 %).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género cabaret, Girona, aforo lt300).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Sala de Teatre La Planeta» figura en OpenStreetMap como amenity=theatre a 5 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.99,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/1012156\",\"title\":\"OpenStreetMap: Sala de Teatre La Planeta (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo compatible: la sesión con más entradas pone a la venta 150, dentro del aforo de 162 que publica Wikidata (Q18006535, CC0).\",\"confidence\":0.99,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q18006535\",\"title\":\"Wikidata (Q18006535, CC0)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, fiscalidad verificada (CIF válido), sin denuncias de contenido ni eventos cancelados.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, sin denuncias de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en Girona cerca de esta fecha que sugieran clonación.\",\"confidence\":0.9,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"Organizador Tramontana Escena con historial limpio (14 eventos publicados, 0 cancelados, sin reportes de contenido). Datos fiscales válidos y cuenta establecida desde 2024. El recinto existe y el aforo coincide. Precio dentro del benchmark. La comisión del 45% es elevada pero no constituye fraude; se marcó como warn en los checks determinísticos. No hay eventos similares que sugieran clonación. Sin señales de fraude ni contenido ilegal.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado con datos fiscales válidos, cuenta de 930 días, sin reportes de contenido y historial limpio (14 eventos publicados, 0 cancelados).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_3639566f71\",\"title\":\"Organizer context\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Girona con títulos parecidos cerca de las fechas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/events/similar-search\",\"title\":\"Similar events search\"}]},{\"check\":\"service_fee\",\"verdict\":\"warn\",\"detail\":\"Comisión del 45% supera el umbral del 20%, pero no constituye fraude directo.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.internal/event/evt_4a09b3616d\",\"title\":\"Event details\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4665,
-          "outputTokens": 1450
+          "inputTokens": 4616,
+          "outputTokens": 778
         }
       }
     }
@@ -188,46 +78,6 @@
       "provider": "Tavily",
       "query": "\"Números de cabaret, música en directo y humor en una noche de invierno\"",
       "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "f23eb9a7f45211d1432d2d09abde1bd5aefd925a3fbd436320182afcafefb7d3",
-      "provider": "Tavily",
-      "query": "Tramontana Escena Girona cabaret invierno 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "ad63059d69aa926f7d78d94fb3e9e88b5005f52e571db96da419ab9bf2cd1ab6",
-      "provider": "Tavily",
-      "query": "Sala La Planeta Girona cabaret 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "e4a7aee3c403f16032603cac85b154eaea9a32adcf0ad90fca94fdb4e18185f1",
-      "provider": "Tavily",
-      "query": "\"Tramontana Escena\" \"Sala La Planeta\" Girona",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "012ff42fb14920a04e0f19ed52e38305feeddebe65f86aee47a7fffc5632a35e",
-      "provider": "Tavily",
-      "query": "\"Tramontana Escena S.L.\" Girona",
-      "maxResults": 2,
       "origin": "recorded",
       "response": {
         "failure": "quota_exceeded"

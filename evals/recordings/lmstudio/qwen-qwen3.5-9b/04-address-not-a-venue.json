@@ -2,143 +2,138 @@
   "caseId": "04",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "f7414f413c9693e4e357d0df90c8af49617e235ca84650bf9822c943be05cd1e",
-      "latencyMs": 10589,
+      "requestHash": "6fd530d08b88a8154fbd42f959c8ae8add7281eba7562473278fa7caebb980a2",
+      "latencyMs": 8016,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The deterministic checks have already run and provided authoritative findings. I need to focus on the key issues:\n\n1. **venue_exists: fail** - The venue coordinates (39.41, -0.2) fall outside any municipality according to OpenStreetMap (in the sea), and \"Espacio Marea\" is not found at those coordinates in OSM. This is a serious red flag.\n\n2. **venue_capacity: unknown** - The venue capacity is unknown because it's not verified in OpenStreetMap, but they're selling 600 tickets for a session.\n\nThe venue existence failure is the most critical issue here. A venue that doesn't exist at the stated coordinates (or is in the sea) suggests either:\n- Fraudulent event creation\n- Copy-pasted data from another event\n- Misleading information\n\nI should investigate this further before making a recommendation. Let me check:\n1. The organizer's history and context to see if they have other events or patterns\n2. Search for \"Espacio Marea Valencia\" to see if this venue exists elsewhere\n3. Check if there are similar events that might be clones\n\nLet me start by getting the organizer context and searching for the venue.",
+          "content": "The deterministic checks have already run and provided authoritative findings. I need to focus on the critical failures and unknowns, particularly the venue existence check which failed because the coordinates (39.41, -0.2) fall in the sea according to OpenStreetMap, and the venue capacity is unknown.\n\nLet me analyze the situation:\n- **Venue exists**: FAIL - The coordinates are in the sea, not on land. This is a major red flag.\n- **Venue capacity**: UNKNOWN - No verified capacity data available.\n\nThe event claims to be at \"Espacio Marea\" (Sea Space) with coordinates that literally place it in the ocean. This seems suspicious for a music venue. However, I need to verify if this could be an error or if there's actually a venue there.\n\nLet me search for information about this venue and organizer to understand if this is a legitimate event or potentially fraudulent.",
           "toolCalls": [
             {
-              "id": "odwsktk4Xmmc7yWsMJU2ndiS8aB1bz6E",
-              "name": "get_organizer_context",
-              "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
-            },
-            {
-              "id": "CT65e7hC9yoI7ZoyvSco30wGUWdWz7s5",
+              "id": "iITV9xigUOvgBMPmyiy9YV0glnRsxe73",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Espacio Marea Valencia recinto musical\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia 46024 recinto musical\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3468,
-          "outputTokens": 340
+          "inputTokens": 3619,
+          "outputTokens": 239
         }
       }
     },
     {
-      "requestHash": "95ad2f386bd25a482a449762fb909c7c39c8b175786fbe0d9be31de3e9c18f56",
-      "latencyMs": 8283,
+      "requestHash": "f93317def5528ea928cf1b4cb4e6723d59a6dd09f9153d8c8cb747f5372cc47c",
+      "latencyMs": 1948,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search returned no results (quota exceeded), but I have the organizer context. Let me analyze what I have:\n\n**Organizer Context:**\n- Organizer: \"Ona Clara Events\" - status \"approved\", created 2024-05-20\n- Fiscal data: Present, CIF checksum valid, address in Valencia 46024\n- Owner account age: 930 days (about 2.5 years)\n- History: 14 published events, 12 ended, 0 cancelled, 0 unpublished by admin\n- No content reports, no previous agent reviews\n- Team: owner + manager + 2 scanners\n\nThis organizer looks legitimate on paper - approved status, valid fiscal data, reasonable history. However, the venue issue is critical.\n\n**Key Issue:** The venue \"Espacio Marea\" at coordinates (39.41, -0.2) is flagged as non-existent by OpenStreetMap because those coordinates are in the sea outside any municipality. This is a serious problem.\n\nLet me search for similar events to see if this might be a clone event, and also check if there's an \"Espacio Marea\" venue that exists elsewhere in Valencia.",
+          "content": "The web search returned no results (quota exceeded). Let me try a different search approach to find information about this venue or organizer.",
           "toolCalls": [
             {
-              "id": "o7PoL7SsPwSLnhEoYmG3LjbPU5DM2leC",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\",\"windowDays\":60}"
+              "id": "ive7F5UI5grpDHvtWloLaZHRscIOKRUX",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia puerto\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4216,
-          "outputTokens": 309
+          "inputTokens": 3945,
+          "outputTokens": 70
         }
       }
     },
     {
-      "requestHash": "861a46bf8d75aaf938d9290d8fb45baa7d26f57639a024c212b6f0f344f2c914",
-      "latencyMs": 2831,
+      "requestHash": "87f18fedb37519dcc83e7363961f5fbfd2c16adad6598fc6161fc84002309389",
+      "latencyMs": 2078,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "No similar events found in the same province within 60 days. This doesn't indicate cloning, but it also doesn't help with the venue issue.\n\nLet me search more specifically for \"Espacio Marea\" to see if this venue exists under a different name or location:",
+          "content": "The web search is returning quota exceeded. Let me try searching for the organizer to see if they exist outside the platform.",
           "toolCalls": [
             {
-              "id": "gUc6YG10BltH8CKKaGGb7QFVVUpGZkCM",
+              "id": "vqWmqJr3Q2C6WpZFKsVhGZUUzGWRiMFN",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia concierto\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"org_774c4a6e05 organizer Valencia\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4604,
-          "outputTokens": 103
-        }
-      }
-    },
-    {
-      "requestHash": "929485083b88e0423fc249a7e2fd357414e2ee7541404673feae249a8bc20563",
-      "latencyMs": 1957,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The web search is hitting quota limits. Let me try a different approach - search for the venue address specifically:",
-          "toolCalls": [
-            {
-              "id": "0WsA3pCsUnkWIiuTqh9pqJl2YpsbqT9U",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Avenida del Puerto Chico 221\\\" Valencia\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4794,
-          "outputTokens": 71
-        }
-      }
-    },
-    {
-      "requestHash": "517c1d3d0937e3121233f7fef89cc93e344d6ee9fdc8ccf880d93d08c63dfa23",
-      "latencyMs": 2120,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "The web search is consistently returning quota exceeded. Let me try one more search with a different query to see if I can find any information about this venue:",
-          "toolCalls": [
-            {
-              "id": "WKYfG7gt2jWNRHuSbxgC3diJJcXEn9xQ",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Espacio Marea recinto Valencia puerto\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4952,
+          "inputTokens": 4102,
           "outputTokens": 76
         }
       }
     },
     {
-      "requestHash": "d45ef2331e2501067de9ae80e4b0e17b0b549803aa46bce027c8dc98b7cc013a",
-      "latencyMs": 31750,
+      "requestHash": "9d750a32be8af29bc938822b14d83bd85dfc94c8c7697abd635c95ec623e4cab",
+      "latencyMs": 2359,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search is consistently failing due to quota limits. I need to work with the information I have from the deterministic checks and organizer context.\n\n**Summary of findings:**\n\n1. **Venue existence: FAIL** - The venue coordinates (39.41, -0.2) are in the sea outside any municipality according to OpenStreetMap. The venue \"Espacio Marea\" is not found at those coordinates. This is a critical issue.\n\n2. **Organizer appears legitimate:**\n   - Approved status\n   - Valid fiscal data (CIF checksum valid)\n   - 930 days account age (about 2.5 years)\n   - 14 published events, 12 ended successfully\n   - No content reports or previous agent reviews\n\n3. **No similar events found** - Doesn't indicate cloning.\n\n4. **Web searches failed** - Due to quota limits, couldn't verify if \"Espacio Marea\" exists elsewhere.\n\n**The critical issue:** The venue existence check failed because the coordinates are in the sea. This is a hard signal that something is wrong. The organizer has a legitimate history, but they're promoting an event at a non-existent venue location.\n\nPossible explanations:\n- The organizer made a mistake with the coordinates/address\n- The venue name is copied from another event but the address/coordinates are wrong\n- This could be fraudulent\n\nGiven that:\n- The venue existence check failed (hard signal)\n- The organizer has no history of issues\n- No similar events found (not a clone)\n- Web searches couldn't verify the venue exists elsewhere\n\nThis is a case where I should **request_info** to clarify the venue situation. The organizer might have made an error with the coordinates, or there might be a legitimate venue that needs verification.\n\nLet me submit a recommendation requesting information about the venue:",
+          "content": "The web search is consistently returning quota exceeded. Let me try searching for the artist \"Nadia Corell\" to see if they exist and have tour dates that might contradict this event.",
           "toolCalls": [
             {
-              "id": "sFUdP65Ry5U7Timw4s2sKeroiJoaHsWU",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un problema crítico con la existencia del recinto. Las coordenadas proporcionadas (39.41, -0.2) caen fuera de cualquier término municipal según OpenStreetMap (en el mar), y no se encuentra \\\"Espacio Marea\\\" en esas coordenadas. Esto es una señal de alerta importante que requiere aclaración antes de aprobar o rechazar.\\n\\nEl organizador \\\"Ona Clara Events\\\" parece legítimo: cuenta con 930 días de antigüedad, datos fiscales válidos (CIF con checksum correcto), 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido. Sin embargo, la ubicación del recinto es cuestionable.\\n\\nNo se encontraron eventos similares en la provincia que pudieran indicar clonación. Las búsquedas web no pudieron verificarse por límites de cuota.\\n\\nSe necesita información adicional para confirmar si:\\n1. El organizador cometió un error con las coordenadas o dirección del recinto\\n2. Existe un recinto \\\"Espacio Marea\\\" en otra ubicación válida en Valencia\\n3. Hay alguna explicación legítima para la discrepancia entre la dirección y las coordenadas\\n\\nRecomiendo solicitar información al organizador para aclarar la situación del recinto antes de tomar una decisión final.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de todo término municipal según OpenStreetMap (en el mar), y no existe el recinto «Espacio Marea» en esas coordenadas. Esta es una señal crítica que requiere aclaración.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Ona Clara Events' con 930 días de antigüedad, datos fiscales válidos (CIF con checksum correcto), 14 eventos publicados y 12 finalizados sin cancelaciones ni reportes de contenido.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la provincia Valencia dentro de los últimos 60 días. No indica clonación pero tampoco confirma originalidad.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Podría confirmar la dirección exacta y las coordenadas correctas del recinto 'Espacio Marea' en Valencia?\",\"¿Existe un recinto llamado 'Espacio Marea' en otra ubicación válida dentro del término municipal de Valencia?\",\"¿Hubo algún error al introducir las coordenadas o la dirección del evento?\"],\"draft\":\"Estimado organizador, hemos detectado una discrepancia importante con la información del recinto para su evento 'Sunset Sessions junto al mar'. Las coordenadas proporcionadas (39.41, -0.2) localizan un punto en el mar fuera de cualquier término municipal según OpenStreetMap, y no encontramos el recinto 'Espacio Marea' en esa ubicación. Necesitamos aclarar esto antes de poder procesar su evento.\"}}"
+              "id": "YMkGejeu1K89YOCNGAWIY3blhO0QiPTu",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Nadia Corell artista Valencia 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5115,
-          "outputTokens": 1202
+          "inputTokens": 4265,
+          "outputTokens": 86
+        }
+      }
+    },
+    {
+      "requestHash": "bc5e3324cb63af61642e5cbc247b2d17aa5a68d4648fd6acf014b7c4431b1dee",
+      "latencyMs": 2227,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search keeps returning quota exceeded. Let me try one more search with a different query to see if I can get any results about the venue or organizer.",
+          "toolCalls": [
+            {
+              "id": "t3kuLQv7kUGtbKpxqbibUitOp4412cGh",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Sunset Sessions junto al mar Valencia 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4438,
+          "outputTokens": 82
+        }
+      }
+    },
+    {
+      "requestHash": "15387994eb871c74101056105e6a5fe744e59fc97a87d245b95ef4056e1f87a0",
+      "latencyMs": 19625,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "I've exhausted my web search quota. Let me analyze what I have:\n\n**Critical findings from deterministic checks:**\n1. **venue_exists: FAIL** - The coordinates (39.41, -0.2) are in the sea according to OpenStreetMap, and there's no venue \"Espacio Marea\" at those coordinates. This is a hard signal that the venue doesn't exist at the claimed location.\n\n2. **venue_capacity: UNKNOWN** - No verified capacity data available.\n\n**Other checks all passed:**\n- Postal code matches Valencia\n- No off-platform payment requests\n- No external ticketing links\n- No abusive terms\n- No minors/alcohol issues\n- No prompt injection\n- Price sanity and benchmark are fine\n- Service fee is reasonable\n- Discounts are fine\n- Session dates and timing are fine\n\n**The core issue:** The venue existence check failed because the coordinates place the venue in the sea. This is a deterministic check that already ran and its finding is authoritative. The venue \"Espacio Marea\" at coordinates 39.41, -0.2 doesn't exist according to OpenStreetMap.\n\nThis is a significant fraud signal - you cannot have a music event at a venue that doesn't exist (it's literally in the ocean). The organizer is claiming a venue exists at coordinates that are in the sea, which is impossible for a physical venue.\n\nGiven that:\n1. The venue existence check failed (authoritative finding)\n2. This is a hard signal of fraud - you can't host an event at a non-existent location\n3. I cannot verify this with web searches due to quota limits\n\nThis should be rejected as there's direct evidence of fraud from the deterministic checks. The venue doesn't exist at the claimed coordinates.",
+          "toolCalls": [
+            {
+              "id": "TZNfcCrZMCEWSvqrhQLJ45cpnV6b4dhP",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento ha sido rechazado debido a una falla crítica en la verificación del recinto: las coordenadas proporcionadas (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, según OpenStreetMap. No existe ningún recinto llamado «Espacio Marea» en esas coordenadas. Este hallazgo es determinista y autoritativo: un evento no puede realizarse en una ubicación que no existe físicamente. La verificación de aforo es desconocida porque el recinto no está verificado, pero la inexistencia del recinto en sí misma constituye una señal clara de fraude. Ninguna otra comprobación ha fallado, pero esta falla determinista es suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de todo término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4556,
+          "outputTokens": 745
         }
       }
     }
@@ -155,9 +150,9 @@
       }
     },
     {
-      "requestHash": "2e9b4cbbf3adcfb37746f63d5adeb04e48ed1549f41fa0f8cb4d1221d9816dd1",
+      "requestHash": "26974e9e9b12dd6e21847f41a4232a6795847408b9b1e8c9b7970df6169eec0b",
       "provider": "Tavily",
-      "query": "Espacio Marea Valencia recinto musical",
+      "query": "Espacio Marea Valencia 46024 recinto musical",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
@@ -165,9 +160,9 @@
       }
     },
     {
-      "requestHash": "9ed60e9c070cabef9cbc24b613a8656314c709ccbca4d945a7a7d8baa2e719f4",
+      "requestHash": "23b6744c3f0456422f8ac369de1ea8f3f66a0c7e73f84dbdc7588895c8055cd4",
       "provider": "Tavily",
-      "query": "\"Espacio Marea\" Valencia concierto",
+      "query": "Espacio Marea Valencia puerto",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
@@ -175,9 +170,9 @@
       }
     },
     {
-      "requestHash": "08d3eb25721d713eb5dea915496f36e53b8fc76ed5376e25fd2eeb81339efd63",
+      "requestHash": "17d646b9c75624ffacaa667916f9339c0b18a8ab895693773894ae1f19574a51",
       "provider": "Tavily",
-      "query": "\"Avenida del Puerto Chico 221\" Valencia",
+      "query": "org_774c4a6e05 organizer Valencia",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
@@ -185,9 +180,9 @@
       }
     },
     {
-      "requestHash": "81fe264cf9d228915f64808937a811b275f794ab8821698f2408a6ed567c0919",
+      "requestHash": "8600180388ab202a4ea18562f1d481bbc83511d514760cccad4dcee1c7d351be",
       "provider": "Tavily",
-      "query": "Espacio Marea recinto Valencia puerto",
+      "query": "Nadia Corell artista Valencia 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

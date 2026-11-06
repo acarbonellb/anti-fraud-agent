@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 3,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "ded4f1152a03529b30d5f68fa976657bece2a4a69b01015e022cbae93cfed2cf",
-      "latencyMs": 1356,
+      "requestHash": "fbbc2e3b6b3b73f091a60c6e99997298ef8018d2c56ffa5a5b3fc0805477b524",
+      "latencyMs": 1548,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01UReikBbs3u488Ymt7fXj5A",
+              "id": "toolu_01EkPZsVUe2G7oh9LZpJHX42",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             },
             {
-              "id": "toolu_01G1tuL7iLUZgxE8FVNJ24CQ",
+              "id": "toolu_01829FgWmchvAYfCvAipNB35",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_0111X4HXM1AREDMDbXSFuvZ3",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas concierto Huesca 2026\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSzAUKEAgTGAI4AUIIdGhpbmtpbmcSDEOYQrrT1ABhwYizRRoMPmh+evwd6NODZELtIjC8uSMVJsaByCfnhxL9NyIRrJb4u0Abu8jF+HBFyFZqLDRKJ7hrxH29MNU1LWpmfqsq6QTRdVVpLmBzwvvga3GvFLvqyHalK9CAt28mvwMEHjZeRlVZY9wqnboLwsJy7j8A/kFIhH7jcYVIQpVn6ecg/PhtIC8iMrietJwpx684CBoxmYqudJTybS2lnoFG/u590CAkaPk6qh9k/0fYDAQaL1wi2gfa13cZNZ/8yO7yLNdUxmoK7rHKRiVEyPeLUijudPwz8RTpAacs0zpn9W75UmG2mFTYllQhjRYeUPJkUVUcQQ2sf4gRvFE5pWHcSDmpmSQPHY+ix6SuiYrumCFNawMpGqIWYMabmscbESS5ctN9xBqaphnh5Grx7rHbIc0Orkd9phI3SrVDaQZ3mJrvFYkoAc3mEwp3uVLaUSeLrZQCyl8qpsDJMstGzonskyC2aFMWuy9XqDK4mn4PnxXhDuL85wdj+s9VVs06B1aJvM0+irdjw1+q6jiQAv32rSFMpsOPrd6xR9JmdrHTfxDsunnEBaeFxb3saJAiiARIWNjUPsyOYxSqO6k8hZHsghy5Wik7EG/+HavMo54JtbDApDbOk3chNhDzZ7tHwtBDJGMeKZ1OF3fYurdWmLtbDNtD8f+naqoBSwhuwv8N/RiKT8zPCG2caNLtpVb2gZp4rLyUJofsjjmb/Msi/Nnb+WUdcsImJQLb4IOjkZ8eWfwXVG66iGt7Euu3FFJzGn16zT0EuYp1ny9uJpmXIo1e4JUjko8Y0R9eLKKJ67PRpYWQxYiEhRAJ7AoN5wgLWPW/ZiKd4OKZBIWzPqwvSJRgcbUV3FUnzHC0M5P0ySq6ep+g6Qbertpzp5xS5bpkpzxKBbpnEHuZLh0KfpnUxRgB"
+              "signature": "CAQSzwUKEAgTGAI4AUIIdGhpbmtpbmcSDNTaOhAig7eyEJJ8RhoMqvUn8RWjE56x/DOTIjAMAljGsMWQi3kNIH+1gFX/vOXUxfxxfacY3J2xnV5TWq50+JJ4Mc8tJ05LHuLR5y8q7ARkwfONVT4zRpBK8VlOUUb2MjZkWTfxfZ0LHIKxCiIF6MH60qzhzaWZIyPnhVqk+yaVmnKZwf3ry1N3zrXtkBtig8m0239bUkRazuRPoey+dh3meG73QrzF42WV5YU1r+EoWPrb1UAeFWvX7OGRKYTdIOqPUO07co9hMImAcvhcb28iFO70r+FYg5zgal95FQzSXlEK5GjPailkYvnEwdJa3rZ4/oMCw5pK+5axtNC/xp3CHQTsAafEjfUFCE24J00xhtjxZYPMEWveJOdjX4AfIxuyVi+wrqZJwlly2tQXBgjUSV+DX7jDPx8aCtvCAZlzdJo2M5iZYrwLFMXqLdhb71mw0s259gzvbiY3+m1aUs45lfXoqvpNxK3hxLm1bkJDcWqE0jJaUYTWqB1vI63agpjs8PXhyJzLz5rQTe06R1TtpMS+qCfT3u+sGD4vvg5feWv1oNZmlFgK1iiDTrtOdyKF1+emksOqm6jFP1gks1Xc88V4Fm15+6uCTWIbaOFzBrd5wtrDmoFCHywoxJlydS9xLgGucmni4vD/DE9O9tV/nmO8luvJJVoxJKorb7lLOybAFMTA6qks+2W3v6U/qAB/iMNB6qfxWj/y49m4R33rPi/btCU0SsRMby/nl5sRWakf6nT6k5LG1tbjt9Z6jsWwtgiqUKRr6V6jMZcEzbobdmPFoMQdP25S6MxEJme5DhkY5h2SF5Zatf0jlq+66fF1pt05sYJzcFEfEKXvA16Q8dE4FqUxRT76rhR86wM2Vmeh/4zb+cW53dOK0YqF3+SMYSx7DNRrKMyTxU7tLjKF7a2BOve9BVBRhBgB"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01UReikBbs3u488Ymt7fXj5A",
+              "id": "toolu_01EkPZsVUe2G7oh9LZpJHX42",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_e34731c267"
@@ -44,7 +49,7 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01G1tuL7iLUZgxE8FVNJ24CQ",
+              "id": "toolu_01829FgWmchvAYfCvAipNB35",
               "name": "find_similar_events",
               "input": {
                 "eventId": "evt_7a080b2adf",
@@ -53,208 +58,120 @@
               "caller": {
                 "type": "direct"
               }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_0111X4HXM1AREDMDbXSFuvZ3",
+              "name": "web_search",
+              "input": {
+                "query": "Peña Ventana Las Tremolinas concierto Huesca 2026",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4993,
-          "outputTokens": 182,
+          "inputTokens": 5214,
+          "outputTokens": 274,
           "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4989
+          "cacheWriteInputTokens": 5210
         }
       }
     },
     {
-      "requestHash": "431bf2c30cec02548a800d0b91f41575de9915099d3f21351cb6ea3333115585",
-      "latencyMs": 1459,
+      "requestHash": "c6d4f4c84e1766d8ffc0e4c076b1d86e0680045ecb17bbc257360867dfa6a708",
+      "latencyMs": 8603,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01LM9bY2Q9e1hFMRBe9b5zY6",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas concierto Huesca noviembre 2026\",\"maxResults\":3}"
-            },
-            {
-              "id": "toolu_01UsUcLtHAsG8jFoCdtBfxGo",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Cierzo Sonoro promotora Huesca\",\"maxResults\":3}"
+              "id": "toolu_01ECmrWfXuYGLQCPo5UdURqY",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.6,\"rationale\":\"No he encontrado indicios de fraude en el evento evt_7a080b2adf. El organizador Cierzo Sonoro (org_e34731c267) tiene 930 días de antigüedad, CIF válido, 14 eventos publicados y ninguno cancelado, sin reportes de contenido ni retiradas por administración. El recinto existe en OpenStreetMap a 6 m de las coordenadas y el precio (15 €) está muy por debajo del p90 de eventos comparables. No hay eventos similares de otros organizadores en la ventana de 30 días. Las comprobaciones deterministas han pasado todas. Quedan dos huecos: no se pudo verificar el aforo real del Palacio de los Deportes (la búsqueda web falló por cuota agotada y ni Wikidata ni OSM lo publican) y no se pudo comprobar en la web que Peña Ventana y Las Tremolinas tengan esta fecha anunciada. Por eso la confianza es moderada. Si el administrador quiere cubrir esos huecos, puede verificar manualmente las fechas de las bandas y el aforo del recinto antes de publicar.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Cierzo Sonoro S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por administración, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"«Palacio de los Deportes» figura en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OSM publican el aforo del recinto y la búsqueda web falló por cuota agotada. La entrada pone a la venta 900 plazas, cifra plausible para un pabellón pero sin contrastar.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada general de 15 € frente a un p90 de 35 € en 42 eventos comparables (rock, Huesca, aforo 300-1000).\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar en la web que Peña Ventana ni Las Tremolinas tengan esta fecha anunciada: la búsqueda falló por cuota agotada. Ambas tienen foto en la ficha.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar el organizador la fecha del 27/11/2026 con Peña Ventana y Las Tremolinas (contrato o confirmación de la banda)?\",\"¿Cuál es el aforo real del Palacio de los Deportes para este evento y se corresponde con las 900 entradas puestas a la venta?\"],\"draft\":\"Hola, antes de aprobar el evento «Festival de bandas locales del Alto Aragón» necesitamos confirmar dos datos: la confirmación de la actuación de Peña Ventana y Las Tremolinas el 27/11/2026 y el aforo previsto del recinto para las 900 entradas. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSoAcKEAgTGAI4AUIIdGhpbmtpbmcSDPuBN404ZyjQ9kuwIhoMW18+4GXzgX2ajDiRIjB0ZD0d/dxyZmTQBd1MOAC0DtjROy+TeLq8Tqqhh0nP+q60tcIYpqIFJW/16zS6lf8qvQb2qMUZlZ5HF1p3XeVPOonhF7Q5Ev/75oLvv92aXT1KC2UVqAtyBZXG90QYEISyt8kHegUqV1Jcd25O6l0cZqG2Lex9aNkfIuuHzXyMtSbixsAQ+5p4RGSoT2kjcfw2rhk2PGXciuRbCcX96rxBT9Fy42b6aU+vzPA+Z/TjO4A+OmVXl1j4fZSg1WNpR7SAvrP+EA9tiaIJ7fJJBlyyL2Nqc3fKI4CvnOJzJpO4OBFVo67ITuokEzeryjqyzYN5JS0fCmlv5peRPdLKc6FvTH3R7HbFBKV9AB+kUxY07uE+tbh127TWLimnEtiNf5ku/+MSwAVnuf6uCQ76n0t694dWmLD5vSPAYS4t5OKzExSXbqc1VswZlYm7Le7rc8l2R5j+bCueSApxg1W/5i/jH0vE9q2723RDWTCGYNlWnuC5K5xRKQgoNUgcwv5DR03FNVbzERwRxKIVa2Oi3ZXIuwCwYXApn52RvDltpAckaGtl76aiVkDtvLicrSvPqHViFy70FpvQ+dPF5BzURTVVWFVzyKykNZn6+3rNcjXLq0TwAwbBzZ4IDfsfcHSoS6c9jZGcsdt/Kuws6nfyAGss8j/Yv9DXnYY/VzJbsiJvkDrlIptqT98ePrRg17cUB+/SkE/brUSn7IAdj2byBNXX2f6ffOLYiuEOkTcWtvOFyY7JJO+6fu3GdzbpaYRiz+exicvgwsRQAOM4vT0onGJWe0OvQ2tx54+d6nOsinzsCkhHbMkJnTDNoLIIWvKcLUse1sSOGIhpTnflMA3cmVEq8UtckGlrQo+Q8MwTebrIqT5O/HzOaK9NlxQwIyRPjbWpvJH7jEVkGDXvHZvMdrBNPxPynEAc4FUqrNlmn+iskTzwUEOuoGV2VV6WtJdgWMFevtFY0RQRHD61e1BeSrj3NDH2wZ6zeoU0+0B92uEYs2BAN/J6OoAzEyphh96R0WjJtmrZhPiEkr+hO8/JwtxFFpVha6cCijfH2F7iTEjkztsyYbuBy96aKgBvWUZWyQnLUWWYUfLN1lkHIlyma3QytZiBYDz7K722PZtqRON0XUeO6G39XGHoOHyRvPnhl8VcCHJQzXPMn0hFWoi1+9P9GAE="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01LM9bY2Q9e1hFMRBe9b5zY6",
-              "name": "web_search",
-              "input": {
-                "query": "Peña Ventana Las Tremolinas concierto Huesca noviembre 2026",
-                "maxResults": 3
-              },
-              "caller": {
-                "type": "direct"
-              }
-            },
-            {
-              "type": "tool_use",
-              "id": "toolu_01UsUcLtHAsG8jFoCdtBfxGo",
-              "name": "web_search",
-              "input": {
-                "query": "Cierzo Sonoro promotora Huesca",
-                "maxResults": 3
-              },
-              "caller": {
-                "type": "direct"
-              }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5753,
-          "outputTokens": 271,
-          "cacheReadInputTokens": 4989,
-          "cacheWriteInputTokens": 762
-        }
-      }
-    },
-    {
-      "requestHash": "a4a2436d1a0769ef1719076327d4619dbdbcc9b24d9b298051a0ebff999a25cb",
-      "latencyMs": 10881,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01FvTNe5SYKZprw9Wrm5fj16",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"El organizador (Cierzo Sonoro S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes) y el recinto (existe en OpenStreetMap a 6 m de las coordenadas) no muestran señales de fraude, y no hay eventos similares de otros organizadores. Sin embargo, quedan puntos sin verificar y una incoherencia: la descripción anuncia seis bandas, pero solo se listan dos artistas y el cartel completo está únicamente en una imagen. La búsqueda web no estuvo disponible (cuota agotada), así que no se pudo comprobar la presencia del organizador fuera de la plataforma ni las fechas de los artistas. El aforo del recinto tampoco se pudo confirmar. Recomiendo pedir información antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Cierzo Sonoro S.L., CIF con checksum válido, dirección fiscal en Huesca (22002), cuenta de propietario verificada con 930 días de antigüedad y sin otras organizaciones asociadas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 cambios sustanciales, sin reportes de contenido ni revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar la web ni las redes del organizador fuera de la plataforma: la búsqueda web devolvió quota_exceeded.\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"unknown\",\"detail\":\"Sin resultados de búsqueda que permitan comparar el nombre con promotores conocidos. No se encontraron indicios de suplantación en los datos de la plataforma.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"El recinto no tiene otro con el mismo nombre en otros organizadores y no hay evento duplicado.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OpenStreetMap publican el aforo del Palacio de los Deportes de Huesca; no se pudo contrastar con la venta de 900 entradas. Pedir al organizador la ficha técnica o el aforo oficial.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"unknown\",\"detail\":\"No se puede evaluar sin el aforo real del recinto.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar en la web que Peña Ventana y Las Tremolinas actúen en esa fecha (búsqueda no disponible).\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada de otra web (búsqueda no disponible). El texto es breve y genérico.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"image_content\",\"verdict\":\"unknown\",\"detail\":\"No se ha podido revisar el contenido de la imagen del cartel desde esta revisión.\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"other\",\"verdict\":\"warn\",\"detail\":\"La descripción dice «Seis bandas» y «el cartel completo está en la imagen», pero solo hay dos artistas registrados (Peña Ventana, cabeza de cartel, y Las Tremolinas). Las otras cuatro bandas no aparecen en los datos del evento, por lo que el comprador no puede saber quién actúa.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Entrada general única a 15,00 €, dentro del benchmark (p90 de 35 € para rock en Huesca, aforo 300-1000).\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Indicar los nombres de las seis bandas del cartel en el texto del evento, en lugar de solo en la imagen.\",\"Confirmar la fecha del 27/11/2026 con los artistas (Peña Ventana y Las Tremolinas) y aportar contacto o enlace oficial de cada uno.\",\"Aportar el aforo oficial del Palacio de los Deportes de Huesca (ficha técnica o documento del recinto) y explicar cómo se llegará a las 900 entradas puestas a la venta.\",\"Indicar la web o redes sociales oficiales de Cierzo Sonoro y de eventos anteriores celebrados en Huesca.\",\"Confirmar que el acuerdo con el recinto para esa fecha está firmado (contrato o carta de cesión).\"],\"draft\":\"Hola, hemos revisado el evento «Festival de bandas locales del Alto Aragón» y necesitamos algunos datos antes de publicarlo. La descripción menciona seis bandas, pero solo aparecen dos artistas (Peña Ventana y Las Tremolinas) y el cartel está únicamente en una imagen. Por favor, indícanos en el texto los nombres de las seis bandas. También necesitamos confirmar la actuación de los artistas el 27/11/2026, el aforo oficial del Palacio de los Deportes para las 900 entradas a la venta, la web o redes oficiales de la organización y la confirmación de la cesión del recinto para esa fecha. Gracias.\"}}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "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"
-            },
-            {
-              "type": "tool_use",
-              "id": "toolu_01FvTNe5SYKZprw9Wrm5fj16",
+              "id": "toolu_01ECmrWfXuYGLQCPo5UdURqY",
               "name": "submit_recommendation",
               "input": {
-                "decision": "request_info",
-                "confidence": 0.5,
-                "rationale": "El organizador (Cierzo Sonoro S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni retiradas por admin ni reportes) y el recinto (existe en OpenStreetMap a 6 m de las coordenadas) no muestran señales de fraude, y no hay eventos similares de otros organizadores. Sin embargo, quedan puntos sin verificar y una incoherencia: la descripción anuncia seis bandas, pero solo se listan dos artistas y el cartel completo está únicamente en una imagen. La búsqueda web no estuvo disponible (cuota agotada), así que no se pudo comprobar la presencia del organizador fuera de la plataforma ni las fechas de los artistas. El aforo del recinto tampoco se pudo confirmar. Recomiendo pedir información antes de decidir.",
+                "decision": "approve",
+                "confidence": 0.6,
+                "rationale": "No he encontrado indicios de fraude en el evento evt_7a080b2adf. El organizador Cierzo Sonoro (org_e34731c267) tiene 930 días de antigüedad, CIF válido, 14 eventos publicados y ninguno cancelado, sin reportes de contenido ni retiradas por administración. El recinto existe en OpenStreetMap a 6 m de las coordenadas y el precio (15 €) está muy por debajo del p90 de eventos comparables. No hay eventos similares de otros organizadores en la ventana de 30 días. Las comprobaciones deterministas han pasado todas. Quedan dos huecos: no se pudo verificar el aforo real del Palacio de los Deportes (la búsqueda web falló por cuota agotada y ni Wikidata ni OSM lo publican) y no se pudo comprobar en la web que Peña Ventana y Las Tremolinas tengan esta fecha anunciada. Por eso la confianza es moderada. Si el administrador quiere cubrir esos huecos, puede verificar manualmente las fechas de las bandas y el aforo del recinto antes de publicar.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Razón social Cierzo Sonoro S.L., CIF con checksum válido, dirección fiscal en Huesca (22002), cuenta de propietario verificada con 930 días de antigüedad y sin otras organizaciones asociadas.",
-                    "confidence": 0.8,
+                    "detail": "Cierzo Sonoro S.L., CIF con checksum válido, dirección presente, cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.",
+                    "confidence": 0.9,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 cambios sustanciales, sin reportes de contenido ni revisiones previas.",
-                    "confidence": 0.8,
+                    "detail": "14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por administración, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.9,
                     "sources": []
                   },
                   {
-                    "check": "organizer_web_presence",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar la web ni las redes del organizador fuera de la plataforma: la búsqueda web devolvió quota_exceeded.",
-                    "confidence": 0.1,
-                    "sources": []
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "«Palacio de los Deportes» figura en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/way/216955182",
+                        "title": "OpenStreetMap: Palacio de los Deportes"
+                      }
+                    ]
                   },
                   {
-                    "check": "impersonation",
+                    "check": "venue_capacity",
                     "verdict": "unknown",
-                    "detail": "Sin resultados de búsqueda que permitan comparar el nombre con promotores conocidos. No se encontraron indicios de suplantación en los datos de la plataforma.",
+                    "detail": "Ni Wikidata ni OSM publican el aforo del recinto y la búsqueda web falló por cuota agotada. La entrada pone a la venta 900 plazas, cifra plausible para un pabellón pero sin contrastar.",
                     "confidence": 0.3,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de 30 días.",
                     "confidence": 0.7,
                     "sources": []
                   },
                   {
-                    "check": "exact_duplicate_other_organizer",
+                    "check": "price_benchmark",
                     "verdict": "pass",
-                    "detail": "El recinto no tiene otro con el mismo nombre en otros organizadores y no hay evento duplicado.",
-                    "confidence": 0.7,
-                    "sources": []
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "unknown",
-                    "detail": "Ni Wikidata ni OpenStreetMap publican el aforo del Palacio de los Deportes de Huesca; no se pudo contrastar con la venta de 900 entradas. Pedir al organizador la ficha técnica o el aforo oficial.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "capacity_far_above_venue",
-                    "verdict": "unknown",
-                    "detail": "No se puede evaluar sin el aforo real del recinto.",
-                    "confidence": 0.2,
+                    "detail": "Entrada general de 15 € frente a un p90 de 35 € en 42 eventos comparables (rock, Huesca, aforo 300-1000).",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "artist_availability",
                     "verdict": "unknown",
-                    "detail": "No se pudo verificar en la web que Peña Ventana y Las Tremolinas actúen en esa fecha (búsqueda no disponible).",
-                    "confidence": 0.1,
-                    "sources": []
-                  },
-                  {
-                    "check": "text_originality",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar si la descripción está copiada de otra web (búsqueda no disponible). El texto es breve y genérico.",
+                    "detail": "No se pudo comprobar en la web que Peña Ventana ni Las Tremolinas tengan esta fecha anunciada: la búsqueda falló por cuota agotada. Ambas tienen foto en la ficha.",
                     "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "image_content",
-                    "verdict": "unknown",
-                    "detail": "No se ha podido revisar el contenido de la imagen del cartel desde esta revisión.",
-                    "confidence": 0.1,
-                    "sources": []
-                  },
-                  {
-                    "check": "other",
-                    "verdict": "warn",
-                    "detail": "La descripción dice «Seis bandas» y «el cartel completo está en la imagen», pero solo hay dos artistas registrados (Peña Ventana, cabeza de cartel, y Las Tremolinas). Las otras cuatro bandas no aparecen en los datos del evento, por lo que el comprador no puede saber quién actúa.",
-                    "confidence": 0.6,
-                    "sources": []
-                  },
-                  {
-                    "check": "price_sanity",
-                    "verdict": "pass",
-                    "detail": "Entrada general única a 15,00 €, dentro del benchmark (p90 de 35 € para rock en Huesca, aforo 300-1000).",
-                    "confidence": 0.7,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "Indicar los nombres de las seis bandas del cartel en el texto del evento, en lugar de solo en la imagen.",
-                    "Confirmar la fecha del 27/11/2026 con los artistas (Peña Ventana y Las Tremolinas) y aportar contacto o enlace oficial de cada uno.",
-                    "Aportar el aforo oficial del Palacio de los Deportes de Huesca (ficha técnica o documento del recinto) y explicar cómo se llegará a las 900 entradas puestas a la venta.",
-                    "Indicar la web o redes sociales oficiales de Cierzo Sonoro y de eventos anteriores celebrados en Huesca.",
-                    "Confirmar que el acuerdo con el recinto para esa fecha está firmado (contrato o carta de cesión)."
+                    "¿Puede confirmar el organizador la fecha del 27/11/2026 con Peña Ventana y Las Tremolinas (contrato o confirmación de la banda)?",
+                    "¿Cuál es el aforo real del Palacio de los Deportes para este evento y se corresponde con las 900 entradas puestas a la venta?"
                   ],
-                  "draft": "Hola, hemos revisado el evento «Festival de bandas locales del Alto Aragón» y necesitamos algunos datos antes de publicarlo. La descripción menciona seis bandas, pero solo aparecen dos artistas (Peña Ventana y Las Tremolinas) y el cartel está únicamente en una imagen. Por favor, indícanos en el texto los nombres de las seis bandas. También necesitamos confirmar la actuación de los artistas el 27/11/2026, el aforo oficial del Palacio de los Deportes para las 900 entradas a la venta, la web o redes oficiales de la organización y la confirmación de la cesión del recinto para esa fecha. Gracias."
+                  "draft": "Hola, antes de aprobar el evento «Festival de bandas locales del Alto Aragón» necesitamos confirmar dos datos: la confirmación de la actuación de Peña Ventana y Las Tremolinas el 27/11/2026 y el aforo previsto del recinto para las 900 entradas. Gracias."
                 }
               },
               "caller": {
@@ -265,10 +182,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6250,
-          "outputTokens": 2631,
-          "cacheReadInputTokens": 5751,
-          "cacheWriteInputTokens": 497
+          "inputTokens": 6176,
+          "outputTokens": 2037,
+          "cacheReadInputTokens": 5210,
+          "cacheWriteInputTokens": 964
         }
       }
     }
@@ -295,19 +212,9 @@
       }
     },
     {
-      "requestHash": "85afbe60325eb3550785c2f2b014db8407cc5a4b2fd2660531403c0478e4a174",
+      "requestHash": "94744f3b70673d0be551796f638bdf1bf1e73eff01bfdf01dbdae6bbf4090cd1",
       "provider": "Tavily",
-      "query": "Peña Ventana Las Tremolinas concierto Huesca noviembre 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "e09efa8960d878af39e89504038b323d4c439c99b0b209d96f7309691c675dd3",
-      "provider": "Tavily",
-      "query": "Cierzo Sonoro promotora Huesca",
+      "query": "Peña Ventana Las Tremolinas concierto Huesca 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {

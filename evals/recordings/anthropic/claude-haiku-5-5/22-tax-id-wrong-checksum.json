@@ -2,19 +2,24 @@
   "caseId": "22",
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-06T13:58:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "c2d1d7abd6d95d004d13b05da1aa759006f771d8bbcce3864b87a32e07359dd7",
-      "latencyMs": 1878,
+      "requestHash": "a7948858b178840a61b67db5cbf2972cead22d848425d899c43c1ca7029d7164",
+      "latencyMs": 1653,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_016itmyk6EK2yeTaHZjdSgKn",
+              "id": "toolu_01FRdHUVq2UXKRfqYBxdbm5L",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_f2f6b9c53b\"}"
+            },
+            {
+              "id": "toolu_017AjsgSynnbUNRgR7ouPPma",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"\\\"Asociación Cultural Brezo y Piedra\\\" León\",\"maxResults\":3}"
             }
@@ -23,11 +28,22 @@
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS8wYKEAgTGAI4AUIIdGhpbmtpbmcSDAesk57ncxSzjwIZ6BoMCnuDqqKRP4Vv2uOdIjA197q0EDtGIqiICsZdty/PEwYe0rNy8j7gnEmLJBXNhuzt5yj7n4IRPK2asixBBuoqkAZ0Vsrdfu9SJA84ADe7EGmiCUjAGAxlkVf9DUJ85TlhNRt4tDdcNNwCwnrfEnZKf8dGzfEMKW3xzwdnBv6MubdEloqKgY8nqR7F13ynuEehxVYYZyzVuM+0LA0Q/iYRMssq0oddVZ2uyRDxe3uDi9NCE4njVjatdFxdqawksC9fQgLTC58idIb2ByjqS8o0pugi9utnydVYahudXTBAShcRqilZ07RGwW58N194y26b4XYs+cMeNegRyWsGo8T+FMKJjJf/Eep0jz27mVAbLvoYz1IFdE2wUU4AwKLIOrhE7A94bVz6Fj/yLSzHeIuz0y4iB56MteYwG6pbw0MFx7/eQqqYG9schtRWC+vHnnjQOLvQaKZ5DDh7UWjQs3VyDZs/hCgXfUxIPOID6TB1IPmIn+a1tTtNYz9KzAhslWIwnkdjeez9uVUHcSHvofaemqJmvUN4/GwSYQ/mPMj+Cc4KN1YnaFYAylw/33uDLWiAOFHNLIsf/1cUINait3w5R/jdMtGNeX272t8qrNUmBOHV0X30c3vVgwut/yhIunbJCNym9BCnnZJE1erF4FcD+RNsnrj51yQ8mscmjj+2QG1vOqzpcfMDKDsQcekO1XENqxKsIxUeO/8ZNmQcxSW50OCTtw2vtO5rn1w5VvjqUEhoZjInBBsZxMIdXZiSOC5sj+TzWV8UR7TaTALwi7utT/ZTj7FmdiuVNRifcULVaz5ZVD+zT8sSqJF3/0LcB2rbx011pqg6rqsWkwtmQ6RBIl7a4SNTMDq5tf6K/4nXiwCHwy519MTRm+cPBsK7QCEwlIudl2CuFSqHte25h2T1ef0GaHmWJ5s8akKkS2y/yIcCJRvxbk308uJlMudW1+LyEOUA82qBeK515vHg0FL4SEwhjZCfki3EeCCcswO2M3XIpHtJqXwNTQltw9rElFwsfGSdCOyI49qdK6rWT1m+XLopcv6rdPhBZlLRCMq/uS2uO0eoutYFIT+P5CI2gcnOaR970RsKMIG7dc0+p8mK2xc40IRJHwbdQATktWWBaMFqGAE="
+              "signature": "CAQSywcKEAgTGAI4AUIIdGhpbmtpbmcSDAK4ZvDSlbVleNZwYhoM6hlnLGdiG5ifw496IjDuFu2uE2NU70m4osclmnZS6Ilr76tJFBq6XakEeigCdb+/HXn0HI2p/jrVB4q8FR4q6AZzw09kf+JJ5mOaY+FB4CWDpPi/sbXGHrOgA2jhdMg/qugnkSuT6pC92bxb/z2Rkz+EjmlYUFLFnBIJL7UApS8zQRHpP/AVSm0ih4uRb6KnEu6pKhdfdd0z76OBwm5gZ1fP9HZOF+YALwoZkOviatSlsGfuAAc2W5WfieR05FKwfbJHNROIbfNAfNdqvt1w8qH1AV+OUiwWcuSZW1FRmb2HnSY2hwgL9pDxIn48ETNc32VOVMVkEx7OV/KOX9Tputt3bYjyBdkdq9YYzya9uxy4itwCbb0Tpq3bZSpJeMXAYYTikvMISSqzCz3pMleix9Kmvyc4VWhhMNT2DVsjaW33kBRg/WFvM9iN1Y3Xu/aMlZcTCjCAxx336v1IybPviq++fuZppH65as/q1n5/XXu7w3p/rVrkLmc2m/WCGNyyqS92lSyyKwwUoyRiEMuvCDGowpr8xVIOrotlz4xZJqIEw/PPpAIpJjN0XkSUdqhQ9SRU/ZZgOAHTBPaFZQJp/fd37Td/7daI7SK5YveprFEaRhiwpSmlaiWSNFFuyU32JLrDlUStzLwM+0K3QEXZubz3VPkCjaK93Iz+Y3D/PkP/kqcSvtQcH/Rkukk5T10Zk5WV3yH85iAalm1d6B0yO8In19YlriJDro+ibNoDKFZnHaJki5uI1vAPC6zUZ3CRS1ld58M39lAJZiK/zXsOR1P7KCBaq10BY0bE/KqoyBgsAc0wePsl0xqcwGprPrU6OzvibtoHVLfvsX3wHXwRYhx1+3I/FbNF4TrZqEzb+Wf0fkO9KbmakTdf1mdWJvn3XPpQGbxG2w/J9iVbl5HWJoR7EldKs01TyaT0UHusm8eQynWnx4YStKqClJG1DCMnulSbKurdXxCZsFyhY1hCYWNq39hbCBpUXwX4P54bcHmJs2RdafV4xck6ZHQ2MFi/KAns/vVUuHbSHegg5CEmj1E+PRc1409viO3BBD/mlUPZ4TeFYlZ5cWEDAo/8o9q4EYMVC9vsbqIx1bekhREA63nBtmRdzSxZTJNZTP30XIMCmE7yW3BKIn01vx3hUxnOsByPM/E34ieGrTLiVYcwuTBnYvDnjvdPV8DyulM/b//gH4XxzK2IdRT/XdBwJ78CLEYImi/I+LEMq5I/L1G+kPbd8PyJ3YerEBgB"
             },
             {
               "type": "tool_use",
-              "id": "toolu_016itmyk6EK2yeTaHZjdSgKn",
+              "id": "toolu_01FRdHUVq2UXKRfqYBxdbm5L",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_f2f6b9c53b"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_017AjsgSynnbUNRgR7ouPPma",
               "name": "web_search",
               "input": {
                 "query": "\"Asociación Cultural Brezo y Piedra\" León",
@@ -41,73 +57,65 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3881,
-          "outputTokens": 179,
+          "inputTokens": 4102,
+          "outputTokens": 269,
           "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 3877
+          "cacheWriteInputTokens": 4098
         }
       }
     },
     {
-      "requestHash": "3180deb1dde636d6812ddfdcc03fc61c09dea597c363ee099e56d93d2185c108",
-      "latencyMs": 7214,
+      "requestHash": "c375e45f09e587b92ab8198006848daf36f3d3097e9475d9ae1245bd96191cbf",
+      "latencyMs": 7453,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_016Y1SJw5UFkQ8t9tnTZYB5v",
+              "id": "toolu_01BDECXHwXNuY3PmoQYYfrHf",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"La organización Brezo y Piedra Cultura está pendiente y tiene pocos datos verificables: el CIF no supera la validación del dígito de control (fallo determinista), la cuenta del propietario tiene 30 días, no tiene eventos publicados ni historial en la plataforma y no hay organizaciones adicionales asociadas. Ningún dato apunta todavía a fraude, y un CIF mal escrito tiene una explicación inocente, así que lo razonable es pedir aclaración antes de decidir. No pude comprobar la presencia web de la asociación: la búsqueda devolvió error por cuota agotada, así que ese resultado es desconocido y no negativo. Recomiendo no aprobar hasta tener el CIF correcto y una presencia externa verificable.\",\"findings\":[{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web de 'Asociación Cultural Brezo y Piedra' León no devolvió resultados por cuota agotada del servicio. No se ha podido verificar web, redes sociales ni actividad previa fuera de la plataforma. Hay que repetir la comprobación o revisarla manualmente.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"Sin eventos publicados, cancelados ni finalizados, y sin denuncias. Al tener 30 días de antigüedad y sin historial, no hay base para valorar la trayectoria de la organización; la comprobación determinista de historial figura como pass.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"warn\",\"detail\":\"Además del fallo de checksum del CIF, la cuenta del propietario tiene 30 días y no tiene otras organizaciones. Podría ser un error de tecleo en el CIF; conviene pedir el documento oficial de inscripción en el registro de asociaciones para confirmarlo.\",\"confidence\":0.5,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el CIF correcto de la Asociación Cultural Brezo y Piedra? El que consta en la plataforma no supera la validación del dígito de control.\",\"¿Puede aportar el certificado o la nota simple de inscripción de la asociación en el registro correspondiente (con CIF, domicilio y junta directiva)?\",\"¿Qué presencia pública tiene la asociación fuera de la plataforma (web, redes sociales, programaciones anteriores de música folk en León)?\",\"¿Puede indicar los pueblos y recintos donde tiene previsto programar los conciertos, con la dirección de cada uno?\",\"¿Quién es la persona responsable de la organización y cuál es su relación con la asociación?\"],\"draft\":\"Hola,\\n\\nEstamos revisando la solicitud de alta de la organización Brezo y Piedra Cultura (Asociación Cultural Brezo y Piedra). Para poder continuar, necesitamos la siguiente información:\\n\\n1. El CIF correcto de la asociación. El que consta en el registro de la plataforma no supera la validación del dígito de control; puede tratarse de un error de escritura.\\n2. Certificado o nota simple de inscripción de la asociación en el registro correspondiente, con CIF, domicilio y junta directiva.\\n3. Enlaces a su web, redes sociales o programaciones anteriores de música folk en León.\\n4. Los pueblos y recintos previstos para sus conciertos, con la dirección de cada uno.\\n5. Nombre de la persona responsable y su relación con la asociación.\\n\\nCuando recibamos esta documentación revisaremos de nuevo la solicitud. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador Brezo y Piedra Cultura (org_f2f6b9c53b) está pendiente. La comprobación determinista de identidad fiscal falla: el CIF de la asociación no supera la validación del dígito de control. Esto puede deberse a un error de tecleo, pero también es un dato fiscal incorrecto que debe resolverse antes de aprobar. El resto de señales no apunta a fraude: la cuenta del dueño tiene 30 días, el email está verificado, no hay otras organizaciones del dueño, no hay eventos previos, reportes ni rechazos. La búsqueda web no se pudo completar porque se agotó la cuota, así que no hay confirmación externa de la asociación ni de sus actividades. Recomiendo pedir al organizador que aclare el CIF y aporte documentación oficial antes de decidir. No recomiendo rechazar, porque el fallo tiene una explicación inocente posible y no hay evidencia directa de fraude.\",\"findings\":[{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin eventos publicados, sin despublicaciones por administración, sin reportes de contenido ni revisiones previas. Las comprobaciones deterministas también dan pass en el historial de rechazos del dueño.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web de la asociación 'Asociación Cultural Brezo y Piedra' en León no devolvió resultados por agotamiento de la cuota. No se ha podido confirmar si la asociación existe fuera de la plataforma ni si tiene web o redes con actividad real.\",\"confidence\":0.2,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Revisad el CIF de la asociación: el número facilitado no supera la validación del dígito de control. ¿Puede confirmarse el CIF correcto?\",\"Aportad el certificado o documento de inscripción de la asociación en el registro correspondiente (con CIF y domicilio social).\",\"Indicad la web, redes sociales o enlaces donde se vea actividad previa de la asociación o de su programación de música folk en León.\",\"Confirmad la dirección fiscal y el código postal de la sede social (24004, León).\"],\"draft\":\"Hola, gracias por registrar Brezo y Piedra Cultura en la plataforma. Para completar la revisión necesitamos aclarar algunos datos. El CIF que nos habéis facilitado no pasa la validación de control, así que os pedimos que lo reviséis y nos confirméis el número correcto. Os agradeceríamos también que nos enviéis el documento de inscripción de la asociación (con CIF y domicilio social) y algún enlace a vuestra web o redes donde se vea vuestra actividad. En cuanto recibamos esta información, retomaremos la revisión. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSnwoKEAgTGAI4AUIIdGhpbmtpbmcSDOOgWCZ2p/8Ck+rqtBoM/riw7PprmhEuFaUOIjDaFso2zvO3HGa6BfeShvBHbttWT2Y8prLqDguggMc0HeKS6s5qn95dgL/S2qga9q4qvAkHvnUv8Y3MAuf1YywECPqdgOw+YMUpWTMQ6ec3b/1SkfNCB71DRfy/xZ0rA0kY5I7cT0rT/EQzaQjF0IAjWp26c/SFx1nOyA++bX8xw/8aMvSfCdr8eqQDBk8B6tpoB43CGQjwsVCm+3lPQwhZvXByEhSn9Q7PwEVhAKEQ3QMavFstGAtCnsT+ULimoNikRJZWT8ruRrAQ1rokEY2Mh59qSxFlkpV8pmDneANae7gvPa4o+PIbV3m3wAuR7fg+C+mqAG2da6/nNQ+9/UiG5uylqObuOAzxizqBnU3uzLjk6/9GntdBFGUAluuah8tqa7zj1+VuO32WJimzx/jRiLBIAVWK8/oy+2zFET6na+8JsyKqFUKPOUE4atWKG6h4Nnlje1hO+yyNxBYZeR1cAa8m4p73M1zWRBOqpGXlwJatS3rao6oj2TEI1ueKsBXA+Y6NJQpnitLOd6qgkZCvUZbyxs44eMF0n633KHMDeWcyLGEpsHD0OXYUnxtPUvbYx/K0C8Rbl6Djozrg3Y5MvxzMZPqnWvCALmzajScLpqk7rH/OXfZzoPuLq4gLUGevC1gh7shLznkkFeOO9v4ofDl6Evc+aocFu7o2GlQlLXDN0bBwnOqj5bhsPhZ0J4/m2JO5TW28RORwEGw08/rWy/KGCMcz+FupE75ijG7omgngOU1K5x9vBr8bKsUieJixKgfX55LtdTy0z+pvVmxvdozcWiF+2MjZlz0TwpmMUBdtei6k+KjYjBouZTl+LxOvy2vlzXVB2dmkjcXPcvAnNOUAj4qh/5g2CeOGofU0bdns0bBgI07JLxR1BiHCbC+5G7sUsLlGiN7vvhX69L5BNeHOe4Ynqn0PhtUDGkGCHNNudUTytzeBkQqiF6/br7likWqsiJkk/grr1r09JYo9V6BhdxxEt+pOSYUS4QpccoiNGHsjBCUfCtGf/iF5V20DOpmgbtrvZDxZJSI/HXWfsZ8Ufqjz56Ccd1wUxsNqrbeHTRL0CUcJi+ga5mKEOKlhFssxAcmpThA86yhaQ2eMfkMt7sSZBRcZ95I0/5vd3T3lo4M1a8i4gtM51U+FPMdQuxldx/BquUjmM0sYoHYX+OCVbfGajnGs336j8fsmt7rwp27b4Yp/Ij7X+gPV5TThPJaZALMk1bLr+QbWqUIFKBeK/Y+6XZw/Hjc0jLH/HH2dfndxt+Heh1atDQfpzzcT3jQJnCebDHiwymmymr7goTaT6dW8WZh+Ln93Ts1IBqhHiMqRX5gGmG25UbemY+wulpCyF4RVbKr5SseQqCyzK9Mb4NFD40oADcIjtSt9D3QsbNtNS0sbdh8SXWqHoE4DvdLnII7QOpKlPowy+J/a6lqr75hpI1dyLBt6vamLrjlpaB5m6ssPGQ2+cMzJliTOizv4XODgZiRQmtaQAnN9FHfpzQzcUp8p+S7W+Pbf5MvBiEQihrxV3wpj94Rycv4R/DhKVuMK7Q7ccSbIERxLskwnkUKyKDYS/SwQ63vW57IbPO/DA3O160pdm7gAdvcaV2kcUvfPJlrmWSKxuN1Pj5+uk1YTNLWnQ5c2ScAaR2jKktqTAjsMzSAnp6Zbrmki4/dj22JHekKoVICzoosYAQ=="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_016Y1SJw5UFkQ8t9tnTZYB5v",
+              "id": "toolu_01BDECXHwXNuY3PmoQYYfrHf",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.5,
-                "rationale": "La organización Brezo y Piedra Cultura está pendiente y tiene pocos datos verificables: el CIF no supera la validación del dígito de control (fallo determinista), la cuenta del propietario tiene 30 días, no tiene eventos publicados ni historial en la plataforma y no hay organizaciones adicionales asociadas. Ningún dato apunta todavía a fraude, y un CIF mal escrito tiene una explicación inocente, así que lo razonable es pedir aclaración antes de decidir. No pude comprobar la presencia web de la asociación: la búsqueda devolvió error por cuota agotada, así que ese resultado es desconocido y no negativo. Recomiendo no aprobar hasta tener el CIF correcto y una presencia externa verificable.",
+                "confidence": 0.6,
+                "rationale": "El organizador Brezo y Piedra Cultura (org_f2f6b9c53b) está pendiente. La comprobación determinista de identidad fiscal falla: el CIF de la asociación no supera la validación del dígito de control. Esto puede deberse a un error de tecleo, pero también es un dato fiscal incorrecto que debe resolverse antes de aprobar. El resto de señales no apunta a fraude: la cuenta del dueño tiene 30 días, el email está verificado, no hay otras organizaciones del dueño, no hay eventos previos, reportes ni rechazos. La búsqueda web no se pudo completar porque se agotó la cuota, así que no hay confirmación externa de la asociación ni de sus actividades. Recomiendo pedir al organizador que aclare el CIF y aporte documentación oficial antes de decidir. No recomiendo rechazar, porque el fallo tiene una explicación inocente posible y no hay evidencia directa de fraude.",
                 "findings": [
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "Sin eventos publicados, sin despublicaciones por administración, sin reportes de contenido ni revisiones previas. Las comprobaciones deterministas también dan pass en el historial de rechazos del dueño.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
                   {
                     "check": "organizer_web_presence",
                     "verdict": "unknown",
-                    "detail": "La búsqueda web de 'Asociación Cultural Brezo y Piedra' León no devolvió resultados por cuota agotada del servicio. No se ha podido verificar web, redes sociales ni actividad previa fuera de la plataforma. Hay que repetir la comprobación o revisarla manualmente.",
-                    "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_history",
-                    "verdict": "warn",
-                    "detail": "Sin eventos publicados, cancelados ni finalizados, y sin denuncias. Al tener 30 días de antigüedad y sin historial, no hay base para valorar la trayectoria de la organización; la comprobación determinista de historial figura como pass.",
-                    "confidence": 0.6,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_identity",
-                    "verdict": "warn",
-                    "detail": "Además del fallo de checksum del CIF, la cuenta del propietario tiene 30 días y no tiene otras organizaciones. Podría ser un error de tecleo en el CIF; conviene pedir el documento oficial de inscripción en el registro de asociaciones para confirmarlo.",
-                    "confidence": 0.5,
+                    "detail": "La búsqueda web de la asociación 'Asociación Cultural Brezo y Piedra' en León no devolvió resultados por agotamiento de la cuota. No se ha podido confirmar si la asociación existe fuera de la plataforma ni si tiene web o redes con actividad real.",
+                    "confidence": 0.2,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Cuál es el CIF correcto de la Asociación Cultural Brezo y Piedra? El que consta en la plataforma no supera la validación del dígito de control.",
-                    "¿Puede aportar el certificado o la nota simple de inscripción de la asociación en el registro correspondiente (con CIF, domicilio y junta directiva)?",
-                    "¿Qué presencia pública tiene la asociación fuera de la plataforma (web, redes sociales, programaciones anteriores de música folk en León)?",
-                    "¿Puede indicar los pueblos y recintos donde tiene previsto programar los conciertos, con la dirección de cada uno?",
-                    "¿Quién es la persona responsable de la organización y cuál es su relación con la asociación?"
+                    "Revisad el CIF de la asociación: el número facilitado no supera la validación del dígito de control. ¿Puede confirmarse el CIF correcto?",
+                    "Aportad el certificado o documento de inscripción de la asociación en el registro correspondiente (con CIF y domicilio social).",
+                    "Indicad la web, redes sociales o enlaces donde se vea actividad previa de la asociación o de su programación de música folk en León.",
+                    "Confirmad la dirección fiscal y el código postal de la sede social (24004, León)."
                   ],
-                  "draft": "Hola,\n\nEstamos revisando la solicitud de alta de la organización Brezo y Piedra Cultura (Asociación Cultural Brezo y Piedra). Para poder continuar, necesitamos la siguiente información:\n\n1. El CIF correcto de la asociación. El que consta en el registro de la plataforma no supera la validación del dígito de control; puede tratarse de un error de escritura.\n2. Certificado o nota simple de inscripción de la asociación en el registro correspondiente, con CIF, domicilio y junta directiva.\n3. Enlaces a su web, redes sociales o programaciones anteriores de música folk en León.\n4. Los pueblos y recintos previstos para sus conciertos, con la dirección de cada uno.\n5. Nombre de la persona responsable y su relación con la asociación.\n\nCuando recibamos esta documentación revisaremos de nuevo la solicitud. Gracias."
+                  "draft": "Hola, gracias por registrar Brezo y Piedra Cultura en la plataforma. Para completar la revisión necesitamos aclarar algunos datos. El CIF que nos habéis facilitado no pasa la validación de control, así que os pedimos que lo reviséis y nos confirméis el número correcto. Os agradeceríamos también que nos enviéis el documento de inscripción de la asociación (con CIF y domicilio social) y algún enlace a vuestra web o redes donde se vea vuestra actividad. En cuanto recibamos esta información, retomaremos la revisión. Gracias."
                 }
               },
               "caller": {
@@ -118,10 +126,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4147,
-          "outputTokens": 1609,
-          "cacheReadInputTokens": 3877,
-          "cacheWriteInputTokens": 268
+          "inputTokens": 4962,
+          "outputTokens": 1590,
+          "cacheReadInputTokens": 4098,
+          "cacheWriteInputTokens": 862
         }
       }
     }

@@ -604,3 +604,84 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     sample of the small model's search habit, not the check's effect.
 - **Decision:** keep. As on Haiku, the venue half of the hypothesis holds and the autonomy half
   doesn't: the escalation comes from the model's searching, not from the venue.
+
+## E023 — The prompt rejects only on direct evidence and lists only what it found (Haiku 5.5)
+
+- **Hypothesis** (#76): staging showed a `reject` the model itself said had no direct evidence,
+  and findings padded with checks it never ran ("not searched") and arguments that say nothing
+  about fraud (tickets sold). Naming what counts as direct evidence should keep rejections where
+  there is some and turn bare suspicion into `request_info`, and the two findings rules should
+  shorten the findings. On the evals the risk runs the other way: Haiku already answered
+  `request_info` 3/3 on cases 01 and 06, which expect `reject`, so the slice is judged on whether
+  01 and 06 stay at or move back to `reject`, whether any expected `reject` (05, 06, 23 among
+  them) drifts to `request_info`, and on auto-approved fraud staying at 0 %.
+- **Change** (#76, `review-v6`): direct evidence is a failed deterministic check from the task or
+  a source that contradicts the event or organizer; a search that found nothing and text that
+  tries to instruct the model are not proof on their own. Suspicion without it means
+  `request_info`. Findings list only checks that were done, and leave out arguments that don't
+  bear on fraud. A search that finds nothing is recorded as an `unknown` finding. The prompt
+  changes every request, so all 34 cases were re-recorded three times, about $0.23 (108 reviews,
+  six of them re-recorded: five runs that replayed stale, and case 26, whose Wikidata lookup timed
+  out during the run-1 re-fetch and was restored and recorded again).
+- **Before → after** (E021 → E023, mean over three runs, min–max), gated, 33 cases:
+  **accuracy 88.9 % (84.8–90.9) → 90.9 % (87.9–93.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.9 % → 82.8 %, **autonomy accuracy
+  67.7 % (66.7–69.7) → 71.7 % (69.7–72.7)**, Brier 0.151 → 0.152, tokens in / out 13,546 / 2,451
+  → 14,159 / 2,388. Against E015 (85.6 %, 83.3–86.7) the accuracy range no longer overlaps; against
+  E021 it still does.
+- **What went wrong or surprised:**
+  - The two cases the hypothesis worried about moved back: case 01 (a bar of 140 selling 2,000)
+    went from `request_info 3/3` to `reject 2/3`, auto-resolved on the hard
+    `capacity_far_above_venue` fail, and case 06 (the artist announced elsewhere that day) from
+    `request_info 3/3` to `reject 2/3`. Its rejecting runs cite the authored tour page and the
+    festival line-up in a sourced `artist_availability` fail, which is the evidence the new rule
+    names. No expected `reject` drifted to `request_info`: 05, 07, 10, 20, 24 and 26 stay
+    `reject` (24 went from 2/3 to 3/3). Case 23 expects `request_info` and stays there 3/3.
+  - The rule cut the other way on case 12 («no refund even if the event is cancelled»): it went
+    from `request_info 3/3` to `reject 3/3`. The `abusive_terms` fail is a deterministic check
+    that failed, so the model read it as the direct evidence the prompt allows a rejection on.
+    The policy doesn't count that check as a hard signal, so all three runs escalate and nothing
+    is auto-resolved, but the case is now wrong. The prompt doesn't say that a fixable clause
+    calls for a request, not a rejection.
+  - Out of the gate, case 09 (another site's poster) moved to `approve 2/3`. Both runs escalated
+    on the exposure cap, so the gate holds, but the all-cases approved-fraud rate is 2.4 %.
+  - Findings got shorter: 9.0 per review → 6.5 over the 102 reviews. Findings that mention
+    tickets sold fell from 22 to 4. `unknown` findings fell from 289 to 172. Those about a search that
+    was attempted and failed on the exhausted Tavily quota (every live search in both sets returns
+    `quota_exceeded`, before and after) stay at 72 → 74, which is what the rule asks for; the
+    other `unknown` findings fell from 217 to 98. A few rationales still say what
+    couldn't be checked ("no se ha comprobado…") next to a failed search; that is the honest
+    record of a search that failed, not a check that wasn't done.
+  - Case 25 (prompt injection) stays `request_info 3/3`, escalated: the injected text is named as
+    a signal and nothing obeys it.
+- **Decision:** keep `review-v6`. Accuracy and autonomy rise, 01 and 06 are back on `reject`, no
+  fraud is auto-approved and the findings lose most of their noise. Case 12's flip is the price
+  of saying a failed check is direct evidence; a clause the organizer can fix calls for
+  `request_info`, a wording question for the next prompt change, not a reason to revert.
+
+## E024 — The prompt rejects only on direct evidence and lists only what it found (qwen 3.5 9B)
+
+- **Hypothesis** (#76): as in E023. Also watched: case 27, where qwen rejected under `review-v5`
+  on a source it invented, and case 25.
+- **Change:** the same as E023, with all 34 cases re-recorded once on local qwen, which is free.
+  Two cases failed with an LLM HTTP error on the first pass and were recorded again, and case 26
+  once more after its venue lookup was restored.
+- **Before → after** (E022 → E024), gated, 33 cases: **accuracy 78.8 % → 75.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  78.8 % → 78.8 %, **autonomy accuracy 75.8 % → 75.8 %**, Brier 0.183 → 0.220. With one run per
+  case, these moves are within the small model's run-to-run noise, and the ticket is not
+  credited with them.
+- **What went wrong or surprised:**
+  - qwen rejects as before where it rejected under `review-v5`: 01, 05 and 06 stay `reject`.
+    Case 14 moved to the right `request_info`; case 19 (overlapping sessions) and N2 moved to
+    wrong answers (`reject`, `request_info`).
+  - Case 27 is still wrong: `reject` at 0.85, and the `session_timing` fail again cites a URL no
+    tool returned (an `example.test` event page; under `review-v5` it was an internal-looking URL). The rule
+    that only a tool's URL is a source didn't hold on the small model. The policy finds no
+    sourced hard signal and escalates it.
+  - Case 25 stays `request_info`, escalated.
+  - The findings rules don't show on qwen: 184 → 191 findings, none about tickets sold before or
+    after, and its `unknown` findings are failed searches.
+  - Brier rises (0.183 → 0.220): qwen's confidence on the wrong answers went up (19 at 0.95).
+- **Decision:** keep. qwen holds the gate (no auto-approved fraud) and its moves are one-sample
+  noise. Invented sources on case 27 are a small-model limit, already caught by the policy.
