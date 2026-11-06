@@ -140,13 +140,17 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   const worstCase = perAttempt * (1 + STALE_RETRIES);
 
   const from = await store.readFeedCursor();
-  const queued = await store.readRetryQueue();
+  // Read once, and written back against the version read: a pass that
+  // overlapped this one and wrote first makes the write a `STORE_CONFLICT`,
+  // so neither drops the other's retries.
+  const { retries: queued, version: queueVersion } =
+    await store.readRetryQueue();
   let queue = queued;
   // Written before the cursor moves: if the write fails, the page is read
   // again and its failures are queued then.
   const saveQueue = async () => {
     if (JSON.stringify(queue) !== JSON.stringify(queued)) {
-      await store.replaceRetryQueue(queue);
+      await store.replaceRetryQueue(queueVersion, queue);
     }
   };
   const stopped = async (
