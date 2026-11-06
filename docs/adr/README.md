@@ -12,7 +12,7 @@ one: `.claude/skills/adr/SKILL.md`.
 | [0014](0014-eval-metrics-history-and-experiment-log.md)           | Eval metrics live in a machine-written history, explained in an experiment log; CI enforces both                 | accepted · amended 2026-11-05 |
 | [0015](0015-external-evidence-venue-checks-and-sourced-search.md) | Venue checks run in code and can be required for auto-approval; sourced web search can only hold back            | accepted · amended 2026-11-06 |
 | [0016](0016-agent-store-on-firestore-over-rest.md)                | The agent's store is Firestore over REST, behind one interface with an in-memory twin                            | accepted · amended 2026-11-05 |
-| [0017](0017-scheduled-pass-reviews-feed-within-day-budget.md)     | The scheduled pass reviews each changed subject once, moves past failures, and stops at the day's budget         | accepted · amended 2026-11-06 |
+| [0017](0017-scheduled-pass-reviews-feed-within-day-budget.md)     | The scheduled pass reviews each changed subject once, moves past failures, and stops at the day's budget         | accepted · amended 2026-11-07 |
 | [0018](0018-pass-runs-as-cloud-run-job-deployed-keyless.md)       | The pass runs as a Cloud Run Job in its own project, deployed from CI without keys and shipped paused            | accepted · amended 2026-11-05 |
 | [0019](0019-confidence-is-derived-from-the-evidence-tier.md)      | A review's confidence is its evidence tier, computed from the findings; the model's number only holds back       | accepted                      |
 
