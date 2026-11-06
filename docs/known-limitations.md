@@ -21,48 +21,12 @@ have resolved itself.
 
 ## Costs the admin time
 
-- **Festivals in open spaces escalate** (N2).
-  - **Symptom:** a park has no published capacity, and the event puts 6,000 tickets on sale per
-    session. That is above the 300-ticket exposure cap (`EXPOSURE_CAP_TICKETS`).
-  - **Fix:** a cap per capacity band or per venue type (`leisure=park`). Or accept this
-    as the price of catching case 16.
-- **Organizer requests never resolve on their own** (case 22).
-  - **Symptom:** a wrong tax-id checksum is a mechanical request, yet it escalates. ADR 0015
-    point 7 overrides ADR 0012 point 3 for organizers.
-  - **Fix:** an amendment that lets rule-only organizer requests resolve on their own again.
-- **Confidence is poorly calibrated.**
-  - **Symptom:** in E014, Haiku 5.5 is right 86.7 % of the time but reports 0.60–0.80, so it
-    escalates 85.6 % of gated cases. N3 and N4 escalate a correct approval at 0.80 in all three
-    runs.
-  - **Why it waits:** over-escalation is the safe error, since no gated fraud was approved in any
-    of E014's three runs. Tuning the threshold on 31 cases would fit it to the test set, where one
-    case is 3.3 points. So it waits for the deployed agent's own cases and the admin agreement
-    rate.
-  - **Fix:** tune `AGENT_AUTO_APPROVE_THRESHOLD` over several runs, or derive confidence from
-    the evidence instead of the model's number.
-
-## Seen on the first reviews of staging
-
-Both reviews were escalated, so neither resolved anything on its own. They point at
-calibration, above.
-
-- **An already-held session passes.** `session_timing` measures sessions against publication,
-  not against the review, so an event whose only session is in the past raises nothing. Such
-  events only reach the agent on a first pass over an old feed, or after an edit. Fix: a check
-  that a session has already started at review time.
-- **A `reject` without direct evidence.**
-  - **Symptom:** the model admitted there was no direct evidence of fraud and drafted a
-    `request_info`, but still recommended `reject`.
-  - **Fix:** the prompt prefers `request_info` in that case. The change has to be measured on
-    the evals.
-- **A venue without coordinates goes unverified.** `verifyVenue` doesn't look a venue up by name
-  and city, so a real theatre stored without coordinates was reported as unknown. Fix: a name
-  and city lookup when coordinates are missing.
-- **"No data" reads as certainty.** A finding with no data carries a confidence of 1. The
-  confidence is about the deterministic check, but the admin sees "100 %" next to "no data". Fix:
-  decide the confidence of such findings, or how Satella shows them.
-- **Noise in the findings.** The model also lists what it didn't check ("not searched") and adds
-  weak arguments, such as how many tickets sold. Fix: prompt rules, measured on the evals.
+- **Only parks reach the open-space exposure cap** (#78).
+  - **Symptom:** `OPEN_SPACE_TYPES` lists `leisure=recreation_ground` and `place=square`, but the
+    venue check's `VENUE_TYPES` doesn't, so `nearestVenue` never matches a square or a recreation
+    ground and a festival there keeps the 300-ticket cap.
+  - **Fix:** add both to `VENUE_TYPES` when a real case needs them, with a venue lookup recording
+    that shows the tags.
 
 ## Operation
 

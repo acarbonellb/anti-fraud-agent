@@ -1,6 +1,6 @@
 // Checks the graded-autonomy policy (brief §4.2 refined by ADRs 0012 and
 // 0015): the venue evidence an approval needs, the organizer reviews that
-// always escalate, and a table that replays the brief §5 dataset cases whose
+// escalate unless mechanical, and a table that replays the brief §5 dataset cases whose
 // autonomy hinges on the certainty of system findings. Pure function; fakes
 // nothing.
 import { describe, expect, it } from "vitest";
@@ -10,7 +10,10 @@ import type { Finding } from "../satella-client/schemas.js";
 import {
   type AutonomySubject,
   decideAutonomy,
+  escalated,
   EXPOSURE_CAP_TICKETS,
+  MODEL_CONFIDENCE_FLOOR,
+  OPEN_SPACE_EXPOSURE_CAP_TICKETS,
 } from "./policy.js";
 
 const THRESHOLD = 0.85;
@@ -33,7 +36,7 @@ function decide(
   decision: "approve" | "reject" | "request_info",
   systemFindings: SystemFinding[],
   modelFindings: Finding[] = [],
-  confidence = 0.95,
+  modelConfidence = 0.95,
   subject: AutonomySubject = EVENT,
   retrievedUrls: ReadonlySet<string> = new Set([source.url]),
 ) {
@@ -41,7 +44,7 @@ function decide(
     subject,
     retrievedUrls,
     decision,
-    confidence,
+    modelConfidence,
     systemFindings,
     modelFindings,
     autoApproveThreshold: THRESHOLD,
@@ -103,13 +106,6 @@ describe("approve", () => {
     ],
   ])("escalates with %s", (_, system, modelFindings) => {
     expect(decide("approve", system, modelFindings).autonomy).toBe("escalated");
-  });
-
-  it("escalates below the threshold, saying why", () => {
-    expect(decide("approve", cleanSystem, [], 0.8)).toEqual({
-      autonomy: "escalated",
-      reasons: ["confidence 0.8 below 0.85"],
-    });
   });
 
   it("gives no weight to the model's own passes", () => {
@@ -187,6 +183,80 @@ describe("approve needs venue evidence (ADR 0015)", () => {
     expect(verdict.autonomy).toBe("escalated");
     expect(verdict.reasons).toContain(reason);
   });
+
+  // An `unknown` finding's confidence is what the admin sees (#75); the
+  // policy reads its verdict, so the confidence it carries changes nothing.
+  it.each([
+    ["auto-resolves", EXPOSURE_CAP_TICKETS],
+    ["escalates", EXPOSURE_CAP_TICKETS + 1],
+  ])(
+    "%s an unknown capacity the same whatever confidence it carries",
+    (_, tickets) => {
+      const withConfidence = (confidence: number) => {
+        const item = capacity("unknown");
+        return { ...item, finding: { ...item.finding, confidence } };
+      };
+      const [asShown, asBefore] = [0, 1].map((confidence) =>
+        decide(
+          "approve",
+          [...checks, venue("pass"), withConfidence(confidence)],
+          [],
+          0.95,
+          event(tickets),
+        ),
+      );
+      expect(capacity("unknown").finding.confidence).toBe(0);
+      expect(asShown).toEqual(asBefore);
+    },
+  );
+});
+
+describe("the exposure cap depends on the venue type (#78)", () => {
+  const checks = [rule("postal_code_province", "pass"), venue("pass")];
+  const unknownAt = (venueType?: string): SystemFinding => ({
+    ...capacity("unknown"),
+    ...(venueType === undefined ? {} : { venueType }),
+  });
+  const approve = (finding: SystemFinding, tickets: number) =>
+    decide("approve", [...checks, finding], [], 0.95, {
+      type: "event",
+      maxTicketsOnSale: tickets,
+    });
+
+  it("lets a park of unknown capacity resolve with 6,000 tickets in a session", () => {
+    expect(approve(unknownAt("leisure=park"), 6000).autonomy).toBe(
+      "auto_resolved",
+    );
+  });
+
+  it.each(["leisure=recreation_ground", "place=square"])(
+    "treats %s as an open space",
+    (venueType) => {
+      expect(approve(unknownAt(venueType), 6000).autonomy).toBe(
+        "auto_resolved",
+      );
+    },
+  );
+
+  it("escalates a park above the open-space cap", () => {
+    const verdict = approve(unknownAt("leisure=park"), 10_001);
+    expect(OPEN_SPACE_EXPOSURE_CAP_TICKETS).toBe(10_000);
+    expect(verdict.autonomy).toBe("escalated");
+    expect(verdict.reasons).toContain(
+      "capacity unknown with 10001 tickets on sale in one session, above the exposure cap of 10000",
+    );
+  });
+
+  it.each([
+    ["a pub", "amenity=pub"],
+    ["no venue type", undefined],
+  ])("keeps the default cap for %s", (_, venueType) => {
+    const verdict = approve(unknownAt(venueType), 301);
+    expect(EXPOSURE_CAP_TICKETS).toBe(300);
+    expect(verdict.reasons).toContain(
+      "capacity unknown with 301 tickets on sale in one session, above the exposure cap of 300",
+    );
+  });
 });
 
 describe("web search can hold back, never let through (ADR 0015)", () => {
@@ -218,7 +288,7 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
       subject: EVENT,
       retrievedUrls: new Set(),
       decision,
-      confidence: 0.95,
+      modelConfidence: 0.95,
       systemFindings,
       modelFindings: [],
       autoApproveThreshold: THRESHOLD,
@@ -226,7 +296,7 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
     });
 
   it("escalates an approval that would otherwise resolve on its own", () => {
-    expect(spent("approve", cleanSystem)).toEqual({
+    expect(spent("approve", cleanSystem)).toMatchObject({
       autonomy: "escalated",
       reasons: ["web search budget spent"],
     });
@@ -235,7 +305,7 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
   it("keeps the other reasons an approval escalates for", () => {
     expect(
       spent("approve", [...cleanSystem, rule("postal_code_province")]),
-    ).toEqual({
+    ).toMatchObject({
       autonomy: "escalated",
       reasons: [
         "web search budget spent",
@@ -251,9 +321,36 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
   });
 });
 
-describe("organizer reviews (ADR 0015)", () => {
-  it.each(["approve", "reject", "request_info"] as const)(
-    "never resolve on their own: %s",
+describe("organizer reviews (ADR 0015, amendment of #79)", () => {
+  it("resolve a request backed only by rule findings on their own", () => {
+    expect(
+      decide(
+        "request_info",
+        [rule("organizer_identity"), heuristic("organizer_history", "pass")],
+        [],
+        0.95,
+        ORGANIZER,
+      ),
+    ).toMatchObject({
+      autonomy: "auto_resolved",
+      reasons: ["mechanical request: organizer_identity"],
+    });
+  });
+
+  it("escalate a request with a heuristic finding", () => {
+    expect(
+      decide(
+        "request_info",
+        [rule("organizer_identity"), heuristic("organizer_history")],
+        [],
+        0.95,
+        ORGANIZER,
+      ).autonomy,
+    ).toBe("escalated");
+  });
+
+  it.each(["approve", "reject"] as const)(
+    "never resolve a %s on their own",
     (decision) => {
       expect(
         decide(
@@ -263,9 +360,11 @@ describe("organizer reviews (ADR 0015)", () => {
           0.99,
           ORGANIZER,
         ),
-      ).toEqual({
+      ).toMatchObject({
         autonomy: "escalated",
-        reasons: ["organizer reviews always escalate (ADR 0015)"],
+        reasons: [
+          "organizer approvals and rejections always escalate (ADR 0015)",
+        ],
       });
     },
   );
@@ -273,14 +372,14 @@ describe("organizer reviews (ADR 0015)", () => {
 
 describe("reject", () => {
   it("resolves on its own on a deterministic hard signal", () => {
-    expect(decide("reject", [rule("off_platform_payment")])).toEqual({
+    expect(decide("reject", [rule("off_platform_payment")])).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["hard signals: off_platform_payment"],
     });
   });
 
   it("resolves on its own on a sourced capacity far above the venue's", () => {
-    expect(decide("reject", [venue("pass"), capacity("fail")])).toEqual({
+    expect(decide("reject", [venue("pass"), capacity("fail")])).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["hard signals: capacity_far_above_venue"],
     });
@@ -299,7 +398,7 @@ describe("reject", () => {
       decide("reject", cleanSystem, [
         model("exact_duplicate_other_organizer", "fail", [invented]),
       ]),
-    ).toEqual({
+    ).toMatchObject({
       autonomy: "escalated",
       reasons: ["rejection without a rule-based or sourced hard signal"],
     });
@@ -337,7 +436,7 @@ describe("request_info", () => {
         rule("postal_code_province"),
         heuristic("service_fee", "pass"),
       ]),
-    ).toEqual({
+    ).toMatchObject({
       autonomy: "auto_resolved",
       reasons: ["mechanical request: postal_code_province"],
     });
@@ -360,18 +459,12 @@ describe("request_info", () => {
       "escalated",
     );
   });
-
-  it("escalates below the threshold", () => {
-    expect(
-      decide("request_info", [rule("postal_code_province")], [], 0.6).autonomy,
-    ).toBe("escalated");
-  });
 });
 
 // Brief §5: expected decision and autonomy, with the system finding each
 // case produces. The model is assumed to propose the expected decision.
-// Organizer cases always escalate (ADR 0015 point 7), which overrides the
-// brief's automatic request for case 22.
+// An organizer request resolves on its own only when it is mechanical (ADR
+// 0015 amendment of #79); every other organizer review escalates (point 7).
 describe.each([
   [
     "3: postal code of Madrid, province Sevilla",
@@ -451,7 +544,7 @@ describe.each([
     "22: tax id with a wrong checksum",
     "request_info",
     [rule("organizer_identity")],
-    "escalated",
+    "auto_resolved",
     ORGANIZER,
   ],
   [
@@ -468,9 +561,155 @@ describe.each([
     "escalated",
   ],
 ] as const)("dataset case %s", (_, decision, system, expected, subject?) => {
+  // 0.7 is what Haiku 5.5 reports when it's right (E015): the evidence
+  // decides, so the model's number no longer escalates these (#77).
   it(`is ${expected}`, () => {
     expect(
-      decide(decision, [...system], [], 0.95, subject ?? EVENT).autonomy,
+      decide(decision, [...system], [], 0.7, subject ?? EVENT).autonomy,
     ).toBe(expected);
+  });
+});
+
+describe("the confidence comes from the evidence tier (#77)", () => {
+  // Haiku 5.5's usual number (E015): below the threshold, yet right.
+  const haiku = 0.7;
+  const approveAt = (threshold: number) =>
+    decideAutonomy({
+      subject: EVENT,
+      retrievedUrls: new Set(),
+      decision: "approve",
+      modelConfidence: haiku,
+      systemFindings: [venue("pass"), capacity("unknown")],
+      modelFindings: [],
+      autoApproveThreshold: threshold,
+      searchBudgetSpent: false,
+    });
+
+  it.each([
+    [
+      "a request whose negatives are all rule findings",
+      "request_info",
+      [rule("postal_code_province"), heuristic("service_fee", "pass")],
+      0.95,
+    ],
+    [
+      "a rejection on a rule hard signal",
+      "reject",
+      [rule("off_platform_payment")],
+      0.95,
+    ],
+    [
+      "a rejection on a sourced hard signal",
+      "reject",
+      [venue("pass"), capacity("fail")],
+      0.95,
+    ],
+    [
+      "a clean approval with the capacity verified",
+      "approve",
+      cleanSystem,
+      0.9,
+    ],
+    [
+      "a clean approval under the exposure cap",
+      "approve",
+      [
+        rule("postal_code_province", "pass"),
+        venue("pass"),
+        capacity("unknown"),
+      ],
+      0.85,
+    ],
+  ] as const)("gives %s its tier", (_, decision, system, tier) => {
+    expect(decide(decision, [...system], [], haiku)).toMatchObject({
+      autonomy: "auto_resolved",
+      confidence: tier,
+    });
+  });
+
+  it("reads the tier from the findings, not from the model's number", () => {
+    const shown = [0.55, 0.99].map(
+      (modelConfidence) =>
+        decide("approve", cleanSystem, [], modelConfidence).confidence,
+    );
+    expect(shown).toEqual([0.9, 0.9]);
+  });
+
+  it("caps an escalated review below the threshold", () => {
+    const verdict = decide(
+      "request_info",
+      [heuristic("service_fee")],
+      [],
+      0.97,
+    );
+    expect(verdict.autonomy).toBe("escalated");
+    expect(verdict.confidence).toBe(0.84);
+  });
+
+  it("keeps an escalated review's lower number", () => {
+    expect(
+      decide("request_info", [heuristic("service_fee")], [], 0.6).confidence,
+    ).toBe(0.6);
+  });
+
+  it("resolves a tier at the threshold", () => {
+    expect(approveAt(0.85)).toMatchObject({
+      autonomy: "auto_resolved",
+      confidence: 0.85,
+    });
+  });
+
+  it("escalates a tier below a stricter threshold, saying why", () => {
+    expect(approveAt(0.9)).toEqual({
+      autonomy: "escalated",
+      reasons: ["evidence tier 0.85 below 0.9"],
+      confidence: 0.7,
+    });
+  });
+
+  it.each([
+    ["approve", cleanSystem],
+    ["reject", [rule("off_platform_payment")]],
+    ["request_info", [rule("postal_code_province")]],
+  ] as const)(
+    "lets a model number below the floor hold back a %s",
+    (decision, system) => {
+      const below = 0.49;
+      expect(decide(decision, [...system], [], below)).toEqual({
+        autonomy: "escalated",
+        reasons: ["model confidence 0.49 below 0.5"],
+        confidence: below,
+      });
+    },
+  );
+
+  it("adds the floor only to a review that would otherwise resolve", () => {
+    expect(
+      decide("request_info", [heuristic("service_fee")], [], 0.3).reasons,
+    ).toEqual([
+      "no rule-based finding to ask about",
+      "needs judgement: service_fee",
+    ]);
+  });
+
+  it("resolves at the floor", () => {
+    expect(MODEL_CONFIDENCE_FLOOR).toBe(0.5);
+    expect(
+      decide("approve", cleanSystem, [], MODEL_CONFIDENCE_FLOOR).autonomy,
+    ).toBe("auto_resolved");
+  });
+});
+
+describe("an escalation built outside the policy", () => {
+  it("records its reasons and caps the model's number below the threshold", () => {
+    expect(escalated(["run ended by max_tool_calls"], 0.97)).toEqual({
+      autonomy: "escalated",
+      reasons: ["run ended by max_tool_calls"],
+      confidence: 0.84,
+    });
+  });
+
+  it("keeps a lower model number", () => {
+    expect(escalated(["run ended by max_tokens"], 0.4).confidence).toBe(0.4);
   });
 });

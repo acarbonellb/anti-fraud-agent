@@ -11,7 +11,7 @@ export interface Metrics {
   failed: number;
   /** The decision is one of the expected ones. */
   accuracy: number | null;
-  /** Problem cases (1–26) that ended in `approve`: the critical metric. */
+  /** Problem cases (the numbered ones) that ended in `approve`: the critical metric. */
   approvedFraudRate: number | null;
   /**
    * Problem cases that ended in `approve` + `auto_resolved`: the only
@@ -20,7 +20,12 @@ export interface Metrics {
   autoApprovedFraudRate: number | null;
   escalationRate: number | null;
   autonomyAccuracy: number | null;
-  /** Mean of (confidence − correct)²: 0 is perfect calibration. */
+  /**
+   * Mean of (model confidence − correct)²: 0 is perfect calibration. It reads
+   * the model's own number, not the derived tier: a tier is a rank, not a
+   * probability, and the model's number keeps the series comparable with the
+   * entries before ADR 0019.
+   */
   brier: number | null;
   meanInputTokens: number | null;
   meanOutputTokens: number | null;
@@ -65,7 +70,8 @@ export function computeMetrics(
     ),
     brier: mean(
       scored,
-      (result) => (result.outcome.confidence - (correct(result) ? 1 : 0)) ** 2,
+      (result) =>
+        (result.outcome.modelConfidence - (correct(result) ? 1 : 0)) ** 2,
     ),
     meanInputTokens: mean(scored, (result) => result.outcome.inputTokens),
     meanOutputTokens: mean(scored, (result) => result.outcome.outputTokens),

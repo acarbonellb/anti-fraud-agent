@@ -33,7 +33,10 @@ export interface CaseFixtures {
 
 /** One brief §5 case: a fixture subject with its expected outcome. */
 export interface EvalCase {
-  /** `01`…`26` for problem cases, `N1`…`N5` for legitimate ones. */
+  /**
+   * Numbers for problem cases (brief §5's `01`…`26`, then spec #71's),
+   * `N1`…`N5` for legitimate ones.
+   */
   id: string;
   /** Kebab-case, English: names the file and the recording. */
   slug: string;
@@ -57,7 +60,10 @@ export interface EvalCase {
 export interface CaseOutcome {
   decision: Decision;
   autonomy: Autonomy;
+  /** Derived from the evidence tier (ADR 0019): what Satella would be sent. */
   confidence: number;
+  /** The number the model proposed, to compare with `confidence`. */
+  modelConfidence: number;
   /** The policy's reasons for the autonomy. */
   reasons: string[];
   /** Whether the case searched authored pages, not the real web. */
@@ -80,7 +86,7 @@ export interface CaseResult {
   caseId: string;
   slug: string;
   title: string;
-  /** Brief §5 cases 1–26: the ones an approval would let fraud through. */
+  /** The numbered cases: the ones an approval would let fraud through. */
   problem: boolean;
   external: boolean;
   expected: EvalCase["expected"];
@@ -90,7 +96,7 @@ export interface CaseResult {
   failure: string | null;
 }
 
-/** Brief §5 numbers problem cases `01`…`26` and legitimate ones `N1`…`N5`. */
+/** Problem cases are numbered (`01`…`26`, then spec #71's); legitimate ones `N1`…`N5`. */
 export function isProblemCase(caseId: string): boolean {
   return !caseId.startsWith("N");
 }

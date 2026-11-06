@@ -23,7 +23,8 @@ const scored: CaseResult = {
     decision: "request_info",
     autonomy: "escalated",
     confidence: 0.8,
-    reasons: ["confidence 0.8 below 0.85", "a | pipe"],
+    modelConfidence: 0.8,
+    reasons: ["needs judgement: service_fee", "a | pipe"],
     authoredWeb: false,
     venue: [
       { check: "venue_exists", verdict: "pass" },
@@ -77,7 +78,7 @@ it("shows the metrics of each provider and model", () => {
 it("lists each case with expected versus actual and the policy's reasons", () => {
   const report = renderReport([set]);
   expect(report).toContain(
-    "| 03 | Madrid postal code with province Sevilla | ✅ request_info | ❌ auto_resolved → escalated | 0.80 | venue pass · capacity unknown | confidence 0.8 below 0.85; a \\| pipe |",
+    "| 03 | Madrid postal code with province Sevilla | ✅ request_info | ❌ auto_resolved → escalated | 0.80 | venue pass · capacity unknown | needs judgement: service_fee; a \\| pipe |",
   );
   expect(report).toContain(
     "| 01 | Bar of 150 selling 2,000 tickets | — reject | — auto_resolved | — | — | stale: request_changed |",
@@ -209,7 +210,7 @@ describe("repeated runs", () => {
           decision: "reject",
           autonomy: "escalated",
           confidence: 0.7,
-          reasons: ["confidence 0.7 below 0.85"],
+          reasons: ["needs judgement: service_fee"],
         }),
         caseResult("N1", approve, { confidence: 0.9 }),
       ],

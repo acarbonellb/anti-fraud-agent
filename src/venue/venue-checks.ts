@@ -12,6 +12,7 @@ import { VenueProviderError } from "./http.js";
 import { createNominatim, NOMINATIM_MIN_INTERVAL_MS } from "./nominatim.js";
 import { maxTicketsOnSale } from "../checks/tickets-on-sale.js";
 import {
+  hasCoordinates,
   type Outcome,
   publishedCapacity,
   scoreCapacity,
@@ -83,6 +84,7 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
     const venue: VenueToVerify = {
       name: context.venue.name,
       city: context.venue.city,
+      province: context.venue.province,
       country: context.venue.country,
       latitude: context.venue.latitude,
       longitude: context.venue.longitude,
@@ -91,6 +93,9 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
       nominatim.search({
         name: venue.name,
         city: venue.city,
+        // Only without coordinates (#74): with them, distance already tells
+        // two places of the same name apart, and their lookup stays as it was.
+        ...(!hasCoordinates(venue) ? { province: venue.province } : {}),
         country: context.venue.country,
       }),
     );
@@ -98,11 +103,10 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
     const verify = async (): Promise<SystemFinding> => {
       const found = await places;
       const verified = found.ok ? verifiedMatch(venue, found.value) : null;
-      const { latitude, longitude } = venue;
       // What lies at the point matters only when the name didn't verify it.
       const point =
-        found.ok && verified === null && latitude !== null && longitude !== null
-          ? await settle(nominatim.reverse(latitude, longitude))
+        found.ok && verified === null && hasCoordinates(venue)
+          ? await settle(nominatim.reverse(venue.latitude, venue.longitude))
           : null;
       return scoreVenue({ venue, places: found, point });
     };

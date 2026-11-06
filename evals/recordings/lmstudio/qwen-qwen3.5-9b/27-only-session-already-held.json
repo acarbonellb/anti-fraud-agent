@@ -1,0 +1,161 @@
+{
+  "caseId": "27",
+  "provider": "lmstudio",
+  "model": "qwen/qwen3.5-9b",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
+  "calls": [
+    {
+      "requestHash": "cadc539114c106f26d314ed8255405eafd89127b97d198816b14b86c818764c6",
+      "latencyMs": 2987,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "TDwX8dnboJCXhydp3aC5PIvFsOKmcbQX",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_84b05b3499\"}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3629,
+          "outputTokens": 42
+        }
+      }
+    },
+    {
+      "requestHash": "3d9754fac8466565fe38d1156e2092dba34d18468f362053bde1deb4c7c4b667",
+      "latencyMs": 1490,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "XaRLIndjxMocuT6NpoWA5x1f0Tzo8d26",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Salitre Santander boleros concierto 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4015,
+          "outputTokens": 50
+        }
+      }
+    },
+    {
+      "requestHash": "7dad35be45ec7e396f495de98306465e18f2cf1054e2f30649883f72e33b247f",
+      "latencyMs": 1247,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "jZ2h2sGccLV1PvqdElTvCwwVgnFHwia8",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Escenario Santander aforo capacidad\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4154,
+          "outputTokens": 43
+        }
+      }
+    },
+    {
+      "requestHash": "9fdf0e4e4a251d6319783aa6af37d7dad1859cafe56b61d39b94cf50b427d896",
+      "latencyMs": 1453,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "lJnzybJZWln0mAraNJEH09Nf153I6ji0",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_4d6bb85ef8\",\"windowDays\":60}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4286,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "77d5d000598016e4a9d70402af2b7352a0ab170275b5ec36cc23d7f282d31f77",
+      "latencyMs": 16705,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "TlC9UFK0IGjtWcfwE1FGNJcv00gqIePv",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El evento ha sido rechazado por una señal de fraude directa: las sesiones ya han finalizado (la última fue el 3/11/26 a las 15:00) y aún se venden entradas. Esto indica que el evento está activo después de su fecha de fin, lo cual es inconsistente con un evento genuito. Además, el aforo del recinto no está disponible públicamente (Wikidata/OpenStreetMap no lo publican y la búsqueda web falló por cuota), pero la sesión con más entradas pone a la venta 600 tickets, lo que podría ser compatible con la capacidad real o indicar una sobreventa si el aforo es menor. Sin embargo, la señal de fraude principal es la venta activa tras el fin del evento.\",\"findings\":[{\"check\":\"session_timing\",\"verdict\":\"fail\",\"detail\":\"Todas las sesiones ya han terminado (la última fue el 3/11/26, 15:00) y aún hay entradas a la venta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_4d6bb85ef8\",\"title\":\"Evento en plataforma\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Escenario Santander», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 600.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador «Mareas del Norte Producciones» aprobado desde 2024-05-20, con CIF válido y cuenta antigua (930 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la provincia de Cantabria con título parecido cerca de las fechas (búsqueda falló por cuota).\",\"confidence\":0.6,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4418,
+          "outputTokens": 636
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "a9f409fa41c53e8ecf05c8129b0c1b49b7d91d275a58dbd340fbc43df3a08510",
+      "provider": "Tavily",
+      "query": "\"El Trío Salitre repasa los boleros de siempre en una noche íntima en Santander\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "cf2bbcd6c4f042e7b6c58b87d0ca4eac8971bb45ef73dc3ece6a8465b2211aa1",
+      "provider": "Tavily",
+      "query": "Escenario Santander Santander aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "0f622c47c9433c4e80fa3b47548cfd0d55f94cb073ece058d9cb537304c19c28",
+      "provider": "Tavily",
+      "query": "Trío Salitre Santander boleros concierto 2026",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "2a4e0c9da8848f3cbfe3078279ca7cb1d117e064d6a5cbacd6f0f0fe3c708768",
+      "provider": "Tavily",
+      "query": "Escenario Santander aforo capacidad",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    }
+  ]
+}

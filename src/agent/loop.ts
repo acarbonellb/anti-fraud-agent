@@ -23,6 +23,7 @@ import {
   type AutonomySubject,
   type AutonomyVerdict,
   decideAutonomy,
+  escalated,
   holdBackApproval,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
@@ -65,8 +66,11 @@ export interface RunResult {
   provider: string;
   model: string;
   endedBy: RunEnd;
+  /** Carries the policy's confidence, derived from the evidence (#77). */
   recommendation: Recommendation;
   autonomy: AutonomyVerdict;
+  /** The number the model proposed: kept to compare with the derived one. */
+  modelConfidence: number;
   usage: TokenUsage;
   toolCalls: number;
   webSearches: number;
@@ -174,8 +178,23 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
         note: "FINDINGS_TRUNCATED",
       });
     }
+    // A run that didn't finish never resolves on its own.
+    const autonomy: AutonomyVerdict =
+      endedBy === "submitted"
+        ? decideAutonomy({
+            subject: input.subject,
+            decision: base.decision,
+            modelConfidence: base.confidence,
+            systemFindings,
+            modelFindings,
+            retrievedUrls,
+            autoApproveThreshold: input.autoApproveThreshold,
+            searchBudgetSpent,
+          })
+        : escalated([`run ended by ${endedBy}`], base.confidence);
     const recommendation: Recommendation = {
       ...base,
+      confidence: autonomy.confidence,
       findings: findings.slice(0, REVIEW_MAX_FINDINGS),
     };
     return {
@@ -184,20 +203,8 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       model: provider.model,
       endedBy,
       recommendation,
-      // A run that didn't finish never resolves on its own.
-      autonomy:
-        endedBy === "submitted"
-          ? decideAutonomy({
-              subject: input.subject,
-              decision: recommendation.decision,
-              confidence: recommendation.confidence,
-              systemFindings,
-              modelFindings,
-              retrievedUrls,
-              autoApproveThreshold: input.autoApproveThreshold,
-              searchBudgetSpent,
-            })
-          : { autonomy: "escalated", reasons: [`run ended by ${endedBy}`] },
+      autonomy,
+      modelConfidence: base.confidence,
       usage,
       toolCalls,
       webSearches,

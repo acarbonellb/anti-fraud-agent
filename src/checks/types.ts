@@ -15,6 +15,22 @@ export interface SystemFinding {
    * `capacity_far_above_venue`). A model finding on any of them is dropped.
    */
   covers?: readonly string[];
+  /**
+   * The verified venue's OpenStreetMap `category=type` (e.g. `leisure=park`),
+   * carried by the capacity finding: the policy picks the exposure cap by it
+   * (ADR 0015, amendment of #78). Absent when the venue isn't verified.
+   */
+  venueType?: string;
+}
+
+/**
+ * How sure a check in code is of its verdict. A computed check is certain of
+ * what it found, but one with no data reached no verdict to be sure of: the
+ * admin mustn't read "100 %" next to "sin datos" (#75). One rule for every
+ * check, not a value per check. The policy reads the verdict, not this.
+ */
+export function systemConfidence(verdict: Finding["verdict"]): number {
+  return verdict === "unknown" ? 0 : 1;
 }
 
 export function systemFinding(
@@ -25,6 +41,12 @@ export function systemFinding(
 ): SystemFinding {
   return {
     certainty,
-    finding: { check, verdict, detail, confidence: 1, sources: [] },
+    finding: {
+      check,
+      verdict,
+      detail,
+      confidence: systemConfidence(verdict),
+      sources: [],
+    },
   };
 }

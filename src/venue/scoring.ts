@@ -12,7 +12,7 @@
  */
 import type { Finding } from "../satella-client/schemas.js";
 import type { CheckId } from "../checks/vocabulary.js";
-import type { SystemFinding } from "../checks/types.js";
+import { type SystemFinding, systemConfidence } from "../checks/types.js";
 import type { SearchFailure, SearchResult } from "../search/types.js";
 import type { ProviderFailure, VenueProvider } from "./http.js";
 import { osmUrl, type Place, type PointPlace } from "./nominatim.js";
@@ -84,6 +84,7 @@ export type Outcome<T> =
 export interface VenueToVerify {
   name: string;
   city: string;
+  province: string;
   /** ISO 3166-1 alpha-2, e.g. `ES`. */
   country: string;
   latitude: number | null;
@@ -91,6 +92,13 @@ export interface VenueToVerify {
 }
 
 export interface Match {
+  place: Place;
+  /** Null when the venue has no coordinates: it was matched by name and city. */
+  distanceM: number | null;
+}
+
+/** A compatible place and how far it is from the event's coordinates. */
+export interface NearbyPlace {
   place: Place;
   distanceM: number;
 }
@@ -103,10 +111,10 @@ export function isVenueType(tags: { category: string; type: string }): boolean {
 export function nearestVenue(
   venue: VenueToVerify,
   places: readonly Place[],
-): Match | null {
+): NearbyPlace | null {
+  if (!hasCoordinates(venue)) return null;
   const { latitude, longitude } = venue;
-  if (latitude === null || longitude === null) return null;
-  let best: Match | null = null;
+  let best: NearbyPlace | null = null;
   for (const place of places) {
     if (!isVenueType(place)) continue;
     const distanceM = distanceMeters(
@@ -119,15 +127,67 @@ export function nearestVenue(
   return best;
 }
 
-/** The match that verifies the venue: compatible and close enough. */
+/**
+ * The match that verifies the venue: compatible and close enough to its
+ * coordinates or, when it has none, with its name and in its city.
+ */
 export function verifiedMatch(
   venue: VenueToVerify,
   places: readonly Place[],
 ): Match | null {
+  if (!hasCoordinates(venue)) return namedMatch(venue, places);
   const match = nearestVenue(venue, places);
   return match !== null && match.distanceM <= VENUE_MAX_DISTANCE_M
     ? match
     : null;
+}
+
+/** Both coordinates: one alone locates nothing. */
+export function hasCoordinates<T extends VenueToVerify>(
+  venue: T,
+): venue is T & { latitude: number; longitude: number } {
+  return venue.latitude !== null && venue.longitude !== null;
+}
+
+/**
+ * Without coordinates, distance can't tell the venue from another place the
+ * search returned (#74), so the place must carry the venue's name and lie in
+ * its city. Nominatim ranks loosely: a search for one theatre of a city may
+ * also return the others.
+ */
+function namedMatch(
+  venue: VenueToVerify,
+  places: readonly Place[],
+): Match | null {
+  const city = fold(venue.city).trim();
+  for (const place of places) {
+    if (!isVenueType(place) || place.name === null) continue;
+    if (!sameName(venue.name, place.name)) continue;
+    const parts = (place.displayName ?? "")
+      .split(",")
+      .map((part) => fold(part).trim());
+    if (parts.includes(city)) return { place, distanceM: null };
+  }
+  return null;
+}
+
+/**
+ * The same words, or the words of one name all inside the other ("Teatro
+ * Principal" and "Teatro Principal de Zamora"). The shorter name needs two
+ * words for that: "Teatro" alone is in every theatre's name.
+ */
+export function sameName(a: string, b: string): boolean {
+  const [shorter, longer] = [words(a), words(b)].sort(
+    (x, y) => x.length - y.length,
+  ) as [string[], string[]];
+  if (shorter.join(" ") === longer.join(" ")) return true;
+  return shorter.length >= 2 && shorter.every((word) => longer.includes(word));
+}
+
+function words(text: string): string[] {
+  return fold(text)
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean);
 }
 
 export interface VenueEvidence {
@@ -151,12 +211,6 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
     sources: Finding["sources"] = [],
   ) => venueFinding(check, verdict, detail, sources);
 
-  if (venue.latitude === null || venue.longitude === null) {
-    return finding(
-      "unknown",
-      `El recinto «${venue.name}» no tiene coordenadas: no se puede verificar.`,
-    );
-  }
   if (!places.ok) {
     return finding(
       "unknown",
@@ -166,10 +220,13 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
 
   const verified = verifiedMatch(venue, places.value);
   if (verified !== null) {
+    const { place, distanceM } = verified;
     return finding(
       "pass",
-      `Recinto verificado: «${placeName(verified.place, venue)}» figura en OpenStreetMap como ${typeText(verified.place)} a ${metres(verified.distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
-      [osmSource(verified.place, venue)],
+      distanceM === null
+        ? `Recinto verificado por nombre: «${placeName(place, venue)}» figura en OpenStreetMap como ${typeText(place)} en ${venue.city}. El evento no guarda coordenadas, así que se buscó por nombre, municipio y provincia.`
+        : `Recinto verificado: «${placeName(place, venue)}» figura en OpenStreetMap como ${typeText(place)} a ${metres(distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
+      [osmSource(place, venue)],
     );
   }
   const nearest = nearestVenue(venue, places.value);
@@ -216,9 +273,12 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
       [osmSource(nearest.place, venue)],
     );
   }
+  const byNameOnly = hasCoordinates(venue)
+    ? ""
+    : " El evento no guarda coordenadas, así que solo se pudo buscar por nombre, municipio y provincia.";
   return finding(
     "unknown",
-    `Recinto sin verificar: OpenStreetMap no tiene ningún recinto «${venue.name}» en ${venue.city}.${unchecked}`,
+    `Recinto sin verificar: OpenStreetMap no tiene ningún recinto «${venue.name}» en ${venue.city}.${unchecked}${byNameOnly}`,
   );
 }
 
@@ -240,9 +300,13 @@ export type WebCapacitySearch =
   | { ok: true; results: readonly SearchResult[] }
   | { ok: false; failure: SearchFailure };
 
-/** `estimateVenueCapacity` (ADR 0015 point 4), compared per session. */
+/**
+ * `estimateVenueCapacity` (ADR 0015 point 4), compared per session. A
+ * verified venue's type goes with the finding: the policy's exposure cap
+ * depends on it (ADR 0015, amendment of #78).
+ */
 export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
-  const { venue, match, wikidata, web, maxTicketsOnSale: tickets } = evidence;
+  const { match, maxTicketsOnSale: tickets } = evidence;
   const onSale = `la sesión con más entradas pone a la venta ${count(tickets)}`;
   if (match === null) {
     return venueFinding(
@@ -251,6 +315,18 @@ export function scoreCapacity(evidence: CapacityEvidence): SystemFinding {
       `Aforo desconocido: el recinto no está verificado en OpenStreetMap, así que no hay aforo publicado; ${onSale}.`,
     );
   }
+  return {
+    ...scoreVerifiedCapacity(evidence, match, onSale),
+    venueType: osmTag(match.place),
+  };
+}
+
+function scoreVerifiedCapacity(
+  evidence: CapacityEvidence,
+  match: Match,
+  onSale: string,
+): SystemFinding {
+  const { venue, wikidata, web, maxTicketsOnSale: tickets } = evidence;
 
   const published = publishedCapacity(match.place, wikidata);
   const fromWeb =
@@ -455,7 +531,13 @@ export function venueFinding(
 ): SystemFinding {
   return {
     certainty: "heuristic",
-    finding: { check, verdict, detail, confidence: 1, sources },
+    finding: {
+      check,
+      verdict,
+      detail,
+      confidence: systemConfidence(verdict),
+      sources,
+    },
     // One family: a model finding on any of them is dropped (ADR 0012 point 1).
     covers: VENUE_CHECKS,
   };
@@ -497,7 +579,17 @@ function placeName(place: Place, venue: VenueToVerify): string {
   return place.name ?? venue.name;
 }
 
+/** How the place's type reads in a finding's text, for the model and the admin. */
 function typeText(place: Place): string {
+  return `${place.category}=${place.type}`;
+}
+
+/**
+ * The place's OSM `category=type` tag, the key `OPEN_SPACE_TYPES` matches.
+ * Apart from `typeText` on purpose: rewording a finding must not move the
+ * exposure cap (#78).
+ */
+export function osmTag(place: Pick<Place, "category" | "type">): string {
   return `${place.category}=${place.type}`;
 }
 

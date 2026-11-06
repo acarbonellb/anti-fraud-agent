@@ -68,7 +68,13 @@ export const completedRunSchema = z.object({
   decision: decisionSchema,
   autonomy: z.enum(["auto_resolved", "escalated"]),
   autonomyReasons: z.array(z.string()),
+  /** Derived from the evidence tier (ADR 0019): what Satella was sent. */
   confidence: z.number().min(0).max(1),
+  /**
+   * The number the model proposed, to compare with `confidence`. Absent on
+   * runs stored before ADR 0019.
+   */
+  modelConfidence: z.number().min(0).max(1).optional(),
   findings: z.array(findingSchema),
   rationale: z.string(),
   infoRequest: infoRequestSchema.nullable(),
@@ -185,6 +191,7 @@ export function toRunDocument(
     autonomy: run.autonomy.autonomy,
     autonomyReasons: [...run.autonomy.reasons],
     confidence: recommendation.confidence,
+    modelConfidence: run.modelConfidence,
     findings: recommendation.findings.map((finding) => ({
       check: finding.check,
       verdict: finding.verdict,

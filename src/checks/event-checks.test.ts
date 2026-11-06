@@ -98,6 +98,27 @@ describe("postal code and province", () => {
   });
 });
 
+describe("confidence of a finding", () => {
+  // A check with no data reached no verdict to be confident in, so the admin
+  // mustn't read "100 %" next to "sin datos" (#75).
+  it("is 0 for every check that had no data, and 1 for the rest", () => {
+    const findings = runEventChecks(
+      context((draft) => {
+        draft.venue = null;
+      }),
+      NOW,
+    ).map((item) => item.finding);
+
+    expect(findings.some((item) => item.verdict === "unknown")).toBe(true);
+    for (const item of findings) {
+      expect([item.check, item.confidence]).toEqual([
+        item.check,
+        item.verdict === "unknown" ? 0 : 1,
+      ]);
+    }
+  });
+});
+
 describe("texts", () => {
   it("fails off-platform payment as a rule, naming where it was found", () => {
     const [result] = finding(
@@ -279,6 +300,109 @@ describe("session dates", () => {
     expect(result?.finding.verdict).toBe("warn");
   });
 
+  describe("against the review time", () => {
+    function pastWarnings(ctx: Context) {
+      return finding(ctx, "session_timing").filter(
+        (item) =>
+          item.finding.verdict === "warn" &&
+          item.finding.detail.includes("ya ha"),
+      );
+    }
+
+    it("warns, as a heuristic, about a session already started that still sells", () => {
+      const [result] = finding(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+        }),
+        "session_timing",
+      );
+
+      expect(result?.certainty).toBe("heuristic");
+      expect(result?.finding.verdict).toBe("warn");
+      // 20:00 UTC on 31 October is 21:00 in Madrid (UTC+1 from 25 October).
+      expect(result?.finding.detail).toContain("31/10/26, 21:00");
+      expect(result?.finding.detail).toContain("entradas a la venta");
+    });
+
+    it("warns when every session is past, even with nothing left on sale", () => {
+      const results = pastWarnings(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+          for (const type of session.ticketTypes) {
+            type.capacityTaken = type.capacity;
+          }
+        }),
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.certainty).toBe("heuristic");
+      expect(results[0]?.finding.detail).toContain("Todas las sesiones");
+      expect(results[0]?.finding.detail).toContain("31/10/26, 21:00");
+    });
+
+    it("stays quiet about a festival whose sold-out first day is past and later days ahead", () => {
+      const results = finding(
+        context((draft) => {
+          const session = firstSession(draft);
+          draft.event.publishedAt = "2026-10-01T10:00:00.000Z";
+          draft.sessions = [
+            {
+              ...session,
+              id: "ses_day1",
+              startsAt: "2026-11-01T16:00:00.000Z",
+              endsAt: "2026-11-01T23:00:00.000Z",
+              ticketTypes: session.ticketTypes.map((type) => ({
+                ...type,
+                capacityTaken: type.capacity,
+              })),
+            },
+            {
+              ...session,
+              id: "ses_day2",
+              startsAt: "2026-11-02T16:00:00.000Z",
+              endsAt: "2026-11-02T23:00:00.000Z",
+            },
+          ];
+        }),
+        "session_timing",
+      );
+
+      expect(results.map((item) => item.finding.verdict)).toEqual(["pass"]);
+    });
+
+    it("doesn't also call a past session imminent when the event is unpublished", () => {
+      const results = finding(
+        context((draft) => {
+          draft.event.publishedAt = null;
+          const session = firstSession(draft);
+          session.startsAt = "2026-10-31T20:00:00.000Z";
+          session.endsAt = "2026-10-31T22:30:00.000Z";
+        }),
+        "session_timing",
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.finding.detail).toContain("Todas las sesiones");
+    });
+
+    it("counts a session starting exactly now as started", () => {
+      const results = pastWarnings(
+        context((draft) => {
+          const session = firstSession(draft);
+          session.startsAt = NOW.toISOString();
+          session.endsAt = "2026-11-02T12:00:00.000Z";
+        }),
+      );
+
+      expect(results).toHaveLength(1);
+      expect(results[0]?.finding.detail).toContain("ya ha empezado");
+    });
+  });
+
   it("ignores cancelled sessions", () => {
     const [result] = finding(
       context((draft) => {
@@ -292,5 +416,61 @@ describe("session dates", () => {
     );
 
     expect(result?.finding.verdict).toBe("pass");
+  });
+});
+
+describe("discounts", () => {
+  type Discount = Context["discounts"][number];
+  const discount = (change: Partial<Discount>): Discount => ({
+    scope: "event",
+    percent: 10,
+    maxUses: 50,
+    timesUsed: 0,
+    active: true,
+    ...change,
+  });
+  const withDiscounts = (...discounts: Discount[]) =>
+    finding(
+      context((draft) => {
+        draft.discounts = discounts;
+      }),
+      "discounts",
+    );
+
+  it("warns, as a heuristic, about an active discount above 50% with no limit", () => {
+    const [result] = withDiscounts(discount({ percent: 51, maxUses: null }));
+
+    expect(result?.certainty).toBe("heuristic");
+    expect(result?.finding.verdict).toBe("warn");
+    expect(result?.finding.detail).toContain("51 %");
+  });
+
+  it.each([
+    ["exactly 50% with no limit (a 2x1)", { percent: 50, maxUses: null }],
+    ["95% with a usage limit", { percent: 95, maxUses: 20 }],
+    ["95% inactive", { percent: 95, maxUses: null, active: false }],
+  ])("passes a discount of %s", (_, change) => {
+    const [result] = withDiscounts(discount(change));
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  it("passes an event with no discounts", () => {
+    const [result] = withDiscounts();
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  it("warns once, naming the one that qualifies among several", () => {
+    const results = withDiscounts(
+      discount({ percent: 20, maxUses: null }),
+      discount({ percent: 95, maxUses: 10 }),
+      discount({ percent: 80, maxUses: null }),
+      discount({ percent: 90, maxUses: null, active: false }),
+    );
+
+    expect(results).toHaveLength(1);
+    expect(results[0]?.finding.verdict).toBe("warn");
+    expect(results[0]?.finding.detail).toContain("80 %");
   });
 });

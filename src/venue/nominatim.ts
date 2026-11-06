@@ -30,6 +30,7 @@ const placeSchema = z.object({
   category: z.string(),
   type: z.string(),
   name: z.string().nullable().optional(),
+  display_name: z.string().optional(),
   extratags: z.record(z.string(), z.string()).nullable().optional(),
 });
 
@@ -42,12 +43,20 @@ export interface Place {
   category: string;
   type: string;
   name: string | null;
+  /** The address Nominatim gives, comma-separated, e.g. `…, Zamora, Castilla y León, 49004, España`. */
+  displayName: string | null;
   tags: Readonly<Record<string, string>>;
 }
 
 export interface VenueQuery {
   name: string;
   city: string;
+  /**
+   * Narrows the search when there are no coordinates to tell two places of
+   * the same name apart (#74). Left out otherwise, so a venue with
+   * coordinates is looked up as it always was.
+   */
+  province?: string;
   /** ISO 3166-1 alpha-2, e.g. `ES`. */
   country: string;
 }
@@ -91,7 +100,7 @@ export function createNominatim(options: {
 
 export function searchUrl(query: VenueQuery): string {
   const params = new URLSearchParams({
-    q: `${query.name}, ${query.city}`,
+    q: searchText(query),
     format: "jsonv2",
     limit: String(MAX_RESULTS),
     extratags: "1",
@@ -100,6 +109,15 @@ export function searchUrl(query: VenueQuery): string {
       : {}),
   });
   return `${NOMINATIM_URL}/search?${params.toString()}`;
+}
+
+function searchText(query: VenueQuery): string {
+  const { name, city, province } = query;
+  // "Zamora, Zamora" adds nothing: a province named like its capital is left out.
+  const sameAsCity =
+    province === undefined ||
+    province.trim().toLowerCase() === city.trim().toLowerCase();
+  return sameAsCity ? `${name}, ${city}` : `${name}, ${city}, ${province}`;
 }
 
 export function reverseUrl(latitude: number, longitude: number): string {
@@ -161,6 +179,7 @@ function parsePlaces(body: unknown): Place[] {
     category: place.category,
     type: place.type,
     name: place.name ?? null,
+    displayName: place.display_name ?? null,
     tags: place.extratags ?? {},
   }));
 }

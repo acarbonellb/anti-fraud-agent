@@ -3,7 +3,6 @@ import {
   buildEvent,
   establishedOrganizer,
   eventFixtures,
-  madridTime,
 } from "../builders.js";
 
 const SEED = "session-hours-after-publishing";
@@ -12,7 +11,7 @@ export const evalCase: EvalCase = {
   id: "17",
   slug: SEED,
   title:
-    "Published at night for a session the next morning, with a large capacity",
+    "Published hours before a session later the same night, with a large capacity",
   subject: "event",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
@@ -29,8 +28,9 @@ export const evalCase: EvalCase = {
       description: "Concierto al amanecer con Orquesta Brisa del Cantábrico.",
       genre: "clasica",
       artists: [{ name: "Orquesta Brisa del Cantábrico" }],
-      // 23:00 the night before, Madrid time, for 09:00 the next morning.
-      publishedHoursAgo: madridTime(clock, -1, 23),
+      // Published 3 h before the review for a session 8 h after publishing:
+      // imminent, and still ahead of the review at any clock.
+      publishedHoursAgo: 3,
       venue: {
         name: "Escenario Santander",
         address: "Avenida de la Constitución 39",
@@ -42,7 +42,7 @@ export const evalCase: EvalCase = {
       },
       sessions: [
         {
-          startsInHours: madridTime(clock, 0, 9),
+          startsInHours: 8,
           durationHours: 2,
           ticketTypes: [
             { name: "General", priceCents: 1500, capacity: 3000, taken: 0 },

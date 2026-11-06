@@ -22,6 +22,13 @@ export const SERVICE_FEE_MAX_PERCENT = 20;
 export const IMMINENT_HOURS = 12;
 /** A session further than this after publishing is suspiciously far (case 18). */
 export const DISTANT_DAYS = 548;
+/**
+ * An active discount above this percent with no usage limit is suspicious:
+ * it can sell the whole event at a fraction of its price. A 2x1 (exactly
+ * 50 %) is a common legitimate promotion, and a large discount with a limit
+ * is a normal one (#71, slice 2).
+ */
+export const UNLIMITED_DISCOUNT_MAX_PERCENT = 50;
 
 const HOUR_MS = 3_600_000;
 const DAY_MS = 24 * HOUR_MS;
@@ -35,6 +42,7 @@ export function runEventChecks(
     ...textSignals(context),
     vipBelowGeneral(context),
     serviceFee(context),
+    discounts(context),
     ...sessionDates(context, now),
   ];
 }
@@ -240,6 +248,32 @@ function serviceFee(context: EventReviewContext): SystemFinding {
   );
 }
 
+function discounts(context: EventReviewContext): SystemFinding {
+  const check = "discounts";
+  const worst = context.discounts
+    .filter(
+      (discount) =>
+        discount.active &&
+        discount.maxUses === null &&
+        discount.percent > UNLIMITED_DISCOUNT_MAX_PERCENT,
+    )
+    .sort((a, b) => b.percent - a.percent)[0];
+  if (worst === undefined) {
+    return systemFinding(
+      "heuristic",
+      check,
+      "pass",
+      `Ningún descuento activo de más del ${String(UNLIMITED_DISCOUNT_MAX_PERCENT)} % carece de límite de usos.`,
+    );
+  }
+  return systemFinding(
+    "heuristic",
+    check,
+    "warn",
+    `Hay un descuento activo del ${String(worst.percent)} % sin límite de usos (umbral: ${String(UNLIMITED_DISCOUNT_MAX_PERCENT)} %).`,
+  );
+}
+
 /** A fee as a share of the price, `fee / of`, kept as two numbers. */
 interface FeeShare {
   fee: number;
@@ -276,6 +310,12 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
     .map((session) => ({
       start: Date.parse(session.startsAt),
       end: Date.parse(session.endsAt),
+      // A guest list isn't sold: places left on one don't put a session on
+      // sale.
+      onSale: session.ticketTypes.some(
+        (type) =>
+          type.kind === "standard" && type.capacityTaken < type.capacity,
+      ),
     }))
     .sort((a, b) => a.start - b.start);
   const reference =
@@ -305,8 +345,12 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
   const first = sessions[0];
   const last = sessions.at(-1);
   const timing: SystemFinding[] = [];
+  // "Hours after publishing" only reads right for a session after it: an
+  // unpublished event measures from now, and a past session there is the
+  // review-time warning's below.
   if (
     first !== undefined &&
+    first.start >= reference &&
     first.start - reference < IMMINENT_HOURS * HOUR_MS
   ) {
     timing.push(
@@ -328,13 +372,42 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
       ),
     );
   }
+  // Against the review time, not publication: a past event still in the
+  // feed is for the admin to fix, so it escalates but is no fraud evidence
+  // (#71). A festival halfway through stays quiet while its started days
+  // have nothing left on sale.
+  const startedOnSale = sessions.find(
+    (session) => session.start <= now.getTime() && session.onSale,
+  );
+  const allPast =
+    last !== undefined &&
+    sessions.every((session) => session.end <= now.getTime());
+  if (allPast) {
+    timing.push(
+      systemFinding(
+        "heuristic",
+        "session_timing",
+        "warn",
+        `Todas las sesiones ya han terminado (la última fue el ${madrid(last.start)})${startedOnSale === undefined ? "" : " y aún hay entradas a la venta"}.`,
+      ),
+    );
+  } else if (startedOnSale !== undefined) {
+    timing.push(
+      systemFinding(
+        "heuristic",
+        "session_timing",
+        "warn",
+        `La sesión del ${madrid(startedOnSale.start)} ya ha empezado y aún tiene entradas a la venta.`,
+      ),
+    );
+  }
   if (timing.length === 0) {
     timing.push(
       systemFinding(
         "heuristic",
         "session_timing",
         "pass",
-        "Las fechas de las sesiones no son inminentes ni lejanas.",
+        "Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.",
       ),
     );
   }

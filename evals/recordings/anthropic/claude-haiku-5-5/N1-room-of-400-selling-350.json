@@ -2,37 +2,42 @@
   "caseId": "N1",
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-04T15:03:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "d251934eb91c1a7f4300f29976c80e817e903a6c4e9b4ef45974edb3faa31ca3",
-      "latencyMs": 1448,
+      "requestHash": "ca0605b3fec5e1f3beef612f86b606499b554a30e79768a3775adbb5a50b0f79",
+      "latencyMs": 1589,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01D7V3iQF6DHNqVF1e19BeuK",
+              "id": "toolu_01LogRpXxtSDKE57hx7AjTFj",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_bb1ae3fe05\"}"
             },
             {
-              "id": "toolu_01EMumjikrNPc1uppuqaSd26",
+              "id": "toolu_01AkBos2h22VmbgqsJLTXft5",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_59120c058b\",\"windowDays\":30}"
+              "argumentsJson": "{\"eventId\":\"evt_59120c058b\"}"
+            },
+            {
+              "id": "toolu_01QW4pSKBzJDrtAV9b3by5np",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"La Ruta Lenta Kilómetro Cero concierto Ponteareas noviembre 2026\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS6wUKEAgTGAI4AUIIdGhpbmtpbmcSDMxXe/m4yKxWIJTcDRoMdk+ep5MlNYNhGeqvIjC9fSPEttZW80AQ3HGBUYw5Uy7uvkj6xSHFQEooQ0D6lotCEvpCwsbMXuRfxMSlYAYqiAWF8dlrJ93Lc5VIYnXdwdQK61tTescMiaRjNoFAuTRoG6tfG8Fr0vH/y8RJZaJMWJ8lwsXSnzl0+sWKSnXdnUxZN7OaNoDWLt7T6E1udCB0VQD+7REbsOExDUW8j4PnD5US1aQNNtFCcol9sQu4ZG/6H2QPzvSSGHUzvwt4FVEuhSDK9fUu0zhRC9xzb86rPlL3voFvbgA/lqd9v8UkTb8IO33JHFyyfVVr7PdEl2qycbCTPBmfEmmTZqDxazmG+uZ3W8ZYS+jhms8F3DdnbP3N/ivynG6YccD7hnyuurvPArtxCynGjunlP6eDE5SQnUbaJroaJtWnMddk/xr2E4eAg1q0OhFOKqO5KUV85nKv7/DnVH8BjpZV9jChVWZjQbPnSmc0FdvB04UTdbxhSQVJMrrdDs1caKxsjZqz7eO34KS/uuib+VLSPWJtH90C7MaaVVX5DyFFii512dUm3UM9y1vrVF6fCkRyUK7+DiVY89nhDoUYFZ7ZvlSm+Ln9EjE1zvmz/LK+K+uuwZSawMx/OPEK507IeElcdroclCZbLzs00GyYCiVg74soita1NOPHERFAIHzutK06c14G7v482k4DT7bboi1WolDKv0FMM8Tj7FoBcui3zZOk2C/D4+/G3NthionSuPrndHW/DLULIH0iOb98T2gFdPYRk0jCvYasG6EoTGPaEZ9VDyHGhZrhu9dKKA1GWeZw/arUP8GIIhPwcun5BEeFuRRpxtnOYmC1kwVO/zO+wjJwjcR+3TOFrP/KD1ixfdvzB5m5CVxTwjGZAQFVcitrXCOzHl03KmH/eu6c+bGcGZqKYHawXMfnGxBqFEf7XtrmoCMWnL/7s7/XsxKr7FEYAQ=="
+              "signature": "CAQSyAUKEAgTGAI4AUIIdGhpbmtpbmcSDHoMGO3VhD6uoQe/0xoMe2Uy3h7QLOqDTQ2OIjA1n2Yh7l6ENMTTAA536CTS82EMDA0J4m0dSLf1+0o7Mg4i0f7jgJ+CxoKPbeIE0kEq5QRrkEh36n2yqZGeJ9C9ScWskz3aCo12RSKqCZPtX7keH3fxWSNiGRUdmAIThagvB2ElLRDO+8XsblrvStm6Vgp4DA/ojiwBpyy4NedxqD6QcxOwuFdKg326rBLyocSGKOQlrxI2WN1Qcqslo8p2ZnTRnqoGE42UTn0A5boROEs7ingWa704yjIFm2NkuWuolPltToXvTn4FZRfZRUZCQo8x09ZF7CsJT1ByzDKC0piKgZp97/KwsOS3vvJVBG/w/iMjLl0ki02I7Ouf6bxOrpHEv4V8THT0VOezmEPbwgRV1X9FWjqB79Fmf+SGw2zuwhAgF+Asd8mpw43PV3XnpZRGPUuXhSv7RLMqPU7dtAiqMjsGGKJxhFDJ0WSQ2eI/IEQ76HxP6Vl5bhgqhLqNyDsXTaRzW+KQmVJuWaYycTov6sa+pwxg8L0j+7dsBkicP6G1oEeMHP4kEF8s2YONyT6wbMUgr5BHHcXjHfnFeODTzRfxxuJ4Rajw8JC/SaXJ1p40G/H88E1r8tNH4WXOqsxkE1ZQCHkji+r0btllubleb6JSJuzBS1JzHLIPkh0yQaYboV/YdbnLQDTp8lengQiuVframbW9rwqyRGqhHOVgMG8I6kG2hhBeWbmfyznAXMLw5QsCC5tjPmPAG1CJjPKjU4D/BXxxJLdh6PkBxOffE7REYiHw0NefOAQoS15Yy1dF+64djsXj/z87CA9geq079ah2hyVAhosknrSrwUJpgGNLCG/rZ3z1bCIEemX/L1yii5X109+ZoWV2D1wZhbA1jUvJ1ikwL7STDON/lz+BQdTTblSjGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01D7V3iQF6DHNqVF1e19BeuK",
+              "id": "toolu_01LogRpXxtSDKE57hx7AjTFj",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_bb1ae3fe05"
@@ -43,53 +48,21 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01EMumjikrNPc1uppuqaSd26",
+              "id": "toolu_01AkBos2h22VmbgqsJLTXft5",
               "name": "find_similar_events",
               "input": {
-                "eventId": "evt_59120c058b",
-                "windowDays": 30
+                "eventId": "evt_59120c058b"
               },
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4942,
-          "outputTokens": 187,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4938
-        }
-      }
-    },
-    {
-      "requestHash": "77429f77145706b24d91d718714f33817783dc574c287a903ee8621c74a9f9f8",
-      "latencyMs": 2026,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01SLkvkbeG7a2NJ5KX8R7Xkd",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"La Ruta Lenta Kilómetro Cero concierto Ponteareas\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSvQYKEAgTGAI4AUIIdGhpbmtpbmcSDDR0h8oAJotu7cLd7hoMo8rTpGnPla5Eub8qIjCEfTUSyGkkUdP6bpF+dexVRFghEcCrezMWNm4wUFOCe3MnYOzcUovb9vU0twzwUfIq2gU2Gyl3tpzUeLaIRw2P2ckJrwr3y8mdzq8w642mijj9sOBgSfwcD4J2AMdf5Mzsk7mA8Y1ST65qNPaNU1ma1Le3hdKfivGeI98rFSWs0gjonzvwq1Pq5gN2//Q9RgdAJe4/usC9Ya50D5eC9lW3b6nbm6yuZ/LW3inyQ8+bJG+4Ihd2pleI37i8gtWVSu7iAIPPcPx/hA4pZJK02rlcGzcdQr/nwCqWsG41UvOkv8o1D8j9WqktVwhfNwsydit1NaBBb+1ZWgJIyTB8jpMp5aYf7yGuZxxN2JDReTRRc56T41Kk3hDoJifhiE/9hlaL4pDyiXNE5IXX5VlzxLoEdPwVmL3hoA66q7M3PKaJbOIQnLMjg9lc6gw9ZvPtlMMNPu/kChue+o8WbGeVNqlNAHv2Nk6n6QDnuouwznf1InNDzKBZFgROJgV8yM8xhJ/H6kklI39Mc16VxdwnTXqiyHG70PsZ52xzJa0SudNrqpF05Ahd+6ttSD1P7uTNpK/fBiGagRtoXwuj1717xSaq2mmtmKh2KkHwDS+v231DtRzLkD41u0Lp0h3VRebX/67FnGMlWl4XR8qF2+D8oIx4Uvmj7aLfp2LUacMmtA+mHBxHekIFGRd3Z4rlPUlGR1aCDneBEP8F3nZHEVO+nL1jmOasu2u8SYYGRwUd+JGB6OdIKlPewiGmF7C6j31eU8z5gYirHH/rqCTURTa8HYcQ/hvbFaQK8FAeoZrFBS2Dx7l82wzfRnHEY3tBklyFr357QQnGB3jCdtBjkhmTlm4macEpW0nYC7598brO6y0jDwTteqLIkZeWB8SW3X+Prx3xs+p7UUr4JVSz76PIWK4bBZHORSPcUOQCpw2Rx0+Zt6VqOjpOi0vTLYgXA8ce12PQqYuOLVTmO48xF50QuheyF7nKEIM/QEkec7rLzKdnGDqwmJdQu+cZy54E92PSVH7+Wkm5ccwAHAp0XEp2GAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01SLkvkbeG7a2NJ5KX8R7Xkd",
+              "id": "toolu_01QW4pSKBzJDrtAV9b3by5np",
               "name": "web_search",
               "input": {
-                "query": "La Ruta Lenta Kilómetro Cero concierto Ponteareas",
+                "query": "La Ruta Lenta Kilómetro Cero concierto Ponteareas noviembre 2026",
                 "maxResults": 3
               },
               "caller": {
@@ -100,61 +73,61 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5739,
-          "outputTokens": 165,
-          "cacheReadInputTokens": 4938,
-          "cacheWriteInputTokens": 799
+          "inputTokens": 5258,
+          "outputTokens": 258,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5254
         }
       }
     },
     {
-      "requestHash": "aaa2cbff42cf220a8b5cd7d80f02f17eab7a78e25f07240e6b7dd1c748a96cfe",
-      "latencyMs": 5759,
+      "requestHash": "7c9d796c1f3266e156ea97c628d3267a757f46df932de4b21cf2c41697afa883",
+      "latencyMs": 6569,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01CEUgoAVGBig6yuAzBoGJq2",
+              "id": "toolu_01EdNXD9AovGkHn73GAbJAJx",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"No veo señales de fraude. La organizadora Campo Grande Música S.L. está aprobada desde 2024, con CIF válido, titular verificado, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes de contenido. El recinto existe en OpenStreetMap, el aforo (350 de 400) es compatible y el precio (18 €) está dentro del benchmark. No hay eventos similares de otros organizadores. La web de la gira de La Ruta Lenta confirma la fecha del 25/11/2026 y el mismo recinto, y la web de la promotora anuncia el concierto con Mar de Trigo. Único punto a vigilar: la búsqueda web encontró solo las dos fuentes de la propia gira y de la promotora, sin medios independientes, por lo que la confianza no es máxima.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860), cuenta del titular de 930 días con email verificado y sin otras organizaciones asociadas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizadora aprobada desde 2024-05-18, 14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por admin, sin reportes de contenido ni revisiones previas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web de la promotora anuncia el próximo concierto «La Ruta Lenta presenta Kilómetro Cero, con Mar de Trigo». Presencia en redes indicada en su perfil (@campograndemusica), no verificada desde fuera.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://campogrande-musica.example.test/\",\"title\":\"Campo Grande Música — conciertos desde 2015\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detecta un nombre parecido a una promotora conocida.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La web de la gira de La Ruta Lenta anuncia el 25/11/2026 en el Auditorio Reveriano Soutullo (Campo Grande Música), coincidiendo con el evento.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]},{\"check\":\"text_originality\",\"verdict\":\"pass\",\"detail\":\"La descripción es breve y genérica; no se encontró copia de otro sitio en la búsqueda realizada.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No consta otro evento con mismo título, fecha y recinto.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"No hay indicios de fraude. El organizador (Campo Grande Música S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por administración ni reportes de contenido) es coherente con su web pública. La gira del artista aparece en su propia web con la misma fecha, recinto y promotora, y el recinto está verificado en OpenStreetMap con aforo compatible. No hay eventos similares de otros organizadores que sugieran clonación. Los controles deterministas (código postal, pagos, condiciones, precios, comisiones, sesiones) están todos en verde. Confianza no máxima porque la verificación web se apoya en dominios de prueba y en una sola búsqueda sobre el artista; no se ha comprobado el texto de la descripción frente a otras webs.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860). Cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 12 finalizados, 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas de agentes.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web del organizador (campogrande-musica.example.test) describe la promotora desde 2015 y anuncia este mismo concierto con Mar de Trigo en el Auditorio Reveriano Soutullo.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://campogrande-musica.example.test/\",\"title\":\"Campo Grande Música — conciertos desde 2015\"}]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La web del artista anuncia 'Kilómetro Cero' en directo con banda completa, junto a Mar de Trigo, el 27 de noviembre de 2026 en el Auditorio Reveriano Soutullo (Ponteareas). No aparece otra fecha conflictiva en el resultado.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devuelve eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.75,\"sources\":[]}],\"infoRequest\":{\"questions\":[],\"draft\":\"\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSlgcKEAgTGAI4AUIIdGhpbmtpbmcSDFM2HzhbCNVzbzGcExoMPKlbQgYUA93Fy1kZIjAb14qPcn0Nq1vCUi1EDrSq2vPH1ZpDRWZ/cIsHPH0B6HJbtXFHIkbNpZx0bopzveAqswZQCPQKfX6l/hVJk09+yYie2AfTxMrUwXeL7EYSBfs+Ys8XcOMFHFF5YYMR6kTE+EGccvkvaaggvE+MNoEUuwRXwF+7HlW64MFh/Oqvg7I//GUpiD7w/9zgx1MHMcKPOZhQ90uNNfUxKrh6WNf6HVY6x0L/Sp1lXLognUSQFH7ciIQYkvRrEGcBll1OAoxDR16HZqPc0pnB0tNDv0AtmM2NYeAvA5b8KLRc+WkEUQtKu4l8tDZRlxxBv4nrYcrlvJEik7JX80Lavox4Rvv10tm0UoS0T2Ko0YkBD7J6XTXb/VLWj88h2H0W1rY/Cf2qZal6ieRELBeX0vzvXeiIo3M6cbErK2xCBUzJ+WpUuwoodjc5zszQFNveQiZIas5yGDP9s0sP6GHctpCtNTFWotSVUXDHwInFzARk5DiDcatkCuWfdsv95qRyAVFjKqsigulTosvFHalazS4rHLxrXisvbaUJfwsXdVzvqa7CZxcXIWmqx9ULjavSfiMEhQuIS36EMjZI8oGB18mWWXREgFWfuFLOkujrIoEnK6qMALoQ9pyLfgp6LOLDlpLZRYR33uj72D+VWBeHL/z5xqHL54ynjjhcb4R9vmHxCpGMvAWlQZIKJxpAwivhIt79D9Ymry/e1ba4Z5lg+NR2Jq/SOiDN7NUfXcrgKT87i2cKQUQX67DLJR7JjOX/ksoZFGyqt+st2DG4GbtRA/oDXR9V6eHBBm6Ba4PDYRemCjWITeD5str9wixLuPYI9CM0GnT15IBo3QGlMH1ZQnkZ7pHIZ5J+NIm5iOBkaYjg2AkPCUu1Jt3i6vJCm6BuK4ajLSKY/V5WyHvhsbxzUcrFczx6lYH5LQVbyMkD74LzBiXpsFPoIt+gHrt1TKKaoor/MWeQSEgl/6NwfPGnbedlGvGbC4NDHu6YeNp6iHvkU6QsrFMdn0x0jPmNTAvoDDQc5i672iMPgjQnA/4tDu6ILQ/3nha71yHgh2d1q7BMpOK3dlY5Aky9S52Q1un5PVrs+AmuPwDlnBKvc1V9bEJIxYO6wkPN5qXKP6tJNf0LfhUNN5tMM40a2CPfGdD22+jgHgeODf2W3TQYAQ=="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01CEUgoAVGBig6yuAzBoGJq2",
+              "id": "toolu_01EdNXD9AovGkHn73GAbJAJx",
               "name": "submit_recommendation",
               "input": {
                 "decision": "approve",
                 "confidence": 0.85,
-                "rationale": "No veo señales de fraude. La organizadora Campo Grande Música S.L. está aprobada desde 2024, con CIF válido, titular verificado, 14 eventos publicados sin cancelaciones, sin retiradas por admin ni reportes de contenido. El recinto existe en OpenStreetMap, el aforo (350 de 400) es compatible y el precio (18 €) está dentro del benchmark. No hay eventos similares de otros organizadores. La web de la gira de La Ruta Lenta confirma la fecha del 25/11/2026 y el mismo recinto, y la web de la promotora anuncia el concierto con Mar de Trigo. Único punto a vigilar: la búsqueda web encontró solo las dos fuentes de la propia gira y de la promotora, sin medios independientes, por lo que la confianza no es máxima.",
+                "rationale": "No hay indicios de fraude. El organizador (Campo Grande Música S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por administración ni reportes de contenido) es coherente con su web pública. La gira del artista aparece en su propia web con la misma fecha, recinto y promotora, y el recinto está verificado en OpenStreetMap con aforo compatible. No hay eventos similares de otros organizadores que sugieran clonación. Los controles deterministas (código postal, pagos, condiciones, precios, comisiones, sesiones) están todos en verde. Confianza no máxima porque la verificación web se apoya en dominios de prueba y en una sola búsqueda sobre el artista; no se ha comprobado el texto de la descripción frente a otras webs.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860), cuenta del titular de 930 días con email verificado y sin otras organizaciones asociadas.",
+                    "detail": "Razón social Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860). Cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.",
                     "confidence": 0.9,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "Organizadora aprobada desde 2024-05-18, 14 eventos publicados (12 finalizados, 0 cancelados), 0 retiradas por admin, sin reportes de contenido ni revisiones previas.",
+                    "detail": "14 eventos publicados, 0 cancelados, 12 finalizados, 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas de agentes.",
                     "confidence": 0.9,
                     "sources": []
                   },
                   {
                     "check": "organizer_web_presence",
                     "verdict": "pass",
-                    "detail": "La web de la promotora anuncia el próximo concierto «La Ruta Lenta presenta Kilómetro Cero, con Mar de Trigo». Presencia en redes indicada en su perfil (@campograndemusica), no verificada desde fuera.",
-                    "confidence": 0.7,
+                    "detail": "La web del organizador (campogrande-musica.example.test) describe la promotora desde 2015 y anuncia este mismo concierto con Mar de Trigo en el Auditorio Reveriano Soutullo.",
+                    "confidence": 0.8,
                     "sources": [
                       {
                         "url": "https://campogrande-musica.example.test/",
@@ -163,23 +136,9 @@
                     ]
                   },
                   {
-                    "check": "impersonation",
-                    "verdict": "pass",
-                    "detail": "No se detecta un nombre parecido a una promotora conocida.",
-                    "confidence": 0.7,
-                    "sources": []
-                  },
-                  {
-                    "check": "similar_event",
-                    "verdict": "pass",
-                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
-                    "confidence": 0.8,
-                    "sources": []
-                  },
-                  {
                     "check": "artist_availability",
                     "verdict": "pass",
-                    "detail": "La web de la gira de La Ruta Lenta anuncia el 25/11/2026 en el Auditorio Reveriano Soutullo (Campo Grande Música), coincidiendo con el evento.",
+                    "detail": "La web del artista anuncia 'Kilómetro Cero' en directo con banda completa, junto a Mar de Trigo, el 27 de noviembre de 2026 en el Auditorio Reveriano Soutullo (Ponteareas). No aparece otra fecha conflictiva en el resultado.",
                     "confidence": 0.8,
                     "sources": [
                       {
@@ -189,20 +148,17 @@
                     ]
                   },
                   {
-                    "check": "text_originality",
+                    "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "La descripción es breve y genérica; no se encontró copia de otro sitio en la búsqueda realizada.",
-                    "confidence": 0.5,
-                    "sources": []
-                  },
-                  {
-                    "check": "exact_duplicate_other_organizer",
-                    "verdict": "pass",
-                    "detail": "No consta otro evento con mismo título, fecha y recinto.",
-                    "confidence": 0.8,
+                    "detail": "find_similar_events no devuelve eventos similares de otros organizadores en la provincia en la ventana de fechas.",
+                    "confidence": 0.75,
                     "sources": []
                   }
-                ]
+                ],
+                "infoRequest": {
+                  "questions": [],
+                  "draft": ""
+                }
               },
               "caller": {
                 "type": "direct"
@@ -212,10 +168,102 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6238,
-          "outputTokens": 1298,
-          "cacheReadInputTokens": 5737,
-          "cacheWriteInputTokens": 499
+          "inputTokens": 6479,
+          "outputTokens": 1474,
+          "cacheReadInputTokens": 5254,
+          "cacheWriteInputTokens": 1223
+        }
+      }
+    },
+    {
+      "requestHash": "b0c2f353c2aa7ecdd656076a4c6493fe160eabd2760937d033b839e78c698dc8",
+      "latencyMs": 4089,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01FcUQdbNce7SFzoMeL8TYD5",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"No hay indicios de fraude. El organizador (Campo Grande Música S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por administración ni reportes de contenido) es coherente con su web pública. La gira del artista aparece en su propia web con la misma fecha, recinto y promotora, y el recinto está verificado en OpenStreetMap con aforo compatible. No hay eventos similares de otros organizadores que sugieran clonación. Los controles deterministas (código postal, pagos, condiciones, precios, comisiones, sesiones) están todos en verde. Confianza no máxima porque la verificación web se apoya en dominios de prueba y en una sola búsqueda sobre el artista; no se ha comprobado si la descripción está copiada de otra web.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860). Cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 12 finalizados, 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas de agentes.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"pass\",\"detail\":\"La web del organizador (campogrande-musica.example.test) describe la promotora desde 2015 y anuncia este mismo concierto con Mar de Trigo en el Auditorio Reveriano Soutullo.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://campogrande-musica.example.test/\",\"title\":\"Campo Grande Música — conciertos desde 2015\"}]},{\"check\":\"artist_availability\",\"verdict\":\"pass\",\"detail\":\"La web del artista anuncia 'Kilómetro Cero' en directo con banda completa, junto a Mar de Trigo, el 27 de noviembre de 2026 en el Auditorio Reveriano Soutullo (Ponteareas). No aparece otra fecha conflictiva en el resultado.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://larutalenta.test/gira\",\"title\":\"La Ruta Lenta — gira Kilómetro Cero\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"find_similar_events no devuelve eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.75,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"Confirmar que la descripción del evento es original (no copiada de otra web o de la nota de prensa del disco).\"],\"draft\":\"Hola, para completar la revisión de «La Ruta Lenta presenta Kilómetro Cero», ¿puedes confirmar que el texto de la descripción es original y no procede de otra web o nota de prensa?\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "tool_use",
+              "id": "toolu_01FcUQdbNce7SFzoMeL8TYD5",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "approve",
+                "confidence": 0.85,
+                "rationale": "No hay indicios de fraude. El organizador (Campo Grande Música S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones, sin retiradas por administración ni reportes de contenido) es coherente con su web pública. La gira del artista aparece en su propia web con la misma fecha, recinto y promotora, y el recinto está verificado en OpenStreetMap con aforo compatible. No hay eventos similares de otros organizadores que sugieran clonación. Los controles deterministas (código postal, pagos, condiciones, precios, comisiones, sesiones) están todos en verde. Confianza no máxima porque la verificación web se apoya en dominios de prueba y en una sola búsqueda sobre el artista; no se ha comprobado si la descripción está copiada de otra web.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Razón social Campo Grande Música S.L., CIF con checksum válido, dirección en Ponteareas (36860). Cuenta del propietario de 930 días con email verificado y sin otras organizaciones asociadas.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 0 cancelados, 12 finalizados, 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas de agentes.",
+                    "confidence": 0.9,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "pass",
+                    "detail": "La web del organizador (campogrande-musica.example.test) describe la promotora desde 2015 y anuncia este mismo concierto con Mar de Trigo en el Auditorio Reveriano Soutullo.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://campogrande-musica.example.test/",
+                        "title": "Campo Grande Música — conciertos desde 2015"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "pass",
+                    "detail": "La web del artista anuncia 'Kilómetro Cero' en directo con banda completa, junto a Mar de Trigo, el 27 de noviembre de 2026 en el Auditorio Reveriano Soutullo (Ponteareas). No aparece otra fecha conflictiva en el resultado.",
+                    "confidence": 0.8,
+                    "sources": [
+                      {
+                        "url": "https://larutalenta.test/gira",
+                        "title": "La Ruta Lenta — gira Kilómetro Cero"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "find_similar_events no devuelve eventos similares de otros organizadores en la provincia en la ventana de fechas.",
+                    "confidence": 0.75,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "Confirmar que la descripción del evento es original (no copiada de otra web o de la nota de prensa del disco)."
+                  ],
+                  "draft": "Hola, para completar la revisión de «La Ruta Lenta presenta Kilómetro Cero», ¿puedes confirmar que el texto de la descripción es original y no procede de otra web o nota de prensa?"
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 8069,
+          "outputTokens": 1206,
+          "cacheReadInputTokens": 6477,
+          "cacheWriteInputTokens": 1590
         }
       }
     }

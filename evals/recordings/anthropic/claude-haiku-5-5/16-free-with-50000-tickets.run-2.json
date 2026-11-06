@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-05T20:34:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "90edf0f2cc5ff70fc6ff59c6913cc24e2a1ea25a1be9eec96b4a4bbf6bacadad",
-      "latencyMs": 1645,
+      "requestHash": "926fb32809f2c86252f91b8e44551c8909210e92cff74e781bb84fea7b91097c",
+      "latencyMs": 3930,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01RSSXiWQfgnu6r9wog48hef",
+              "id": "toolu_01WuUiSsurjYh7thhEZKhkXW",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_8512b0049b\"}"
             },
             {
-              "id": "toolu_01Ak8WQAYe64vcFjQk3VGqQW",
+              "id": "toolu_01XPxWvSUGuEiWdFoYZPo4uW",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_5fc2399015\",\"windowDays\":30}"
+              "argumentsJson": "{\"eventId\":\"evt_5fc2399015\"}"
+            },
+            {
+              "id": "toolu_01RS7vDDPb1w558MZV7FfwSB",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Sala Pícaro Toledo Calle de las Cadenas 6 aforo\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS2wcKEAgTGAI4AUIIdGhpbmtpbmcSDA09hlVp3EHc+p3qaxoMpyjrzy8zczHKVXS7IjDHKMgRUnbWG+ACXqtETVrxjIu08N2zHDJb5faSz2kthrSCHQi0penqGQ48J5PJIiIq+AZZVS5Eo3+maqD0Lvvs0ydv7CjJrS7B70Fg/cNIweyGVdvl1pMNPBLlVYdH3Wn7hsKocTWKzhTlwznSAZAtTEvK8cXoH4OrkXrKFOpm+FIg81f9MQVuiP18vmz+U+B/+yVqIntBbeXQGems7LAseRQMdwxs+AKQTk0Eem/UUSCuJZGJKFMb3VGxlgi62LT5bl/C2Yyett9MoQ0wlkWXutbkxF4KeqPO7GAR4c/1DP9Sv/ieSQuZuk77vQo+DZxZvWBirhmOf6z7yl96MA1VGaLiumKjyHuRHUbiZIMeVk4wZHdNDGEs09MCXOKY8wg6z7jb9h8nhGCazNLrSJWtZzGblOTolc9I0RuazURNRy06klJEYEuSttf+16QA8eQIrmk+JrI0kvxNFC94HEBC6tChIJT+hPx/vde2bJFx8shQAg6jbplnp8PYyA1YWR1F4jjTwhC9Wi9psF25QRRlsOlVNniF9yIOy42LeB1X0Lqf8w3HFeuuKJos+LoMUSfSeSRuzjOBPgGet9nn/9ny7Yw46HbgVSo2mB6Z8fdMSCyMbQn7C/7//3uwQQZCQLifK84Bi7EA4GorwA3Jo62T2jNDNL68pcv3vdh58r88e8bJ+qJtWgiJXV7RDiX/UV4SH/dpn9A1REKKHVGloqRoLO3mgz0irRCeFBTfcFf+UgTaxBeKO79dePTAhMbdXz3afW5I1sYglc+73pDMXOxVCpvBwuWm4lvqsQswXPVyWt+zoJJLA4BFgVwOUt6k8tI7v0lhN2LMWRrWkwG9ozfcD50FLTdwsnVhSn468YIMK1sccDC0Pcw5cw1DHxaEWQf6bBPnm72IkiAPSiDeELHo/xMUyucs2EublAI83kU5fiYrNBoar1LIOKnQVWSiMTOLJwlOlWg8An50v1yywQPvATH0K/HMc0JQ5mMc26DlNMZHY+NUtYfFNiDO7lGR2SsdkP5zUIj0t8XvvLXhLtMw9yvjt78UgQJ0PQ5u/DkyRDYiyUfbmVmIxVCAi6B9/+Uv6XTWn+yiYmONpcabRq0UiteQ+tEgUzmgbIXXZlx0xWSettKV4cQNV3Z8fayDx4uNxeEtg5FVYuUXY0S/RcST4aNmODPekJVpgMPEiI3YMMcv5hmZRDfwc3hbpF/6gA5vAJ9o32GviAp0II4GmFQTNMOM/aMI6LQJOCgYAQ=="
+              "signature": "CAQS2wkKEAgTGAI4AUIIdGhpbmtpbmcSDNRewoRP3/Xgk43/1hoMzRB0XLUmLNk8D8TxIjDctYBEHoN4rl/m0So9rhOiKYWEFmKk91+2D58o/ziLAco90bly4k5UhdzCpic1iTAq+Ai9bzQjlVvbGWG0q89FLIaIG+m33I4mhnB2y51qLUwdM9D12l4jCtlq+UGBzdiRnJ7KB6r6piOoQa7EURONDZyzO9wjBE8mUDF4Q+ZJgcIIP2rF4jA/KNAoOLZfuvbJX6Sxs+c5kEoeSG7lqCHXBWSI0vFC2biOxxtWINWbN41ppuoqcYfiibd260Fdzc3E2IErj3c3+N+XwsYbINcOI1OEgnJSexmcIbHz4OjxWeaQU51BlXfHuZKmqL2oVLjQjrBchIVVtesq9usHCWH8OUN+WJpeFMfkmaZOTlUTilNcAekCmI0mVMTHhnTy466YRqNUDeN7WP9vHnlz2ASY3fPEFtdVXixWISG7h+/MWaIrtE34q0Sk+J3VJlkaqk+tSNKZ2W+K91vN//59zdD6phs1ih15rL3/DAl3hayeHGy7JWcJmvxRX8ixhb0xWRxHDXfEMojTBZLKKrrcvo4JW7PutKSpKG+ZoMaRA+mcSGXcZBS85/6jQVoxKi8lpIh4+2KKzwukbma8C8ZySx5ec02QdThI+jgyq0+j5CCwWAnV37pKoUx855Mt4qFD4VwrEUlK3u4H4YonwR+Wl+N+aNBjPt/R3xFjmCyVzec4D7zenDt0Fb3oEasA5p6CbMvLS/6AO9LRBGrUknY7tfLv8h/b3pzqf4WfJhnZnxqiqwtWAL3pQU6hIO5CjNmqFeuh7Tzuft+z4KtgFUDFTf+bxuH65XvGUJf9SQjifQ9pTSbhLDIkhYpwqwBTVly3Zn2p9AlXBgQhsOq67V1jsfg8+6wv1hcZBM0G8SVVeYvriXNkxyMWhLNQ7pgIXZlwqAYm3kv4+F1imAsQ4ycddc6GAhPvbsBhfOEJ83k2s99npbbH/u0hA+/iuDNTGrzc8uVC6eVbNDHf6rTN0ZQAyJ7syverlVMokNwD/BoeqYA9BsbCGvVOFmfEqHVu7MpaMz6QhyRFbH7N9RMDcZlIzLgv0ggbogt7n6NPgADK3/Ccv1KqOLHKxQcLMqGGYqGSSa076IaT40fH0G338G0qbH7L5SCh8o/ueK6b3ugH+xk1eUVmfajuz36AbJ1jRS/XDlPm61dhxVwItbZyrSfMtmYKnA4gBgDb25pr9SbY97Lo7onOsPilbZhHpD5mA8Cs6Km6D9TO8OkEO5UqjjI4BAxdalXXSayYgnwoM1oOAv4yjpE/Nd4KMeW4UXAHCt7PG4GsWRgQByXOB9JALKLdZnZ8Q47mi3ieJZhI+sdiGG30Z4PW3Ru+motc+PuCx7dWDyRKzKKzyHavlDGdV4zIxOVKlyzuMMM62pRqhAen51wxXXd903LwbDqByk76oTJp3fEM2wKjqPwjl8LD5eRv250ggwB++tyDI03lK20Va/fzp3xUgsdXSnCpbcDK847OdPnYYYhEIb6/4a2H2QJmk3zXsJK12Vlry+PsAHlxUSyvq67SbwjfbQ6NunSoovmDd6yqga3xyQjTgkjK/zKjRXfWJ8aQVNur3bBajUPDzZbEonpybeja3si3GMzkGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01RSSXiWQfgnu6r9wog48hef",
+              "id": "toolu_01WuUiSsurjYh7thhEZKhkXW",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_8512b0049b"
@@ -44,53 +49,21 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01Ak8WQAYe64vcFjQk3VGqQW",
+              "id": "toolu_01XPxWvSUGuEiWdFoYZPo4uW",
               "name": "find_similar_events",
               "input": {
-                "eventId": "evt_5fc2399015",
-                "windowDays": 30
+                "eventId": "evt_5fc2399015"
               },
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4868,
-          "outputTokens": 278,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4864
-        }
-      }
-    },
-    {
-      "requestHash": "e1ffc26d96c94d5ea797253f92afc6798333ed8499924a9cd09b2172533928fe",
-      "latencyMs": 2289,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_016BwKCXK5Gzooh5DoeEBh97",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Pulso Industrial Toledo promotora conciertos\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSvAsKEAgTGAI4AUIIdGhpbmtpbmcSDPm5GTYdakfRXPpMOxoMDQ7E0Rtn2XqcyGXGIjBmxtTx/8zVMGzq2o5n1ba5K4i0Z++3hwZKh8O8pBwBkorm/mJlBVxisnwACOqOYfcq2QqzkRsqrBUgUzyf9/ehzaS9H/w86MqTuCMptSEma7s4aLwI4VmfKxLMHyGMWgDHdC4SqOBsJ66Elr8Y4ciS/Pa9Q78xwVhUsVEaPD2kbBK2JYgJzql1AyEirCqNr5+A2ECtS7qtm15LN6WC/RFZuJJKd/7EtKeY85R5PiuADj84OJELFkOn4CuCJ+16ouvjWEqvre0QJfKHamQ0hRGtrqDtMCfxzKadH9wI5LY+JssPpG2KKaIZF92VPCFFuKQy2P3Kz/s275LYjzqLDOi4MqbJFLracKhE1iDwKH6ou6jQ7eSdXHmIA1EJr7MGDAfcxwZGyZBQoU1qG1Z9GnCdAb9h2svGFlNu7oEbrI+z6uo+syhf5pPhDTxvE2s3ClGER/5ONwyxEMb7eOrrOjp1KdgxLWwZNjrf9LrBwj8KE5DFDV0T7iIsoPi7paws5lgGVCl3o6s6OAIT3KfbDwz2s+YiCzdGi3vRBEVNk13/Odt9sONklnoAhfJdEZz10Lu8QmwMiqrqq4xurhGDZBlkeVpq1yALHwUuzOqyJrnoCTIpCiwko7mh3csHZjmwnbSKjo8NMxQ33qlo73cpRDg63H2mW7lB1WDnswdz0HSUwR9w2x07lDBtcGgrXruK3gWKVbJ3a7tLSzei56MuTA7LbDjGm6PxLhXb1G2Vx2YK9qLtroy98Vly0D6z81l997qC8zIEiq58gHBJ1axZdvOtb6bnswl6NXhJgBjIrbl2roT8xefG1Jh5Oa6eqaVHAkkEop0yerhWhp08BlhWoiEOZ1uiock//N7CkKDHT/obPJMHkwPrSepoH13sj8a8ogynsoM8KkWWgZ4CAK1I7fi1xs0HScX+vJbX7msXPzmVcadLk9tJ7E3vVXEFLa3zlTjxnPQoQFlFE+BdcTeREUQXXeVWXrlpEFCE8bCo00dYo3sTqH3E2Vm1kD9tS7uSp8Isy6AEY22SgrSiHeI1vE8j8cLIK+kibom1jbqf3euczWRO6E/T8eM77ckTJfr0X+pF1bnWti7G+lqijKt5Y9Dxp8sDARuX1OeZylADzP6IeEwq/3XL2/WP5H8rlvnLhDIVuUnJ/ykMqEbDhWPhtGeUoQHhODOZvz3Cj+TQJsEKt+/NHdhhaGT61dMHOuiqLSNM4Ch0+mbMAFP3V3gODKiQ+W8V790OKaChr8tefQQa0+aeRkq35PYMhZ1Nbodzb1+C9Z623aTCn7dI0jHDG6Xqducq4qlZzR2zPlz2ioeu8815WVU4N4qxooBwAhp2IleHz9t31gz00rO0ecclTR8mlaai6416n1Xvw6T5ZF9/13zrjJfnFqvtZFplmT1ECBDYUCb5mM5xFx7GUqeN1kQGCn6MVoLU8OaQZ3BLtokPlb7+0qT0tRwKC5C+vXLEhG9cBd2c6aJVnje0d+n90ierjsK1wVbsEpefKa/ZouaUOijSMx26+64CIwMwg4TUn3U18mkdWhjiROw+FtybFRDKnfMMNmrpHrG21XzVAcpkIlwbcme/3+tLVV4XVraabd6DrXYUjMo4BXO6izBOolY1svedDF1v/+1HAJUOBk23j/VdmmblG9tsduTDMQYrWZRWORbvukjzFz7+bYZNbPZQ5X621S4TIdLG68LXkAeXQhZqgFO1i/sV8d3f5+pDmnwOesA8A5wCoaYLK3L8GihW1tDHWV0qzAceYc1yE9Be2pTXwxD85Q3mfCe/P3NJs5h2hI2zEoTgpaoD52bpakWL8mqJ9LaseklPGRXZgknEmow9SMh4dcl3Rs2H8h50sSXURKCPQ5q2SUzH36oyzYcpm7YNXHpjib/a3BDyGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_016BwKCXK5Gzooh5DoeEBh97",
+              "id": "toolu_01RS7vDDPb1w558MZV7FfwSB",
               "name": "web_search",
               "input": {
-                "query": "Pulso Industrial Toledo promotora conciertos",
+                "query": "Sala Pícaro Toledo Calle de las Cadenas 6 aforo",
                 "maxResults": 3
               },
               "caller": {
@@ -101,127 +74,98 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5716,
-          "outputTokens": 373,
-          "cacheReadInputTokens": 4864,
-          "cacheWriteInputTokens": 850
+          "inputTokens": 5130,
+          "outputTokens": 456,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5126
         }
       }
     },
     {
-      "requestHash": "b0a2fd6d82a460c550f76861be7c486f957c46102282d0b762cc4bcb8b6cf95f",
-      "latencyMs": 8215,
+      "requestHash": "e759742892242b58f338986083f8732c838c7b0b1d675a0e68a6bb1a717ec421",
+      "latencyMs": 9641,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_013iDX3Suh7MAzgf7kDE3pYV",
+              "id": "toolu_01HE38XZ43r8S4Rtjo155dft",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni reportes) tiene un historial limpio y no hay señales de fraude en textos, pagos, condiciones ni precios. El punto que impide aprobar es el aforo: la única sesión pone a la venta 50.000 entradas en un local que OpenStreetMap clasifica como bar (amenity=pub) y que la web del recinto cifra en 150 plazas (333 veces). Aunque el evento sea gratuito con inscripción y el riesgo económico sea bajo, una cifra así es incoherente con el recinto y debe explicarse antes de publicar. No he encontrado en la web ninguna presencia del organizador que cuadre con esta promotora de Toledo. Recomiendo solicitar información al organizador.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Pulso Industrial S.L.: CIF con checksum válido, dirección en Toledo, cuenta de 930 días y email verificado. El código postal fiscal (45007) es de Toledo.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no encontró una promotora Pulso Industrial en Toledo. Los resultados corresponden a empresas de otros países (Ecuador, Argentina, México). No hay verificación externa del organizador.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://pulso-producciones.com\",\"title\":\"Inicio · Pulso (Quito, Ecuador)\"}]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detecta un nombre parecido a una promotora conocida. Las coincidencias de la búsqueda son empresas homónimas de otros países.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Aforo de la venta: 50.000 entradas en la sesión, frente a un recinto de unas 150 plazas según la web del local (cifra no verificada). OpenStreetMap lo clasifica como bar, lo que hace muy improbable ese aforo.\",\"confidence\":0.75,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"},{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro\"}]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"warn\",\"detail\":\"Las entradas puestas a la venta superan en más de 300 veces el aforo indicado por la web del local. Es una señal fuerte, aunque la cifra de la web no está verificada y puede ser un error de carga o un aforo de inscripción mal configurado.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://salasdeconciertos.com/salas/sala-picaro\",\"title\":\"la web (salasdeconciertos.com)\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada gratuita. Ningún precio supera el p90 de comparables.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real de Sala Pícaro para este evento y por qué la sesión admite 50.000 entradas?\",\"¿Confirmáis la capacidad del recinto y la disposición del espacio (zona de baile, aforo máximo permitido)?\",\"¿Cuál es el sistema de inscripción gratuita y cómo se limita el número de asistentes?\",\"¿Tenéis permiso del titular del local y la licencia de actividad para un evento de 12 horas con música?\",\"¿Podéis indicar la web, redes o referencias de Pulso Industrial en Toledo y de eventos anteriores?\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas» antes de publicarlo. Antes de decidir necesitamos que nos aclaréis: 1) el aforo real del recinto y por qué la sesión tiene 50.000 entradas disponibles, cuando el local figura con una capacidad muy inferior; 2) cómo funciona la inscripción gratuita y el límite de asistentes; 3) la autorización del titular del local y la licencia para el evento; 4) una web o redes de la organización y referencias de eventos anteriores. Con esta información podremos completar la revisión.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"La organizadora (Pulso Industrial S.L.) parece legítima: cuenta de 930 días, CIF con checksum válido, 14 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por administración. No se encontraron eventos similares de otros organizadores. Los controles deterministas no detectan fraude. El punto que requiere explicación es el aforo: se ponen a la venta 50.000 entradas gratuitas (capacityTaken ya 310) para un recinto que OpenStreetMap clasifica como amenity=pub (Sala Pícaro, Toledo). No hay fuente que confirme el aforo real y la búsqueda web falló por cuota agotada, así que no hay evidencia directa de fraude, pero una cifra de esta magnitud para un local de este tipo es inverosímil y puede tener una explicación inocente (p. ej. un aforo mal introducido o un evento en otro espacio). Se pide aclaración antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Pulso Industrial S.L.: CIF con checksum válido, dirección presente en Toledo, cuenta de 930 días con email verificado y sin otras organizaciones del titular.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados; 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados (quota_exceeded), así que no se pudo verificar la presencia de la organizadora fuera de la plataforma.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares publicados por otros organizadores en la provincia en el periodo cercano.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"warn\",\"detail\":\"Se ponen a la venta 50.000 entradas para «Sala Pícaro», que OpenStreetMap clasifica como pub. No hay dato de aforo que confirme o descarte la cifra, pero 50.000 plazas es muy improbable para un local de ese tipo. Es una señal a aclarar, no una prueba.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/2648637532\",\"title\":\"OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo no publicado en Wikidata ni OpenStreetMap, y la búsqueda web no pudo completarse; no se conoce el aforo real del recinto.\",\"confidence\":0.3,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real de Sala Pícaro (Calle de las Cadenas 6, Toledo) y cómo se justifican las 50.000 entradas puestas a la venta?\",\"¿Se celebrará el evento en Sala Pícaro o en otro espacio? Si es otro, indique la dirección exacta y el aforo.\",\"¿Cómo se gestiona la inscripción gratuita (qué datos se piden y cómo se controla el acceso aforo)?\",\"¿Puede indicar una web o redes sociales oficiales de la organizadora o del artista Kolektiv Arena donde se anuncie este evento?\"],\"draft\":\"Hola, hemos revisado el evento «Rave gratuita de doce horas» (sesión del 27 de noviembre de 2026). Antes de poder aprobarlo necesitamos aclarar el aforo: el evento pone a la venta 50.000 entradas gratuitas en Sala Pícaro, y el recinto no parece tener esa capacidad. Por favor, indique el aforo real del local y cómo se justifica esa cifra, confirme si el evento se celebrará allí o en otro espacio (con dirección y aforo), explique cómo se gestionará la inscripción y el control de acceso, y facilite la web o redes sociales oficiales donde se anuncie el evento. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSmgYKEAgTGAI4AUIIdGhpbmtpbmcSDApfbHJEULGJC9LFzBoMTNwitOQb3nKJr4m+IjBiopuzlgUp1TNgyq6mkITjCbPnfnjHO8XdI0U9waapXb/Q2WQxWInJfm23XSBnWTEqtwVHoqqumVJieUAbeN+0P7R4rzrUKQoL0J/8biJzt1k92bgq3zzJjcMHPMwdCh9mpF7ciyo74CSLVE6cavzGlnAZ4+G6XGmRrypgId6P3Xpbx6jfYlw5IQTlUGsAzllNZibuwN7QmdyBEcy08fMAcmOCObIlYh44aLHbaSOPWKwn6WLRwf3lwb16ELkhg7pj5kfngQFAeZS8WCOt8AmSZl5jnG9SfYuuOd0+L1SCBIos+FA2B2v+LE1HjrviQ3JLs/XQ53zATuM3A3Vf6gDDKuz5UQDCa17GmEMkhBCd37T5mpn/SkD9hU12dijklD23zvXQnr/T5Sh+mkIagnEYT73uxibJpJGnfaIAyhDdIAznajefQ1IOyN2QsSaMaU5eVcmIHAVjfNLpzDNHpDcg+7F2RnOEL1lCdMK62kKTBSD9snFyU+DcYm5cXJLHUAxoL3+O/OxczMWFJYYKFhFpyIG91riN+mMBQqd9DHPRjgLiVtyR3FzUvTImirb+Of+9wlVdWsDlK0NsA+ay9uF4J89ysjRai8SReI4rGO+0+fX8E1cnAoq8TMf+6uyMBvNHf2hpJYeeafa6BAj7FyP8JTu0JZXKz6GQ0PVc2Mz7VhtPuIspsZXXkl6gkOFwIFQvRoVX0KGPKyNHpKUCGFpbTG3k/YE8Tu2nLZtLsBqqyckOcc+pOXOpL9Icod0n0nE4vqTjKCU4GxnwGOnjeFZUSk8UeXEB2Tez1TsOIbcWHTM+hQF6kzVM5G2ncuKU8GXPUASna62gbHVXEbieFNS0vNEQfohR+x58fXYD08XFTUV5Xt9MXFWgC1IwT1XpjLd2Tab+3rVWsBPlHT9fojiLYkOWu3K1ZtA73aQ6fNzfW9s6T8wMTA9AeI2rBlKiHXuVjFt26bc3Prxcpn35icSthTVPydr5ZcGx4BgB"
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_013iDX3Suh7MAzgf7kDE3pYV",
+              "id": "toolu_01HE38XZ43r8S4Rtjo155dft",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
-                "confidence": 0.6,
-                "rationale": "El organizador (Pulso Industrial S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni reportes) tiene un historial limpio y no hay señales de fraude en textos, pagos, condiciones ni precios. El punto que impide aprobar es el aforo: la única sesión pone a la venta 50.000 entradas en un local que OpenStreetMap clasifica como bar (amenity=pub) y que la web del recinto cifra en 150 plazas (333 veces). Aunque el evento sea gratuito con inscripción y el riesgo económico sea bajo, una cifra así es incoherente con el recinto y debe explicarse antes de publicar. No he encontrado en la web ninguna presencia del organizador que cuadre con esta promotora de Toledo. Recomiendo solicitar información al organizador.",
+                "confidence": 0.5,
+                "rationale": "La organizadora (Pulso Industrial S.L.) parece legítima: cuenta de 930 días, CIF con checksum válido, 14 eventos publicados sin cancelaciones, sin reportes de contenido ni retiradas por administración. No se encontraron eventos similares de otros organizadores. Los controles deterministas no detectan fraude. El punto que requiere explicación es el aforo: se ponen a la venta 50.000 entradas gratuitas (capacityTaken ya 310) para un recinto que OpenStreetMap clasifica como amenity=pub (Sala Pícaro, Toledo). No hay fuente que confirme el aforo real y la búsqueda web falló por cuota agotada, así que no hay evidencia directa de fraude, pero una cifra de esta magnitud para un local de este tipo es inverosímil y puede tener una explicación inocente (p. ej. un aforo mal introducido o un evento en otro espacio). Se pide aclaración antes de decidir.",
                 "findings": [
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Pulso Industrial S.L.: CIF con checksum válido, dirección en Toledo, cuenta de 930 días y email verificado. El código postal fiscal (45007) es de Toledo.",
+                    "detail": "Pulso Industrial S.L.: CIF con checksum válido, dirección presente en Toledo, cuenta de 930 días con email verificado y sin otras organizaciones del titular.",
                     "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados; 0 retiradas por administración, 0 reportes de contenido, sin revisiones previas.",
                     "confidence": 0.8,
                     "sources": []
                   },
                   {
                     "check": "organizer_web_presence",
                     "verdict": "unknown",
-                    "detail": "La búsqueda web no encontró una promotora Pulso Industrial en Toledo. Los resultados corresponden a empresas de otros países (Ecuador, Argentina, México). No hay verificación externa del organizador.",
-                    "confidence": 0.3,
-                    "sources": [
-                      {
-                        "url": "https://pulso-producciones.com",
-                        "title": "Inicio · Pulso (Quito, Ecuador)"
-                      }
-                    ]
-                  },
-                  {
-                    "check": "impersonation",
-                    "verdict": "pass",
-                    "detail": "No se detecta un nombre parecido a una promotora conocida. Las coincidencias de la búsqueda son empresas homónimas de otros países.",
-                    "confidence": 0.5,
+                    "detail": "La búsqueda web no devolvió resultados (quota_exceeded), así que no se pudo verificar la presencia de la organizadora fuera de la plataforma.",
+                    "confidence": 0.2,
                     "sources": []
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "warn",
-                    "detail": "Aforo de la venta: 50.000 entradas en la sesión, frente a un recinto de unas 150 plazas según la web del local (cifra no verificada). OpenStreetMap lo clasifica como bar, lo que hace muy improbable ese aforo.",
-                    "confidence": 0.75,
-                    "sources": [
-                      {
-                        "url": "https://salasdeconciertos.com/salas/sala-picaro",
-                        "title": "la web (salasdeconciertos.com)"
-                      },
-                      {
-                        "url": "https://www.openstreetmap.org/node/2648637532",
-                        "title": "OpenStreetMap: Sala Pícaro"
-                      }
-                    ]
-                  },
-                  {
-                    "check": "capacity_far_above_venue",
-                    "verdict": "warn",
-                    "detail": "Las entradas puestas a la venta superan en más de 300 veces el aforo indicado por la web del local. Es una señal fuerte, aunque la cifra de la web no está verificada y puede ser un error de carga o un aforo de inscripción mal configurado.",
-                    "confidence": 0.7,
-                    "sources": [
-                      {
-                        "url": "https://salasdeconciertos.com/salas/sala-picaro",
-                        "title": "la web (salasdeconciertos.com)"
-                      }
-                    ]
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No hay eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "detail": "No hay eventos similares publicados por otros organizadores en la provincia en el periodo cercano.",
                     "confidence": 0.6,
                     "sources": []
                   },
                   {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "Entrada gratuita. Ningún precio supera el p90 de comparables.",
-                    "confidence": 0.7,
+                    "check": "capacity_far_above_venue",
+                    "verdict": "warn",
+                    "detail": "Se ponen a la venta 50.000 entradas para «Sala Pícaro», que OpenStreetMap clasifica como pub. No hay dato de aforo que confirme o descarte la cifra, pero 50.000 plazas es muy improbable para un local de ese tipo. Es una señal a aclarar, no una prueba.",
+                    "confidence": 0.5,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/node/2648637532",
+                        "title": "OpenStreetMap: Sala Pícaro (© colaboradores de OpenStreetMap, ODbL)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "Aforo no publicado en Wikidata ni OpenStreetMap, y la búsqueda web no pudo completarse; no se conoce el aforo real del recinto.",
+                    "confidence": 0.3,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Cuál es el aforo real de Sala Pícaro para este evento y por qué la sesión admite 50.000 entradas?",
-                    "¿Confirmáis la capacidad del recinto y la disposición del espacio (zona de baile, aforo máximo permitido)?",
-                    "¿Cuál es el sistema de inscripción gratuita y cómo se limita el número de asistentes?",
-                    "¿Tenéis permiso del titular del local y la licencia de actividad para un evento de 12 horas con música?",
-                    "¿Podéis indicar la web, redes o referencias de Pulso Industrial en Toledo y de eventos anteriores?"
+                    "¿Cuál es el aforo real de Sala Pícaro (Calle de las Cadenas 6, Toledo) y cómo se justifican las 50.000 entradas puestas a la venta?",
+                    "¿Se celebrará el evento en Sala Pícaro o en otro espacio? Si es otro, indique la dirección exacta y el aforo.",
+                    "¿Cómo se gestiona la inscripción gratuita (qué datos se piden y cómo se controla el acceso aforo)?",
+                    "¿Puede indicar una web o redes sociales oficiales de la organizadora o del artista Kolektiv Arena donde se anuncie este evento?"
                   ],
-                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas» antes de publicarlo. Antes de decidir necesitamos que nos aclaréis: 1) el aforo real del recinto y por qué la sesión tiene 50.000 entradas disponibles, cuando el local figura con una capacidad muy inferior; 2) cómo funciona la inscripción gratuita y el límite de asistentes; 3) la autorización del titular del local y la licencia para el evento; 4) una web o redes de la organización y referencias de eventos anteriores. Con esta información podremos completar la revisión."
+                  "draft": "Hola, hemos revisado el evento «Rave gratuita de doce horas» (sesión del 27 de noviembre de 2026). Antes de poder aprobarlo necesitamos aclarar el aforo: el evento pone a la venta 50.000 entradas gratuitas en Sala Pícaro, y el recinto no parece tener esa capacidad. Por favor, indique el aforo real del local y cómo se justifica esa cifra, confirme si el evento se celebrará allí o en otro espacio (con dirección y aforo), explique cómo se gestionará la inscripción y el control de acceso, y facilite la web o redes sociales oficiales donde se anuncie el evento. Gracias."
                 }
               },
               "caller": {
@@ -232,10 +176,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6763,
-          "outputTokens": 1878,
-          "cacheReadInputTokens": 5714,
-          "cacheWriteInputTokens": 1047
+          "inputTokens": 6266,
+          "outputTokens": 2016,
+          "cacheReadInputTokens": 5126,
+          "cacheWriteInputTokens": 1138
         }
       }
     }
@@ -248,59 +192,17 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://salasdeconciertos.com/salas/sala-picaro",
-            "title": "Sala Pícaro – ACCES",
-            "snippet": "Saltar al contenido\n\nLogo Acces\n\n## Sala Pícaro\n\nPrevious Next\n\n View Larger Image \n\nSala Pícaropsergiogps2023-08-28T10:12:34+00:00\n\n### Project Description\n\nAforo: 150  \n Dirección:C/ Cadenas, 6  \n Ciudad: Toledo  \n Provincia:Toledo  \n Teléfono: 627526076 / 925 221301  \n Web:   \n Nombre de contacto: Mónica Pérez Domínguez  \n E-mail de contacto: contratacion@grupocinconotas.com, produccion1@grupocinconotas.com\n\n### Project Details\n\n#### Skills Needed:\n\n100 - 250\n\n#### Categories:\n\nSalas"
-          },
-          {
-            "url": "https://qconciertos.es/salas/sala-picaro",
-            "title": "Sala Pícaro",
-            "snippet": "### Ubicación\n\nLa Sala Pícaro se encuentra en Calle Cadenas, 45001, en Toledo. Su localización en el casco antiguo, a pocos pasos de los principales puntos de interés turístico, la convierte en una parada obligatoria para quienes buscan ocio nocturno de calidad tras un día de turismo. Estar en el corazón de la ciudad imperial le confiere un encanto histórico inigualable.\n\n### Aforo y Ambiente [...] El aforo de la Sala Pícaro no está especificado, pero se trata de una sala de formato pequeño, lo "
-          },
-          {
-            "url": "https://www.instagram.com/reel/DQJqo_5Fb-J",
-            "title": "Instagram",
-            "snippet": "Photo by Sala Pícaro on September 28, 2026. May be an image of poster and text.\n\nPhoto by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026. [..."
-          },
-          {
-            "url": "https://sala.picarotoledo.com",
-            "title": "sala picaro – tu sala de conciertos en toledo",
-            "snippet": "925 221 301\n\nZONA PROFESIONAL\n\nContratacion & Producción\n\nRider Sala\n\nEventos Privados\n\nTienes preguntas?  Info / FAQs\n\nNos sigues en redes?\n\nbanner inaem null “ACCES”/ null “INAEM”/"
-          },
-          {
-            "url": "https://www.instagram.com/salapicaro.toledo?hl=en",
-            "title": "Sala Pícaro (@salapicaro.toledo) • Instagram photos and videos",
-            "snippet": "Photo by Sala Pícaro on September 03, 2026. May be an image of poster and text that says 'LA VIDA LIBRE ACÚSTICOS RICARDO LEZÓN 11 SEPTIEMBRE 2026 TOLEDO SALA PÍCARO 20:30 H ANTICIPADA 16€ 16€+GG +GG TAQUILLA 18€ cambio de sala SUSTERFUSK 11SEP/21:00 11 SEP / 21:00 21 00 NICARO CATE BARTEN'.\n\nPhoto by Sala Pícaro on June 19, 2026.\n\nPhoto by M A L L O on June 15, 2026.\n\nPhoto by Sala Pícaro on June 08, 2026.\n\nPhoto by Sala Pícaro on June 03, 2026.\n\nPhoto by Sala Pícaro on May 27, 2026. [...]"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "2e13467bdfdc71295d7495236f35bba05c864404067106ceb7221af93a3ef064",
+      "requestHash": "20868dab41ea7167a1f8b6e1a6f464842789b15ea46f5891ed3fe46085f4296a",
       "provider": "Tavily",
-      "query": "Pulso Industrial Toledo promotora conciertos",
+      "query": "Sala Pícaro Toledo Calle de las Cadenas 6 aforo",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.sec.gov/Archives/edgar/data/864240/000143774916032190/ex10-4.htm",
-            "title": "ex10-4.htm",
-            "snippet": "| ÚNICO. Con fecha 29 de enero de 2016, Promotora y Desarrolladora Pulso Inmobiliario, S.C. con el carácter de “Comprador” y Sypris Technologies México, S. de R.L. de C.V., con el carácter de “Vendedor”, celebraron un contrato de compraventa privado respecto del Inmueble ubicado en Av. Industrias Químicas número 200, Zona Industrial 50071, Toluca, Estado de México con una superficie aproximada de 98,681 m2 (noventa y ocho mil ciento cuarenta y nueve metros cuadrados). | SINGLE. On January 29, [."
-          },
-          {
-            "url": "https://pulso-producciones.com",
-            "title": "Inicio · Pulso",
-            "snippet": "## SERVICIOS\n\nInfraestructura técnica, producción en vivo y gestión estratégica desarrollada desde 2014 en los principales escenarios de Quito.\n\n### PRODUCCIÓN DE CONCIERTOS Y GIRAS\n\nMontaje técnico, logística integral, audio, iluminación y operación de recinto.\n\n### BOOKING\n\nContratación directa de talento internacional y gestión de agendas artísticas.\n\n### DESARROLLO Y FORMACIÓN ARTÍSTICA\n\nEstrategia de lanzamiento, posicionamiento y exportación para artistas locales.\n\n### FESTIVALES [...] Qui"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/4vQbJUx671lr",
-            "title": "Pulso Industrial",
-            "snippet": "# Pulso Industrial\nID: 4vQbJUx671lr\nWebsite: www.pulsoindustrial.com.ar\nLinkedIn: www.linkedin.com/company/pulsoindustrial · 25 followers\nIndustry: Engineering Services\nCompany type: Self-Employed\nSocial profiles: www.instagram.com/pulso.industrial\nEmail: pulsoindustrialinfo@gmail.com\nPhone: 2477-659789 [...] Phone: 2477-659789\nDescription: Pulso Industrial is a company that specializes in optimizing productive processes in the food industry. They offer services such as process optimization, eng"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -294,3 +294,103 @@ clear the exposure cap.
 The change rewords a system finding the model sees, so the 14 affected cases were re-recorded
 (E015 for Haiku 5.5, E016 for qwen). The gate holds, and in E016 a wrong automatic rejection
 (case 17) now escalates.
+
+## Amendment (2026-11-06, #79): a mechanical organizer request resolves on its own
+
+Replaces point 7 and the amendment «organizer requests escalate too» (#24) for `request_info`,
+which settles the disagreement with ADR 0012 point 3 that amendment left open. Point 7's reason
+is that no structured evidence backs a new organizer. That reason holds for an `approve` and a
+`reject`, which judge who the organizer is. It doesn't hold for a mechanical request (glossary),
+which asks the organizer to fix what a rule found: a CIF whose control letter doesn't match
+(case 22) is wrong whoever the organizer is, and anyone can check it with the rule.
+
+1. **An organizer `request_info` is weighed like an event's** (ADR 0012 point 3): it resolves on
+   its own only when every negative finding is a `rule` system finding, there is at least one,
+   no model finding is negative, and confidence is at the threshold.
+2. **Any other organizer review still escalates**: an `approve`, a `reject`, and a request with
+   a heuristic finding (case 21's `organizer_history`, an owner with a rejected organization) or
+   a negative model finding.
+3. **Nothing reaches Satella differently.** In Satella only an auto-resolved approval skips the
+   admin (ADR 0012), so the request still waits for an admin there. What changes is the
+   recorded autonomy, and with it the escalation rate the evals report.
+
+Rejected:
+
+- **Keep every organizer review escalated.** The eval then counts case 22 as an escalation the
+  admin didn't need, and the escalation rate overstates the admin's work by that case.
+- **Also resolve an organizer `reject` on a rule-based hard signal.** No organizer check yields
+  one today, and a rejection of a new organizer is the decision point 7 meant to keep human.
+
+Hypothesis (ADR 0014): case 22 resolves on its own and the escalation rate falls by that case.
+Accuracy and the auto-approved fraud rate (0 %) don't move, since only the autonomy changes.
+
+## Amendment (2026-11-06, #78): the exposure cap depends on the venue type
+
+This refines point 5. A festival in a park has no published capacity, so with a flat cap of 300
+it escalated whenever a session put more on sale. N2 (a three-day festival in a park, 6,000
+tickets in its first session) escalated in every run for that reason, and so would any open-air
+festival in the feed.
+
+1. **The cap goes by the verified venue's OpenStreetMap `category=type`.**
+   - **Open space** (`leisure=park`, `leisure=recreation_ground`, `place=square`): **10,000**
+     tickets on sale per session (`OPEN_SPACE_EXPOSURE_CAP_TICKETS`).
+   - **Any other or unknown type:** the 300 of point 5 (`EXPOSURE_CAP_TICKETS`). A venue that
+     doesn't verify has no type, and keeps the prudent cap.
+   - The list (`OPEN_SPACE_TYPES`) is short and grows when a real case needs it (a beach, a
+     fairground).
+2. **10,000 is a starting value chosen from one case.** N2 puts 6,000 on sale in one session,
+   so 5,000 would leave it escalating. To be revised with real festivals from the feed.
+3. **The capacity finding carries the type** (`SystemFinding.venueType`), so the policy reads
+   it with the verdict it already weighs. Only a verified match sets it.
+
+Point 3's venue types include `leisure=park` but not yet `leisure=recreation_ground` or
+`place=square`: a venue tagged so doesn't verify, and escalates before the cap matters. They are
+listed so the cap is ready when point 3 admits them.
+
+**Rejected:**
+
+- **A cap per capacity band** (the spec's other option). The band comes from the tickets the
+  organizer puts on sale, so it would raise the cap exactly when the organizer asks for more.
+  The venue type comes from OSM.
+- **No cap for open spaces.** Any "park" with 50,000 tickets would resolve on its own.
+- **5,000.** Below N2's 6,000 per session.
+
+Case 16 (a free rave with 50,000 tickets) is in a pub and still escalates.
+
+## Amendment (2026-11-06, #74): a venue without coordinates is verified by name and town
+
+Extends point 3. Point 3's `pass` needs the stored coordinates, and until now a venue without
+them was `unknown` with no lookup at all. On the first staging pass (2026-11-05) a real theatre
+stored without coordinates was reported as unknown, and the review escalated on it.
+
+1. **Without coordinates, the name search adds the province** (`name, town, province`; left out
+   when it repeats the town). It shares the throttle, the timeout, the User-Agent and the run's
+   memo with the other Nominatim calls (points 2 and 8). A venue with coordinates is looked up
+   exactly as before, so its recordings stay valid.
+2. **A `pass` needs a place of a compatible type that carries the venue's name and lies in its
+   town.**
+   - The name matches when its words are the same, or when the shorter name's words, at least
+     two, are all in the longer one (`Teatro Principal` and `Teatro Principal de Zamora`).
+     `Teatro` alone matches only a place named just that: it is in every theatre's name.
+   - The town must be one of the components of Nominatim's address (`display_name`).
+   - The finding's source is the place's OSM page, and its `detail` says it was matched by name
+     because the event has no coordinates.
+3. **Anything else stays `unknown`**, with a `detail` that says the event has no coordinates. With
+   no point to look at, there is no reverse lookup and so no residential or in-water `fail`.
+4. **The match feeds `estimateVenueCapacity`** as a coordinate match does (point 4): the same
+   Wikidata, OSM tag and web steps, and the same exposure cap (point 5).
+
+Rejected:
+
+- **Accept the first compatible result.** Nominatim ranks loosely: a search for one theatre of a
+  town may return another, and an invented venue would borrow a real one's verification.
+- **Put the postal code in the query.** The organizer types it, and case 03 is a postal code of
+  another province: a wrong one can push the real venue out of the results. The postal code
+  check (`postal_code_province`) already judges it.
+- **Geocode the street address.** It finds a point, not a venue, and the point would then need
+  the 200 m test against a place found by the same organizer-typed text.
+
+Hypothesis (ADR 0014): the new case N6 (a real theatre without coordinates, invented company)
+verifies the venue and resolves its approval on its own instead of escalating on an unknown
+venue, so the escalation rate falls by that case. The auto-approved fraud rate stays at 0 %:
+the cap of point 5 still applies, and a venue no source names stays `unknown`.

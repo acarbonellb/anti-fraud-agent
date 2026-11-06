@@ -10,11 +10,10 @@
  * nothing.
  *
  * - `approve` resolves on its own only with no negative system finding, no
- *   model `fail`, at most one minor model `warn`, and confidence at the
- *   threshold.
+ *   model `fail` and at most one minor model `warn`.
  * - `request_info` resolves on its own only when every negative finding is a
- *   `rule` system finding, and confidence is at the threshold: the request is
- *   mechanical, anyone can verify it with the rule.
+ *   `rule` system finding: the request is mechanical, anyone can verify it
+ *   with the rule.
  * - `reject` resolves on its own only on a hard signal: a `fail` from a
  *   hard-signal check that is a `rule` system finding or carries a source.
  *   A venue finding's source is OSM or Wikidata: a capacity from the web
@@ -26,10 +25,16 @@
  * External evidence (ADR 0015) tightens two of those:
  *
  * - an event's `approve` also needs venue evidence: the venue verified, and
- *   its capacity verified or, when no one publishes it, at most
- *   `EXPOSURE_CAP_TICKETS` on sale in any session;
- * - an organizer review never resolves on its own: no structured evidence
- *   backs a new organizer.
+ *   its capacity verified or, when no one publishes it, at most the
+ *   exposure cap on sale in any session: `OPEN_SPACE_EXPOSURE_CAP_TICKETS`
+ *   for an open space, `EXPOSURE_CAP_TICKETS` for any other or unknown type;
+ * - an organizer `approve` or `reject` never resolves on its own: no
+ *   structured evidence backs a new organizer. A mechanical organizer
+ *   `request_info` still does (amendment of #79).
+ *
+ * The review's confidence is the evidence tier of what resolved it, not the
+ * model's number (ADR 0019): the threshold compares the tier, and the
+ * model's number can only hold back, below `MODEL_CONFIDENCE_FLOOR`.
  *
  * In Satella only an auto-resolved approval skips the admin; the autonomy of
  * the rest is recorded and shown, which is what lets the policy be measured
@@ -66,6 +71,61 @@ export const HARD_SIGNAL_CHECKS: ReadonlySet<string> = new Set<CheckId>([
  */
 export const EXPOSURE_CAP_TICKETS = 300;
 
+/**
+ * OSM `category=type` of the open spaces: a park or a square publishes no
+ * capacity, yet a festival there sells thousands per session (case N2). A
+ * short list that grows when a real case needs it (a beach, a fairground).
+ */
+export const OPEN_SPACE_TYPES: ReadonlySet<string> = new Set([
+  "leisure=park",
+  "leisure=recreation_ground",
+  "place=square",
+]);
+
+/**
+ * The exposure cap of an open space (ADR 0015, amendment of #78). A starting
+ * value from one case: N2 sells 6,000 in one session, so 5,000 would leave it
+ * escalating; with no cap, any "park" with 50,000 tickets would resolve on its
+ * own. To be revised with real festivals from the feed.
+ */
+export const OPEN_SPACE_EXPOSURE_CAP_TICKETS = 10_000;
+
+/** An unknown type keeps the prudent cap. */
+function exposureCap(venueType: string | undefined): number {
+  return venueType !== undefined && OPEN_SPACE_TYPES.has(venueType)
+    ? OPEN_SPACE_EXPOSURE_CAP_TICKETS
+    : EXPOSURE_CAP_TICKETS;
+}
+
+/**
+ * The review's confidence by the evidence that resolved it (ADR 0019). Each
+ * value is a rank, not a probability fitted to the evals: what anyone can
+ * re-check ranks above what needs a lookup, which ranks above what rests on a
+ * cap. `AGENT_AUTO_APPROVE_THRESHOLD` (0.85) is the lowest tier that
+ * resolves on its own.
+ */
+export const EVIDENCE_TIERS = {
+  /** A request backed only by rules, or a rejection on a hard signal. */
+  ruleOrHardSignal: 0.95,
+  /** A clean approval with the venue and its capacity verified. */
+  verifiedCapacity: 0.9,
+  /** A clean approval of an unknown capacity, under the exposure cap. */
+  underExposureCap: 0.85,
+} as const;
+
+/**
+ * What an escalated review shows at most: below the lowest tier, so it never
+ * reads as confident enough to have resolved.
+ */
+export const ESCALATED_CONFIDENCE_CAP = 0.84;
+
+/**
+ * Below this, the model doubts its own decision more than it trusts it, and
+ * an auto-resolution escalates whatever the evidence (ADR 0019). A safety
+ * net set at even odds, not a threshold fitted to any case.
+ */
+export const MODEL_CONFIDENCE_FLOOR = 0.5;
+
 export type Autonomy = "auto_resolved" | "escalated";
 
 /** What the policy needs to know about the subject beyond the findings. */
@@ -81,12 +141,18 @@ export interface AutonomyVerdict {
   autonomy: Autonomy;
   /** Why it was escalated or resolved: recorded with the run. */
   reasons: string[];
+  /**
+   * The review's confidence: its evidence tier when it resolved, the model's
+   * number capped at `ESCALATED_CONFIDENCE_CAP` when it escalated.
+   */
+  confidence: number;
 }
 
 export interface AutonomyInput {
   subject: AutonomySubject;
   decision: Decision;
-  confidence: number;
+  /** The model's own number: kept for comparison, it can only hold back. */
+  modelConfidence: number;
   systemFindings: readonly SystemFinding[];
   modelFindings: readonly Finding[];
   /** URLs the run's tools retrieved; see `sourced`. */
@@ -102,40 +168,91 @@ export interface AutonomyInput {
 const isNegative = (finding: Finding) =>
   finding.verdict === "fail" || finding.verdict === "warn";
 
+/** What the evidence alone says, before the threshold and the holds. */
+type EvidenceVerdict =
+  | { autonomy: "auto_resolved"; reasons: string[]; tier: number }
+  | { autonomy: "escalated"; reasons: string[] };
+
 export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
-  const verdict = decideOnEvidence(input);
+  const { modelConfidence, autoApproveThreshold } = input;
+  const evidence = decideOnEvidence(input);
+  const belowThreshold =
+    evidence.autonomy === "auto_resolved" &&
+    evidence.tier < autoApproveThreshold
+      ? [
+          `evidence tier ${String(evidence.tier)} below ${String(autoApproveThreshold)}`,
+        ]
+      : [];
   // An approval can't rest on evidence the model didn't get to read. A
   // rejection or a request doesn't depend on it: the evidence decides alone.
-  if (!input.searchBudgetSpent || input.decision !== "approve") return verdict;
+  const budget =
+    input.searchBudgetSpent && input.decision === "approve"
+      ? ["web search budget spent"]
+      : [];
+  const otherwiseResolves =
+    evidence.autonomy === "auto_resolved" &&
+    belowThreshold.length + budget.length === 0;
+  // The floor holds back a resolution; on a review that escalates anyway, it
+  // would only add noise to the reasons (#77).
+  const floor =
+    otherwiseResolves && modelConfidence < MODEL_CONFIDENCE_FLOOR
+      ? [
+          `model confidence ${String(modelConfidence)} below ${String(MODEL_CONFIDENCE_FLOOR)}`,
+        ]
+      : [];
+  if (otherwiseResolves && floor.length === 0) {
+    return {
+      autonomy: "auto_resolved",
+      reasons: evidence.reasons,
+      confidence: evidence.tier,
+    };
+  }
+  return escalated(
+    [
+      ...budget,
+      ...(evidence.autonomy === "escalated" ? evidence.reasons : []),
+      ...belowThreshold,
+      ...floor,
+    ],
+    modelConfidence,
+  );
+}
+
+/**
+ * An escalated verdict: the model's number, capped so it never reads as
+ * confident enough to have resolved. Also for a run that ended before the
+ * policy could weigh it.
+ */
+export function escalated(
+  reasons: string[],
+  modelConfidence: number,
+): AutonomyVerdict {
   return {
     autonomy: "escalated",
-    reasons: [
-      "web search budget spent",
-      ...(verdict.autonomy === "escalated" ? verdict.reasons : []),
-    ],
+    reasons,
+    confidence: Math.min(modelConfidence, ESCALATED_CONFIDENCE_CAP),
   };
 }
 
-function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
-  const { decision, confidence, autoApproveThreshold } = input;
-  if (input.subject.type === "organizer") {
+function decideOnEvidence(input: AutonomyInput): EvidenceVerdict {
+  const { decision } = input;
+  // A mechanical request needs no evidence about who the organizer is: the
+  // rule itself is the evidence (ADR 0015 amendment, #79). An approval or a
+  // rejection would, and none backs a new organizer.
+  if (input.subject.type === "organizer" && decision !== "request_info") {
     return {
       autonomy: "escalated",
-      reasons: ["organizer reviews always escalate (ADR 0015)"],
+      reasons: [
+        "organizer approvals and rejections always escalate (ADR 0015)",
+      ],
     };
   }
   const systemNegatives = input.systemFindings.filter((item) =>
     isNegative(item.finding),
   );
   const modelNegatives = input.modelFindings.filter(isNegative);
-  const lowConfidence =
-    confidence < autoApproveThreshold
-      ? [
-          `confidence ${String(confidence)} below ${String(autoApproveThreshold)}`,
-        ]
-      : [];
 
-  if (decision === "approve") {
+  if (decision === "approve" && input.subject.type === "event") {
     const modelFails = modelNegatives.filter((f) => f.verdict === "fail");
     const modelWarns = modelNegatives.filter((f) => f.verdict === "warn");
     const majorWarns = modelWarns.filter(
@@ -157,10 +274,13 @@ function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
         ? [`more than one warning (${String(modelWarns.length)})`]
         : []),
       ...venueGaps(input.systemFindings, input.subject.maxTicketsOnSale),
-      ...lowConfidence,
     ];
     return reasons.length === 0
-      ? { autonomy: "auto_resolved", reasons: ["clean approval"] }
+      ? {
+          autonomy: "auto_resolved",
+          reasons: ["clean approval"],
+          tier: approvalTier(input.systemFindings),
+        }
       : { autonomy: "escalated", reasons };
   }
 
@@ -187,6 +307,7 @@ function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
       ? {
           autonomy: "auto_resolved",
           reasons: [`hard signals: ${checks(hardSignals)}`],
+          tier: EVIDENCE_TIERS.ruleOrHardSignal,
         }
       : {
           autonomy: "escalated",
@@ -212,7 +333,6 @@ function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
     ...(modelNegatives.length > 0
       ? [`model findings need judgement: ${checks(modelNegatives)}`]
       : []),
-    ...lowConfidence,
   ];
   return reasons.length === 0
     ? {
@@ -220,8 +340,22 @@ function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
         reasons: [
           `mechanical request: ${checks(ruleNegatives.map((item) => item.finding))}`,
         ],
+        tier: EVIDENCE_TIERS.ruleOrHardSignal,
       }
     : { autonomy: "escalated", reasons };
+}
+
+/**
+ * A clean approval's tier: only reached once `venueGaps` found nothing, so
+ * the capacity is either verified or unknown under the exposure cap.
+ */
+function approvalTier(systemFindings: readonly SystemFinding[]): number {
+  const capacity = systemFindings.find(
+    (item) => item.finding.check === "venue_capacity",
+  )?.finding.verdict;
+  return capacity === "pass"
+    ? EVIDENCE_TIERS.verifiedCapacity
+    : EVIDENCE_TIERS.underExposureCap;
 }
 
 /**
@@ -232,20 +366,24 @@ function venueGaps(
   systemFindings: readonly SystemFinding[],
   maxTicketsOnSale: number,
 ): string[] {
-  const verdictOf = (...names: string[]) =>
-    systemFindings.find((item) => names.includes(item.finding.check))?.finding
-      .verdict;
-  const venue = verdictOf("venue_exists");
-  const capacity = verdictOf("venue_capacity", "capacity_far_above_venue");
+  const findingOf = (...names: string[]) =>
+    systemFindings.find((item) => names.includes(item.finding.check));
+  const venue = findingOf("venue_exists")?.finding.verdict;
+  const capacityFinding = findingOf(
+    "venue_capacity",
+    "capacity_far_above_venue",
+  );
+  const capacity = capacityFinding?.finding.verdict;
+  const cap = exposureCap(capacityFinding?.venueType);
   return [
     ...(venue === "pass" || venue === "fail" || venue === "warn"
       ? []
       : [`venue not verified (${venue ?? "not checked"})`]),
     ...(capacity === undefined
       ? ["venue capacity not checked"]
-      : capacity === "unknown" && maxTicketsOnSale > EXPOSURE_CAP_TICKETS
+      : capacity === "unknown" && maxTicketsOnSale > cap
         ? [
-            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(EXPOSURE_CAP_TICKETS)}`,
+            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(cap)}`,
           ]
         : []),
   ];

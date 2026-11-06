@@ -2,160 +2,55 @@
   "caseId": "26",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-05T20:21:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T15:14:00.000Z",
   "calls": [
     {
-      "requestHash": "213b5b8445c9701758ff6600dacbd98d286e703ade7c719d63c8b890e7b46c1e",
-      "latencyMs": 3289,
+      "requestHash": "923a334ee8b40ef5ad21cec6258397d167767df6de9509702877529be1c2b9d8",
+      "latencyMs": 3571,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "mG8pRUj5NK4bmSdjyvjDIELdrVKyoLpA",
+              "id": "BDOYzI6iIHB3Ag49GwTy1Ebz5rqh46q3",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_125ef5205a\"}"
+            },
+            {
+              "id": "lvagk2Ii7nDFmgC4CvOmhEDGpASemVOD",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_0da2cf7345\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3484,
-          "outputTokens": 41
+          "inputTokens": 3662,
+          "outputTokens": 92
         }
       }
     },
     {
-      "requestHash": "31760570c7da0b64e5bf7fe6207350a06bdf411fbfb7924e7b6590942a5f52cb",
-      "latencyMs": 1788,
+      "requestHash": "f6a22a2379dc49398fd5142979a5ac7792bd1caaa4e52e14aaa6b0400b0a1d21",
+      "latencyMs": 20662,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el organizador. El hallazgo determinista más grave es que la descripción del evento pide pagar por Bizum (pago fuera de la plataforma), lo cual es una señal directa de fraude según las reglas. Además, el texto dice \"Últimas plazas! Reserva por Bizum al 600 000 000 y paga la mitad\", lo que implica un pago parcial fuera de la plataforma, otra práctica riesgosa.\n\nEl organizador \"Sonidos del Tormes\" parece legítimo: cuenta con datos fiscales válidos, está aprobado en la plataforma, tiene una cuenta antigua (530 días), y no hay informes de contenido ni eventos cancelados. Sin embargo, el pago por Bizum es un problema claro que no se puede ignorar.\n\nNo he encontrado eventos similares en la zona, lo cual no es necesariamente sospechoso. El aforo del teatro no está disponible públicamente, pero la venta de 160 entradas parece razonable para un teatro pequeño.\n\nDado que el pago por Bizum es una señal directa de fraude (regla \"off_platform_payment\" falló), y el texto invita a pagar fuera de la plataforma, la recomendación debe ser rechazar el evento. No hay evidencia de que esto sea un error o una práctica aceptable; es una violación clara de las políticas de pago.\n\nRecomendación: **reject** con confianza baja (0.7) porque, aunque el organizador parece legítimo, el pago por Bizum es una señal directa de fraude que no puede ser ignorada. No hay necesidad de pedir más información cuando la regla ya falló determinísticamente.",
           "toolCalls": [
             {
-              "id": "jV31GGNE38VxKz3YRoGRCf9QhVvOkk1k",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Lucía Barbadillo concierto 2026 Zamora Teatro Ramos Carrión\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 3920,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "bf77e30c13168e4d73251fc1cdc9e63fff0137c8ca594a13ccac8f1fbff61112",
-      "latencyMs": 1586,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "yFgJ1kvKvwq1rd1vmPmroxq28Q2orxnd",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Lucía Barbadillo tour dates 2026\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4485,
-          "outputTokens": 49
-        }
-      }
-    },
-    {
-      "requestHash": "4af33c0ee6afc605790c5ce6b6e81589bd6151f48a042fc79f8ab5d4e0664b7f",
-      "latencyMs": 1917,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "VT4ybIhVRDovBemOgRBoeMPKXhsNJKgn",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Lucía Barbadillo cantante concierto 2026\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5060,
-          "outputTokens": 49
-        }
-      }
-    },
-    {
-      "requestHash": "7b3b630ac92807f14bb5c23b1c3d6beea92eb01ee5874c4d0ca025f99a4c78af",
-      "latencyMs": 2017,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "DoqaV4ndWKUuuwMxfbwYnsqLO69KskQo",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Lucía Barbadillo\\\" \\\"Canciones de ida y vuelta\\\" disco nuevo\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5635,
-          "outputTokens": 55
-        }
-      }
-    },
-    {
-      "requestHash": "569aef84cf6422e01f61b78fe3c096f62ecf923da51d25d31e6d0fb92775c713",
-      "latencyMs": 2083,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "JrQ6Ps8WNKlx36IQanYwIW2LxiK8Rf5s",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Lucía Barbadillo\\\" \\\"Canciones de ida y vuelta\\\" concierto\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 6214,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "04427ac8c84b574aa57d0018de2764ff6cfb27ed397a1e7c216e52c597205db7",
-      "latencyMs": 24831,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y los datos disponibles. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Pago fuera de la plataforma (off_platform_payment - FAIL):** La descripción del evento pide explícitamente \"Reserva por Bizum al 600 000 000 y paga la mitad\". Esto es una señal clara de fraude, ya que incita a los usuarios a pagar fuera de la plataforma.\n\n2. **Organizador:** \"Sonidos del Tormes\" está aprobado desde junio de 2025, tiene fiscalidad verificada (CIF con checksum válido), cuenta con 8 eventos publicados y 7 finalizados sin cancelaciones. No hay reportes de contenido ni despublicaciones por admin.\n\n3. **Artista:** \"Lucía Barbadillo\" es una artista real (cantante española de cantautor). Sin embargo, no he encontrado evidencia de que este evento específico (\"Canciones de ida y vuelta con Lucía Barbadillo\") esté anunciado en otros sitios web o tour dates oficiales para el 23 de noviembre de 2026 en Zamora.\n\n4. **Descripción del evento:** La frase \"¡Últimas plazas!\" es una táctica común para generar urgencia, pero combinada con la solicitud de pago por Bizum, se vuelve sospechosa.\n\n5. **No he encontrado** anuncios oficiales de este concierto específico en fuentes externas (Songkick, Bandsintown, etc.) para el 23 de noviembre de 2026 en Zamora.\n\n**Conclusión:**\nLa solicitud de pago por Bizum es una señal clara de fraude (off_platform_payment - FAIL). Aunque el organizador parece legítimo y la artista existe, la práctica de pedir pagos fuera de la plataforma es una señal de alerta grave que no puede ignorarse. Esto podría ser un intento de estafar a los usuarios para que paguen por Bizum y luego no reciban las entradas o sean engañados de otra forma.\n\n**Decisión:** REJECT (Rechazar) con alta confianza debido al pago fuera de la plataforma, que es una señal de fraude clara y documentada en las políticas de la plataforma.",
-          "toolCalls": [
-            {
-              "id": "Dllh4d64CnRvyB0hHfpzoZNOOLl4KgdP",
+              "id": "qWA2UXjMGcOzOESwIsMaxwmKy2VmPoiS",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento debe rechazarse debido a la solicitud explícita de pago fuera de la plataforma (Bizum), que es una señal clara de fraude según las políticas de la plataforma. Aunque el organizador \\\"Sonidos del Tormes\\\" tiene un historial limpio y fiscalidad verificada, y la artista Lucía Barbadillo existe, la práctica de pedir pagos por Bizum no puede justificarse con ninguna explicación inocente. Esta es una señal de fraude grave que requiere rechazo inmediato para proteger a los usuarios de posibles estafas.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento pide explícitamente «Reserva por Bizum al 600 000 000 y paga la mitad», incitando a los usuarios a pagar fuera de la plataforma. Esta es una señal clara de fraude según las políticas de la plataforma.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_0da2cf7345.jpg\",\"title\":\"Evento: Canciones de ida y vuelta con Lucía Barbadillo\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se ha encontrado evidencia de que este evento específico esté anunciado en otros sitios web o tour dates oficiales para el 23 de noviembre de 2026 en Zamora. La artista Lucía Barbadillo existe, pero no hay confirmación de esta fecha y lugar específicos.\",\"confidence\":0.7,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.7,\"rationale\":\"El evento pide pagar por Bizum (pago fuera de la plataforma), lo cual es una señal directa de fraude según las reglas. La descripción dice: «Reserva por Bizum al 600 000 000 y paga la mitad», lo que implica un pago parcial fuera de la plataforma, otra práctica riesgosa. El hallazgo determinista \\\"off_platform_payment\\\" falló, confirmando esta violación. Aunque el organizador \\\"Sonidos del Tormes\\\" parece legítimo (datos fiscales válidos, cuenta antigua, sin informes de contenido), el pago por Bizum no puede ser ignorado y es suficiente para rechazar el evento. No hay evidencia de que esto sea un error o una práctica aceptable; es una violación clara de las políticas de pago.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento pide pagar por Bizum al 600 000 000 y paga la mitad, lo que implica un pago fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_0da2cf7345.jpg\",\"title\":\"Canciones de ida y vuelta con Lucía Barbadillo\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Sonidos del Tormes' tiene datos fiscales válidos, cuenta antigua (530 días), sin informes de contenido ni eventos cancelados.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la zona con el mismo título y fechas.\",\"confidence\":0.5,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6304,
-          "outputTokens": 863
+          "inputTokens": 4218,
+          "outputTokens": 806
         }
       }
     }
@@ -168,33 +63,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://bizum.com/es",
-            "title": "Inicio - Bizum",
-            "snippet": "Más información\n\n## Disfruta de las ventajas de tener Bizum\n\nRápido\n\nEn menos de 10 segundos puedes enviar dinero.\n\nSeguro\n\nBizum está respaldado por los principales bancos españoles.\n\nFácil\n\nEnvía dinero solo con tu móvil, sea el banco que sea\n\n## Esto es Bizum en número\n\n### 31500000\n\nUsuarios activos\n\n### 5500\n\nMillones de transacciones realizadas\n\n### 15000\n\nOrganizaciones a las que donar\n\n### 120000\n\nComercios online\n\n## Paga en miles de comercios online [...] Con el nuevo identificador dig"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/fdP3mswgPwhQ",
-            "title": "Bizum",
-            "snippet": "# Bizum\nID: fdP3mswgPwhQ\nWebsite: www.bizum.com\nLegal name: Bizum, S.L.\nHeadquarters: Madrid, Madrid, Spain\nLinkedIn: www.linkedin.com/company/bizum · 21,997 followers\nIndustry: Financial Services\nIndustry codes: SIC 51, 513, NAICS 42, 423\nCompany type: Privately Held\nFounded: 2016 [...] Founded: 2016\nSocial profiles: www.facebook.com/soybizumer, www.facebook.com/bizum-137736759949289, www.twitter.com/bizum_es, www.crunchbase.com/organization/bizum, www.instagram.com/bizum_es, www.youtube.com/ch"
-          },
-          {
-            "url": "https://bizum.com/es/como-funciona",
-            "title": "Descubre cómo funciona Bizum y para qué utilizarlo",
-            "snippet": "Una vez enviando, si el receptor ya usa Bizum, tendrá el dinero disponible en segundos. En caso de que no sea usuario Bizum, le enviaremos un SMS con las instrucciones para recibir el dinero rápido y fácilmente.\n\nSelect icon\n\nSelecciona «Pagar con Bizum»\n\nDurante el proceso de compra. Recuerda que los límites en este caso son distintos al pago entre particulares y que cuenta con la misma protección que otros métodos de pago.\n\nMobile icon\n\nIntroduce tu número de teléfono [...] Valida el pago ¡y l"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=QsTHRFXqefE",
-            "title": "Added Value | Bizum celebrates 10 years as an essential tool for over 30 million users",
-            "snippet": "[3:16] Banco Central Europeo para crear un medio de pago electrónico que se pueda usar en cualquier lugar de la zona euro y que nos aleje de la dependencia de los\n[3:24] sistemas de pago estadounidenses. Y en este sentido, Bzum acaba de tomar la delantera. Ya se puede pagar con Bizum en comercios físicos. Esa es la teoría,\n[3:33] aunque la práctica va algo más lenta. De momento solo está disponible para los usuarios de algunos bancos y se espera que las superficies comerciales lo [...] [1:38] ha"
-          },
-          {
-            "url": "https://www.facebook.com/RTVENoticias/videos/-bizum-cumple-diez-a%C3%B1os-y-se-ha-convertido-en-una-herramienta-habitual-en-nuestr/2076288786360206",
-            "title": "2.5K views · 29 reactions | 🔸 Bizum cumple diez años y se ha convertido en una herramienta habitual en nuestro día a día. Lo que nació para saldar cuentas entre amigos y familiares, como pagar una co",
-            "snippet": "0:00 / 0:00\n\n🔸 Bizum cumple diez años y se ha convertido en una herramienta habitual en nuestro día a día. Lo que nació para saldar cuentas entre amigos y familiares, como pagar una comida o compartir un regalo, se utiliza hoy también en comercios y administraciones. El servicio de pago móvil, que permite enviar y recibir dinero al instante con el número de teléfono, suma ya 32 millones de usuarios en España. #Noticias #bizum #pago #móvil #españa\n\nLike\n\nComment\n\nShare\n\nImage 1\n\n29\n\n · [...] Ima"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
@@ -204,137 +73,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.laopiniondezamora.es/zamora/2021/05/28/teatro-ramos-carrion-zamora-pasa-52335734.html",
-            "title": "El Teatro Ramos Carrión de Zamora pasa a tener un 50% de aforo de público",
-            "snippet": "Entre las nuevas medidas que entran en vigor con el nuevo nivel de alerta 3 en Zamora, se encuentra el cambio de aforo de público en el Teatro Ramos Carrión de la ciudad. Ahora, con este nuevo nivel, el teatro pasa a tener un 50% de aforo en vez de un 33%. Esto se traduce en una mayor presencia de público en el recinto, así como una mayor puesta a la venta de entradas. “En caso de que no queden entradas disponibles en la página web, hay que acudir a la taquilla del teatro para confirmar [...] pa"
-          },
-          {
-            "url": "https://es.wikipedia.org/wiki/Teatro_Ramos_Carri%C3%B3n",
-            "title": "Teatro Ramos Carrión - Wikipedia, la enciclopedia libre",
-            "snippet": ". Se inauguró en 1916 como teatro, siendo la primera obra que se representó La noche del sábado, de Jacinto Benavente. Sufrió un periodo de decadencia que acabó transformándolo en sala de cine durante finales del siglo XX y su posterior abandono. Durante más de una década, justo a comienzos del siglo XXI, permaneció abandonado. La Diputación de Zamora decidió renovarlo creando un nuevo espacio con un aforo de 600 localidades, reinaugurado en 2011. El nuevo edificio incluye una cafetería con un ["
-          },
-          {
-            "url": "http://www.fundacionsiglo.es/web/jcyl/FundacionSiglo/es/Plantilla100Directorio/1284235399249/1284315558671/1284315558671/DirectorioPadre",
-            "title": "Teatro Ramos Carrión (Zamora) | Fundación Siglo para el Turismo y las Artes | Junta de Castilla y León",
-            "snippet": "El edificio, de estilo modernista, se inauguró en el año 1916 como teatro, siendo la primera obra que se representó \"La noche del sábado\" de Jacinto Benavente. Sufrió un período de decadencia que acaba transformándolo en sala de cine. Durante más de una década, justo a comienzos del siglo XXI, permaneció abandonado. El Ayuntamiento de Zamora decidió renovarlo creando un nuevo espacio con aforo de 600 localidades. El nuevo edificio incluye una cafetería con un mirador con vistas al río Duero, y ["
-          },
-          {
-            "url": "https://www.vividseats.com/teatro-ramos-carrin-de-zamora-tickets/venue/50852",
-            "title": "Teatro Ramos Carrión de Zamora Tickets - Teatro Ramos Carrión de Zamora Information - Teatro Ramos Carrión de Zamora Seating Chart",
-            "snippet": "## Teatro Ramos Carrión de Zamora Overview: Helpful Information\n\n Address: Calle de Ramos Carrión, 25 Zamora 49001 Spain\n Venue Capacity: 600\n\n## Frequently Asked Questions about Teatro Ramos Carrión de Zamora Tickets\n\n### What are the best cheap seats at the Teatro Ramos Carrión de Zamora? [...] Skip to ContentSkip to Footer\n\nTickets you can trust: over 190 million sold, 100% Buyer Guarantee. Learn More.\n\nOver 190 million sold, 100% Buyer Guarantee. Learn More.\n\n# Teatro Ramos Carrión de Zamora"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/KDdrrgbcjjUT",
-            "title": "Teatro Ramos Carrión",
-            "snippet": "# Teatro Ramos Carrión Zamora\nID: KDdrrgbcjjUT\nWebsite: www.teatroramoscarrionzamora.com\nHeadquarters: Zamora, Castilla y León, Spain\nLinkedIn: www.linkedin.com/company/teatro-ramos-carrion-zamora · 75 followers\nIndustry: Events Services\nCompany type: Self-Owned\nFounded: 2016\nSocial profiles: www.facebook.com/teatro-ramos-carrion-zamora-1194577333997752, www.twitter.com/ramoscarrionza, www.instagram.com/teatroramoscarrion.zamora, www.youtube.com/channel/uc7h3l_ht7u56efbvxp21r5a [...] ## Headcoun"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "71c135060183a1ee7de9a82556e8f51d6f1f89a45af59ce58aa8e5129a90c6e4",
-      "provider": "Tavily",
-      "query": "Lucía Barbadillo concierto 2026 Zamora Teatro Ramos Carrión",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.songkick.com/es/venues/3534559-teatro-ramos-carrion",
-            "title": "Teatro Ramos Carrión Zamora, Entradas para conciertos y eventos en vivo 2026 - Songkick",
-            "snippet": "Buscar\n\nSongkick\nShow navigation\n\nIdioma\n\nLog in\nsearch\nspotify icon\n\nTeatro Ramos Carrión, Zamora\n\n# Teatro Ramos Carrión\n\n🇪🇸 Zamora, Spain\n\nCalle de Ramos Carrión, 25, 49001, Zamora, Spain\n\n## Todos los eventos en Teatro Ramos Carrión 2026-2027\n\nDescubre todos los próximos conciertos programados en 2026-2027 en Teatro Ramos Carrión.\n\nTeatro Ramos Carrión anfitriona conciertos para una amplia gama de géneros. [...] King Edward VI High School for Girls Chamber Choir & Orchestra Concert Tickets"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DHsxI8VI1s4",
-            "title": "Instagram",
-            "snippet": "Video by Teatro Ramos Carrión Histórico (Zamora) on August 12, 2026. May be an image of buildings.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 07, 2026. May be an image of poster.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 03, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 28, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 27, 2026.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on July 19, 2026.\n\nSee more posts\n\n--- [...] Pho"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DPRD5lWCFRH",
-            "title": "Instagram",
-            "snippet": "Video by Teatro Ramos Carrión Histórico (Zamora) on August 12, 2026. May be an image of buildings.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 07, 2026. May be an image of poster.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on August 03, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 28, 2026.\n\nVideo by Teatro Ramos Carrión Histórico (Zamora) on July 27, 2026.\n\nPhoto by Teatro Ramos Carrión Histórico (Zamora) on July 19, 2026.\n\nSee more posts\n\n--- [...] Pho"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "ed450fbe6e2f9b130fac66e8676a3fc94f1250eaaadd38442fdb68a1bbde2541",
-      "provider": "Tavily",
-      "query": "Lucía Barbadillo tour dates 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.yumping.com/en/winery-tours/bodegas-barbadillo--e19634603",
-            "title": "Bodegas Barbadillo, prices and bookings 2026 | Yumping",
-            "snippet": "- Manzanilla: with this visit you will tour the interiors of the Manzanilla museum and the Barbadillo Wineries for 1 hour, discovering the history of our group that began its activity in 1821. If you wish, you can complete the excursion with an introductory tasting course, in addition to having an aperitif, drinking one of our wines. [...] ### Guided tour of the winery and tasting in Jerez\n\nCádiz\n\n1 Booking Verified\n\nfrom\n15€\n\n8\n\n Wine tourism visit + tasting, aperitif and gift\n\n### Wine tourism"
-          },
-          {
-            "url": "https://www.winalist.com/hosts/1818/bodegas-barbadillo",
-            "title": "Bodegas Barbadillo Tour & Tasting 2026 ⭐️ Book your Visit Now!",
-            "snippet": "3 tastings\n\nGet to know Bodegas Barbadillo through a walk through two centuries of history, ending with the tasting of 3 of our most emblematic wines.\n\nBook Now, Pay Later. Secure your spot while staying flexible.\n\nR$122.20 per person\n\nPrivate visit to wineries groups minimum 10 people\n\nPrivate visit to wineries groups minimum 10 people\n\nPrivate visit to wineries groups minimum 10 people\n\nPrivate visit to wineries groups minimum 10 people\n\nPrivate visit to wineries groups minimum 10 people [...]"
-          },
-          {
-            "url": "https://leadiq.com/c/bodegas-barbadillo-sl/5a1d8675240000240060b384/employee-directory",
-            "title": "Bodegas Barbadillo S.A. Employee Directory, Headcount & Staff | LeadIQ",
-            "snippet": "C. H. S.\n\n  Director De Operaciones\n\n  Mobile Phone\n\n  Email\n\n  Spain, Andalusia\n\n  Sep 12, 2026\n Director Regional Sur Bodegas Barbadillo at Bodegas Barbadillo S.A.\n\n  A. M. D.\n\n  Director Regional Sur Bodegas Barbadillo\n\n  Mobile Phone\n\n  Email\n\n  Spain, Andalusia\n\n  Sep 05, 2026\n Director De Relaciones Institucionales at Bodegas Barbadillo S.A.\n\n  C. A. H.\n\n  Director De Relaciones Institucionales\n\n  Mobile Phone\n\n  Email\n\n  Spain, Andalusia\n\n  Oct 19, 2026\n\n 1\n 2\n 3\n … [...] J. B. L.\n\n  Vice"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "5e0dce5710c3aeed87caf78afe6c091aaa1bc5c3e44eceec7eee82b4715d4d0b",
-      "provider": "Tavily",
-      "query": "Lucía Barbadillo cantante concierto 2026",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.bandsintown.com/a/15573128-lucia",
-            "title": "Lucía",
-            "snippet": "[](\n\nView more\n\n## Past shows\n\nOCT 21 2026 Raleigh, NC NC State LIVEOCT 03 2026 Escondido, CA California Center for the ArtsOCT 02 2026 Rohnert Park, CA Green Music CenterSEP 19 2026 Fairfield, CA Caymus-SuisunSEP 18 2026 Nashville, TN Vanderbilt University Blair School of MusicSEP 15 2026 Cincinnati, OH Caffè Vivace | Coffee House, Jazz Lounge\n\nView more dates\n\n## About Lucía\n\nImage 19: Lucía\n\nLucía\n\nGenres: \n\nJazz\n\n  \n\n[](\n\nNever miss another Lucía concert. [...] Steve Lacy 1M Followers\n\nImage"
-          },
-          {
-            "url": "https://www.instagram.com/p/DT3f7tKEiC0",
-            "title": "Instagram",
-            "snippet": "More posts from luciernagamusica\n\nPhoto by LUCÍA on July 24, 2026.\n\nPhoto by LUCÍA on May 16, 2025.\n\nPhoto by LUCÍA on July 23, 2024.\n\nPhoto by LUCÍA on October 27, 2026. May be an image of text.\n\nVideo by Green Music Center on October 02, 2026. May be an image of musical instrument and text.\n\nVideo by San Diego Tijuana International Jazz Festival on September 28, 2026. May be an image of one or more people, speaker, microphone, concert and text. [...] Log In\n\nSign Up\n\nNever miss a post from luc"
-          },
-          {
-            "url": "https://broadstage.org/tickets-shows/calendar/lucia",
-            "title": "LUCÍA | BroadStage",
-            "snippet": "### Kaiju\n\nLearn More\n\nNovember 5, 2026\n\nNat Geo Live\n\n### Discovering the Galápagos\n\nLearn More\n\nNovember 12, 2026\n\n‎\n\n#### Orpheus Chamber Orchestra with Isata Kanneh-Mason\n\nLearn More\n\nNovember 22, 2026\n\nCelebrity Opera\n\n### Lise Davidsen Holiday Concert\n\nLearn More\n\nDecember 12, 2026\n\n### Camila Fernandez:Mariachi Holiday\n\nLearn More\n\nDecember 15, 2026\n\n### Dance Hall of Fame\n\nLearn More\n\nDecember 19, 2026\n\n‎‎\n\n### The Hot Sardines: Holiday Stomp!\n\nLearn More\n\nJanuary 22, 2027\n\n‎ [...] A wom"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "e1febe60873d469f2f0f1ae0b9debe84fa9a4143b5b5f6c6d484c8fceb67d985",
-      "provider": "Tavily",
-      "query": "\"Lucía Barbadillo\" \"Canciones de ida y vuelta\" disco nuevo",
-      "maxResults": 3,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.ciudadvalencia.com.ve/gonzalez-requena-cavim",
-            "title": "Designan al General de Brigada Jeanpool Orlando González Requena como nuevo presidente de CAVIM",
-            "snippet": "+ Cocina y algo másRecetas de cocina y otras preparaciones\n  + Dame LetraDame Letra\n    - A buen entendedorEn la sección A buen entendedor encontrarás el origen de esos chistes, refranes y anécdotas que nos hacen tan venezolanos [...] + HistoriaPlástica\n  + LiteraturaLiteratura\n    - La palabra de hoy\n    - Nuestros Cuentos de NavidadCuentos de Navidad Venezolanos\n    - Un cuento para la merienda\n  + Movida UrbanaMovida Urbana\n  + Música\n  + Teatro\n Columnas\n  + Arte al día\n  + Arte y sentido\n  "
-          },
-          {
-            "url": "https://www.mapquest.com/ar/vuelta-abajo-525112730",
-            "title": "Vuelta Abajo",
-            "snippet": "10 am - 11 am\n\nTue\n\n10 am - 11 am\n\nWed\n\n10 am - 11 am\n\nThu\n\n10 am - 11 am\n\nFri\n\n10 am - 11 am\n\nSat\n\n10 am - 2 am\n\nAdvertisement\n\n## Reviews Image 29: tripadvisor logo (54)\n\nExiste un bar en un piso superior que NO publica los eventos privados (falta de respeto total) y los...\n\n1 year ago\n\nImage 30\n\nCai A\n\nRead more on Tripadvisor\nWe had booked new year dinner 6th of december and they txt,fine to pay cash..After few days,got txt....\n\n1 year ago\n\nImage 31\n\nauroska50 [...] Advertisement\n\nAdvertisem"
-          },
-          {
-            "url": "https://www.mapquest.com/mx/nuevo-leon/paseo-de-santa-lucia-526390008",
-            "title": "Paseo de Santa Lucia",
-            "snippet": "Advertisement\n\nAdvertisement\n\n## Photos\n\nImage 18: photo6.jpg\n\nphoto6.jpg\n\nImage 19: el cerro de la silla\n\nel cerro de la silla\n\nImage 20: Paseo de Santa Lucia\n\nPaseo de Santa Lucia\n\nImage 21: Paseo santa Lucia\n\nPaseo santa Lucia\n\nImage 22: Costo $60 pesos por persona\n\nCosto $60 pesos por persona\n\nImage 23\n\nImage 24\n\nImage 25\n\nImage 26\n\nImage 27\n\nImage 28\nTop review\n\n“Santa Lucia was a wonderful place for an evening walk. I started near the museums after 8 p.m. and ...” [...] Image 38: Best Day "
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

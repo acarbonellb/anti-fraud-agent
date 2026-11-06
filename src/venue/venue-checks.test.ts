@@ -112,6 +112,24 @@ describe("venue checks", () => {
     expect(calls[1]?.url).toContain("wd%3AQ2635919+wdt%3AP1083");
   });
 
+  it("carries the verified venue's OSM type on the capacity finding, for the exposure cap", async () => {
+    const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(capacity?.finding.verdict).toBe("unknown");
+    expect(capacity?.venueType).toBe("amenity=theatre");
+  });
+
+  it("carries no venue type when the venue isn't verified", async () => {
+    const { fetch } = fakeFetch({ search: () => json(nominatimHit({})) });
+    const [, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT + 0.01, LON),
+    );
+    expect(capacity?.finding.verdict).toBe("unknown");
+    expect(capacity).not.toHaveProperty("venueType");
+  });
+
   it("asks what lies at the point only when the name doesn't verify the venue", async () => {
     const { fetch, calls } = fakeFetch({
       search: () => json([]),
@@ -171,6 +189,29 @@ describe("venue checks", () => {
     expect(findings[0]?.finding.detail).toContain(row.text);
   });
 
+  it("gives no confidence to the findings a failed lookup left unknown", async () => {
+    const { fetch } = fakeFetch({ search: () => json({}, 503) });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(findings.map((item) => item.finding.confidence)).toEqual([0, 0]);
+  });
+
+  it("keeps full confidence on the findings a lookup settled", async () => {
+    const { fetch } = fakeFetch({
+      search: () => json(nominatimHit({ capacity: "898" })),
+    });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(
+      findings.map((item) => [item.finding.verdict, item.finding.confidence]),
+    ).toEqual([
+      ["pass", 1],
+      ["pass", 1],
+    ]);
+  });
+
   it("says so when the reverse lookup fails after an empty name search", async () => {
     const { fetch } = fakeFetch({
       search: () => json([]),
@@ -182,6 +223,110 @@ describe("venue checks", () => {
     expect(exists?.finding.verdict).toBe("unknown");
     expect(exists?.finding.detail).toContain(
       "Tampoco se pudo comprobar qué hay en las coordenadas",
+    );
+  });
+});
+
+// A venue stored without coordinates (#74): only its name and address can
+// find it, so the match has to agree on both.
+describe("a venue without coordinates", () => {
+  function eventWithoutCoordinates(): EventReviewContext {
+    const context = structuredClone(fixtures.eventContext);
+    if (context.venue === null) throw new Error("fixture without a venue");
+    context.venue = {
+      ...context.venue,
+      name: "Sala Lumbre",
+      city: "Medina del Campo",
+      province: "Valladolid",
+      latitude: null,
+      longitude: null,
+    };
+    return context;
+  }
+
+  const lumbre = (overrides: Record<string, unknown> = {}) => ({
+    osm_type: "way",
+    osm_id: 7,
+    lat: "41.31",
+    lon: "-4.91",
+    category: "amenity",
+    type: "music_venue",
+    name: "Sala Lumbre",
+    display_name:
+      "Sala Lumbre, Calle Mayor, Medina del Campo, Valladolid, Castilla y León, 47400, España",
+    extratags: { capacity: "898" },
+    ...overrides,
+  });
+
+  it("verifies it by name, city and province, with its OSM page as source", async () => {
+    const { fetch, calls } = fakeFetch({ search: () => json([lumbre()]) });
+    const [exists, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventWithoutCoordinates(),
+    );
+
+    expect(exists?.finding.verdict).toBe("pass");
+    expect(exists?.finding.sources[0]?.url).toBe(
+      "https://www.openstreetmap.org/way/7",
+    );
+    expect(capacity?.finding.verdict).toBe("pass");
+    expect(calls).toHaveLength(1);
+    expect(new URL(calls[0]?.url ?? "").searchParams.get("q")).toBe(
+      "Sala Lumbre, Medina del Campo, Valladolid",
+    );
+  });
+
+  it.each([
+    {
+      miss: "another venue of the city",
+      place: lumbre({ name: "Teatro Simón Ruiz" }),
+    },
+    {
+      miss: "a namesake in another town",
+      place: lumbre({
+        display_name: "Sala Lumbre, Calle Real, Olmedo, Valladolid, España",
+      }),
+    },
+    {
+      miss: "a namesake that isn't a venue",
+      place: lumbre({ category: "shop", type: "clothes" }),
+    },
+  ])("leaves it unknown when the search finds $miss", async (row) => {
+    const { fetch, calls } = fakeFetch({ search: () => json([row.place]) });
+    const [exists, capacity] = await createVenueChecks({ fetch, throttles })(
+      eventWithoutCoordinates(),
+    );
+
+    expect(exists?.finding.verdict).toBe("unknown");
+    expect(exists?.finding.detail).toContain("no guarda coordenadas");
+    expect(capacity?.finding.verdict).toBe("unknown");
+    // No point to look at: the reverse lookup is never asked.
+    expect(calls).toHaveLength(1);
+  });
+
+  it("says so when the search times out", async () => {
+    const { fetch } = fakeFetch({
+      search: () => {
+        throw new DOMException("timed out", "TimeoutError");
+      },
+    });
+    const [exists] = await createVenueChecks({ fetch, throttles })(
+      eventWithoutCoordinates(),
+    );
+    expect(exists?.finding.verdict).toBe("unknown");
+    expect(exists?.finding.detail).toContain("no respondió a tiempo");
+  });
+
+  it("keeps the lookup of a venue with coordinates as it was", async () => {
+    const context = eventWithoutCoordinates();
+    if (context.venue === null) throw new Error("fixture without a venue");
+    context.venue = { ...context.venue, latitude: 41.31, longitude: -4.91 };
+    const { fetch, calls } = fakeFetch({ search: () => json([lumbre()]) });
+    const [exists] = await createVenueChecks({ fetch, throttles })(context);
+
+    expect(exists?.finding.verdict).toBe("pass");
+    expect(exists?.finding.detail).toContain("de las coordenadas del evento");
+    expect(new URL(calls[0]?.url ?? "").searchParams.get("q")).toBe(
+      "Sala Lumbre, Medina del Campo",
     );
   });
 });

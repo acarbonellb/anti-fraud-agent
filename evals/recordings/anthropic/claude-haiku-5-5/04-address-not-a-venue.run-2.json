@@ -3,37 +3,42 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "run": 2,
-  "promptVersion": "review-v5",
-  "clock": "2026-11-04T19:16:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
   "calls": [
     {
-      "requestHash": "e058363009155bb473588f53a39a9e2f2e084d5c9db3a03a0d026cc093aa2bdb",
-      "latencyMs": 975,
+      "requestHash": "2befb9e9496e023759a581b5c37768662ca919349f78671a58712558b48b0b11",
+      "latencyMs": 1224,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01EjxJbx9DoJp35vEANDo5ZR",
+              "id": "toolu_01U2ctdge1pkPughJU91waAQ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
             },
             {
-              "id": "toolu_01KvaZYDYCYfLXZQ2RSKVQ5M",
+              "id": "toolu_019CZP3fKTyttaLwaLo8TSxJ",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\"}"
+            },
+            {
+              "id": "toolu_01SC9ZeJNodD88pgJvvfUX65",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia Avenida del Puerto Chico\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSmAUKEAgTGAI4AUIIdGhpbmtpbmcSDJKWZ1Pbg6pgOIXiwhoMxS/4ArTAJqkaC+m3IjAQMRuzXl/073AAvLoNV+IrtKoPO8vdjupGFmuql8t550E+fuLB8K6V2TefXxgamuEqtQTR8Th4xhufp0bKPetNAxMufkDtuoq4Qdu2pxx3AdNjlCnkrYN/NMr0yMqCILNfyMuN2wDSSxVoiFfAbM0kQThTWsrPePGZ0Mv5pR7mFVZZRU/Stue22hvxzRM5MqUqUTU9LoGC/h5tXqfocUftQI6oh7IDX9XPzEM7kKCQhzx3fNHaPgFaPXbH0jGNeGbePigdiuetR8PAofXCr6RVad+IhmDFZa1eeKKhTXEl6Xw1X5Up716i0ONzR1+h3fLh0+9JGg1P/5zb08Impbsd3VPWjF/mh3Fz+YRRDXIBNnoJ2Ef+UsyKJAM2GJijaMibGlf8bc6Sm3l2OCKc2uW6kxxpkR8Aso+XCDfiJFxB4NIQlHMG6Ok0YFZkw9eZ7ZQHURgt7TtKl3BYzD9gsSknXYS4j7iAjYrKNkNx9YOwJl2NPptiBKsfph0NsZ23Z/wx2urpL3QKJ5MkQXWgiyjCWSnbcA9OvLEHQh/N/oxv/4DKiVqQsvGDEdTuxh0eieg8vXd1vp7rb/M3WlpaTt9IcRSVijIuWXW5/ZxaVQkVgIfvbj2y0YHGD2gpeGGuYTq3HWkqakGi1zeQE+X5/G3WIlcvmE5CSwAO/utyuZQ04datkxtFVD5GQbs0gBE8ly4pqsuVSI/6pPvyv3SzZrxRcrzhcM86RVfXUA4Wjg2bWT9vL1qFmlvGxllN1yocFkJAgPTqD6EYythIByiK/rdGlE+GlnvJxLpQjNRbemljQbaGPisopwqkGAE="
+              "signature": "CAQSogUKEAgTGAI4AUIIdGhpbmtpbmcSDCk8muT3KgL1yi5y2RoMmgAfZcSGObNikEkUIjCHYaYttSrpcW7+m/DyOEP3Lr/SDN8aH89mNlpX6YJL/59sOi0TDZ7MihqW+yyW0rIqvwRVC+PqKWM7lKdlZTIcmpKk/GuYG82AsluOz+CqvlqUffqKDqbQNay50pWoIbuxEbzIRWAMJpnLihcLTF5LtHXF068gSikDUErVV9/J4G93d8m3/rkH8UbbJH0vJwEdV+1TYYLxIHKWXuApxpFQV54oOC7BtSc38lRG/0PgALqY3EG6rNf+BQN7O1KNPfyL5lMQSAynbFfGVyuy16keXizPBfLfYkZ3e+Z1RrVB6uLdFxgyIvn9mkc4S8meVHpa+cfJmQhoXaNjxyP2PJiN1rmG+Vozwp1SbVYh7tviavmR+1OF4hLVj4NmCc6YSZdo4KxjYjTZ8vUUXm/vWc5Y/mW6W4ILkJN6StfJiiYnfQOdFf77vk/3wMujjD+eSmrx2cBp0ifqmkS9324iHCQNv6LEbKhS6ZQbRCDaw6MD9i+N5x5wfwfRwNER1OT7+qq5dFBMWs7PdAOMiKLrNwF2pa/Xy6qq7eM8pf4FFnNhz19pwwCWTvgxb2BdtayXYWFB3rWo1Zd4tS0fLyQC/sI+qd5T/rEF99+WK8ZOIQkmxYbZqpMplA4ex3irKHG1w3IW1B30gDKCFiFV8cuZX1mF1W8pWfuqUqEYbbL8cpSgtaMRrSPqIduArIQtvooSa7r2fm5zyFh85mWro2YQjnGGlHtncYGQIxmApHfEoqe8Wav2qgGQ/8ozghicWo/m/Af4/pEd2Q3v8RiwoxRPV3q8237Roi0FIRQW7L0vFmJbhO+mEogzFbLbj/+6d1zZKIagvhgB"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01EjxJbx9DoJp35vEANDo5ZR",
+              "id": "toolu_01U2ctdge1pkPughJU91waAQ",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_774c4a6e05"
@@ -44,7 +49,7 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01KvaZYDYCYfLXZQ2RSKVQ5M",
+              "id": "toolu_019CZP3fKTyttaLwaLo8TSxJ",
               "name": "find_similar_events",
               "input": {
                 "eventId": "evt_80bf453bd4"
@@ -52,44 +57,13 @@
               "caller": {
                 "type": "direct"
               }
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4885,
-          "outputTokens": 140,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 4881
-        }
-      }
-    },
-    {
-      "requestHash": "8f60693de6913a03086f54e8fb7b672562116d12862f2c130fe5280456da0590",
-      "latencyMs": 1370,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "toolu_01UM5hfS6rZSxfhcHGbhHUhE",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Nadia Corell Sunset Sessions Valencia 25 noviembre 2026\",\"maxResults\":3}"
-            }
-          ],
-          "providerContent": [
-            {
-              "type": "thinking",
-              "thinking": "",
-              "signature": "CAQSgwgKEAgTGAI4AUIIdGhpbmtpbmcSDE4awEaq9aMl3wgPZBoMunyVYwI/v1NyseFXIjDtMeBBlQ6Aojj33OkcOsLqA1GMkMwIqis304uMrzfbeRu8ND9J/MdsY+173yP9muAqoAdOdZYhdRsDEzKOx2a+NlDZ5qMFfUMdB+jmbG+YAp5xVZAjOLISYT5n9C79rVekUHSkWqfroJSaTjcNrkWNFf55/qVGcweFx9uhohzPWrSLUReote3+kCJPea9+6lXWM8jxfU6bJ89mmUnlsN5319zxIETgOIBqlbGa//tCgwCFAQqAH4ZQPSmb1g3yBl8pTmb7+Lupn5g0EpHFjUAPX+p9JjfHC3YGZtLLKf5j83Eo+z3MC/iL9XNGE3FWu5RmiLpFRMy0MWbsB36hu2/d7ERHh9238rpjMd5y8QihsyvdhnPAHSEZ157uWbxbBTx8CzvpTsQMJIk3WCTJVcKmk16C49C/ntnCcRmzUMc7SMqXiaK4xGuPUq97fSafpVDESrR3XkwI8+q26U4NiRl2b5kdT1WvX5v+5tVUUDzuxxsDwD1q/8p9eiDlbzy74BJXtLtrdsIQ7weKjjvmSZ3zejlxAv7NaMpfc2H5G9PLfmBai+dvp0CFRhSozwP4yHkfMAsSJl23Sd4OSdDqXKwSPklLT1i7azMhZv4sfo9Gx7OGQCC/gMtSNEZwn9l17udV4GhLlVdAlEN+lkTxf5EucxyzbU1om3Sld0+8x9LxoNndx+cIx/JrW6pfT0J9p4Kj7f00AAX7DssspmamPJJYfWDNKChRYpzpuO/lorvZ+gNGvOeWNJXBac+JIKCjbQ/tDay3EiwNlSC7l0kj5xACNMn1C2yO/I+pGbK6Q93t3azPveC7/AzIH1rC4evgdPob/hqphC3qWo4XWEEg9wbBuKPQo5aj6gXhBDkyuslfxvy0adhI2mYLFU4/XFhnSN9xAU5B7DrQ8MDqjwdcQrtiud+Aq2BYT/e8WZGTJbKXHMwbWy3hMSXq/ZV6drNL7O0+X7n5VsKAr9gXgbaXN1WeeUEv6ny66fPQuy/dHG1PiDK/6mSS0x2JByqzNcGaC5U5LA7oLgm0OtlSdbjX4oK2qfpA0PzkrHG4AbP94LANnmvaLSqn6pghI6Kc9xktRy+yZGWPgrwuCHRuzRlsIyZ3GtXlSewyinh7UFXPWQR3pqPQQXBhYc/ccSHxA0sLfPoKYr8JECA5J6ymbPMFVAFZYJPVG4m3mL0ZpnIyCCUy6y7UR97Y88IBR8GQ9tBs8G2vzt2blWi0L3p10B5SpY25IK9PO8HlMnD+GiCDFuzn/VlkYFyO9+wEG2l6V+lbrvnj3T4sQJeMX/CZ57OyVnAPV9HkGAE="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01UM5hfS6rZSxfhcHGbhHUhE",
+              "id": "toolu_01SC9ZeJNodD88pgJvvfUX65",
               "name": "web_search",
               "input": {
-                "query": "Nadia Corell Sunset Sessions Valencia 25 noviembre 2026",
+                "query": "Espacio Marea Valencia Avenida del Puerto Chico",
                 "maxResults": 3
               },
               "caller": {
@@ -100,47 +74,47 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5609,
-          "outputTokens": 215,
-          "cacheReadInputTokens": 4881,
-          "cacheWriteInputTokens": 726
+          "inputTokens": 5201,
+          "outputTokens": 234,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5197
         }
       }
     },
     {
-      "requestHash": "18f40874895c06da7a2facd97a96ba3788bc512eda81ddc595fa4f72f69bac9c",
-      "latencyMs": 8349,
+      "requestHash": "bf0863d357a3610b03b5270b66d8e19c0efb0949693d920dac02d00b680081eb",
+      "latencyMs": 10255,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_0195XQL32D7WCiFAk8gqy4kD",
+              "id": "toolu_01MEa6RdWweVnBXd8fU4qj6E",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El organizador (Ona Clara Events S.L.) tiene un historial limpio: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas ni reportes. No hay eventos similares de otros organizadores ni coincidencias de precio. Sin embargo, la comprobación del recinto falla: las coordenadas del evento (39,41; -0,20) caen en el mar según OpenStreetMap y el recinto «Espacio Marea» no aparece en esa ubicación. No hay aforo verificado, y se ponen a la venta 600 entradas. Esto podría deberse a un error de geocodificación, pero no puede descartarse un recinto inexistente o mal localizado. La búsqueda web sobre la artista no encontró ninguna fecha que coincida. Se recomienda pedir al organizador la prueba del recinto antes de decidir.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento caen en el mar según OpenStreetMap y el recinto «Espacio Marea» no figura en esa ubicación. Podría ser un error de geocodificación, pero hay que confirmar la dirección real del local.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Sin aforo verificado para el recinto. Se ponen a la venta 600 entradas sin poder compararlas con la capacidad real.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Ona Clara Events S.L.: CIF con checksum válido, dirección en Valencia (CP 46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró presencia web del organizador fuera de la plataforma con la búsqueda realizada; no se verificó la web ni las redes.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares de otros organizadores en Valencia en la ventana de fechas.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda sobre Nadia Corell para el 25/11/2026 no devolvió resultados relevantes sobre la artista ni conflictos de fecha. No se pudo confirmar su existencia ni su agenda.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://findevalencia.es/evento/ram-sessions-sedajazz-happy-band-1617\",\"title\":\"FindeValencia: resultados de búsqueda sin relación\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 25 € dentro del rango de 42 eventos comparables (p90 35 €).\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la dirección exacta de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia)? Las coordenadas actuales caen en el mar.\",\"¿Puede aportar un contrato de alquiler, una autorización del local o una confirmación del recinto que acredite la reserva para el 25/11/2026?\",\"¿Cuál es el aforo oficial del local y cómo se justifican las 600 entradas a la venta?\",\"¿Puede indicar la web o redes oficiales del evento o de la artista Nadia Corell, y confirmar su participación en la fecha?\"],\"draft\":\"Hola,\\n\\nEstamos revisando el evento «Sunset Sessions junto al mar» antes de publicarlo del todo. Para completar la revisión, necesitamos:\\n\\n1. La dirección exacta de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia). Las coordenadas que tenemos no corresponden a un lugar en tierra firme.\\n2. Un documento que acredite que dispone del local para el 25/11/2026 (contrato, autorización o confirmación del recinto).\\n3. El aforo oficial del local, para justificar las 600 entradas a la venta.\\n4. La web o redes oficiales del evento y confirmación de la participación de Nadia Corell en esa fecha.\\n\\nCuando nos lo envíe, revisaremos de nuevo el evento. Gracias.\"}}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"La organizadora parece sólida (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin, sin reportes). El evento no tiene clones ni precios fuera de rango. El problema es el recinto: según OpenStreetMap, las coordenadas del evento (39,41; -0,20) caen en el mar y no aparece «Espacio Marea» allí. La propia heurística advierte de que OSM puede contener errores, así que podría ser un fallo de geolocalización y no fraude. No hay evidencia directa de fraude, por lo que recomiendo pedir información al organizador para confirmar la ubicación del recinto antes de decidir. La búsqueda web de verificación del recinto no devolvió resultados (cuota agotada), así que no hay fuente externa que confirme ni contradiga su existencia.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Según la comprobación automática, las coordenadas del evento caen fuera de todo término municipal (en el mar) y OpenStreetMap no tiene «Espacio Marea» en esas coordenadas. La dirección (Avenida del Puerto Chico 221, 46024 Valencia) no se ha podido confirmar externamente: la búsqueda web no devolvió resultados por cuota agotada. Puede tratarse de un error de geolocalización, pero hay que confirmar el recinto.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"No hay aforo verificado para el recinto. La entrada general pone a la venta 600 plazas, cifra que no se puede contrastar con el aforo real.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF con checksum válido, dirección fiscal en Valencia (46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Dónde se celebra exactamente el evento? Confirme la dirección completa de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia) y aporte el nombre comercial del local.\",\"¿Tiene el local licencia o permiso de actividad para aforo público? Aporte una copia o referencia.\",\"Aporte el aforo oficial del recinto para la sesión del 27/11/2026 y explique cómo se corresponde con las 600 entradas de la modalidad General.\",\"Si el recinto está en un espacio al aire libre o en una terraza junto al puerto, indique la zona exacta y cómo se accede.\"],\"draft\":\"Hola, hemos revisado el evento «Sunset Sessions junto al mar» (27/11/2026) y necesitamos confirmar algunos datos antes de publicarlo. La ubicación indicada para Espacio Marea (Avenida del Puerto Chico 221, Valencia) no coincide con la localización que tenemos registrada para ese recinto. Por favor, indíquenos la dirección exacta y el nombre comercial del local, su licencia o permiso de actividad, su aforo oficial y cómo se corresponde con las 600 entradas a la venta. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQSiAkKEAgTGAI4AUIIdGhpbmtpbmcSDLDfBZUwSI7vcWQNDRoMgTNuQxt/RyZdKBlkIjBUGTa1vxwIPLGncZME5uIhEPB622ZqJFlPd1gwNS0eMuaBCvv/LrrhH0bW7XySn0YqpQjFXoOzaBkTKhnyM3yFzg+a1ZkVKqeKH8G3Mq6VK2Y3p+RlAaN5a9ZnWVk2Pa7QR7E3xOJjy0Er7Y/AZvStOxA8t1YPw6KKu1ttFOXfoZckm8pBtV3vFTiaUOJ8Sg8uR/Rh/T4npmouDeS37VnWTgzVuv8f8xlk547mXJIypwF3dRk7P1h7dNOuWu5lhn0e5kLlVFGLrrC1E+L0DBCzjNFT/b10E2DDWn1wIs8J80b66jbqi+i0EpaZLG3Lx2/+s3ly33siK5IqMwCV3bZdci0/yT6huApuL8dZMZRQpsNbqJJYwkK3JZjJ9PHO5Uc1tv4GT41fudW8LglY5lA8t1rScSwkpjGHgXcTrTw7rWiNNsvi4vMtq8GXLtXuKUJZWGUwxZaFb2co3nAyftBJpxvnexXeN8yqFZG5RL03CniWwLxFRcOMwZV3FBBzHxUKoJpifyjgp4KpMN8gACLEJq6N529q1Zv9RZYZRafqGtXE5myl+xo0HEgedY1XWbxW9BjAlV+RLznDpV0DFjTqUCZLsd3j7FQZkul0MlnTdeRdFhW7YTv5mqFwtVFe5CDpaesW1Uff3JPog7aJyDmkwj44R+uZMTKSWnXWaS4X31A3dodMcZiQB14RcNmViQCNupne1+MC0aLPqIk58aNcstTlmRbcqgdymDY+MfTecAePIz6JKp8TZxDJ8pq7R5l+8vxIxVxzMujRIijbtfM1L9nXY3RXEVCsnonlgR2+lV0oZHWFzhdal5ZH8Okmg4iizjWOgw/wKEiG2gK+NSHwEBLX/tK1fmlUiZJqLBOkQSrQKRosIPP6/m1NbsskdGdS9am+SW90zrHlj10B0EIFh4ngCHYHywOE02tCWQrVUjV1BQxKfHccPcX1vyXPnsM01C8+ueB7kdW7m+kKTM6O9aZZx8EyhOuUXsQcwrBNUG3gjRAR/pfHzQ11f5lTmwH5SYvt2beoTYbhKAy2fUAy7HxabY/6P5xJHP4JcBxGBonm/nB3YQ/GDD/art5b25A0+Tmy4JQvYfIxNq2Y5lXfIELw6OojPp9+srxdgC8lyo1fyK0+iIsPGvnaXpcVJclEhdPyNaq9HQJGLeyL1cK3MKWE7wL+PxQwrWiPpQ9hS8+z/Meqz0XmyxmNN6GXH0GPwv+7+ertZ8rQd3hyeiaohRdUi28KoqdL8Ih8gGEYMjdpKxpmqS85FRNMMoTSe2lgdQmpw76zyC41AS+Kbpn1VAC88Uflvjh/11aXvaaZ5HBioKKRRvgPrIwdjKyuJmpjvU49UttmFRwVfSPP2fso0y8DKJyNqTLYxAis1kv2lJIJaN7r/34PQOy2W8leR721uKtyynPij2/qybpqoohjePijIbK0RN+M7/N50u25RgewE6FwcMpBleCDiQ9ljl8DadTGS7iDgxgB"
+              "signature": "CAQSkRcKEAgTGAI4AUIIdGhpbmtpbmcSDFOXDu2cLSR8ipNBshoMXKPeaZJXrnJ2Xdy/IjDjywrq3bkfcKfEi9NUweQ7TqVzmBXrK85VVbrVvVNHSbdBXzK1E8IlzxxSRY/KzPkqrhbK45uX1l6itSxJqXRCHFn1NWbyO4+tj/nSrRUgfGORJRHwBNdUaTE870ZwCg7MA/nSX4Dl44D5IcjkQgfVbGPN6swWZ5Z6Rt2i9dmf41TjPSM/Vvv3hBKI1GvYUQDvgU0LcOmp3U6qH8YAzQM6pvyQrbJ1L1ErlMPT7mi7LnY7eI7gzdIylHdoue5eyJsjudjPJ9InHil0AKY7OK9miar1rqDahIz1FznjYXmpPx9XHRd7osCFy6u18gAB8PjwwmyQQNWcYNNevOBqtzvU1CoVY6yhvbP1StpqL7ZsQ3TmcejajvBFcwwTxHI13lj91SNHQfiN0JJhmneCsXZg3F3VTzVLBb9tqDHuZTAcz6N0YbBinXSDbATW2WdSZqOJKrWeQRU+4k8wuvp4XhcillLD1IcpgU/FUi0qL8wuKTCYfZ17seFGvY/p5p0n4bNnQy8ZdFvE8o2V9ZsBdDscmpbTwZjdIQSR/3gD67spGoSlWMuBTDCoZGfqBsYrADVCDmirIGpRjnDFRSxhFn+/anG4FI7RGQhECgdtxVz9a4BSr/bWASNvel093VpAr+UWib0xg3ERCRDovP6koUz8Kk1DqtSEH+WNAKgGith5BWLbFnhVEU3noyXJCeHJG1Dd0rExIcFm+h7Nt92qpNvEleypCek8Vf4M06hE/k/S/Ooo4ZTebFRSclQkCUzPMJIvkO2xpOnXZHsZOzbDhSL1OZeOy1+kG2t+I502zzJ4JUsSBclOIk+07CtH/48nEXkQdS4QFcsDmhXp1doEGiWtA4bjQBFO02I4xTVsrb4IUoolTMseBXP+dsuDOt/XaOYXBgvf/LXBIXsSLu5JqHMFjwsSiBI0D6U92kKV9TySvCQVU7NFc3SZ+8kZ05hkRWYne4B66pZNq85Yzp77KB+2hfpAY1nADWPnN4r0hwD0NYEErd8I54pLLqK7wgZY8T0yLrlx2TeCfqlNJ16uCiZQ6nBtH06pyAYOtrzHntGah6mctqlq31/0YyhMHHxHpauXd88YCh62JW5rvJ5yUMC6IBYN9rZoIGZBVMlkpifXTyzJjEsp2hZZmQsmrnPFgZljgGmrYgjmaeYQO54FUcWg1GCjujNgT0w09KmOaAKxD/YqhFZIik4EN7OdTVZODZK7J5FcQF5khbeddqjhh7ankNJNYtlsFlKL6tBZ4hqGKFaSRVXkMTSj2J87Qg0tXrjdStaBVjEBFf2mvjhbwgF9hHqFTc1Hb5Yb6oiUZ/65MQVRX91LT5XjSSXejhr7Swed+0qjw+/p1KG9aWprMRH0TcPm8tQZgU9ROTZftzhydtMJMS4XpbAG9+ar/n5d1PZktnKLLWtz7G33MFFpQ9xXtaufdB9vkmGun5NSx3tVq0sepqe7F2hrFSg15f6AeuNU+a+x6WBbHEZohNZP2MGLOfL8fSVFSX7TnUyTbGp6cq9d/CuuBIMLTnFv0C7d/r18yEyPl5TYGJfESMW34dQw+KZkJeQkni8A1650WbgofTjOL9cvjRrsZbRTTOtPBRMmHVzUF/YMxuZlAI3WxaXmVpw5Jj99qZi7klfI49pDBUsTX7802lTbnd5zqojwk9ACD7JHtAsWdS9JCV7N236nISMMqwmJ+M5mR0rVHxtA0BcdVJ5/UqhZjeEucFDLeFXrErkr4X+Umu8hcJ+OcNXScvisFBqIT0Ux+j5KCRNKYCthQJ1lOAdB0kQCyhjqWn6lui8BpupUE1gGzhwgQlbwb5IWuGGfKzPPX3bviSnHwF8cZxbUUsQ2eanIGxxrqH+S1hmbfvWbr4WjVR1LziYLJEbfOJGURvq3t0NtpG8768Y8pNeMJe1imrMACzclmPeXwabIfheEQylIcHVBvv7Vl+PZVW4Q2ofjEhgc+YwbneymlAsLXDbCM5494F9Wzq29Dc79EgvJtaL7ojqyMYajlmnolEzl5vaGmeXGF/fosYcGtgiZq4xSliAzWMhqoq1K7vMAiGIjmmx397dxUMhtKl+H11IXliTXASqH06QGSe8j014O76920Zrsnl1H9f7c9ZIgYDIDdH4TPiFFYiKo+sfJIW9+/o6oUt3MfUq5q5/ThneD3cyUmq5eO8GI3Dp/lgFDQZsg/jWNIx2C7iRKHwrOfZfIdbR6hh2SuBGwoEvaozmjG3KlzzybKI2k1MWGVk51b9YncPwOwXmRpYkXQ6w+KRgRs9Z1JQUBPBscMe+0tbO2Zk+4ILKVxMf+hjgQkCCdDB7OIyroRbQJL5fgkDN2IYl6MbZrrJKAD1IoAv493yfzm9Ez7zgkl/PydWbinVx8EetyRbKZL8UfbNjevWph9lvzMaMNq64+f3XiDfqR8C349Q3P9HkpKhZl7Jk8D2dgAOk2X6WbALaN1mpvCx1HBVwBLWhFIh+ugDKiR18v8GxYOSM6OYx7gcV64UjwVPDvHxxdX1I4C1uaErh8GA4XWe+6Pj41YbYI74+8MOK8wy/rTFuztVzLuP/msnRisJsO/bv9Ose1PnjaWRsy9lC/anvrrF2K16238HZikx2eZyEmOARUEn3DP/DRyxB74i8hvztawh+2WsrvIAC/eNGRACuzeXaD85Smc8Fhc6VtF4hWPe8AoNerfRHXv/s6Ut9vTOaX4YLPeIjl/MJpLsqWaeYWe9cFPaM4DygguCvIlJytLv4hFe2cLvNdmibJjd96xzPOGOXrLjp4017FR/tgs2w/QedmxhChqauaHK2nz7f4WzyE2ewV1PRqI421irQJ/dfK18D+InsYBC3kpvu2mUEWMjrJkyv3K4PftJy/6FVIWu9IeL7sf06j4Gwshpl3OCI2EGrIeZWyXWi82yjovluyFqC0JO7BG1Nec45FENWMxCj8nTmfaNO6Hj7xloL3DeFIfKN8jgHfm4yR8gJmeURQDAZ5sfPbtPjT4M4OpU2hOMcD7P6l02r6qCSpgEidZv2nnQABpZ9d4+kL0+13qTZJWbDpSlN2hz46273h4XmFVfcwVb25ZhYncihPDqzZDthLG1x5JeDa81NDM89pTcpUIeyDFA/9SlC0iJBTM6MdEo9IW9m+ap33uzalCFArUqojRgJBFsqrQM24rvC2/8PRLQyldSc7+JHLAwZi//M3ZINwkorp+z8r+epkd20opW3GyUd9MeYVjGBsI6b6Rwzs0gkHhuX0p49GGPOn/B9fvQb3HOEQoSrr9t+WCbWlf4xuDyHXc3x/AqTCIVO6j0/qB4fdPo/pOH059DzAIDpDbVaI8I50idEj8+VxJnXFiuBSxYbOqGXLjCHWgWirs6tuR50i5D5XuykdHWiIZmG2IAnmCYUl0En1qY8l7ZmLrD1up9yXS68VlTNompDnJ6WmV8uawFfpbyQxXbic5X18pYt/Bo/p59E0i5bFqO7oebTL+aT/0A39IOfXPgzMBVKxL/80vKREdFeX9VD4vGT1TTDTalbYcpKsjVXsC2w3UhEZS5sY2IgwHnL06JKs/AEDR8ILBoJBhyqBxqCKkc7yklTDOGNVk3ITFjWH+8W+su32sC6x3btcMUA9RJExqXaCyjWIN4KrpntobeA05/hrRUvwaH1d5JhQ/0QjUzU98MfBa3rNnhrBoZqribgkywJ2LsbQQxlTsaZw8DoVo0WkX+4IvzRwD9QnmXSz9tBuxYQzHOr1uISjHVJx2gOANf/aiPqyxsG4AYXgKWcikdNw79A6PyVkaIamLClhS2EaqmzS7kaLhApi/dZt1h8RAdfbPLH0y2vYRjtJwcPrtKHX6N3TlKxYCGVyPwx9jh9NgDsjDzwx+wRcU72jgwZXSRIYoYeHQ+tERCHZGhMYAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_0195XQL32D7WCiFAk8gqy4kD",
+              "id": "toolu_01MEa6RdWweVnBXd8fU4qj6E",
               "name": "submit_recommendation",
               "input": {
                 "decision": "request_info",
                 "confidence": 0.6,
-                "rationale": "El organizador (Ona Clara Events S.L.) tiene un historial limpio: cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas ni reportes. No hay eventos similares de otros organizadores ni coincidencias de precio. Sin embargo, la comprobación del recinto falla: las coordenadas del evento (39,41; -0,20) caen en el mar según OpenStreetMap y el recinto «Espacio Marea» no aparece en esa ubicación. No hay aforo verificado, y se ponen a la venta 600 entradas. Esto podría deberse a un error de geocodificación, pero no puede descartarse un recinto inexistente o mal localizado. La búsqueda web sobre la artista no encontró ninguna fecha que coincida. Se recomienda pedir al organizador la prueba del recinto antes de decidir.",
+                "rationale": "La organizadora parece sólida (cuenta de 930 días, CIF válido, 14 eventos publicados sin cancelaciones ni retiradas por admin, sin reportes). El evento no tiene clones ni precios fuera de rango. El problema es el recinto: según OpenStreetMap, las coordenadas del evento (39,41; -0,20) caen en el mar y no aparece «Espacio Marea» allí. La propia heurística advierte de que OSM puede contener errores, así que podría ser un fallo de geolocalización y no fraude. No hay evidencia directa de fraude, por lo que recomiendo pedir información al organizador para confirmar la ubicación del recinto antes de decidir. La búsqueda web de verificación del recinto no devolvió resultados (cuota agotada), así que no hay fuente externa que confirme ni contradiga su existencia.",
                 "findings": [
                   {
                     "check": "venue_exists",
                     "verdict": "fail",
-                    "detail": "Las coordenadas del evento caen en el mar según OpenStreetMap y el recinto «Espacio Marea» no figura en esa ubicación. Podría ser un error de geocodificación, pero hay que confirmar la dirección real del local.",
-                    "confidence": 0.7,
+                    "detail": "Según la comprobación automática, las coordenadas del evento caen fuera de todo término municipal (en el mar) y OpenStreetMap no tiene «Espacio Marea» en esas coordenadas. La dirección (Avenida del Puerto Chico 221, 46024 Valencia) no se ha podido confirmar externamente: la búsqueda web no devolvió resultados por cuota agotada. Puede tratarse de un error de geolocalización, pero hay que confirmar el recinto.",
+                    "confidence": 0.6,
                     "sources": [
                       {
                         "url": "https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2",
@@ -151,66 +125,40 @@
                   {
                     "check": "venue_capacity",
                     "verdict": "unknown",
-                    "detail": "Sin aforo verificado para el recinto. Se ponen a la venta 600 entradas sin poder compararlas con la capacidad real.",
-                    "confidence": 0.6,
+                    "detail": "No hay aforo verificado para el recinto. La entrada general pone a la venta 600 plazas, cifra que no se puede contrastar con el aforo real.",
+                    "confidence": 0.5,
                     "sources": []
                   },
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Ona Clara Events S.L.: CIF con checksum válido, dirección en Valencia (CP 46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
-                    "confidence": 0.8,
+                    "detail": "CIF con checksum válido, dirección fiscal en Valencia (46024), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.85,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 retiradas por admin, 0 reportes de contenido, sin revisiones previas.",
+                    "detail": "14 eventos publicados, 0 cancelados, 0 retirados por admin, 0 reportes de contenido y sin revisiones previas.",
                     "confidence": 0.85,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_web_presence",
-                    "verdict": "unknown",
-                    "detail": "No se encontró presencia web del organizador fuera de la plataforma con la búsqueda realizada; no se verificó la web ni las redes.",
-                    "confidence": 0.3,
                     "sources": []
                   },
                   {
                     "check": "similar_event",
                     "verdict": "pass",
-                    "detail": "No hay eventos similares de otros organizadores en Valencia en la ventana de fechas.",
-                    "confidence": 0.7,
-                    "sources": []
-                  },
-                  {
-                    "check": "artist_availability",
-                    "verdict": "unknown",
-                    "detail": "La búsqueda sobre Nadia Corell para el 25/11/2026 no devolvió resultados relevantes sobre la artista ni conflictos de fecha. No se pudo confirmar su existencia ni su agenda.",
-                    "confidence": 0.3,
-                    "sources": [
-                      {
-                        "url": "https://findevalencia.es/evento/ram-sessions-sedajazz-happy-band-1617",
-                        "title": "FindeValencia: resultados de búsqueda sin relación"
-                      }
-                    ]
-                  },
-                  {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "Precio de 25 € dentro del rango de 42 eventos comparables (p90 35 €).",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.",
                     "confidence": 0.7,
                     "sources": []
                   }
                 ],
                 "infoRequest": {
                   "questions": [
-                    "¿Cuál es la dirección exacta de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia)? Las coordenadas actuales caen en el mar.",
-                    "¿Puede aportar un contrato de alquiler, una autorización del local o una confirmación del recinto que acredite la reserva para el 25/11/2026?",
-                    "¿Cuál es el aforo oficial del local y cómo se justifican las 600 entradas a la venta?",
-                    "¿Puede indicar la web o redes oficiales del evento o de la artista Nadia Corell, y confirmar su participación en la fecha?"
+                    "¿Dónde se celebra exactamente el evento? Confirme la dirección completa de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia) y aporte el nombre comercial del local.",
+                    "¿Tiene el local licencia o permiso de actividad para aforo público? Aporte una copia o referencia.",
+                    "Aporte el aforo oficial del recinto para la sesión del 27/11/2026 y explique cómo se corresponde con las 600 entradas de la modalidad General.",
+                    "Si el recinto está en un espacio al aire libre o en una terraza junto al puerto, indique la zona exacta y cómo se accede."
                   ],
-                  "draft": "Hola,\n\nEstamos revisando el evento «Sunset Sessions junto al mar» antes de publicarlo del todo. Para completar la revisión, necesitamos:\n\n1. La dirección exacta de Espacio Marea (Avenida del Puerto Chico 221, 4.º C, Valencia). Las coordenadas que tenemos no corresponden a un lugar en tierra firme.\n2. Un documento que acredite que dispone del local para el 25/11/2026 (contrato, autorización o confirmación del recinto).\n3. El aforo oficial del local, para justificar las 600 entradas a la venta.\n4. La web o redes oficiales del evento y confirmación de la participación de Nadia Corell en esa fecha.\n\nCuando nos lo envíe, revisaremos de nuevo el evento. Gracias."
+                  "draft": "Hola, hemos revisado el evento «Sunset Sessions junto al mar» (27/11/2026) y necesitamos confirmar algunos datos antes de publicarlo. La ubicación indicada para Espacio Marea (Avenida del Puerto Chico 221, Valencia) no coincide con la localización que tenemos registrada para ese recinto. Por favor, indíquenos la dirección exacta y el nombre comercial del local, su licencia o permiso de actividad, su aforo oficial y cómo se corresponde con las 600 entradas a la venta. Gracias."
                 }
               },
               "caller": {
@@ -221,10 +169,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 6658,
-          "outputTokens": 2010,
-          "cacheReadInputTokens": 5607,
-          "cacheWriteInputTokens": 1049
+          "inputTokens": 6135,
+          "outputTokens": 2285,
+          "cacheReadInputTokens": 5197,
+          "cacheWriteInputTokens": 936
         }
       }
     }
@@ -237,59 +185,17 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/DYX42dyClpN",
-            "title": "Instagram",
-            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and The Roof  \n🗓️ 17.05.2026  \n  \n¿Vienes con la marea o te quedas en la orilla? 🌊\n\ncolominaclaudia's profile picture\n\ncolominaclaudia\n\nElla también icónica como siempre adoro jajajaj😍\n\nReply"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=VxokmcmE6OU",
-            "title": "Mareas del Atardecer Cuban Sunset House with Ocean Deep Rhythm",
-            "snippet": "[2:13:54] [música]\n[2:13:57] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda secretos.\n[2:14:02] [música]\n[2:14:03] Tú y yo podemos bailar. Ya se esconde entre sombras, trompeta deja de hablar.\n[2:14:09] Son [música] cubanos no se envuelve como ola sobre cristal. Cuerpo que giran sin tocar pero sienten igual. Manos [música] [...] [1:08:15] [música]\n[1:08:18] Suave, [música] no corras.\n[1:08:25] La noche respira, sal y el bajo [música] flota.\n[1:08:36] [música]\n[1:08:42] [música"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=xQENVYfVRY8",
-            "title": "Deep House Sunset Session 🌅 DJ Set en Terraza de Hotel 5 Estrellas | Luxury Lounge Vibes",
-            "snippet": "Disfruta de una sesión exclusiva de Deep House en una espectacular terraza de hotel de 5 estrellas al atardecer. Un ambiente elegante, gente disfrutando de cócteles, vistas increíbles y la mejor música electrónica para crear el mood perfecto de lounge, sunset y luxury vibes.\n\nEste set está pensado para acompañar tardes de verano, terrazas, chill out, hoteles, beach clubs y momentos de relax con un sonido profundo, elegante y envolvente. [...] Perfecto para: • Relax • Terrazas y rooftop vibes • B"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=cqF_P16c3sk",
-            "title": "Sunset Lounge Music & Ocean Views 🌊 Sunset & Sea",
-            "snippet": "[24:59] Boats are leaving slowly and the [music] sun is coming up.\n[25:07] Coffee at the marina. You laugh and [music] look away.\n[25:15] I think I could love you on an ordinary day.\n[25:22] You [music] told me about your brother and the house where you grew up. [music]\n[25:30] I told you about my father and the things I never said [music] enough.\n[25:38] the way to clear the table. But we [music] order one more round. [...] [1:04:17] stood a house painted white with old wooden windows [music] f"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=HH0JThOsK9I",
-            "title": "Mareas del Anochecer Cuban Sunset House with Ocean Deep Rhythm",
-            "snippet": "[1:33:36] [música]\n[1:33:40] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda secretos\n[1:33:45] [música]\n[1:33:46] tú y yo podemos bailar. Ya se esconde entre sombras. Trompeta deja de hablar.\n[1:33:53] Son cubanos, nos envuelve como ola sobre cristal. [música] Cuerpo que giran sin tocar pero sienten igual. Manos tiemblan [...] [16:33] [música]\n[16:34] DJ y abre espacio al aire cada trac un nuevo mar. La noche guarda [música] secretos. Tú y yo podemos bailar. Ya se\n[16:43] esco"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "3fb35e46ee8c4788e11ad1fddbc1cd69accd4049e4a1c2208e233cbaf55b700d",
+      "requestHash": "6613b54e7e4bf86a15a8105141520426acba0c9fab9f71cd7db3bfa2974ccaeb",
       "provider": "Tavily",
-      "query": "Nadia Corell Sunset Sessions Valencia 25 noviembre 2026",
+      "query": "Espacio Marea Valencia Avenida del Puerto Chico",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://findevalencia.es/evento/ram-sessions-sedajazz-happy-band-1617",
-            "title": "Ram Sessions: Sedajazz Happy Band · La Rambleta · 8 nov 2026 — FindeValencia",
-            "snippet": "🔗 Web oficial / más info\n\nConciertos · Noviembre de 2026 →\n\n## Más planes ese fin de semana\n\n Viernes, 6 de noviembre Lucía Joyce Sala Russafa ↗\n Viernes, 6 de noviembre Gran Gaitazo Valencia 2026 Sala Moon ↗\n Viernes, 6 de noviembre El Sentido De La Birra Teatro La PlaZeta ↗\n Viernes, 6 de noviembre Carlos Sadness + Juan Belda. Gandiautor'26 Fomento AIC Gandia ↗\n\nExplora la agenda por mes →\n\n## Más eventos en València\n\n \n\n  El Día H: homenaje a Héroes del Silencio en Roig Arena [...] Saltar al"
-          },
-          {
-            "url": "https://www.eventbrite.com/d/spain--valencia/electronic-music",
-            "title": "Discover Electronic Music Events & Activities in Valencia, Spain | Eventbrite",
-            "snippet": "Paterna · Noches de Bohemia - Restaurante El Jarro\n\nHomenage a falla - Mireia Luna primary image\n\n### Homenage a falla - Mireia Luna\n\nThu, Nov 26, 7:30 PM\n\nValéncia · Lo Rat Penat\n\nHomenage a falla - Mireia Luna primary image\n\n### Homenage a falla - Mireia Luna\n\nThu, Nov 26, 7:30 PM\n\nValéncia · Lo Rat Penat\n\nFeria de la Chinita y Elección de la Reina 2026 primary image\n\n### Feria de la Chinita y Elección de la Reina 2026\n\nSat, Nov 21, 4:00 PM\n\nMassanassa · Sala Madinson [...] Feria de la Chinita"
-          },
-          {
-            "url": "https://conocevalencia.es/es/eventos/nola-jazz-sessions-ca-revolta-septiembre-2026",
-            "title": "NOLA Jazz Sessions en Ca Revolta: jazz de Nueva… · 7–28 sept",
-            "snippet": "Desde septiembre de 2026, Ca Revolta acoge las NOLA Jazz Sessions, un evento semanal que trae a Valencia el jazz tradicional de Nueva Orleans. Cada lunes a las 20:30, el recinto se llena de música en vivo con un repertorio inspirado en los años 20, ideal para bailar y disfrutar de una noche diferente. [...] Música\n\n  ### Volumens 2026\n\n  mié, 14 de octubre\n\n  Bombas Gens y CaixaForum Valencia\n\n  Desde 10 €Entradas\n Halloween: Bus lanzadera (Marina Sur-Valencia -> Spook)\n\n  Música\n\n  ### Hallowee"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

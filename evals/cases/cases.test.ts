@@ -1,5 +1,5 @@
-// Checks the brief §5 dataset as built: all 31 cases are there, each named
-// by its file; their contexts parse with the contract schemas at any clock;
+// Checks the dataset as built: the brief §5 cases and the calibration ones
+// (spec #71) are there, each named by its file; their contexts parse with the contract schemas at any clock;
 // no field leaks the answer; and each fixture triggers exactly the
 // deterministic and venue findings it is meant to, so a case tests the agent
 // and not a typo in its fixture. Fakes nothing but the network: the venue
@@ -9,7 +9,10 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { runEventChecks } from "../../src/checks/event-checks.js";
+import {
+  IMMINENT_HOURS,
+  runEventChecks,
+} from "../../src/checks/event-checks.js";
 import { runOrganizerChecks } from "../../src/checks/organizer-checks.js";
 import {
   benchmarkQuery,
@@ -34,14 +37,18 @@ const CLOCKS = [
 
 const IDS = [
   ...Array.from({ length: 26 }, (_, i) => String(i + 1).padStart(2, "0")),
+  // Spec #71's calibration cases, after the brief's.
+  "27",
+  "28",
   "N1",
   "N2",
   "N3",
   "N4",
   "N5",
+  "N6",
 ];
 
-it("holds the 31 cases of brief §5 in order, one file each", () => {
+it("holds the brief §5 cases and the calibration ones in order, one file each", () => {
   expect(EVAL_CASES.map((c) => c.id)).toEqual(IDS);
   const files = readdirSync(new URL(".", import.meta.url))
     .filter((file) => /^(\d\d|N\d)-.+\.ts$/.test(file))
@@ -61,7 +68,7 @@ it("gives authored web pages to the cases whose entities are invented", () => {
   const clock = CLOCKS[0] ?? new Date();
   expect(
     EVAL_CASES.filter((c) => c.build(clock).web !== undefined).map((c) => c.id),
-  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4"]);
+  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4", "N6"]);
 });
 
 describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(
@@ -124,6 +131,8 @@ const EXPECTED_FLAGS: Record<string, string[]> = {
   "24": ["rule minors_alcohol"],
   "25": ["heuristic prompt_injection"],
   "26": ["rule off_platform_payment"],
+  "27": ["heuristic session_timing"],
+  "28": ["heuristic discounts"],
 };
 
 it.each(EVAL_CASES.map((c) => [c.id, c] as const))(
@@ -166,6 +175,9 @@ const EXPECTED_VENUE: Record<string, string[]> = {
   "18": ["venue_exists pass", "venue_capacity pass"],
   N1: ["venue_exists pass", "venue_capacity pass"],
   N5: ["venue_exists unknown", "venue_capacity unknown"],
+  // No coordinates: found by name, town and province (#74). No open source
+  // publishes its capacity, and 250 tickets is under the exposure cap.
+  N6: ["venue_exists pass", "venue_capacity unknown"],
 };
 const TOOL_RESPONSES = loadToolRecordings(
   fileURLToPath(new URL("../tool-responses", import.meta.url)),
@@ -208,24 +220,27 @@ function strings(value: unknown, key = ""): string[] {
   return [];
 }
 
-// Case 17's story is told in Madrid time; the clocks above fall in winter
-// (UTC+1) and in summer (UTC+2).
+// Case 17 is imminent after publishing, not already held: its session is
+// ahead of the review at every clock, and the warning reads in Madrid time,
+// winter (UTC+1) and summer (UTC+2).
 it.each(CLOCKS)(
-  "case 17 is published at 23:00 for 09:00 the next day, Madrid time, at %s",
+  "case 17 starts after the review and within 12 h of publishing, at %s",
   (clock) => {
     const evalCase = EVAL_CASES.find((c) => c.id === "17");
     const event = evalCase?.build(clock).event;
-    const madrid = (iso: string | null | undefined) =>
-      new Date(iso ?? "").toLocaleString("en-GB", {
-        timeZone: "Europe/Madrid",
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    const published = madrid(event?.event.publishedAt);
-    const starts = madrid(event?.sessions[0]?.startsAt);
-    expect(published).toMatch(/ 23:00$/);
-    expect(starts).toMatch(/ 09:00$/);
-    expect(starts.slice(0, 3)).not.toBe(published.slice(0, 3));
+    if (event === undefined) throw new Error("case 17 is an event case");
+    const starts = Date.parse(event.sessions[0]?.startsAt ?? "");
+    const published = Date.parse(event.event.publishedAt ?? "");
+    expect(starts).toBeGreaterThan(clock.getTime());
+    expect(starts - published).toBeLessThan(IMMINENT_HOURS * 3_600_000);
+    const madrid = new Date(starts).toLocaleString("es-ES", {
+      timeZone: "Europe/Madrid",
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+    const [warning] = runEventChecks(event, clock).filter(
+      ({ finding }) => finding.verdict === "warn",
+    );
+    expect(warning?.finding.detail).toContain(`(${madrid})`);
   },
 );

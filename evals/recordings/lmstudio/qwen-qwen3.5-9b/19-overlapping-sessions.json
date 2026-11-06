@@ -2,19 +2,19 @@
   "caseId": "19",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-05T20:21:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "dfa578129a73538f3b60388acad82ca0e910a1d93ba152093ea513e58c893677",
-      "latencyMs": 3449,
+      "requestHash": "6e50b0919d116ddc8426615bd9a95b6f486c18f8361b1333214230a2f58505df",
+      "latencyMs": 2970,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "uYbscFG8nPBXvnrseh4OR3XbNspDinBT",
+              "id": "lkhvfpxhUTpLQbey4CN6TOpDWVtsrYjn",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a72d073526\"}"
             }
@@ -22,21 +22,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3626,
+          "inputTokens": 3794,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "6743bee436ccc93720ef7be8bee16346db62ded6e08c62e1faa65adc5e60d549",
-      "latencyMs": 1480,
+      "requestHash": "98379d070bbb0634685682ecdd1a717fd67ffead58363b65e8595245b0f6e875",
+      "latencyMs": 1408,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "a0C6MvQSNmhgM45duA0Ds5m0b2RktYyg",
+              "id": "LYxqMPhV23ko38H8YEhEmBcmtKkiYNha",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Zentral Pamplona aforo capacidad teatro\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4187,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "ed1dfd331eb16cfbcc31e6a66569e724bb413617956715ecad84661b8e25312f",
+      "latencyMs": 1380,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ULP6oGiM3ZL1USfXZXoqUQ8Y8kBa5R2b",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ea4cff2828\",\"windowDays\":60}"
             }
@@ -44,181 +66,35 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4019,
+          "inputTokens": 4330,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "828bc94a4f20e016c864555645acf459701563af0023dbd8acb372cc1edba997",
-      "latencyMs": 1437,
+      "requestHash": "55f122896337e1dae582b0c845cca79e32dc451c5ddaf59c5a00766e60ad7771",
+      "latencyMs": 38374,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "He revisado el evento y el organizador. Aquí están los hallazgos clave:\n\n**Problema crítico detectado:**\n- **Solape de sesiones (session_dates: fail):** Las dos sesiones del mismo día (27/11/26) se solapan: la primera termina a las 14:00, pero la segunda empieza a las 13:00. Esto es una contradicción técnica grave que no tiene explicación inocente.\n\n**Contexto del organizador:**\n- \"Telón Rojo Teatro\" es un organizador aprobado desde mayo de 2024 con 14 eventos publicados y 12 finalizados sin cancelaciones.\n- Datos fiscales válidos, cuenta antigua (930 días), equipo completo.\n- Sin reportes de contenido ni despublicaciones por admin.\n\n**Otros puntos:**\n- El local \"Zentral\" existe en Pamplona (verificado en OpenStreetMap).\n- Los precios están dentro del benchmark para teatro en Navarra.\n- No hay eventos similares detectados.\n- La búsqueda web sobre el aforo falló por cuota excedida, pero esto no es un problema de fraude.\n\n**Conclusión:**\nEl solape de sesiones es una falla técnica grave que indica inconsistencia en la publicación del evento. No tiene explicación inocente y contradice la lógica básica de programación de eventos. Esto constituye evidencia directa de error/fraud (posible intento de duplicar entradas o error malicioso).\n\n**Recomendación:** RECHAZAR por el solape de sesiones detectado, que es una falla determinista grave sin explicación inocente posible.",
           "toolCalls": [
             {
-              "id": "Sv9sKNIhkdWvnKypqifnnIY1iwhVZAbm",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" teatro Pamplona Hilo Fino\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4158,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "90dfcddd0c1b546d96bd99f208c4e7e85d86ccf2ddcdc1a95eb62e78fb8d6d3d",
-      "latencyMs": 1610,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "7vp30EYSqnNzLsbuP1VjXRvB6LjIRExc",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Compañía Hilo Fino\\\" teatro Pamplona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4523,
-          "outputTokens": 49
-        }
-      }
-    },
-    {
-      "requestHash": "eda9d9c52e0de68909cdd57e1fc4773a2058bb84739876d1bd68f92ec49059ce",
-      "latencyMs": 1632,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "bspYeGvWpSZP3zZc9aupvbbRSGsQFXfL",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"El jardín de las sombras\\\" obra teatro 2026 Pamplona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4886,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "70f0073f9a60f120316f918d7d8274b39d4126e147f02e910cbdcb577e6d54f0",
-      "latencyMs": 1579,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "Kq8zPfjAKolA84VTEnVCcKolmGo1nTMV",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Compañía Hilo Fino\\\" \\\"El jardín de las sombras\\\"\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5286,
-          "outputTokens": 52
-        }
-      }
-    },
-    {
-      "requestHash": "53457fc9646ae51c0a49bfbd39f5c6eaafa916c3eaf1e0d0660e5003c3b3b771",
-      "latencyMs": 1653,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "5V7rTlPZSkjTWlNjwYVWWmwIz2DF7OdP",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Telón Rojo Teatro\\\" Pamplona \\\"El jardín de las sombras\\\"\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5677,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "3cb44a2d4e4954443576fd6dd3bc56aefcd90324b6e451f58d1b78add04e6106",
-      "latencyMs": 33643,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el contexto del organizador. Aquí está mi análisis:\n\n**Hallazgos clave:**\n\n1. **Solape de sesiones (FAIL):** El evento tiene dos sesiones programadas para el mismo día (26/11/2026): una de 18:00-20:00 y otra de 19:00-21:00. La segunda empieza antes de que termine la primera, lo cual es un error técnico grave en la programación.\n\n2. **Organizador:** \"Telón Rojo Teatro\" está aprobado desde mayo de 2024, tiene fiscalidad verificada (CIF válido), cuenta con 14 eventos publicados y 12 finalizados sin cancelaciones. No hay reportes de contenido ni despublicaciones por admin. Parece un organizador legítimo.\n\n3. **Nombre de la compañía:** El evento menciona \"Compañía Hilo Fino\", pero las búsquedas web no encuentran esta compañía con esa obra en Pamplona. Hay referencias a \"Hilos de Luz y Sombras\" (una obra diferente) y a \"Teatro Línea de Sombra\" (otra compañía), pero nada que confirme la existencia de \"Compañía Hilo Fino\" como entidad teatral activa en Navarra.\n\n4. **Descripción:** La descripción dice \"estrena su nueva obra de teatro\", pero no hay evidencia externa de esta obra ni de esta compañía. Las búsquedas web no encuentran \"El jardín de las sombras\" asociada a Pamplona o a una compañía llamada Hilo Fino.\n\n5. **Precio y aforo:** Los precios están dentro del benchmark (22€ para teatro en Navarra, aforo 300-1000). El aforo vendido es de 300, pero el recinto tiene un aforo declarado de 900 según su web. Esto no es un problema grave por sí solo, pero la verificación de capacidad es \"unknown\".\n\n6. **No hay señales de fraude:** No hay pagos fuera de plataforma, enlaces externos abusivos, términos abusivos, contenido ilegal, etc.\n\n**Decisión:**\n\nEl solape de sesiones es un error técnico claro que debe corregirse antes de aprobar el evento. Además, la falta de evidencia externa sobre la compañía \"Hilo Fino\" y la obra \"El jardín de las sombras\" genera dudas sobre la autenticidad del evento, aunque no hay señales de fraude directo.\n\nRecomiendo **request_info** para aclarar:\n- Por qué hay dos sesiones solapadas (¿es un error? ¿deben corregirse?)\n- Quiénes son los artistas/compañía detrás de \"Hilo Fino\" y si tienen presencia externa verificable\n- Confirmación de que la obra es original y no copiada",
-          "toolCalls": [
-            {
-              "id": "g6xW5phvPHXK6NcyY1m3rK3DLq9CQ64N",
+              "id": "5TmWpYscvjdeWDrcUMrUIqBNUPGhR1Sf",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El evento presenta un error técnico grave: dos sesiones solapadas el mismo día (18:00-20:00 y 19:00-21:00). Además, no hay evidencia externa verificable de la compañía \\\"Hilo Fino\\\" ni de la obra \\\"El jardín de las sombras\\\" en Pamplona. El organizador Telón Rojo Teatro parece legítimo (aprobado desde 2024, fiscalidad válida, historial limpio), pero necesitamos aclarar el solape y la autenticidad del evento antes de aprobarlo.\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 26/11/26, 20:00 empieza antes de que acabe la anterior).\",\"confidence\":1,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"warn\",\"detail\":\"No se encuentra evidencia externa de 'Compañía Hilo Fino' ni de la obra 'El jardín de las sombras' en Pamplona. Búsquedas web no confirman existencia de esta compañía teatral activa en Navarra.\",\"confidence\":0.65,\"sources\":[{\"url\":\"https://tavily.com/knowledge/company/flgCfP0euLlT\",\"title\":\"Hilo Fino\"},{\"url\":\"https://festivalpendientesdeunhilo.com/programacion-2025\",\"title\":\"Programación 2025\"}]},{\"check\":\"text_originality\",\"verdict\":\"warn\",\"detail\":\"La descripción del evento menciona 'Compañía Hilo Fino estrena su nueva obra de teatro' sin que se pueda verificar la existencia de esta compañía ni de la obra en fuentes externas.\",\"confidence\":0.6,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué hay dos sesiones solapadas el mismo día? ¿Deben corregirse las fechas/horas?\",\"¿Quiénes son los artistas/compañía detrás de 'Hilo Fino'? ¿Tienen presencia externa verificable (web, redes sociales)?\",\"¿Es 'El jardín de las sombras' una obra original o está copiada de otra fuente?\"],\"draft\":\"Necesitamos aclarar el solape de sesiones y la autenticidad del evento antes de aprobarlo.\"}}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta un fallo crítico en la programación: dos sesiones del mismo día (27/11/26) se solapan temporalmente. La primera sesión termina a las 14:00, pero la segunda empieza a las 13:00. Esta contradicción técnica grave no tiene explicación inocente y representa un error de publicación que podría permitir la venta de entradas para sesiones que no pueden coexistir. El organizador \\\"Telón Rojo Teatro\\\" tiene historial limpio (14 eventos, 12 finalizados sin cancelaciones), datos fiscales válidos y cuenta antigua, pero el solape de sesiones es una falla determinista grave que contradice la lógica básica de programación de eventos teatrales. No hay evidencia de fraude adicional, pero este error técnico grave justifica el rechazo por inconsistencia en la publicación del evento.</parameter>\\n<parameter=findings>\\n[{\\\"check\\\": \\\"session_dates\\\", \\\"verdict\\\": \\\"fail\\\", \\\"detail\\\": \\\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 14:00 empieza antes de que acabe la anterior).\\\", \\\"confidence\\\": 0.95, \\\"sources\\\": [{\\\"url\\\": \\\"https://deterministic_checks_nonce_47e9e7c345e4d93749780751\\\", \\\"title\\\": \\\"Deterministic checks\\\"}]}, {\\\"check\\\": \\\"organizer_identity\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Organizador 'Telón Rojo Teatro' aprobado desde 2024-05-20, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, sin reportes de contenido ni despublicaciones por admin.\\\", \\\"confidence\\\": 0.9, \\\"sources\\\": []}, {\\\"check\\\": \\\"venue_exists\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Recinto 'Zentral' verificado en OpenStreetMap como amenity=nightclub a 3m de las coordenadas del evento.\\\", \\\"confidence\\\": 0.85, \\\"sources\\\": [{\\\"url\\\": \\\"https://www.openstreetmap.org/node/10154014732\\\", \\\"title\\\": \\\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\\\"}]}, {\\\"check\\\": \\\"price_benchmark\\\", \\\"verdict\\\": \\\"pass\\\", \\\"detail\\\": \\\"Precio de 22€ está dentro del benchmark para teatro en Navarra (p90=35€, umbral 3x).\\\", \\\"confidence\\\": 0.8, \\\"sources\\\": []}, {\\\"check\\\": \\\"similar_event\\\", \\\"verdict\\\": \\\"unknown\\\", \\\"detail\\\": \\\"No se encontraron eventos similares de otros organizadores en Navarra con título parecido en los últimos 60 días.\\\", \\\"confidence\\\": 0.7, \\\"sources\\\": []}]\",\"findings\":[{\"check\":\"session_dates\",\"verdict\":\"fail\",\"detail\":\"Regla de solape: dos sesiones del evento se solapan (la que empieza el 27/11/26, 14:00 empieza antes de que acabe la anterior).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://deterministic_checks_nonce_47e9e7c345e4d93749780751\",\"title\":\"Deterministic checks\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador 'Telón Rojo Teatro' aprobado desde 2024-05-20, datos fiscales válidos (CIF con checksum correcto), cuenta de 930 días, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto 'Zentral' verificado en OpenStreetMap como amenity=nightclub a 3m de las coordenadas del evento.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/10154014732\",\"title\":\"OpenStreetMap: Zentral (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 22€ está dentro del benchmark para teatro en Navarra (p90=35€, umbral 3x).\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares de otros organizadores en Navarra con título parecido en los últimos 60 días.\",\"confidence\":0.7,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5767,
-          "outputTokens": 1201
+          "inputTokens": 4469,
+          "outputTokens": 1463
         }
       }
     }
   ],
   "searches": [
-    {
-      "requestHash": "d9d307d484e65ca46bb43faa8bf5216817ecec516802b1c60cb577ae8142863c",
-      "provider": "Tavily",
-      "query": "Zentral Pamplona aforo",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://stagefans.es/salas/sala-zentral-pamplona",
-            "title": "Sala Zentral (Pamplona) · Conciertos, aforo y cómo llegar | Stagefans",
-            "snippet": "Zentral es la sala de conciertos de referencia en el casco viejo de Pamplona, con más de mil metros cuadrados repartidos en dos plantas y tres espacios programables. La sala principal admite 900 personas y la Sala 2 unas 150, lo que permite compaginar giras grandes con formatos de club. Programa rock, indie, música urbana y sesiones de DJ, además de monólogos. Cuenta con parking privado y acceso directo a escenario, algo poco habitual en el centro.\n\n## Próximos conciertos en Sala Zentral [...] S"
-          },
-          {
-            "url": "https://www.zentralpamplona.com/es/profesionales",
-            "title": "Profesionales | Sala Zentral Pamplona",
-            "snippet": "1.000 m2\n\nPlantas\n\n2\n\nEspacios\n\n3 Espacios\n\nContamos con un espacio central donde se sitúa el escenario principal con un aforo de 900 personas (Sala Principal y Palco), una sala en la planta superior con un aforo de 150 personas, la Sala 2, y una terraza situada junto a la puerta principal de la Sala\n\n## Los espacios\n\ndj-ballesteros-sala-principal-club-ramdom\n\n### Sala Principal Más info Descargar Rider\n\nconcierto-sala-2\n\n### Sala 2 Más info Descargar Rider\n\nSala 2 Zentral [...] ZENTRAL es una i"
-          },
-          {
-            "url": "https://www.pamplona.es/entidades/zentral-cafe-teatro",
-            "title": "Zentral Café Teatro | Ayuntamiento de Pamplona",
-            "snippet": "Otros datos\n\nSala de conciertos ubicada en el ala oeste del Mercado de Santo Domingo con 1.000 metros cuadrados distribuidos en dos plantas que a su vez se divide en tres zonas: espacio central donde se encuentra el escenario principal, gastro bar y zona club.  \nSe trata de un espacio polivalente con un aforo total de 1.145 personas para mostrar a grupos internacionales, artistas locales, espectáculos de danza, teatro, monólogos, eventos privados y de empresas. [...] Pasar al contenido principal"
-          },
-          {
-            "url": "https://www.planomato.com/es/pamplona/v/sala-zentral",
-            "title": "Sala Zentral, Pamplona | Planomato",
-            "snippet": "Planomato Logo\n\nProximos PlanesÚltimos PlanesEventos GratisLos más popularesNiñosConciertosDeportesTeatroNoticias\n\nNo te pierdas nada\n\n# Sala Zentral\n\nSala Zentral\n\nUn espacio para la cultura y la diversión en pleno centro de Pamplona. Sala de conciertos con capacidad de hasta 850 personas en eventos culturales, equipada con escenario principal y equipamiento audiovisual. Ofrece conciertos, DJs, monólogos y eventos privados.\n\n## Próximos Eventos\n\nConcierto"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/ITo2qtndGq9F",
-            "title": "Zentral",
-            "snippet": "# Zentral Pamplona\nID: ITo2qtndGq9F\nWebsite: www.zentralpamplona.com\nHeadquarters: Pamplona, Navarra, Spain\nLinkedIn: www.linkedin.com/company/zentral-pamplona · 267 followers\nIndustry: Hospitality\nIndustry codes: SIC 58, 581, NAICS 72, 722\nCompany type: Privately Held\nFounded: 2014\nSocial profiles: www.facebook.com/zentralpamplona, www.twitter.com/zentralpamplona, www.instagram.com/zentralpamplona, www.youtube.com/channel/ucvndiibsi96pdxe6lliretq, www.youtube.com/@salazentralpamplona [...] Emai"
-          }
-        ]
-      }
-    },
     {
       "requestHash": "6992cf375352d63425d7befd398c815b395ba480bcbcbb65853bb9b4333cb021",
       "provider": "Tavily",
@@ -226,117 +102,27 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/C_hLnhHuTwE",
-            "title": "Instagram",
-            "snippet": "laambrosi\n\nAhora si les cuento un poco más sobre @hilos.teatro una obra que se estrena el 1ero de Octubre en el @teatromilan\\_forolucerna a las 8.30 pm.   \n  \nBoletos en link de mi perfil. Descuento del 30% en preventa ❤️🧵  \n  \nGracias a @fiestamericana por hacer Hilos posible 🙌\n\nprietocelia3's profile picture\n\nprietocelia3\n\nCuando en León gto???\n\nReply\n\nenoldbautista's profile picture\n\nenoldbautista\n\nReply\n\ngulinellosebastiano's profile picture\n\ngulinellosebastiano [...] Log In\n\nSign Up\n\nlaam"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DJ2r7NguSnZ?hl=en",
-            "title": "Instagram",
-            "snippet": "zapopangob Edited•\n\n¡No te pierdas “Hilos”, una poderosa obra de teatro que llega al Centro Cultural Constitución! 🎭   \n   \nA través de una puesta en escena impactante, “Hilos”de Abi Zakarian visibiliza la realidad de la violencia de género y la lucha de muchas mujeres.   \n Inscríbete aquí 👉🏼   \nEntrada gratuita.   \n📍    \n📅 23 de mayo | 4:00 PM\n\nelpideafigueros's profile picture\n\nelpideafigueros\n\nRoxana Ramos. Escuché en radio UNAM\n\nReply\n\nelpideafigueros's profile picture\n\nelpideafigueros "
-          },
-          {
-            "url": "https://www.teloncapital.com/obra/el-hilo-invisible-475",
-            "title": "El hilo invisible en Astor Plaza (Sala Astoria) | Telón Capital",
-            "snippet": "Mar, Mié\n\n8:30 PM\n\nSeptiembre 17 - Noviembre 18, 2026\n\nDesde $50.000\n\nEl hilo invisibleEl hilo invisible\n\nEsta obra ya no está en cartelera\n\n## El hilo invisible\n\nAstor Plaza (Sala Astoria)\n\n#### Funciones\n\nVie, Sáb, Jue\n\n8:00 PM\n\n#### Temporada\n\nSeptiembre 18, 19 - Octubre 01, 2026\n\n#### Sinopsis [...] #### Por ellas, lo que sea\n\nTeatro Santa Fe\n\nJueves\n\n8:00 PM\n\nSeptiembre 10 - Noviembre 05, 2026\n\nDesde $60.000Una Navidad de mierda\n\nComediaEn cartelera\n\n#### Una Navidad de mierda\n\nTeatro Nacio"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/flgCfP0euLlT",
-            "title": "Hilo Fino",
-            "snippet": "# Hilo Fino\nID: flgCfP0euLlT\nLinkedIn: www.linkedin.com/company/hilo-fino · 2 followers\n\n## Headcount\n- Now: 2 · 0 yearly (0%) · 0 quarterly · 0 monthly\n  - Latin America: 1\n  - Eastern Europe: 0\n  - Southern Europe: 0\n  - Sub Saharan Africa: 0\n  - Central Asia: 0\n  - Northern America: 0\n  - Australia New Zealand: 0\n  - Northern Europe: 0\n  - South Eastern Asia: 0\n  - Polynesia: 0\n  - Southern Asia: 0\n  - Northern Africa: 0\n  - Melanesia: 0\n  - Western Europe: 0\n  - Western Asia: 0 [...] ## Repu"
-          },
-          {
-            "url": "https://www.cbinsights.com/company/audible",
-            "title": "Audible - Products, Competitors, Financials, Employees, Headquarters Locations",
-            "snippet": "de octubre, Audible estrenará una nueva adaptación sonora de El murmullo de las abejas, la entrañable novela de la escritora regiomontana Sofía Segovia, quien participó directamente en la adaptación de su propia obra para convertirla en una experiencia sonora inmersiva. Este Audible Original reúne más de 70 voces, incluidas las de la propia autora y su nieta Elena, junto con un elaborado diseño sonoro y música original que transportan a los oyentes a Linares, en plena Revolución mexicana. A [..."
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "8b686265257d8c439c4ec8b393e141ead8773638769a3bf27e8be9b5061aaf13",
+      "requestHash": "d9d307d484e65ca46bb43faa8bf5216817ecec516802b1c60cb577ae8142863c",
       "provider": "Tavily",
-      "query": "\"El jardín de las sombras\" teatro Pamplona Hilo Fino",
-      "maxResults": 2,
+      "query": "Zentral Pamplona aforo",
+      "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://tavily.com/knowledge/company/flgCfP0euLlT",
-            "title": "Hilo Fino",
-            "snippet": "# Hilo Fino\nID: flgCfP0euLlT\nLinkedIn: www.linkedin.com/company/hilo-fino · 2 followers\n\n## Headcount\n- Now: 2 · 0 yearly (0%) · 0 quarterly · 0 monthly\n  - Latin America: 1\n  - Eastern Europe: 0\n  - Southern Europe: 0\n  - Sub Saharan Africa: 0\n  - Central Asia: 0\n  - Northern America: 0\n  - Australia New Zealand: 0\n  - Northern Europe: 0\n  - South Eastern Asia: 0\n  - Polynesia: 0\n  - Southern Asia: 0\n  - Northern Africa: 0\n  - Melanesia: 0\n  - Western Europe: 0\n  - Western Asia: 0 [...] ## Repu"
-          },
-          {
-            "url": "https://www.instagram.com/reel/DVKJKVADu3B",
-            "title": "El Multiverso Hilos de Luz y Sombras es una propuesta ...",
-            "snippet": "Hilos de Luz y Sombras: ocho obras, universos conectados, más de 30 artistas y un gran desenlace. Escrita y dirigida por @juanpiacosta ✍  Read more"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     },
     {
-      "requestHash": "d927809949c64ca49f0d5a57db4b2994d43be55ce2e7cc6b9fd9dc555a4b8974",
+      "requestHash": "330912d6c3c38b486f99924885354a9dd279ce5839141d8a42d33b2bbbe15647",
       "provider": "Tavily",
-      "query": "\"Compañía Hilo Fino\" teatro Pamplona",
+      "query": "Zentral Pamplona aforo capacidad teatro",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://festivalpendientesdeunhilo.com/programacion-2025",
-            "title": "Programación 2025",
-            "snippet": "String Theatre es una compañía inglesa fundada en 2011, especializada en marionetas de madera tallada e hilo largo, cuyos espectáculos han sido representados en festivales y teatros de todo el mundo. La masterclass estará impartida por los titiriteros Soledad Zárate -fundadora de la compañía-, Alfonso Lázaro y Raúl García, juntos han impulsado el espacio de creación Algarabía Obrador de Títeres en Granada. [...] Sobre la creadora  \n String Theatre fue fundada en 2011 por los marionetistas Stan M"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=GHvcgNHstVM",
-            "title": "Noticia El público infantil disfrutó con la obra \"Hilos\"",
-            "snippet": "### Transcript\n[0:00] Rosa Díaz con su compañía la Rose estuvo ayer domingo en Los Palacios y Villafranca representando la obra y los un espectáculo infantil que ha cosechado\n[0:09] grandes premios así como un gran éxito de crítica y público la obra fue estrenada en 2016 y recibió en fetent la\n[0:17] Feria Internacional de Teatro para Niños y Jóvenes el premio a la dramaturgia y a la interpretación femenina en esta obra Rosalía creadora de la compañía de [...] # Noticia El público infantil disfr"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "1fd56b484b011583792ae9e8665c32d0c2eb6c4b49f38adf0594267fcc7b3400",
-      "provider": "Tavily",
-      "query": "\"El jardín de las sombras\" obra teatro 2026 Pamplona",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.instagram.com/reel/De4C21QRB-V",
-            "title": "¡ESTE DOMINGO, PAMPLONA SE LLENA DE TEATRO! El ...",
-            "snippet": "October 24, 2026: El Instituto de Cultura y Turismo de Pamplona te invita este domingo 25 de octubre, a las 10:00. Sala 101 – Calle 20B #102-19"
-          },
-          {
-            "url": "https://travelnavarra.com/espectaculos",
-            "title": "Espectáculos archivo - TRAVELNAVARRA",
-            "snippet": "Auditorio Baluarte\n\n4 octubre 2026\n\n# La Luz de Mario\n\nAuditorio de Barañain\n\nAuditorio de Barañain\n\n18 septiembre 2026\n\n# Emmusikadas | Euskal Herriko Trabestiak\n\nZentral Pamplona\n\nZentral Pamplona\n\n13 junio 2026\n\nCartel Ludovico Einaudi\n\n# Ludovico Einaudi\n\nNavarra Arena\n\nNavarra Arena\n\n9 enero 2027\n\nNadine Sierra\n\n# Nadine Sierra – Gala Lírica\n\nAuditorio Baluarte\n\nAuditorio Baluarte\n\n[]( [...] Ir al contenido\n\n\n\nAuditorio Baluarte\n\nAuditorio Baluarte\n\n5 noviembre 2026\n\nOrquesta Sinfónica de n"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "3e126868697acf7f956eee5b00f6e123fa173eff02513adef45731df9d8ea113",
-      "provider": "Tavily",
-      "query": "\"Compañía Hilo Fino\" \"El jardín de las sombras\"",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.teatrolineadesombra.com/us",
-            "title": "Us – Teatro Línea de Sombra",
-            "snippet": "Currently, she works with the company Teatro Línea de Sombra as a performer, creator, in production and logistics. Her last productions were: Filo de Caballos (2018) and Amarillo (2009). The latter was presented in several countries across Europe, South America, Asia and at important international festivals such as: Radar Red Cat, CENA Contemporánea (Contemporary CENA), SISMOS (SEISMS), MIRADA, EXPONTO, LARVA, ESPIELART, FIT, Avignon, etc. Baños Roma (Roma Baths) and Durango 66 (2015) were also "
-          },
-          {
-            "url": "https://cryptorank.io/es/price/hilo-new",
-            "title": "Precio de HILO | HILO Hoy, Gráfico en Vivo, Convertidor USD, Capitalización | CryptoRank.io",
-            "snippet": "## Precio actual de HILO\n\nEl máximo histórico (ATH) de HILO fue de $ 0.05951 el 20 jul 2025, y actualmente está -93.5% a la baja.\n\nEl suministro circulante actual de HILO es de  120.37 Millones tokens, y el suministro máximo es de  150.00 Millones.\n\n### Criptomonedas en tendencia Flame icon\n\n icon\n 169icon\n\n  $ 1.19\n icon\n\n  Financiación\n icon\n\n  Hyperbolic Labs\n\n  Financiación\n icon\n\n  Birch Hill\n\n  Financiación\n icon\n\n  Financiación\n icon\n\n  Financiación [...] El gráfico HILO a USD está diseña"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]

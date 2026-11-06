@@ -444,3 +444,347 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   capacity's hard fail. It now escalates, so the admin sees it. Case 25 moved from `reject` to the
   expected `request_info`. Case 24 keeps its automatic `reject` on `minors_alcohol` alone.
 - **Decision:** keep.
+
+## E017 — An unlimited large discount warns (qwen 3.5 9B)
+
+- **Hypothesis** (#73): the new case 28 (an active 95 % code with no usage limit) ends in
+  `request_info`, escalated. N1–N5 keep their outcome and the auto-approved fraud rate stays at
+  0 %, because no existing case carries a large unlimited discount.
+- **Change** (#73): a new `heuristic` check, `discounts`, warns when an active discount is above
+  50 % (`UNLIMITED_DISCOUNT_MAX_PERCENT`) and has no usage limit. It passes on every other event,
+  but its `pass` finding and the new vocabulary entry are in every event request, so all 32 cases
+  were re-recorded once on local qwen, which is free. Recording run 1 also re-measured the venue
+  lookups (OSM, Wikidata); only volatile fields such as `place_id` changed.
+- **Before → after** (E016 → E017), gated, 30 → 31 cases: **accuracy 73.3 % → 71.0 %**,
+  **approved-fraud rate 4.0 % → 0.0 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  73.3 % → 74.2 %, **autonomy accuracy 80.0 % → 80.6 %**, Brier 0.206 → 0.245.
+- **What went wrong or surprised:**
+  - Case 28 is right: `request_info`, escalated, on the `discounts` warning.
+  - Every other case saw the same request plus a `pass`, and the single run moved a lot anyway.
+    Cases 03, 11, 16 and 19 became confident wrong `reject`s (0.95), 18, 20 and 23 became right,
+    and 04 and 25 switched to a `reject` that is still accepted. Case 23's approval of fraud became a `request_info`, which is the whole
+    approved-fraud move. None of the wrong rejections resolved on its own: none rests on a hard
+    signal. With one run per case, all of this is re-recording noise, not the check's effect.
+  - N1–N4 kept their outcome. N5 stays wrong but moved from `reject` to `approve`, escalated
+    because its venue is unverified.
+- **Decision:** keep. The hypothesis holds on what the check touches (case 28, no auto-approved
+  fraud); the accuracy and Brier moves are noise from a one-run set and are not credited to #73.
+
+## E018 — An unlimited large discount warns (Haiku 5.5)
+
+- **Hypothesis** (#73): as in E017.
+- **Change:** the same as E017, with all 32 cases re-recorded three times on Haiku 5.5, about $0.20
+  (97 reviews at $0.0021: case 12 run 2 was recorded twice because its first take replayed stale).
+- **Before → after** (E015 → E018, mean over three runs, min–max), gated, 30 → 31 cases:
+  **accuracy 85.6 % (83.3–86.7) → 84.9 % (80.6–87.1)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.7 % → 88.2 %, **autonomy accuracy
+  66.7 % (66.7–66.7) → 66.7 % (64.5–67.7)**, Brier 0.152 → 0.166. Mean input tokens about
+  14,500 → 13,600. The ranges overlap: within run-to-run noise.
+- **What went wrong or surprised:**
+  - Case 28 is right in all three runs: `request_info`, escalated, citing `discounts`.
+  - N1–N5 kept their outcomes; no gated case changed its majority decision.
+  - Case 07 (exact clone) asked instead of rejecting in one run of three, so that run escalated
+    instead of resolving on its own. It is still right by majority, and the clone's hard signal
+    is unchanged: noise, and on the safe side.
+  - The Brier move comes from confidences that drifted slightly lower across many cases, with no
+    change in decisions.
+- **Decision:** keep. The hypothesis holds: the new case is right and nothing else moved beyond
+  noise.
+
+## E019 — A session already held warns while it still sells (Haiku 5.5)
+
+- **Hypothesis** (#72): the new case 27 (an event whose only session is already past and still
+  has tickets on sale) ends in `request_info`, escalated. Accuracy on the other cases and the
+  auto-approved fraud rate (0 %) don't move, since no existing case has a past session.
+- **Change** (#72): `session_timing` also measures against the review time, not only against
+  publication. A `heuristic` `warn` (never a `fail`, #71) when a session that has already started
+  still has standard tickets on sale, or when every session is past; a festival halfway through
+  stays quiet while its started days have nothing on sale. The imminence warning now applies only
+  to a session after publication. Its vocabulary description and its `pass` text changed, so every
+  event request changed and all 33 cases were re-recorded three times on Haiku 5.5, about $0.20
+  (99 reviews at E018's cost per review).
+- **The hypothesis was false for case 17 as first built.** Its session was pinned to 09:00 Madrid
+  on the clock's day, so any recording made after that hour (these run at about 13:30 UTC) saw the
+  session already held, and the new check fired on a case meant to test imminence only. Case 17
+  was rewritten to keep its point: published 3 h before the review for a session 8 h after
+  publishing, so it is imminent and still ahead of the review at any clock, and only the
+  imminence warning fires.
+- **Before → after** (E018 → E019, mean over three runs, min–max), gated, 31 → 32 cases:
+  **accuracy 84.9 % (80.6–87.1) → 88.5 % (84.4–90.6)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 88.2 % → 86.5 %, **autonomy accuracy
+  66.7 % (64.5–67.7) → 69.8 % (68.8–71.9)**, Brier 0.166 → 0.155. Mean input tokens about
+  13,600 → 13,600.
+- **What went wrong or surprised:**
+  - Case 27 is right in all three runs: `request_info`, escalated, citing `session_timing`.
+  - Case 17, rewritten, stays right in all three runs on the imminence warning alone.
+  - Most of the accuracy move is case 24 («Botellón +14»): it asked in all three runs of E018 and
+    now rejects on its `minors_alcohol` hard signal, resolving on its own, in two of three. #72
+    doesn't touch that case; it is run-to-run noise, not the check's effect. Case 07 (exact clone)
+    went from two rejections of three to three, also noise.
+  - N1 escalated in one run of three on a confidence just under the bar; still right by majority.
+  - N1–N5 kept their majority decisions, and no gated fraud case was approved.
+- **Decision:** keep. The hypothesis holds on what the check touches (case 27 right, nothing
+  auto-approved), once case 17 was rebuilt so it no longer had a past session; the accuracy gain
+  is mostly noise and is not credited to #72.
+
+## E020 — A session already held warns while it still sells (qwen 3.5 9B)
+
+- **Hypothesis** (#72): as in E019.
+- **Change:** the same as E019 (including the rewritten case 17), with all 33 cases re-recorded
+  once on local qwen, which is free. Recording run 1 also re-measured the venue lookups (OSM,
+  Wikidata); only volatile fields (`place_id`, `display_name` streets, number formatting) changed.
+- **Before → after** (E017 → E020), gated, 31 → 32 cases: **accuracy 71.0 % → 78.1 %**,
+  **approved-fraud rate 0.0 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  74.2 % → 78.1 %, **autonomy accuracy 80.6 % → 78.1 %**, Brier 0.245 → 0.188. Mean input tokens
+  about 29,600 → 22,200.
+- **What went wrong or surprised:**
+  - Case 27 is wrong: qwen rejected it (0.85), escalated. It upgraded the `session_timing` warning
+    to a `fail`, called it a hard signal of fraud and cited a source URL it made up. The admin still
+    decides, since a rejection without a rule-based or sourced hard signal escalates, but the
+    reasoning reads the admin-fixable state as fraud evidence, which #71 rules out.
+  - Case 17, rewritten, is now right (`request_info`; it was a confident wrong `reject` in E017).
+  - Case 23 (organizer with previous fraud reports) became an `approve`, escalated by the web
+    search budget and the exposure cap: that single case is the whole approved-fraud move.
+    Cases 11, 16, 19 and N5 became right, 13 became a wrong `reject`. With one run per case, all of
+    this is re-recording noise, not the check's effect, and the token drop is fewer tool rounds.
+  - N1–N3 kept their outcome. N4 still approves but escalated, on a spent web search budget,
+    instead of resolving on its own: the autonomy move.
+- **Decision:** keep. On qwen the hypothesis holds only in part: nothing was auto-approved, but the
+  new case is wrong because the small model inflates the warning into a fraud signal. Noted for the
+  prompt ticket (#76); the accuracy and approved-fraud moves are noise from a one-run set and are
+  not credited to #72.
+
+## E021 — A venue without coordinates is looked up by name and town (Haiku 5.5)
+
+- **Hypothesis** (#74): the new case N6 (a real theatre stored without coordinates, an invented
+  company, 250 tickets) verifies the venue instead of leaving it `unknown`, and resolves its
+  approval on its own, so the escalation rate falls by that case. The auto-approved fraud rate
+  stays at 0 %.
+- **Change** (#74, ADR 0015 amendment): when the venue has no coordinates, `venue_exists` searches
+  Nominatim by `name, town, province` and passes only on a place of a compatible type whose name
+  matches and whose address carries the town. A venue with coordinates is looked up exactly as
+  before, so no existing request changed: `--check` found only N6 missing, and only N6 was
+  recorded, three times on Haiku 5.5 (a few cents). Recording run 1 also re-measured N6's venue
+  lookup; only its `place_id` changed.
+- **Before → after** (E019 → E021, mean over three runs, min–max), gated, 32 → 33 cases:
+  **accuracy 88.5 % (84.4–90.6) → 88.9 % (84.8–90.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.5 % → 86.9 %, **autonomy accuracy
+  69.8 % (68.8–71.9) → 67.7 % (66.7–69.7)**, Brier 0.155 → 0.152. The other 32 cases replay
+  unchanged; every move is N6 joining the set.
+- **What went wrong or surprised:**
+  - The venue now verifies: the system's `venue_exists` is `pass` in all three runs, with the
+    theatre's OSM page as its source, and `venue_capacity` stays `unknown` (250 tickets, under
+    the cap of 300), so the policy finds no venue gap.
+  - N6 is right on the decision (`approve`, 3/3) but escalates in all three runs on the model's
+    own confidence: 0.80, below the 0.85 bar. Its rationale lowers the confidence because the
+    venue was matched by name, without coordinates, and its capacity is unknown. The model docks
+    for the same gap the code already weighs, so the escalation moved from the venue check to
+    the confidence and did not go away.
+  - The escalation rate rises instead of falling: the case is new, so there was no escalated run
+    of it to remove.
+- **Decision:** keep. The check does what #74 asked (the venue verifies, with its source, and
+  nothing is auto-approved), but the autonomy half of the hypothesis is false on Haiku: N6 still
+  reaches the admin. A name match counting as weaker evidence in the model's eyes is a
+  confidence-calibration question, left to the prompt ticket (#76), not a reason to change the
+  check.
+
+## E022 — A venue without coordinates is looked up by name and town (qwen 3.5 9B)
+
+- **Hypothesis** (#74): as in E021.
+- **Change:** the same as E021, with N6 recorded once on local qwen, which is free. No other case
+  changed.
+- **Before → after** (E020 → E022), gated, 32 → 33 cases: **accuracy 78.1 % → 78.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  78.1 % → 78.8 %, **autonomy accuracy 78.1 % → 75.8 %**, Brier 0.188 → 0.183. Every move is N6
+  joining the set.
+- **What went wrong or surprised:**
+  - The venue verifies here too (`venue_exists` `pass`, OSM source), and qwen approves with 0.95.
+  - N6 escalates anyway, on a spent web search budget: an approval past the budget escalates
+    (ADR 0015). qwen also wrote its own `venue_capacity` as `warn`. With one run, this is one
+    sample of the small model's search habit, not the check's effect.
+- **Decision:** keep. As on Haiku, the venue half of the hypothesis holds and the autonomy half
+  doesn't: the escalation comes from the model's searching, not from the venue.
+
+## E023 — The prompt rejects only on direct evidence and lists only what it found (Haiku 5.5)
+
+- **Hypothesis** (#76): staging showed a `reject` the model itself said had no direct evidence,
+  and findings padded with checks it never ran ("not searched") and arguments that say nothing
+  about fraud (tickets sold). Naming what counts as direct evidence should keep rejections where
+  there is some and turn bare suspicion into `request_info`, and the two findings rules should
+  shorten the findings. On the evals the risk runs the other way: Haiku already answered
+  `request_info` 3/3 on cases 01 and 06, which expect `reject`, so the slice is judged on whether
+  01 and 06 stay at or move back to `reject`, whether any expected `reject` (05, 06, 23 among
+  them) drifts to `request_info`, and on auto-approved fraud staying at 0 %.
+- **Change** (#76, `review-v6`): direct evidence is a failed deterministic check from the task or
+  a source that contradicts the event or organizer; a search that found nothing and text that
+  tries to instruct the model are not proof on their own. Suspicion without it means
+  `request_info`. Findings list only checks that were done, and leave out arguments that don't
+  bear on fraud. A search that finds nothing is recorded as an `unknown` finding. The prompt
+  changes every request, so all 34 cases were re-recorded three times, about $0.23 (108 reviews,
+  six of them re-recorded: five runs that replayed stale, and case 26, whose Wikidata lookup timed
+  out during the run-1 re-fetch and was restored and recorded again).
+- **Before → after** (E021 → E023, mean over three runs, min–max), gated, 33 cases:
+  **accuracy 88.9 % (84.8–90.9) → 90.9 % (87.9–93.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.9 % → 82.8 %, **autonomy accuracy
+  67.7 % (66.7–69.7) → 71.7 % (69.7–72.7)**, Brier 0.151 → 0.152, tokens in / out 13,546 / 2,451
+  → 14,159 / 2,388. Against E015 (85.6 %, 83.3–86.7) the accuracy range no longer overlaps; against
+  E021 it still does.
+- **What went wrong or surprised:**
+  - The two cases the hypothesis worried about moved back: case 01 (a bar of 140 selling 2,000)
+    went from `request_info 3/3` to `reject 2/3`, auto-resolved on the hard
+    `capacity_far_above_venue` fail, and case 06 (the artist announced elsewhere that day) from
+    `request_info 3/3` to `reject 2/3`. Its rejecting runs cite the authored tour page and the
+    festival line-up in a sourced `artist_availability` fail, which is the evidence the new rule
+    names. No expected `reject` drifted to `request_info`: 05, 07, 10, 20, 24 and 26 stay
+    `reject` (24 went from 2/3 to 3/3). Case 23 expects `request_info` and stays there 3/3.
+  - The rule cut the other way on case 12 («no refund even if the event is cancelled»): it went
+    from `request_info 3/3` to `reject 3/3`. The `abusive_terms` fail is a deterministic check
+    that failed, so the model read it as the direct evidence the prompt allows a rejection on.
+    The policy doesn't count that check as a hard signal, so all three runs escalate and nothing
+    is auto-resolved, but the case is now wrong. The prompt doesn't say that a fixable clause
+    calls for a request, not a rejection.
+  - Out of the gate, case 09 (another site's poster) moved to `approve 2/3`. Both runs escalated
+    on the exposure cap, so the gate holds, but the all-cases approved-fraud rate is 2.4 %.
+  - Findings got shorter: 9.0 per review → 6.5 over the 102 reviews. Findings that mention
+    tickets sold fell from 22 to 4. `unknown` findings fell from 289 to 172. Those about a search that
+    was attempted and failed on the exhausted Tavily quota (every live search in both sets returns
+    `quota_exceeded`, before and after) stay at 72 → 74, which is what the rule asks for; the
+    other `unknown` findings fell from 217 to 98. A few rationales still say what
+    couldn't be checked ("no se ha comprobado…") next to a failed search; that is the honest
+    record of a search that failed, not a check that wasn't done.
+  - Case 25 (prompt injection) stays `request_info 3/3`, escalated: the injected text is named as
+    a signal and nothing obeys it.
+- **Decision:** keep `review-v6`. Accuracy and autonomy rise, 01 and 06 are back on `reject`, no
+  fraud is auto-approved and the findings lose most of their noise. Case 12's flip is the price
+  of saying a failed check is direct evidence; a clause the organizer can fix calls for
+  `request_info`, a wording question for the next prompt change, not a reason to revert.
+
+## E024 — The prompt rejects only on direct evidence and lists only what it found (qwen 3.5 9B)
+
+- **Hypothesis** (#76): as in E023. Also watched: case 27, where qwen rejected under `review-v5`
+  on a source it invented, and case 25.
+- **Change:** the same as E023, with all 34 cases re-recorded once on local qwen, which is free.
+  Two cases failed with an LLM HTTP error on the first pass and were recorded again, and case 26
+  once more after its venue lookup was restored.
+- **Before → after** (E022 → E024), gated, 33 cases: **accuracy 78.8 % → 75.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  78.8 % → 78.8 %, **autonomy accuracy 75.8 % → 75.8 %**, Brier 0.183 → 0.220. With one run per
+  case, these moves are within the small model's run-to-run noise, and the ticket is not
+  credited with them.
+- **What went wrong or surprised:**
+  - qwen rejects as before where it rejected under `review-v5`: 01, 05 and 06 stay `reject`.
+    Case 14 moved to the right `request_info`; case 19 (overlapping sessions) and N2 moved to
+    wrong answers (`reject`, `request_info`).
+  - Case 27 is still wrong: `reject` at 0.85, and the `session_timing` fail again cites a URL no
+    tool returned (an `example.test` event page; under `review-v5` it was an internal-looking URL). The rule
+    that only a tool's URL is a source didn't hold on the small model. The policy finds no
+    sourced hard signal and escalates it.
+  - Case 25 stays `request_info`, escalated.
+  - The findings rules don't show on qwen: 184 → 191 findings, none about tickets sold before or
+    after, and its `unknown` findings are failed searches.
+  - Brier rises (0.183 → 0.220): qwen's confidence on the wrong answers went up (19 at 0.95).
+- **Decision:** keep. qwen holds the gate (no auto-approved fraud) and its moves are one-sample
+  noise. Invented sources on case 27 are a small-model limit, already caught by the policy.
+
+## E025 — A review's confidence comes from its evidence tier, not the model's number (Haiku 5.5)
+
+- **Hypothesis** (#77): Haiku is right about 90 % of the time but reports 0.60–0.80, so the policy
+  escalated reviews whose evidence allowed them to resolve, only because the model's number was
+  below `AGENT_AUTO_APPROVE_THRESHOLD` (0.85). Deriving the confidence from the evidence tier
+  should let cases 03, 12, 14, N3 and N4 resolve on their own, about five cases fewer escalated,
+  with gated accuracy and auto-approved fraud (0 %) unchanged.
+- **Change** (#77, ADR 0019): the review's confidence is computed in code from the evidence tier
+  that backs the decision: 0.95 for a `request_info` whose negative findings are all `rule`
+  findings or a `reject` on a hard signal, 0.90 for a clean `approve` with the venue's capacity
+  verified, 0.85 for a clean `approve` under the exposure cap. The threshold stays at 0.85 and now
+  means the lowest tier that resolves. An escalated review shows the model's number capped at
+  0.84. The model's number is kept as `modelConfidence` and can only hold back, below 0.5. The
+  policy runs after the model answers, so no request changed: `--check` found no stale recording,
+  nothing was re-recorded, and this entry is a replay of E023's recordings ($0).
+- **Before → after** (E023 → E025, mean over three runs, min–max), gated, 33 cases:
+  **accuracy 90.9 % (87.9–93.9) → 90.9 % (87.9–93.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  **auto-approved fraud rate 0.0 % (0–0) → 0.0 % (0–0)**, **escalation rate 82.8 % → 60.6 %**,
+  **autonomy accuracy 71.7 % (69.7–72.7) → 93.9 % (90.9–97.0)**, Brier 0.152 → 0.124, tokens and
+  latency unchanged (same recordings). Against E015, the spec's baseline: escalation 86.7 % →
+  60.6 %, accuracy 85.6 % → 90.9 %, with every run (87.9 % at worst) above 85.6 %.
+- **Brier is not comparable with earlier entries as-is.** From this entry on, the eval metrics
+  read the derived confidence, the number the admin sees; up to E024 they read the model's.
+  0.152 → 0.124 is a change of what is measured as much as of how well. The tiers are ranks, not
+  probabilities (ADR 0019).
+- **What went wrong or surprised:**
+  - About 7.3 cases fewer escalate per run, more than the five predicted. 03, 14, 19 and 22
+    resolve 3/3 as mechanical requests at 0.95; N3 and N6 resolve 3/3 as clean approvals under
+    the cap at 0.85; N2 and N4 resolve 2/3. Case 12 did not: since `review-v6` (E023) Haiku
+    rejects it on the `abusive_terms` fail, which is not a hard signal, so it escalates on the
+    decision, not the number. The hypothesis was written against E015's answers.
+  - What escalates now escalates on evidence: no reason reads "confidence below 0.85" any more.
+    The remaining autonomy misses are 12 (wrong decision, 3/3), one run each of 01 and N2 that
+    answer `request_info` with no rule finding to ask about, and one run of N4 whose own
+    `artist_availability` warning holds the approval back.
+  - The floor shows on case 21 only (model 0.40, "model confidence 0.4 below 0.5"), which
+    escalates for other reasons too and expects to: it moves no metric, as the ADR said.
+  - Hard-signal rejections (01, 07, 10, 24, 26) now show 0.95 instead of the model's 0.70–0.85,
+    and every escalated review shows at most 0.84 (case 20 went from 0.85 to 0.84).
+- **Decision:** keep. The escalation rate falls by 22 points with no fraud auto-approved in any
+  run and no change in accuracy, and every resolution can be explained from its findings. Spec
+  #71's whole acceptance holds on Haiku: auto-approved fraud 0 % in every run, escalation below
+  E015's 86.7 %, gated accuracy at or above 85.6 %.
+
+## E026 — A review's confidence comes from its evidence tier, not the model's number (qwen 3.5 9B)
+
+- **Hypothesis** (#77): as in E025.
+- **Change:** the same as E025: a replay of E024's recordings, none stale, none re-recorded.
+- **Before → after** (E024 → E026), gated, 33 cases: **accuracy 75.8 % → 75.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, **auto-approved fraud rate 0.0 % → 0.0 %**,
+  **escalation rate 78.8 % → 72.7 %**, **autonomy accuracy 75.8 % → 81.8 %**, Brier 0.220 →
+  0.195 (not comparable with earlier entries, as in E025). Unlike a re-recording, these moves are
+  not run-to-run noise: the model's answers are the same, and only the policy read them
+  differently.
+- **What went wrong or surprised:**
+  - Two cases resolve now: 14 and 22, mechanical requests at 0.95 (qwen had reported 0.60 and
+    0.50).
+  - The rest of qwen's autonomy misses are wrong decisions, not the number: 03, 12 and 19 are
+    rejected without a hard signal (the model said 0.85–0.95; the admin now sees 0.84), and N2
+    asks for information. N3 and N6 are right approvals that escalate because the run spent its
+    web search budget (ADR 0015), on the exhausted search quota.
+  - The derived number hides qwen's overconfidence from the admin: an escalated reject shows at
+    most 0.84, where qwen said 0.95.
+- **Decision:** keep. qwen holds the gate (no auto-approved fraud) and resolves two more cases
+  on rule findings alone.
+
+## E027 — Brier reads the model's own confidence again (Haiku 5.5)
+
+- **Hypothesis** (#77 review): E025 made the Brier score read the derived confidence. A tier is a
+  rank, not a probability (ADR 0019), so that Brier scores a lookup table, and it broke the series
+  from E001 to E024. Reading `modelConfidence` again should give back E023's Brier exactly, with
+  every other metric unchanged.
+- **Change** (#77, ADR 0019 point 5): the Brier score reads the model's number; the report's
+  per-case confidence stays the derived one, the number the admin sees. In the same change, the
+  confidence floor's reason is added only to a review that would otherwise resolve. No request
+  changed: `--check` found no stale recording, and this entry is a replay of E023's recordings
+  ($0).
+- **Before → after** (E025 → E027), gated, 33 cases: accuracy 90.9 % → 90.9 %, approved-fraud
+  rate 0.0 % → 0.0 %, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 60.6 % → 60.6 %,
+  autonomy accuracy 93.9 % → 93.9 %, **Brier 0.124 → 0.152**, the same as E023 (all cases 0.129
+  → 0.156). This entry corrects E025's Brier: E025's 0.124 measured the tiers, not the model,
+  and is not comparable with any other entry.
+- **What went wrong or surprised:**
+  - Nothing moved but the Brier score, as predicted: deriving the confidence left the model's
+    calibration where E023 put it, so #77 changed what the admin sees, not how calibrated Haiku is.
+  - Case 21 no longer lists "model confidence 0.4 below 0.5": it escalates on its evidence
+    (`organizer_history` needs judgement), so the floor had nothing to hold back. No metric
+    reads the reasons.
+- **Decision:** keep. The Brier series measures one thing again, the model's calibration, from
+  E001 on.
+
+## E028 — Brier reads the model's own confidence again (qwen 3.5 9B)
+
+- **Hypothesis** (#77 review): as in E027; E024's Brier should come back exactly.
+- **Change:** the same as E027: a replay of E024's recordings, none stale, none re-recorded.
+- **Before → after** (E026 → E028), gated, 33 cases: accuracy 75.8 % → 75.8 %, approved-fraud
+  rate 3.7 % → 3.7 %, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 72.7 % → 72.7 %,
+  autonomy accuracy 81.8 % → 81.8 %, **Brier 0.195 → 0.220**, the same as E024 (all cases 0.210
+  → 0.239). This entry corrects E026's Brier, which measured the tiers.
+- **What went wrong or surprised:** nothing. E026's lower Brier came from the admin seeing at
+  most 0.84 on qwen's overconfident escalated rejects, not from qwen being better calibrated.
+- **Decision:** keep.

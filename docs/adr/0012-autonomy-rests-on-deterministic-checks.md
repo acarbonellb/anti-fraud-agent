@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35) · amendment 2026-11-05 (#57)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#77)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24, #33 and #35.
 
 ## Context
@@ -96,7 +96,8 @@ be measured, provided the rule is written down and each finding names it.
 
 ADR 0015 settles the consequence above: an event's auto-approval now requires the venue checks
 (`verifyVenue` `pass`, and capacity `pass` or unknown within the exposure cap), a `webSearch`
-finding never counts towards one, and organizer reviews always escalate.
+finding never counts towards one, and organizer reviews always escalate. ADR 0015's amendment
+of #79 restores point 3 for a mechanical organizer request.
 
 ## Amendment (2026-11-03, #24): a price heuristic against the benchmark
 
@@ -185,3 +186,11 @@ finding on such a check is still dropped, as before.
 **Rejected:** dropping `pass` from the pattern checks, as the exact clone check does (#35). The
 admin would no longer see what was checked and came out clean. The fix belongs where findings
 are merged, not in each check.
+
+## Amendment (2026-11-06, #77): the confidence comes from the evidence tier
+
+ADR 0019 takes the model's confidence out of the policy. Where this ADR says a decision resolves
+"with confidence at the threshold", the threshold now compares the review's evidence tier, which
+the findings already decide; the model's number only holds back, below 0.5. It replaces point 3 of
+the amendment of #33: a held-back approval shows its tier when it resolves as a mechanical
+request, and at most 0.84 when it escalates.

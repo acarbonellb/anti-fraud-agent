@@ -1,0 +1,247 @@
+{
+  "caseId": "27",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:50:00.000Z",
+  "calls": [
+    {
+      "requestHash": "cadc539114c106f26d314ed8255405eafd89127b97d198816b14b86c818764c6",
+      "latencyMs": 2053,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01A8JkWnTE9KGtTQjhrREkkX",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_84b05b3499\"}"
+            },
+            {
+              "id": "toolu_012KHLuZsgrPyWWiT2AEz7aU",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_4d6bb85ef8\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01Gg3hA7P7rExgppqff7iuKR",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Salitre boleros Santander\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQS/QcKEAgTGAI4AUIIdGhpbmtpbmcSDA1dMdMxokTT/qfHXRoMFvpxcnt2BJqzAx2EIjAc6zkRwv4zNmicYdFN0IydNRxUb5aayflTkWqUhhl7zEPafnPt7laYDgbNI7dsmbUqmgeMKoJTLEYxUGdYb0LIxoDM/WhuW9DWP6SxOC1G4kEREe9okRaPA2G4psEYep+8RRcd9YCg6Ix7s9MCM+17ELO2nw0eTnzHl8+Ga3qajMl0p72QmgX/XtYoyv1D6jOmC2x/MM4EAB3xMEak0vGUzLKdaJRcX+LW7IYZyuBFseJCVo4TucFyleXkYsIcF+UfdjmjY/U4oooPi5bOKLiMN2Tqa85Z8B1OCHLZYVhZY76kR4QdDXan6pooK6GjceckJhB6XPoApsaEXTiqzuMX57/XrfkyI19BhjE0zrdQ3f9vOM3swWV/uhIP6TRaqXVzmJkgo0nEGdgNKHVaCohJsUGHBYJRFyoUYpkHzfmDy9+kzVoiKYRBfT1KVyoxzQgGpohxLQkUr0+G2x0XXjnwf9Un+4r+IsFI8vNA2+zQYuESDdyd8a5iOrpPgWZow+L7TDWW1DxmI4aMrUqU54PmGs+K2JvRqKZUZXZ9FapUAHO9HM93q3diJBT+oF1F3/ds6Ny7u4IsBErywiaywywct7ZLPJ3Hya32eaW3V+pMDgSE7s33mMup9Ooe/RXUGbOZIkGl9NR4nDf/ymnjt7WTgyxPbfXcY1grp2GbpvyL8aypTmZvNUuK/2qGY432IFF1EvoLLMbNUnKcW2m4lvjvyjZO762L8OXufVMXbPPlVJsOM8IxmBd++C8G7vQmDIbiHzXxzrW4aXeGXae/AkPWnbkvaTre8FILTVEYTIAn7M+pwb1gaqDVFEdcnzd2H6qAxo52oWPxaXVswtbibt61hQ6/ydrBFM3acTe4v3ZCk1S9aPKFzS0WqENc8Dnl0+WsAJBGW7/rsb+ajVsRV2iakdVcAqZIg55CTxwCOUBTom5sexUHruB8AngI51H50Z9msK+vV89pOU03DWh1QP4kheCzjCiDV5kKNIXl783beFCUaFA9KRZ4bCh1+yfmY/nOtesCyFyeKJjLuGbcVMQcUF40bqNfFuf/LdkhgCHZzyiKeCtqldhJlaayOrCp7zfwFTHHcDz5XxrGWvxNJ1IVpcWMOYa7VT+eHqsR07dUGfbldzHZn5Aw2ydEpHAgdt+mZyrkhsOw6EFdsnbykw2ShCqv/sLh5WhHDv4H730h0lkmCfqG93e/pIG3DgDCaOvkdoUTszxjSmK8RckedF5uRT8MKhGEXhGBX8wVfpbgBT8r3zAsyAkCYnVFpQt5JG/5XfaHGjxXEvQgo2N0GAE="
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01A8JkWnTE9KGtTQjhrREkkX",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_84b05b3499"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_012KHLuZsgrPyWWiT2AEz7aU",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_4d6bb85ef8",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Gg3hA7P7rExgppqff7iuKR",
+              "name": "web_search",
+              "input": {
+                "query": "Trío Salitre boleros Santander",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5150,
+          "outputTokens": 373,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5146
+        }
+      }
+    },
+    {
+      "requestHash": "455ee86d065ef55f77ce79b037c4b22efe60ace520723b424330c910c5fc39b6",
+      "latencyMs": 10831,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01D3AEKtRMWLPrvL1NCarpAH",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.5,\"rationale\":\"No hay evidencia directa de fraude. El organizador (Mareas del Norte Producciones S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados, ninguno despublicado por admin ni con reportes) tiene buen historial, y el recinto existe en OpenStreetMap en las coordenadas indicadas. Sin embargo, quedan puntos sin resolver: la sesión del 3/11/2026 figura como ya terminada y el evento sigue con entradas a la venta (warn de session_timing), el aforo del recinto no se puede confirmar (600 entradas puestas a la venta frente a un aforo desconocido) y la búsqueda web falló por cuota, así que no se ha podido verificar la presencia del grupo ni del organizador fuera de la plataforma. Hace falta que el organizador aclare la fecha real de la sesión y el aforo del recinto antes de decidir.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Mareas del Norte Producciones S.L., CIF con checksum válido, dirección en Santander (CP 39002), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la web ni las redes del organizador fuera de la plataforma.\",\"confidence\":0.1,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay eventos con mismo título, fecha y recinto de otro organizador en la búsqueda de similares.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"«Escenario Santander» figura en OpenStreetMap como amenity=arts_centre a 1 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OpenStreetMap publican el aforo del recinto y no se pudo buscar en la web. Hay 600 entradas de aforo a la venta sin poder contrastarlas.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"La única sesión (3/11/2026, 14:00-16:00 UTC) figura como ya terminada en el momento de la revisión, y el evento sigue con 212 entradas vendidas y entradas a la venta. Hay que confirmar la fecha real y si la sesión debe cerrarse o reprogramarse.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio general de 18 € no supera el p90 de 35 € de 42 eventos comparables de bolero en Cantabria (aforo 300-1000).\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar en la web si el Trío Salitre tiene otras fechas anunciadas el mismo día (búsqueda sin resultados por cuota).\",\"confidence\":0.1,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la fecha y hora reales de la sesión? El sistema indica que el 3/11/2026 ya ha terminado, pero el evento sigue con entradas a la venta.\",\"¿Cuál es el aforo oficial de Escenario Santander y cómo se corresponde con las 600 entradas de la tarifa general?\",\"¿Puede indicar una web, perfil de redes o referencias públicas del Trío Salitre y de Mareas del Norte Producciones fuera de la plataforma?\",\"¿Confirma que el Trío Salitre actuará en esta fecha y lugar, y que no tiene otra actuación anunciada el mismo día?\"],\"draft\":\"Hola,\\n\\nEstamos revisando el evento «Noche de boleros con el Trío Salitre» antes de publicarlo del todo. Para poder continuar, necesitamos que nos aclares lo siguiente:\\n\\n1. La fecha y hora de la sesión. Nuestro sistema indica que la sesión del 3 de noviembre de 2026 ya ha pasado y el evento sigue con entradas a la venta. ¿Puedes confirmar la fecha correcta?\\n2. El aforo oficial de Escenario Santander y cómo encaja con las 600 entradas de la tarifa general.\\n3. Una web, redes sociales o referencias públicas del Trío Salitre y de vuestra productora fuera de la plataforma.\\n4. Confirmación de que el Trío Salitre actuará en esa fecha y lugar.\\n\\nCuando nos lo envíes, revisamos de nuevo el evento. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01D3AEKtRMWLPrvL1NCarpAH",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.5,
+                "rationale": "No hay evidencia directa de fraude. El organizador (Mareas del Norte Producciones S.L., CIF con checksum válido, cuenta de 930 días, 14 eventos publicados, ninguno despublicado por admin ni con reportes) tiene buen historial, y el recinto existe en OpenStreetMap en las coordenadas indicadas. Sin embargo, quedan puntos sin resolver: la sesión del 3/11/2026 figura como ya terminada y el evento sigue con entradas a la venta (warn de session_timing), el aforo del recinto no se puede confirmar (600 entradas puestas a la venta frente a un aforo desconocido) y la búsqueda web falló por cuota, así que no se ha podido verificar la presencia del grupo ni del organizador fuera de la plataforma. Hace falta que el organizador aclare la fecha real de la sesión y el aforo del recinto antes de decidir.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Razón social Mareas del Norte Producciones S.L., CIF con checksum válido, dirección en Santander (CP 39002), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y sin revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda web no devolvió resultados (cuota agotada), así que no se ha podido comprobar la web ni las redes del organizador fuera de la plataforma.",
+                    "confidence": 0.1,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "pass",
+                    "detail": "No hay eventos con mismo título, fecha y recinto de otro organizador en la búsqueda de similares.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_exists",
+                    "verdict": "pass",
+                    "detail": "«Escenario Santander» figura en OpenStreetMap como amenity=arts_centre a 1 m de las coordenadas del evento.",
+                    "confidence": 0.9,
+                    "sources": [
+                      {
+                        "url": "https://www.openstreetmap.org/way/786247177",
+                        "title": "OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "Ni Wikidata ni OpenStreetMap publican el aforo del recinto y no se pudo buscar en la web. Hay 600 entradas de aforo a la venta sin poder contrastarlas.",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "session_timing",
+                    "verdict": "warn",
+                    "detail": "La única sesión (3/11/2026, 14:00-16:00 UTC) figura como ya terminada en el momento de la revisión, y el evento sigue con 212 entradas vendidas y entradas a la venta. Hay que confirmar la fecha real y si la sesión debe cerrarse o reprogramarse.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "El precio general de 18 € no supera el p90 de 35 € de 42 eventos comparables de bolero en Cantabria (aforo 300-1000).",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "No se pudo comprobar en la web si el Trío Salitre tiene otras fechas anunciadas el mismo día (búsqueda sin resultados por cuota).",
+                    "confidence": 0.1,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Cuál es la fecha y hora reales de la sesión? El sistema indica que el 3/11/2026 ya ha terminado, pero el evento sigue con entradas a la venta.",
+                    "¿Cuál es el aforo oficial de Escenario Santander y cómo se corresponde con las 600 entradas de la tarifa general?",
+                    "¿Puede indicar una web, perfil de redes o referencias públicas del Trío Salitre y de Mareas del Norte Producciones fuera de la plataforma?",
+                    "¿Confirma que el Trío Salitre actuará en esta fecha y lugar, y que no tiene otra actuación anunciada el mismo día?"
+                  ],
+                  "draft": "Hola,\n\nEstamos revisando el evento «Noche de boleros con el Trío Salitre» antes de publicarlo del todo. Para poder continuar, necesitamos que nos aclares lo siguiente:\n\n1. La fecha y hora de la sesión. Nuestro sistema indica que la sesión del 3 de noviembre de 2026 ya ha pasado y el evento sigue con entradas a la venta. ¿Puedes confirmar la fecha correcta?\n2. El aforo oficial de Escenario Santander y cómo encaja con las 600 entradas de la tarifa general.\n3. Una web, redes sociales o referencias públicas del Trío Salitre y de vuestra productora fuera de la plataforma.\n4. Confirmación de que el Trío Salitre actuará en esa fecha y lugar.\n\nCuando nos lo envíes, revisamos de nuevo el evento. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6202,
+          "outputTokens": 2589,
+          "cacheReadInputTokens": 5146,
+          "cacheWriteInputTokens": 1054
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "a9f409fa41c53e8ecf05c8129b0c1b49b7d91d275a58dbd340fbc43df3a08510",
+      "provider": "Tavily",
+      "query": "\"El Trío Salitre repasa los boleros de siempre en una noche íntima en Santander\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "cf2bbcd6c4f042e7b6c58b87d0ca4eac8971bb45ef73dc3ece6a8465b2211aa1",
+      "provider": "Tavily",
+      "query": "Escenario Santander Santander aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "da86dd82972994d0bdbee393f6b0036fbd60e3e0351b9ac3841eba35e48ad99d",
+      "provider": "Tavily",
+      "query": "Trío Salitre boleros Santander",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    }
+  ]
+}

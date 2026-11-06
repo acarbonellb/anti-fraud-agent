@@ -13,25 +13,26 @@ const approve = { decisions: ["approve"], autonomy: "auto_resolved" } as const;
 // Two gated cases, three runs:
 // - 10 (fraud): reject/auto 0.9 · reject/escalated 0.7 · approve/auto 0.8
 // - N1 (clean): approve/auto 0.9 · approve/auto 0.9 · request_info/escalated 0.6
+// The numbers are the model's confidence, the one the Brier score reads.
 const runs = [
   [
-    result("10", reject, { decision: "reject", confidence: 0.9 }),
-    result("N1", approve, { confidence: 0.9, inputTokens: 100 }),
+    result("10", reject, { decision: "reject", modelConfidence: 0.9 }),
+    result("N1", approve, { modelConfidence: 0.9, inputTokens: 100 }),
   ],
   [
     result("10", reject, {
       decision: "reject",
       autonomy: "escalated",
-      confidence: 0.7,
+      modelConfidence: 0.7,
     }),
-    result("N1", approve, { confidence: 0.9, inputTokens: 200 }),
+    result("N1", approve, { modelConfidence: 0.9, inputTokens: 200 }),
   ],
   [
-    result("10", reject, { confidence: 0.8 }),
+    result("10", reject, { modelConfidence: 0.8 }),
     result("N1", approve, {
       decision: "request_info",
       autonomy: "escalated",
-      confidence: 0.6,
+      modelConfidence: 0.6,
       inputTokens: 600,
     }),
   ],
@@ -96,7 +97,9 @@ describe("a case's majority outcome", () => {
   const [fraud = [], clean = []] = byCase(runs);
 
   it("groups each case's results across runs, in run order", () => {
-    expect(fraud.map((r) => r.outcome?.confidence)).toEqual([0.9, 0.7, 0.8]);
+    expect(fraud.map((r) => r.outcome?.modelConfidence)).toEqual([
+      0.9, 0.7, 0.8,
+    ]);
     expect(clean.map((r) => r.caseId)).toEqual(["N1", "N1", "N1"]);
   });
 

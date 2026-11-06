@@ -28,6 +28,28 @@ it("fails a tax id with a wrong checksum, as a rule", () => {
   expect(identity?.finding.detail).toContain("dígito de control");
 });
 
+it.each([
+  ["missing", { present: false, kind: "unknown", checksumValid: null }],
+  ["unverifiable", { present: true, kind: "NIF", checksumValid: null }],
+] as const)(
+  "gives a %s tax id no confidence, since it reached no verdict",
+  (_, taxId) => {
+    const [identity] = checks((draft) => {
+      draft.fiscal.taxId = { ...taxId };
+    });
+
+    expect(identity?.finding.verdict).toBe("unknown");
+    expect(identity?.finding.confidence).toBe(0);
+  },
+);
+
+it("keeps full confidence on a tax id it checked", () => {
+  const [identity] = checks();
+
+  expect(identity?.finding.verdict).toBe("pass");
+  expect(identity?.finding.confidence).toBe(1);
+});
+
 it("warns, as a heuristic, about a rejected organization and fraud reports", () => {
   const history = checks((draft) => {
     draft.owner.otherOrganizers = [

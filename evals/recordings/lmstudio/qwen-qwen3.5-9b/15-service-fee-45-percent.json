@@ -2,19 +2,19 @@
   "caseId": "15",
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
-  "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "promptVersion": "review-v6",
+  "clock": "2026-11-06T14:28:00.000Z",
   "calls": [
     {
-      "requestHash": "e64cd7ade80aad7c63a303fc89404eb9ce3a3ec153d652a3ed3fe8ddef202d98",
-      "latencyMs": 2842,
+      "requestHash": "f2eeec4668c120e7ae0aa631739e3e04cc800b81572c847d670e7350354b3294",
+      "latencyMs": 10802,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event and make a recommendation. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Cabaret de invierno\"\n- Organizer ID: org_3639566f71\n- Venue: Sala La Planeta in Girona\n- Price: 20€ (2000 cents) for General tickets\n- Service fee: 45% (which is flagged as a warning, above the 20% threshold)\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP cheaper than general) ✓\n- Service fee warning (45% vs 20% threshold) - this is a warn, not fail\n- No problematic discounts ✓\n- Session dates/timing OK ✓\n- Price benchmark OK (under 3x p90) ✓\n- Venue exists and capacity matches ✓\n\n**What I need to check:**\n1. Organizer context - account age, fiscal data checks, team, past events, content reports, previous recommendations\n2. Whether there are similar events from other organizers that might indicate cloning\n3. The service fee warning needs consideration - is 45% acceptable or concerning?\n\nLet me get the organizer context first to understand their history and any red flags:",
           "toolCalls": [
             {
-              "id": "dmPwcHzm9mstvGmkGhdiCU7es2ct7XOn",
+              "id": "ufbS34GtGHB2Nk8Y3LmFLEhYmJSmMkxQ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_3639566f71\"}"
             }
@@ -22,229 +22,57 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3426,
-          "outputTokens": 42
+          "inputTokens": 3642,
+          "outputTokens": 354
         }
       }
     },
     {
-      "requestHash": "eae03dc5625ede73563fa8df6bf365d3f87dfe4aaeeac58d0c021479e882614b",
-      "latencyMs": 1609,
+      "requestHash": "e01637576f34c4764425d67b05a4957a83f30160e935aa38e7ed3f6f9993c476",
+      "latencyMs": 5149,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "Good information about the organizer:\n- Name: Tramontana Escena\n- Status: approved\n- Account age: 930 days (about 2.5 years) - reasonable age\n- Fiscal data: present and checksum valid ✓\n- No other organizers owned by same person\n- Team: owner, manager, 2 scanners\n- History: 14 published events, 0 cancelled, 12 ended - good track record\n- No admin unpublishes\n- No content reports\n- No previous agent reviews\n\nThis looks like a legitimate organizer with a clean history.\n\nNow let me check for similar events to see if this might be a clone:",
           "toolCalls": [
             {
-              "id": "iBMGPg8tQVUTHa9Ul4x7DomgwKqiOIiN",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Tramontana Escena Girona cabaret invierno 2026\",\"maxResults\":2}"
+              "id": "fWz1qgvWhcY9CSTSW4VqdtpmYV40EIkg",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_4a09b3616d\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3813,
-          "outputTokens": 54
+          "inputTokens": 4341,
+          "outputTokens": 194
         }
       }
     },
     {
-      "requestHash": "0187580824b5f0bce4a3037f71da0da0a4794544c6cac31bcadc42a5389c65c3",
-      "latencyMs": 1566,
+      "requestHash": "8a0ece76f4ec3cafebeea6f5ff80f43db9e85578b92ebd44f65222f174a325a1",
+      "latencyMs": 20145,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "No similar events found in the same province (Girona) with similar titles near this event's dates. This is good - no clone signal.\n\n**Summary of findings:**\n\n1. **Organizer identity**: Clean - approved status, valid fiscal data, 930 days old account, no content reports, clean history\n2. **Venue**: Exists and capacity matches (already verified by deterministic checks)\n3. **Price benchmark**: OK - under 3x p90 for comparable events\n4. **Service fee**: Warning at 45% (above 20% threshold), but this is a \"warn\" not \"fail\". The deterministic check flagged it as warn, not fail. I need to consider if this alone warrants rejection or if it's acceptable. Looking at the instructions: reject only on direct evidence of fraud or illegal content. A service fee warning is not a hard signal for fraud.\n5. **No similar events**: No clone detected\n6. **All other deterministic checks passed**\n\nThe service fee at 45% is concerning but it's marked as \"warn\" in the deterministic checks, not \"fail\". The instructions say to reject only on direct evidence of fraud or illegal content - a high service fee alone doesn't constitute fraud. It could be a business decision for a small venue.\n\nThere's no evidence of fraud here:\n- Organizer is legitimate with clean history\n- Venue exists and capacity matches\n- Prices are reasonable (under 3x benchmark)\n- No similar events suggesting cloning\n- All other checks pass\n\nThe service fee warning is noted but doesn't rise to the level of fraud. I should recommend approval.\n\nLet me submit the recommendation:",
           "toolCalls": [
             {
-              "id": "Vlg1bb0UBWFOLvCZ25ASIduDDVdNlFlg",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Tramontana Escena S.L. Girona cabaret\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4262,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "43758e462d7b63084c7feafee7d1382c8a6f5868e126d509e41c52a9e85f13b3",
-      "latencyMs": 1804,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "VR4PpU7CWL5DPkPFJeZKUoq4l3IhjZZe",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena\\\" \\\"cabaret de invierno\\\" Girona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4668,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "dd99e2237e61b15b22ce78631bc69502b8c3ce51e357e2a794b48a5493421728",
-      "latencyMs": 1496,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "Rx8m9xA9XdBUBUYsqHm47aro7uHnbGvt",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" Girona\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5064,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "e36914fc5b9911c38a3729b9ea929d3c26fd72a21c500f013903e795b6945ac4",
-      "latencyMs": 1908,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "tG641P2qutylRiwT1XdTTfjks3IyKVmQ",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"Tramontana Escena S.L.\\\" \\\"cabaret\\\" Girona 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5505,
-          "outputTokens": 59
-        }
-      }
-    },
-    {
-      "requestHash": "423787d90f9df7a07b5803804fb5c36c3d14c211354c7f5db42a15b57c128438",
-      "latencyMs": 32657,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "TSEKTwPvNLP97aVzwvZekuId0YCt7o0t",
+              "id": "AHfYBKakKMJAvBQMBdCcYMylM2P48wG2",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Cabaret de invierno\\\" del organizador Tramontana Escena cumple con todos los requisitos de seguridad y transparencia. Las verificaciones deterministas y de venue confirman que el código postal coincide con la provincia, no hay pagos fuera de plataforma ni enlaces externos, las condiciones son razonables (se devuelven entradas en cancelación), no hay contenido para menores o ilegal, los precios están dentro del rango de mercado para cabaret en Girona, y el aforo es compatible con el recinto. El único aviso es sobre la comisión de servicio del 45%, que está por encima del umbral del 20%, pero no constituye una señal de fraude. El organizador tiene historial limpio (14 eventos publicados, sin cancelaciones ni denuncias), fiscalidad verificada y cuenta activa desde 2024. Las búsquedas web no encontraron indicios de que el evento sea un clon o que el organizador tenga presencia fraudulenta externa. La decisión es aprobar.\",\"findings\":[{\"check\":\"service_fee\",\"verdict\":\"warn\",\"detail\":\"Los gastos de gestión del 45% están por encima del umbral del 20%, pero no indican fraude.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador verificado: Tramontana Escena S.L., CIF válido, cuenta activa desde 2024, sin otras organizaciones del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap como 'Sala de Teatre La Planeta' a 5 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/relation/1012156\",\"title\":\"OpenStreetMap: Sala de Teatre La Planeta (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"pass\",\"detail\":\"Aforo compatible: 150 entradas dentro del aforo de 162 que publica Wikidata para el recinto.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.wikidata.org/wiki/Q18006535\",\"title\":\"Wikidata (Q18006535, CC0)\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 17001 corresponde a Girona.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género cabaret, Girona, aforo lt300).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"Búsquedas web no encontraron eventos similares con el mismo título y fecha de otros organizadores.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.billetweb.fr/girona-montana-en-escena-w26\",\"title\":\"Tickets : Girona - Montaña en Escena Winter Edition 2026 - Billetweb\"}]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"Organizador Tramontana Escena con historial limpio (14 eventos publicados, 0 cancelados, sin reportes de contenido). Datos fiscales válidos y cuenta establecida desde 2024. El recinto existe y el aforo coincide. Precio dentro del benchmark. La comisión del 45% es elevada pero no constituye fraude; se marcó como warn en los checks determinísticos. No hay eventos similares que sugieran clonación. Sin señales de fraude ni contenido ilegal.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado con datos fiscales válidos, cuenta de 930 días, sin reportes de contenido y historial limpio (14 eventos publicados, 0 cancelados).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/organizer/org_3639566f71\",\"title\":\"Organizer context\"}]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en Girona con títulos parecidos cerca de las fechas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/events/similar-search\",\"title\":\"Similar events search\"}]},{\"check\":\"service_fee\",\"verdict\":\"warn\",\"detail\":\"Comisión del 45% supera el umbral del 20%, pero no constituye fraude directo.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://platform.internal/event/evt_4a09b3616d\",\"title\":\"Event details\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5600,
-          "outputTokens": 1250
+          "inputTokens": 4616,
+          "outputTokens": 778
         }
       }
     }
   ],
   "searches": [
-    {
-      "requestHash": "f23eb9a7f45211d1432d2d09abde1bd5aefd925a3fbd436320182afcafefb7d3",
-      "provider": "Tavily",
-      "query": "Tramontana Escena Girona cabaret invierno 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.billetweb.fr/girona-montana-en-escena-w26",
-            "title": "Tickets : Girona - Montaña en Escena Winter Edition 2026 - Billetweb",
-            "snippet": "Create an event\n\nDesde las 19h30 hasta las 22h30 (apertura de puertas a las 19h)\n\nGirona - Montaña en Escena Winter Edition 2026\n\nBy Montaña en Escena\n\nThu Nov 26, 2026\n\nTimezone : Europe/Paris\n\nOdeón Multicines Girona, Camí dels Carlins, Salt, Espagne\n\nGirona - Montaña en Escena Winter Edition 2026\n\nAbout [...] About\n\nMontaña en Escena es una selección de las mejores películas sobre deportes como el esquí, el alpinismo, la escalada o el parapente. Todas las películas están en versión original s"
-          },
-          {
-            "url": "https://oazis.app/evenements/montana-en-escena-winter-edition-2026-girona",
-            "title": "Montaña en Escena Winter Edition 2026 — Girona · Oazis",
-            "snippet": "Montaña en Escena es una selección de las mejores películas sobre deportes como el esquí, el alpinismo, la escalada o el parapente. Todas las películas están en versión original subtituladas en español.\n\nDe 19:30 hasta 22:45. Apertura de puertas a partir de las 19:00.\n\n## Explorer [...] ## Sorties par ville\n\n## Par envie\n\n## Découvrir\n\n## Infos & légal\n\n## Toi & Oazis\n\n## Organisateurs\n\nOazis - les sorties culturelles autour de toi, mises à jour chaque jour.\n\n© 2026 Oazis\n\nOazis\nMontaña en Escen"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "a8fbf5ae2191bf2e75ae20e557e7dc1093ed28134b24087d753e19ea397ef8c8",
-      "provider": "Tavily",
-      "query": "Tramontana Escena S.L. Girona cabaret",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.einforma.com/informacion-empresa/bar-tramontana",
-            "title": "Bar Tramontana SL: consulte telfono, CIF y direccin",
-            "snippet": "Title: Bar Tramontana SL: consulte telfono, CIF y direccin\n* Directorio Empresas Actividad CNAE | Directorio Empresas por Provincias > Datos generales de BAR TRAMONTANA S.L. # BAR TRAMONTANA S.L. en Girona. * Datos Generales; \"Datos Generales de BAR TRAMONTANA S.L.\"). ## Datos Generales de **BAR TRAMONTANA S.L.**. | Dirección y teléfono de BAR TRAMONTANA S.L. | Ver el Informe ampliado de BAR TRAMONTANA S.L. Regístrate en eInforma y te regalamos el Informe Ampliado de esta empresa  Ver Informe Am"
-          },
-          {
-            "url": "https://costabrava.org/en/experiencia/tramontana-trails",
-            "title": "Tramontana Trails | Costa Brava Girona Pyrenees",
-            "snippet": "Share;)\n Save to favourites;)\n El Port de la Selva\n\n  ## (View on Google Maps)\n (+34) 972 387 122\n turisme@elportdelaselva.cat\n www.elportdelaselva.cat\n\n## Other experiences - hiking and day trips\n\n Viu un passeig. Ajuntament Calonge Sant antoni.dtc_\n\n  ### Enjoy a seafront walk in Sant Antoni\n\n  AJUNTAMENT DE CALONGE I SANT ANTONI · Calonge i Sant Antoni\n\n Volca Espai Crater\n\n  ### Guided tour of the Montsacopa volcano\n\n  ESPAI CRàTER · Olot\n\n Palamos. Quim Guell ICONNA 2 [...] Contact us\n\n Cat"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "e3a8cf515154a17053e60941b0fad0059fb0cbf5aad19f13352512986304df97",
-      "provider": "Tavily",
-      "query": "\"Tramontana Escena\" \"cabaret de invierno\" Girona",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://tavily.com/knowledge/company/J7XQPhi5tUkb",
-            "title": "Tramontana",
-            "snippet": "# TRAMONTANA\nID: J7XQPhi5tUkb\nWebsite: www.tramontana.eu\nLegal name: Popov Clothing B.V.\nHeadquarters: Lijnden, Netherlands\nLinkedIn: www.linkedin.com/company/tramontana · 924 followers\nIndustry: Retail Apparel and Fashion\nIndustry codes: SIC 51, 513, NAICS 42, 424\nCompany type: Privately Held\nFounded: 1983\nSocial profiles: www.facebook.com/tramontana.eu, www.crunchbase.com/organization/tramontana, www.instagram.com/tramontana.eu\nEmail: webshop@tramontana.eu\nPhone: +31 085 888 9489, 085 888 9489"
-          },
-          {
-            "url": "https://tavily.com/knowledge/company/zbqhtg0TuHK5",
-            "title": "Tramontana",
-            "snippet": "# Tramontana\nID: zbqhtg0TuHK5\nWebsite: www.tramontana.co.uk\nLegal name: Tramontana Asset Management\nHeadquarters: London, United Kingdom\nLinkedIn: www.linkedin.com/company/tramontana-asset-management-ltd · 1,417 followers\nIndustry: Financial Services\nIndustry codes: SIC 62, 628, NAICS 52, 523\nCompany type: Privately Held\nSocial profiles: www.crunchbase.com/organization/tramontana-asset-management\nPhone: +44 2073519346 [...] ## Technology\n- Detected: 4\n- gps · last seen 2026-08-24\n- greenhouse · "
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "012ff42fb14920a04e0f19ed52e38305feeddebe65f86aee47a7fffc5632a35e",
-      "provider": "Tavily",
-      "query": "\"Tramontana Escena S.L.\" Girona",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://www.axesor.es/Informes-Empresas/1222253/TRAMONTANA_TRES_SL.html",
-            "title": "Tramontana Tres sl: Teléfono, CIF y Dirección | Axesor",
-            "snippet": "Tramontana Tres sl es una empresa constituida hace 28 años, 6 meses y 10 dias en Castello D'empuries, Girona. Su número de teléfono es el 972257915 y su CNAE es Hoteles y alojamientos similares. La actividad SIC de Tramontana Tres sl es 7021 Pensiones y casas de huéspedes y su objeto social es Promocion. Creacion y Explotacion Establecimientos Relacionados Con Hosteleria y Turismo. Sistemas Gestion Hotelera. [...] Tramontana Tres sl está inscrita en el Registro Mercantil de Girona. Tiene 1 órgan"
-          },
-          {
-            "url": "https://www.iberinform.es/empresa/1204023/tramontana-2000",
-            "title": "TRAMONTANA 2000 SL (Inactiva): CIF, Dirección y Ventas - Iberinform",
-            "snippet": "3.000 – 30.000€\n\n### Evolución ventas\n\nIgual\n\n### Tamaño de empresa\n\n### Empleados\n\n## Resumen de Tramontana 2000 Sl\n\nLa compañía Tramontana 2000 Sl tiene su sede en el municipio de Girona, localizado en la provincia de Girona. El domicilio fiscal de la empresa está en Plaza Capella, S/n. 17007, Girona (girona). España., con el código postal 17007. Tramontana 2000 Sl figura en el Registro Mercantil de la provincia de Girona. [...] TRAMONTANA 2000 SL\n ### Marcas y nombres comerciales\n\n  TRAMONTAN"
-          }
-        ]
-      }
-    },
     {
       "requestHash": "11b840dc9f2f2ef258fe67ffb280ce63efc753f5555bed0df027885dd05d5b39",
       "provider": "Tavily",
@@ -252,33 +80,7 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "results": [
-          {
-            "url": "https://www.facebook.com/groups/132667326809370/posts/28738800665769321",
-            "title": "Sábado de Cabaret 🪩 📌Noche de humor, karaoke 🎤 ...",
-            "snippet": "Sábado de Cabaret Noche de humor, karaoke música en vivo baile y más Te invitamos, no faltes ; Tatiana Shandyra ▻ Latinos"
-          },
-          {
-            "url": "https://www.instagram.com/reel/De-genXO6zK",
-            "title": "Viernes 6 de noviembre",
-            "snippet": "Ven y acompáñanos en una noche divertida donde vas a disfrutar de buena Música Bailable, Show en vivo, que podría ser protagonizado por ti"
-          },
-          {
-            "url": "https://www.facebook.com/teatroinbal/videos/el-cabaret-encuentra-en-el-humor-el-gozo-y-el-disfrute-una-forma-potente-para-cr/999416506389043",
-            "title": "El cabaret encuentra en el humor, el ...",
-            "snippet": "El cabaret encuentra en el humor, el gozo y el disfrute, una forma potente para criticar al poder y sus diversas formas de operación al"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=eC5e3ua7wyQ",
-            "title": "Invierno Musical || En Vivo desde Tijuana B.C.",
-            "snippet": "Banda Cohuich.- Mambo Lupita En Vivo. LO MEJOR DE NAYARIT · 233K views ; CHICOTEADAS CON BANDA, NOTTEÑAS Y SIERREÑA! PURAS CHICOTEADAS PA' BAILAR"
-          },
-          {
-            "url": "https://www.youtube.com/watch?v=lnTXTYf8YcQ",
-            "title": "D Todo - Noches de cabaret (05/07/2022)",
-            "snippet": "Alexia nos llevará a rememorar la bohemia parisina de principios del siglo XX, en un lugar acogedor que nos deleitará con un show burlesque,"
-          }
-        ]
+        "failure": "quota_exceeded"
       }
     }
   ]
