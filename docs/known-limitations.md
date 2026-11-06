@@ -50,19 +50,12 @@ calibration, above.
   not against the review, so an event whose only session is in the past raises nothing. Such
   events only reach the agent on a first pass over an old feed, or after an edit. Fix: a check
   that a session has already started at review time.
-- **A `reject` without direct evidence.**
-  - **Symptom:** the model admitted there was no direct evidence of fraud and drafted a
-    `request_info`, but still recommended `reject`.
-  - **Fix:** the prompt prefers `request_info` in that case. The change has to be measured on
-    the evals.
 - **A venue without coordinates goes unverified.** `verifyVenue` doesn't look a venue up by name
   and city, so a real theatre stored without coordinates was reported as unknown. Fix: a name
   and city lookup when coordinates are missing.
 - **"No data" reads as certainty.** A finding with no data carries a confidence of 1. The
   confidence is about the deterministic check, but the admin sees "100 %" next to "no data". Fix:
   decide the confidence of such findings, or how Satella shows them.
-- **Noise in the findings.** The model also lists what it didn't check ("not searched") and adds
-  weak arguments, such as how many tickets sold. Fix: prompt rules, measured on the evals.
 
 ## Operation
 
