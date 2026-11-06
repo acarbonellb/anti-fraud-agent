@@ -36,7 +36,8 @@ fixed.
 - **Autonomy**: `auto_resolved` (clear case, no human needed) or `escalated` (a human must look).
   Decided by the policy, not by the model.
 - **Finding**: the result of one check (`pass` / `warn` / `fail` / `unknown`), with a confidence
-  and its sources.
+  and its sources. A finding computed in code carries confidence 1, or 0 when it is `unknown`:
+  a check with no data reached no verdict to be confident in.
 - **Hard signal**: a finding strong enough to allow an auto-resolved `reject` (off-platform
   payment, illegal content including alcohol aimed at minors, exact duplicate of another
   organizer, capacity several times the venue's), from a rule check or with sources (ADR 0012).

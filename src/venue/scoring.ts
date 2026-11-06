@@ -12,7 +12,7 @@
  */
 import type { Finding } from "../satella-client/schemas.js";
 import type { CheckId } from "../checks/vocabulary.js";
-import type { SystemFinding } from "../checks/types.js";
+import { type SystemFinding, systemConfidence } from "../checks/types.js";
 import type { SearchFailure, SearchResult } from "../search/types.js";
 import type { ProviderFailure, VenueProvider } from "./http.js";
 import { osmUrl, type Place, type PointPlace } from "./nominatim.js";
@@ -455,7 +455,13 @@ export function venueFinding(
 ): SystemFinding {
   return {
     certainty: "heuristic",
-    finding: { check, verdict, detail, confidence: 1, sources },
+    finding: {
+      check,
+      verdict,
+      detail,
+      confidence: systemConfidence(verdict),
+      sources,
+    },
     // One family: a model finding on any of them is dropped (ADR 0012 point 1).
     covers: VENUE_CHECKS,
   };
