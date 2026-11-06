@@ -26,13 +26,54 @@ export interface AgentTool<Input = unknown, Output = unknown> {
   repeatKey?(input: Input): string;
 }
 
-/** Erases the input type so tools of different shapes fit in one list. */
-export type AnyAgentTool = AgentTool<never>;
+/**
+ * A tool with its input and output types erased, so tools of different shapes
+ * fit in one list. The erasure happens inside `bind`'s closure, after the
+ * tool's own schema checked the arguments: the compiler still ties each
+ * schema to its executor, and no cast is needed.
+ */
+export interface AnyAgentTool {
+  readonly name: string;
+  readonly description: string;
+  readonly kind: AgentTool["kind"];
+  readonly input: z.ZodType;
+  bind(args: unknown): BindResult;
+}
+
+export type BindResult =
+  { ok: true; call: BoundCall } | { ok: false; error: z.ZodError };
+
+/** Arguments that passed the tool's schema, ready to run. */
+export interface BoundCall {
+  /** See `AgentTool.repeatKey`. */
+  readonly repeatKey: string | undefined;
+  run(): Promise<{ output: unknown; sources: string[] }>;
+}
 
 export function defineTool<Input, Output>(
   tool: AgentTool<Input, Output>,
 ): AnyAgentTool {
-  return tool as unknown as AnyAgentTool;
+  return {
+    name: tool.name,
+    description: tool.description,
+    kind: tool.kind,
+    input: tool.input,
+    bind(args) {
+      const parsed = tool.input.safeParse(args);
+      if (!parsed.success) return { ok: false, error: parsed.error };
+      const input = parsed.data;
+      return {
+        ok: true,
+        call: {
+          repeatKey: tool.repeatKey?.(input),
+          async run() {
+            const output = await tool.execute(input);
+            return { output, sources: tool.sources?.(output) ?? [] };
+          },
+        },
+      };
+    },
+  };
 }
 
 export function toToolDefinition(tool: {

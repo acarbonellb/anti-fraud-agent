@@ -7,7 +7,7 @@ import {
   REVIEW_MAX_FINDINGS,
   REVIEW_TEXT_LIMITS,
 } from "../satella-client/schemas.js";
-import { CHECK_IDS, CHECKS } from "./checks.js";
+import { CHECK_IDS, CHECKS } from "../checks/vocabulary.js";
 
 /**
  * What the model submits to end a review, through the `submit_recommendation`

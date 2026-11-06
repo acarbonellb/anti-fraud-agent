@@ -5,9 +5,7 @@
  * finding, never into a pass (ADR 0015 point 2).
  */
 import { DomainError } from "../errors.js";
-
-/** The part of `fetch` the providers call: tests, recorders and replay inject their own. */
-export type Fetch = (url: string, init: RequestInit) => Promise<Response>;
+import type { Fetch } from "../fetch.js";
 
 /**
  * Identifies the application, as the Nominatim usage policy asks

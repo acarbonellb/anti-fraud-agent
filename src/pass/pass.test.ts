@@ -12,7 +12,7 @@ import type { SystemFinding } from "../checks/types.js";
 import {
   callTool,
   createScriptedProvider,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import {
   type CompletionResponse,
   type LlmProvider,

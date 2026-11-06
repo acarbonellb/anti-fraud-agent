@@ -17,14 +17,14 @@ import { createHash } from "node:crypto";
 
 import { REVIEW_PROMPT, type Prompt } from "../agent/prompt.js";
 import { reviewSubject } from "../agent/review.js";
+import { reviewEvidence } from "../agent/review-evidence.js";
 import { createUntrustedFence } from "../agent/untrusted.js";
 import { loadConfig } from "../config/config.js";
 import { DomainError } from "../errors.js";
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import { isVenueCheck } from "../venue/scoring.js";
 import { noThrottle } from "../venue/throttle.js";
 import {
-  createVenueChecks,
   createVenueThrottles,
   type VenueThrottles,
 } from "../venue/venue-checks.js";
@@ -42,7 +42,6 @@ import type { ReportSet } from "./report.js";
 import type { RecordingSet } from "./store.js";
 import { createAuthoredSearch } from "../search/authored.js";
 import type { WebSearch } from "../search/types.js";
-import { webSearchTool } from "../search/web-search-tool.js";
 import {
   createRecordingSearch,
   createReplaySearch,
@@ -265,9 +264,7 @@ async function review(
       provider,
       limits: runLimits,
       autoApproveThreshold,
-      venueChecks: createVenueChecks({ fetch, throttles, search }),
-      extraTools: [webSearchTool(search)],
-      webSearch: search,
+      ...reviewEvidence({ fetch, throttles, search }),
       now: () => clock,
       fence: createUntrustedFence(nonceFor(evalCase.id, runIndex)),
       prompt,

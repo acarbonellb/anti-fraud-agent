@@ -21,7 +21,13 @@ import { type SystemFinding, systemFinding } from "./types.js";
 /** A ticket above this many times the benchmark's p90 is an outlier (case 13). */
 export const PRICE_OUTLIER_FACTOR = 3;
 
-/** Satella's bands, by the largest session's total capacity. */
+/**
+ * Satella's bands, by the largest session's total capacity. Every ticket and
+ * every session count, guest lists and cancelled sessions included, unlike
+ * `maxTicketsOnSale`: the band says which events are comparable by size, so
+ * it follows how Satella groups them, while the exposure cap counts what a
+ * buyer can actually pay for.
+ */
 export function capacityBand(context: EventReviewContext): CapacityBand {
   const largest = Math.max(
     0,

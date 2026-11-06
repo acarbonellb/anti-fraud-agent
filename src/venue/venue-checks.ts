@@ -7,10 +7,11 @@
  */
 import type { EventReviewContext } from "../satella-client/schemas.js";
 import type { SystemFinding } from "../checks/types.js";
-import { type Fetch, VenueProviderError } from "./http.js";
+import type { Fetch } from "../fetch.js";
+import { VenueProviderError } from "./http.js";
 import { createNominatim, NOMINATIM_MIN_INTERVAL_MS } from "./nominatim.js";
+import { maxTicketsOnSale } from "../checks/tickets-on-sale.js";
 import {
-  maxTicketsOnSale,
   type Outcome,
   publishedCapacity,
   scoreCapacity,

@@ -11,9 +11,12 @@ import {
   FAKE_PROJECT,
   FAKE_TOKEN,
   type FakeFirestore,
-} from "./fake-firestore.js";
+} from "../test-support/fake-firestore.js";
 import { createFirestoreStore } from "./firestore-store.js";
-import { describeAgentStore, runDocument } from "./store-contract.js";
+import {
+  describeAgentStore,
+  runDocument,
+} from "../test-support/store-contract.js";
 import { type AgentStore, StoreError } from "./types.js";
 
 describeAgentStore("Firestore store", (now) => ({

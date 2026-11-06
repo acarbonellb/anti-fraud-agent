@@ -61,7 +61,7 @@ field.
 - A local model is weaker than the paid ones. In the first real run it miscomputed a service
   fee: it called 150 cents on a €15 ticket "about 1%". Calculations belong in deterministic
   tools (#7), not in the model.
-- Findings name a check from a closed vocabulary (`src/agent/checks.ts`), so the policy reads
+- Findings name a check from a closed vocabulary (`src/checks/vocabulary.ts`), so the policy reads
   stable names instead of labels the model invents.
 - `pnpm review:local` runs one real review on the local model against the Satella mock, with
   nothing leaving the machine.

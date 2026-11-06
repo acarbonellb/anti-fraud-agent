@@ -22,23 +22,16 @@ import { loadLocalEnvFile } from "../src/config/env-file.js";
 import { DomainError } from "../src/errors.js";
 import { logLine } from "../src/pass/log-line.js";
 import { runPass } from "../src/pass/pass.js";
+import { reviewEvidence } from "../src/agent/review-evidence.js";
 import { createConfiguredProvider } from "../src/providers/from-config.js";
 import { isPaidProvider } from "../src/providers/pricing.js";
-import {
-  createSatellaClient,
-  type SatellaClient,
-} from "../src/satella-client/client.js";
-import { fixtures } from "../src/satella-client/fixtures.js";
+import { createSatellaClient } from "../src/satella-client/client.js";
 import { createIdentityTokenSource } from "../src/satella-client/identity-token.js";
-import { startMockSatella } from "../src/satella-client/mock-server.js";
-import { createTavilySearch } from "../src/search/tavily.js";
-import { webSearchTool } from "../src/search/web-search-tool.js";
+import { createConfiguredSearch } from "../src/search/from-config.js";
 import { createFirestoreStore } from "../src/store/firestore-store.js";
 import { createMemoryStore } from "../src/store/memory-store.js";
-import {
-  createVenueChecks,
-  createVenueThrottles,
-} from "../src/venue/venue-checks.js";
+import { createVenueThrottles } from "../src/venue/venue-checks.js";
+import { type SatellaConnection, startLocalSatella } from "./local-satella.js";
 
 loadLocalEnvFile();
 const correlationId = randomUUID();
@@ -91,47 +84,21 @@ const store =
           ? {}
           : { emulatorHost: firestoreEmulatorHost }),
       });
-const { tavilyApiKey } = config.webSearch;
-// Without a key the pass reviews without web search, as production would.
-const search =
-  tavilyApiKey === undefined
-    ? undefined
-    : createTavilySearch({ apiKey: tavilyApiKey, fetch: globalThis.fetch });
 
 /**
  * The Satella the pass reviews: the in-process mock and its fictitious feed,
  * or staging with the job's Google identity token.
  */
-async function connectSatella(
-  to: SatellaTarget,
-): Promise<{ client: SatellaClient; close: () => Promise<void> }> {
-  if (to !== "mock") {
-    return {
-      client: createSatellaClient({
-        baseUrl: to.baseUrl,
-        getAccessToken: createIdentityTokenSource({ audience: to.audience }),
-        correlationId,
-      }),
-      close: () => Promise.resolve(),
-    };
-  }
-  const mock = await startMockSatella({
-    fixtures: {
-      feed: fixtures.feed,
-      events: [fixtures.eventContext],
-      organizers: [fixtures.organizerContext],
-      similar: { [fixtures.eventContext.event.id]: fixtures.similarEvents },
-    },
-    tokens: { local: ["agent:read", "agent:recommend"] },
-  });
-  return {
+function connectSatella(to: SatellaTarget): Promise<SatellaConnection> {
+  if (to === "mock") return startLocalSatella(correlationId);
+  return Promise.resolve({
     client: createSatellaClient({
-      baseUrl: mock.baseUrl,
-      getAccessToken: () => Promise.resolve("local"),
+      baseUrl: to.baseUrl,
+      getAccessToken: createIdentityTokenSource({ audience: to.audience }),
       correlationId,
     }),
-    close: () => mock.close(),
-  };
+    close: () => Promise.resolve(),
+  });
 }
 const satella = await connectSatella(target);
 
@@ -146,13 +113,11 @@ try {
     dailyBudgetMicros: config.dailyBudgetMicros,
     // Only `anthropic` takes an effort: record it only where it was sent.
     effort: config.llm.provider === "anthropic" ? config.llm.effort : null,
-    venueChecks: createVenueChecks({
+    ...reviewEvidence({
       fetch: globalThis.fetch,
       throttles: createVenueThrottles(),
-      ...(search === undefined ? {} : { search }),
+      search: createConfiguredSearch(config.webSearch),
     }),
-    extraTools: search === undefined ? [] : [webSearchTool(search)],
-    ...(search === undefined ? {} : { webSearch: search }),
     log: (entry) => {
       line(entry);
     },

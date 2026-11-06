@@ -9,7 +9,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 import {
   MAX_SNIPPET_CHARS,
   type SearchQuery,

@@ -6,7 +6,7 @@
  * what a test reads back. Anything else is a `400`, so a store that drifts
  * from the real API fails here first. Tests can also queue a failure.
  */
-import type { Fetch } from "../venue/http.js";
+import type { Fetch } from "../fetch.js";
 
 export const FAKE_PROJECT = "demo-project";
 export const FAKE_TOKEN = "fake-access-token";

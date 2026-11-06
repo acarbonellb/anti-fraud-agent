@@ -10,10 +10,10 @@ import { REVIEW_PROMPT } from "../agent/prompt.js";
 import {
   callTool,
   createScriptedProvider,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import { createAuthoredSearch } from "../search/authored.js";
-import { fakeVenueFetch } from "../venue/fake-venue-fetch.js";
+import { fakeVenueFetch } from "../test-support/fake-venue-fetch.js";
 import type { Recording } from "./recording.js";
 import { recordCase, replayCase, replaySet } from "./runner.js";
 import { toolRecordingSchema } from "./tool-recording.js";

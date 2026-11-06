@@ -11,7 +11,7 @@ import { afterEach, beforeEach, expect, it } from "vitest";
 import {
   callTool,
   createScriptedProvider,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import type { LlmProvider } from "../providers/types.js";
 import {
   createSatellaClient,

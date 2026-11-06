@@ -3,7 +3,7 @@
  * coordinates, with a published capacity: every venue check passes. Any
  * other request fails as the network would, so a test can't reach it.
  */
-import type { Fetch } from "./http.js";
+import type { Fetch } from "../fetch.js";
 
 export function fakeVenueFetch(venue: {
   latitude: number;

@@ -6,7 +6,7 @@
 // function; fakes nothing.
 import { describe, expect, it } from "vitest";
 
-import { caseResult } from "./fake-results.js";
+import { caseResult } from "../test-support/fake-results.js";
 import type { HistoryEntry } from "./history.js";
 import { computeMetrics } from "./metrics.js";
 import { renderReport, type ReportSet } from "./report.js";

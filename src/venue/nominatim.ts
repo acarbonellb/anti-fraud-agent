@@ -13,7 +13,8 @@
  */
 import { z } from "zod";
 
-import { type Fetch, requestJson, VenueProviderError } from "./http.js";
+import type { Fetch } from "../fetch.js";
+import { requestJson, VenueProviderError } from "./http.js";
 import type { Throttle } from "./throttle.js";
 
 export const NOMINATIM_URL = "https://nominatim.openstreetmap.org";

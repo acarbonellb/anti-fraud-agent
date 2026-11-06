@@ -23,7 +23,7 @@ import type {
   OrganizerReviewContext,
   Subject,
 } from "../satella-client/schemas.js";
-import { maxTicketsOnSale } from "../venue/scoring.js";
+import { maxTicketsOnSale } from "../checks/tickets-on-sale.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
 import { type RunLimits, type RunResult, runReview } from "./loop.js";
 import type { AutonomySubject } from "./policy.js";

@@ -8,7 +8,7 @@ import {
   callTool,
   createScriptedProvider,
   sayText,
-} from "../providers/scripted-provider.js";
+} from "../test-support/scripted-provider.js";
 import type { CompletionRequest } from "../providers/types.js";
 import {
   createRecordingProvider,
@@ -94,8 +94,10 @@ describe("recording provider", () => {
       createScriptedProvider([first, second]),
     );
     expect(recorder.provider).toBe("scripted");
-    await recorder.complete(request("uno"));
-    await recorder.complete(request("dos"));
+    const answered = [
+      await recorder.complete(request("uno")),
+      await recorder.complete(request("dos")),
+    ];
 
     expect(recorder.calls.map((call) => call.requestHash)).toEqual([
       hashRequest(request("uno")),
@@ -105,7 +107,7 @@ describe("recording provider", () => {
       ...recordingOf(),
       calls: recorder.calls,
     });
-    expect(await replay.complete(request("uno"))).toEqual(first);
-    expect(await replay.complete(request("dos"))).toEqual(second);
+    expect(await replay.complete(request("uno"))).toEqual(answered[0]);
+    expect(await replay.complete(request("dos"))).toEqual(answered[1]);
   });
 });

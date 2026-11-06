@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-import type { Effort } from "../providers/anthropic/adapter.js";
+import type { Effort } from "../providers/types.js";
 
 // An empty value in .env (`AGENT_MAX_TOKENS=`) means "unset", so it falls back
 // to the default instead of failing as 0.

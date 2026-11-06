@@ -7,7 +7,8 @@ import { describe, expect, it } from "vitest";
 import { fixtures } from "../satella-client/fixtures.js";
 import type { EventReviewContext } from "../satella-client/schemas.js";
 import type { WebSearch } from "../search/types.js";
-import { type Fetch, USER_AGENT } from "./http.js";
+import type { Fetch } from "../fetch.js";
+import { USER_AGENT } from "./http.js";
 import { createThrottle, noThrottle } from "./throttle.js";
 import { createVenueChecks } from "./venue-checks.js";
 
