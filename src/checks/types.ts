@@ -15,6 +15,12 @@ export interface SystemFinding {
    * `capacity_far_above_venue`). A model finding on any of them is dropped.
    */
   covers?: readonly string[];
+  /**
+   * The verified venue's OpenStreetMap `category=type` (e.g. `leisure=park`),
+   * carried by the capacity finding: the policy picks the exposure cap by it
+   * (ADR 0015, amendment of #78). Absent when the venue isn't verified.
+   */
+  venueType?: string;
 }
 
 /**

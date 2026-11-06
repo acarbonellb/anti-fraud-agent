@@ -49,8 +49,12 @@ fixed.
 - **Venue checks**: `verifyVenue` and `estimateVenueCapacity`, external checks run in code before
   the model on the review context. Their findings are system findings with sources, and an event's
   auto-approval requires them (ADR 0015).
-- **Exposure cap**: the most tickets on sale per session (300) an event may have to resolve an
-  approval on its own while its venue's capacity is unknown (ADR 0015).
+- **Exposure cap**: the most tickets on sale per session an event may have to resolve an
+  approval on its own while its venue's capacity is unknown: 10,000 for an open space, 300 for any
+  other or unknown venue type (ADR 0015).
+- **Open space**: a verified venue whose OpenStreetMap type is a park, a recreation ground or a
+  square (`OPEN_SPACE_TYPES`). It publishes no capacity, so it gets the higher exposure cap (ADR
+  0015, amendment of #78).
 - **Mechanical request**: a `request_info` whose every negative finding is a rule finding. It
   may resolve on its own, for an event or an organizer (ADRs 0012 and 0015).
 - **Copied-text check**: the one web search run in code: the description's longest sentence. A

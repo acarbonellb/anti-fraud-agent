@@ -21,11 +21,6 @@ have resolved itself.
 
 ## Costs the admin time
 
-- **Festivals in open spaces escalate** (N2).
-  - **Symptom:** a park has no published capacity, and the event puts 6,000 tickets on sale per
-    session. That is above the 300-ticket exposure cap (`EXPOSURE_CAP_TICKETS`).
-  - **Fix:** a cap per capacity band or per venue type (`leisure=park`). Or accept this
-    as the price of catching case 16.
 - **Confidence is poorly calibrated.**
   - **Symptom:** in E014, Haiku 5.5 is right 86.7 % of the time but reports 0.60–0.80, so it
     escalates 85.6 % of gated cases. N3 and N4 escalate a correct approval at 0.80 in all three

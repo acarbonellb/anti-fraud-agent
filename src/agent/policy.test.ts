@@ -11,6 +11,7 @@ import {
   type AutonomySubject,
   decideAutonomy,
   EXPOSURE_CAP_TICKETS,
+  OPEN_SPACE_EXPOSURE_CAP_TICKETS,
 } from "./policy.js";
 
 const THRESHOLD = 0.85;
@@ -213,6 +214,54 @@ describe("approve needs venue evidence (ADR 0015)", () => {
       expect(asShown).toEqual(asBefore);
     },
   );
+});
+
+describe("the exposure cap depends on the venue type (#78)", () => {
+  const checks = [rule("postal_code_province", "pass"), venue("pass")];
+  const unknownAt = (venueType?: string): SystemFinding => ({
+    ...capacity("unknown"),
+    ...(venueType === undefined ? {} : { venueType }),
+  });
+  const approve = (finding: SystemFinding, tickets: number) =>
+    decide("approve", [...checks, finding], [], 0.95, {
+      type: "event",
+      maxTicketsOnSale: tickets,
+    });
+
+  it("lets a park of unknown capacity resolve with 6,000 tickets in a session", () => {
+    expect(approve(unknownAt("leisure=park"), 6000).autonomy).toBe(
+      "auto_resolved",
+    );
+  });
+
+  it.each(["leisure=recreation_ground", "place=square"])(
+    "treats %s as an open space",
+    (venueType) => {
+      expect(approve(unknownAt(venueType), 6000).autonomy).toBe(
+        "auto_resolved",
+      );
+    },
+  );
+
+  it("escalates a park above the open-space cap", () => {
+    const verdict = approve(unknownAt("leisure=park"), 10_001);
+    expect(OPEN_SPACE_EXPOSURE_CAP_TICKETS).toBe(10_000);
+    expect(verdict.autonomy).toBe("escalated");
+    expect(verdict.reasons).toContain(
+      "capacity unknown with 10001 tickets on sale in one session, above the exposure cap of 10000",
+    );
+  });
+
+  it.each([
+    ["a pub", "amenity=pub"],
+    ["no venue type", undefined],
+  ])("keeps the default cap for %s", (_, venueType) => {
+    const verdict = approve(unknownAt(venueType), 301);
+    expect(EXPOSURE_CAP_TICKETS).toBe(300);
+    expect(verdict.reasons).toContain(
+      "capacity unknown with 301 tickets on sale in one session, above the exposure cap of 300",
+    );
+  });
 });
 
 describe("web search can hold back, never let through (ADR 0015)", () => {
