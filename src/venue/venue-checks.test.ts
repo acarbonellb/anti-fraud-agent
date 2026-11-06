@@ -189,6 +189,29 @@ describe("venue checks", () => {
     expect(findings[0]?.finding.detail).toContain(row.text);
   });
 
+  it("gives no confidence to the findings a failed lookup left unknown", async () => {
+    const { fetch } = fakeFetch({ search: () => json({}, 503) });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(findings.map((item) => item.finding.confidence)).toEqual([0, 0]);
+  });
+
+  it("keeps full confidence on the findings a lookup settled", async () => {
+    const { fetch } = fakeFetch({
+      search: () => json(nominatimHit({ capacity: "898" })),
+    });
+    const findings = await createVenueChecks({ fetch, throttles })(
+      eventAt(LAT, LON),
+    );
+    expect(
+      findings.map((item) => [item.finding.verdict, item.finding.confidence]),
+    ).toEqual([
+      ["pass", 1],
+      ["pass", 1],
+    ]);
+  });
+
   it("says so when the reverse lookup fails after an empty name search", async () => {
     const { fetch } = fakeFetch({
       search: () => json([]),

@@ -96,7 +96,8 @@ be measured, provided the rule is written down and each finding names it.
 
 ADR 0015 settles the consequence above: an event's auto-approval now requires the venue checks
 (`verifyVenue` `pass`, and capacity `pass` or unknown within the exposure cap), a `webSearch`
-finding never counts towards one, and organizer reviews always escalate.
+finding never counts towards one, and organizer reviews always escalate. ADR 0015's amendment
+of #79 restores point 3 for a mechanical organizer request.
 
 ## Amendment (2026-11-03, #24): a price heuristic against the benchmark
 

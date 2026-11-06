@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#78)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -294,6 +294,35 @@ clear the exposure cap.
 The change rewords a system finding the model sees, so the 14 affected cases were re-recorded
 (E015 for Haiku 5.5, E016 for qwen). The gate holds, and in E016 a wrong automatic rejection
 (case 17) now escalates.
+
+## Amendment (2026-11-06, #79): a mechanical organizer request resolves on its own
+
+Replaces point 7 and the amendment «organizer requests escalate too» (#24) for `request_info`,
+which settles the disagreement with ADR 0012 point 3 that amendment left open. Point 7's reason
+is that no structured evidence backs a new organizer. That reason holds for an `approve` and a
+`reject`, which judge who the organizer is. It doesn't hold for a mechanical request (glossary),
+which asks the organizer to fix what a rule found: a CIF whose control letter doesn't match
+(case 22) is wrong whoever the organizer is, and anyone can check it with the rule.
+
+1. **An organizer `request_info` is weighed like an event's** (ADR 0012 point 3): it resolves on
+   its own only when every negative finding is a `rule` system finding, there is at least one,
+   no model finding is negative, and confidence is at the threshold.
+2. **Any other organizer review still escalates**: an `approve`, a `reject`, and a request with
+   a heuristic finding (case 21's `organizer_history`, an owner with a rejected organization) or
+   a negative model finding.
+3. **Nothing reaches Satella differently.** In Satella only an auto-resolved approval skips the
+   admin (ADR 0012), so the request still waits for an admin there. What changes is the
+   recorded autonomy, and with it the escalation rate the evals report.
+
+Rejected:
+
+- **Keep every organizer review escalated.** The eval then counts case 22 as an escalation the
+  admin didn't need, and the escalation rate overstates the admin's work by that case.
+- **Also resolve an organizer `reject` on a rule-based hard signal.** No organizer check yields
+  one today, and a rejection of a new organizer is the decision point 7 meant to keep human.
+
+Hypothesis (ADR 0014): case 22 resolves on its own and the escalation rate falls by that case.
+Accuracy and the auto-approved fraud rate (0 %) don't move, since only the autonomy changes.
 
 ## Amendment (2026-11-06, #78): the exposure cap depends on the venue type
 

@@ -29,8 +29,9 @@
  *   its capacity verified or, when no one publishes it, at most the
  *   exposure cap on sale in any session: `OPEN_SPACE_EXPOSURE_CAP_TICKETS`
  *   for an open space, `EXPOSURE_CAP_TICKETS` for any other or unknown type;
- * - an organizer review never resolves on its own: no structured evidence
- *   backs a new organizer.
+ * - an organizer `approve` or `reject` never resolves on its own: no
+ *   structured evidence backs a new organizer. A mechanical organizer
+ *   `request_info` still does (amendment of #79).
  *
  * In Satella only an auto-resolved approval skips the admin; the autonomy of
  * the rest is recorded and shown, which is what lets the policy be measured
@@ -145,10 +146,15 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
 
 function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
   const { decision, confidence, autoApproveThreshold } = input;
-  if (input.subject.type === "organizer") {
+  // A mechanical request needs no evidence about who the organizer is: the
+  // rule itself is the evidence (ADR 0015 amendment, #79). An approval or a
+  // rejection would, and none backs a new organizer.
+  if (input.subject.type === "organizer" && decision !== "request_info") {
     return {
       autonomy: "escalated",
-      reasons: ["organizer reviews always escalate (ADR 0015)"],
+      reasons: [
+        "organizer approvals and rejections always escalate (ADR 0015)",
+      ],
     };
   }
   const systemNegatives = input.systemFindings.filter((item) =>
@@ -162,7 +168,7 @@ function decideOnEvidence(input: AutonomyInput): AutonomyVerdict {
         ]
       : [];
 
-  if (decision === "approve") {
+  if (decision === "approve" && input.subject.type === "event") {
     const modelFails = modelNegatives.filter((f) => f.verdict === "fail");
     const modelWarns = modelNegatives.filter((f) => f.verdict === "warn");
     const majorWarns = modelWarns.filter(
