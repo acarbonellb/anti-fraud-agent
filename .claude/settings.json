@@ -33,7 +33,17 @@
       "Bash(pnpm typecheck)",
       "Bash(pnpm format:check)"
     ],
-    "deny": ["Skill(skill:mattpocock-skills:pr)"]
+    "deny": [
+      "Skill(skill:mattpocock-skills:pr)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.envrc)",
+      "Bash(cat *.env*)",
+      "Bash(head *.env*)",
+      "Bash(tail *.env*)",
+      "Bash(bat *.env*)",
+      "Bash(rg *.env*)"
+    ]
   },
   "hooks": {
     "PreToolUse": [
@@ -52,9 +62,10 @@
     "mattpocock": {
       "source": {
         "source": "github",
-        "repo": "mattpocock/skills"
+        "repo": "mattpocock/skills",
+        "ref": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa"
       },
-      "autoUpdate": true
+      "autoUpdate": false
     }
   },
   "enabledPlugins": {
