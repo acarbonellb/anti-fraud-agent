@@ -32,6 +32,13 @@ have resolved itself.
   - **Fix:** tune `AGENT_AUTO_APPROVE_THRESHOLD` over several runs, or derive confidence from
     the evidence instead of the model's number.
 
+- **Only parks reach the open-space exposure cap** (#78).
+  - **Symptom:** `OPEN_SPACE_TYPES` lists `leisure=recreation_ground` and `place=square`, but the
+    venue check's `VENUE_TYPES` doesn't, so `nearestVenue` never matches a square or a recreation
+    ground and a festival there keeps the 300-ticket cap.
+  - **Fix:** add both to `VENUE_TYPES` when a real case needs them, with a venue lookup recording
+    that shows the tags.
+
 ## Seen on the first reviews of staging
 
 Both reviews were escalated, so neither resolved anything on its own. They point at
