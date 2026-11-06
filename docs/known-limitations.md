@@ -44,14 +44,6 @@ have resolved itself.
 Both reviews were escalated, so neither resolved anything on its own. They point at
 calibration, above.
 
-- **A `reject` without direct evidence.**
-  - **Symptom:** the model admitted there was no direct evidence of fraud and drafted a
-    `request_info`, but still recommended `reject`.
-  - **Fix:** the prompt prefers `request_info` in that case. The change has to be measured on
-    the evals.
-- **Noise in the findings.** The model also lists what it didn't check ("not searched") and adds
-  weak arguments, such as how many tickets sold. Fix: prompt rules, measured on the evals.
-
 ## Operation
 
 - **Public OpenStreetMap services aren't meant for production volume.**
