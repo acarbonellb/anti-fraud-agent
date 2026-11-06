@@ -2,12 +2,9 @@
  * The in-process Satella mock with its fictitious fixtures, for the scripts
  * that run on this machine (`pnpm pass --mock`, `pnpm review:local`).
  */
-import {
-  createSatellaClient,
-  type SatellaClient,
-} from "../src/satella-client/client.js";
-import { fixtures } from "../src/satella-client/fixtures.js";
-import { startMockSatella } from "../src/satella-client/mock-server.js";
+import { createSatellaClient, type SatellaClient } from "./client.js";
+import { fixtures } from "./fixtures.js";
+import { startMockSatella } from "./mock-server.js";
 
 const TOKEN = "local";
 

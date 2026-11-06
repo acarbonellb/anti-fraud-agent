@@ -51,10 +51,11 @@ import {
   writeRecording,
   writeToolRecording,
 } from "../src/evals/store.js";
-import { createConfiguredProvider } from "../src/providers/from-config.js";
-import { isPaidProvider } from "../src/providers/pricing.js";
-import { createTavilySearch } from "../src/search/tavily.js";
-import { createVenueThrottles } from "../src/venue/venue-checks.js";
+import {
+  buildReviewer,
+  PaidNotAllowedError,
+  type Reviewer,
+} from "../src/wiring/review-dependencies.js";
 
 const RECORDINGS = fileURLToPath(
   new URL("../evals/recordings", import.meta.url),
@@ -158,20 +159,24 @@ async function record(ids: readonly string[]): Promise<void> {
   }
   loadLocalEnvFile();
   const config = loadConfig(process.env);
-  const { tavilyApiKey } = config.webSearch;
-  if (tavilyApiKey === undefined) {
+  let reviewer: Reviewer;
+  try {
+    // Each case reviews its own fixtures: no store, no Satella to connect.
+    reviewer = buildReviewer(config, { paid });
+  } catch (error) {
+    if (!(error instanceof PaidNotAllowedError)) throw error;
+    console.error(`✗ ${error.message}`);
+    process.exit(2);
+  }
+  // The venue providers are free and keyless (OSM, Wikidata); the reviewer's
+  // one set of throttles keeps Nominatim at 1 request per second across cases.
+  const { provider, search, throttles } = reviewer;
+  if (search === undefined) {
     console.error(
       "✗ Recording needs TAVILY_API_KEY (in .env): the cases search the web.",
     );
     process.exit(2);
   }
-  if (isPaidProvider(config.llm.provider) && !paid) {
-    console.error(
-      `✗ ${config.llm.provider} bills per token: pass --paid to record (CLAUDE.md §8).`,
-    );
-    process.exit(2);
-  }
-  const provider = createConfiguredProvider(config.llm);
   const runs = runsToRecord(provider);
   if (runs.length === 0) {
     console.error(
@@ -191,9 +196,6 @@ async function record(ids: readonly string[]): Promise<void> {
         ? ` (effort ${config.llm.effort})…`
         : "…"),
   );
-  // The venue providers are free and keyless (OSM, Wikidata); one set of
-  // throttles keeps Nominatim at 1 request per second across cases.
-  const throttles = createVenueThrottles();
   for (const run of runs)
     for (const evalCase of cases) {
       const { recording, toolRecording, result } = await recordCase(
@@ -202,10 +204,7 @@ async function record(ids: readonly string[]): Promise<void> {
         clock,
         {
           fetch: globalThis.fetch,
-          search: createTavilySearch({
-            apiKey: tavilyApiKey,
-            fetch: globalThis.fetch,
-          }),
+          search,
           throttles,
           run,
         },
