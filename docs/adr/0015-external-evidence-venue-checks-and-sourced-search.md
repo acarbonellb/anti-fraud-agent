@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -356,3 +356,41 @@ listed so the cap is ready when point 3 admits them.
 - **5,000.** Below N2's 6,000 per session.
 
 Case 16 (a free rave with 50,000 tickets) is in a pub and still escalates.
+
+## Amendment (2026-11-06, #74): a venue without coordinates is verified by name and town
+
+Extends point 3. Point 3's `pass` needs the stored coordinates, and until now a venue without
+them was `unknown` with no lookup at all. On the first staging pass (2026-11-05) a real theatre
+stored without coordinates was reported as unknown, and the review escalated on it.
+
+1. **Without coordinates, the name search adds the province** (`name, town, province`; left out
+   when it repeats the town). It shares the throttle, the timeout, the User-Agent and the run's
+   memo with the other Nominatim calls (points 2 and 8). A venue with coordinates is looked up
+   exactly as before, so its recordings stay valid.
+2. **A `pass` needs a place of a compatible type that carries the venue's name and lies in its
+   town.**
+   - The name matches when its words are the same, or when the shorter name's words, at least
+     two, are all in the longer one (`Teatro Principal` and `Teatro Principal de Zamora`).
+     `Teatro` alone matches only a place named just that: it is in every theatre's name.
+   - The town must be one of the components of Nominatim's address (`display_name`).
+   - The finding's source is the place's OSM page, and its `detail` says it was matched by name
+     because the event has no coordinates.
+3. **Anything else stays `unknown`**, with a `detail` that says the event has no coordinates. With
+   no point to look at, there is no reverse lookup and so no residential or in-water `fail`.
+4. **The match feeds `estimateVenueCapacity`** as a coordinate match does (point 4): the same
+   Wikidata, OSM tag and web steps, and the same exposure cap (point 5).
+
+Rejected:
+
+- **Accept the first compatible result.** Nominatim ranks loosely: a search for one theatre of a
+  town may return another, and an invented venue would borrow a real one's verification.
+- **Put the postal code in the query.** The organizer types it, and case 03 is a postal code of
+  another province: a wrong one can push the real venue out of the results. The postal code
+  check (`postal_code_province`) already judges it.
+- **Geocode the street address.** It finds a point, not a venue, and the point would then need
+  the 200 m test against a place found by the same organizer-typed text.
+
+Hypothesis (ADR 0014): the new case N6 (a real theatre without coordinates, invented company)
+verifies the venue and resolves its approval on its own instead of escalating on an unknown
+venue, so the escalation rate falls by that case. The auto-approved fraud rate stays at 0 %:
+the cap of point 5 still applies, and a venue no source names stays `unknown`.

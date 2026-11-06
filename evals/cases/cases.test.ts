@@ -1,5 +1,5 @@
-// Checks the brief §5 dataset as built: all 31 cases are there, each named
-// by its file; their contexts parse with the contract schemas at any clock;
+// Checks the dataset as built: the brief §5 cases and the calibration ones
+// (spec #71) are there, each named by its file; their contexts parse with the contract schemas at any clock;
 // no field leaks the answer; and each fixture triggers exactly the
 // deterministic and venue findings it is meant to, so a case tests the agent
 // and not a typo in its fixture. Fakes nothing but the network: the venue
@@ -45,6 +45,7 @@ const IDS = [
   "N3",
   "N4",
   "N5",
+  "N6",
 ];
 
 it("holds the brief §5 cases and the calibration ones in order, one file each", () => {
@@ -67,7 +68,7 @@ it("gives authored web pages to the cases whose entities are invented", () => {
   const clock = CLOCKS[0] ?? new Date();
   expect(
     EVAL_CASES.filter((c) => c.build(clock).web !== undefined).map((c) => c.id),
-  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4"]);
+  ).toEqual(["05", "06", "08", "20", "N1", "N2", "N3", "N4", "N6"]);
 });
 
 describe.each(EVAL_CASES.map((c) => [`${c.id} ${c.slug}`, c] as const))(
@@ -174,6 +175,9 @@ const EXPECTED_VENUE: Record<string, string[]> = {
   "18": ["venue_exists pass", "venue_capacity pass"],
   N1: ["venue_exists pass", "venue_capacity pass"],
   N5: ["venue_exists unknown", "venue_capacity unknown"],
+  // No coordinates: found by name, town and province (#74). No open source
+  // publishes its capacity, and 250 tickets is under the exposure cap.
+  N6: ["venue_exists pass", "venue_capacity unknown"],
 };
 const TOOL_RESPONSES = loadToolRecordings(
   fileURLToPath(new URL("../tool-responses", import.meta.url)),

@@ -84,6 +84,7 @@ export type Outcome<T> =
 export interface VenueToVerify {
   name: string;
   city: string;
+  province: string;
   /** ISO 3166-1 alpha-2, e.g. `ES`. */
   country: string;
   latitude: number | null;
@@ -91,6 +92,13 @@ export interface VenueToVerify {
 }
 
 export interface Match {
+  place: Place;
+  /** Null when the venue has no coordinates: it was matched by name and city. */
+  distanceM: number | null;
+}
+
+/** A compatible place and how far it is from the event's coordinates. */
+export interface NearbyPlace {
   place: Place;
   distanceM: number;
 }
@@ -103,10 +111,10 @@ export function isVenueType(tags: { category: string; type: string }): boolean {
 export function nearestVenue(
   venue: VenueToVerify,
   places: readonly Place[],
-): Match | null {
+): NearbyPlace | null {
   const { latitude, longitude } = venue;
   if (latitude === null || longitude === null) return null;
-  let best: Match | null = null;
+  let best: NearbyPlace | null = null;
   for (const place of places) {
     if (!isVenueType(place)) continue;
     const distanceM = distanceMeters(
@@ -119,15 +127,64 @@ export function nearestVenue(
   return best;
 }
 
-/** The match that verifies the venue: compatible and close enough. */
+/**
+ * The match that verifies the venue: compatible and close enough to its
+ * coordinates or, when it has none, with its name and in its city.
+ */
 export function verifiedMatch(
   venue: VenueToVerify,
   places: readonly Place[],
 ): Match | null {
+  if (!hasCoordinates(venue)) return namedMatch(venue, places);
   const match = nearestVenue(venue, places);
   return match !== null && match.distanceM <= VENUE_MAX_DISTANCE_M
     ? match
     : null;
+}
+
+function hasCoordinates(venue: VenueToVerify): boolean {
+  return venue.latitude !== null && venue.longitude !== null;
+}
+
+/**
+ * Without coordinates, distance can't tell the venue from another place the
+ * search returned (#74), so the place must carry the venue's name and lie in
+ * its city. Nominatim ranks loosely: a search for one theatre of a city may
+ * also return the others.
+ */
+function namedMatch(
+  venue: VenueToVerify,
+  places: readonly Place[],
+): Match | null {
+  const city = fold(venue.city).trim();
+  for (const place of places) {
+    if (!isVenueType(place) || place.name === null) continue;
+    if (!sameName(venue.name, place.name)) continue;
+    const parts = (place.displayName ?? "")
+      .split(",")
+      .map((part) => fold(part).trim());
+    if (parts.includes(city)) return { place, distanceM: null };
+  }
+  return null;
+}
+
+/**
+ * The same words, or the words of one name all inside the other ("Teatro
+ * Principal" and "Teatro Principal de Zamora"). The shorter name needs two
+ * words for that: "Teatro" alone is in every theatre's name.
+ */
+export function sameName(a: string, b: string): boolean {
+  const [shorter, longer] = [words(a), words(b)].sort(
+    (x, y) => x.length - y.length,
+  ) as [string[], string[]];
+  if (shorter.join(" ") === longer.join(" ")) return true;
+  return shorter.length >= 2 && shorter.every((word) => longer.includes(word));
+}
+
+function words(text: string): string[] {
+  return fold(text)
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean);
 }
 
 export interface VenueEvidence {
@@ -151,12 +208,6 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
     sources: Finding["sources"] = [],
   ) => venueFinding(check, verdict, detail, sources);
 
-  if (venue.latitude === null || venue.longitude === null) {
-    return finding(
-      "unknown",
-      `El recinto «${venue.name}» no tiene coordenadas: no se puede verificar.`,
-    );
-  }
   if (!places.ok) {
     return finding(
       "unknown",
@@ -166,10 +217,13 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
 
   const verified = verifiedMatch(venue, places.value);
   if (verified !== null) {
+    const { place, distanceM } = verified;
     return finding(
       "pass",
-      `Recinto verificado: «${placeName(verified.place, venue)}» figura en OpenStreetMap como ${typeText(verified.place)} a ${metres(verified.distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
-      [osmSource(verified.place, venue)],
+      distanceM === null
+        ? `Recinto verificado por nombre: «${placeName(place, venue)}» figura en OpenStreetMap como ${typeText(place)} en ${venue.city}. El evento no guarda coordenadas, así que se buscó por nombre, municipio y provincia.`
+        : `Recinto verificado: «${placeName(place, venue)}» figura en OpenStreetMap como ${typeText(place)} a ${metres(distanceM)} de las coordenadas del evento (umbral: ${metres(VENUE_MAX_DISTANCE_M)}).`,
+      [osmSource(place, venue)],
     );
   }
   const nearest = nearestVenue(venue, places.value);
@@ -216,9 +270,12 @@ export function scoreVenue(evidence: VenueEvidence): SystemFinding {
       [osmSource(nearest.place, venue)],
     );
   }
+  const byNameOnly = hasCoordinates(venue)
+    ? ""
+    : " El evento no guarda coordenadas, así que solo se pudo buscar por nombre, municipio y provincia.";
   return finding(
     "unknown",
-    `Recinto sin verificar: OpenStreetMap no tiene ningún recinto «${venue.name}» en ${venue.city}.${unchecked}`,
+    `Recinto sin verificar: OpenStreetMap no tiene ningún recinto «${venue.name}» en ${venue.city}.${unchecked}${byNameOnly}`,
   );
 }
 

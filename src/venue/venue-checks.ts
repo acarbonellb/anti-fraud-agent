@@ -83,6 +83,7 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
     const venue: VenueToVerify = {
       name: context.venue.name,
       city: context.venue.city,
+      province: context.venue.province,
       country: context.venue.country,
       latitude: context.venue.latitude,
       longitude: context.venue.longitude,
@@ -91,6 +92,11 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
       nominatim.search({
         name: venue.name,
         city: venue.city,
+        // Only without coordinates (#74): with them, distance already tells
+        // two places of the same name apart, and their lookup stays as it was.
+        ...(venue.latitude === null || venue.longitude === null
+          ? { province: venue.province }
+          : {}),
         country: context.venue.country,
       }),
     );
