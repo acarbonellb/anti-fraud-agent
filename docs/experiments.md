@@ -685,3 +685,69 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   - Brier rises (0.183 → 0.220): qwen's confidence on the wrong answers went up (19 at 0.95).
 - **Decision:** keep. qwen holds the gate (no auto-approved fraud) and its moves are one-sample
   noise. Invented sources on case 27 are a small-model limit, already caught by the policy.
+
+## E025 — A review's confidence comes from its evidence tier, not the model's number (Haiku 5.5)
+
+- **Hypothesis** (#77): Haiku is right about 90 % of the time but reports 0.60–0.80, so the policy
+  escalated reviews whose evidence allowed them to resolve, only because the model's number was
+  below `AGENT_AUTO_APPROVE_THRESHOLD` (0.85). Deriving the confidence from the evidence tier
+  should let cases 03, 12, 14, N3 and N4 resolve on their own, about five cases fewer escalated,
+  with gated accuracy and auto-approved fraud (0 %) unchanged.
+- **Change** (#77, ADR 0019): the review's confidence is computed in code from the evidence tier
+  that backs the decision: 0.95 for a `request_info` whose negative findings are all `rule`
+  findings or a `reject` on a hard signal, 0.90 for a clean `approve` with the venue's capacity
+  verified, 0.85 for a clean `approve` under the exposure cap. The threshold stays at 0.85 and now
+  means the lowest tier that resolves. An escalated review shows the model's number capped at
+  0.84. The model's number is kept as `modelConfidence` and can only hold back, below 0.5. The
+  policy runs after the model answers, so no request changed: `--check` found no stale recording,
+  nothing was re-recorded, and this entry is a replay of E023's recordings ($0).
+- **Before → after** (E023 → E025, mean over three runs, min–max), gated, 33 cases:
+  **accuracy 90.9 % (87.9–93.9) → 90.9 % (87.9–93.9)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  **auto-approved fraud rate 0.0 % (0–0) → 0.0 % (0–0)**, **escalation rate 82.8 % → 60.6 %**,
+  **autonomy accuracy 71.7 % (69.7–72.7) → 93.9 % (90.9–97.0)**, Brier 0.152 → 0.124, tokens and
+  latency unchanged (same recordings). Against E015, the spec's baseline: escalation 86.7 % →
+  60.6 %, accuracy 85.6 % → 90.9 %, with every run (87.9 % at worst) above 85.6 %.
+- **Brier is not comparable with earlier entries as-is.** From this entry on, the eval metrics
+  read the derived confidence, the number the admin sees; up to E024 they read the model's.
+  0.152 → 0.124 is a change of what is measured as much as of how well. The tiers are ranks, not
+  probabilities (ADR 0019).
+- **What went wrong or surprised:**
+  - About 7.3 cases fewer escalate per run, more than the five predicted. 03, 14, 19 and 22
+    resolve 3/3 as mechanical requests at 0.95; N3 and N6 resolve 3/3 as clean approvals under
+    the cap at 0.85; N2 and N4 resolve 2/3. Case 12 did not: since `review-v6` (E023) Haiku
+    rejects it on the `abusive_terms` fail, which is not a hard signal, so it escalates on the
+    decision, not the number. The hypothesis was written against E015's answers.
+  - What escalates now escalates on evidence: no reason reads "confidence below 0.85" any more.
+    The remaining autonomy misses are 12 (wrong decision, 3/3), one run each of 01 and N2 that
+    answer `request_info` with no rule finding to ask about, and one run of N4 whose own
+    `artist_availability` warning holds the approval back.
+  - The floor shows on case 21 only (model 0.40, "model confidence 0.4 below 0.5"), which
+    escalates for other reasons too and expects to: it moves no metric, as the ADR said.
+  - Hard-signal rejections (01, 07, 10, 24, 26) now show 0.95 instead of the model's 0.70–0.85,
+    and every escalated review shows at most 0.84 (case 20 went from 0.85 to 0.84).
+- **Decision:** keep. The escalation rate falls by 22 points with no fraud auto-approved in any
+  run and no change in accuracy, and every resolution can be explained from its findings. Spec
+  #71's whole acceptance holds on Haiku: auto-approved fraud 0 % in every run, escalation below
+  E015's 86.7 %, gated accuracy at or above 85.6 %.
+
+## E026 — A review's confidence comes from its evidence tier, not the model's number (qwen 3.5 9B)
+
+- **Hypothesis** (#77): as in E025.
+- **Change:** the same as E025: a replay of E024's recordings, none stale, none re-recorded.
+- **Before → after** (E024 → E026), gated, 33 cases: **accuracy 75.8 % → 75.8 %**,
+  **approved-fraud rate 3.7 % → 3.7 %**, **auto-approved fraud rate 0.0 % → 0.0 %**,
+  **escalation rate 78.8 % → 72.7 %**, **autonomy accuracy 75.8 % → 81.8 %**, Brier 0.220 →
+  0.195 (not comparable with earlier entries, as in E025). Unlike a re-recording, these moves are
+  not run-to-run noise: the model's answers are the same, and only the policy read them
+  differently.
+- **What went wrong or surprised:**
+  - Two cases resolve now: 14 and 22, mechanical requests at 0.95 (qwen had reported 0.60 and
+    0.50).
+  - The rest of qwen's autonomy misses are wrong decisions, not the number: 03, 12 and 19 are
+    rejected without a hard signal (the model said 0.85–0.95; the admin now sees 0.84), and N2
+    asks for information. N3 and N6 are right approvals that escalate because the run spent its
+    web search budget (ADR 0015), on the exhausted search quota.
+  - The derived number hides qwen's overconfidence from the admin: an escalated reject shows at
+    most 0.84, where qwen said 0.95.
+- **Decision:** keep. qwen holds the gate (no auto-approved fraud) and resolves two more cases
+  on rule findings alone.
