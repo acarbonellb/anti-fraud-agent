@@ -170,7 +170,7 @@ Until now a hold that was never settled simply expired: after 15 minutes it stop
 timeout, an out-of-memory kill) never reaches its settle, so its model calls were never recorded.
 A pass that crashed every 10 minutes could spend without limit inside a day the budget said was
 nearly empty, with only the provider's spend cap left to stop it. This replaces "the hold simply
-expires" for point 5.
+expires" under this ADR's budget stop (point 5).
 
 1. **An expired, unsettled hold becomes settled spend at the amount it reserved.** Whoever reads
    the day's document next (a reservation, a settle, or the pass's `daySpend` before it reads the
