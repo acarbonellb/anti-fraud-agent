@@ -21,7 +21,7 @@
 
 ## 1. Cómo funciona hoy
 
-> Reducido antes de publicar el repo (#40): solo queda lo que necesita el contrato de la API de agente. Sin nombres de tabla ni de columna, estados, validaciones ni ADR de Satella.
+> Reducido antes de publicar el repo (#40): esta sección solo guarda lo que necesita el contrato de la API de agente. Sin nombres de tabla ni de columna, estados, validaciones ni ADR de Satella.
 
 ### 1.1 Qué se revisa
 

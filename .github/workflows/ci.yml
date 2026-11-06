@@ -9,8 +9,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+# The event is in the key so a manual scan on `main` and a push run (with
+# its deploy) never cancel each other.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -35,6 +37,8 @@ jobs:
 
   quality:
     name: Format · Lint · Types · Tests · Commits
+    # A manual run is only for the full-history secret scan.
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
