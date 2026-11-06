@@ -4,6 +4,9 @@
 // injected clock; fakes nothing.
 import { describe, expect, it } from "vitest";
 
+import { evalCase as case10 } from "../../evals/cases/10-bizum-payment.js";
+import { evalCase as case24 } from "../../evals/cases/24-alcohol-aimed-at-minors.js";
+import { evalCase as case26 } from "../../evals/cases/26-edited-to-ask-for-bizum.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import type { EventReviewContext } from "../satella-client/schemas.js";
 import { runEventChecks } from "./event-checks.js";
@@ -132,6 +135,63 @@ describe("texts", () => {
     expect(result?.finding.verdict).toBe("fail");
     expect(result?.finding.detail).toContain("en la descripción");
   });
+
+  it("passes off-platform payment when the text only warns against Bizum", () => {
+    const [result] = finding(
+      context((draft) => {
+        draft.event.terms =
+          "Bizum no disponible. No aceptamos pagos por Bizum: compra solo en la web.";
+      }),
+      "off_platform_payment",
+    );
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  it("passes minors and alcohol on a family festival with beer for adults", () => {
+    const [result] = finding(
+      context((draft) => {
+        draft.event.description =
+          "Festival familiar con zona infantil para menores de 12 años, food trucks y cerveza artesanal para adultos.";
+      }),
+      "minors_alcohol",
+    );
+
+    expect(result?.finding.verdict).toBe("pass");
+  });
+
+  // The fraud cases these rules exist for (brief §5): tightening a pattern
+  // must not let them through. Case 24 asks in both title and description.
+  it.each([
+    {
+      evalCase: case10,
+      check: "off_platform_payment",
+      fields: ["la descripción"],
+    },
+    {
+      evalCase: case26,
+      check: "off_platform_payment",
+      fields: ["la descripción"],
+    },
+    {
+      evalCase: case24,
+      check: "minors_alcohol",
+      fields: ["el título", "la descripción"],
+    },
+  ])(
+    "still fails case $evalCase.id's fixture on $check",
+    ({ evalCase, check, fields }) => {
+      const event = evalCase.build(NOW).event;
+      if (event === undefined) throw new Error("an event case");
+
+      const [result] = finding(event, check);
+
+      expect(result?.finding.verdict).toBe("fail");
+      for (const field of fields) {
+        expect(result?.finding.detail).toContain(`en ${field}`);
+      }
+    },
+  );
 
   it("warns, as a heuristic, about an injection attempt", () => {
     const [result] = finding(
