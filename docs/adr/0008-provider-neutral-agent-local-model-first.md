@@ -1,7 +1,8 @@
 # ADR 0008 — A provider-neutral agent with two adapters, shipped local-model first
 
 - **Date:** 2026-11-01
-- **Status:** accepted · amendment 2026-11-04 (#30) · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#46)
+- **Status:** accepted · amendment 2026-11-04 (#30) · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#46) ·
+  amendment 2026-11-07 (#89, #84)
 - **Related:** brief D8 and §4; ADR 0011 (the Satella contract); issue #5.
 
 ## Context
@@ -146,3 +147,47 @@ deployed agent calls the deployed model of the amendment of #42, Claude Haiku 5.
 laptop is on. It would add three moving parts: the daemon in the container, a tailnet ACL and an
 ephemeral key. All that to save $0.002 a review. A 9B model on a laptop GPU also loses to Haiku
 on the evals (E014).
+
+## Amendment (2026-11-07, #89, #84): which key and endpoint reach which provider
+
+Two leaks crossed the boundary between the paid provider and everything else. The local adapter
+got `AGENT_LLM_API_KEY` too, so a `.env` that kept the real key while pointing
+`AGENT_LLM_BASE_URL` at a shared server sent it there. And the Anthropic SDK reads its own
+environment, which the config didn't model: `ANTHROPIC_BASE_URL` could redirect the key,
+`ANTHROPIC_LOG=debug` would print whole requests (review contexts included, against CLAUDE.md §4),
+`ANTHROPIC_CUSTOM_HEADERS` adds headers to every request, and the `ANTHROPIC_OPEN_TELEMETRY*`
+variables can put request content into the spans of a tracer someone else registered.
+
+1. **One key per kind of provider.** `AGENT_LLM_API_KEY` goes to `anthropic` alone;
+   the local providers read `AGENT_LLM_LOCAL_API_KEY`, usually unset. Neither key ever reaches
+   the other side.
+2. **The config picks the provider's endpoint, key and effort in one place**
+   (`chosenProvider` in `src/config/config.ts`). `anthropic` gets `AGENT_LLM_ANTHROPIC_BASE_URL`
+   (https only, Anthropic's public endpoint by default), the paid key and an effort; a local
+   provider gets `AGENT_LLM_BASE_URL`, the local key and no effort. Every other module reads what
+   it picked instead of asking which provider it is; `createConfiguredProvider` only chooses the
+   adapter.
+3. **The Anthropic client is built with everything the SDK would otherwise read itself:** the
+   key, `baseURL`, `logLevel: "off"`, `openTelemetry: false`, and `defaultHeaders` that cancel
+   (with `null`) every header `ANTHROPIC_CUSTOM_HEADERS` names. The SDK has no option to stop
+   reading that variable, so the adapter reads it only to cancel it. The SDK's profile and
+   federation variables (`ANTHROPIC_PROFILE` and the like) are read only when no key is passed,
+   so passing the key keeps them unread.
+4. **`.env.example` names the SDK variables that are now ignored**, so nobody sets one
+   expecting an effect.
+
+**Rejected:**
+
+- **One `AGENT_LLM_API_KEY` for every provider**: the leak in the first place; a local server
+  needs no key, and a shared one must never see the paid one.
+- **Unset the SDK's variables in the entry scripts**: every new script would have to remember it,
+  and a test building the adapter directly wouldn't be covered. The adapter is where the SDK is
+  constructed, so that is where its environment is neutralised, and its tests stub each variable.
+- **Strip unknown headers in a middleware (an allow-list)**: the SDK's own headers change between
+  versions; cancelling exactly what the variable names is narrower.
+
+**Consequences:** the adapter tests stub `ANTHROPIC_BASE_URL`, `ANTHROPIC_LOG` and
+`ANTHROPIC_CUSTOM_HEADERS` and check the request goes to the configured URL, logs nothing and
+carries none of the named headers. A new SDK release can read a new variable: upgrading the SDK
+means checking its `readEnv` calls again. GitHub and Secret Manager are unchanged: the deployed job
+runs the paid provider with the same `AGENT_LLM_API_KEY`.
