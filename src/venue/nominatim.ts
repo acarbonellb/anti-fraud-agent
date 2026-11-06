@@ -184,6 +184,56 @@ function parsePlaces(body: unknown): Place[] {
   }));
 }
 
+/** What `parsePlaces` and `parsePoint` read; `class` is `category` in older formats. */
+const KEPT_FIELDS = [
+  "osm_type",
+  "osm_id",
+  "lat",
+  "lon",
+  "category",
+  "class",
+  "type",
+  "name",
+  "display_name",
+] as const;
+/** The only tags the scorer reads (identity and capacity). */
+const KEPT_TAGS = ["wikidata", "capacity"] as const;
+
+/**
+ * A Nominatim response reduced to what the venue checks read, for
+ * recordings (#85). Raw responses carry venues' emails, phones and opening
+ * hours in `extratags`, which a public repo has no reason to republish. A
+ * reverse lookup keeps its `address` (the locality is read from it) and an
+ * `{ error }` body stays as it is. Anything that isn't a result object is
+ * left alone, so an unexpected body still fails replay the way it failed live.
+ */
+export function reduceNominatimBody(body: unknown): unknown {
+  if (Array.isArray(body)) return body.map(reducePlace);
+  if (isObject(body) && "error" in body) return body;
+  return reducePlace(body);
+}
+
+function reducePlace(place: unknown): unknown {
+  if (!isObject(place)) return place;
+  const reduced: Record<string, unknown> = {};
+  for (const field of [...KEPT_FIELDS, "address"]) {
+    if (field in place) reduced[field] = place[field];
+  }
+  if ("extratags" in place) {
+    const tags = place.extratags;
+    reduced.extratags = isObject(tags)
+      ? Object.fromEntries(
+          KEPT_TAGS.filter((tag) => tag in tags).map((tag) => [tag, tags[tag]]),
+        )
+      : tags;
+  }
+  return reduced;
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 /** The public page of an OSM element: the source a finding links to. */
 export function osmUrl(place: Pick<Place, "osmType" | "osmId">): string {
   return `https://www.openstreetmap.org/${place.osmType}/${String(place.osmId)}`;
