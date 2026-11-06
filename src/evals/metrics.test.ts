@@ -11,7 +11,8 @@ const reject = { decisions: ["reject"], autonomy: "auto_resolved" } as const;
 const ask = { decisions: ["request_info"], autonomy: "escalated" } as const;
 const approve = { decisions: ["approve"], autonomy: "auto_resolved" } as const;
 
-// Scored, gated: 10, 13, 15, N1.
+// Scored, gated: 10, 13, 15, N1. The confidences are the model's; each case
+// shows a derived one of 0.3 the Brier score must not read (ADR 0019).
 // - 10: reject/auto, confidence 0.9 → correct, autonomy right.
 // - 13: approve/auto, confidence 0.8 → wrong, an approved fraud, autonomy wrong.
 // - 15: request_info/escalated, confidence 0.6 → correct, autonomy right.
@@ -19,14 +20,16 @@ const approve = { decisions: ["approve"], autonomy: "auto_resolved" } as const;
 const table: CaseResult[] = [
   result("10", reject, {
     decision: "reject",
-    confidence: 0.9,
+    confidence: 0.3,
+    modelConfidence: 0.9,
     inputTokens: 1000,
     outputTokens: 100,
     latencyMs: 2000,
   }),
   result("13", ask, {
     decision: "approve",
-    confidence: 0.8,
+    confidence: 0.3,
+    modelConfidence: 0.8,
     inputTokens: 2000,
     outputTokens: 300,
     latencyMs: 4000,
@@ -34,7 +37,8 @@ const table: CaseResult[] = [
   result("15", ask, {
     decision: "request_info",
     autonomy: "escalated",
-    confidence: 0.6,
+    confidence: 0.3,
+    modelConfidence: 0.6,
     inputTokens: 3000,
     outputTokens: 200,
     latencyMs: 1000,
@@ -42,7 +46,8 @@ const table: CaseResult[] = [
   result("N1", approve, {
     decision: "approve",
     autonomy: "escalated",
-    confidence: 0.7,
+    confidence: 0.3,
+    modelConfidence: 0.7,
     inputTokens: 2000,
     outputTokens: 200,
     latencyMs: 1000,
@@ -76,7 +81,7 @@ describe("gated metrics (external cases left out)", () => {
     expect(metrics.approvedFraudRate).toBeCloseTo(1 / 3);
   });
 
-  it("computes the Brier score of confidence against correctness", () => {
+  it("computes the Brier score of the model's confidence against correctness", () => {
     // (0.9−1)² + (0.8−0)² + (0.6−1)² + (0.7−1)² = 0.01 + 0.64 + 0.16 + 0.09
     expect(metrics.brier).toBeCloseTo(0.9 / 4);
   });

@@ -38,11 +38,14 @@ would still let a model that reports 0.9 on a thin case through.
    (`ESCALATED_CONFIDENCE_CAP`), so it never reads as confident enough to have resolved. A run
    that ended on a limit keeps its 0.
 4. **The model's number can only hold back.** Below `MODEL_CONFIDENCE_FLOOR` (0.5), a review that
-   would resolve escalates, whatever its decision. Today no case expected to resolve reports below
-   0.6, so the floor moves no metric: it is a safety net for a model that doubts its own decision.
+   would otherwise resolve escalates, whatever its decision; a review that escalates anyway gets
+   no floor reason. The floor sits at even odds, not at a value fitted to the cases: it is a
+   safety net for a model that doubts its own decision.
 5. **The model's number is kept for comparison**: `modelConfidence` in the run result, the run
-   document and the eval outcome. The eval metrics (Brier included) read the derived number,
-   since that is what the admin sees.
+   document and the eval outcome. **The Brier score measures the model's number**, as it did
+   before this ADR: a tier is a rank, not a probability, so a Brier over tiers would score a
+   lookup table, and it would break the series from E001 to E024. The per-case confidence in the
+   report is the derived one, since that is what the admin sees.
 6. **Replaces point 3 of ADR 0012's amendment of #33.** A held-back approval no longer keeps the
    model's confidence in approving: as a mechanical request it shows 0.95, otherwise it
    escalates and shows at most 0.84.
@@ -64,13 +67,15 @@ the model said so" can't.
 
 ## Consequences
 
-- The tiers are ranks, not probabilities: a Brier score over them says how often each tier is
-  right, not that 0.95 means 95 %. The admin agreement rate on the deployed agent (#71, out of
-  scope) is what can check them.
+- The tiers are ranks, not probabilities, and no eval metric scores them as if they were. The
+  admin agreement rate on the deployed agent (#71, out of scope) is what can check them.
+  E025 and E026 computed the Brier over the tiers; the entries after them read the model's
+  number again and correct theirs.
 - The policy has no model input left for a resolution beyond the floor: what resolves is what the
   findings allow. Making the policy stricter means changing a tier, a check or the threshold, each
   explained in code.
-- A held-back approval no longer carries the model's confidence in approving, which ADR 0012
-  (#33 point 3) noted had flattered the Brier score.
+- A held-back approval no longer shows the model's confidence in approving. Its
+  `modelConfidence` still is that number, so the Brier score keeps the flattery ADR 0012
+  (#33 point 3) noted: it measures the model, held-back approvals included.
 - `docs/known-limitations.md` loses "Confidence is poorly calibrated"; the prompt still asks the
   model for a confidence, which only feeds the floor and the comparison.

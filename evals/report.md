@@ -28,7 +28,7 @@ Prompt `review-v6` · recorded 2026-11-06 · 3 runs per case: means, with the mi
 | Auto-approved fraud rate | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) |
 | Escalation rate | 60.6 % | 61.8 % |
 | Autonomy accuracy | 93.9 % (90.9–97.0) | 94.1 % (91.2–97.1) |
-| Brier score | 0.124 | 0.129 |
+| Brier score | 0.152 | 0.156 |
 | Mean tokens in / out | 14159 / 2388 | 14197 / 2386 |
 | Mean latency | 11.4 s | 11.4 s |
 | Mean cost per review | $0.0021 | $0.0021 |
@@ -45,17 +45,18 @@ Prompt `review-v6` · recorded 2026-11-06 · 3 runs per case: means, with the mi
 | E021 | 2026-11-06 | `review-v5` | 3 | a venue without coordinates is looked up by name and town (#74) | 88.9 % (84.9–90.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.151 |
 | E023 | 2026-11-06 | `review-v6` | 3 | the prompt rejects only on direct evidence and lists only what it found (review-v6, #76) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
 | E025 | 2026-11-06 | `review-v6` | 3 | a review's confidence comes from its evidence tier, not the model's number (ADR 0019, #77) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.124 |
+| E027 | 2026-11-06 | `review-v6` | 3 | Brier reads the model's own confidence again, comparable with earlier entries (#77) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E013, E014, E015, E018, E019, E021, E023, E025]
+  x-axis [E013, E014, E015, E018, E019, E021, E023, E025, E027]
   y-axis "%" 0 --> 100
-  line [90, 86.7, 85.6, 85, 88.5, 88.9, 90.9, 90.9]
-  line [0, 0, 0, 0, 0, 0, 0, 0]
-  line [0, 0, 0, 0, 0, 0, 0, 0]
+  line [90, 86.7, 85.6, 85, 88.5, 88.9, 90.9, 90.9, 90.9]
+  line [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  line [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases
@@ -81,7 +82,7 @@ xychart-beta
 | 18 | Session three years away with the whole capacity on sale | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.50–0.60 | venue pass · capacity pass | no rule-based finding to ask about; needs judgement: session_timing |
 | 19 | Two overlapping sessions at the same venue | ✅ request_info 3/3 | ✅ auto_resolved 3/3 | 0.95 | venue pass · capacity unknown | mechanical request: session_dates |
 | 20 | Name almost identical to a known promoter's, with a Cyrillic letter (organizer) (authored web results) | ✅ reject 3/3 | ✅ escalated 3/3 | 0.80–0.84 | — | organizer approvals and rejections always escalate (ADR 0015) |
-| 21 | Owner with a rejected organization who creates another (organizer) | ❌ reject → request_info 3/3 | ✅ escalated 3/3 | 0.40–0.50 | — | no rule-based finding to ask about; needs judgement: organizer_history; model confidence 0.4 below 0.5 |
+| 21 | Owner with a rejected organization who creates another (organizer) | ❌ reject → request_info 3/3 | ✅ escalated 3/3 | 0.40–0.50 | — | no rule-based finding to ask about; needs judgement: organizer_history |
 | 22 | Tax id with a wrong control letter (organizer) | ✅ request_info 3/3 | ✅ auto_resolved 3/3 | 0.95 | — | mechanical request: organizer_identity |
 | 23 | Organizer with previous fraud reports publishes a new event | ✅ request_info 3/3 | ✅ escalated 3/3 | 0.40–0.50 | venue pass · capacity unknown | no rule-based finding to ask about; model findings need judgement: organizer_history |
 | 24 | «Botellón +14» | ✅ reject 3/3 | ✅ auto_resolved 3/3 | 0.95 | venue pass · capacity unknown | hard signals: minors_alcohol |
@@ -114,7 +115,7 @@ Prompt `review-v6` · recorded 2026-11-06
 | Auto-approved fraud rate | 0.0 % | 0.0 % |
 | Escalation rate | 72.7 % | 73.5 % |
 | Autonomy accuracy | 81.8 % | 82.4 % |
-| Brier score | 0.195 | 0.210 |
+| Brier score | 0.220 | 0.239 |
 | Mean tokens in / out | 24595 / 1320 | 24350 / 1315 |
 | Mean latency | 36.6 s | 36.5 s |
 | Mean cost per review | $0.0000 | $0.0000 |
@@ -141,17 +142,18 @@ Prompt `review-v6` · recorded 2026-11-06
 | E022 | 2026-11-06 | `review-v5` | 1 | a venue without coordinates is looked up by name and town (#74) | 78.8 % | 3.7 % | 0.0 % | 0.183 |
 | E024 | 2026-11-06 | `review-v6` | 1 | the prompt rejects only on direct evidence and lists only what it found (review-v6, #76) | 75.8 % | 3.7 % | 0.0 % | 0.220 |
 | E026 | 2026-11-06 | `review-v6` | 1 | a review's confidence comes from its evidence tier, not the model's number (ADR 0019, #77) | 75.8 % | 3.7 % | 0.0 % | 0.195 |
+| E028 | 2026-11-06 | `review-v6` | 1 | Brier reads the model's own confidence again, comparable with earlier entries (#77) | 75.8 % | 3.7 % | 0.0 % | 0.220 |
 
 Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
 
 ```mermaid
 xychart-beta
   title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016, E017, E020, E022, E024, E026]
+  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016, E017, E020, E022, E024, E026, E028]
   y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3, 71, 78.1, 78.8, 75.8, 75.8]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4, 0, 3.7, 3.7, 3.7, 3.7]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3, 71, 78.1, 78.8, 75.8, 75.8, 75.8]
+  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4, 0, 3.7, 3.7, 3.7, 3.7, 3.7]
+  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
 ### Gated cases

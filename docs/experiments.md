@@ -751,3 +751,40 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
     most 0.84, where qwen said 0.95.
 - **Decision:** keep. qwen holds the gate (no auto-approved fraud) and resolves two more cases
   on rule findings alone.
+
+## E027 — Brier reads the model's own confidence again (Haiku 5.5)
+
+- **Hypothesis** (#77 review): E025 made the Brier score read the derived confidence. A tier is a
+  rank, not a probability (ADR 0019), so that Brier scores a lookup table, and it broke the series
+  from E001 to E024. Reading `modelConfidence` again should give back E023's Brier exactly, with
+  every other metric unchanged.
+- **Change** (#77, ADR 0019 point 5): the Brier score reads the model's number; the report's
+  per-case confidence stays the derived one, the number the admin sees. In the same change, the
+  confidence floor's reason is added only to a review that would otherwise resolve. No request
+  changed: `--check` found no stale recording, and this entry is a replay of E023's recordings
+  ($0).
+- **Before → after** (E025 → E027), gated, 33 cases: accuracy 90.9 % → 90.9 %, approved-fraud
+  rate 0.0 % → 0.0 %, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 60.6 % → 60.6 %,
+  autonomy accuracy 93.9 % → 93.9 %, **Brier 0.124 → 0.152**, the same as E023 (all cases 0.129
+  → 0.156). This entry corrects E025's Brier: E025's 0.124 measured the tiers, not the model,
+  and is not comparable with any other entry.
+- **What went wrong or surprised:**
+  - Nothing moved but the Brier score, as predicted: deriving the confidence left the model's
+    calibration where E023 put it, so #77 changed what the admin sees, not how calibrated Haiku is.
+  - Case 21 no longer lists "model confidence 0.4 below 0.5": it escalates on its evidence
+    (`organizer_history` needs judgement), so the floor had nothing to hold back. No metric
+    reads the reasons.
+- **Decision:** keep. The Brier series measures one thing again, the model's calibration, from
+  E001 on.
+
+## E028 — Brier reads the model's own confidence again (qwen 3.5 9B)
+
+- **Hypothesis** (#77 review): as in E027; E024's Brier should come back exactly.
+- **Change:** the same as E027: a replay of E024's recordings, none stale, none re-recorded.
+- **Before → after** (E026 → E028), gated, 33 cases: accuracy 75.8 % → 75.8 %, approved-fraud
+  rate 3.7 % → 3.7 %, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 72.7 % → 72.7 %,
+  autonomy accuracy 81.8 % → 81.8 %, **Brier 0.195 → 0.220**, the same as E024 (all cases 0.210
+  → 0.239). This entry corrects E026's Brier, which measured the tiers.
+- **What went wrong or surprised:** nothing. E026's lower Brier came from the admin seeing at
+  most 0.84 on qwen's overconfident escalated rejects, not from qwen being better calibrated.
+- **Decision:** keep.
