@@ -42,11 +42,13 @@ export type RunEnd =
 export interface TraceEntry {
   tool: string;
   ok: boolean;
-  /**
-   * A stable code, never the error's text. On an `ok` submission,
-   * `FINDINGS_TRUNCATED`: Satella's limit cut some model findings.
-   */
+  /** A stable code, never the error's text. */
   error?: string;
+  /**
+   * Something the run did to a call that worked. `FINDINGS_TRUNCATED`: Satella's
+   * limit cut some of the model's findings from the submission.
+   */
+  note?: "FINDINGS_TRUNCATED";
 }
 
 /** What a run recommends: the model's proposal with the system findings first. */
@@ -154,8 +156,9 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
     const modelFindings = base.findings.filter((finding) =>
       keepsModelFinding(finding, systemChecks.get(finding.check)),
     );
-    // System findings go first, so a cut only ever drops the model's; the
-    // trace keeps that it happened.
+    // System findings go first, so a cut drops the model's first; it would
+    // reach the system's only if they alone passed Satella's limit. The trace
+    // keeps that it happened.
     const findings = [
       ...systemFindings.map((item) => item.finding),
       ...modelFindings,
@@ -164,7 +167,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       trace.push({
         tool: SUBMIT_TOOL.name,
         ok: true,
-        error: "FINDINGS_TRUNCATED",
+        note: "FINDINGS_TRUNCATED",
       });
     }
     const recommendation: Recommendation = {

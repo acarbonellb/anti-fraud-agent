@@ -430,9 +430,11 @@ describe("Satella's findings limit", () => {
     expect(outcome.recommendation.findings[29]?.check).toBe(
       "organizer_web_presence",
     );
-    expect(outcome.trace).toContainEqual(
-      expect.objectContaining({ error: "FINDINGS_TRUNCATED" }),
-    );
+    expect(outcome.trace).toContainEqual({
+      tool: "submit_recommendation",
+      ok: true,
+      note: "FINDINGS_TRUNCATED",
+    });
   });
 });
 

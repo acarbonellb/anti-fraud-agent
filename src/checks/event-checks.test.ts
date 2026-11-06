@@ -183,6 +183,36 @@ describe("prices and fees", () => {
     expect(result?.finding.verdict).toBe("pass");
   });
 
+  it("names the ticket whose fee is the largest share of its price", () => {
+    const fees = context((draft) => {
+      const base = firstSession(draft).ticketTypes[0];
+      if (base === undefined) throw new Error("fixture has a ticket type");
+      firstSession(draft).ticketTypes = [
+        // 400 of 1500 is 27 %; 900 of 3000 is 30 %: a fixed fee alone
+        // doesn't say which is worse.
+        {
+          ...base,
+          id: "tt_g",
+          name: "General",
+          priceCents: 1500,
+          serviceFee: { type: "fixed", value: 400 },
+        },
+        {
+          ...base,
+          id: "tt_v",
+          name: "VIP",
+          priceCents: 3000,
+          serviceFee: { type: "fixed", value: 900 },
+        },
+      ];
+    });
+
+    const [result] = finding(fees, "service_fee");
+
+    expect(result?.finding.verdict).toBe("warn");
+    expect(result?.finding.detail).toContain("«VIP» son el 30 %");
+  });
+
   it.each([
     [{ type: "fixed", value: 300 } as const, "pass"],
     [{ type: "fixed", value: 301 } as const, "warn"],
