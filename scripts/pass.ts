@@ -21,7 +21,7 @@ import { randomUUID } from "node:crypto";
 
 import { type Config, ConfigError, loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
-import { DomainError } from "../src/errors.js";
+import { codeOf } from "../src/errors.js";
 import {
   type LogEntry,
   logLine,
@@ -55,7 +55,7 @@ try {
   line({
     level: "error",
     event: "pass.refused",
-    code: error instanceof ConfigError ? error.code : "UNEXPECTED",
+    code: codeOf(error),
     ...(error instanceof ConfigError
       ? { variables: error.issues.map((issue) => issue.variable).join(",") }
       : {}),
@@ -74,7 +74,7 @@ try {
   line({
     level: "error",
     event: "pass.refused",
-    code: error instanceof DomainError ? error.code : "UNEXPECTED",
+    code: codeOf(error),
   });
   // 2, as every script that refuses to spend: the command was wrong, not the pass.
   process.exit(error instanceof PaidNotAllowedError ? 2 : 1);
@@ -113,7 +113,7 @@ try {
   line({
     level: "error",
     event: "pass.failed",
-    code: error instanceof DomainError ? error.code : "UNEXPECTED",
+    code: codeOf(error),
   });
   process.exitCode = 1;
 } finally {

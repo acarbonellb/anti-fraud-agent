@@ -12,11 +12,8 @@ import type {
   CompletedRunDocument,
   FailedRunDocument,
 } from "../store/run-document.js";
-import {
-  type AgentStore,
-  SPEND_HOLD_TTL_MS,
-  StoreError,
-} from "../store/types.js";
+import { type AgentStore, SPEND_HOLD_TTL_MS } from "../store/types.js";
+import { caughtCode } from "./caught-code.js";
 
 export interface StoreUnderTest {
   store: AgentStore;
@@ -107,16 +104,6 @@ export function runDocument(
   };
 }
 
-async function errorCodeOf(promise: Promise<unknown>): Promise<string | null> {
-  try {
-    await promise;
-    return null;
-  } catch (error) {
-    if (error instanceof StoreError) return error.code;
-    throw error;
-  }
-}
-
 export function describeAgentStore(name: string, make: MakeStore): void {
   describe(`${name}: the AgentStore contract`, () => {
     let clock: Date;
@@ -150,7 +137,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       it("never overwrites a saved run", async () => {
         await store.saveRun(runDocument("run_1", "2026-11-05T09:00:00.000Z"));
 
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.saveRun(
             runDocument("run_1", "2026-11-05T09:00:00.000Z", {
               decision: "reject",
@@ -171,7 +158,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
           runDocument("run_1", "2026-11-05T09:00:00.000Z", { costMicros: 1.5 }),
         ];
         for (const run of invalid) {
-          expect(await errorCodeOf(store.saveRun(run))).toBe(
+          expect(await caughtCode(store.saveRun(run))).toBe(
             "STORE_INVALID_INPUT",
           );
         }
@@ -189,7 +176,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
 
       it("refuses a page size that isn't a positive integer", async () => {
         for (const limit of [0, -1, 2.5]) {
-          expect(await errorCodeOf(store.listRuns({ limit }))).toBe(
+          expect(await caughtCode(store.listRuns({ limit }))).toBe(
             "STORE_INVALID_INPUT",
           );
         }
@@ -262,7 +249,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       });
 
       it("refuses a resolution it could not store, as a typed error", async () => {
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.saveResolution({ ...resolution, runId: ".." }),
         );
 
@@ -287,7 +274,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         const read = await store.readFeedCursor();
         await store.advanceFeedCursor(read, "cur_first");
 
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.advanceFeedCursor(read, "cur_second"),
         );
 
@@ -336,7 +323,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         const { version } = await store.readRetryQueue();
         await store.replaceRetryQueue(version, [retry]);
 
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.replaceRetryQueue(version, [second]),
         );
 
@@ -353,14 +340,14 @@ export function describeAgentStore(name: string, make: MakeStore): void {
           [],
         );
 
-        const code = await errorCodeOf(store.replaceRetryQueue(version, []));
+        const code = await caughtCode(store.replaceRetryQueue(version, []));
 
         expect(code).toBe("STORE_CONFLICT");
       });
 
       it("refuses a queue it could not store, as a typed error", async () => {
         const { version } = await store.readRetryQueue();
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.replaceRetryQueue(version, [{ ...retry, failures: 0 }]),
         );
 

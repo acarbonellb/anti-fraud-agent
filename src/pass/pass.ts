@@ -13,7 +13,7 @@ import { type RunLimits } from "../agent/loop.js";
 import { PROMPT_VERSION } from "../agent/prompt.js";
 import { type ReviewSubjectResult, reviewSubject } from "../agent/review.js";
 import type { AnyAgentTool } from "../agent/tools.js";
-import { DomainError } from "../errors.js";
+import { codeOf, DomainError } from "../errors.js";
 import { type LogScalar, type LogWriter } from "./log-line.js";
 import { costMicros, worstCaseMicros } from "../providers/pricing.js";
 import type { LlmProvider, TokenUsage } from "../providers/types.js";
@@ -363,7 +363,7 @@ async function reviewAndStore(
     // Any failure, typed or not: one bad subject must not stall the feed. A
     // transient one is tried again on a later pass. Only the stable code is
     // kept (ADR 0017 point 3 and amendment).
-    const code = error instanceof DomainError ? error.code : "UNEXPECTED";
+    const code = codeOf(error);
     const finishedAt = now();
     const usage = calls.reduce<FailedRunDocument["usage"]>(
       (total, call) => ({
@@ -417,8 +417,7 @@ async function reviewAndStore(
         event: "run.unsaved",
         runId,
         subject,
-        code:
-          storeError instanceof DomainError ? storeError.code : "UNEXPECTED",
+        code: codeOf(storeError),
       });
     }
     return {

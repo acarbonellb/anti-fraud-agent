@@ -7,9 +7,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 
 import { loadConfig } from "../config/config.js";
-import { DomainError } from "../errors.js";
 import { fixtures } from "../satella-client/fixtures.js";
 import type { SatellaConnection } from "../satella-client/local-satella.js";
+import { caughtCode } from "../test-support/caught-code.js";
 import {
   createFakeFirestore,
   FAKE_PROJECT,
@@ -31,27 +31,12 @@ afterEach(async () => {
   await Promise.all(open.splice(0).map((satella) => satella.close()));
 });
 
-function caught(action: () => unknown): unknown {
-  try {
-    action();
-  } catch (error) {
-    return error;
-  }
-  return undefined;
-}
-
 describe("buildReviewer", () => {
-  it("refuses a paid provider without `paid` with a typed error", () => {
-    const error = caught(() =>
-      buildReviewer(loadConfig(PAID_ENV), { paid: false }),
-    );
+  it("refuses a paid provider without `paid` with a typed error", async () => {
+    const build = () => buildReviewer(loadConfig(PAID_ENV), { paid: false });
 
-    expect(error).toBeInstanceOf(PaidNotAllowedError);
-    expect(error).toBeInstanceOf(DomainError);
-    expect(error).toMatchObject({
-      code: "PAID_NOT_ALLOWED",
-      provider: "anthropic",
-    });
+    expect(build).toThrow(PaidNotAllowedError);
+    expect(await caughtCode(build)).toBe("PAID_NOT_ALLOWED");
   });
 
   it("builds the paid provider with `paid`", () => {

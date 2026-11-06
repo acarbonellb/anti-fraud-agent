@@ -3,25 +3,21 @@
 // nothing: no request is made.
 import { describe, expect, it } from "vitest";
 
-import { DomainError } from "../errors.js";
+import { caughtCode } from "../test-support/caught-code.js";
 import { createConfiguredProvider } from "./from-config.js";
 
 describe("createConfiguredProvider", () => {
-  it("refuses anthropic without a key with a domain error", () => {
-    let error: unknown;
-    try {
+  it("refuses anthropic without a key with a domain error", async () => {
+    const code = await caughtCode(() =>
       createConfiguredProvider({
         provider: "anthropic",
         baseUrl: "https://api.anthropic.com",
         model: "claude-haiku-5-5",
         apiKey: undefined,
         effort: "medium",
-      });
-    } catch (caught) {
-      error = caught;
-    }
+      }),
+    );
 
-    expect(error).toBeInstanceOf(DomainError);
-    expect(error).toMatchObject({ code: "LLM_KEY_MISSING" });
+    expect(code).toBe("LLM_KEY_MISSING");
   });
 });
