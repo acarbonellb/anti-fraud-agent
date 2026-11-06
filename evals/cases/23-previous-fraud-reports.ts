@@ -12,9 +12,9 @@ export const evalCase: EvalCase = {
   id: "23",
   slug: SEED,
   title: "Organizer with previous fraud reports publishes a new event",
-  // The brief reviews the new event, so the reports reach the agent only if
-  // it reads the organizer's context: the organizer checks (ADR 0012's
-  // heuristic `organizer_history`) run on organizer reviews, not here.
+  // The brief reviews the new event; the event review reads the organizer's
+  // context and runs its history check (ADR 0012's heuristic
+  // `organizer_history`), so the reports reach the agent in code (#82).
   subject: "event",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
