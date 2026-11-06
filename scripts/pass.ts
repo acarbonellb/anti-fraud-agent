@@ -90,8 +90,8 @@ try {
     limits: config.runLimits,
     autoApproveThreshold: config.autoApproveThreshold,
     dailyBudgetMicros: config.dailyBudgetMicros,
-    // Only `anthropic` takes an effort: record it only where it was sent.
-    effort: config.llm.provider === "anthropic" ? config.llm.effort : null,
+    // Null for the providers that take none (the config picked it).
+    effort: config.llm.effort,
     ...evidence,
     // Already checked by the pass's own writer.
     log: write,

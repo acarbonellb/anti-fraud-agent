@@ -106,6 +106,23 @@ const envSchema = z
     },
   );
 
+/** The chosen provider with its endpoint, key and effort, picked together. */
+export type LlmConfig = {
+  model: string;
+  /** The chosen provider's endpoint: anthropic's or the local server's. */
+  baseUrl: string;
+  /**
+   * The chosen provider's key: `AGENT_LLM_API_KEY` for anthropic,
+   * `AGENT_LLM_LOCAL_API_KEY` (usually none) for the local ones. A secret:
+   * never logged.
+   */
+  apiKey: string | undefined;
+} & (
+  | { provider: "anthropic"; effort: Effort }
+  // The local providers take no effort, so none is sent or recorded.
+  | { provider: Exclude<LlmProviderName, "anthropic">; effort: null }
+);
+
 export interface Config {
   runLimits: {
     maxToolCalls: number;
@@ -120,19 +137,7 @@ export interface Config {
     firestoreProjectId: string | undefined;
     firestoreEmulatorHost: string | undefined;
   };
-  llm: {
-    provider: LlmProviderName;
-    /** The chosen provider's endpoint: anthropic's or the local server's. */
-    baseUrl: string;
-    model: string;
-    /**
-     * The chosen provider's key: `AGENT_LLM_API_KEY` for anthropic,
-     * `AGENT_LLM_LOCAL_API_KEY` (usually none) for the local ones. A secret:
-     * never logged.
-     */
-    apiKey: string | undefined;
-    effort: Effort;
-  };
+  llm: LlmConfig;
   webSearch: {
     /** A secret: never logged. Undefined: no web search. */
     tavilyApiKey: string | undefined;
@@ -176,7 +181,6 @@ export function loadConfig(
   }
 
   const parsed = result.data;
-  const paid = parsed.AGENT_LLM_PROVIDER === "anthropic";
   return {
     runLimits: {
       maxToolCalls: parsed.AGENT_MAX_TOOL_CALLS,
@@ -189,15 +193,7 @@ export function loadConfig(
       firestoreProjectId: parsed.FIRESTORE_PROJECT_ID,
       firestoreEmulatorHost: parsed.FIRESTORE_EMULATOR_HOST,
     },
-    llm: {
-      provider: parsed.AGENT_LLM_PROVIDER,
-      baseUrl: paid
-        ? parsed.AGENT_LLM_ANTHROPIC_BASE_URL
-        : parsed.AGENT_LLM_BASE_URL,
-      model: parsed.AGENT_LLM_MODEL,
-      apiKey: paid ? parsed.AGENT_LLM_API_KEY : parsed.AGENT_LLM_LOCAL_API_KEY,
-      effort: parsed.AGENT_LLM_EFFORT,
-    },
+    llm: chosenProvider(parsed),
     webSearch: { tavilyApiKey: parsed.TAVILY_API_KEY },
     satella:
       parsed.SATELLA_STAGING_BASE_URL === undefined ||
@@ -207,5 +203,31 @@ export function loadConfig(
             baseUrl: parsed.SATELLA_STAGING_BASE_URL,
             audience: parsed.SATELLA_AGENT_API_AUDIENCE,
           },
+  };
+}
+
+/**
+ * The one place the provider's endpoint, key and effort are picked: the paid
+ * key and Anthropic's URL go to anthropic alone, so a local or shared server
+ * never sees them (#89), and only anthropic gets an effort. Everything else
+ * reads what this picked instead of asking which provider it is.
+ */
+function chosenProvider(parsed: z.infer<typeof envSchema>): LlmConfig {
+  const { AGENT_LLM_PROVIDER: provider, AGENT_LLM_MODEL: model } = parsed;
+  if (provider === "anthropic") {
+    return {
+      provider,
+      model,
+      baseUrl: parsed.AGENT_LLM_ANTHROPIC_BASE_URL,
+      apiKey: parsed.AGENT_LLM_API_KEY,
+      effort: parsed.AGENT_LLM_EFFORT,
+    };
+  }
+  return {
+    provider,
+    model,
+    baseUrl: parsed.AGENT_LLM_BASE_URL,
+    apiKey: parsed.AGENT_LLM_LOCAL_API_KEY,
+    effort: null,
   };
 }

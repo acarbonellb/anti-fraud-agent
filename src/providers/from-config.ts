@@ -19,6 +19,7 @@ export class ProviderKeyMissingError extends DomainError {
 }
 
 export function createConfiguredProvider(llm: Config["llm"]): LlmProvider {
+  // Which adapter, not which key or effort: the config picked those (#84).
   if (llm.provider === "anthropic") {
     if (llm.apiKey === undefined) {
       // loadConfig already refuses this; the check narrows the type, and the
