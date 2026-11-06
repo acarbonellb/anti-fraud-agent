@@ -1,8 +1,14 @@
 // Checks the pass's JSON log line (#46): Cloud Logging reads `severity` for the
-// entry's level, so each line carries it next to `level`. Fakes nothing.
+// entry's level, so each line carries it next to `level`; and that the pass's
+// log fields take scalars, and the subject only under `subject` (#91), checked
+// by the compiler through `@ts-expect-error`. Fakes nothing.
 import { describe, expect, it } from "vitest";
 
-import { logLine } from "./log-line.js";
+import { type LogWriter, logLine } from "./log-line.js";
+
+/** What the pass's `log` accepts, without a pass to run. */
+const fields: LogWriter<object> = () => undefined;
+const evt1 = { type: "event", id: "evt_0001" } as const;
 
 describe("logLine", () => {
   it("adds the Cloud Logging severity for each level", () => {
@@ -31,5 +37,27 @@ describe("logLine", () => {
       event: "pass.report",
       runs: 2,
     });
+  });
+});
+
+describe("the pass's log fields", () => {
+  it("take scalars, and the subject's type and id under `subject`", () => {
+    expect(() => {
+      fields({ subject: evt1, runs: 2, code: "X", transient: null });
+    }).not.toThrow();
+  });
+
+  it("refuse an object, so no Satella data rides along", () => {
+    // @ts-expect-error an array of runs is no id nor count
+    fields({ runs: [{ runId: "run_1" }] });
+    // @ts-expect-error an object is refused under any other name
+    fields({ context: evt1 });
+    // @ts-expect-error `subject` takes a subject, not any object
+    fields({ subject: { type: "event", id: "evt_0001", name: "Concierto" } });
+  });
+
+  it("refuse an object on the line written out", () => {
+    // @ts-expect-error the pass report logs counts, not its runs
+    logLine({ level: "info", event: "pass.report", runs: [{ runId: "r" }] });
   });
 });

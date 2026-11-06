@@ -14,6 +14,7 @@ import { PROMPT_VERSION } from "../agent/prompt.js";
 import { type ReviewSubjectResult, reviewSubject } from "../agent/review.js";
 import type { AnyAgentTool } from "../agent/tools.js";
 import { DomainError } from "../errors.js";
+import { type LogScalar, type LogWriter } from "./log-line.js";
 import { costMicros, worstCaseMicros } from "../providers/pricing.js";
 import type { LlmProvider, TokenUsage } from "../providers/types.js";
 import type {
@@ -63,17 +64,19 @@ const REVIEWABLE: ReadonlySet<FeedItemType> = new Set<FeedItemType>([
 ]);
 
 /** Ids and codes only, never Satella's data (CLAUDE.md §4, minimal logs). */
-interface LogFields {
+interface PassLogBase {
   level: "info" | "warn";
   event: string;
   runId?: string;
   subject?: Subject;
   code?: string;
-  // Scalars only, so no Satella object can ride along (CLAUDE.md §4).
-  [detail: string]: string | number | boolean | null | Subject | undefined;
 }
-export type PassLogLine = LogFields & { correlationId: string };
-type Log = (line: LogFields) => void;
+export type PassLogLine = PassLogBase & {
+  correlationId: string;
+  [detail: string]: LogScalar | Subject;
+};
+/** Every other field a scalar, checked where each line is written (#91). */
+type Log = LogWriter<PassLogBase>;
 
 export interface PassOptions {
   satella: SatellaClient;
@@ -378,23 +381,9 @@ async function reviewAndStore(
         cacheWriteInputTokens: 0,
       },
     );
-    await store.saveRun({
-      runId,
-      outcome: "failed",
-      trigger: "scheduled",
-      startedAt: startedAt.toISOString(),
-      finishedAt: finishedAt.toISOString(),
-      latencyMs: finishedAt.getTime() - startedAt.getTime(),
-      subject,
-      provider: provider.provider,
-      model: provider.model,
-      effort: options.effort,
-      promptVersion: PROMPT_VERSION,
-      error: { code },
-      usage,
-      costMicros: spent(),
-    });
     const transient = isTransient(error);
+    // Logged before the store is touched: a store that is down too must not
+    // hide why the review failed (#91).
     log({
       level: "warn",
       event: "run.failed",
@@ -403,6 +392,35 @@ async function reviewAndStore(
       code,
       transient,
     });
+    try {
+      await store.saveRun({
+        runId,
+        outcome: "failed",
+        trigger: "scheduled",
+        startedAt: startedAt.toISOString(),
+        finishedAt: finishedAt.toISOString(),
+        latencyMs: finishedAt.getTime() - startedAt.getTime(),
+        subject,
+        provider: provider.provider,
+        model: provider.model,
+        effort: options.effort,
+        promptVersion: PROMPT_VERSION,
+        error: { code },
+        usage,
+        costMicros: spent(),
+      });
+    } catch (storeError) {
+      // The run is lost, not the pass: its failure is already logged, and a
+      // transient one is still queued for a later pass.
+      log({
+        level: "warn",
+        event: "run.unsaved",
+        runId,
+        subject,
+        code:
+          storeError instanceof DomainError ? storeError.code : "UNEXPECTED",
+      });
+    }
     return {
       review: { outcome: "failed", code, transient },
       costMicros: spent(),
