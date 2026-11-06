@@ -124,3 +124,7 @@ capped twice: by the daily budget in code and by the provider key's own limit.
 Venue data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, available
 under the Open Database License (ODbL 1.0), through Nominatim. Recorded venue lookups under
 `evals/tool-responses/` carry that data. Wikidata content is CC0.
+
+## License
+
+[MIT](LICENSE).

@@ -1,11 +1,13 @@
 name: CI
 
 # Runs on every PR and on every push to `main` (after a squash, the push run
-# is the only one that tests the real merged code).
+# is the only one that tests the real merged code). A manual run is there for
+# the secret scan: on that event gitleaks scans the whole history, not a range.
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
