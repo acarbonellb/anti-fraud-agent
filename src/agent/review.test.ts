@@ -322,3 +322,28 @@ it("re-reviews when the event changes during the review", async () => {
   expect(result.review.subject.version).toBe("v2-edited");
   expect(mock.reviews).toHaveLength(1);
 });
+
+it("keeps the model's warn on a check the code couldn't decide, and escalates", async () => {
+  // The mock serves no benchmark sample, so the price check ends `unknown`:
+  // the model's doubt is then the only evidence on that check (#82).
+  const modelWarn = {
+    check: "price_benchmark",
+    verdict: "warn",
+    detail: "Precio muy por debajo de lo habitual para este recinto.",
+    confidence: 0.7,
+    sources: [],
+  } as const;
+  const provider = createScriptedProvider([
+    callTool("submit_recommendation", { ...approval, findings: [modelWarn] }),
+  ]);
+
+  const result = await review(provider);
+
+  expect(
+    result.review.findings.filter(
+      (finding) => finding.check === "price_benchmark",
+    ),
+  ).toEqual([expect.objectContaining({ verdict: "unknown" }), modelWarn]);
+  expect(result.review.decision).toBe("approve");
+  expect(result.review.autonomy).toBe("escalated");
+});
