@@ -444,3 +444,49 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   capacity's hard fail. It now escalates, so the admin sees it. Case 25 moved from `reject` to the
   expected `request_info`. Case 24 keeps its automatic `reject` on `minors_alcohol` alone.
 - **Decision:** keep.
+
+## E017 — An unlimited large discount warns (qwen 3.5 9B)
+
+- **Hypothesis** (#73): the new case 28 (an active 95 % code with no usage limit) ends in
+  `request_info`, escalated. N1–N5 keep their outcome and the auto-approved fraud rate stays at
+  0 %, because no existing case carries a large unlimited discount.
+- **Change** (#73): a new `heuristic` check, `discounts`, warns when an active discount is above
+  50 % (`UNLIMITED_DISCOUNT_MAX_PERCENT`) and has no usage limit. It passes on every other event,
+  but its `pass` finding and the new vocabulary entry are in every event request, so all 32 cases
+  were re-recorded once on local qwen, which is free. Recording run 1 also re-measured the venue
+  lookups (OSM, Wikidata); only volatile fields such as `place_id` changed.
+- **Before → after** (E016 → E017), gated, 30 → 31 cases: **accuracy 73.3 % → 71.0 %**,
+  **approved-fraud rate 4.0 % → 0.0 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  73.3 % → 74.2 %, **autonomy accuracy 80.0 % → 80.6 %**, Brier 0.206 → 0.245.
+- **What went wrong or surprised:**
+  - Case 28 is right: `request_info`, escalated, on the `discounts` warning.
+  - Every other case saw the same request plus a `pass`, and the single run moved a lot anyway.
+    Cases 03, 11, 16 and 19 became confident wrong `reject`s (0.95) and 04, 18, 20, 23 and 25
+    became right. Case 23's approval of fraud became a `request_info`, which is the whole
+    approved-fraud move. None of the wrong rejections resolved on its own: none rests on a hard
+    signal. With one run per case, all of this is re-recording noise, not the check's effect.
+  - N1–N4 kept their outcome. N5 stays wrong but moved from `reject` to `approve`, escalated
+    because its venue is unverified.
+- **Decision:** keep. The hypothesis holds on what the check touches (case 28, no auto-approved
+  fraud); the accuracy and Brier moves are noise from a one-run set and are not credited to #73.
+
+## E018 — An unlimited large discount warns (Haiku 5.5)
+
+- **Hypothesis** (#73): as in E017.
+- **Change:** the same as E017, with all 32 cases re-recorded three times on Haiku 5.5, about $0.20
+  (97 reviews at $0.0021: case 12 run 2 was recorded twice because its first take replayed stale).
+- **Before → after** (E015 → E018, mean over three runs, min–max), gated, 30 → 31 cases:
+  **accuracy 85.6 % (83.3–86.7) → 84.9 % (80.6–87.1)**, **approved-fraud rate 0.0 % → 0.0 %**,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 86.7 % → 88.2 %, **autonomy accuracy
+  66.7 % (66.7–66.7) → 66.7 % (64.5–67.7)**, Brier 0.152 → 0.166. Mean input tokens about
+  14,500 → 13,600. The ranges overlap: within run-to-run noise.
+- **What went wrong or surprised:**
+  - Case 28 is right in all three runs: `request_info`, escalated, citing `discounts`.
+  - N1–N5 kept their outcomes; no gated case changed its majority decision.
+  - Case 07 (exact clone) asked instead of rejecting in one run of three, so that run escalated
+    instead of resolving on its own. It is still right by majority, and the clone's hard signal
+    is unchanged: noise, and on the safe side.
+  - The Brier move comes from confidences that drifted slightly lower across many cases, with no
+    change in decisions.
+- **Decision:** keep. The hypothesis holds: the new case is right and nothing else moved beyond
+  noise.

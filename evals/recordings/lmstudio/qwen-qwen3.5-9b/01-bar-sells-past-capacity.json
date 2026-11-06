@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-06T12:36:00.000Z",
   "calls": [
     {
-      "requestHash": "6501fe8df4d898a61cf63fa2fe5547a524dce0affbac373606695b5c8129a51d",
-      "latencyMs": 3025,
+      "requestHash": "55b7d2af05ae789eb2f05e6171dcdd8bef0ffba56334240e3ac26ef49549c8ae",
+      "latencyMs": 10738,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The deterministic checks have already flagged a critical issue: **capacity_far_above_venue** with a \"fail\" verdict. The event is selling 2,000 tickets for a venue (Masquevinos) that OpenStreetMap lists as having a capacity of 140. This is 14.3 times the real capacity, which is far above the threshold of 2 times and constitutes a \"hard signal\" of fraud or at least severe misrepresentation.\n\nI need to investigate further to understand the context:\n1. Check the organizer's history and identity to see if this is a pattern or a new actor.\n2. Verify if there are similar events from other organizers that might indicate cloning or a coordinated scheme.\n3. Confirm the venue capacity via web search or additional sources if needed (though OSM is authoritative, I should check if there's any legitimate reason for such discrepancy).\n\nLet me start by checking the organizer context to understand their history and identity.",
           "toolCalls": [
             {
-              "id": "K6SxG4rwNHvvDCpFWYCHfx4m6iwprFf1",
+              "id": "q9I1dVIFBtTaoDu1JQBoIlOpkC71RLbR",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_1c0d565186\"}"
             }
@@ -22,229 +22,123 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3459,
-          "outputTokens": 42
+          "inputTokens": 3508,
+          "outputTokens": 245
         }
       }
     },
     {
-      "requestHash": "a5676d9c118ae98045e918dee5deed7b437de698ea5a5f2aa1e1a40503347e26",
-      "latencyMs": 1436,
+      "requestHash": "99811e00fd09f776d661276f6d449b59b80d58db5f0b586ef82a6c2c25a15660",
+      "latencyMs": 5007,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The organizer \"Garbanzo Negro Eventos\" appears legitimate on the surface:\n- Account age: 930 days (about 2.5 years) - well-established\n- Fiscal data: CIF present and checksum valid\n- No content reports, no previous admin unpublishes\n- History: 14 published events, 12 ended normally, 0 cancelled\n\nThis doesn't immediately suggest fraud, but the capacity issue is severe. Let me check for similar events to see if this might be a clone or part of a pattern.",
           "toolCalls": [
             {
-              "id": "8m28jzozWBNkWcXhEJIfijFxmb1DiMpM",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Masquevinos Granada aforo capacidad 140\",\"maxResults\":2}"
+              "id": "IXZu8iD9StQzo0OkAbSRwSBwRvqBwBTl",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_9fb0d56ae2\",\"windowDays\":30}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3849,
-          "outputTokens": 49
+          "inputTokens": 4101,
+          "outputTokens": 164
         }
       }
     },
     {
-      "requestHash": "38748ffab850a460f711d25081224b15573707ae9e87f931248891e0482e9e44",
-      "latencyMs": 1504,
+      "requestHash": "405ea575c5d2f890a8c81b5b03493e849cb9aefbfc3bd07a56c6a1fbdaeb0d7f",
+      "latencyMs": 3395,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "No similar events found, so this isn't a clone issue. The capacity problem remains the primary concern. Let me do a web search to verify if there's any legitimate reason for selling 2,000 tickets at Masquevinos - perhaps it's a multi-room venue or the OSM data is outdated.",
           "toolCalls": [
             {
-              "id": "3VLLE7xU2VNFTzjVocalyGU8Dfo7GqHP",
+              "id": "62K8IeIzq4lQsMhRI8CirHsGj4EsFXEs",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Masquevinos Granada capacidad aforo 2000\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"Masquevinos Granada capacity aforo\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4289,
-          "outputTokens": 50
+          "inputTokens": 4352,
+          "outputTokens": 111
         }
       }
     },
     {
-      "requestHash": "5cd8e4ad04aceed48e9304ad0d8b3751065b7fd43a0203806459470851000278",
-      "latencyMs": 1505,
+      "requestHash": "562e12c1ba27ead03f7d2bc380a6a4f5d47da807bab3e4b3c0d38547ae6da0b5",
+      "latencyMs": 10144,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The web search confirms that Masquevinos is a small restaurant/taberna in Granada. The second result explicitly states \"Hasta 48 personas\" (up to 48 people) for their menu, which aligns with the OSM capacity of 140 being reasonable for a small venue. There's no indication of any legitimate reason to sell 2,000 tickets here.\n\nThe capacity issue is severe:\n- OSM says 140 capacity\n- Event sells 2,000 tickets (14.3x the real capacity)\n- This is a \"hard signal\" per the deterministic checks\n\nThis is essentially selling tickets for an event that cannot physically accommodate them. This could be:\n1. Fraudulent intent to collect money without delivering the service\n2. Severe negligence/misrepresentation\n3. Attempting to sell tickets for a different venue but using wrong coordinates\n\nGiven the severity (capacity_far_above_venue is a \"hard signal\"), and the fact that this is not a minor discrepancy but an order of magnitude difference, I should reject this event. The organizer appears legitimate otherwise, but this specific event has clear evidence of fraud/misrepresentation.\n\nLet me also check if there's any text originality issue or other red flags by searching for the event description.",
           "toolCalls": [
             {
-              "id": "ud85vaIpgekZtARl9iKVt3Pf3zbzqBf2",
+              "id": "DX4M9sCYoRNV3kvmmpxrWCs4TRFRO6mg",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Masquevinos Granada \\\"DJ Morcuera\\\" concierto\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"\\\"Fiesta de fin de temporada\\\" \\\"DJ Morcuera\\\" Granada\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4704,
-          "outputTokens": 49
+          "inputTokens": 4921,
+          "outputTokens": 324
         }
       }
     },
     {
-      "requestHash": "301255ead0fd4273f0187f8ddddcaf5281d345a2fc34cc030ce2e16ce99420f4",
-      "latencyMs": 1453,
+      "requestHash": "ff13933e3e3043fb07450c150c0fbb8f2cc138a529735cc777e585df2d33bd6e",
+      "latencyMs": 4642,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The search didn't find any specific event with this title and DJ Morcuera at Masquevinos. The results are generic (Granada festival, university competitors, employment sites). This suggests the event description might be original or at least not copied from a well-known source. However, the capacity issue is the primary concern.\n\nLet me also search for \"DJ Morcuera\" to see if this artist exists and has any tour dates that might conflict.",
           "toolCalls": [
             {
-              "id": "9pyWKGMlq778ynxUGe4T03QANsNNBEM5",
+              "id": "1SdD19yoFN1DOGtLgDcmqXmPSWvpYLwd",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"DJ Morcuera Granada concierto 2026\",\"maxResults\":2}"
+              "argumentsJson": "{\"query\":\"DJ Morcuera Granada concierto 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5115,
-          "outputTokens": 48
+          "inputTokens": 5678,
+          "outputTokens": 142
         }
       }
     },
     {
-      "requestHash": "01aa965d36642565e7ee6795b06a1f44c8fd54514f85d80c4ffb059dd0f22d43",
-      "latencyMs": 1345,
+      "requestHash": "e3af7c5faa838bcd7b17c3b36b52d938f26ee9088326ee5e28bc5753b77b6043",
+      "latencyMs": 26634,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The search results don't show \"DJ Morcuera\" specifically. The first result mentions \"More…\" which might include various artists, but I can't confirm DJ Morcuera is there. The other results are about different festivals (Granada Fusión 2026) and a different event (Toto de Loka X Tikitiki Super Hot).\n\nThis doesn't indicate artist availability issues directly, but it also doesn't confirm the artist exists. However, the capacity issue is the primary fraud signal here.\n\nGiven the evidence:\n1. **capacity_far_above_venue**: FAIL - 2,000 tickets sold for a venue with 140 capacity (14.3x over)\n2. This is explicitly marked as a \"hard signal\" in the deterministic checks\n3. The organizer appears legitimate otherwise (established, fiscal data valid, no prior issues)\n4. No similar events found (not a clone)\n5. Web searches don't show this specific event elsewhere\n\nThe capacity issue alone is sufficient for rejection. This is essentially selling tickets for an event that cannot physically accommodate the ticket holders, which is fraudulent behavior or at least severe misrepresentation.\n\nI should reject this event with high confidence due to the clear evidence of capacity fraud.",
           "toolCalls": [
             {
-              "id": "NoH9Brq3RYmSBbHoOTVEzV41bXQNDMjy",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"\\\"DJ Morcuera\\\" Granada\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 5590,
-          "outputTokens": 44
-        }
-      }
-    },
-    {
-      "requestHash": "e451b16d46d030ce12f35dd001e732e02c898dec0c599888b288ff07b1d6c05d",
-      "latencyMs": 21094,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el caso y tengo los siguientes hallazgos clave:\n\n1. **Señal de aforo grave (capacity_far_above_venue)**: El evento pone a la venta 2.000 entradas para un local que OpenStreetMap indica con capacidad de 140 personas. Esto es más de 14 veces el aforo real, lo cual es una señal de fraude muy clara.\n\n2. **Naturaleza del local**: Las búsquedas web confirman que \"Masquevinos\" es un restaurante/bar en el centro histórico de Granada (Calle Tundidores), no una discoteca o sala de conciertos grande. Los horarios y la descripción apuntan a un establecimiento de tamaño medio, no a uno capaz de acoger 2.000 personas.\n\n3. **Organizador**: \"Garbanzo Negro Eventos\" es un organizador aprobado con fiscalidad en regla, pero el problema no es el organizador sino la capacidad del local declarada.\n\n4. **Artista**: No he encontrado evidencia de que \"DJ Morcuera\" tenga una gira oficial o fechas confirmadas fuera de la plataforma, pero esto no es determinante por sí solo.\n\n**Conclusión**: La discrepancia entre el aforo real (140) y las entradas a la venta (2.000) es una señal de fraude grave que indica que el evento podría ser un \"clon\" o estafa diseñada para vender más entradas de las que el local puede albergar. Esto pone en riesgo la seguridad de los asistentes y la integridad de la plataforma.\n\n**Decisión**: **REJECT** con alta confianza, debido a la señal de aforo grave (capacity_far_above_venue) que es un indicador claro de fraude o error intencional.",
-          "toolCalls": [
-            {
-              "id": "mH5VvsGJWWsuyPNm83kIqvAgvap0llpc",
+              "id": "9JPriNA8J6islC39TqDGmv264tikrX5T",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"Señal de aforo grave: el evento pone a la venta 2.000 entradas para un local que OpenStreetMap indica con capacidad de 140 personas (más de 14 veces el aforo real). Esto es una señal clara de fraude o error intencional, ya que ningún local de ese tamaño puede acoger a 2.000 personas. El local \\\"Masquevinos\\\" en Granada es un restaurante/bar del centro histórico, no una sala de conciertos grande. Esta discrepancia pone en riesgo la seguridad de los asistentes y la integridad de la plataforma.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"El local 'Masquevinos' en Granada tiene una capacidad real de 140 personas según OpenStreetMap, pero el evento pone a la venta 2.000 entradas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal grave de fraude: se están vendiendo 2.000 entradas para un recinto (Masquevinos) con capacidad real de 140 personas según OpenStreetMap. Esto representa 14,3 veces el aforo real, superando ampliamente el umbral de 2 veces establecido como señal grave. Este tipo de discrepancia indica venta fraudulenta de entradas o representación falsa del evento, ya que físicamente no puede acoger a los titulares de las entradas. El organizador (Garbanzo Negro Eventos) parece legítimo con datos fiscales válidos y historial limpio, pero este evento específico tiene evidencia clara de fraude en el aforo. No se encontraron eventos similares ni problemas de originalidad del texto. La decisión de rechazo se basa en la señal hard de capacity_far_above_venue que ya fue detectada por los checks determinísticos.\",\"findings\":[{\"check\":\"capacity_far_above_venue\",\"verdict\":\"fail\",\"detail\":\"Señal grave de aforo: la sesión con más entradas pone a la venta 2.000, 14,3 veces el aforo de 140 que publica OpenStreetMap (umbral: 2 veces). Este es un hard signal de fraude o representación falsa del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5136054925\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Garbanzo Negro Eventos con CIF válido, cuenta activa desde 2024-05-20 (930 días), sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia de Granada con fechas cercanas que pudieran indicar clonación.\",\"confidence\":0.85,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5670,
-          "outputTokens": 816
+          "inputTokens": 6339,
+          "outputTokens": 787
         }
       }
     }
   ],
   "searches": [
-    {
-      "requestHash": "063ce016f3e0b22d4761aa77bff1f6e3bee07e4abd447dbef3fb2d64ff34e4a0",
-      "provider": "Tavily",
-      "query": "Masquevinos Granada aforo capacidad 140",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://restaurantemasquevinos.es/es",
-            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
-            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Mas"
-          },
-          {
-            "url": "https://routemarket.io/en/miejsce/masquevinos-granada-77b0",
-            "title": "Masquevinos, Granada — opening hours, details and map | RouteMarket",
-            "snippet": "Visit time: 1 h\n Opening hours: Mon–Thu 12:00–17:00 · Mar–Sep: Fri–Sat 12:00–01:00 · Sun 12:00–00:00 · Oct–Feb: Fri 12:00–17:00,20:00–01:00 · Sat 12:00–01:00 (from OpenStreetMap — check before you go)\n Website: restaurantemasquevinos.es\n\n## How long does it take to visit Masquevinos?\n\nPlan about 1 h.\n\n## Nearby\n\n Alcaicería — 40 m\n Corral del Carbón — 80 m\n Plaza Bib-Rambla — 90 m\n Iglesia del Sagrario — 90 m\n Granada Cathedral — 130 m\n Monumento a Isabel la Católica — 130 m [...] Home › Granada"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "712ac3f5f4eb2f47ca724536511f67af40cb9d959e1dbaf072e2a4063110ff01",
-      "provider": "Tavily",
-      "query": "Masquevinos Granada capacidad aforo 2000",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://restaurantemasquevinos.es/es",
-            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
-            "snippet": "Estamos en zona peatonal del centro histórico, junto al Zacatín, así que se llega andando desde cualquier punto de la ciudad vieja; si vienes en coche, los aparcamientos más cercanos son San Agustín y Puerta Real. Dentro te esperan una bodega con más de 300 referencias, cocina andaluza de producto, brasa, ibéricos de bellota y pescados. Adaptamos la mayoría de los platos para celíacos y vegetarianos, y sentamos hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller. [...] Mas"
-          },
-          {
-            "url": "https://restaurantesgranadatop.es/comer-en-granada/masquevinos",
-            "title": "Masquevinos » Restaurantes Granada Top",
-            "snippet": "Chuletón gallego\n\nChuletón gallego con piedra caliente para terminar al gusto con patatas fritas\n\nRestaurante\n\nMasquevinos\n\nC. Tundidores, 13, Centro, 18001 Granada, España\n\n958560986\n\n###### Horarios\n\nTodos los días\n\n12:00 H -\n\n- 17:00 H\n\n19:00 H -\n\n- 00:00 H\n\nGestionar el consentimiento de las cookies [...] 6\n\nA mis favoritos\n\n## Restaurante para amantes de la carne\n\nSomos un restaurante con 15 años abiertos y siempre ampliando nuestro numero de comensales y puestos de trabajo. Nuestra cocina "
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "b00968ad20a8b2315e1bf2498ff7f1dc8f52d1326e810f16fe0244bcae954c74",
-      "provider": "Tavily",
-      "query": "Masquevinos Granada \"DJ Morcuera\" concierto",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://restaurantemasquevinos.es/en",
-            "title": "Mas que Vinos — Wine restaurant in central Granada",
-            "snippet": "Mas que Vinos is an Andalusian restaurant and wine bar in the centre of Granada, at Calle Tundidores 10 (18001). We open every day: lunch from 12:00 to 17:00 and dinner from 20:30 to 00:30. [...] Address\n:   Calle Tundidores 10, 18001 Granada\n\nOpening hours\n:   Every day · 12:00–17:00 and 20:30–00:30\n\nGetting here\n:   Pedestrian area by the Zacatín · San Agustín or Puerta Real car park\n\nBookings\n:   +34 958 56 09 86\n\n### Before you come [...] Mas que Vinos\n\nRestaurant · Granada · in the heart of"
-          },
-          {
-            "url": "https://routemarket.io/en/miejsce/masquevinos-granada-77b0",
-            "title": "Masquevinos, Granada — opening hours, details and map | RouteMarket",
-            "snippet": "Home › Granada\n\n# Masquevinos\n\nGranada, Spain\n\nThis popular social spot offers a special selection of wines and local snacks, distinguishing it from traditional taverns.\n\nLooking for a place for an evening drink and tapas, Masquevinos offers a selection of wines and local snacks. It is a popular spot for social gatherings in Granada. You can feel the local buzz and relax after dark. [...] Visit time: 1 h\n Opening hours: Mon–Thu 12:00–17:00 · Mar–Sep: Fri–Sat 12:00–01:00 · Sun 12:00–00:00 · Oct–F"
-          }
-        ]
-      }
-    },
-    {
-      "requestHash": "750cb0b2c85e6dfbe4dc720ddd9fc652ed74636f337d6eea2333ab1e50662518",
-      "provider": "Tavily",
-      "query": "DJ Morcuera Granada concierto 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "results": [
-          {
-            "url": "https://concerts50.com/spain/granada",
-            "title": "Best Concerts in Granada 2026-2027: Dates & Tickets | Concerts 50",
-            "snippet": "| Thu, 21:00  Dec 17  2026  Melody | Melody Granada  Palacio de Congresos de Granada - Granada, Spain | tickets |\n| Thu, 21:00  Nov 19  2026  Temples | Temples Granada  Discoteca Aliatar - Granada, Spain | tickets |\n| Sat, 21:00  Feb 13  2027  Cariño | Cariño Granada  Discoteca Aliatar - Granada, Spain | tickets |\n| Sat, 21:00  Nov 21  2026  shego | Shego Granada  Discoteca Aliatar - Granada, Spain | tickets | [...] | Wed, 21:00  Nov 4  2026  The Chameleons | The Chameleons Granada  Planta baja "
-          },
-          {
-            "url": "https://www.jambase.com/festival/granada-sound-2026",
-            "title": "Granada Sound 2026 Lineup - Sep 11 - 12, 2026",
-            "snippet": "Keb' Mo'JJ Grey & MofroSt. Paul and The Broken BonesMore…\n\n  + Fort Lauderdale, FL\n  + - 8 days\n    - Jan 9 - 16, 2027\n\n  Tickets & Info\n\n One Big Holiday\n\n  #### One Big Holiday\n\n  My Morning JacketModest MouseSpoonMore…\n\n  + Puerto Aventuras, Mexico\n  + - 5 days\n    - Jan 14 - 18, 2027\n\n  Tickets & Info\n\n The Big Easy Cruise\n\n  #### The Big Easy Cruise\n\n  Keb' Mo'Samantha FishRobert RandolphMore…\n\n  + Fort Lauderdale, FL\n  + - 8 days\n    - Jan 16 - 23, 2027\n\n  Tickets & Info [...] + Puerto Mor"
-          }
-        ]
-      }
-    },
     {
       "requestHash": "1caea71360967beefe86dec069b98abf7e5efff583b42f2539ff7302780acff4",
       "provider": "Tavily",
@@ -254,29 +148,107 @@
       "response": {
         "results": [
           {
-            "url": "https://www.instagram.com/reel/DYWqDSdM7Tj",
-            "title": "El Bar De Siempre  21/05/26 ...\"Yo te espero ...",
-            "snippet": "El Bar De Siempre 21/05/26 ...\"Yo te espero en \"El Bar De Siempre\" con las mismas ganas de verte, con la luna permanente para que no"
+            "url": "https://www.youtube.com/watch?v=uCDaq7u9jzs",
+            "title": "🎉 FIESTA DE AÑO NUEVO 2026: ¡Cierre de Temporada! 🥂 | Nosotros Somos & Suena WOW 🎆",
+            "snippet": "📅 𝗦𝗛𝗢W𝗦 𝗬 𝗙𝗘𝗖𝗛𝗔𝗦 𝗔𝗡𝗨𝗡𝗖𝗜𝗔𝗗𝗔𝗦 𝗣𝗢𝗥 𝗟𝗢𝗦 𝗔𝗥𝗧𝗜𝗦𝗧𝗔𝗦\n\n Lucho Paz – MIERCOLES 31 - Centro Vacacional Huampaní\n Dilbert Aguilar – MIERCOLES 31 - Centro de Convenciones Leguía\n Donny Yaipen – MIERCOLES 31 - CC Esencia\n Alex Muñoz – MIERCOLES 31 - Centro de Convenciones Leguía\n Artista sorpresa – VERUZKA Y SEXTETO - HOY 26 DE DICIEMBRE - Dossis.Lima\n\n🙏 𝗔𝗚𝗥𝗔𝗗𝗘𝗖𝗜𝗠𝗜𝗘𝗡𝗧𝗢𝗦 𝗘𝗦𝗣𝗘𝗖𝗜𝗔𝗟𝗘𝗦\n\nGracias al “Centro de Convenciones Bianca” por abrirnos las puertas"
           },
           {
-            "url": "https://www.tiktok.com/@rolphschneider/video/7570105783313091848",
-            "title": "Reggaeton de Lujo: Fin de Temporada en Barley Bar",
-            "snippet": "El evento va de 7PM a 2AM con Latinpop y de 2AM a 5AM música variada. Entradas y reservas: link en el perfil del organizador; reservas de boxes"
+            "url": "https://as.com/tikitakas/ocio/madrid-dice-adios-a-uno-de-sus-bares-mas-miticos-f202605-n",
+            "title": "Madrid dice adiós a uno de sus bares más míticos - AS.com",
+            "snippet": "“Con mucho pesar anunciamos que Gris Bar cierra sus puertas para siempre. Por circunstancias ajenas a nuestra voluntad nos vemos obligados a cerrar lo que ha venido siendo uno de los locales míticos de Madrid. Durante más de 40 años hemos trabajado incansablemente para ofreceros una de las experiencias más auténticas de la vida nocturna y cultural de Madrid."
           },
           {
-            "url": "https://www.facebook.com/anamariafrankengomes/posts/fiesta-bar-bar-vive-un-miercoles-como-nunca-te-lo-imaginaste/1876088419121527",
-            "title": "BAR vive un miercoles como nunca te lo imaginaste!",
-            "snippet": "Este Miércoles 22 de Enero estamos de FIESTA. Cumplimos 2 años de haber creado el concepto de Social de Barrio. 2 años de sociales"
+            "url": "https://www.theclinic.cl/2026/03/15/chueca-bar-cierre-barrio-italia-espacio-lesbofeminista-santiago",
+            "title": "Chueca Bar anuncia su cierre en Barrio Italia: “Durante mucho tiempo existió la idea de que, si eras lesbiana, tenías que estar en un lugar oculto”",
+            "snippet": "El contexto también ayudó a que la idea tomara forma. “En 2019 empezó a darse mucho activismo lesbo-feminista. Se empezaron a formar más asociaciones y hubo más activación desde ese lado. Había una fiesta que se hacía el primer jueves de cada mes. Ahí conocí a muchas lesbianas”, recuerda Cortés. De esas reuniones, sumadas a un deseo que arrastraba desde niña —siempre quiso tener un bar e incluso pensó en estudiar gastronomía—, comenzó a decantar la idea de abrir un espacio propio. [...] Con el t"
+          },
+          {
+            "url": "https://www.tickeri.com/events/qh0n5d4kp88y/la-gran-fiesta-fin-de-ano-en-tampa-orquesta-en-vivo-hay-boletos-de-venta-en-la-puerta",
+            "title": "LA GRAN FIESTA FIN DE ANO EN TAMPA / 2026 SE REALIZARA EN 809 LOUNGE 3710 WATERS AV TAMPA ( ESQUINA DALE MABRY) in Tampa - Tickets 2025-12-31 | Casa 21 Restaurant Bar & Grill",
+            "snippet": "Únete a nosotros para celebrar en grande el cierre de este año y recibir el Año Nuevo 2025 y Disfruta de una emocionante noche llena de música, alegria y Orquesta en Vivo. Espectacular show!\n\nFecha:31 DICIEMBRE\n\nPuertas Abren 8:30 PM - hasta el amanecer 3AM\n\nLA CENA SE SERVIRA DESDE LAS 8:30PM HASTA LAS 10:30PM\n\nLugar: SALON Casa 21 ( Decoración fin de año)\n\nCupo limitado solo se vende Mesa Completa.\n\nOpción sin Cena $50 Incluye Brindis\n\nOpción con Cena $65 incluye brindis SOLD OUT [...] © 2011-"
           },
           {
             "url": "https://www.instagram.com/p/DRLADD7EWQx?hl=gu",
-            "title": "\"🎉 Diciembre se viene con todo y en # ...",
-            "snippet": "¿Ya pensaron dónde hacer la despedida de fin de año? En Bar Maipú nos encargamos de todo para que ustedes solo tengan que venir a disfrutar."
+            "title": "Instagram",
+            "snippet": "doverbar\n\n🎉 Diciembre se viene con todo y en #DoverBar ya se siente.  \nArmá tu plan de cierre de año, elegí la mesa y reservá antes de que explote la agenda.  \n  \n📲 Escribinos al 11 2560-8945 y asegurá tu fin de año en el bar.  \n  \n#DoverBar #MonteGrande #BrindisDeFinDeAño\n\n## હજુ સુધી કોઈ કોમેન્ટ નથી.\n\nવાતચીત શરૂ કરો.\n\nપસંદ કરવા અથવા ટિપ્પણી કરવા માટે લૉગ ઇન કરો.\n\ndoverbar તરફથી વધુ પોસ્ટ\n\nPhoto by Dover Bar on August 04, 2026.\n\nPhoto by Dover Bar on June 25, 2026."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "1a932866faa337163f4543de2846ed8142b256b5b3ab313dc20ec7fd8cfdb391",
+      "provider": "Tavily",
+      "query": "Masquevinos Granada capacity aforo",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://pidemesa.es/restaurantes/granada/granada/taberna-masquevinos",
+            "title": "Restaurante Taberna Masquevinos en Granada",
+            "snippet": ":   En Taberna Masquevinos se especializan en tapas.\n\n:   1.339 clientes de Taberna Masquevinos le han puesto una puntuacíon media de 4,4. [...] Prueba sus destacables platos de tapas, también sus platos de jamon y de croquetas.\n\n¿Es bueno este local? Taberna Masquevinos ha recibido un 4.3 en base a 1080 valoraciones de clientes, sin duda 1080 no son pocas opiniones, según sus clientes.\n\nPodrás pedir su magnifica cocina de buey que está en la posición 9 de nuestro TOP para el buey.\n\n¿Reservas? D"
           },
           {
-            "url": "https://www.instagram.com/reel/DSJH3n9kvRb",
-            "title": "Formal Una noche para disfrutar, celebrar y comenzar el nuevo ...",
-            "snippet": "✨ La fiesta más esperada del año llega a Casa 21 ✨ Este 31 de diciembre, despide el año y recibe el 2025 en una celebración familiar llena"
+            "url": "https://restaurantemasquevinos.es/es",
+            "title": "Restaurante Mas que Vinos — Vinos y brasa en Granada",
+            "snippet": "Hasta 48 personas con menú a medida y maridaje guiado por nuestro sumiller.\n\nSí. Tenemos una selección de tintos, blancos, rosados y espumosos por copa desde 3,80 €, con sus precios publicados en la carta. La bodega completa, por botella, supera las 300 referencias.\n\nSí, aceptamos efectivo y tarjeta.\n\nLa carta está publicada en ocho idiomas —español, inglés, alemán, francés, italiano, coreano, chino y japonés— con foto y precio de cada plato. El código QR de la mesa lleva directamente a ella. [."
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/OTZURYnO8YU9",
+            "title": "Masquevinos",
+            "snippet": "# Masquevinos\nID: OTZURYnO8YU9\nHeadquarters: GRANADA, Spain\nLinkedIn: www.linkedin.com/company/masquevinos · 0 followers\nIndustry: Restaurants\n\n## Headcount\n- Now: 2 · -1 yearly (-33.3%) · 0 quarterly · 0 monthly\n\n## Reputation\n- Open roles: 0"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "72f6aa69c1189f150de5799938ca030921a7cca178130d82618dda728c0cd781",
+      "provider": "Tavily",
+      "query": "\"Fiesta de fin de temporada\" \"DJ Morcuera\" Granada",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://granadafestival.org",
+            "title": "Festival de Música y Danza Granada",
+            "snippet": "Entradas\n\nES  |  EN\n\nCONTACTO \n\n PRENSA \n\n PERFIL DEL CONTRATANTE \n\n AVISO LEGAL \n\n POLÍTICA DE PRIVACIDAD \n\n FAQ \n\nSíguenos\n\n##### Buscador de programas\n\n##### Cookies y privacidad\n\nEste sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.\n\nLeer más sobre las cookies\n\n## GRACIAS\n\n#### Finalizada la 75 edición, queremos dar las gracias a todos los que la han hecho posible\n\n+ info\n\n## Galardones a la 75 edición [...] #### El Festival de Granada despide "
+          },
+          {
+            "url": "https://rocketreach.co/universidad-de-granada-competitors_b5c67699f42e0c8b",
+            "title": "Universidad de Granada Competitors | Companies like Universidad de Granada",
+            "snippet": "Title: Universidad de Granada Competitors | Companies like Universidad de Granada\nImage 5: Universidad de Granada. # Universidad de Granada Competitors. View More Universidad de Granada Competitors. View Universidad de Granada's top competitors like Universidad Pablo de Olavide, Universidad de Almería, and Universidad de Cádiz. Image 6: Universidad de Salamanca. Universidad de Salamanca See All Employees. La Universidad de Salamanca (Usal) es una de las universidades más antiguas del mundo y es "
+          },
+          {
+            "url": "https://www.indeed.com/orientacion-profesional/como-encontrar-empleo/empleos-de-temporada",
+            "title": "12 empleos de temporada disponibles en 2025 | Indeed.com",
+            "snippet": "Sueldo promedio nacional: $21.48 por horaAcerca de este empleo: los fotógrafos de temporada trabajan en las épocas en las que un gran número de clientes solicitan servicios de fotografía, como en las fiestas y fin de año, en la temporada de graduaciones y el regreso a clases. En fotografía, se usan equipos como cámaras, lentes, reflectores, trípodes y software informático para capturar y editar imágenes. Es posible que te pidan que captures retratos familiares, fotos de rostro, bodas u otros [.."
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "5da55c01c1cde77a1cc9830523e92639dd274473676c41bcbd77dcd3185e5c94",
+      "provider": "Tavily",
+      "query": "DJ Morcuera Granada concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.jambase.com/festival/granada-sound-2026",
+            "title": "Granada Sound 2026 Lineup - Sep 11 - 12, 2026",
+            "snippet": "Keb' Mo'JJ Grey & MofroSt. Paul and The Broken BonesMore…\n\n  + Fort Lauderdale, FL\n  + - 8 days\n    - Jan 9 - 16, 2027\n\n  Tickets & Info\n\n One Big Holiday\n\n  #### One Big Holiday\n\n  My Morning JacketModest MouseSpoonMore…\n\n  + Puerto Aventuras, Mexico\n  + - 5 days\n    - Jan 14 - 18, 2027\n\n  Tickets & Info\n\n The Big Easy Cruise\n\n  #### The Big Easy Cruise\n\n  Keb' Mo'Samantha FishRobert RandolphMore…\n\n  + Fort Lauderdale, FL\n  + - 8 days\n    - Jan 16 - 23, 2027\n\n  Tickets & Info [...] + Puerto Mor"
+          },
+          {
+            "url": "https://granadaurban.com/en/guides/granada-fusion-2026",
+            "title": "Granada Fusión 2026: programme, concerts, dates and venues | GRN URBAN",
+            "snippet": "Granada Fusión 2026 runs from 15 to 31 October in cultural spaces across the city. The programme brings together 16 performances over three weekends, with classical music, flamenco, rock, popular song, poetry and staged work. Among them: a tribute to Falla and Lorca, the music of Joe Hisaishi, a celebration of the legacy of Omega and Enrique Morente, and concerts devoted to Carlos Cano, the Andalusi tradition and Granadan folklore. [...] [\n\n## Sources\n\n] \n\n Granada Fusión — official website · Gr"
+          },
+          {
+            "url": "https://feverup.com/m/592238/en",
+            "title": "Toto de Loka X Tikitiki Super Hot - Granada | Fever",
+            "snippet": "Highlights  \n💥 A high-voltage show with the best sets of reggaeton, dembow, and current hits.  \n🎸 Overwhelming energy live, limitless dancing, and the hottest connection in the capital.  \n🎉 A unique party in the heart of Madrid with impactful visual production.\n\nGeneral Info  \n📅 Date: May 23, 2026.  \n📍 Location: Complejo Embrujo, Granada. [...] We love this experience, but no tickets are available at the moment\n\nToto de Loka X Tikitiki Super Hot\n\nWe love this experience, but no tickets are "
           }
         ]
       }

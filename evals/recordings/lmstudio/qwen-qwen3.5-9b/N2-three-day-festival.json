@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v5",
-  "clock": "2026-11-04T00:31:00.000Z",
+  "clock": "2026-11-06T12:36:00.000Z",
   "calls": [
     {
-      "requestHash": "d9bd8c6844832bf8a1007c59911b73c291ce2e81b7e7a7296e637f145fefeefe",
-      "latencyMs": 3034,
+      "requestHash": "c1b556d948d5a2d184908619c499bea0a56ade189f3d005b251574c1afb75168",
+      "latencyMs": 3021,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "f5Ywlo5bdonsJTNAC1BYuLBTtS8kSeyd",
+              "id": "ZzguN2ThlY54RQXaW39nzfqWh4LA1TQJ",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e39a5b122f\"}"
             }
@@ -22,65 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3837,
+          "inputTokens": 3886,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "c14e0ae7e1ffd76777435d2e0c143abe544d546f0f1529908227348ca415fafb",
-      "latencyMs": 1553,
+      "requestHash": "1825a9ee35b74f2d66908a21cc8a7f5b233800272552dd3eb34b2288fc9ddabc",
+      "latencyMs": 1537,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "nqITW8P84zmBS75jpd2Pg82UyEWrMwup",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero Pontevedra capacity aforo\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4224,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "66758b71e168e8e111ced373b8c569b323d30d6aa2507b7b27e4724e612dcf59",
-      "latencyMs": 1520,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "oajCU5rbpibdXyGwBTcY2TbXrQOJvvVP",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity aforo OpenStreetMap Wikidata\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4462,
-          "outputTokens": 53
-        }
-      }
-    },
-    {
-      "requestHash": "a7571b6b313601ce86b9f28fc5d5fa6775d1a7db21d38849dbb3f2af048ba6b1",
-      "latencyMs": 1413,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "Xnwe3gNG6PVn7acuP1UFSsWy6C02YW1d",
+              "id": "RfAaJfnFdMc0VsepFUsZmj6Ozgv0fiBd",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_ee4cae3602\",\"windowDays\":60}"
             }
@@ -88,30 +44,140 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4601,
+          "inputTokens": 4273,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "4e062cb38133b887c66266aece0fd49185cecb6ab89a4f5a0c08430be33cf464",
-      "latencyMs": 27284,
+      "requestHash": "4a91c41ece688cd47646e675cc4c5bb49d1274b8ccc773c779f492efbfb89a2e",
+      "latencyMs": 1455,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "cGEgi6fIxqXKsIdXSxqrKVloD7o7sVu8",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento es de un organizador histórico (14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes). El recinto existe y coincide con las coordenadas. Los precios están dentro del benchmark para festivales en Pontevedra. No hay señales de fraude: no pide pago fuera, no usa enlaces externos, no tiene términos abusivos, no ofrece alcohol a menores, no intenta inyectar instrucciones al revisor. La única duda es el aforo desconocido del parque, pero la venta de 6.000 entradas para una sesión en un espacio abierto puede ser razonable si se considera capacidad real o gestión de multijornadas. No hay eventos similares que sugieran clonación. Todo indica un evento legítimo.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador aprobado desde 2024, con CIF válido y cuenta de 930 días.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni reportes de contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado en OpenStreetMap como parque a 2 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/38390102\",\"title\":\"OpenStreetMap: Alameda do Arquitecto Sesmero (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido en Wikidata y OpenStreetMap; venta de 6.000 entradas para una sesión.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 36002 corresponde a Pontevedra.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones permiten devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (90,00 €) de 12 eventos comparables (género festival, Pontevedra, aforo gt5000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No hay eventos similares en la provincia con título y fechas cercanas.\",\"confidence\":0.85,\"sources\":[]}]}"
+              "id": "85YNzgC130cvlzhIifhxQtWYE2lEnVgf",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero Pontevedra capacity aforo\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4736,
-          "outputTokens": 1066
+          "inputTokens": 4408,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "d0c9b3579947b78daf52a68ef2a73711a1ed4d98efb21407f0d7082df1b19ce3",
+      "latencyMs": 1546,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "kOzK7I7kGC21xezRDPuE6cotGzljKpTb",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Alameda do Arquitecto Sesmero capacity aforo OpenStreetMap Wikidata\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4646,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "59918ddd3f0abebd6d8a0bc7014b95e7abaac8a77ffa6c1d1e4f67089c116cf3",
+      "latencyMs": 1581,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "8nBg07XJnRyho1RBa8bn3mRyxHh1ko4K",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Os Faroleiros Marea de Fondo Lúa Chea tour dates 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4785,
+          "outputTokens": 56
+        }
+      }
+    },
+    {
+      "requestHash": "80187827c97880ced5cdac246a194dc45799f382022b2a65983b05d3c4957a5e",
+      "latencyMs": 1316,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "frXJNQ4TBQOqJ3bmsWrMqi2gsfQrJQ6Z",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Os Faroleiros Galicia banda\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5028,
+          "outputTokens": 43
+        }
+      }
+    },
+    {
+      "requestHash": "235a3227dbfde84e602cc688aac3024578c42e96f1fb6846e9295939191b5ac4",
+      "latencyMs": 1258,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "rBsnIHvE4Gzt0GJ9tL9JUXZZ6mF0khxh",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Marea de Fondo Galicia banda\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5157,
+          "outputTokens": 43
+        }
+      }
+    },
+    {
+      "requestHash": "96c04072d2ae5d18bab629d321bcd9f23da0716876c0dce09006958859c4c8fb",
+      "latencyMs": 32000,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "SJaWw24z6Iw923kmZXw3DxTpewBv6m8V",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.95,\"rationale\":\"El evento \\\"Festival Ría Viva\\\" de Ría Viva Festivales cumple con todos los requisitos de seguridad y transparencia. El organizador tiene historial limpio (14 eventos publicados, 0 cancelados, sin reportes de contenido ni despublicaciones por admin), datos fiscales válidos y cuenta activa desde 2024. El recinto \\\"Alameda do Arquitecto Sesmero\\\" existe en OpenStreetMap como parque público en Pontevedra. Aunque el aforo oficial no está disponible públicamente (Wikidata/OpenStreetMap no lo publican), la venta de 6.000 entradas para una sesión en un parque urbano grande es plausible y no indica fraude. Los precios están dentro del benchmark local para festivales en Pontevedra. No hay señales de clonación, pagos fuera de plataforma, términos abusivos, ni contenido ilegal. La descripción y el cartel son coherentes con un festival local de música. Se aprueba.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Ría Viva Festivales aprobado desde 2024, CIF válido, cuenta antigua (930 días), sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, 0 cancelados, 0 despublicaciones por admin, sin reportes de contenido ni recomendaciones previas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Alameda do Arquitecto Sesmero» figura en OpenStreetMap como leisure=park a 2 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/38390102\",\"title\":\"OpenStreetMap: Alameda do Arquitecto Sesmero (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del recinto; la búsqueda web tampoco lo revela.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 36002 corresponde a Pontevedra.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las fechas de las sesiones no son inminentes ni lejanas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (90,00 €) de 12 eventos comparables (género festival, Pontevedra, aforo gt5000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares en la provincia con fechas cercanas que sugieran clonación.\",\"confidence\":0.85,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5236,
+          "outputTokens": 1208
         }
       }
     }

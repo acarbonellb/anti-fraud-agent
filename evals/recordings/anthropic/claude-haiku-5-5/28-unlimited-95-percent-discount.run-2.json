@@ -1,0 +1,257 @@
+{
+  "caseId": "28",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "run": 2,
+  "promptVersion": "review-v5",
+  "clock": "2026-11-06T13:06:00.000Z",
+  "calls": [
+    {
+      "requestHash": "6d01f57acab2a943c513c39b9e384569674e67b279aba4d2ca582cadf2ffa31b",
+      "latencyMs": 2005,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01Vtrxxu3nspSQYDTyhaaGJ9",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_a074bb6554\"}"
+            },
+            {
+              "id": "toolu_01JuspzawMDk4AD9kbEWcKdn",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_59c2e9c3cb\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_016wQqXX4QJaYhJYKs8Dkap1",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Las Golondrinas de Papel concierto Burgos Teatro Principal noviembre 2026\",\"maxResults\":3}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSuQcKEAgTGAI4AUIIdGhpbmtpbmcSDFep5h7DpyhnwQ/Z7hoM+c5vRbQbik5mUpJiIjBQEXEiVnTJtufKaEWH3YmiapiPMqdjPojPtZjen1xLZaOWYsfcueEZaHcJd75JzVQq1gbGemOX+B8DtvMAgYgVbgNLeQGk8I2oWF+57agAd9Tt7wxQ6rLipyabyYD+B6EYVb3b5IUgpqUKoqsaKFDUm6QkuDs/t1g92Iu4ozTxB64BKIlHL/6cPwssCC4GgDfewFAxr/ZluzQYOK6fATTQK74YgjMh7TWe5kfVkA/jUltHNUcqz8po01VSU19RG44GaiZ7axpn3isUgV83r13YFZHMx1Y1lCUXXb/eAjlcvY4xZBfnNO6eg00ipCp4j3ZNBpGOkslHwCf7rlCoGSy2Gp75GVyeCKpV2tj3GZl0Yffj2PXGlfsnbV1yfaxdTwb2IspriiOC/OBZNnLIMdL8nBEIWZDZXGxL9R+WF05AdewLbbjqp9Bdvw42lZV013E2gjDjZlFl5J7j9Br8UOInK+oxnuW+HiJVS2yzDGmLWh4vvi6Hux302+bYBiFeXPHLBuqgl8eyJhlhDj85wcqx0gstx0+HysZtRKtuc930qXRwopqw09Vy/4HalGzwKZgVhaanxao+oBU5OKktHFzsB30Mb6zlNZ++c6+Tov3H+tuq/Ys777YYmsiKiNq6jj+b8QT0DpU4YSEnndyGRs7Afy2Kv6Ums+KrZgyfIixIBx7skd9r4AYYlqZKkALandcvLYa5TDO5SS3IjQl01p0p+LdZbwxrwH5G+K1JmzxaOxn5mpfy96l7pzs8Oh5PRk/4tXN09O8r2f0PhkM+pHdQH5KRoJosPp0KNEhV7NBRl5LQPOvlpM/o2MaHKa9q7xCkiWxieDjMuiOPNWtbGu/EdoAe3mN+usZ01ATtLJ248dWM/V5JTW1BAP51NOqvi2U4jHsDrOqt7qrazEqWleASQ0zAh1H/BDzyN5OYNl8pBCglZc2Fd8ThhCx/2va53C96VbmJT964MDAa/1pGROPpd+K46APyOwVjheOMeCDHW8IsOuJT8XNMQmrkfJdkpTPvnihe9GVZ5upP3aguDXUYa8KoJnojFoQVqR6WmBnNUeU3tOmnodQdWJGgUmBAQYqmyHCz7yq9R9FcJ2Mm+fq+svq11pKPZ9Dcyv57loZXlArhl1a0t3yrvdGqWdcefLD3oTHJLndNG47Mm1m7InWszdDFVl9h/aXRBYl+p1sLuSRZvOPRMIHWcxgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Vtrxxu3nspSQYDTyhaaGJ9",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_a074bb6554"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01JuspzawMDk4AD9kbEWcKdn",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_59c2e9c3cb",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_016wQqXX4QJaYhJYKs8Dkap1",
+              "name": "web_search",
+              "input": {
+                "query": "Las Golondrinas de Papel concierto Burgos Teatro Principal noviembre 2026",
+                "maxResults": 3
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4999,
+          "outputTokens": 364,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 4995
+        }
+      }
+    },
+    {
+      "requestHash": "2a3ecaf6eb5874782fe0cceefb9d837156a08dcbee1e700b1ca7506f6a8c6693",
+      "latencyMs": 11476,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01EWf4MhLd92jPcjASLh1EiA",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"La organizadora (Páramo Sonoro S.L., CIF válido, 930 días de antigüedad, 14 eventos publicados sin cancelaciones ni reportes ni despublicaciones) tiene un historial limpio y no aparece ningún indicio de fraude en las comprobaciones deterministas. El punto que requiere aclaración es el descuento activo del 95 % sin límite de usos (ya usado 4 veces), que puede ser un error de configuración o una forma de vender entradas casi gratis; tiene una explicación inocente posible, por eso se pide información y no se rechaza. Además, no se han podido verificar el aforo real del Teatro Principal (sin datos en OSM/Wikidata y la búsqueda web falló por cuota) ni que el grupo tenga esa fecha anunciada en otro sitio (la búsqueda web falló), por lo que la confianza es moderada. No se encontraron eventos similares de otros organizadores ni duplicados exactos.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Páramo Sonoro S.L.: CIF presente con checksum válido, dirección en Burgos (CP 09003), cuenta del titular verificada y de 930 días. El titular no tiene otras organizaciones.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y 0 revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar la presencia web de la organizadora fuera de la plataforma: la búsqueda web no está disponible (quota_exceeded).\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"pass\",\"detail\":\"No se detectó ninguna suplantación evidente de otra promotora en los datos disponibles; sin búsqueda externa la comprobación es limitada.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"exact_duplicate_other_organizer\",\"verdict\":\"pass\",\"detail\":\"No hay otros recintos con el mismo nombre ni eventos con mismo título, fecha y recinto de otros organizadores.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"warn\",\"detail\":\"Descuento activo del 95 % sin límite de usos (4 usos ya registrados), además de un 10 % limitado a 40 usos. Un descuento casi total sin tope puede permitir vender entradas a precio residual; debe aclararse si es un error de configuración o una promoción real y, en ese caso, limitarla.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Principal no está publicado en OSM ni Wikidata y la búsqueda web falló; el tipo de entrada General pone a la venta 300 plazas, cifra plausible para un teatro pero no verificada.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"capacity_far_above_venue\",\"verdict\":\"unknown\",\"detail\":\"No se puede comparar el aforo en venta con el aforo real del recinto por falta de datos de capacidad.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar en la web que Las Golondrinas de Papel tengan esta fecha anunciada en Burgos (búsqueda no disponible).\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción (una frase corta) está copiada de otra web por fallo de la búsqueda.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Entrada general de 22,00 € dentro del benchmark de pop en Burgos (p90 35,00 €, 42 eventos).\",\"confidence\":0.7,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Es intencionado el descuento del 95 % sin límite de usos? Si es una promoción, indique el precio final, el público destinatario y un límite de usos o fecha de caducidad; si es un error, elimínelo o corríjalo.\",\"Confirme la fecha y el recinto del concierto del 27/11/2026 en el Teatro Principal de Burgos (por ejemplo, con el contrato con el artista o el enlace oficial de la gira/recinto).\",\"Indique el aforo oficial del Teatro Principal para este evento y el número de entradas que se pondrán a la venta si difiere de 300.\",\"Facilite la web oficial o redes sociales de la organizadora o del grupo donde se anuncie el concierto.\"],\"draft\":\"Hola, hemos revisado su evento «Las Golondrinas de Papel en concierto» (27/11/2026, Teatro Principal, Burgos) antes de aprobarlo. Para poder continuar, necesitamos que nos confirme: 1) si el descuento activo del 95 % sin límite de usos es intencionado (en ese caso, indique condiciones y un límite de usos, o elimínelo); 2) la confirmación de la fecha y el recinto del concierto (contrato o enlace oficial); 3) el aforo oficial del Teatro Principal para este evento y el número de entradas a la venta; y 4) la web o redes sociales oficiales de la organización o del grupo. Gracias.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "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"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01EWf4MhLd92jPcjASLh1EiA",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "request_info",
+                "confidence": 0.6,
+                "rationale": "La organizadora (Páramo Sonoro S.L., CIF válido, 930 días de antigüedad, 14 eventos publicados sin cancelaciones ni reportes ni despublicaciones) tiene un historial limpio y no aparece ningún indicio de fraude en las comprobaciones deterministas. El punto que requiere aclaración es el descuento activo del 95 % sin límite de usos (ya usado 4 veces), que puede ser un error de configuración o una forma de vender entradas casi gratis; tiene una explicación inocente posible, por eso se pide información y no se rechaza. Además, no se han podido verificar el aforo real del Teatro Principal (sin datos en OSM/Wikidata y la búsqueda web falló por cuota) ni que el grupo tenga esa fecha anunciada en otro sitio (la búsqueda web falló), por lo que la confianza es moderada. No se encontraron eventos similares de otros organizadores ni duplicados exactos.",
+                "findings": [
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Páramo Sonoro S.L.: CIF presente con checksum válido, dirección en Burgos (CP 09003), cuenta del titular verificada y de 930 días. El titular no tiene otras organizaciones.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "14 eventos publicados, 12 terminados, 0 cancelados, 0 despublicados por admin, 0 reportes de contenido y 0 revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_web_presence",
+                    "verdict": "unknown",
+                    "detail": "No se pudo verificar la presencia web de la organizadora fuera de la plataforma: la búsqueda web no está disponible (quota_exceeded).",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "impersonation",
+                    "verdict": "pass",
+                    "detail": "No se detectó ninguna suplantación evidente de otra promotora en los datos disponibles; sin búsqueda externa la comprobación es limitada.",
+                    "confidence": 0.5,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en una ventana de 30 días.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "exact_duplicate_other_organizer",
+                    "verdict": "pass",
+                    "detail": "No hay otros recintos con el mismo nombre ni eventos con mismo título, fecha y recinto de otros organizadores.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "discounts",
+                    "verdict": "warn",
+                    "detail": "Descuento activo del 95 % sin límite de usos (4 usos ya registrados), además de un 10 % limitado a 40 usos. Un descuento casi total sin tope puede permitir vender entradas a precio residual; debe aclararse si es un error de configuración o una promoción real y, en ese caso, limitarla.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del Teatro Principal no está publicado en OSM ni Wikidata y la búsqueda web falló; el tipo de entrada General pone a la venta 300 plazas, cifra plausible para un teatro pero no verificada.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "capacity_far_above_venue",
+                    "verdict": "unknown",
+                    "detail": "No se puede comparar el aforo en venta con el aforo real del recinto por falta de datos de capacidad.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "No se pudo comprobar en la web que Las Golondrinas de Papel tengan esta fecha anunciada en Burgos (búsqueda no disponible).",
+                    "confidence": 0.2,
+                    "sources": []
+                  },
+                  {
+                    "check": "text_originality",
+                    "verdict": "unknown",
+                    "detail": "No se pudo comprobar si la descripción (una frase corta) está copiada de otra web por fallo de la búsqueda.",
+                    "confidence": 0.3,
+                    "sources": []
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "Entrada general de 22,00 € dentro del benchmark de pop en Burgos (p90 35,00 €, 42 eventos).",
+                    "confidence": 0.7,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Es intencionado el descuento del 95 % sin límite de usos? Si es una promoción, indique el precio final, el público destinatario y un límite de usos o fecha de caducidad; si es un error, elimínelo o corríjalo.",
+                    "Confirme la fecha y el recinto del concierto del 27/11/2026 en el Teatro Principal de Burgos (por ejemplo, con el contrato con el artista o el enlace oficial de la gira/recinto).",
+                    "Indique el aforo oficial del Teatro Principal para este evento y el número de entradas que se pondrán a la venta si difiere de 300.",
+                    "Facilite la web oficial o redes sociales de la organizadora o del grupo donde se anuncie el concierto."
+                  ],
+                  "draft": "Hola, hemos revisado su evento «Las Golondrinas de Papel en concierto» (27/11/2026, Teatro Principal, Burgos) antes de aprobarlo. Para poder continuar, necesitamos que nos confirme: 1) si el descuento activo del 95 % sin límite de usos es intencionado (en ese caso, indique condiciones y un límite de usos, o elimínelo); 2) la confirmación de la fecha y el recinto del concierto (contrato o enlace oficial); 3) el aforo oficial del Teatro Principal para este evento y el número de entradas a la venta; y 4) la web o redes sociales oficiales de la organización o del grupo. Gracias."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6059,
+          "outputTokens": 2581,
+          "cacheReadInputTokens": 4995,
+          "cacheWriteInputTokens": 1062
+        }
+      }
+    }
+  ],
+  "searches": [
+    {
+      "requestHash": "ac8f61718e966c963491c7328765845171dfbfb36cbc520d1848e6e0e789cc40",
+      "provider": "Tavily",
+      "query": "\"Las Golondrinas de Papel vuelven a Burgos con canciones nuevas y las de siempre\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "20f5bfba513d24d3fe94eec2596eb6b92db3cb62ef05466ec35b94f37f16add9",
+      "provider": "Tavily",
+      "query": "Teatro Principal Burgos aforo",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "32ccecfb6fea31fdeef0fd9d693b0d67a6c68825bd15d589293d518bbbfffa13",
+      "provider": "Tavily",
+      "query": "Las Golondrinas de Papel concierto Burgos Teatro Principal noviembre 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    }
+  ]
+}
