@@ -49,10 +49,12 @@ import {
 import type { CheckId } from "../checks/vocabulary.js";
 import type { Proposal } from "./recommendation.js";
 
-/** Model warnings that say nothing about fraud (brief §4.2 «un warn leve»). */
+/**
+ * Model warnings that say nothing about fraud (brief §4.2 «un warn leve»).
+ * A copied description does (case 23), so `text_originality` isn't one (#82).
+ */
 export const MINOR_WARN_CHECKS: ReadonlySet<string> = new Set<CheckId>([
   "organizer_web_presence",
-  "text_originality",
 ]);
 
 /** Brief §4.2 hard signals; glossary «Hard signal». */

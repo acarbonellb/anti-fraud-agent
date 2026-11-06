@@ -96,8 +96,14 @@ describe("approve", () => {
       cleanSystem,
       [model("venue_capacity", "warn")],
     ],
+    // A copy the model noticed and the code missed reaches the admin (#82).
     [
-      "two minor model warnings",
+      "a model warning on the text's originality",
+      cleanSystem,
+      [model("text_originality", "warn")],
+    ],
+    [
+      "two model warnings",
       cleanSystem,
       [
         model("organizer_web_presence", "warn"),
