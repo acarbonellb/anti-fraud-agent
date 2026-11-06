@@ -2,7 +2,8 @@
 // stored cursor, reviews each reviewable subject once per page, stores a run
 // for each, advances the cursor, stops at the day's budget, stores a failed
 // run and moves on, tries a review that failed for a passing reason again on
-// later passes, a bounded number of times, and records an admin's resolution next to its run. Fakes
+// later passes, a bounded number of times, without dropping an overlapping
+// pass's retries, and records an admin's resolution next to its run. Fakes
 // Satella with the mock server, the model with the scripted provider (named
 // as Haiku 5.5, so its real prices apply), the store with the in-memory one
 // and the venue checks with canned findings.
@@ -380,7 +381,7 @@ describe("a review that fails for a reason that can pass", () => {
       expect.objectContaining({ subject: evt1, outcome: "completed" }),
     ]);
     expect(second.retriesQueued).toBe(0);
-    expect(await store.readRetryQueue()).toEqual([]);
+    expect((await store.readRetryQueue()).retries).toEqual([]);
     expect(mock.reviews.map((review) => review.subject.id)).toEqual([
       "evt_0001",
     ]);
@@ -396,7 +397,7 @@ describe("a review that fails for a reason that can pass", () => {
     }
 
     expect(await storedRuns()).toHaveLength(3);
-    expect(await store.readRetryQueue()).toEqual([]);
+    expect((await store.readRetryQueue()).retries).toEqual([]);
     expect(log.filter((line) => line.event === "run.abandoned")).toEqual([
       expect.objectContaining({
         level: "warn",
@@ -415,11 +416,12 @@ describe("a review that fails for a reason that can pass", () => {
     const report = await pass({ ...HAIKU, complete: badRequest });
 
     expect(report.retriesQueued).toBe(0);
-    expect(await store.readRetryQueue()).toEqual([]);
+    expect((await store.readRetryQueue()).retries).toEqual([]);
   });
 
   it("takes at most half a pass, so the feed still moves", async () => {
     await store.replaceRetryQueue(
+      null,
       [evt1, org1].map((subject) => ({
         subject,
         failures: 1,
@@ -436,10 +438,67 @@ describe("a review that fails for a reason that can pass", () => {
       "evt_0001",
       "evt_0002",
     ]);
-    expect(await store.readRetryQueue()).toEqual([
+    expect((await store.readRetryQueue()).retries).toEqual([
       expect.objectContaining({ subject: org1 }),
     ]);
     expect(report.retriesQueued).toBe(1);
+  });
+});
+
+describe("two overlapping passes", () => {
+  it("never drop each other's retries: the second to write the queue fails", async () => {
+    await store.replaceRetryQueue(null, [
+      { subject: org1, failures: 1, code: "SATELLA_UNAVAILABLE" },
+    ]);
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    // Both read the same queue. The slow pass holds its first review until
+    // the fast one has finished; it reads one feed item, so it never sees
+    // evt2, and it empties the queue it read.
+    let release: () => void = () => undefined;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    let started: () => void = () => undefined;
+    const reviewing = new Promise<void>((resolve) => {
+      started = resolve;
+    });
+    const slowScripted = createScriptedProvider(submits(2), HAIKU);
+    const slowProvider: LlmProvider = {
+      ...HAIKU,
+      async complete(request) {
+        started();
+        await held;
+        return slowScripted.complete(request);
+      },
+    };
+    const fastScripted = createScriptedProvider(submits(2), HAIKU);
+    let fastCalls = 0;
+    const fastProvider: LlmProvider = {
+      ...HAIKU,
+      complete(request) {
+        fastCalls += 1;
+        if (fastCalls === 3) {
+          return Promise.reject(
+            new ProviderError("LLM_UNAVAILABLE", "anthropic"),
+          );
+        }
+        return fastScripted.complete(request);
+      },
+    };
+
+    const slow = pass(slowProvider, { pageSize: 2 });
+    await reviewing;
+    const fast = await pass(fastProvider, { pageSize: 4 });
+    release();
+
+    expect(fast.retriesQueued).toBe(1);
+    await expect(slow).rejects.toMatchObject({ code: "STORE_CONFLICT" });
+    // Last-writer-wins would have left the slow pass's empty queue: evt2
+    // would never be tried again.
+    expect((await store.readRetryQueue()).retries).toEqual([
+      { subject: evt2, failures: 1, code: "LLM_UNAVAILABLE" },
+    ]);
   });
 });
 

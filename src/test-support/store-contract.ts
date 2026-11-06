@@ -2,7 +2,8 @@
  * The behaviour every `AgentStore` promises, as one suite each implementation
  * runs (ADR 0016): runs, completed or failed, saved and read back and listed
  * newest first across pages; an admin's resolution kept next to its run; the
- * feed cursor advanced only from the value read; the day's spend
+ * feed cursor advanced only from the value read and the retry queue replaced
+ * only from the version read; the day's spend
  * reserved, settled and expired against an injected clock.
  */
 import { beforeEach, describe, expect, it } from "vitest";
@@ -301,32 +302,66 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         failures: 1,
         code: "LLM_UNAVAILABLE",
       };
+      const second = {
+        subject: { type: "organizer" as const, id: "org_1" },
+        failures: 2,
+        code: "SATELLA_UNAVAILABLE",
+      };
 
       it("starts empty", async () => {
-        expect(await store.readRetryQueue()).toEqual([]);
+        expect((await store.readRetryQueue()).retries).toEqual([]);
       });
 
       it("reads back the queue it was given, in order", async () => {
-        const second = {
-          subject: { type: "organizer" as const, id: "org_1" },
-          failures: 2,
-          code: "SATELLA_UNAVAILABLE",
-        };
-        await store.replaceRetryQueue([retry, second]);
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry, second]);
 
-        expect(await store.readRetryQueue()).toEqual([retry, second]);
+        expect((await store.readRetryQueue()).retries).toEqual([retry, second]);
       });
 
       it("replaces the whole queue, down to empty", async () => {
-        await store.replaceRetryQueue([retry]);
-        await store.replaceRetryQueue([]);
+        await store.replaceRetryQueue((await store.readRetryQueue()).version, [
+          retry,
+        ]);
+        await store.replaceRetryQueue(
+          (await store.readRetryQueue()).version,
+          [],
+        );
 
-        expect(await store.readRetryQueue()).toEqual([]);
+        expect((await store.readRetryQueue()).retries).toEqual([]);
+      });
+
+      it("refuses a replace from a stale version", async () => {
+        // Two overlapping passes read the same queue; only one may replace it.
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry]);
+
+        const code = await errorCodeOf(
+          store.replaceRetryQueue(version, [second]),
+        );
+
+        expect(code).toBe("STORE_CONFLICT");
+        expect((await store.readRetryQueue()).retries).toEqual([retry]);
+      });
+
+      it("refuses a stale version even when the queue reads the same", async () => {
+        // The version, not the contents, tells a write since the read.
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry]);
+        await store.replaceRetryQueue(
+          (await store.readRetryQueue()).version,
+          [],
+        );
+
+        const code = await errorCodeOf(store.replaceRetryQueue(version, []));
+
+        expect(code).toBe("STORE_CONFLICT");
       });
 
       it("refuses a queue it could not store, as a typed error", async () => {
+        const { version } = await store.readRetryQueue();
         const code = await errorCodeOf(
-          store.replaceRetryQueue([{ ...retry, failures: 0 }]),
+          store.replaceRetryQueue(version, [{ ...retry, failures: 0 }]),
         );
 
         expect(code).toBe("STORE_INVALID_INPUT");

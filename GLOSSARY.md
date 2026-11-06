@@ -105,7 +105,9 @@ fixed.
   (ADR 0017 amendment).
 - **Retry queue**: the subjects whose last review failed transiently, oldest first. Each pass
   reviews some of them again, in at most half its room; a subject leaves after a review that
-  doesn't fail transiently, or is abandoned after its third failure (ADR 0017 amendment).
+  doesn't fail transiently, or is abandoned after its third failure (ADR 0017 amendment). Like
+  the feed cursor, it is replaced only from the version read, so two overlapping passes can't
+  drop each other's retries (#87).
 - **Run resolution**: the admin's resolution of a run's recommendation, kept next to the run in
   the store; the admin agreement rate (brief §4.3) joins them (ADR 0016 amendment).
 - **Feed cursor**: where the next pass reads the feed from. It advances only from the value read,
