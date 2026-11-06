@@ -1,6 +1,6 @@
 // Checks the graded-autonomy policy (brief §4.2 refined by ADRs 0012 and
 // 0015): the venue evidence an approval needs, the organizer reviews that
-// always escalate, and a table that replays the brief §5 dataset cases whose
+// escalate unless mechanical, and a table that replays the brief §5 dataset cases whose
 // autonomy hinges on the certainty of system findings. Pure function; fakes
 // nothing.
 import { describe, expect, it } from "vitest";
@@ -251,9 +251,43 @@ describe("a spent search budget (ADR 0015 amendment, #31)", () => {
   });
 });
 
-describe("organizer reviews (ADR 0015)", () => {
-  it.each(["approve", "reject", "request_info"] as const)(
-    "never resolve on their own: %s",
+describe("organizer reviews (ADR 0015, amendment of #79)", () => {
+  it("resolve a request backed only by rule findings on their own", () => {
+    expect(
+      decide(
+        "request_info",
+        [rule("organizer_identity"), heuristic("organizer_history", "pass")],
+        [],
+        0.95,
+        ORGANIZER,
+      ),
+    ).toEqual({
+      autonomy: "auto_resolved",
+      reasons: ["mechanical request: organizer_identity"],
+    });
+  });
+
+  it("escalate a request with a heuristic finding", () => {
+    expect(
+      decide(
+        "request_info",
+        [rule("organizer_identity"), heuristic("organizer_history")],
+        [],
+        0.95,
+        ORGANIZER,
+      ).autonomy,
+    ).toBe("escalated");
+  });
+
+  it("escalate a mechanical request below the threshold", () => {
+    expect(
+      decide("request_info", [rule("organizer_identity")], [], 0.6, ORGANIZER)
+        .autonomy,
+    ).toBe("escalated");
+  });
+
+  it.each(["approve", "reject"] as const)(
+    "never resolve a %s on their own",
     (decision) => {
       expect(
         decide(
@@ -265,7 +299,9 @@ describe("organizer reviews (ADR 0015)", () => {
         ),
       ).toEqual({
         autonomy: "escalated",
-        reasons: ["organizer reviews always escalate (ADR 0015)"],
+        reasons: [
+          "organizer approvals and rejections always escalate (ADR 0015)",
+        ],
       });
     },
   );
@@ -370,8 +406,8 @@ describe("request_info", () => {
 
 // Brief §5: expected decision and autonomy, with the system finding each
 // case produces. The model is assumed to propose the expected decision.
-// Organizer cases always escalate (ADR 0015 point 7), which overrides the
-// brief's automatic request for case 22.
+// An organizer request resolves on its own only when it is mechanical (ADR
+// 0015 amendment of #79); every other organizer review escalates (point 7).
 describe.each([
   [
     "3: postal code of Madrid, province Sevilla",
@@ -451,7 +487,7 @@ describe.each([
     "22: tax id with a wrong checksum",
     "request_info",
     [rule("organizer_identity")],
-    "escalated",
+    "auto_resolved",
     ORGANIZER,
   ],
   [
