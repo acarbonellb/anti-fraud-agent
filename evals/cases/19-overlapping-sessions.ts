@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Two overlapping sessions at the same venue",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "auto_resolved" },
   build(clock) {
     const organizer = establishedOrganizer(

@@ -12,6 +12,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Session three years away with the whole capacity on sale",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(

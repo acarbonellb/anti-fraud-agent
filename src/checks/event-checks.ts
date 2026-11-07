@@ -8,6 +8,7 @@
  * real reviews will tune them (#6).
  */
 import type { EventReviewContext } from "../satella-client/schemas.js";
+import { euros } from "../money.js";
 import { provinceCode, provinceName } from "./provinces.js";
 import {
   scanTexts,
@@ -412,10 +413,6 @@ function sessionDates(context: EventReviewContext, now: Date): SystemFinding[] {
     );
   }
   return [overlapFinding, ...timing];
-}
-
-export function euros(cents: number): string {
-  return `${(cents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 }
 
 /** Dates are UTC inside; the admin reads them in Europe/Madrid (CLAUDE.md §5). */

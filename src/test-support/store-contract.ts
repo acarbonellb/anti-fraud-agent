@@ -95,6 +95,7 @@ export function runDocument(
     costMicros: 1_590,
     toolCalls: 2,
     webSearches: 0,
+    searches: { total: 2, failed: 1 },
     trace: [
       { tool: "get_event_context", ok: true },
       { tool: "web_search", ok: false, error: "BUDGET_SPENT" },
@@ -124,6 +125,15 @@ export function describeAgentStore(name: string, make: MakeStore): void {
           infoRequest: { questions: ["¿Aforo?"], draft: "Hola." },
           costMicros: null,
         });
+
+        await store.saveRun(run);
+
+        expect(await store.getRun("run_1")).toEqual(run);
+      });
+
+      it("reads back a run stored before it counted its searches", async () => {
+        const run = runDocument("run_1", "2026-11-05T09:00:00.000Z");
+        delete run.searches;
 
         await store.saveRun(run);
 

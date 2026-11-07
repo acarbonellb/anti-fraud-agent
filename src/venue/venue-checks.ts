@@ -30,18 +30,19 @@ import {
   WIKIDATA_MIN_INTERVAL_MS,
 } from "./wikidata.js";
 
-/** Runs the venue checks on one event. */
+/**
+ * Runs the venue checks on one event. `search` is the capacity's last resort
+ * (ADR 0015 point 4): without one, a capacity neither Wikidata nor OSM
+ * publishes stays unknown. It comes with each review, not with the checks,
+ * so the review counts the searches it ran (#82).
+ */
 export type VenueChecks = (
   context: EventReviewContext,
+  search?: WebSearch,
 ) => Promise<SystemFinding[]>;
 
 export interface VenueChecksOptions {
   fetch: Fetch;
-  /**
-   * The capacity's last resort (ADR 0015 point 4). Without one, a capacity
-   * neither Wikidata nor OSM publishes stays unknown.
-   */
-  search?: WebSearch;
   /** Shared across runs: the providers' rate limits are per client. */
   throttles: VenueThrottles;
 }
@@ -60,7 +61,7 @@ export function createVenueThrottles(): VenueThrottles {
 }
 
 export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
-  return async (context) => {
+  return async (context, search) => {
     if (context.venue === null) {
       return [
         venueFinding(
@@ -120,12 +121,10 @@ export function createVenueChecks(options: VenueChecksOptions): VenueChecks {
           ? await settle(wikidata.capacity(itemId))
           : null;
       const needsWeb =
-        match !== null &&
-        options.search !== undefined &&
-        publishedCapacity(match.place, fromWikidata) === null;
+        match !== null && publishedCapacity(match.place, fromWikidata) === null;
       const web =
-        needsWeb && options.search !== undefined
-          ? await searchCapacity(options.search, venue)
+        needsWeb && search !== undefined
+          ? await searchCapacity(search, venue)
           : null;
       return scoreCapacity({
         venue,

@@ -7,6 +7,7 @@ export const evalCase: EvalCase = {
   title:
     "Name almost identical to a known promoter's, with a Cyrillic letter (organizer)",
   subject: "organizer",
+  decidedBy: "code",
   expected: { decisions: ["reject"], autonomy: "escalated" },
   build: (clock) => ({
     // Authored: both promoters are invented. The real-looking one is spelt

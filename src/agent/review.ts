@@ -3,7 +3,8 @@
  * deterministic, venue and copied-text checks, run the loop, submit the
  * recommendation. Satella's `409 STALE_SUBJECT` means the
  * subject changed during the review: re-review the new version, never retry
- * the old recommendation (CLAUDE.md §4).
+ * the old recommendation (CLAUDE.md §4). A review that fails throws
+ * `ReviewFailedError`, which carries the searches it spent (#82).
  */
 import { runEventChecks } from "../checks/event-checks.js";
 import {
@@ -12,9 +13,19 @@ import {
 } from "../checks/price-benchmark.js";
 import { copiedTextCheck } from "../checks/copied-text.js";
 import { exactCloneCheck } from "../checks/exact-clone.js";
-import { runOrganizerChecks } from "../checks/organizer-checks.js";
+import {
+  organizerHistoryChecks,
+  runOrganizerChecks,
+} from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
+import { DomainError } from "../errors.js";
+import {
+  type CountingSearch,
+  countSearches,
+  NO_SEARCHES,
+  type SearchCounts,
+} from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
@@ -23,7 +34,10 @@ import type {
   OrganizerReviewContext,
   Subject,
 } from "../satella-client/schemas.js";
-import { maxTicketsOnSale } from "../checks/tickets-on-sale.js";
+import {
+  maxTicketsOnSale,
+  moneyOnSaleCents,
+} from "../checks/tickets-on-sale.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
 import { type RunLimits, type RunResult, runReview } from "./loop.js";
 import type { AutonomySubject } from "./policy.js";
@@ -31,6 +45,7 @@ import type { Prompt } from "./prompt.js";
 import { satellaTools } from "./satella-tools.js";
 import type { AnyAgentTool } from "./tools.js";
 import type { UntrustedFence } from "./untrusted.js";
+import { webSearchTool } from "./web-search-tool.js";
 
 export interface ReviewSubjectInput {
   subject: Subject;
@@ -41,7 +56,11 @@ export interface ReviewSubjectInput {
   autoApproveThreshold: number;
   /** For events, before the model (ADR 0015 point 2). */
   venueChecks: VenueChecks;
-  /** For the code's own search of a copied description; skipped without it. */
+  /**
+   * The review's web search: the copied-text check, the capacity fallback and
+   * the model's `web_search` tool, all counted as one (#82). Without it, the
+   * review runs without web search.
+   */
   webSearch?: WebSearch;
   /** Tools beyond Satella's own (deterministic checks, web research). */
   extraTools?: readonly AnyAgentTool[];
@@ -55,6 +74,7 @@ export interface ReviewSubjectInput {
 }
 
 export interface ReviewSubjectResult {
+  /** Its `searches` cover every attempt, a stale one's included. */
   run: RunResult;
   review: AgentReview;
   /** False when Satella already had this recommendation (an idempotent retry). */
@@ -65,15 +85,76 @@ export interface ReviewSubjectResult {
 export async function reviewSubject(
   input: ReviewSubjectInput,
 ): Promise<ReviewSubjectResult> {
+  // The review's own `web_search` is the counted one; another would win by
+  // name, or search beside it, and its credits would go uncounted (#82).
+  if (
+    input.extraTools?.some(
+      (tool) => tool.name === "web_search" || tool.kind === "web_search",
+    ) === true
+  ) {
+    throw new ReviewSetupError("REVIEW_UNCOUNTED_SEARCH_TOOL");
+  }
+  // Every attempt's searches spent credits, a stale one's included, and so
+  // did a review that failed: the totals are counted across them (#82).
+  const reviewCounted =
+    input.webSearch === undefined ? undefined : countSearches(input.webSearch);
+  const searches = () => reviewCounted?.counts() ?? NO_SEARCHES;
+  try {
+    const result = await reviewAttempts(input, reviewCounted);
+    return { ...result, run: { ...result.run, searches: searches() } };
+  } catch (error) {
+    throw new ReviewFailedError(error, searches());
+  }
+}
+
+/**
+ * A review that didn't reach Satella, with the searches it ran before it
+ * failed: the credits are spent either way (#82). `code` is the cause's, so
+ * a caller reads it as it would the cause's own.
+ */
+export class ReviewFailedError extends DomainError {
+  readonly code: string;
+
+  constructor(
+    override readonly cause: unknown,
+    readonly searches: SearchCounts,
+  ) {
+    const code = cause instanceof DomainError ? cause.code : "UNEXPECTED";
+    super(`review failed: ${code}`, { cause });
+    this.code = code;
+  }
+}
+
+/** A review wired wrong: a bug in the caller, refused before anything runs. */
+export class ReviewSetupError extends DomainError {
+  constructor(readonly code: "REVIEW_UNCOUNTED_SEARCH_TOOL") {
+    super(`review refused: ${code}`);
+  }
+}
+
+async function reviewAttempts(
+  input: ReviewSubjectInput,
+  reviewCounted: CountingSearch | undefined,
+): Promise<ReviewSubjectResult> {
   const { subject, satella } = input;
-  const tools = [...satellaTools(satella), ...(input.extraTools ?? [])];
   const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
 
   for (let attempt = 1; ; attempt += 1) {
     const now = input.now?.() ?? new Date();
+    // Also counted per attempt: each one is a review of its own version, and
+    // its policy weighs only the searches it ran.
+    const counted =
+      reviewCounted === undefined
+        ? undefined
+        : countSearches(reviewCounted.search);
+    const tools = [
+      ...satellaTools(satella),
+      ...(counted === undefined ? [] : [webSearchTool(counted.search)]),
+      ...(input.extraTools ?? []),
+    ];
     const { context, systemFindings, autonomySubject } =
       subject.type === "event"
-        ? await prepareEvent(input, subject.id, now)
+        ? await prepareEvent(input, subject.id, now, counted?.search)
         : await prepareOrganizer(input, subject.id);
 
     const run = await runReview({
@@ -85,6 +166,7 @@ export async function reviewSubject(
       subject: autonomySubject,
       context,
       systemFindings,
+      ...(counted === undefined ? {} : { searchCounts: counted.counts }),
       ...(input.fence === undefined ? {} : { fence: input.fence }),
       ...(input.prompt === undefined ? {} : { prompt: input.prompt }),
     });
@@ -127,10 +209,10 @@ async function prepareEvent(
   input: ReviewSubjectInput,
   id: string,
   now: Date,
+  webSearch: WebSearch | undefined,
 ): Promise<Prepared> {
   const context = await input.satella.getEventContext(id);
-  const { webSearch } = input;
-  const [benchmark, similar, copiedText, venue] = await Promise.all([
+  const [benchmark, similar, organizer, copiedText, venue] = await Promise.all([
     // Without a benchmark the check says so; the review goes on.
     orIfSatellaFails(
       input.satella.getPriceBenchmark(benchmarkQuery(context)),
@@ -138,8 +220,13 @@ async function prepareEvent(
     ),
     // Without them there is no clone finding; the model still has the tool.
     orIfSatellaFails(input.satella.findSimilarEvents(id), []),
+    // Without it there is no history finding; the review goes on.
+    orIfSatellaFails(
+      input.satella.getOrganizerContext(context.organizerId),
+      null,
+    ),
     webSearch === undefined ? [] : copiedTextCheck(context, webSearch),
-    input.venueChecks(context),
+    input.venueChecks(context, webSearch),
   ]);
   return {
     context,
@@ -147,12 +234,14 @@ async function prepareEvent(
       ...runEventChecks(context, now),
       priceBenchmarkCheck(context, benchmark),
       ...exactCloneCheck(context, similar),
+      ...(organizer === null ? [] : organizerHistoryChecks(organizer)),
       ...copiedText,
       ...venue,
     ],
     autonomySubject: {
       type: "event",
       maxTicketsOnSale: maxTicketsOnSale(context),
+      moneyOnSaleCents: moneyOnSaleCents(context),
     },
   };
 }

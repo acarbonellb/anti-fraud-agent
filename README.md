@@ -92,6 +92,11 @@ decision and autonomy are right.
   ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md)).
 - **The hosted model runs each case three times.** It isn't deterministic, so a metric is a mean
   with its range: two measurements differ only where their ranges don't overlap.
+- **A fooled model tests the code, not the model.** CI also runs every gated fraud case with a
+  model that approves everything at 0.95 confidence, once with the web answering and once with it
+  down. Every case the code claims to decide must still reach the admin; the cases that rest on the
+  model's judgement are listed apart, so it is clear which guarantees are the code's
+  ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md), amendment of #82).
 - **Every change that moves a metric leaves a line and a reason.** A machine-written history holds
   the numbers; an experiment log holds the hypothesis, the result and the decision. CI fails until
   both match the replay ([ADR 0014](docs/adr/0014-eval-metrics-history-and-experiment-log.md)).
@@ -102,8 +107,8 @@ The latest measurement of each model, regenerated from the history by every repl
 <!-- prettier-ignore-start -->
 | Model | Latest entry | Runs per case | Gated cases | Accuracy | Approved fraud | Auto-approved fraud | Escalated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `lmstudio/qwen/qwen3.5-9b` | E028 · 2026-11-06 | 1 | 33 | 75.8 % | 3.7 % | 0.0 % | 72.7 % |
-| `anthropic/claude-haiku-5-5` | E027 · 2026-11-06 | 3 | 33 | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 60.6 % |
+| `lmstudio/qwen/qwen3.5-9b` | E032 · 2026-11-07 | 1 | 33 | 72.7 % | 0.0 % | 0.0 % | 72.7 % |
+| `anthropic/claude-haiku-5-5` | E031 · 2026-11-07 | 3 | 33 | 93.9 % (93.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 59.6 % |
 <!-- prettier-ignore-end -->
 <!-- eval-summary:end -->
 
@@ -124,6 +129,8 @@ point is in [`docs/experiments.md`](docs/experiments.md).
 
 - **It doesn't read images.** A poster carrying another ticketing site's logo or QR code goes
   unnoticed; that case stays outside the gate.
+- **Some rules read text too literally.** The alcohol-to-minors rule splits clauses on
+  punctuation, so a comma can hide an offer from the rule and leave it to the model.
 - **It escalates more than it needs to.** Most limitations cost the admin time rather than let
   fraud through: an event in a square keeps the cap meant for unknown venues, for instance.
 - **Public map services aren't built for production volume.** The agent throttles itself and

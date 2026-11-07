@@ -3,36 +3,41 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:50:00.000Z",
+  "clock": "2026-11-07T11:12:00.000Z",
   "calls": [
     {
-      "requestHash": "4c7a6a2794877cb27d2dc37e9f5764863a71de3c6f08ff454c194a730688d4ba",
-      "latencyMs": 1080,
+      "requestHash": "72879ff4c714c7d4602bff071c93e085abf6e56ff58f652b233186ca79b65dab",
+      "latencyMs": 2539,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01FPX7GftFgpArP8Ye37N2od",
+              "id": "toolu_01T1KEms8Ekpbr5NAu28M3CK",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_24aa87dac6\"}"
             },
             {
-              "id": "toolu_01GSLmuEn8UeB1S6yYLbK6ez",
+              "id": "toolu_01EgmpDq4YB4PGdrP3iHVqso",
               "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_d11830d06b\"}"
+              "argumentsJson": "{\"eventId\":\"evt_d11830d06b\",\"windowDays\":30}"
+            },
+            {
+              "id": "toolu_01Fou7qF3kFJV26hBCbqse93",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Pau Rovelló monólogos humor Barcelona Sala Apolo\",\"maxResults\":3}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "CAQS7AUKEAgTGAI4AUIIdGhpbmtpbmcSDEYzAComK9tc07Ew5hoM+Fb6XvrocCVb2r5EIjCzlDKwqvs0zvRV9NO9Sh09HbhmL3WLgvMy1Hdm0RovFEHF/CiQJJ6QhQ1Wc0mnpcoqiQUFHTAk5t5Mtikh8G7Mt6rytarmucXkUaylGp1RWRUILvjMR9bEF/KZSrcPTExhySffiVPMfXIXFSSIQRinnN2kzWfHrAaI9WNBcqukI4wJBgRA0kM2XnjUsYTspCjxUw0AGW1bRSfq5rVffrj8pAGjzhvI4kFtAnsuCrc6rkznGq89A1a8Oz9sNy8A4ZQYnoPdPyGWyHtYGh3pQFPhDYez2etL7suY0SsiIud4elHQKfOUWvjvd2HZLdOwEzRVQ5eShj/HQSjnU7nW9opMFOJmyDHSU/ARmiwgoNnHoi/JPRnoNTuQW6q97mJbx7kLks6eFXuKYwU5Zj904ZFUgNmSK4SjwkzsPM4Be+ecJ8IjsRuuCTFWY1OQ4XabhlDkRh4EguJuYqBOWmIM76bvt7vulOzQVTc8hoX7LjD7uvYZt0Vy4nmSAlpqrQLYY/33+8YSXD/A7bk6kyXpTyvMhLovd50kSeKV0AiyD1vJRXFTYUSKnDCt7WWAP39V2HACKt0ci2IbpnyeBoYcPBWYqeONbSQmFwFl+AH2PEmkn8vGhL3bqLHBYAq7EskAAt8jHSXLrP5xbouWa0OuwO6AzW042FJGfhb1JYeeSXVrmGFTX2kPWLuQpYJrNh85iwQRFFBGIxwbNn9LDb38gBbhfOpK44GRz0A5z2HHRiZPJdlT63uCgZrTo6cUo/ATNFPPttBSKB+U1OENwLhOoZH/c18ZxUs5KQdbsAVhcufT6TswwL1a38kB6bCwxtV/uaeCHWBf2QeqkDuJALLUyomNkO9cPUk7TE9cvQ74IWmli4v1I8pTlCVf7pkKhbzw7JhbQBndEiIqfc9ZciKBLymnF1ryP+oYge3XtQ9AGAE="
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01FPX7GftFgpArP8Ye37N2od",
+              "id": "toolu_01T1KEms8Ekpbr5NAu28M3CK",
               "name": "get_organizer_context",
               "input": {
                 "organizerId": "org_24aa87dac6"
@@ -43,10 +48,23 @@
             },
             {
               "type": "tool_use",
-              "id": "toolu_01GSLmuEn8UeB1S6yYLbK6ez",
+              "id": "toolu_01EgmpDq4YB4PGdrP3iHVqso",
               "name": "find_similar_events",
               "input": {
-                "eventId": "evt_d11830d06b"
+                "eventId": "evt_d11830d06b",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01Fou7qF3kFJV26hBCbqse93",
+              "name": "web_search",
+              "input": {
+                "query": "Pau Rovelló monólogos humor Barcelona Sala Apolo",
+                "maxResults": 3
               },
               "caller": {
                 "type": "direct"
@@ -56,67 +74,97 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5177,
-          "outputTokens": 166,
+          "inputTokens": 5289,
+          "outputTokens": 584,
           "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 5173
+          "cacheWriteInputTokens": 5285
         }
       }
     },
     {
-      "requestHash": "02800d05c198aa77d522990c3a6ed06b4b5c90df91d6a4b9e6aa707f722a5042",
-      "latencyMs": 8695,
+      "requestHash": "4689b5b44207face701dcf6cd56a271473cece8f7ffd5dd3f2e67f325840d075",
+      "latencyMs": 10390,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01AFbh5KigE7Jx45ztcEWVCc",
+              "id": "toolu_016X5zuttGotLYtso949RZtW",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.7,\"rationale\":\"Recomiendo rechazar el evento por una cláusula de condiciones que niega la devolución incluso si el evento se cancela («No se devolverá el dinero aunque se cancele el evento por cualquier motivo»). Es el único fallo determinista del caso y la regla de cláusulas abusivas lo marca como fail. Esta cláusula es ilegal en la normativa de consumo, así que no debe publicarse tal como está. El resto de comprobaciones no muestra indicios de fraude: el organizador tiene cuenta antigua (930 días), CIF válido, 14 eventos publicados sin cancelaciones ni moderaciones previas, el recinto existe en OpenStreetMap a 3 m de las coordenadas y el precio (14 €) está dentro del benchmark. Podría reenviarse si el organizador corrige las condiciones de devolución. El aforo del recinto sigue sin poder verificarse. Confianza moderada porque el motivo es una corrección de texto, no un fraude demostrado.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones dicen «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Niega la devolución también en caso de cancelación, lo que es una cláusula abusiva para el consumidor. Debe corregirse antes de publicar.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Comedia en Vena S.L., CIF con checksum válido, dirección fiscal en Barcelona (08012), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, ninguna cancelación, ninguna despublicación por admin, sin reportes de contenido ni revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"«Sala Apolo» figura en OpenStreetMap a 3 m de las coordenadas del evento.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3072968504\",\"title\":\"OpenStreetMap: Sala Apolo (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OpenStreetMap publican el aforo de Sala Apolo. La búsqueda web falló por cuota, así que no se puede comparar con las 120 entradas a la venta.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 14 € está por debajo del p90 (35 €) de 42 eventos comparables de humor en Barcelona con aforo lt300.\",\"confidence\":0.7,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.75,\"rationale\":\"El evento se rechaza por una cláusula abusiva en las condiciones: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Negar la devolución incluso en caso de cancelación vulnera la protección del consumidor, y el control determinista de cláusulas abusivas lo ha marcado como fallido. El resto de comprobaciones no aporta indicios de fraude: el organizador tiene CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni denuncias, el recinto existe en OpenStreetMap a 3 m de las coordenadas, el precio está dentro del percentil 90 de comparables y no hay eventos similares de otros organizadores. La búsqueda web no encontró ninguna actuación de Pau Rovelló en Sala Apolo el 28/11/2026 que contradiga el evento, pero tampoco la confirma. Como la cláusula es subsanable, el organizador podría corregir las condiciones y volver a enviar el evento; el admin puede valorar pedir la corrección en lugar de mantener el rechazo. Confianza moderada porque el motivo es una norma de condiciones, no una prueba de fraude.\",\"findings\":[{\"check\":\"abusive_terms\",\"verdict\":\"fail\",\"detail\":\"Las condiciones del evento niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Cláusula abusiva según la regla determinista; el organizador debe corregirla.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Comedia en Vena S.L.: CIF con checksum válido, domicilio fiscal en Barcelona (08012), cuenta de propietario de 930 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 0 cancelados, 0 despublicados por admin, sin denuncias de contenido ni revisiones previas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"La búsqueda de Pau Rovelló en Sala Apolo no devolvió ninguna fecha anunciada para el 28/11/2026 que contradiga el evento, pero tampoco confirmó su actuación. Los resultados encontrados correspondían a otros artistas (Pau Vallvé) o a listados sin este evento.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://www.sala-apolo.com/es/evento/pau-vallve-4081\",\"title\":\"Concierto de Pau Vallvé en Sala Apolo - 18 de abril 2023 | Sala Apolo\"},{\"url\":\"https://www.nitbcn.com/main/type:Festes.city:Barcelona.location:Sala%20Apolo\",\"title\":\"Festes a Sala Apolo Barcelona | Nitbcn.com\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 14 € está por debajo del p90 (35 €) de 42 eventos comparables de humor en Barcelona con aforo menor de 300.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Sala Apolo verificado en OpenStreetMap a 3 m de las coordenadas del evento (comprobación determinista).\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/3072968504\",\"title\":\"OpenStreetMap: Sala Apolo (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"Proponer una nueva redacción de las condiciones que permita la devolución del importe si el evento se cancela.\",\"Confirmar que Pau Rovelló actúa en Sala Apolo el 28/11/2026 y aportar un enlace o contrato del artista o del recinto.\",\"Indicar si existe una web o redes sociales de la promotora Comedia en Vena que permitan verificarla.\"],\"draft\":\"Hola, hemos revisado el evento «Monólogos del jueves con Pau Rovelló» y no podemos publicarlo tal como está. Las condiciones indican que no se devolverá el dinero aunque el evento se cancele, y eso no es admisible para la compra de entradas. Por favor, modifica las condiciones para que se garantice la devolución íntegra en caso de cancelación del evento. Además, necesitamos que confirmes la actuación de Pau Rovelló en Sala Apolo el 28 de noviembre de 2026 (un enlace o documento de contratación) y nos indiques la web o redes sociales de la promotora. Cuando lo tengas, puedes reenviar el evento para una nueva revisión. Gracias.\"}}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "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"
+              "signature": "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"
             },
             {
               "type": "tool_use",
-              "id": "toolu_01AFbh5KigE7Jx45ztcEWVCc",
+              "id": "toolu_016X5zuttGotLYtso949RZtW",
               "name": "submit_recommendation",
               "input": {
                 "decision": "reject",
-                "confidence": 0.7,
-                "rationale": "Recomiendo rechazar el evento por una cláusula de condiciones que niega la devolución incluso si el evento se cancela («No se devolverá el dinero aunque se cancele el evento por cualquier motivo»). Es el único fallo determinista del caso y la regla de cláusulas abusivas lo marca como fail. Esta cláusula es ilegal en la normativa de consumo, así que no debe publicarse tal como está. El resto de comprobaciones no muestra indicios de fraude: el organizador tiene cuenta antigua (930 días), CIF válido, 14 eventos publicados sin cancelaciones ni moderaciones previas, el recinto existe en OpenStreetMap a 3 m de las coordenadas y el precio (14 €) está dentro del benchmark. Podría reenviarse si el organizador corrige las condiciones de devolución. El aforo del recinto sigue sin poder verificarse. Confianza moderada porque el motivo es una corrección de texto, no un fraude demostrado.",
+                "confidence": 0.75,
+                "rationale": "El evento se rechaza por una cláusula abusiva en las condiciones: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Negar la devolución incluso en caso de cancelación vulnera la protección del consumidor, y el control determinista de cláusulas abusivas lo ha marcado como fallido. El resto de comprobaciones no aporta indicios de fraude: el organizador tiene CIF válido, cuenta de 930 días, 14 eventos publicados sin cancelaciones ni denuncias, el recinto existe en OpenStreetMap a 3 m de las coordenadas, el precio está dentro del percentil 90 de comparables y no hay eventos similares de otros organizadores. La búsqueda web no encontró ninguna actuación de Pau Rovelló en Sala Apolo el 28/11/2026 que contradiga el evento, pero tampoco la confirma. Como la cláusula es subsanable, el organizador podría corregir las condiciones y volver a enviar el evento; el admin puede valorar pedir la corrección en lugar de mantener el rechazo. Confianza moderada porque el motivo es una norma de condiciones, no una prueba de fraude.",
                 "findings": [
                   {
                     "check": "abusive_terms",
                     "verdict": "fail",
-                    "detail": "Las condiciones dicen «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Niega la devolución también en caso de cancelación, lo que es una cláusula abusiva para el consumidor. Debe corregirse antes de publicar.",
-                    "confidence": 0.9,
+                    "detail": "Las condiciones del evento niegan la devolución incluso si se cancela el evento: «No se devolverá el dinero aunque se cancele el evento por cualquier motivo». Cláusula abusiva según la regla determinista; el organizador debe corregirla.",
+                    "confidence": 0.95,
                     "sources": []
                   },
                   {
                     "check": "organizer_identity",
                     "verdict": "pass",
-                    "detail": "Comedia en Vena S.L., CIF con checksum válido, dirección fiscal en Barcelona (08012), cuenta de 930 días con email verificado y sin otras organizaciones del propietario.",
-                    "confidence": 0.8,
+                    "detail": "Comedia en Vena S.L.: CIF con checksum válido, domicilio fiscal en Barcelona (08012), cuenta de propietario de 930 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.85,
                     "sources": []
                   },
                   {
                     "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "14 eventos publicados, 12 finalizados, ninguna cancelación, ninguna despublicación por admin, sin reportes de contenido ni revisiones previas.",
-                    "confidence": 0.8,
+                    "detail": "14 eventos publicados, 0 cancelados, 0 despublicados por admin, sin denuncias de contenido ni revisiones previas.",
+                    "confidence": 0.85,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia dentro de la ventana de 30 días.",
+                    "confidence": 0.7,
+                    "sources": []
+                  },
+                  {
+                    "check": "artist_availability",
+                    "verdict": "unknown",
+                    "detail": "La búsqueda de Pau Rovelló en Sala Apolo no devolvió ninguna fecha anunciada para el 28/11/2026 que contradiga el evento, pero tampoco confirmó su actuación. Los resultados encontrados correspondían a otros artistas (Pau Vallvé) o a listados sin este evento.",
+                    "confidence": 0.3,
+                    "sources": [
+                      {
+                        "url": "https://www.sala-apolo.com/es/evento/pau-vallve-4081",
+                        "title": "Concierto de Pau Vallvé en Sala Apolo - 18 de abril 2023 | Sala Apolo"
+                      },
+                      {
+                        "url": "https://www.nitbcn.com/main/type:Festes.city:Barcelona.location:Sala%20Apolo",
+                        "title": "Festes a Sala Apolo Barcelona | Nitbcn.com"
+                      }
+                    ]
+                  },
+                  {
+                    "check": "price_benchmark",
+                    "verdict": "pass",
+                    "detail": "El precio de 14 € está por debajo del p90 (35 €) de 42 eventos comparables de humor en Barcelona con aforo menor de 300.",
+                    "confidence": 0.7,
                     "sources": []
                   },
                   {
                     "check": "venue_exists",
                     "verdict": "pass",
-                    "detail": "«Sala Apolo» figura en OpenStreetMap a 3 m de las coordenadas del evento.",
+                    "detail": "Sala Apolo verificado en OpenStreetMap a 3 m de las coordenadas del evento (comprobación determinista).",
                     "confidence": 0.9,
                     "sources": [
                       {
@@ -124,29 +172,16 @@
                         "title": "OpenStreetMap: Sala Apolo (© colaboradores de OpenStreetMap, ODbL)"
                       }
                     ]
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "unknown",
-                    "detail": "Ni Wikidata ni OpenStreetMap publican el aforo de Sala Apolo. La búsqueda web falló por cuota, así que no se puede comparar con las 120 entradas a la venta.",
-                    "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "similar_event",
-                    "verdict": "pass",
-                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de fechas.",
-                    "confidence": 0.6,
-                    "sources": []
-                  },
-                  {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "El precio de 14 € está por debajo del p90 (35 €) de 42 eventos comparables de humor en Barcelona con aforo lt300.",
-                    "confidence": 0.7,
-                    "sources": []
                   }
-                ]
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "Proponer una nueva redacción de las condiciones que permita la devolución del importe si el evento se cancela.",
+                    "Confirmar que Pau Rovelló actúa en Sala Apolo el 28/11/2026 y aportar un enlace o contrato del artista o del recinto.",
+                    "Indicar si existe una web o redes sociales de la promotora Comedia en Vena que permitan verificarla."
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Monólogos del jueves con Pau Rovelló» y no podemos publicarlo tal como está. Las condiciones indican que no se devolverá el dinero aunque el evento se cancele, y eso no es admisible para la compra de entradas. Por favor, modifica las condiciones para que se garantice la devolución íntegra en caso de cancelación del evento. Además, necesitamos que confirmes la actuación de Pau Rovelló en Sala Apolo el 28 de noviembre de 2026 (un enlace o documento de contratación) y nos indiques la web o redes sociales de la promotora. Cuando lo tengas, puedes reenviar el evento para una nueva revisión. Gracias."
+                }
               },
               "caller": {
                 "type": "direct"
@@ -156,10 +191,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5909,
-          "outputTokens": 2049,
-          "cacheReadInputTokens": 5173,
-          "cacheWriteInputTokens": 734
+          "inputTokens": 7315,
+          "outputTokens": 2450,
+          "cacheReadInputTokens": 5285,
+          "cacheWriteInputTokens": 2028
         }
       }
     }
@@ -172,7 +207,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=DIqwJ1mbx3o",
+            "title": "Entre Broma y Broma | Pau San Martín",
+            "snippet": "[56:20] anteojos para que ahora eres parte del club Oye y esto lo hacen con todos su invitados sí Ah porque soy profe y soy\n[56:29] pobre No Oye qué genial Sí a ver Ábrelo par son de tu de mi gusto de tu gusto c\n[56:37] Mira no se preocupa de de que le venga al caracho no mandan cualquier cosa bueno"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=0UcOsBHBCwI",
+            "title": "Navarrete y El Burro en El Potrorreo",
+            "snippet": "[14:05] comensales se sirvan directo de ahí pero bueno esa es la receta de hoy tenemos un program de lujo porque tengo dos\n[14:12] invitados amigos y aparte muy muy cabrones muy excelentes comediantes ya mucha [ __ ] no yo creo\n[14:21] que ya los los crom demasiado vamos a pasarlos a los dos de chin"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=zZcIrjoL34g",
+            "title": "Comedia Perpetua | 1x35 | La noche de Walpurgis",
+            "snippet": "[52:10] anillos' un ejército ortega smith es el troll lo habéis visto cuando está con la gente es como dos metros más alto que se\n[52:18] mide cinco metros si es verdad el de en medio estoy y ximo y se presenta a la alcaldía de madrid por vox\n[52:26] con una bandera y gibraltar porque en un momento "
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=fCo2hKkCHRU",
+            "title": "Francisco Ramos chose the best Mate | Ponele Club 🤌🏻",
+            "snippet": "[14:18] final del programa estar sorteando esas entradas. Y por supuesto también tenemos el Dios las cría.\n[14:23] Dios las cría. Ay, que es acá en la casita conectora en junio celebrando el mundial. Vamos a hacer Dios las crías junto a Michel Narcisán. Estamos con\n[14:32] Ender Benavides y mira eso"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=cB0dg8m1knc",
+            "title": "Venezuelan Sketch Channels - Inside Inside Joke (Live)",
+            "snippet": "[6:50] un servicio público que está para todo el mundo, pero tenemos más de 400 horas exclusivas de contenido hablando de\n[6:58] películas, series especiales standup, comediantes que nos encantan, etcétera, etcétera, siempre con invitados finos.\n[7:05] Eh, por ahí estuvo Ledarela ayudándonos ahí con"
+          }
+        ]
       }
     },
     {
@@ -182,7 +243,59 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.timeout.es/barcelona/es/musica/sala-apolo",
+            "title": "Apolo, un clásico de la noche de Barcelona",
+            "snippet": "Cuatro. La sala principal, la histórica, con capacidad para 1.300 personas en concierto de pie; La (2), de construcción mucho más moderna, con capacidad para 800 personas en concierto; La (3) con un aforo de 300 personas en concierto y con un patio al aire libre; y la CINC, la pequeña de la familia,"
+          },
+          {
+            "url": "https://www.ctickets.es/recintos/ficha/220-sala-apolo-barcelona",
+            "title": "Sala Apolo - Barcelona - Canal Oficial de venta de entradas",
+            "snippet": "La Sala Apolo es uno de los locales nocturnos más míticos de Barcelona. Con más de 25 años de historia, ha sido, junto a La Paloma, el local de referencia para ir a bailar. Sea cual fuere el estilo de música que estuviera de moda en el momento, “el Apolo” los ha vivido todos. Actualmente funciona de"
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Sala_Apolo",
+            "title": "Sala Apolo - Wikipedia, la enciclopedia libre",
+            "snippet": "simultánea, como sala de conciertos y club de baile nocturno con una capacidad para albergar, entre las tres salas, a 2900 personas. [...] La Sala Apolo es una discoteca y sala de concertos situada en Barcelona, concretamente en el barrio de Pueblo Seco. Nacida en 1943 como sala de baile, ha sido ju"
+          },
+          {
+            "url": "https://www.tripadvisor.com.mx/ShowUserReviews-g187497-d571827-r1006933857-Sala_Apolo-Barcelona_Catalonia.html",
+            "title": "AFORO imposible - Opiniones sobre Sala Apolo, Barcelona, España - Comentarios - Tripadvisor",
+            "snippet": "Tripadvisor\n\n# AFORO imposible\n\nCómo siempre el aforo que no se puede ni respirar ni moverse, el sonido fué pésimo.  \nYa intento evitar ir a la Sala Apolo, sólo voy si viene un grupo del qué soy fan, éste jueves vuelvo a ver Sisters of mercy...ya me lo veo venir...un concierto cómo sardinas en lata,"
+          },
+          {
+            "url": "https://thisisbarcelona.com/music-and-festivals/concert-venues/sala-apolo",
+            "title": "Sala Apolo",
+            "snippet": "0 \n\n Català\n Español\n English\n Française\n Italiano\n\n Tickets\n\n# Sala Apolo\n\n Decades of avant-garde sound in every concert.\n\nConsorci de Turisme de Barcelona Eren Saracevic\n\n﻿\n\n##### Practical info\n\nAddress\n\nCarrer Nou de la Rambla, 113\n\n Open in Google Maps\n\nContact\n\n+34 934 414 001   info@sala-apo"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ff5a5b9d5dd7e7963b2de65870b7119ce75f2b9104111970222fc6c224afc71b",
+      "provider": "Tavily",
+      "query": "Pau Rovelló monólogos humor Barcelona Sala Apolo",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.sala-apolo.com/es/evento/pau-vallve-4081",
+            "title": "Concierto de Pau Vallvé en Sala Apolo - 18 de abril 2023 | Sala Apolo",
+            "snippet": "Agenda\n Ciclos\n Clubs\n Art Meets Apolo\n CineClub 113\n + Contacto\n  + Noticias\n  + Nosotros\n  + LiveEurope\n  + Faqs\n  + Apolo, Rules\n  + Han pasado por Apolo\n Español\n\n  Català English\n\nPau Vallvé\n\n   Mar. 18. Abr'23 20:00 Sala Apolo  \n\n# Pau Vallvé\n\n## Concierto de Pau Vallvé en Barcelona - 18 de ab"
+          },
+          {
+            "url": "https://www.sala-apolo.com/en/event/pau-vallve-4081",
+            "title": "Concert of Pau Vallvé at Sala Apolo - 18th April 2023 | Sala Apolo",
+            "snippet": "### Minor Entry\n\nChildren under 16 must be accompanied by their father, mother or legal guardian. Or , come accompanied by an adulto ver 18 years and submit signed by their parents the following consent form.\n\n### Organizer\n\nTalent Barcelona\n\nCruïlla Barcelona\n\nIt may interest you\n\nCamellos @ DEMO\n\n"
+          },
+          {
+            "url": "https://www.nitbcn.com/main/type:Festes.city:Barcelona.location:Sala%20Apolo",
+            "title": "Festes a Sala Apolo Barcelona | Nitbcn.com",
+            "snippet": "EL DÚPLEX Dijous 26 Novembre 2026  \n\n### EL DÚPLEX\n\n##### Dij 26 Nov 2026, 23:59 - Sala Apolo, Barcelona\n\n  \n Dimecres 25 i Dijous 26 Novembre 2026: \n\nMind Enterprises Dimecres 25 i Dijous 26 Novembre 2026  \n\n### Mind Enterprises\n\n##### Sala Apolo, Barcelona\n\n  \n Divendres 27 Novembre 2026: \n\nNitsa:"
+          }
+        ]
       }
     }
   ]

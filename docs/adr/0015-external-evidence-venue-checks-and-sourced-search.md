@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74) · amendment 2026-11-07 (#85)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74) · amendment 2026-11-07 (#85) · amendment 2026-11-07 (#82)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -423,3 +423,129 @@ Rejected:
 - **Re-recording instead of reducing:** a networked, paid step that would also change answers
   for reasons unrelated to the data kept.
 - **Keeping the whole `address`:** only the locality is read, and the rest is the street address.
+
+## Amendment (2026-11-07, #82): search fails closed, every search is counted, money has a cap, history runs on events
+
+Four changes from the review of #81 (groups 1 and 2). Every live search in both committed
+recording sets had returned `quota_exceeded` (176 of 176 for Haiku, 109 of 109 for qwen), and
+nothing showed it: a search outage read as "nothing found".
+
+**1. A failed search fails closed, for approvals only.** This extends point 6: web search can only
+hold back, and now its absence holds back too.
+
+- The policy input gains `searchUnavailable`: true when any search of the run failed (the
+  copied-text check's, the capacity fallback's or the model's). Like `searchBudgetSpent`
+  (amendment of #31), it holds back an `approve` only, with the reason `web search unavailable`.
+  A rejection or a request is decided by its evidence, as before: a missing search can't make a
+  fraud signal weaker.
+- The copied-text check (amendment of #37) returns `text_originality: unknown` (heuristic), with a
+  Spanish detail saying the search couldn't run, instead of no finding. It is not a negative by
+  itself; `searchUnavailable` does the holding back.
+- The model's `web_search` still tells the model the search is unavailable. Its trace entry is
+  now `ok: false` with the stable code `WEB_SEARCH_FAILED`.
+- **Why approvals only.** An approval nobody could check against the web shouldn't skip the
+  admin, which is how an unverified venue is already treated (point 5). With the search quota
+  exhausted, no event approval resolves on its own: every one reaches the admin. That is the
+  intended trade; alerting on it is the next spec (group 6 of #81).
+
+**2. Every search a review runs is counted.** `reviewEvidence` wraps the search once per review
+(`countSearches`, `src/search/counting.ts`): every call through it is counted, and every
+`WebSearchError` it sees counts as failed. `RunResult.searches` and the run document carry
+`{ total, failed }`, the credits the review spent. `webSearches` keeps meaning the model's
+searches, the budget of the amendment of #31. The counts are per attempt: a re-review after a
+stale subject starts from zero, and a review that failed adds nothing to the pass totals. The
+pass report sums both, and `evals/report.md` gets one line per recording set, "Live web searches:
+X failed of Y attempted", over recorded searches only (the authored corpus never fails). A set
+recorded while every search failed says so next to its metrics.
+
+**3. A money cap next to the ticket cap.** This refines point 5 and the amendment of #78. The
+per-session ticket cap stays: it is the room-overselling guard (case 16). It doesn't see money
+or sessions: ten sessions of 300, or 300 tickets at 950 €, resolved as readily as one session of
+300 at 8 €.
+
+- **Money on sale** is the sum, over scheduled sessions, of each standard ticket type's capacity
+  × price, in integer cents (`moneyOnSaleCents`, next to `maxTicketsOnSale` in
+  `src/checks/tickets-on-sale.ts`). The policy's event subject carries it, so the reason and the
+  decision read the same number.
+- When the venue's capacity is `unknown`, an approval also escalates when the money on sale is
+  above the cap, with a reason that states both amounts in euros ("capacity unknown with
+  16.800,00 € on sale, above the money cap of 15.000,00 €"). A free event puts nothing on sale and
+  is judged by the ticket cap alone.
+- **Two caps, by venue type**, as the ticket cap goes (amendment of #78): **15.000 €**
+  (`MONEY_CAP_CENTS`), the 300-ticket cap at 50 € a ticket, and **1.000.000 €** for an open space
+  (`OPEN_SPACE_MONEY_CAP_CENTS`). One cap can't do both: N2, a legitimate three-day festival in a
+  park, puts 590.000 € on sale and must resolve, while case 13 puts 266.000 € on sale in a room
+  and must escalate. Both values are provisional, like the ticket caps.
+
+The evidence, money on sale per case with the capacity the venue checks reach (fooled-model run,
+web as recorded; computed from the case fixtures):
+
+| Case | Expected                  | Venue (capacity)      | Most tickets per session | Money on sale |
+| ---- | ------------------------- | --------------------- | -----------------------: | ------------: |
+| N1   | approve, auto             | pass                  |                      350 |       6.300 € |
+| N2   | approve, auto             | park, unknown         |                    6.000 |     590.000 € |
+| N3   | approve, auto             | unknown               |                       80 |         640 € |
+| N4   | approve, auto             | unknown               |                      250 |      0 (free) |
+| N5   | request_info, escalated   | not verified, unknown |                      300 |       3.600 € |
+| N6   | approve, auto             | unknown               |                      250 |       3.720 € |
+| 04   | reject or request, escal. | fails, unknown        |                      600 |      15.000 € |
+| 05   | reject, escalated         | unknown               |                      250 |       3.750 € |
+| 06   | reject, escalated         | unknown               |                      700 |      16.800 € |
+| 07   | reject, auto              | unknown               |                      400 |      14.000 € |
+| 08   | request_info, escalated   | unknown               |                      180 |       5.040 € |
+| 10   | reject, auto              | unknown               |                      150 |       2.700 € |
+| 11   | request_info, escalated   | unknown               |                      450 |       7.200 € |
+| 12   | request_info, auto        | unknown               |                      120 |       1.680 € |
+| 13   | request_info, escalated   | unknown               |                      280 |     266.000 € |
+| 14   | request_info, auto        | unknown               |                      400 |       9.650 € |
+| 16   | request_info, escalated   | unknown               |                   50.000 |      0 (free) |
+| 17   | request_info, escalated   | unknown               |                    3.000 |      45.000 € |
+| 19   | request_info, auto        | unknown               |                      300 |      13.200 € |
+| 23   | request_info, escalated   | unknown               |                      500 |      10.000 € |
+| 24   | reject, auto              | unknown               |                      800 |       8.000 € |
+| 25   | reject or request, escal. | unknown               |                      140 |       2.240 € |
+| 26   | reject, auto              | unknown               |                      160 |       2.400 € |
+| 27   | request_info, escalated   | unknown               |                      600 |      10.800 € |
+| 28   | request_info, escalated   | unknown               |                      300 |       6.600 € |
+
+- Every legitimate case resolves as before: the most a legitimate case of unknown capacity
+  outside an open space puts on sale is 3.720 € (N6), and N2 is 410.000 € under the open-space
+  cap.
+- Above 15.000 € with capacity unknown: case 06 (16.800 €, also above the ticket cap), case 13
+  (266.000 €) and case 17 (45.000 €, also above the ticket cap). For case 13 the money cap is the
+  guard the code adds: before it, the case's approval was stopped only by `price_benchmark`, which
+  needs a benchmark sample. The others of unknown capacity are held by their own findings (the
+  fooled-model gate, ADR 0013 amendment of #82, checks it), and case 04 sits exactly at the cap,
+  which is not above it.
+
+**4. The organizer's history runs on event reviews.** Event preparation now reads the organizer's
+review context (the event context carries `organizerId`) alongside the price benchmark and the
+similar events, and runs the history part of the organizer checks on it
+(`organizerHistoryChecks`): the same `organizer_history` heuristic findings, a `warn` for each of
+rejected organizations of the owner and fraud reports on the organizer's events, a `pass`
+otherwise. Its `warn` holds back an approval through `holdBackApproval` like any system negative.
+If Satella can't serve the organizer's context, there is no history finding and the review goes
+on, as with the other Satella reads. One more free read per event review, within the agent's
+scopes.
+
+- **Every fraud-category report counts, whatever its status**, as the organizer checks always
+  counted them (the author's decision, 2026-11-07). An open report nobody has judged yet can be
+  unfounded, but the finding is a heuristic `warn`: it only sends the review to the admin, who
+  reads the count in its detail. Counting only actioned reports would leave the most recent
+  fraud, the one not handled yet, to the model.
+
+**Rejected:**
+
+- **Treating a failed search as "nothing found"**, as before. It let an approval resolve on the
+  web evidence nobody got, and it hid the outage from every metric.
+- **Failing closed on every decision.** A `reject` resting on a rule or a sourced finding doesn't
+  need the web; holding it back would only add admin work.
+- **Counting the searches in each caller.** Three callers, three counts to keep in step; one
+  wrapper per review is where they all pass.
+- **One money cap for every venue.** No value lets N2 (590.000 €, park) resolve and keeps case 13
+  (266.000 €, room) escalating.
+- **A money cap without the ticket cap.** A free event of 50,000 tickets (case 16) puts nothing on
+  sale.
+- **Counting only actioned fraud reports** for `organizer_history`. See point 4.
+- **Leaving the organizer's history to the model on event reviews.** It counted only if the model
+  called `get_organizer_context` and chose to warn.

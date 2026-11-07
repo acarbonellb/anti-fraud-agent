@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "«Botellón +14»",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["reject"], autonomy: "auto_resolved" },
   build(clock) {
     const organizer = establishedOrganizer(

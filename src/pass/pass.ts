@@ -11,7 +11,11 @@ import { randomUUID } from "node:crypto";
 
 import { type RunLimits } from "../agent/loop.js";
 import { PROMPT_VERSION } from "../agent/prompt.js";
-import { type ReviewSubjectResult, reviewSubject } from "../agent/review.js";
+import {
+  ReviewFailedError,
+  type ReviewSubjectResult,
+  reviewSubject,
+} from "../agent/review.js";
 import type { AnyAgentTool } from "../agent/tools.js";
 import { codeOf, DomainError } from "../errors.js";
 import { type LogScalar, type LogWriter } from "./log-line.js";
@@ -24,6 +28,11 @@ import type {
   SatellaClient,
   Subject,
 } from "../satella-client/index.js";
+import {
+  addSearchCounts,
+  NO_SEARCHES,
+  type SearchCounts,
+} from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import {
   type FailedRunDocument,
@@ -115,6 +124,12 @@ export interface PassReport {
   cursor: string | null;
   /** Subjects left to try again on a later pass. */
   retriesQueued: number;
+  /**
+   * The web searches the pass's reviews ran, the code's included and a failed
+   * review's too, and how many failed: a quota running out shows here the
+   * same day (#82).
+   */
+  searches: SearchCounts;
 }
 
 export class PassError extends DomainError {
@@ -142,6 +157,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   // A stale subject is reviewed again within the same run, at full cost.
   const worstCase = perAttempt * (1 + STALE_RETRIES);
 
+  let searches: SearchCounts = NO_SEARCHES;
   const from = await store.readFeedCursor();
   // Read once, and written back against the version read: a pass that
   // overlapped this one and wrote first makes the write a `STORE_CONFLICT`,
@@ -169,6 +185,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       skippedItems: page === null ? 0 : skippedItems(page),
       cursor: from,
       retriesQueued: queue.length,
+      searches,
     };
   };
 
@@ -238,6 +255,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       log,
     );
     await store.settleSpend(reservation.hold, outcome.costMicros);
+    searches = addSearchCounts(searches, outcome.searches);
     runs.push({ runId, subject, outcome: outcome.review.outcome });
     const next = afterReview(queue, subject, outcome.review);
     queue = next.queue;
@@ -257,6 +275,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
     skippedItems: skippedItems(page),
     cursor: to ?? from,
     retriesQueued: queue.length,
+    searches,
   };
 }
 
@@ -315,7 +334,12 @@ async function reviewAndStore(
   previousFailures: number,
   now: () => Date,
   log: Log,
-): Promise<{ review: ReviewOutcome; costMicros: number }> {
+): Promise<{
+  review: ReviewOutcome;
+  costMicros: number;
+  /** A failed review's too: they travel with its failure. */
+  searches: SearchCounts;
+}> {
   const { provider, store } = options;
   // Every call's usage, kept even when the run fails half-way, so what it
   // spent is settled either way.
@@ -363,7 +387,9 @@ async function reviewAndStore(
     // Any failure, typed or not: one bad subject must not stall the feed. A
     // transient one is tried again on a later pass. Only the stable code is
     // kept (ADR 0017 point 3 and amendment).
-    const code = codeOf(error);
+    const failure = error instanceof ReviewFailedError ? error : null;
+    const cause = failure === null ? error : failure.cause;
+    const code = codeOf(cause);
     const finishedAt = now();
     const usage = calls.reduce<FailedRunDocument["usage"]>(
       (total, call) => ({
@@ -381,7 +407,7 @@ async function reviewAndStore(
         cacheWriteInputTokens: 0,
       },
     );
-    const transient = isTransient(error);
+    const transient = isTransient(cause);
     // Logged before the store is touched: a store that is down too must not
     // hide why the review failed (#91).
     log({
@@ -423,6 +449,7 @@ async function reviewAndStore(
     return {
       review: { outcome: "failed", code, transient },
       costMicros: spent(),
+      searches: failure?.searches ?? NO_SEARCHES,
     };
   }
 
@@ -447,7 +474,11 @@ async function reviewAndStore(
     autonomy: document.autonomy,
     attempts: result.attempts,
   });
-  return { review: { outcome: "completed" }, costMicros: spent() };
+  return {
+    review: { outcome: "completed" },
+    costMicros: spent(),
+    searches: result.run.searches,
+  };
 }
 
 /**

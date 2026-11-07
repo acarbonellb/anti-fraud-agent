@@ -33,6 +33,7 @@ function reviewed(): ReviewSubjectResult {
           draft: "Hola, ¿nos indicas el aforo?",
         },
       },
+      systemFindings: [finding],
       autonomy: {
         autonomy: "escalated",
         reasons: ["needs judgement"],
@@ -47,6 +48,7 @@ function reviewed(): ReviewSubjectResult {
       },
       toolCalls: 3,
       webSearches: 1,
+      searches: { total: 3, failed: 1 },
       trace: [
         { tool: "get_event_context", ok: true },
         { tool: "web_search", ok: false, error: "BUDGET_SPENT" },
@@ -118,6 +120,7 @@ describe("toRunDocument", () => {
       costMicros: 1_590,
       toolCalls: 3,
       webSearches: 1,
+      searches: { total: 3, failed: 1 },
       trace: [
         { tool: "get_event_context", ok: true },
         { tool: "web_search", ok: false, error: "BUDGET_SPENT" },

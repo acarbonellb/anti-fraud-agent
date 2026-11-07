@@ -10,6 +10,7 @@ import { caseResult } from "../test-support/fake-results.js";
 import type { HistoryEntry } from "./history.js";
 import { computeMetrics } from "./metrics.js";
 import { renderReport, type ReportSet } from "./report.js";
+import type { FooledOutcome, FooledResult, FooledRun } from "./fooled-model.js";
 import type { CaseResult } from "./types.js";
 
 const scored: CaseResult = {
@@ -55,6 +56,7 @@ const set: ReportSet = {
   model: "qwen/qwen3.5-9b",
   promptVersions: ["review-v2"],
   recordedOn: ["2026-11-02"],
+  liveSearches: { total: 12, failed: 2 },
   runs: [[scored, stale]],
 };
 
@@ -73,6 +75,31 @@ it("shows the metrics of each provider and model", () => {
   expect(report).toContain("| Brier score | 0.040 | 0.040 |");
   expect(report).toContain("| Mean latency | 4.3 s | 4.3 s |");
   expect(report).toContain("| Mean cost per review | $0.0022 | $0.0022 |");
+});
+
+describe("the live web searches of a set (#82)", () => {
+  it("says how many failed of those attempted", () => {
+    const report = renderReport([set]);
+    expect(report).toContain("Live web searches: 2 failed of 12 attempted.");
+    expect(report).not.toContain("web search was down");
+  });
+
+  it("says when the set was recorded while search was down", () => {
+    const report = renderReport([
+      { ...set, liveSearches: { total: 12, failed: 12 } },
+    ]);
+    expect(report).toContain(
+      "Live web searches: 12 failed of 12 attempted: recorded while web search was down, so these metrics describe the agent without web evidence.",
+    );
+  });
+
+  it("doesn't call a set with no live searches down", () => {
+    const report = renderReport([
+      { ...set, liveSearches: { total: 0, failed: 0 } },
+    ]);
+    expect(report).toContain("Live web searches: 0 failed of 0 attempted.");
+    expect(report).not.toContain("web search was down");
+  });
 });
 
 it("lists each case with expected versus actual and the policy's reasons", () => {
@@ -302,5 +329,54 @@ describe("repeated runs", () => {
     expect(report).toContain(
       "| E002 | 2026-11-04 | `review-v2` | 3 | Three runs. | 60.0 % (56.7–63.3) | 1.3 % (0.0–4.0) | 0.0 % (0.0–0.0) | 0.040 |",
     );
+  });
+});
+
+describe("the fooled-model gate (#82)", () => {
+  const run = (
+    web: FooledRun["web"],
+    autonomy: FooledOutcome["autonomy"],
+    reasons: string[],
+  ): FooledRun => ({
+    web,
+    outcome: { decision: "approve", autonomy, reasons, flagged: [] },
+    failure: null,
+  });
+  const fooled: FooledResult[] = [
+    {
+      caseId: "05",
+      title: "A «stadium» artist | small room",
+      decidedBy: "model",
+      runs: [
+        run("recorded", "auto_resolved", ["clean approval"]),
+        run("down", "escalated", ["web search unavailable"]),
+      ],
+    },
+    {
+      caseId: "06",
+      title: "Artist booked elsewhere",
+      decidedBy: "code",
+      runs: [
+        run("recorded", "escalated", ["capacity unknown"]),
+        run("down", "escalated", ["web search unavailable"]),
+      ],
+    },
+  ];
+
+  it("lists the model-decided cases with what the fooled model got on each web", () => {
+    const report = renderReport([set], [], fooled);
+    expect(report).toContain("## Fooled-model gate");
+    expect(report).toContain(
+      "Code-decided: 1 of 2 gated fraud cases. Model-decided: 1.",
+    );
+    expect(report).toContain(
+      "| 05 | A «stadium» artist \\| small room | approve · auto_resolved (clean approval) | approve · escalated (web search unavailable) |",
+    );
+    expect(report).not.toContain("| 06 |");
+    expect(report.endsWith("\n")).toBe(true);
+  });
+
+  it("leaves the section out when nothing ran with the fooled model", () => {
+    expect(renderReport([set])).not.toContain("Fooled-model gate");
   });
 });

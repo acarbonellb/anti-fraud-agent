@@ -3,137 +3,147 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "6fd530d08b88a8154fbd42f959c8ae8add7281eba7562473278fa7caebb980a2",
-      "latencyMs": 8016,
+      "requestHash": "fd748e6badd163b863f52fc743fdebf987cf3bbf39caf25899b42f68b3e09b62",
+      "latencyMs": 4906,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The deterministic checks have already run and provided authoritative findings. I need to focus on the critical failures and unknowns, particularly the venue existence check which failed because the coordinates (39.41, -0.2) fall in the sea according to OpenStreetMap, and the venue capacity is unknown.\n\nLet me analyze the situation:\n- **Venue exists**: FAIL - The coordinates are in the sea, not on land. This is a major red flag.\n- **Venue capacity**: UNKNOWN - No verified capacity data available.\n\nThe event claims to be at \"Espacio Marea\" (Sea Space) with coordinates that literally place it in the ocean. This seems suspicious for a music venue. However, I need to verify if this could be an error or if there's actually a venue there.\n\nLet me search for information about this venue and organizer to understand if this is a legitimate event or potentially fraudulent.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "iITV9xigUOvgBMPmyiy9YV0glnRsxe73",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Espacio Marea Valencia 46024 recinto musical\",\"maxResults\":3}"
+              "id": "hdkBYhZsKaVe9lacsGgJhwdR9ErXiYik",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_774c4a6e05\"}"
+            },
+            {
+              "id": "XMIqoRyIZjpu3FgiYg61ZKgOeqdCB0pe",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_80bf453bd4\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3619,
-          "outputTokens": 239
+          "inputTokens": 3646,
+          "outputTokens": 93
         }
       }
     },
     {
-      "requestHash": "f93317def5528ea928cf1b4cb4e6723d59a6dd09f9153d8c8cb747f5372cc47c",
-      "latencyMs": 1948,
+      "requestHash": "1a5dd5c5ba65d2b7f4d7441f9e680841bda734ba272e68e691b3fcf8ddc7e0f5",
+      "latencyMs": 2791,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search returned no results (quota exceeded). Let me try a different search approach to find information about this venue or organizer.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "ive7F5UI5grpDHvtWloLaZHRscIOKRUX",
+              "id": "ZNwsqJ3J9imDbGww3Fo1GpqY91VpAuHb",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Espacio Marea Valencia puerto\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"Espacio Marea Valencia Avenida del Puerto Chico 221\",\"maxResults\":3}"
+            },
+            {
+              "id": "ivg7XqybnrETHgDD2Z1WUa8wQKMgEmOE",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Nadia Corell concert tour dates 2026\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3945,
-          "outputTokens": 70
+          "inputTokens": 4139,
+          "outputTokens": 99
         }
       }
     },
     {
-      "requestHash": "87f18fedb37519dcc83e7363961f5fbfd2c16adad6598fc6161fc84002309389",
-      "latencyMs": 2078,
+      "requestHash": "2df2702a072357a96e6a42599c6415e3d91232a437e7a64ce8ab7c1b762411c2",
+      "latencyMs": 1824,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search is returning quota exceeded. Let me try searching for the organizer to see if they exist outside the platform.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "vqWmqJr3Q2C6WpZFKsVhGZUUzGWRiMFN",
+              "id": "GLEkk3g81f2Je6SCOI3m6bvrywuAhdUl",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"org_774c4a6e05 organizer Valencia\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Nadia Corell\\\" artist musician Valencia\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4102,
-          "outputTokens": 76
+          "inputTokens": 5205,
+          "outputTokens": 45
         }
       }
     },
     {
-      "requestHash": "9d750a32be8af29bc938822b14d83bd85dfc94c8c7697abd635c95ec623e4cab",
-      "latencyMs": 2359,
+      "requestHash": "73883c16f85ed8c3fb750c75fe449e1b1db41ddb27ce5006aad49b0d3cfd5a8a",
+      "latencyMs": 1501,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search is consistently returning quota exceeded. Let me try searching for the artist \"Nadia Corell\" to see if they exist and have tour dates that might contradict this event.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "YMkGejeu1K89YOCNGAWIY3blhO0QiPTu",
+              "id": "UqKxQn3q3cqJeGXueksFVIHgipJZc4eN",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Nadia Corell artista Valencia 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Nadia Corell\\\" artist house music Valencia concert\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4265,
-          "outputTokens": 86
+          "inputTokens": 5707,
+          "outputTokens": 47
         }
       }
     },
     {
-      "requestHash": "bc5e3324cb63af61642e5cbc247b2d17aa5a68d4648fd6acf014b7c4431b1dee",
-      "latencyMs": 2227,
+      "requestHash": "cd5f3d13bd5f12c00e40521d4c0c839558eb88c067779b4addb2b0e7909d2249",
+      "latencyMs": 1592,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search keeps returning quota exceeded. Let me try one more search with a different query to see if I can get any results about the venue or organizer.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "t3kuLQv7kUGtbKpxqbibUitOp4412cGh",
+              "id": "5dW7V7497XZHCrAwtCwzbyxN747BASNv",
               "name": "web_search",
-              "argumentsJson": "{\"query\":\"Sunset Sessions junto al mar Valencia 2026\",\"maxResults\":3}"
+              "argumentsJson": "{\"query\":\"\\\"Espacio Marea\\\" Valencia venue address\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4438,
-          "outputTokens": 82
+          "inputTokens": 6309,
+          "outputTokens": 46
         }
       }
     },
     {
-      "requestHash": "15387994eb871c74101056105e6a5fe744e59fc97a87d245b95ef4056e1f87a0",
-      "latencyMs": 19625,
+      "requestHash": "1115972032591d7d04f34810ce4eea9ad057fd17387283bffc98b0f87c527441",
+      "latencyMs": 15989,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I've exhausted my web search quota. Let me analyze what I have:\n\n**Critical findings from deterministic checks:**\n1. **venue_exists: FAIL** - The coordinates (39.41, -0.2) are in the sea according to OpenStreetMap, and there's no venue \"Espacio Marea\" at those coordinates. This is a hard signal that the venue doesn't exist at the claimed location.\n\n2. **venue_capacity: UNKNOWN** - No verified capacity data available.\n\n**Other checks all passed:**\n- Postal code matches Valencia\n- No off-platform payment requests\n- No external ticketing links\n- No abusive terms\n- No minors/alcohol issues\n- No prompt injection\n- Price sanity and benchmark are fine\n- Service fee is reasonable\n- Discounts are fine\n- Session dates and timing are fine\n\n**The core issue:** The venue existence check failed because the coordinates place the venue in the sea. This is a deterministic check that already ran and its finding is authoritative. The venue \"Espacio Marea\" at coordinates 39.41, -0.2 doesn't exist according to OpenStreetMap.\n\nThis is a significant fraud signal - you cannot have a music event at a venue that doesn't exist (it's literally in the ocean). The organizer is claiming a venue exists at coordinates that are in the sea, which is impossible for a physical venue.\n\nGiven that:\n1. The venue existence check failed (authoritative finding)\n2. This is a hard signal of fraud - you can't host an event at a non-existent location\n3. I cannot verify this with web searches due to quota limits\n\nThis should be rejected as there's direct evidence of fraud from the deterministic checks. The venue doesn't exist at the claimed coordinates.",
+          "content": null,
           "toolCalls": [
             {
-              "id": "TZNfcCrZMCEWSvqrhQLJ45cpnV6b4dhP",
+              "id": "EuGu8WXmAAJUij3LTF9MdqXyDGf0IFzj",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento ha sido rechazado debido a una falla crítica en la verificación del recinto: las coordenadas proporcionadas (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, según OpenStreetMap. No existe ningún recinto llamado «Espacio Marea» en esas coordenadas. Este hallazgo es determinista y autoritativo: un evento no puede realizarse en una ubicación que no existe físicamente. La verificación de aforo es desconocida porque el recinto no está verificado, pero la inexistencia del recinto en sí misma constituye una señal clara de fraude. Ninguna otra comprobación ha fallado, pero esta falla determinista es suficiente para rechazar el evento.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de todo término municipal, es decir, en el mar, y OpenStreetMap no tiene el recinto «Espacio Marea» en esas coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude directa: el recinto \\\"Espacio Marea\\\" en las coordenadas proporcionadas (39.41, -0.2) cae fuera de cualquier término municipal, es decir, en el mar, según OpenStreetMap, y no existe ningún recinto con ese nombre en esas coordenadas. Esto indica que la ubicación del evento es falsa o inventada. Además, la artista \\\"Nadia Corell\\\" no aparece como figura pública reconocida en la escena musical electrónica de Valencia ni tiene presencia web verificable como artista; los resultados de búsqueda solo muestran personas con el apellido Corell (arquitectos, profesionales LinkedIn) y no una artista house llamada Nadia Corell. La promotora Ona Clara Events es legítima y sin historial negativo, pero esto no compensa la evidencia de fraude en la ubicación del evento y la identidad de la artista.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"fail\",\"detail\":\"Las coordenadas del evento (39.41, -0.2) caen fuera de cualquier término municipal, es decir, en el mar, según OpenStreetMap, y no existe ningún recinto llamado «Espacio Marea» en esas coordenadas.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/?mlat=39.41&mlon=-0.2#map=17/39.41/-0.2\",\"title\":\"OpenStreetMap: coordenadas del evento (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La artista «Nadia Corell» no aparece como figura pública reconocida en la escena musical electrónica de Valencia ni tiene presencia web verificable como artista; los resultados de búsqueda solo muestran personas con el apellido Corell (arquitectos, profesionales LinkedIn) y no una artista house llamada Nadia Corell.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.linkedin.com/in/andrea-corell-839918268\",\"title\":\"LinkedIn: Andrea Corell\"},{\"url\":\"https://www.archdaily.com/235747/universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos\",\"title\":\"ArchDaily: Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4556,
-          "outputTokens": 745
+          "inputTokens": 6391,
+          "outputTokens": 599
         }
       }
     }
@@ -146,47 +156,137 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.instagram.com/popular/musak-mexico-city",
+            "title": "Musak Mexico City",
+            "snippet": "Una tarde para disfrutar, relajarte y pasarla bien con muy buena música al atardecer en compañia de tus amigos.\nSesiones únicas de nuestros residentes e invitados, en lugares con vistas a la ciudad.🌇\nEl espacio es acojedor y todas las sesiones son grabadas, por lo que el aforo es limitado.\n\n📍 Col."
+          },
+          {
+            "url": "https://cadenaser.com/galicia/2026/10/20/mare-la-nueva-sala-de-conciertos-y-musica-electronica-de-a-coruna-abre-el-24-de-octubre-en-el-puerto-radio-coruna",
+            "title": "MARÉ, la nueva sala de conciertos y música electrónica de A Coruña, abre el 24 de octubre en el puerto | Música | Cadena SER",
+            "snippet": "## House Social Club, Código Rojo y Santé: las fiestas de MARÉ\n\nLa música house tendrá un protagonismo especial en la programación habitual de la nueva sala de A Coruña.\n\nLos viernes estarán dedicados a HOUSE SOCIAL CLUB, una propuesta centrada en este género musical. Por su parte, los sábados alter"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=cqF_P16c3sk",
+            "title": "Sunset Lounge Music & Ocean Views 🌊 Sunset & Sea",
+            "snippet": "[24:59] Boats are leaving slowly and the [music] sun is coming up.\n[25:07] Coffee at the marina. You laugh and [music] look away.\n[25:15] I think I could love you on an ordinary day.\n[25:22] You [music] told me about your brother and the house where you grew up. [music]\n[25:30] I told you about my f"
+          },
+          {
+            "url": "https://www.mapquest.com/cl/region-metropolitana-de-santiago/red2one-rooftop-bar-523094672",
+            "title": "Red2one | Rooftop Bar",
+            "snippet": "Ubicado en el piso 21 de W Santiago, Red2One es el rooftop bar del hotel y uno de sus espacios más emblemáticos. Con vistas panorámicas de Santiago y la Cordillera de los Andes, su propuesta combina coctelería de inspiración local, gastronomía para compartir, música y una programación que evoluciona"
+          },
+          {
+            "url": "https://music.youtube.com/playlist?list=PLTPMLBFhNcGzELLi36wioYsOorLFfsUpH",
+            "title": "Armonías al Atardecer: Un Oasis de Serenidad",
+            "snippet": "Image 1\n\nSearch\n\n- [x] Include playlist \n\nAn error occurred while retrieving sharing information. Please try again later.\n\nWatch later\n\nShare\n\nCopy link\n\n Autoplay\n\nAdd similar content to the end of the queue\n\nAutoplay is on\n\n0:00 / 0:00"
+          }
+        ]
       }
     },
     {
-      "requestHash": "26974e9e9b12dd6e21847f41a4232a6795847408b9b1e8c9b7970df6169eec0b",
+      "requestHash": "86e9fe1d6a0541cb97af965fe9d7f85e128d66bb7a27b62e1e042314fbbb7840",
       "provider": "Tavily",
-      "query": "Espacio Marea Valencia 46024 recinto musical",
+      "query": "Espacio Marea Valencia Avenida del Puerto Chico 221",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://studiomarea.wodbuster.com",
+            "title": "Studio Marea",
+            "snippet": "Studio Marea\n\n# Studio Marea Arte en movimiento\n\n## Ven a entrenar con nosotros\n\nApúntate ahora\n\n## Marea Pole Studio\n\n### Qué es y en qué consiste\n\nMarea Studio, escuela de Pole Dance en Valencia ubicada en Alboraya.  \nSomos un espacio de movimiento y bienestar donde ofrecemos clases de pole dance,"
+          },
+          {
+            "url": "https://mareavalencia.com/reservas",
+            "title": "Reservar mesa | Marea, italiano en Ruzafa (Valencia)",
+            "snippet": "Saltar al contenido\n\nMarea Ristorante Italiano Marea \n\nESENIT\n\nReservar \n\nLa cartaAperitivos VinosBebidas Nosotros La casa Dónde estamos Preguntas frecuentes Blog Reservar\n\n# Reservar mesa\n\nSe reserva por WhatsApp. Es lo más rápido y lo contestamos nosotros dos, no un sistema.\n\nReservar por WhatsApp"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DYX42dyClpN",
+            "title": "Instagram",
+            "snippet": "🌊 MAREA HITS llega al Puerto de Valencia  \n  \nAfro house, brisa marina y un atardecer que marca el inicio.  \nCuando sube la marea… bajan los hits y el perreo se apodera de todo 🔥  \n  \nUna experiencia que empieza suave y termina imposible de olvidar ✨  \n   \n📍 Puerto de Valencia - El Camarote and T"
+          }
+        ]
       }
     },
     {
-      "requestHash": "23b6744c3f0456422f8ac369de1ea8f3f66a0c7e73f84dbdc7588895c8055cd4",
+      "requestHash": "357166fc7feeb28bf57ab3af1213989c0d9d1d2a59ec73a4921b32d5b4d68ffd",
       "provider": "Tavily",
-      "query": "Espacio Marea Valencia puerto",
+      "query": "Nadia Corell concert tour dates 2026",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.ticketmaster.com/nadia-reid-tickets/artist/1868880",
+            "title": "Nadia Reid Tickets, 2026-2027 Concert Tour Dates | Ticketmaster",
+            "snippet": "On partner site\n\n  Find TicketsBrighton, United Kingdom, Chalk, Brighton, JESCA HOOP11/22/26, 7:00 PM On partner site\n\n  Lineup\n\n  + Jesca Hoop\n  + Nadia Reid\n\n  Venue\n\n  Chalk, Brighton\n December 9, 2026\n\n  Dec09\n\n  Until 12/9/26Until Dec 09Newtown, NSW, AustraliaThe VanguardNadia Reid\n\n  On partne"
+          },
+          {
+            "url": "https://songkick.com/artists/4631198-nadia-reid",
+            "title": "Nadia Reid Tickets, Tour Dates & Concerts 2027 & 2026 – Songkick",
+            "snippet": "Breaking Benjamin Concert Tickets - 2026 Tour Dates.\nThree Days Grace Concert Tickets - 2026 Tour Dates.\nNicky Jam Concert Tickets - 2026 Tour Dates.\nFITZ AND THE TANTRUMS Concert Tickets - 2026 Tour Dates.\nLifehouse Concert Tickets - 2026 Tour Dates.\nMadra Salach Concert Tickets - 2026 Tour Dates.\n"
+          },
+          {
+            "url": "https://www.songkick.com/concerts/43011207-nadia-reid-at-bristol-folk-house",
+            "title": "Nadia Reid and juni habel Bristol, Bristol Folk House, 26 Apr 2026 – Songkick",
+            "snippet": "Dillon Francis Concert Tickets - 2026 Tour Dates.\nGodsmack Concert Tickets - 2026 Tour Dates.\nThe Chicks (US) Concert Tickets - 2026 Tour Dates.\nT.I. Concert Tickets - 2026 Tour Dates.\nFabolous Concert Tickets - 2026 Tour Dates.\nMadra Salach Concert Tickets - 2026 Tour Dates.\nWestside Cowboy Concert"
+          }
+        ]
       }
     },
     {
-      "requestHash": "17d646b9c75624ffacaa667916f9339c0b18a8ab895693773894ae1f19574a51",
+      "requestHash": "94fe76f175d39fee22b785c7f114b17326920797ab2c82e5b7a281f7d3bb686f",
       "provider": "Tavily",
-      "query": "org_774c4a6e05 organizer Valencia",
+      "query": "\"Nadia Corell\" artist musician Valencia",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.linkedin.com/in/andrea-corell-839918268",
+            "title": "https://www.linkedin.com/in/andrea-corell-839918268",
+            "snippet": "# Andrea Corell\n\nHeadline: --\nLocation: Valencia, Valencian Community, Spain\nLinkedIn:  · 0 followers"
+          },
+          {
+            "url": "https://www.linkedin.com/in/mª-josé-corell-corell-75092194",
+            "title": "https://www.linkedin.com/in/mª-josé-corell-corell-75092194",
+            "snippet": "## Education\n- La grande Chaumiére de Paris, Postgrado, especialidad en Pintura\n- Facultad de Bellas Artes Universidad Politécnica de Valencia, Licenciatura en Bellas Artes, Especialidad en Pintura\n\n## Skills\nphotography, painter, graphic design, publications, trade show, illustration\n\nLanguages: Es"
+          },
+          {
+            "url": "https://www.linkedin.com/in/ana-maria-corell-fernandez-270b328a",
+            "title": "https://www.linkedin.com/in/ana-maria-corell-fernandez-270b328a",
+            "snippet": "## Experience\n- EDUCADORA DE DISMINUIDOS PSIQUICOS at GERENCIA SERVICIOS SOCIALES (Jan 1994 to present)\n- RESPONSABLE DEL GABINETE NACIONAL DE CONTRATACION  UGT-PV at UGT PAIS VALENCIA (Sep 1994 to Nov 2011)\n- Experta en contratación at Inem (Aug 1988 to Feb 1989)\n\n## Education\n- Univeraitat de Grad"
+          }
+        ]
       }
     },
     {
-      "requestHash": "8600180388ab202a4ea18562f1d481bbc83511d514760cccad4dcee1c7d351be",
+      "requestHash": "7f7dac02b25cbd835eb8d7d91f03e73091087f5f09009cbdc1f545c5cd05d0c4",
       "provider": "Tavily",
-      "query": "Nadia Corell artista Valencia 2026",
+      "query": "\"Nadia Corell\" artist house music Valencia concert",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.archdaily.com/235747/universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos/500119b828ba0d2c9f0007e8-universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos-photo",
+            "title": "Gallery of Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos  - 21",
+            "snippet": "# Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos [...] Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos - Image 32 of 34\nUniversidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos - Image 33 of 34\nUniver"
+          },
+          {
+            "url": "https://www.archdaily.com/235747/universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos/500119cc28ba0d2c9f0007ef-universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos-4th-floor-plan",
+            "title": "Gallery of Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos  - 32",
+            "snippet": "Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos - Image 28 of 34\nUniversidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos - Image 29 of 34\nUniversidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos - Image 30 of "
+          },
+          {
+            "url": "https://www.archdaily.com/235747/universidad-politecnica-de-valencia-expansion-corell-monfort-palacios-arquitectos",
+            "title": "Universidad Politecnica de Valencia Expansion / Corell Monfort Palacios Arquitectos | ArchDaily",
+            "snippet": "Arquitectos - More Images+ 29 [...] Curated by ArchDaily\n\nContent Loader\n\n## Project gallery"
+          }
+        ]
       }
     }
   ]

@@ -85,7 +85,14 @@ export const completedRunSchema = z.object({
     "no_submission",
   ]),
   toolCalls: count,
+  /** The model's searches, against the run's budget. */
   webSearches: count,
+  /**
+   * Every search the review ran, the code's included, and how many failed
+   * (#82): the credits it spent and whether the web was down. Absent on runs
+   * stored before #82.
+   */
+  searches: z.object({ total: count, failed: count }).optional(),
   trace: z.array(
     z.object({
       tool: z.string(),
@@ -217,6 +224,7 @@ export function toRunDocument(
     costMicros: metadata.costMicros,
     toolCalls: run.toolCalls,
     webSearches: run.webSearches,
+    searches: { total: run.searches.total, failed: run.searches.failed },
     // Undefined fields stay out: Firestore stores no `undefined`.
     trace: run.trace.map(({ tool, ok, error, note }) => ({
       tool,

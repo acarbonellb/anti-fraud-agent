@@ -14,6 +14,9 @@ export const evalCase: EvalCase = {
   title:
     "New organizer, no website, a week-old Instagram, a «stadium» artist in a small room at 15 €",
   subject: "event",
+  // Nothing the code checks is wrong with it: only the model can see that a
+  // stadium artist in a small room from a week-old organizer is a lure.
+  decidedBy: "model",
   expected: { decisions: ["reject"], autonomy: "escalated" },
   build(clock) {
     const organizer = buildOrganizer(clock, {

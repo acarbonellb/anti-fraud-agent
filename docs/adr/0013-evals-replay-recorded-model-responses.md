@@ -1,7 +1,7 @@
 # ADR 0013 — Offline evals replay recorded model responses, and CI gates on fraud that skips the admin
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-06 (#57)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-06 (#57) · amendment 2026-11-07 (#82)
 - **Related:** brief §4.3, §5 and D8; ADR 0008 (local model first; the evals choose the default
   model); ADR 0012 (the autonomy policy the gate leans on); issues #6 and #7.
 
@@ -126,3 +126,65 @@ answers a different question, which point 2 exists to refuse.
 **Rejected:** hashing a normalized request (wording stripped or templated). Replay would then
 reuse an answer to words the model never saw, and a wording change that moves the model would
 stay green in CI.
+
+## Amendment (2026-11-07, #82): a fooled-model gate holds the code to what it guarantees
+
+This extends point 4. The recorded model almost never approves a gated fraud case, so the gate on
+auto-approved fraud barely feels the policy: removing the exposure cap entirely tripped no line.
+The policy's safety rested on unit tests alone.
+
+1. **`pnpm eval:replay --check` also runs every gated fraud case with a fooled model**
+   (`src/evals/fooled-model.ts`): a provider that answers every call with `submit_recommendation`
+   (`approve`, confidence 0.95, no findings), the most dangerous proposal a fooled model could
+   make. The rest is the real `reviewSubject`, with the case's fixtures and the committed venue
+   responses. It produces no recording and no metrics, and is not in `evals/history.jsonl`; the
+   report gets its own section, apart from the metrics.
+2. **Each case runs against two webs.** Once with the web as the code's own searches (copied text,
+   capacity fallback) were recorded, taken from every recording of the case in any set, and once
+   with every search down (`quota_exceeded`, authored pages included). A guard that holds only
+   while the web answers, or only while it fails, shows in one of them. The fooled model never
+   searches, so only the code's queries need an answer.
+3. **A code search with no recording makes the case stale** (`missing_tool_response`), not a
+   failed search. Read as the web down, the fail-closed rule (ADR 0015, amendment of #82) would let
+   the case pass unexamined.
+4. **Each gated fraud case declares who decides it**: `decidedBy: "code"` when the code alone keeps
+   it from resolving as an approval, whatever the model proposes, and `"model"` when that rests on
+   the model's judgement. A test (`evals/cases/decided-by.test.ts`) runs the fooled model and
+   checks every declaration against what it gets, so the field can't drift: a case is
+   model-decided as soon as one of its fooled runs resolves as an approval. A case that declares
+   nothing is held as code-decided, the strict reading. Today 26 are code-decided and one, case 05
+   (a new organizer announcing a stadium artist in a small room), is model-decided.
+5. **The gate fails, naming the case and the web**, when a code-decided case:
+   - ends `approve` + `auto_resolved`; or
+   - ends `approve` while carrying a negative system finding, even escalated. The #33 rule (ADR 0012) promises an approval never contradicts the code: such an approval means
+     `holdBackApproval` broke, though the policy happened to escalate it.
+
+   A model-decided case never fails it; the report lists it with its fooled outcome on each web.
+   A fooled run that couldn't run fails the gate whoever decides the case.
+
+6. **Checked by hand once** (2026-11-07): removing the exposure cap fails the gate on case 06;
+   removing the search hold-back fails it on case 08; bypassing `holdBackApproval` fails it on 23
+   cases with the second rule of point 5 (01–04, 07, 08, 10–15, 17–19, 21–28), and on none
+   without it.
+
+**Not felt today: the organizer-history guard on event reviews** (ADR 0015, amendment of #82).
+Removing it fails no fooled run. Case 23 (an event by an organizer with three actioned fraud
+reports) is the case it was meant for, and stays code-decided, but without the history `warn` it
+still escalates for other reasons: 500 tickets on sale in one session of a venue of unknown
+capacity, above the exposure cap, and the recorded web searches all failed. No gated case pairs
+an otherwise clean event with a bad history, the one shape where the guard alone stands between
+the fooled approval and the admin. Until group 10 of #81 adds such a case, unit tests alone cover
+it (`docs/known-limitations.md`).
+
+**Rejected:**
+
+- **Gating on the recorded model's approvals only**, as before. It measures the model that was
+  recorded, not the code.
+- **Holding every gated fraud case to the code.** Case 05 has no deterministic signal: a small
+  room and a famous name need judgement. Declaring it model-decided keeps the dependence on the
+  model a visible number in the report, instead of a red CI nobody can fix in code.
+- **Deriving `decidedBy` at run time instead of declaring it.** The gate would then hold nothing:
+  a case a regression lets through would simply become model-decided. The declaration is the
+  promise; the test keeps it honest in both directions.
+- **One web per case.** With the web as recorded only, the fail-closed rule would never run; with
+  it down only, a guard that needs a search result (the copied-text check) would never run.

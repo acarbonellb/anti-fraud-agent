@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Description copied word for word from another ticketing site",
   subject: "event",
+  decidedBy: "code",
   // The model never searched the text itself, so the code does before it
   // runs (E004, then #37 and E012).
   expected: { decisions: ["request_info"], autonomy: "escalated" },

@@ -9,6 +9,7 @@ import type { z } from "zod";
 
 import type { SystemFinding } from "../checks/types.js";
 import { DomainError } from "../errors.js";
+import { NO_SEARCHES, type SearchCounts } from "../search/counting.js";
 import type {
   ChatMessage,
   LlmProvider,
@@ -25,6 +26,7 @@ import {
   decideAutonomy,
   escalated,
   holdBackApproval,
+  isNegative,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
@@ -68,12 +70,24 @@ export interface RunResult {
   endedBy: RunEnd;
   /** Carries the policy's confidence, derived from the evidence (#77). */
   recommendation: Recommendation;
+  /**
+   * The code's own findings, as the recommendation carries them first: what
+   * the code verified, apart from the model's claims (#82).
+   */
+  systemFindings: Finding[];
   autonomy: AutonomyVerdict;
   /** The number the model proposed: kept to compare with the derived one. */
   modelConfidence: number;
   usage: TokenUsage;
   toolCalls: number;
+  /** The model's searches: what counts against `maxWebSearches`. */
   webSearches: number;
+  /**
+   * Every search the review ran, the code's included (copied text, capacity
+   * fallback): the credits it spent, and how many failed (#82). From
+   * `reviewSubject`, every attempt's.
+   */
+  searches: SearchCounts;
   trace: TraceEntry[];
 }
 
@@ -95,6 +109,11 @@ export interface RunReviewInput {
    */
   systemFindings?: readonly SystemFinding[];
   fence?: UntrustedFence;
+  /**
+   * The review's search counts, read when the run ends: a failed search holds
+   * back an approval (#82). Without it, the run searched nothing.
+   */
+  searchCounts?: () => SearchCounts;
   /** Defaults to the active prompt; the evals swap it to compare versions. */
   prompt?: Prompt;
 }
@@ -111,12 +130,12 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const toolsByName = new Map(tools.map((tool) => [tool.name, tool]));
   const definitions = [...tools, SUBMIT_TOOL].map(toToolDefinition);
   const systemFindings = input.systemFindings ?? [];
-  // Each check the code ran, and whether it only passed there.
+  // Each check the code ran, and whether it reached a negative verdict there.
   const systemChecks = new Map<string, boolean>();
   for (const item of systemFindings) {
-    const passed = item.finding.verdict === "pass";
+    const negative = isNegative(item.finding);
     for (const check of [item.finding.check, ...(item.covers ?? [])]) {
-      systemChecks.set(check, (systemChecks.get(check) ?? true) && passed);
+      systemChecks.set(check, (systemChecks.get(check) ?? false) || negative);
     }
   }
 
@@ -157,6 +176,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const askedBefore = new Set<string>();
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
+    const searches = input.searchCounts?.() ?? NO_SEARCHES;
     const base = holdBackApproval(
       proposal ?? limitFallback(endedBy),
       systemFindings,
@@ -190,6 +210,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
             retrievedUrls,
             autoApproveThreshold: input.autoApproveThreshold,
             searchBudgetSpent,
+            searchUnavailable: searches.failed > 0,
           })
         : escalated([`run ended by ${endedBy}`], base.confidence);
     const recommendation: Recommendation = {
@@ -203,11 +224,13 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       model: provider.model,
       endedBy,
       recommendation,
+      systemFindings: systemFindings.map((item) => item.finding),
       autonomy,
       modelConfidence: base.confidence,
       usage,
       toolCalls,
       webSearches,
+      searches,
       trace,
     };
   };
@@ -299,11 +322,15 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       }
 
       try {
-        const { output, sources } = await bound.value.run();
+        const { output, sources, failure } = await bound.value.run();
         // Only a call that ran has an answer above to point a repeat to.
         if (askedKey !== undefined) askedBefore.add(askedKey);
         for (const url of sources) retrievedUrls.add(url);
-        trace.push({ tool: call.name, ok: true });
+        trace.push(
+          failure === undefined
+            ? { tool: call.name, ok: true }
+            : { tool: call.name, ok: false, error: failure },
+        );
         messages.push(toolResult(call, fence.wrap(call.name, output)));
       } catch (error) {
         const code = error instanceof DomainError ? error.code : "TOOL_FAILED";
@@ -375,18 +402,18 @@ function limitFallback(endedBy: RunEnd): Proposal {
 }
 
 /**
- * System findings win over the model's on a check the code ran, with one
- * exception: a system `pass` can't silence a model `fail` or `warn`. A pass
- * only means a pattern didn't match ("B1zum" slips past the Bizum rule), so
- * it is no evidence against what the model caught (#57). `systemPassed` is
+ * On a check the code ran, the model's `fail` or `warn` stands unless the
+ * code itself reached a negative verdict there, which wins; the model's
+ * `pass` and `unknown` are dropped. A system `pass` only means a pattern
+ * didn't match ("B1zum" slips past the Bizum rule, #57), and a system
+ * `unknown` means the code had no evidence (a sparse price benchmark, #82):
+ * neither is evidence against what the model caught. `systemNegative` is
  * undefined when the code didn't run the check.
  */
 function keepsModelFinding(
   finding: Finding,
-  systemPassed: boolean | undefined,
+  systemNegative: boolean | undefined,
 ): boolean {
-  if (systemPassed === undefined) return true;
-  return (
-    systemPassed && (finding.verdict === "fail" || finding.verdict === "warn")
-  );
+  if (systemNegative === undefined) return true;
+  return !systemNegative && isNegative(finding);
 }

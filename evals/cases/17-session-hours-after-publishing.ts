@@ -13,6 +13,7 @@ export const evalCase: EvalCase = {
   title:
     "Published hours before a session later the same night, with a large capacity",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "escalated" },
   build(clock) {
     const organizer = establishedOrganizer(
