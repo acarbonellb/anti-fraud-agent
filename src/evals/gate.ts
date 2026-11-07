@@ -53,8 +53,7 @@ function autoApproved(result: CaseResult): boolean {
  * gated fraud case, so the gate above barely feels the policy. With a model
  * that always proposes a confident approval, a code-decided case that still
  * resolves as one means a guard broke. A model-decided case rests on the
- * model by declaration: the report lists it, the gate doesn't hold it. A case
- * that declares nothing is held as code-decided, the strict reading. A
+ * model by declaration: the report lists it, the gate doesn't hold it. A
  * code-decided case also fails when its fooled run ends `approve` over a
  * negative system finding, even escalated: that approval contradicts the
  * code, which #33 promises never happens.
