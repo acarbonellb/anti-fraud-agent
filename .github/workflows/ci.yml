@@ -18,6 +18,9 @@ concurrency:
 permissions:
   contents: read
 
+# Every action is pinned to a commit SHA, with its release in a comment: a tag
+# can be moved, and the deploy job hands these actions the deploy identity
+# (ADR 0018, amendment of #85). Dependabot moves the pins through PRs.
 jobs:
   secrets:
     name: Secret scan
@@ -28,10 +31,10 @@ jobs:
       pull-requests: read
     steps:
       # Full history so gitleaks scans every commit of the PR, not just the tip.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,13 +44,13 @@ jobs:
     if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
       # pnpm before setup-node so the node cache uses pnpm's store; the
       # version comes from `packageManager` in package.json.
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 22
           cache: pnpm
@@ -88,12 +91,12 @@ jobs:
       REGION: europe-west1
       IMAGE: europe-west1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/agent/pass:${{ github.sha }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: google-github-actions/auth@v3
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
           service_account: deployer@${{ vars.GCP_PROJECT_ID }}.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v3
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
       - name: Build and push the image
         run: |
           gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet

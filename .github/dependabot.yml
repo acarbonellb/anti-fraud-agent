@@ -1,0 +1,18 @@
+# Version updates only: they move the action SHAs and the base image digest
+# through reviewed PRs, so the pins don't rot (#85). Security alerts stay off,
+# as decided in #40. npm isn't listed: dependencies move by hand, with the
+# evals replayed.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore

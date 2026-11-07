@@ -1,7 +1,7 @@
 # ADR 0015 — External evidence: venue checks run in code and can be required, web search can only hold back
 
 - **Date:** 2026-11-03
-- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74)
+- **Status:** accepted · amendment 2026-11-03 (#24) · amendment 2026-11-03 (#25) · amendment 2026-11-04 (#31) · amendment 2026-11-04 (#37) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#79) · amendment 2026-11-06 (#78) · amendment 2026-11-06 (#74) · amendment 2026-11-07 (#85)
 - **Related:** brief §4.1, §4.2, §5 and §10.7; ADR 0008 (provider-neutral agent); ADR 0012 (the
   policy weighs evidence, not claims); ADR 0013 (recorded responses, external cases); ADR 0014
   (each change states its hypothesis); issue #7.
@@ -394,3 +394,32 @@ Hypothesis (ADR 0014): the new case N6 (a real theatre without coordinates, inve
 verifies the venue and resolves its approval on its own instead of escalating on an unknown
 venue, so the escalation rate falls by that case. The auto-approved fraud rate stays at 0 %:
 the cap of point 5 still applies, and a venue no source names stays `unknown`.
+
+## Amendment (2026-11-07, #85): recordings keep only what the code reads
+
+Replaces point 9's "open-data responses are committed as recorded" and amendment #31's
+"the recorded search keeps 500 characters" (point 4). The repo is public, and raw Nominatim
+responses carried the emails, phone numbers, opening hours and street addresses of real venues,
+some of them the personal addresses of small bars and bands. The checks read none of it.
+
+1. **OSM/Nominatim responses are reduced at record time to what the scorer reads.** Each result
+   keeps its OSM type and id, latitude and longitude, category and type, name and display name;
+   from `extratags`, only `wikidata` and `capacity`; from a reverse lookup's `address`, only the
+   locality keys (`city`, `town`, `village`, `municipality`). The reducer lives next to the
+   parser in `src/venue/nominatim.ts`, so the two read the same field lists, and the recording
+   layer applies it by host, so a new recording can't bring a dropped field back. The live run
+   still reads the response as Nominatim sent it. Wikidata responses stay as recorded: they are
+   CC0 and hold no contact data.
+2. **Search recordings store snippets cut to the 300 characters the model reads.** The recording
+   run gets the cut text too, so it sees what replay will serve.
+3. **The committed files are rewritten once, offline** (`scripts/reduce-tool-responses.ts`).
+   Only response bodies change: request hashes stay, and replay stays green with the report
+   unchanged, which is the proof that no decision read a dropped field.
+
+Rejected:
+
+- **Rewriting git history** to remove the raw recordings: decided against in #40; they stay in
+  history.
+- **Re-recording instead of reducing:** a networked, paid step that would also change answers
+  for reasons unrelated to the data kept.
+- **Keeping the whole `address`:** only the locality is read, and the rest is the street address.
