@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T09:51:00.000Z",
   "calls": [
     {
-      "requestHash": "cadc539114c106f26d314ed8255405eafd89127b97d198816b14b86c818764c6",
-      "latencyMs": 2987,
+      "requestHash": "67cb402d69b3911f026ea78f9be2a769e3177ca53d16651267ff9c152b61af9b",
+      "latencyMs": 2731,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "TDwX8dnboJCXhydp3aC5PIvFsOKmcbQX",
+              "id": "sZ44atYwB1g59luFRzxuOqUu4vhiyU1r",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_84b05b3499\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3629,
+          "inputTokens": 3688,
           "outputTokens": 42
         }
       }
     },
     {
-      "requestHash": "3d9754fac8466565fe38d1156e2092dba34d18468f362053bde1deb4c7c4b667",
-      "latencyMs": 1490,
+      "requestHash": "91cb0278941fca3245d15e3d647b820c67e50c9005795843796dc30ddc77a604",
+      "latencyMs": 1485,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "XaRLIndjxMocuT6NpoWA5x1f0Tzo8d26",
+              "id": "gnXq7R0ckMf19cqsW9gmCbpCtkh6o7Li",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Trío Salitre Santander boleros concierto 2026\",\"maxResults\":2}"
             }
@@ -44,21 +44,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4015,
+          "inputTokens": 4074,
           "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "7dad35be45ec7e396f495de98306465e18f2cf1054e2f30649883f72e33b247f",
-      "latencyMs": 1247,
+      "requestHash": "6255841a71568edebb0f39553b71e99b2b8929bce27e66ac6cbf0d2a2c08b52d",
+      "latencyMs": 1279,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "jZ2h2sGccLV1PvqdElTvCwwVgnFHwia8",
+              "id": "4KC8Hr7uB9XPUBLbWJ0N9rOI0Duqnoau",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Escenario Santander aforo capacidad\",\"maxResults\":2}"
             }
@@ -66,52 +66,96 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4154,
+          "inputTokens": 4213,
           "outputTokens": 43
         }
       }
     },
     {
-      "requestHash": "9fdf0e4e4a251d6319783aa6af37d7dad1859cafe56b61d39b94cf50b427d896",
-      "latencyMs": 1453,
+      "requestHash": "3e029d3711c7d5f32e21ae479213e3816bb44c325dfa6f17660e703a2964079e",
+      "latencyMs": 1294,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "lJnzybJZWln0mAraNJEH09Nf153I6ji0",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_4d6bb85ef8\",\"windowDays\":60}"
+              "id": "kujlSbeCx4f4R87rRaCGRyjkDT8bkuVL",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Trío Salitre banda boleros Santander\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4286,
-          "outputTokens": 51
+          "inputTokens": 4345,
+          "outputTokens": 45
         }
       }
     },
     {
-      "requestHash": "77d5d000598016e4a9d70402af2b7352a0ab170275b5ec36cc23d7f282d31f77",
-      "latencyMs": 16705,
+      "requestHash": "7fe9128f2595d17adf51c739430e0bf03d0481b3712ce3c8bc58f65f2491eadf",
+      "latencyMs": 1322,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "TlC9UFK0IGjtWcfwE1FGNJcv00gqIePv",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.85,\"rationale\":\"El evento ha sido rechazado por una señal de fraude directa: las sesiones ya han finalizado (la última fue el 3/11/26 a las 15:00) y aún se venden entradas. Esto indica que el evento está activo después de su fecha de fin, lo cual es inconsistente con un evento genuito. Además, el aforo del recinto no está disponible públicamente (Wikidata/OpenStreetMap no lo publican y la búsqueda web falló por cuota), pero la sesión con más entradas pone a la venta 600 tickets, lo que podría ser compatible con la capacidad real o indicar una sobreventa si el aforo es menor. Sin embargo, la señal de fraude principal es la venta activa tras el fin del evento.\",\"findings\":[{\"check\":\"session_timing\",\"verdict\":\"fail\",\"detail\":\"Todas las sesiones ya han terminado (la última fue el 3/11/26, 15:00) y aún hay entradas a la venta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://example.test/event/evt_4d6bb85ef8\",\"title\":\"Evento en plataforma\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Escenario Santander», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 600.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador «Mareas del Norte Producciones» aprobado desde 2024-05-20, con CIF válido y cuenta antigua (930 días).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la provincia de Cantabria con título parecido cerca de las fechas (búsqueda falló por cuota).\",\"confidence\":0.6,\"sources\":[]}]}"
+              "id": "EpsokoIeLmQFay6qGz4maDeuF8v8lwU7",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Mareas del Norte Producciones Santander organizador\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4418,
-          "outputTokens": 636
+          "inputTokens": 4479,
+          "outputTokens": 46
+        }
+      }
+    },
+    {
+      "requestHash": "56338d2fd39dfb534b49c495154fd96422ed52fbdf5033a85ad2d939bd442b11",
+      "latencyMs": 1275,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "rNZ8MmnaxuLCsVzglF6uDV9mwCM4LNwu",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Escenario Santander Santander concierto\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4614,
+          "outputTokens": 42
+        }
+      }
+    },
+    {
+      "requestHash": "812a7310fe403e1cc2d1f0b36d69fb7d39a9b46cc3df9f8e5c68a32718089e1a",
+      "latencyMs": 15677,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "4aCGnoGdnX81nBQGniFYOLf8jwfv8TWL",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El evento presenta una señal de alerta: las sesiones ya han finalizado (la última fue el 4/11/26 a las 10:00) y aún hay entradas a la venta. Esto puede indicar fraude o error administrativo, pero también podría ser un caso inocente (por ejemplo, entradas para reventa o gestión de stock). Además, no se pudo verificar la originalidad del texto ni el aforo real del recinto debido a limitaciones técnicas en las búsquedas web. El organizador tiene historial limpio y datos fiscales válidos, pero la combinación de sesiones finalizadas con venta activa requiere aclaración antes de aprobar.\",\"findings\":[{\"check\":\"session_timing\",\"verdict\":\"warn\",\"detail\":\"Todas las sesiones ya han terminado (la última fue el 4/11/26, 10:00) y aún hay entradas a la venta.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_4d6bb85ef8.jpg\",\"title\":\"Evento evt_4d6bb85ef8\"}]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada: la búsqueda web no estaba disponible.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Escenario Santander», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 600.\",\"confidence\":0.5,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/786247177\",\"title\":\"OpenStreetMap: Escenario Santander (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué siguen habiendo entradas a la venta para un evento cuya sesión finalizó el 4/11/26 a las 10:00?\",\"¿Cuál es el aforo real del recinto «Escenario Santander» y cómo se justifica vender 600 entradas si no está publicado en fuentes externas?\"],\"draft\":\"Se requiere aclarar la situación de las sesiones finalizadas con venta activa y confirmar el aforo del recinto.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4692,
+          "outputTokens": 598
         }
       }
     }
@@ -151,6 +195,26 @@
       "requestHash": "2a4e0c9da8848f3cbfe3078279ca7cb1d117e064d6a5cbacd6f0f0fe3c708768",
       "provider": "Tavily",
       "query": "Escenario Santander aforo capacidad",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "bd7b0c43e138d9830156fb2ea927cf97ee5a3158d3a75cb2e67ab4bf850bcf15",
+      "provider": "Tavily",
+      "query": "Trío Salitre banda boleros Santander",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "630506437791f1b3cc89e92b978a9ac6742cd6331afb92f589c871ecf69ea906",
+      "provider": "Tavily",
+      "query": "Mareas del Norte Producciones Santander organizador",
       "maxResults": 2,
       "origin": "recorded",
       "response": {

@@ -788,3 +788,64 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
 - **What went wrong or surprised:** nothing. E026's lower Brier came from the admin seeing at
   most 0.84 on qwen's overconfident escalated rejects, not from qwen being better calibrated.
 - **Decision:** keep.
+
+## E029 — A failed search is visible and fails closed; the policy gaps close (Haiku 5.5, search down)
+
+- **Hypothesis** (#82, step one): auto-approved fraud stays 0. Escalation rises, because every
+  approval of a case that searches the real web now escalates, bounded by the legitimate approve
+  cases that use the real web, so gated escalation stays at or below 70 %. Accuracy stays within
+  E027's spread (87.9–93.9 %) or rises, where the organizer-history check or a kept model warn
+  turns a fraud approval into a request. Autonomy accuracy may drop by up to those legitimate
+  cases. Case 23 becomes code-decided.
+- **Change** (#82; ADR 0012, 0013 and 0015 amendments): a failed search gives
+  `text_originality: unknown`, a failed trace entry and the run's search counts, and holds back
+  an approval (`web search unavailable`); a model `fail`/`warn` survives a system `unknown`;
+  `text_originality` leaves the minor warnings; a money cap joins the ticket cap when capacity
+  is unknown; `organizer_history` runs on every event review; the Bizum and minors-alcohol
+  patterns narrow. The organizer history changes what every event review sends, so the 31 event
+  cases were re-recorded, 3 runs each, with the Tavily key still out of quota (organizer cases
+  20–22 kept their E027 recordings). The report's new line reads 179 failed of 179 live
+  searches. About $0.21 (93 runs, plus one run of case 03 recorded again after it came out
+  stale: a live OSM answer differed from the committed one).
+- **Before → after** (E027 → E029), gated, 33 cases: accuracy 90.9 % (87.9–93.9) → **94.9 %
+  (93.9–97.0)**, approved-fraud rate 0.0 % → 0.0 %, auto-approved fraud rate 0.0 % → 0.0 %,
+  escalation rate 60.6 % → **58.6 %**, autonomy accuracy 93.9 % → **96.0 %** (93.9–97.0), Brier
+  0.152 → 0.143. All cases: accuracy 89.2 % → 94.1 %, approved fraud 2.4 % → 1.2 %.
+- **What went wrong or surprised:**
+  - **Escalation fell instead of rising.** The hypothesis was wrong about its sign, not its
+    bound: no legitimate approve case searches the real web. N1–N4 and N6 search authored pages,
+    which never fail, and N5 is a request. Failing closed can only escalate an approval in a
+    real-web case, and on those Haiku proposes a request or a rejection anyway. So this dataset
+    can't show what failing closed costs a legitimate event: in production, with Tavily
+    exhausted, every event approval reaches the admin (#82 Further notes). Adding legitimate
+    real-web cases is group 10 of #81.
+  - The moves come from single cases: 01 now rejects 3/3 and resolves on its capacity hard
+    signal; 12 asks about its abusive terms (2/3) instead of rejecting; 09 asks instead of
+    approving (2/3); N4 resolves 3/3 instead of 2/3. Against that, 19 escalates 2/3 on a model
+    finding the code no longer drops. None of these is the organizer-history check: case 23 was
+    already right for Haiku. Most of the rise is a new draw of the same model over a prompt that
+    now carries one more finding, so it is read as "no worse", not as a gain this change earned.
+  - The fooled-model gate holds 26 code-decided cases; only case 05 rests on the model, within
+    "at most 05, 06 and 20". Case 23 is code-decided, as predicted.
+- **Decision:** keep. Step two (#82) re-records with a working Tavily key to measure the agent
+  with web evidence.
+
+## E030 — A failed search is visible and fails closed; the policy gaps close (qwen 3.5 9B, search down)
+
+- **Hypothesis** (#82, step one): as in E029, from E028 (accuracy 75.8 %, escalation 72.7 %,
+  autonomy accuracy 81.8 %).
+- **Change:** the same as E029, one run of the 31 event cases on LM Studio ($0), with search
+  down (107 failed of 107 live searches). Case N4 was recorded twice: its first recording came
+  out stale for the same reason as Haiku's case 03.
+- **Before → after** (E028 → E030), gated, 33 cases: accuracy 75.8 % → **84.8 %**,
+  approved-fraud rate 3.7 % → **0.0 %**, auto-approved fraud rate 0.0 % → 0.0 %, escalation rate
+  72.7 % → 72.7 %, autonomy accuracy 81.8 % → 81.8 %, Brier 0.220 → 0.151.
+- **What went wrong or surprised:**
+  - Escalation didn't move, for E029's reason: no legitimate approve case searches the real web.
+  - **Case 23 is where the change shows.** qwen approved it in E028 despite its own
+    `organizer_history` warning; now the code's warning holds the approval back to a request, so approved fraud drops to 0. Cases 09,
+    13 and 27 also move to the expected request; 14 now rejects where it asked, and N3 asks
+    where it approved. With one run per case, those four are noise until repeated.
+  - N6 escalates on the search budget (`web search budget spent`), as in E028, and N2 now does
+    too: qwen still spends its searches on authored pages.
+- **Decision:** keep.

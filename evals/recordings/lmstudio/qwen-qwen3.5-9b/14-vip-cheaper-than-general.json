@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T09:51:00.000Z",
   "calls": [
     {
-      "requestHash": "86adfae8fdc7797b5c409ec95ec2c976f89d4ea33319fd3467971c1f83cb70c7",
-      "latencyMs": 2812,
+      "requestHash": "0b1eac1557e425f73d3cc02466a7890ae160c6f859887ebf78884fa6c482f6ff",
+      "latencyMs": 2903,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "eIrmN6p4Lk1xbz0po8J7vQbLpwue0DtW",
+              "id": "Wba74ieg7W7m7b9fOM45Lf8lqBTuLKjn",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f5d65ea921\"}"
             }
@@ -22,43 +22,26 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3680,
+          "inputTokens": 3739,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "5e3ce2b5a3bacb485822c13bb0c7534d060161b61a5547d1169d622be0922e21",
-      "latencyMs": 1494,
+      "requestHash": "da6fa8b8bfd266deb4395670ba7e91328f0fef7bb8d2987eabf6e210d5a2a62c",
+      "latencyMs": 2652,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "QyQJ3TcRkJNyB2vtSfJ1VAY7DV0zw1hR",
+              "id": "Xja18HbK4t7IbXTItfptnlFqd5pOmrW0",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda indie Burgos concierto 2026\",\"maxResults\":3}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4056,
-          "outputTokens": 50
-        }
-      }
-    },
-    {
-      "requestHash": "67381514d41c504874793a7c7de0616921df7c0579f92549a712aae82df7b7dd",
-      "latencyMs": 1253,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
+            },
             {
-              "id": "48Z9VgmeN6i3SPrqHTbgo2JQ7ZoTeCUJ",
+              "id": "fAeWu9T8Nz4FcklqyTon4bjuPKQkfy84",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Teatro Principal Burgos aforo capacidad\",\"maxResults\":3}"
             }
@@ -66,30 +49,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4197,
-          "outputTokens": 44
+          "inputTokens": 4115,
+          "outputTokens": 94
         }
       }
     },
     {
-      "requestHash": "868e3f0f1c956ea4f93301a16d2c04bf2f3d4d88cb48b438429ba4f56681e98e",
-      "latencyMs": 40233,
+      "requestHash": "0dad13a6626b39fba52c6c466c90158877346e3c4698fafb21f8b50cdac0b8a7",
+      "latencyMs": 12075,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "3uaXstCMlV5IjXdldgo5y5sSYWG6XSiE",
+              "id": "aDNmtCLRHtCt84IZoPwDt7XyH4ncuKPB",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.6,\"rationale\":\"El evento presenta un fallo claro en la lógica de precios: el ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inusual y podría indicar una configuración errónea o una práctica poco transparente. Además, el aforo del Teatro Principal no está disponible públicamente ni en Wikidata ni en OpenStreetMap, y la búsqueda web falló por cuota excedida; sin embargo, la venta de 400 entradas (350 General + 50 VIP) podría estar cerca o superar la capacidad real del recinto. Aunque el check de venue_capacity es \\\"unknown\\\", la combinación de precios invertidos y aforo incierto sugiere que se necesita aclarar cómo se determinó la capacidad y por qué los precios están así. El organizador (Meseta Beat) parece legítimo: cuenta con datos fiscales válidos, está aprobado desde 2024, tiene historial sin cancelaciones ni reportes de contenido, y no hay señales de fraude en su perfil. No hay indicios de pago fuera de plataforma, enlaces externos abusivos, términos injustos o contenido ilegal. La decisión es request_info para pedir explicación sobre la estructura de precios VIP/General y confirmar el aforo real del Teatro Principal antes de aprobar.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"El ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inusual y podría indicar una configuración errónea o falta de transparencia.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_e15aa9110b.jpg\",\"title\":\"Evento: Noche indie con Las Ardillas Rojas\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Principal no está disponible públicamente ni en Wikidata ni en OpenStreetMap, y la búsqueda web falló por cuota excedida; sin embargo, se venden 400 entradas (350 General + 50 VIP).\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador Meseta Beat está aprobado desde 2024-05-20, tiene datos fiscales válidos (CIF con checksum correcto), cuenta con equipo y no ha sido despublicado por admin ni reportado por contenido.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador tiene 14 eventos publicados, 12 finalizados, 0 cancelados y 0 reportes de contenido; no hay cambios sustanciales ni despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 09003 corresponde a Burgos.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género indie, Burgos, aforo 300to1000).\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Principal» figura en OpenStreetMap como amenity=theatre a 4 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué el ticket VIP cuesta menos que el ticket General? ¿Es una estrategia promocional o un error de configuración?\",\"¿Cuál es el aforo real del Teatro Principal en Burgos y cómo se determinó la capacidad para vender 400 entradas (350 General + 50 VIP)?\",\"¿Existe alguna justificación para la estructura de precios actual, especialmente considerando que el VIP incluye 'acceso a la prueba de sonido'?\"],\"draft\":\"Se necesita aclarar la estructura de precios y el aforo real del recinto antes de aprobar.\"}}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento presenta una anomalía crítica en la estructura de precios: el ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es contrario a la lógica estándar de productos y sugiere una configuración errónea o intencional fraudulenta. Esta irregularidad no tiene explicación inocente plausible y constituye una señal directa de fraude según las directrices. Además, el aforo del Teatro Principal no está disponible públicamente (Wikidata/OpenStreetMap sin dato, búsqueda web fallida por cuota), pero la venta de 400 entradas podría ser compatible con un recinto de ese tamaño; sin embargo, la falla en precios es suficiente para rechazar. El organizador Meseta Beat tiene historial limpio y fiscalidad válida, pero el evento específico falla en sanity básica de precios.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"El ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inviable comercialmente y sugiere configuración fraudulenta o error grave.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Principal no está disponible en Wikidata ni OpenStreetMap; la búsqueda web falló por cuota excedida. La venta de 400 entradas podría ser compatible con un teatro de tamaño medio, pero sin dato oficial es incierto.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar si la descripción está copiada: la búsqueda web no estaba disponible (quota_exceeded).\",\"confidence\":0.3,\"sources\":[]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4332,
-          "outputTokens": 1537
+          "inputTokens": 4379,
+          "outputTokens": 456
         }
       }
     }

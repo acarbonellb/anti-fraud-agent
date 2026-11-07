@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T09:51:00.000Z",
   "calls": [
     {
-      "requestHash": "060bbcf711af9586d16178e1dee2449e76d7ff54237042802e64475ffdcfa886",
-      "latencyMs": 2997,
+      "requestHash": "ffe0e2c03b25c6ffab647f57594f0f29636f5d64fd9e052c3e71012f22086ffc",
+      "latencyMs": 3009,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "sfkZNzs0jcwDUMy3gHmqzkXclLv6eizZ",
+              "id": "dXX4NMcy7AevIqNyDF6PCUjEOidLsl50",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3668,
+          "inputTokens": 3727,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "9e68912c890f40cfb814113045e762671b7f1874397be22e5134a87f5b4e3abc",
-      "latencyMs": 1440,
+      "requestHash": "894c2fc3e6a0b428bce7593faff128852bcec72b0b47185d1a26bb102aa57a04",
+      "latencyMs": 1497,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "oZ773H8xTkMlqxM9g54GAVxV5nwpCTuq",
+              "id": "avf3PQhFtpsVUBRj3z7sRy0GaI3cmMEa",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca aforo capacidad\",\"maxResults\":2}"
             }
@@ -44,21 +44,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4059,
+          "inputTokens": 4118,
           "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "a0e071c71ebb13fb9d0e6f6f1a4ac70bf58d2d163a15ccffa84414e952271fe5",
-      "latencyMs": 1442,
+      "requestHash": "17d161225ad7afce283803039c31801cd1d47717ee838476956774eeb0136ef8",
+      "latencyMs": 1493,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "hQtYbrMUBUwl8I2vdWt6KH257FIOga9C",
+              "id": "i3F4n5sp9e64jkSd5XepXFKbNjA8tcHy",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas Huesca festival 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4263,
+          "outputTokens": 54
+        }
+      }
+    },
+    {
+      "requestHash": "93862554beb4090a671dce0b4130352d385efc2eff65f77ba96dedd922fd53f5",
+      "latencyMs": 1400,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "YHuBwoPd3kb2guofGaOBfoJCpJo9rKwB",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
             }
@@ -66,30 +88,46 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4204,
+          "inputTokens": 4414,
           "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "ee0f860c6ba6dd632d0f1bb808dfcd6ae801e43e963b65bec1d5ba3829a398e0",
-      "latencyMs": 26118,
+      "requestHash": "534c9bf6b241f01abdc1d9520810795113bbfa6260b9a98ea874c5d86715d0dd",
+      "latencyMs": 11999,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "He revisado el evento y el organizador. Aquí está mi análisis:\n\n**Organizador (Cierzo Sonoro):**\n- Cuenta aprobada desde mayo de 2024 (930 días)\n- Datos fiscales válidos (CIF con checksum correcto)\n- 14 eventos publicados, 12 finalizados sin cancelaciones\n- Sin denuncias por fraude ni organizaciones rechazadas del dueño\n- Equipo estable (1 propietario, 1 manager, 2 scanners)\n\n**Evento:**\n- Título: \"Festival de bandas locales del Alto Aragón\"\n- Artistas: Peña Ventana (headliner), Las Tremolinas\n- Precio: 15 € (dentro del benchmark para rock en Huesca)\n- Gastos de gestión: 1 € (fijo, dentro del 20%)\n- Condiciones: devolución en cancelación (no abusivas)\n- Sin pagos fuera de plataforma ni enlaces externos\n\n**Hallazgos clave:**\n1. **Aforo del recinto**: El Palacio de los Deportes no tiene aforo público en Wikidata/OpenStreetMap. La búsqueda web falló por cuota excedida. El evento vende 900 entradas, pero sin capacidad oficial verificada, esto es una incertidumbre.\n\n2. **Textos originales**: No pude verificar si la descripción está copiada (búsqueda web no disponible).\n\n3. **Artistas**: No encontré información externa sobre estos artistas en Huesca para confirmar su disponibilidad o existencia fuera de la plataforma.\n\n4. **Eventos similares**: Ningún evento similar encontrado en los últimos 60 días en la provincia.\n\n**Decisión:**\nRecomiendo **request_info** por dos razones:\n- El aforo del recinto no está verificado (dato crítico para un festival)\n- No pude verificar la originalidad de la descripción ni la existencia real de los artistas fuera de la plataforma\n\nNecesito que el organizador proporcione:\n1. La capacidad oficial del Palacio de los Deportes (documento o fuente verificable)\n2. Confirmación de que los artistas están disponibles y no tienen fechas anunciadas en otros lugares\n3. Origen original de la descripción del evento",
+          "toolCalls": []
+        },
+        "stopReason": "end",
+        "usage": {
+          "inputTokens": 4554,
+          "outputTokens": 464
+        }
+      }
+    },
+    {
+      "requestHash": "735f5366e0f6c218fe2a8f5e95476e47b593bbcf6df479bad8e77e4aa51d914c",
+      "latencyMs": 30710,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "KrHlFzmnDq1z2d1oYeXEQo9R0zdeQHi7",
+              "id": "DvV3b5D3Ehqm8nLonFiRTFIZvfsR4oCl",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento es legítimo: el organizador Cierzo Sonoro está aprobado desde 2024, con datos fiscales válidos y sin historial de problemas. El recinto «Palacio de los Deportes» existe en Huesca (verificado en OpenStreetMap). Los precios están dentro del benchmark local para rock en Huesca. No hay pagos fuera de plataforma, ni enlaces externos, ni términos abusivos, ni contenido ilegal o dirigido a menores. Las sesiones no se solapan y tienen fechas razonables. El único punto incierto es el aforo del recinto (no publicado en Wikidata ni OSM), pero la venta de 900 entradas no supera el umbral de «capacidad muy por encima» dado que no hay dato oficial contradictorio, y el check de venue_capacity ya marcó unknown sin fail. No hay eventos similares recientes que sugieran clonación. Todo indica un evento genuino sin señales de fraude.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024-05-20, CIF válido, dirección en Huesca, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 22004 corresponde a Huesca.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Palacio de los Deportes» figura en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Palacio de los Deportes», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 900.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Huesca, aforo 300to1000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días en la provincia de Huesca con título parecido.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El evento presenta señales de legitimidad (organizador con historial limpio, precios dentro del benchmark, sin pagos fuera de plataforma), pero existen dos incertidumbres críticas que requieren aclaración antes de aprobar: 1) El aforo del Palacio de los Deportes no está verificado públicamente y la búsqueda web falló por cuota excedida; el evento vende 900 entradas sin capacidad oficial confirmada. 2) No pude verificar la originalidad de la descripción ni la existencia/availability de los artistas (Peña Ventana, Las Tremolinas) fuera de la plataforma debido a limitaciones en las búsquedas web. Sin esta información, no puedo descartar riesgos de sobreventa o contenido copiado.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024-05-21, CIF válido, sin organizaciones rechazadas del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones, sin denuncias por fraude ni unpublishes de admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Palacio de los Deportes verificado en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del recinto; búsqueda web falló por quota_exceeded. El evento vende 900 entradas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada de otra fuente: las búsquedas web no estaban disponibles (quota_exceeded).\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No encontré información externa sobre los artistas Peña Ventana o Las Tremolinas en Huesca para confirmar su disponibilidad o fechas anunciadas en otros lugares.\",\"confidence\":0.65,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"Ningún evento similar encontrado en la provincia de Huesca con título parecido en los últimos 60 días.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 15 € está dentro del benchmark para rock en Huesca (p90=35,00 €).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Gastos de gestión fijos de 1 € están dentro del 20% del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Condiciones permiten devolución en cancelación; no hay cláusulas abusivas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"No se solicitan pagos fuera de la plataforma (Bizum, transferencia, teléfono).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"No hay enlaces a otras ticketeras ni acortadores de URL.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad oficial del Palacio de los Deportes en Huesca? Por favor, proporcione un documento o fuente verificable (ej. página web del recinto, licencia municipal).\",\"¿Los artistas Peña Ventana y Las Tremolinas están disponibles para esta fecha? ¿Tienen fechas anunciadas en otros lugares?\",\"¿Cuál es el origen original de la descripción del evento? ¿Fue escrita por el organizador o copiada de otra fuente?\"],\"draft\":\"Organizador con historial limpio, pero necesito verificar: 1) capacidad oficial del recinto (vende 900 entradas sin aforo público), 2) disponibilidad real de los artistas fuera de la plataforma, 3) originalidad de la descripción.\"}}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4344,
-          "outputTokens": 1010
+          "inputTokens": 5020,
+          "outputTokens": 1132
         }
       }
     }
@@ -119,6 +157,16 @@
       "requestHash": "900b216c376e7b420b02ee4ce44317e032bc840f80f027b0652befa60242db76",
       "provider": "Tavily",
       "query": "Palacio de los Deportes Huesca aforo capacidad",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "failure": "quota_exceeded"
+      }
+    },
+    {
+      "requestHash": "dd9c27b2b4fa34d6b39df849f750ac4a84f7e26bba28e4a0cd2f904ccbc9c84d",
+      "provider": "Tavily",
+      "query": "Peña Ventana Las Tremolinas Huesca festival 2026",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
