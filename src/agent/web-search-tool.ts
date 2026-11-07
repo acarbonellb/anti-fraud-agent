@@ -6,7 +6,11 @@
  */
 import { z } from "zod";
 
-import { type WebSearch, WebSearchError } from "../search/types.js";
+import {
+  WEB_SEARCH_FAILED,
+  type WebSearch,
+  WebSearchError,
+} from "../search/types.js";
 import { defineTool } from "./tools.js";
 
 /**
@@ -59,9 +63,7 @@ export function webSearchTool(search: WebSearch) {
     // The code of the error the search threw: one code however it failed,
     // the failure itself is what the model reads.
     failure: (output) =>
-      "unavailable" in output
-        ? new WebSearchError(output.unavailable).code
-        : undefined,
+      "unavailable" in output ? WEB_SEARCH_FAILED : undefined,
     repeatKey: ({ query }) => queryKey(query),
   });
 }
