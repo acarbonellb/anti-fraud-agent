@@ -27,6 +27,7 @@ import {
   startMockSatella,
 } from "../satella-client/mock-server.js";
 import type { FeedItem, Subject } from "../satella-client/schemas.js";
+import { type WebSearch, WebSearchError } from "../search/types.js";
 import { createMemoryStore } from "../store/memory-store.js";
 import { type AgentStore, StoreError } from "../store/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
@@ -189,6 +190,59 @@ describe("a pass over a page of the feed", () => {
     expect(log.length).toBeGreaterThan(0);
     for (const line of log) expect(line.correlationId).toBe("pass-1");
     expect(log.filter((line) => line.runId !== undefined)).not.toHaveLength(0);
+  });
+
+  it("reports the web searches its reviews ran and how many failed (#82)", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    mock.appendFeedItem(feedItem("event.published", evt2));
+    // Down for the first review's search, back for the second's.
+    let calls = 0;
+    const flaky: WebSearch = {
+      provider: "flaky",
+      search: () =>
+        (calls += 1) === 1
+          ? Promise.reject(new WebSearchError("quota_exceeded"))
+          : Promise.resolve([]),
+    };
+
+    const report = await pass(createScriptedProvider(submits(2), HAIKU), {
+      webSearch: flaky,
+    });
+
+    expect(report.searches).toEqual({ total: 2, failed: 1 });
+    expect(
+      (await storedRuns()).map((run) =>
+        run.outcome === "completed" ? run.searches : null,
+      ),
+    ).toEqual(
+      expect.arrayContaining([
+        { total: 1, failed: 1 },
+        { total: 1, failed: 0 },
+      ]),
+    );
+  });
+
+  it("reports the searches of a review that failed, which spent them too (#82)", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    const down: WebSearch = {
+      provider: "down",
+      search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+    };
+
+    const report = await pass(
+      {
+        ...HAIKU,
+        complete: () =>
+          Promise.reject(new ProviderError("LLM_UNAVAILABLE", "anthropic")),
+      },
+      { webSearch: down },
+    );
+
+    expect(report.runs).toEqual([
+      expect.objectContaining({ subject: evt1, outcome: "failed" }),
+    ]);
+    // The copied-text check searched before the model failed.
+    expect(report.searches).toEqual({ total: 1, failed: 1 });
   });
 
   it("resumes from the stored cursor", async () => {

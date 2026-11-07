@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "a622e6d67186fc5cb7ca8ff872e50de601e1d9d80794120dbc10d1585255065d",
-      "latencyMs": 2678,
+      "requestHash": "80964b633b1b0d88e0cd4de05d6addbf65b5f99497de6f361c612f928749bb6e",
+      "latencyMs": 2489,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "o02fg7hPvmOpT0cZJMDRwg4CrhuZsC8f",
+              "id": "Q77kq8gYsUyE4ncCnEh8H8Dwvcs3LARk",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_1d214909f8\"}"
             }
@@ -28,27 +28,124 @@
       }
     },
     {
-      "requestHash": "2241ca730417a54b7bf86896babb1932228b1b586ce1199fb5c53f302995a954",
-      "latencyMs": 19077,
+      "requestHash": "11ca3a5d137fee7ce99d8c36557392c3a976fa5f6c65ed67b481a4428bc53278",
+      "latencyMs": 8544,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I have reviewed the organizer context and the deterministic checks. Here is my analysis:\n\n**Organizer Profile:**\n- Name: Fiestas del Levante Feliz S.L.\n- Status: pending\n- Created: 2026-11-05 (75 days ago)\n- Fiscal data: CIF present with valid checksum, address in Alicante (postal code 03001)\n- Team: owner, manager, and 2 scanners\n- History: No published events, no cancelled/ended events, no admin unpublishes, no content reports, no previous agent reviews\n\n**Deterministic Checks:**\n- organizer_identity: pass (CIF checksum valid)\n- organizer_history: warn (owner has 1 rejected organization before)\n\nThe deterministic checks show a warning about the owner having a previously rejected organization. This is a flag that warrants attention but doesn't automatically mean fraud. The organizer itself appears legitimate with valid fiscal data and no content reports.\n\nSince there's no direct evidence of fraud (no failed deterministic checks, no illegal content, no off-platform payment requests, etc.), and the warning about a previous rejection could have an innocent explanation (e.g., a minor issue that was resolved), I should not reject this organizer outright. However, the warning suggests I should gather more information before approving.\n\nI'll recommend **request_info** to ask for clarification on the previous rejected organization and any relevant context.",
+          "content": "I have reviewed the organizer context and the deterministic checks. Here is my analysis:\n\n**Organizer Profile:**\n- Name: Fiestas del Levante Feliz S.L.\n- Status: pending\n- Created: 2026-11-06 (75 days ago)\n- Fiscal data: CIF present with valid checksum, address in Alicante (postal code 03001)\n- Team: owner, manager, and 2 scanners\n- History: No published events, no cancelled/ended events, no admin unpublishes, no content reports, no previous agent reviews\n\n**Deterministic Checks:**\n- organizer_identity: pass (CIF checksum valid)\n- organizer_history: warn (owner has 1 rejected organization before)\n\nThe deterministic checks show a warning about the owner having a previously rejected organization. This is a flag that warrants attention but doesn't automatically mean fraud. The organizer itself appears legitimate on paper (valid CIF, address present).\n\nHowever, I need to investigate further:\n1. Check if this organizer exists outside the platform (web presence)\n2. Verify if there's any connection to the previously rejected organization\n3. Look for any red flags in their description or setup\n\nLet me search for information about this organizer to see if they exist outside the platform and get more context.",
           "toolCalls": [
             {
-              "id": "4pjUYYyXAjG9FYo7KCgPH2GW1lci5xnf",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El organizador tiene datos fiscales válidos y no presenta señales de fraude directo. Sin embargo, el dueño tiene una organización anterior rechazada (verificado en organizer_history). Esto requiere aclaración antes de aprobar: ¿por qué fue rechazada la organización anterior? ¿Hubo problemas con eventos específicos o con los datos del organizador? Necesitamos entender si hubo irregularidades que podrían repetirse. No hay evidencia de clonación, precios sospechosos, pagos fuera de plataforma ni contenido ilegal. La recomendación es solicitar información para evaluar el historial completo del dueño antes de aprobar nuevos eventos.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El CIF del organizador tiene un dígito de control válido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer_identity/org_1d214909f8\",\"title\":\"Organizer Identity Check\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"El dueño tiene 1 organización(es) rechazada(s) antes.\",\"confidence\":0.9,\"sources\":[{\"url\":\"https://platform.internal/checks/organizer_history/org_1d214909f8\",\"title\":\"Organizer History Check\"}]}],\"infoRequest\":{\"questions\":[\"¿Por qué fue rechazada la organización anterior del dueño?\",\"¿Hubo problemas con eventos específicos o con los datos del organizador en esa ocasión?\"],\"draft\":\"Solicito información sobre el rechazo de la organización anterior para evaluar si hubo irregularidades que podrían afectar a este nuevo organizador.\"}}"
+              "id": "HSZfuupV9JGVUvvHR3AAOSkw4hON8ZjC",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Fiestas del Levante Feliz S.L. Alicante organizador eventos\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 3321,
-          "outputTokens": 727
+          "outputTokens": 325
+        }
+      }
+    },
+    {
+      "requestHash": "fa82c6b2dd0523c66189595fa71e0e4cf468f80667a08e7098d453b83ba9551e",
+      "latencyMs": 7043,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The web search results show some companies with \"Levante\" in their name, but none specifically match \"Fiestas del Levante Feliz S.L.\" The first result is for \"Levante Eventos S.l.\" which is a different company. The second is \"EVENTOS E INVERSIONES DEL LEVANTE SL\" also different. The third is unrelated.\n\nThis suggests that \"Fiestas del Levante Feliz S.L.\" may not have a significant web presence outside the platform, or at least no matching results were found. This could be normal for a new organizer, but combined with the warning about a previously rejected organization, it warrants further investigation.\n\nLet me also check if there are any similar events or if this organizer might be impersonating another known promoter. The name \"Fiestas del Levante Feliz\" sounds generic and could potentially be impersonating a known event series.\n\nLet me search for \"Fiestas del Levante Feliz\" specifically to see if it's a known event series that might be being impersonated.",
+          "toolCalls": [
+            {
+              "id": "0PMgYAolQngJCKDFylRi8v5sP1xOadwb",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Fiestas del Levante Feliz\\\" evento Alicante\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3990,
+          "outputTokens": 256
+        }
+      }
+    },
+    {
+      "requestHash": "1660ec9ff216f19e2b2c50ee7d0a1a19fc15fe31acf4f160245913b93f22bb21",
+      "latencyMs": 30279,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "Interesting! The search results show:\n\n1. An Instagram account \"@fiestafmlevante\" for \"Fiesta Fm Levante Pag Oficial\" - this appears to be a real event series in Alicante\n2. References to \"Fiestas de San Juan de Alicante\" which is a well-known traditional festival\n\nThe organizer's name \"Fiestas del Levante Feliz\" is very close to \"Fiesta Fm Levante\" and could potentially be impersonating or confusingly similar to the known \"Fiesta FM Levante\" event series. The Instagram account shows this is an established event in Alicante.\n\nThis raises a potential **impersonation** concern - the organizer name is very close to a known promoter/event (\"Fiesta FM Levante\") with only minor differences (\"del Levante Feliz\" vs \"FM Levante\"). This could be:\n- A legitimate new organizer using a similar but distinct name\n- An attempt to impersonate the existing \"Fiesta FM Levante\" brand\n\nGiven that:\n1. The deterministic check shows a warning about a previously rejected organization owned by the same person\n2. The organizer name is very close to a known event series (\"Fiesta FM Levante\") which could be impersonation\n3. No significant web presence found for this specific company name (only generic \"Levante\" companies)\n\nThis combination of factors suggests I should request more information before making a decision. The warning about the rejected organization plus the potential impersonation concern means I need to ask the admin for clarification.\n\nLet me submit a recommendation with request_info, asking for clarification on:\n1. Whether this is a legitimate new organizer or if they're trying to impersonate \"Fiesta FM Levante\"\n2. Details about the previously rejected organization and why it was rejected\n3. Any connection between this organizer and the known \"Fiesta FM Levante\" event",
+          "toolCalls": [
+            {
+              "id": "Zzl8uD8g9L0RPSD85Xhi6EW0DwqhBJUN",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El organizador presenta una combinación de señales que requieren aclaración antes de aprobar. El nombre \\\"Fiestas del Levante Feliz\\\" es muy similar a la serie de eventos conocida \\\"Fiesta FM Levante\\\" (con presencia en Instagram @fiestafmlevante), lo que plantea una posible señal de impersonación. Además, el dueño tiene una organización previamente rechazada registrada en su historial. Necesitamos más información para determinar si se trata de un organizador legítimo o si hay intentos de suplantar identidad.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El CIF del organizador tiene un dígito de control válido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://empresite.eleconomista.es/LEVANTE-EVENTOS.html\",\"title\":\"Levante Eventos S.l. - Teléfono y dirección\"},{\"url\":\"https://cincodias.elpais.com/directorio-empresas/empresa/7135528/eventos-e-inversiones-del-levante\",\"title\":\"EVENTOS E INVERSIONES DEL LEVANTE SL - Cinco Días\"}]},{\"check\":\"organizer_history\",\"verdict\":\"warn\",\"detail\":\"El dueño tiene 1 organización(es) rechazada(s) antes.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"El nombre del organizador 'Fiestas del Levante Feliz' es muy similar a la serie de eventos conocida 'Fiesta FM Levante' (Instagram @fiestafmlevante), lo que podría indicar intento de impersonación o confusión deliberada con una marca existente.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.instagram.com/fiestafmlevante\",\"title\":\"Fiesta Fm Levante Pag Oficial (@fiestafmlevante)\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró presencia web significativa para 'Fiestas del Levante Feliz S.L.' fuera de la plataforma. Solo se encontraron empresas genéricas con 'Levante' en el nombre, pero ninguna coincide exactamente con este organizador.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.instagram.com/fiestafmlevante\",\"title\":\"Fiesta Fm Levante Pag Oficial (@fiestafmlevante)\"},{\"url\":\"https://www.barcelo.com/guia-turismo/en/spain/alicante/things-to-do/san-juan-alicante\",\"title\":\"Fiestas de San Juan de Alicante: joy around the fire\"}]}],\"infoRequest\":{\"questions\":[\"¿Es este un organizador legítimo nuevo o hay intento de suplantar la identidad de 'Fiesta FM Levante'?\",\"¿Por qué fue rechazada la organización anterior del dueño y existe conexión con este organizador?\",\"¿Existe alguna relación entre este organizador y el evento conocido 'Fiesta FM Levante' en Alicante?\"],\"draft\":\"Organizador con nombre muy similar a una marca existente ('Fiesta FM Levante') y dueño con organización previamente rechazada. Requiere aclaración sobre legitimidad y posible impersonación.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4694,
+          "outputTokens": 1160
         }
       }
     }
   ],
-  "searches": []
+  "searches": [
+    {
+      "requestHash": "a4b5cde656cda9a6a714f508867ad928aa98e9359902d18147d21b10fe09b9e9",
+      "provider": "Tavily",
+      "query": "Fiestas del Levante Feliz S.L. Alicante organizador eventos",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://empresite.eleconomista.es/LEVANTE-EVENTOS.html",
+            "title": "Levante Eventos S.l. - Teléfono y dirección",
+            "snippet": "Levante Eventos S.l. en elda Alicante. Prestacion de servicios de catering y hosteleria. Nav 2 núm. 99, (03600), Elda, Alicante, Comunidad Valenciana. Direcció"
+          },
+          {
+            "url": "https://cincodias.elpais.com/directorio-empresas/empresa/7135528/eventos-e-inversiones-del-levante",
+            "title": "EVENTOS E INVERSIONES DEL LEVANTE SL - Cinco Días",
+            "snippet": "LA EXPLOTACION DE ACTIVIDADES DEDICADAS A LA HOSTELERIA EN GENERAL, RESTAURANTES, BARES, CAFETERIAS, HELADERIAS, PUBS, SALAS DE FIESTA, DISCOTECAS, ...Read more"
+          },
+          {
+            "url": "https://evealia.es",
+            "title": "Evealia Eventos: Alquiler de Maquinaria para eventos",
+            "snippet": "Ofrecemos equipamiento para cualquier tipo de evento, por grande que sea. En Evealia encontrarás lo que necesitas para que el evento sea un éxito.Read more"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e2c1be17c37c6e1b66daa102e17a68ece6ba9bbcb349996819363333813481d1",
+      "provider": "Tavily",
+      "query": "\"Fiestas del Levante Feliz\" evento Alicante",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/fiestafmlevante",
+            "title": "Fiesta Fm Levante Pag Oficial (@fiestafmlevante) • Instagram photos and videos",
+            "snippet": "Video by Fiesta Fm Levante Pag Oficial on September 06, 2026. May be an image of drink, poster and text that says 'Fiesta 2 fm Levante Feliz Lunes! iilitis Alicante 88.4 FM Elche 95.2 95.2FM FM Este es el día que hizo el SEÑOR; nos gozaremos y alegraremos en él. betal Salmo 118:24 f @fiestafmlevante"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DeRS0tKCMBV",
+            "title": "Instagram",
+            "snippet": "💛💙❤️ ¡Feliz Día de la Comunitat Valenciana a todos! 🎉🌹  \n  \nHoy, 9 de octubre, Alicante celebra una de las fechas más importantes de nuestra tierra, y la tradición y el folclore han tomado la Explanada de España. 💃🏻🎶"
+          },
+          {
+            "url": "https://www.barcelo.com/guia-turismo/en/spain/alicante/things-to-do/san-juan-alicante",
+            "title": "Fiestas de San Juan de Alicante: joy around the fire",
+            "snippet": "the Mediterranean, look no further than this summer event in the province of Alicante. [...] The Fiesta de San Juan—also known as the Víspera de San Juan or the Noche de San Juan—is traditionally celebrated in the city of Alicante, held every year between 20 and 24 June. Historically, this celebrati"
+          }
+        ]
+      }
+    }
+  ]
 }

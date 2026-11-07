@@ -83,7 +83,9 @@ export function computeMetrics(
  * `approve` + `auto_resolved`: the only outcome that skips the admin in
  * Satella (ADR 0012). The rate and the CI gate both read it from here.
  */
-export function isAutoApproved(outcome: CaseOutcome | null): boolean {
+export function isAutoApproved(
+  outcome: Pick<CaseOutcome, "decision" | "autonomy"> | null,
+): boolean {
   return (
     outcome?.decision === "approve" && outcome.autonomy === "auto_resolved"
   );

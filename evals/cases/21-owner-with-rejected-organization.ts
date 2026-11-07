@@ -6,6 +6,7 @@ export const evalCase: EvalCase = {
   slug: "owner-with-rejected-organization",
   title: "Owner with a rejected organization who creates another (organizer)",
   subject: "organizer",
+  decidedBy: "code",
   expected: { decisions: ["reject"], autonomy: "escalated" },
   build: (clock) => ({
     organizer: buildOrganizer(clock, {

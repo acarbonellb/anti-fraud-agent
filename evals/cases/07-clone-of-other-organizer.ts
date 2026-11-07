@@ -16,6 +16,7 @@ export const evalCase: EvalCase = {
   slug: SEED,
   title: "Clone: same title, date and venue as another organizer's event",
   subject: "event",
+  decidedBy: "code",
   expected: { decisions: ["reject"], autonomy: "auto_resolved" },
   build(clock) {
     const organizer = buildOrganizer(clock, {

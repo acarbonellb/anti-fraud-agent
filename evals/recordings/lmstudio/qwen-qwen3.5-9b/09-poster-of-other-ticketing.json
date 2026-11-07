@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "060bbcf711af9586d16178e1dee2449e76d7ff54237042802e64475ffdcfa886",
-      "latencyMs": 2997,
+      "requestHash": "c4f77ab450e4698c2cccb135c23c4ade4b4012f2751c99923b5598e5a8c7cdad",
+      "latencyMs": 2804,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "sfkZNzs0jcwDUMy3gHmqzkXclLv6eizZ",
+              "id": "ryBhcwdxV3Ra1ozcLiBTv4LbjNQMYd9s",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3668,
+          "inputTokens": 3689,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "9e68912c890f40cfb814113045e762671b7f1874397be22e5134a87f5b4e3abc",
-      "latencyMs": 1440,
+      "requestHash": "7635e694c1370fd6aedb07e08604b6ba9c18a947457933548f637cafbf3c7286",
+      "latencyMs": 1414,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "oZ773H8xTkMlqxM9g54GAVxV5nwpCTuq",
+              "id": "OmwlfQ5KlehJkDu8hIjCxkd2atqcfaWC",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca aforo capacidad\",\"maxResults\":2}"
             }
@@ -44,52 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4059,
+          "inputTokens": 4080,
           "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "a0e071c71ebb13fb9d0e6f6f1a4ac70bf58d2d163a15ccffa84414e952271fe5",
-      "latencyMs": 1442,
+      "requestHash": "83202899ffa25053c6f2bebdc17beebf3ad582d92940cd35194b916fef2dcd6c",
+      "latencyMs": 9559,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "hQtYbrMUBUwl8I2vdWt6KH257FIOga9C",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4204,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "ee0f860c6ba6dd632d0f1bb808dfcd6ae801e43e963b65bec1d5ba3829a398e0",
-      "latencyMs": 26118,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "KrHlFzmnDq1z2d1oYeXEQo9R0zdeQHi7",
+              "id": "VciUXEssXXuXUIA1DpH9Hu8nzpJOLHNC",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.92,\"rationale\":\"El evento es legítimo: el organizador Cierzo Sonoro está aprobado desde 2024, con datos fiscales válidos y sin historial de problemas. El recinto «Palacio de los Deportes» existe en Huesca (verificado en OpenStreetMap). Los precios están dentro del benchmark local para rock en Huesca. No hay pagos fuera de plataforma, ni enlaces externos, ni términos abusivos, ni contenido ilegal o dirigido a menores. Las sesiones no se solapan y tienen fechas razonables. El único punto incierto es el aforo del recinto (no publicado en Wikidata ni OSM), pero la venta de 900 entradas no supera el umbral de «capacidad muy por encima» dado que no hay dato oficial contradictorio, y el check de venue_capacity ya marcó unknown sin fail. No hay eventos similares recientes que sugieran clonación. Todo indica un evento genuino sin señales de fraude.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024-05-20, CIF válido, dirección en Huesca, sin otros organizadores del dueño.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias de contenido.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://platform.internal/org_e34731c267\",\"title\":\"Organizer context\"}]},{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 22004 corresponde a Huesca.\",\"confidence\":0.99,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Palacio de los Deportes» figura en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Palacio de los Deportes», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 900.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Huesca, aforo 300to1000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días en la provincia de Huesca con título parecido.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento vende 900 entradas para un recinto (Palacio de los Deportes) cuya capacidad real es de 5.000 personas según fuentes oficiales verificadas. Esto constituye una venta masiva por debajo de la capacidad del lugar, lo cual es una señal de fraude grave (\\\"capacity_far_above_venue\\\"). Además, el aforo no está publicado en Wikidata ni OpenStreetMap, pero la búsqueda web confirma que el recinto tiene capacidad para 5.000 personas, mientras que el evento solo pone a la venta 900 entradas, lo que indica una discrepancia significativa y sospechosa.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"El Palacio de los Deportes tiene capacidad para 5.000 personas según fuentes oficiales (Huesca Turismo, CBP Huesca), pero el evento pone a la venta solo 900 entradas, lo que indica una venta masiva por debajo de la capacidad real del recinto.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.huescaturismo.com/palacio-de-deportes-de-huesca\",\"title\":\"Palacio de Deportes de Huesca - Huesca es otra historia\"},{\"url\":\"https://www.cbphuesca.com/pabellon\",\"title\":\"Pabellón - Club Baloncesto Peñas Huesca\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4344,
-          "outputTokens": 1010
+          "inputTokens": 4449,
+          "outputTokens": 366
         }
       }
     }
@@ -102,7 +80,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.facebook.com/100068347146645/posts/6-bandas-de-rockpop-venezolano-de-los-70srock-rocknroll-fblifestyle-metal-rockpo/1386542430300649",
+            "title": "4K views · 154 reactions | 6 bandas de Rock/Pop Venezolano de los 70s\n#rock #rocknroll #fblifestyle #metal #rockpop #hardrock #rockvenezolano #rockclasico #rock70s | El grinch del rock n roll",
+            "snippet": "See more\n\n## Comments\n\nMost relevant\n\n[](\n\nImage 4Author\n\nEl grinch del rock n roll\n\n@seguidores @fansdestacados el rock venezolano sigue en pie...\n\n   6w \n\n1\n\nImage 5\n\n[](\n\nRodolfo Rodriguez Montenegro\n\nDe mi época, Grupo C de Valencia, Dermis Tatu, Los Cazadores, El Grupo Pan, Vita Brenner, por su"
+          },
+          {
+            "url": "https://www.univision.com/entretenimiento/cultura-pop/6-bandas-actuales-que-estan-redefiniendo-el-futuro-del-rock",
+            "title": "6 bandas actuales que están redefiniendo el futuro del Rock | Entretenimiento Cultura Pop | Univision",
+            "snippet": "Desde su debut en 2004 con el aclamadísimo Funeral, hasta Reflektor, su último trabajo de 2013, los liderados por Win Butler se convirtieron en una de las  bandas más innovadoras de la última década y un faro de inspiración para muchos artistas.\n\nSu sonido cargado de épica con letras que emanan bron"
+          },
+          {
+            "url": "https://www.instagram.com/p/DY7MXu3Msu0",
+            "title": "Instagram",
+            "snippet": "culturabarrios\n\nMúsica | Tarde de Clásicos del Rock & Pop 🎸  \n  \nUna tarde a puro ritmo con clásicos de todas las épocas:  \n  \n🎶 Rock Lovers presenta covers del rock y del pop internacional.  \n🎤 Queens of Soul recorre grandes clásicos del soul de los años 70 y 80.  \n  \n🗓️ Domingo 31 de mayo  \n🕠"
+          },
+          {
+            "url": "https://open.spotify.com/playlist/6y1Ouap17vq0CMav10cKIy",
+            "title": "BANDAS DE POP Y ROCK - playlist by Jeannette Pulido Bernal",
+            "snippet": "Albania\n   Algeria\n   Andorra\n   Angola\n   Antigua and Barbuda\n   Argentina\n   Armenia\n   Australia\n   Austria\n   Azerbaijan\n   Bahrain\n   Bangladesh\n   Barbados\n   Belarus\n   Belgium\n   Belize\n   Benin\n   Bhutan\n   Bolivia\n   Bosnia and Herzegovina\n   Botswana\n   Brazil\n   Brunei Darussalam\n   Bulg"
+          },
+          {
+            "url": "https://www.instagram.com/reel/De78jRAiWmL",
+            "title": "Instagram",
+            "snippet": "zrockandpop\n\n🎸 ¡Los verdaderos íconos del rock y pop en español están en un solo lugar!   \n  \n🔥 Súbele el volumen a las tardes y revive las mejores canciones y bandas que hicieron historia. De lunes a viernes de 1:00 p. m. a 2:00 p. m., acompáñanos a conectar con el poder de nuestra música.  \n  \n\ud83d"
+          }
+        ]
       }
     },
     {
@@ -112,7 +116,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.huescaturismo.com/palacio-de-deportes-de-huesca",
+            "title": "Palacio de Deportes de Huesca - Huesca es otra historia",
+            "snippet": "Con capacidad para 5.000 personas, acoge partidos del Club Baloncesto Peñas Huesca y del Bada Huesca de balonmano en Liga ASOBAL. Pero su actividad va mucho más allá: también alberga conciertos, ferias, espectáculos y eventos para todos los públicos, convirtiéndose en un punto de encuentro para la c"
+          },
+          {
+            "url": "https://feverup.com/es/huesca/venue/palacio-municipal-de-los-deportes-de-huesca",
+            "title": "Palacio Municipal de los Deportes de Huesca (Huesca): Eventos y Entradas | Fever",
+            "snippet": "# Palacio Municipal de los Deportes de Huesca\n\nEl Palacio Municipal de Deportes en Huesca ofrece modernas instalaciones para varios deportes como baloncesto, balonmano, fútbol sala, voleibol y gimnasia. Cuenta con una pista polideportiva con capacidad para 5.000 personas, sala polivalente y pista ex"
+          },
+          {
+            "url": "https://www.huesca.es/w/palacio-municipal-de-deportes",
+            "title": "Palacio Municipal de Deportes - Ayuntamiento de Huesca",
+            "snippet": "Pista Polideportiva de 50 x 32 metros, de parquet con iluminación y gradas para 5.000 personas.\n Sala Polivalente de 504 metros cuadrados, de hormigón fratasado con iluminación y sin gradas.\n\nInstalaciones descubiertas:\n\n Pista de baloncesto de 28 x 15 metros, de hormigón fratasado con iluminación y"
+          },
+          {
+            "url": "https://www.cbphuesca.com/pabellon",
+            "title": "Pabellón - Club Baloncesto Peñas Huesca",
+            "snippet": "El palacio de los deportes de Huesca, es un singular edificio, obra del arquitecto barcelonés Enric Miralles Moya, que resultó ganador de un concurso restringido convocado por el Ayuntamiento de Huesca. Su construcción fue iniciada en 1990 y tras numerosas vicisitudes, derrumbe de la cubierta inclui"
+          },
+          {
+            "url": "https://commons.wikimedia.org/wiki/File:Palacio_de_los_Deportes_Huesca.jpg",
+            "title": "File:Palacio de los Deportes Huesca.jpg - Wikimedia Commons",
+            "snippet": "| Date/Time | Thumbnail | Dimensions | User | Comment |\n ---  --- \n| current | 20:44, 4 June 2009 | 1,296 × 972 (219 KB) | Cebes (talk | contribs) | {{Information |Description={{es|1=Polideportivo \"Palacio de los deportes\" de Huesca. }} |Source=trabajo propio (own work) |Author=Cebes |Date=3 Nov 200"
+          }
+        ]
       }
     },
     {
@@ -122,7 +152,18 @@
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.huescaturismo.com/palacio-de-deportes-de-huesca",
+            "title": "Palacio de Deportes de Huesca - Huesca es otra historia",
+            "snippet": "Con capacidad para 5.000 personas, acoge partidos del Club Baloncesto Peñas Huesca y del Bada Huesca de balonmano en Liga ASOBAL. Pero su actividad va mucho más allá: también alberga conciertos, ferias, espectáculos y eventos para todos los públicos, convirtiéndose en un punto de encuentro para la c"
+          },
+          {
+            "url": "https://www.cbphuesca.com/pabellon",
+            "title": "Pabellón - Club Baloncesto Peñas Huesca",
+            "snippet": "El palacio de los deportes de Huesca, es un singular edificio, obra del arquitecto barcelonés Enric Miralles Moya, que resultó ganador de un concurso restringido convocado por el Ayuntamiento de Huesca. Su construcción fue iniciada en 1990 y tras numerosas vicisitudes, derrumbe de la cubierta inclui"
+          }
+        ]
       }
     }
   ]

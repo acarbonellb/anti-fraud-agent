@@ -6,6 +6,7 @@ export const evalCase: EvalCase = {
   slug: "tax-id-wrong-checksum",
   title: "Tax id with a wrong control letter (organizer)",
   subject: "organizer",
+  decidedBy: "code",
   expected: { decisions: ["request_info"], autonomy: "auto_resolved" },
   build: (clock) => ({
     organizer: buildOrganizer(clock, {

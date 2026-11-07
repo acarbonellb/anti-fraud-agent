@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-06T14:28:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "f3508626aafaa5fa7c745436c2439913697cf2c17a4416c0b8006030215a5f41",
-      "latencyMs": 5208,
+      "requestHash": "389e20b056009a781ad2d1c11d4b6b5a615a9a376703460dd392d6c8dcd1915d",
+      "latencyMs": 5792,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "I need to investigate this event further. The deterministic checks show that the venue \"Espacio Tinta\" in Mérida was not found in OpenStreetMap, and its capacity is unknown. This is a significant concern since the event is selling 300 tickets for a venue that hasn't been verified to exist or have sufficient capacity.\n\nLet me check the organizer context first to understand their history and whether they're legitimate:",
+          "content": "I need to investigate this event further. The deterministic checks show that the venue \"Espacio Tinta\" in Mérida is not found in OpenStreetMap, and its capacity is unknown. This is a significant concern since the event claims to be at a specific venue with 300 capacity tickets being sold.\n\nLet me check the organizer context first to understand more about this organizer, and then I'll search for information about this venue or event to see if there's any evidence of fraud or if this is a legitimate new venue.",
           "toolCalls": [
             {
-              "id": "Ehunu0OaCmIlhbajK3syTHeX432MIO6Y",
+              "id": "nVs8l8vQI1T0PCmFB4nBkju6EsRELwiH",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_003766f918\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3546,
-          "outputTokens": 130
+          "inputTokens": 3573,
+          "outputTokens": 152
         }
       }
     },
     {
-      "requestHash": "c201266c06d44d6155bbf50c6c44f2b28dd5f7f313d78f8d6c819efb06f2794f",
-      "latencyMs": 6841,
+      "requestHash": "ac83665bce9ea1afc0922d2a037c6e5804e0f336e75d70ab7736960a061c19e0",
+      "latencyMs": 4692,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The organizer \"Guadiana Directo\" looks legitimate:\n- Account age: 930 days (about 2.5 years) - well-established\n- Fiscal data present with valid CIF checksum\n- No content reports, no previous admin unpublishes\n- Has published 14 events, ended 12 - good track record\n- Team has proper roles\n\nHowever, the venue issue remains concerning. The deterministic check shows \"venue_exists\" is unknown because OpenStreetMap doesn't have any venue called \"Espacio Tinta\" in Mérida. This is a red flag since:\n1. The event claims to be at \"Polígono Industrial El Prado Nuevo, nave 12\" \n2. They're selling 300 tickets for this venue\n3. OpenStreetMap doesn't list this venue\n\nLet me search the web to see if \"Espacio Tinta\" exists in Mérida or if there's any information about this venue:",
+          "content": "The organizer \"Guadiana Directo\" looks legitimate:\n- Account age: 930 days (about 2.5 years)\n- Fiscal data present with valid CIF checksum\n- No previous rejected organizations or fraud reports\n- Has published 14 events, ended 12, no cancellations\n- No content reports\n\nHowever, the venue \"Espacio Tinta\" is not found in OpenStreetMap, which is concerning. Let me search for information about this venue to see if it exists elsewhere or if there's any evidence of fraud.",
           "toolCalls": [
             {
-              "id": "FvUlbgN7bVyX19B73edveA5vDMXjsb1Q",
+              "id": "0jr0pDjYnvbJyvB5ZVw1zZGmAEKThOHJ",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Espacio Tinta Mérida Badajoz polígono industrial nave 12\",\"maxResults\":3}"
             }
@@ -44,21 +44,43 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4018,
-          "outputTokens": 258
+          "inputTokens": 4067,
+          "outputTokens": 172
         }
       }
     },
     {
-      "requestHash": "3fe2c39f5c7c8d0de2b7fe3ea5dc3191980fb95db88a8593c6bb57540df96903",
-      "latencyMs": 2832,
+      "requestHash": "63600a00fff4ebc58f700f71f917051f486352f210fcfdf010bb5010df4a8b2b",
+      "latencyMs": 5197,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "The web search returned no results (quota exceeded, but that's fine - it means no external information was found about this venue). \n\nLet me also check if there are similar events from other organizers in the same province to see if this might be a clone:",
+          "content": "Interesting findings:\n\n1. The web search found \"Espacio Tinta\" at a different location - there's an Instagram account and a website (espaciotinta.com.ar) that appears to be in Argentina (.ar domain), not Spain. This suggests the name \"Espacio Tinta\" might be used by another entity elsewhere.\n\n2. The first result mentions \"Nave industrial, Don Benito\" which is near Mérida but not exactly at \"Polígono Industrial El Prado Nuevo, nave 12\".\n\nLet me search more specifically for this venue in Mérida/Badajoz to see if it exists:",
           "toolCalls": [
             {
-              "id": "xC3BozRybiOmIkcH74ZGrMbCgmiOlzkz",
+              "id": "8j6BBzaOAqomXhhUVR4AbvelyZ1tf6fO",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Espacio Tinta\\\" Mérida España concierto sala polígono\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4710,
+          "outputTokens": 184
+        }
+      }
+    },
+    {
+      "requestHash": "c6b09c9697374ae5af1eed603d48f461ffab804b5fa0c2df4d4caf1a70c16c9d",
+      "latencyMs": 3317,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results don't show any mention of \"Espacio Tinta\" in Mérida, Spain. The venue name appears to be associated with an Argentine entity (.ar domain) based on the first search result.\n\nLet me also check if there are similar events from other organizers that might indicate this is a clone or duplicate:",
+          "toolCalls": [
+            {
+              "id": "ZR7DfmmyQcK5ixeLrhBAvHf78D5YxBjm",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_8a3417cf99\",\"windowDays\":60}"
             }
@@ -66,30 +88,74 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4365,
-          "outputTokens": 105
+          "inputTokens": 5347,
+          "outputTokens": 120
         }
       }
     },
     {
-      "requestHash": "3b35235dc6ca708b0fbac05e7e35c058ccafddbd45cb63e8d5c7ddd8fc009daa",
-      "latencyMs": 25969,
+      "requestHash": "a851b015827e292352c15ff6213ca3e311d92a657bcda28e1c578392436e0ec3",
+      "latencyMs": 2218,
       "response": {
         "message": {
           "role": "assistant",
-          "content": "No similar events found, so it's not a clone issue.\n\nNow let me analyze the situation:\n\n**Key concerns:**\n1. **Venue existence unknown**: OpenStreetMap doesn't have \"Espacio Tinta\" in Mérida. The deterministic check marked this as \"unknown\" because the venue wasn't verified. This is a serious concern since they're selling 300 tickets for an unverified venue.\n\n2. **Capacity concerns**: The venue capacity is unknown, but they're selling 300 tickets. Without verification that the venue exists and can hold 300 people, this is risky.\n\n**Positive factors:**\n- Organizer is legitimate (Guadiana Directo) with good history\n- Fiscal data valid\n- No content reports\n- Prices are reasonable (within benchmark)\n- Terms are fair (allow refunds on cancellation)\n- No off-platform payment requests\n- No abusive terms\n\nThe main issue is the **venue_exists** check being \"unknown\" - OpenStreetMap doesn't have this venue listed. This could mean:\n1. The venue is new and not yet in OSM\n2. The venue name/address is incorrect\n3. The venue doesn't exist as claimed\n\nGiven that:\n- The organizer has a good track record (14 published events, 12 ended)\n- Fiscal data is valid\n- No red flags in other areas\n- But the venue itself hasn't been verified to exist\n\nThis falls into a gray area. The deterministic check says \"unknown\" for venue_exists, which means we don't have direct evidence that it's fraudulent, but we also don't have confirmation it's legitimate.\n\nAccording to the guidelines:\n- \"Approve only when nothing points to fraud\"\n- \"Reject only on direct evidence of fraud or illegal content\"\n- \"Ask for information (request_info) when something is off but could have an innocent explanation\"\n\nThe venue not being in OpenStreetMap is concerning, but it could be a new venue. However, selling 300 tickets for an unverified venue is risky. This seems like a case where we should request more information to verify the venue's existence and capacity before approving.\n\nLet me submit a recommendation to request_info with questions about the venue:",
+          "content": "No similar events found from other organizers. Let me also search for the specific address to see if there's any information about this venue:",
           "toolCalls": [
             {
-              "id": "x461lT1lq2GaIqa0ExDNEOW5c44Swpor",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El evento presenta un problema significativo: el recinto \\\"Espacio Tinta\\\" no aparece en OpenStreetMap y su capacidad no está verificada, aunque se están vendiendo 300 entradas. El organizador \\\"Guadiana Directo\\\" tiene historial limpio (14 eventos publicados, 12 finalizados, datos fiscales válidos), pero la falta de verificación del recinto es una señal de alerta que requiere aclaración antes de aprobar. Podría ser un local nuevo no indexado aún, o podría haber información incorrecta sobre el lugar.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida; la existencia del local no está verificada.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org\",\"title\":\"OpenStreetMap\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del recinto no está verificado en OpenSourceMap; se venden 300 entradas para un local sin capacidad confirmada.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org\",\"title\":\"OpenStreetMap\"}]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con buen historial: 14 eventos publicados, 12 finalizados, sin reportes de contenido ni despublicaciones por admin.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Puede confirmar la existencia física del recinto «Espacio Tinta» en el Polígono Industrial El Prado Nuevo, nave 12 de Mérida?\",\"¿Cuál es la capacidad real del recinto y ¿disponen de documentación que lo verifique (licencia de actividad, certificado de aforo)?\",\"¿Es este un local nuevo recientemente inaugurado o ha estado operando anteriormente?\"],\"draft\":\"Solicitamos información sobre el recinto para verificar su existencia y capacidad antes de aprobar la venta de 300 entradas.\"}}"
+              "id": "vIyM4kSyt2lBGFtsy5fB1OMfzvogIXDF",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Polígono Industrial El Prado Nuevo\\\" Mérida nave 12\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4551,
-          "outputTokens": 1007
+          "inputTokens": 5548,
+          "outputTokens": 81
+        }
+      }
+    },
+    {
+      "requestHash": "96472e0a1cbcf7c0efd5107ba6f257ceeed52200c107e39b406e0f12c7cd2282",
+      "latencyMs": 4291,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search shows that \"Polígono Industrial El Prado\" exists in Mérida, but I don't see specific mention of \"nave 12\" or \"Espacio Tinta\" at that location. The venue name \"Espacio Tinta\" appears to be associated with an Argentine entity based on the .ar domain found earlier.\n\nLet me also check if there's any information about this specific event title or description being copied from elsewhere:",
+          "toolCalls": [
+            {
+              "id": "2vDKR5HNMKHFhwTUopAxXSVmKWWVVKnG",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Inauguración de Espacio Tinta\\\" \\\"Los Lagartos Azules\\\"\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6140,
+          "outputTokens": 147
+        }
+      }
+    },
+    {
+      "requestHash": "356d75629a156499b7738461c0ed94c9acf58471f5a98b1278fc50bf83060c30",
+      "latencyMs": 25028,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results confirm that \"Espacio Tinta\" is primarily associated with an Argentine entity (espaciotinta.com.ar, Instagram @espaciotinta). There's no evidence of a venue called \"Espacio Tinta\" in Mérida, Spain.\n\nKey concerns:\n1. **Venue not found in OpenStreetMap** - The deterministic check shows venue_exists is \"unknown\" because OpenStreetMap has no record of \"Espacio Tinta\" in Mérida\n2. **Venue name appears to be used by an Argentine entity** - The web search found espaciotinta.com.ar and Instagram accounts for an Argentine business, not a Spanish venue\n3. **No evidence of the venue existing at the claimed address** - The Polígono Industrial El Prado exists, but there's no specific mention of \"nave 12\" being called \"Espacio Tinta\"\n\nThis is concerning because:\n- The organizer claims to be opening a new venue (\"Abrimos Espacio Tinta, una nueva sala en el polígono\")\n- But the venue name and address don't match any known venue in Mérida\n- The venue name is associated with an Argentine entity\n\nHowever, I should note that:\n- The organizer \"Guadiana Directo\" appears legitimate (2.5 years old, valid fiscal data, no fraud history)\n- No similar events from other organizers found\n- All deterministic checks passed except venue_exists and venue_capacity which are unknown\n\nGiven that the venue is not verified in OpenStreetMap and the venue name appears to be associated with an Argentine entity rather than a Spanish venue in Mérida, this raises concerns about whether this is a legitimate new venue or potentially fraudulent.\n\nSince I cannot verify the venue's existence and capacity, and there's evidence that the venue name is used by an entity in Argentina (not Spain), I should request more information from the organizer to clarify:\n1. Whether this is truly a new venue they're opening\n2. Details about the venue's construction/ownership\n3. Why they chose the name \"Espacio Tinta\" which is associated with an Argentine business\n\nLet me submit a recommendation to request_info:",
+          "toolCalls": [
+            {
+              "id": "GENukuwIGivq3lVT1XurRGWdio17mpaY",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.75,\"rationale\":\"El recinto \\\"Espacio Tinta\\\" no aparece en OpenStreetMap y el nombre está asociado principalmente a una entidad argentina (espaciotinta.com.ar). El organizador afirma abrir una nueva sala, pero no hay evidencia de que este recinto exista en Mérida bajo ese nombre. Se necesita aclarar si es un nuevo local real o si existe confusión con la entidad argentina del mismo nombre.\",\"findings\":[{\"check\":\"venue_exists\",\"verdict\":\"unknown\",\"detail\":\"OpenStreetMap no tiene ningún recinto «Espacio Tinta» en Mérida. El nombre está asociado a una entidad argentina (espaciotinta.com.ar) según búsqueda web.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.espaciotinta.com.ar\",\"title\":\"Espacio Tinta\"},{\"url\":\"https://arquitecturaviva.com/obras/39004\",\"title\":\"Nave industrial, Don Benito - José María Sánchez García\"}]},{\"check\":\"organizer_web_presence\",\"verdict\":\"unknown\",\"detail\":\"No se encontró presencia web del recinto en España ni eventos anteriores de este local. El nombre coincide con una entidad argentina.\",\"confidence\":0.7,\"sources\":[{\"url\":\"https://www.espaciotinta.com.ar/quienessomos\",\"title\":\"Tienda Online de Espacio Tinta - Quiénes Somos\"}]}],\"infoRequest\":{\"questions\":[\"¿Es «Espacio Tinta» un nuevo local que estáis abriendo realmente en Mérida, o es una sala existente?\",\"¿Podéis confirmar la existencia física del recinto en el Polígono Industrial El Prado, nave 12?\",\"¿Por qué elegisteis el nombre «Espacio Tinta» si existe una entidad argentina con ese mismo nombre?\"],\"draft\":\"Solicitamos información sobre la autenticidad del recinto y su ubicación real.\"}}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6778,
+          "outputTokens": 944
         }
       }
     }
@@ -102,7 +168,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://latidobeat.uy/Beat/Tinta-la-banda-emergente-que-propone-un-rock-sincero-inspirado-en-los-noventa-uc934753",
+            "title": "Tinta: la banda emergente que propone un rock sincero inspirado en los noventa",
+            "snippet": "Nueva York, en Casa Vilardebó. El 19 tocamos en la peña de una murga nueva que se llama La Relegada, en el pasillo de la Udelar, y va a ser gratis. [...] Presentan el disco el 3 de octubre en Bluzz Bar. [...] En 2023 nació Tinta. Y hoy, dos años después, su álbum consagratorio. Una obra que integra "
+          },
+          {
+            "url": "https://www.instagram.com/p/DW9V9AdkQJa",
+            "title": "Instagram",
+            "snippet": "🟠La banda posadeña que cultiva el estilo Stoner tocará este sábado en el espacio cultural Tanta Tinta, de la capital provincial, a partir de las 21.30. Son ocho canciones que componen este primer material lobuno. Todas creaciones propias.  \n  \nLa ocasión se complementará con invitados. Primero, la "
+          },
+          {
+            "url": "https://www.instagram.com/reel/DRFxMBkEc-x",
+            "title": "Instagram",
+            "snippet": "festivaldelsur\n\nTINTA 🩸  \n  \nEs la 5ta Banda invitada para nuestra cuarta edición.  \n  \nTinta con 2 años de trayectoria tocando en todos los sótanos de Montevideo y un disco promesa recien salido del horno son de las bandas mas interesantes y distintivas de la nueva ola.  \n  \nCon una búsqueda entre"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=zo4lXMyfpZ4",
+            "title": "La Tinta - Lo Que Daría ( Video Oficial )",
+            "snippet": "de rock y solistas, así como de artistas nuevos y consagrados principalmente de México y algunos más de corte internacional; dentro de lo más destacado de su catálogo se puede citar a: Lvzbel, Lira N'Roll, Haragán, Anabantha, Espécimen, Isis, Heavy Nopal, Transmetal, Banda Bostik, Kenny y los Eléctr"
+          },
+          {
+            "url": "https://www.mapquest.com/es/castilla-la-mancha/sala-picaro-528235553",
+            "title": "Sala Picaro",
+            "snippet": "Sala Picaro se encuentra en el casco histórico de Toledo y es un espacio emblemático conocido por su variada programación de conciertos. Desde su inauguración en 1999, ha ofrecido un ambiente alternativo donde se combinan música y conversación.\n\nEl local cuenta con amplios ventanales y tres plantas,"
+          }
+        ]
       }
     },
     {
@@ -112,7 +204,101 @@
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://arquitecturaviva.com/obras/39004",
+            "title": "Nave industrial, Don Benito - José María Sánchez García  | Arquitectura Viva",
+            "snippet": "Con la idea de conseguir la mayor eficiencia funcional y una imagen contemporánea con el mínimo coste, la propuesta concentra el programa en un nuevo volumen situado al este de la parcela, liberando el resto del solar para circulaciones, gimnasio y á\n\n# Vaciado del Hospital Provincial, Badajoz\n\nJosé"
+          },
+          {
+            "url": "https://www.espaciotinta.com.ar",
+            "title": "Espacio Tinta",
+            "snippet": "Storefront\n\n3 cuotas s/interes :: -15% pagando por tranferencia :: -30% pagando en efectivo (solo en el local)\n\nlogo\n\n# Espacio Tinta\n\nAcceda a su cuenta\n\nELEGÍ CÓMO PAGAR\n\n3 cuotas sin interes / -15% por transferencia / -30% en efectivo (solo en el local)\n\nenvio gratis a partir de $180.000\n\nel envi"
+          },
+          {
+            "url": "https://www.instagram.com/espaciotinta?hl=en",
+            "title": "Espacio Tinta (@espaciotinta) • Instagram photos and videos",
+            "snippet": "Photo by Flor Vitale Rey • Fotografía y Producción on September 19, 2026.\n\nVideo by Espacio Tinta on September 17, 2026. May be an image of text.\n\nPhoto by Espacio Tinta on September 04, 2026.\n\nPhoto by Espacio Tinta on August 24, 2026.\n\nVideo by Espacio Tinta on August 22, 2026. May be an illustrat"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "874298443095ad75135695a72f6c3671eaf5f3b5c31d2a01fa8f8151b8ac3e56",
+      "provider": "Tavily",
+      "query": "\"Espacio Tinta\" Mérida España concierto sala polígono",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://merida.es/59-conciertos-en-15-espacios-de-la-ciudad-en-la-tercera-edicion-del-festival-cinebeat-iii-que-une-musica-y-cine",
+            "title": "59 conciertos en 15 espacios de la ciudad, en la tercera edición del Festival Cinebeat III que une música y cine - Ayuntamiento Mérida",
+            "snippet": "Las jornadas del viernes 9 y el sábado 10 de octubre volverán a convertir los bares, salas y espacios urbanos de Mérida en una extensa ruta de música en directo.\n\nDesde primera hora de la tarde y hasta la madrugada, el público podrá desplazarse por el Café Joplin, LAMOXTT, Maruja Limón, Jazz Bar, Ma"
+          },
+          {
+            "url": "https://underthetree.es/cities/merida",
+            "title": "Open-air concerts and exciting music and light shows in exclusive locations in Mérida | Under The Tree",
+            "snippet": "Un concierto de Under The Tree combina música en vivo con una propuesta de luz y visuales pensada para acompañar la música y transformar el espacio. La luz y la puesta en escena trabajan junto al sonido para crear una atmósfera cuidada y envolvente durante el concierto.\n\n¿Cuánto duran los espectácul"
+          },
+          {
+            "url": "https://stoneandmusicfestival.com",
+            "title": "stoneandmusicfestival | Escuchar & Ver & Sentir",
+            "snippet": "### MÚSICA\n\nEl STONE&MUSIC Festival ha convertido el Teatro Romano de Mérida en uno de los escenarios musicales más singulares de nuestro país. Un espacio al aire libre, con una de las mayores bocas teatrales de Europa, donde cada artista y cada concierto adquieren una dimensión diferente. [...] Por"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "6b6570ffdb8811eb80b95fc6b2ce65024d397f7dab2fb612cbcd15eb7da9209e",
+      "provider": "Tavily",
+      "query": "\"Polígono Industrial El Prado Nuevo\" Mérida nave 12",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.m2merida.com/Alquiler-Nave-M%C3%A9rida-POLIGONO-INDUSTRIAL-EL-PRADO-404",
+            "title": "for rent of warehouse in Mérida, POLIGONO INDUSTRIAL EL PRADO Id:0104404",
+            "snippet": "##### Description\n\nWarehouse in POLIGONO INDUSTRIAL EL PRADO, with 800 m² built, 1 stays, 2 toilets, good condition, outward, at street level\n\n##### Features\n\n###### Property\n\n 800 M2 Built\n 1 Stays\n 2 Toilets\n Good condition\n Outward\n\n###### Building\n\n At street level\n\n###### Additional features\n\n#"
+          },
+          {
+            "url": "https://www.instagram.com/p/DV_PvwhCKJB",
+            "title": "Instagram",
+            "snippet": "👉 El espacio que tu empresa necesita está aquí  \n  \n📍 En el Polígono El Prado de Mérida, te ofrecemos 800 m² preparados para funcionar desde el primer día. Una nave amplia, versátil y con acceso para vehículos industriales, en una de las zonas empresariales mejor conectadas de la ciudad. [...] Log"
+          },
+          {
+            "url": "https://www.mapquest.com/es/badajoz/nacex-456643746",
+            "title": "NACEX, Calle Palencia, 13, Nave 1, Pol. Ind. El Prado, Mérida, Badajoz 06800, ES - MapQuest",
+            "snippet": "Android app Google Play\nDownload on the App Store\n\nAdvertisement\n\nAdvertisement\n\n# NACEX\n\nAdvertisement\n\nAdvertisement\n\n## Photos\n\nLOGO\n\nHours\n\nAdvertisement\n\nYes, MapQuest has an app\n\nNo printouts. Just live voice directions.\n\n## You might also like\n\nPlataforma NACEX\n\nPlataforma NACEX\n\nStreet and t"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "e5ced4ac84fe5bbc61b97f7b73ba560397f2f6bdedc9107b3fb21102b52b99f7",
+      "provider": "Tavily",
+      "query": "\"Inauguración de Espacio Tinta\" \"Los Lagartos Azules\"",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.instagram.com/espaciotinta/reels",
+            "title": "Espacio Tinta (@espaciotinta) • Instagram photos and videos",
+            "snippet": "Log In\n\nSign Up\n\nespaciotinta's profile picture\n\n 51.2K followers\n 3,095 following\n\nEspacio Tinta\n\nespaciotinta\n\ndiseños inspirados en la naturaleza 🌱  \nsomos @isa\\_spampinato y Seba  \nmartes a sabados de 10 a 13 y 16 a 19  \n calle 11 1297\n\n...\n\nmore\n\nwww.espaciotinta.com.ar\n\n 93\n 11\n\n3,059\n\n 123\n "
+          },
+          {
+            "url": "https://www.cbinsights.com/company/altadia",
+            "title": "Altadia - Products, Competitors, Financials, Employees, Headquarters Locations",
+            "snippet": "CASTELLÓ. El Grupo Altadia, especialista en ciencias de materiales y referente mundial en la producción de fritas, esmaltes, colores y tintas para el sector cerámico, ha dado un paso decisivo en su estrategia con la inauguración oficial de su nuevo Altadia Global Innovation Hub en Sassuolo (Italia)."
+          },
+          {
+            "url": "https://www.espaciotinta.com.ar/quienessomos",
+            "title": "Tienda Online de Espacio Tinta - Quiénes Somos",
+            "snippet": "Storefront\n\n3 cuotas s/interes :: -15% pagando por tranferencia :: -30% pagando en efectivo (solo en el local)\n\nlogo\n\nEspacio Tinta\n\nAcceda a su cuenta\n\n# Quiénes Somos\n\n01. FAMILIA\n\nSomos una empresa familiar llevada adelante por Isa y Seba con la permanente compañía y guía de nuestros hijos. El tr"
+          }
+        ]
       }
     }
   ]

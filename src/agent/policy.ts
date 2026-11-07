@@ -27,7 +27,9 @@
  * - an event's `approve` also needs venue evidence: the venue verified, and
  *   its capacity verified or, when no one publishes it, at most the
  *   exposure cap on sale in any session: `OPEN_SPACE_EXPOSURE_CAP_TICKETS`
- *   for an open space, `EXPOSURE_CAP_TICKETS` for any other or unknown type;
+ *   for an open space, `EXPOSURE_CAP_TICKETS` for any other or unknown type,
+ *   and at most the money cap on sale over all sessions
+ *   (`OPEN_SPACE_MONEY_CAP_CENTS`, `MONEY_CAP_CENTS`, #82);
  * - an organizer `approve` or `reject` never resolves on its own: no
  *   structured evidence backs a new organizer. A mechanical organizer
  *   `request_info` still does (amendment of #79).
@@ -40,6 +42,7 @@
  * the rest is recorded and shown, which is what lets the policy be measured
  * against the admin's decisions (ADR 0012).
  */
+import { euros } from "../money.js";
 import type { SystemFinding } from "../checks/types.js";
 import {
   type Decision,
@@ -49,10 +52,12 @@ import {
 import type { CheckId } from "../checks/vocabulary.js";
 import type { Proposal } from "./recommendation.js";
 
-/** Model warnings that say nothing about fraud (brief §4.2 «un warn leve»). */
+/**
+ * Model warnings that say nothing about fraud (brief §4.2 «un warn leve»).
+ * A copied description does (case 23), so `text_originality` isn't one (#82).
+ */
 export const MINOR_WARN_CHECKS: ReadonlySet<string> = new Set<CheckId>([
   "organizer_web_presence",
-  "text_originality",
 ]);
 
 /** Brief §4.2 hard signals; glossary «Hard signal». */
@@ -90,11 +95,37 @@ export const OPEN_SPACE_TYPES: ReadonlySet<string> = new Set([
  */
 export const OPEN_SPACE_EXPOSURE_CAP_TICKETS = 10_000;
 
-/** An unknown type keeps the prudent cap. */
-function exposureCap(venueType: string | undefined): number {
-  return venueType !== undefined && OPEN_SPACE_TYPES.has(venueType)
-    ? OPEN_SPACE_EXPOSURE_CAP_TICKETS
-    : EXPOSURE_CAP_TICKETS;
+/**
+ * Money on sale, over all sessions, an approval may risk on a verified venue
+ * of unknown capacity (#82): the ticket cap alone lets ten sessions of 300,
+ * or 300 tickets at 950 €, resolve as readily as one session at 8 €. 15.000 €
+ * is the exposure cap at 50 € a ticket. Provisional, from the cases: the
+ * legitimate ones of unknown capacity outside an open space put at most
+ * 3.720 € on sale (N6), case 13 puts 266.000 € and case 06 16.800 €.
+ */
+export const MONEY_CAP_CENTS = 1_500_000;
+
+/**
+ * The money cap of an open space. A three-day festival in a park puts
+ * 590.000 € on sale (case N2); 1.000.000 € leaves it the same margin the
+ * open-space ticket cap leaves its 6,000 tickets. Provisional, like that one.
+ */
+export const OPEN_SPACE_MONEY_CAP_CENTS = 100_000_000;
+
+const isOpenSpace = (venueType: string | undefined) =>
+  venueType !== undefined && OPEN_SPACE_TYPES.has(venueType);
+
+/** An unknown type keeps the prudent caps. */
+function exposureCaps(venueType: string | undefined): {
+  tickets: number;
+  cents: number;
+} {
+  return isOpenSpace(venueType)
+    ? {
+        tickets: OPEN_SPACE_EXPOSURE_CAP_TICKETS,
+        cents: OPEN_SPACE_MONEY_CAP_CENTS,
+      }
+    : { tickets: EXPOSURE_CAP_TICKETS, cents: MONEY_CAP_CENTS };
 }
 
 /**
@@ -135,7 +166,11 @@ export type AutonomySubject =
       type: "event";
       /** From the same function the capacity check reads. */
       maxTicketsOnSale: number;
+      /** Over all scheduled sessions, from `moneyOnSaleCents`. */
+      moneyOnSaleCents: number;
     };
+
+type EventSubject = Extract<AutonomySubject, { type: "event" }>;
 
 export interface AutonomyVerdict {
   autonomy: Autonomy;
@@ -163,9 +198,15 @@ export interface AutonomyInput {
    * evidence than it got (ADR 0015 amendment, #31).
    */
   searchBudgetSpent: boolean;
+  /**
+   * A web search of the run failed (the code's or the model's): nobody could
+   * check the subject against the web. Absent means every search ran (#82).
+   */
+  searchUnavailable?: boolean;
 }
 
-const isNegative = (finding: Finding) =>
+/** A verdict against the subject: what holds back an approval. */
+export const isNegative = (finding: Pick<Finding, "verdict">): boolean =>
   finding.verdict === "fail" || finding.verdict === "warn";
 
 /** What the evidence alone says, before the threshold and the holds. */
@@ -189,9 +230,15 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
     input.searchBudgetSpent && input.decision === "approve"
       ? ["web search budget spent"]
       : [];
+  // Fail closed, as for a venue nobody could verify: a search outage looks
+  // like "nothing found", and an approval can't rest on that (#82).
+  const unavailable =
+    input.searchUnavailable === true && input.decision === "approve"
+      ? ["web search unavailable"]
+      : [];
   const otherwiseResolves =
     evidence.autonomy === "auto_resolved" &&
-    belowThreshold.length + budget.length === 0;
+    belowThreshold.length + budget.length + unavailable.length === 0;
   // The floor holds back a resolution; on a review that escalates anyway, it
   // would only add noise to the reasons (#77).
   const floor =
@@ -210,6 +257,7 @@ export function decideAutonomy(input: AutonomyInput): AutonomyVerdict {
   return escalated(
     [
       ...budget,
+      ...unavailable,
       ...(evidence.autonomy === "escalated" ? evidence.reasons : []),
       ...belowThreshold,
       ...floor,
@@ -273,7 +321,7 @@ function decideOnEvidence(input: AutonomyInput): EvidenceVerdict {
       ...(modelWarns.length > 1
         ? [`more than one warning (${String(modelWarns.length)})`]
         : []),
-      ...venueGaps(input.systemFindings, input.subject.maxTicketsOnSale),
+      ...venueGaps(input.systemFindings, input.subject),
     ];
     return reasons.length === 0
       ? {
@@ -364,7 +412,7 @@ function approvalTier(systemFindings: readonly SystemFinding[]): number {
  */
 function venueGaps(
   systemFindings: readonly SystemFinding[],
-  maxTicketsOnSale: number,
+  { maxTicketsOnSale, moneyOnSaleCents }: EventSubject,
 ): string[] {
   const findingOf = (...names: string[]) =>
     systemFindings.find((item) => names.includes(item.finding.check));
@@ -374,18 +422,24 @@ function venueGaps(
     "capacity_far_above_venue",
   );
   const capacity = capacityFinding?.finding.verdict;
-  const cap = exposureCap(capacityFinding?.venueType);
+  const cap = exposureCaps(capacityFinding?.venueType);
+  const unknown = capacity === "unknown";
   return [
     ...(venue === "pass" || venue === "fail" || venue === "warn"
       ? []
       : [`venue not verified (${venue ?? "not checked"})`]),
-    ...(capacity === undefined
-      ? ["venue capacity not checked"]
-      : capacity === "unknown" && maxTicketsOnSale > cap
-        ? [
-            `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(cap)}`,
-          ]
-        : []),
+    ...(capacity === undefined ? ["venue capacity not checked"] : []),
+    ...(unknown && maxTicketsOnSale > cap.tickets
+      ? [
+          `capacity unknown with ${String(maxTicketsOnSale)} tickets on sale in one session, above the exposure cap of ${String(cap.tickets)}`,
+        ]
+      : []),
+    // A free event puts no money on sale: the ticket cap alone judges it.
+    ...(unknown && moneyOnSaleCents > cap.cents
+      ? [
+          `capacity unknown with ${euros(moneyOnSaleCents)} on sale, above the money cap of ${euros(cap.cents)}`,
+        ]
+      : []),
   ];
 }
 

@@ -39,6 +39,32 @@ describe("off-platform payment", () => {
     expect(kinds(text)).not.toContain("off_platform_payment");
   });
 
+  it.each([
+    "Bizum no disponible: paga solo en la web.",
+    "Pagos por Bizum no aceptados.",
+    "PayPal ya no se acepta.",
+  ])("ignores a warning whose negation follows the match: %s", (text) => {
+    expect(kinds(text)).not.toContain("off_platform_payment");
+  });
+
+  it.each([
+    "Paga por Bizum y no pagues gastos de gestión.",
+    "Paga por Bizum, no en la web.",
+  ])(
+    "still catches a request whose next clause carries the negation: %s",
+    (text) => {
+      expect(kinds(text)).toContain("off_platform_payment");
+    },
+  );
+
+  it("still catches a request after a negated mention of the same channel", () => {
+    expect(
+      kinds(
+        "Bizum no disponible en taquilla. Reserva por Bizum al 600 000 000.",
+      ),
+    ).toContain("off_platform_payment");
+  });
+
   it("still catches a payment request after an unrelated negation", () => {
     expect(
       kinds("No hay gastos de gestión. Paga por Bizum al organizador."),
@@ -80,12 +106,14 @@ describe("abusive terms", () => {
 });
 
 describe("alcohol aimed at minors", () => {
-  it.each(["Botellón +14 en la playa", "Barra libre para menores de edad"])(
-    "catches %s",
-    (text) => {
-      expect(kinds(text)).toContain("minors_alcohol");
-    },
-  );
+  it.each([
+    "Botellón +14 en la playa",
+    "Barra libre para menores de edad",
+    // A colon introduces what applies to the head: the list is the offer.
+    "Fiesta para +14: cervezas y barra libre",
+  ])("catches %s", (text) => {
+    expect(kinds(text)).toContain("minors_alcohol");
+  });
 
   it.each([
     "Barra libre, +18",
@@ -95,6 +123,9 @@ describe("alcohol aimed at minors", () => {
     "No se servirá alcohol a menores.",
     // Alcohol and minors in different sentences, about different things.
     "Entrada con consumición (cerveza o refresco). Menores acompañados de un adulto.",
+    // A family festival: the children and the beer are in separate clauses.
+    "Festival familiar con zona infantil para menores de 12 años, food trucks y cerveza artesanal para adultos.",
+    "Cerveza artesanal en la barra; los menores tienen talleres gratis.",
   ])("doesn't flag %s", (text) => {
     expect(kinds(text)).not.toContain("minors_alcohol");
   });

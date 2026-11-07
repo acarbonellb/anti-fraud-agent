@@ -58,13 +58,25 @@ fixed.
 - **Exposure cap**: the most tickets on sale per session an event may have to resolve an
   approval on its own while its venue's capacity is unknown: 10,000 for an open space, 300 for any
   other or unknown venue type (ADR 0015).
+- **Money on sale**: the euros an event puts on sale, the sum over its scheduled sessions of each
+  standard ticket type's capacity × price, in integer cents (`moneyOnSaleCents`). A free event
+  puts none on sale.
+- **Money cap**: the most money on sale an event approval may have to resolve on its own when its
+  venue's capacity is unknown: 15.000 €, or 1.000.000 € for an open space. It complements the
+  per-session exposure cap; a free event is judged by the exposure cap alone (ADR 0015, amendment
+  of #82).
 - **Open space**: a verified venue whose OpenStreetMap type is a park, a recreation ground or a
   square (`OPEN_SPACE_TYPES`). It publishes no capacity, so it gets the higher exposure cap (ADR
   0015, amendment of #78).
 - **Mechanical request**: a `request_info` whose every negative finding is a rule finding. It
   may resolve on its own, for an event or an organizer (ADRs 0012 and 0015).
 - **Copied-text check**: the one web search run in code: the description's longest sentence. A
-  page that holds it word for word gives a heuristic `text_originality` warning (ADR 0015).
+  page that holds it word for word gives a heuristic `text_originality` warning; a search that
+  fails gives `text_originality: unknown` (ADR 0015).
+- **Search unavailable**: a review in which at least one web search failed, the code's or the
+  model's (`searchUnavailable`). It holds back an approval like an unverified venue, with the
+  reason `web search unavailable`; a rejection or a request is decided by its evidence (ADR 0015,
+  amendment of #82).
 - **Held-back approval**: a model `approve` with a negative system finding. The agent sends it as
   a `request_info` that asks about each flag (ADR 0012).
 - **Run**: one execution of the agent on one subject, with its tool trace, tokens, cost and
@@ -136,6 +148,13 @@ fixed.
   tag with the tool that settles it (ADR 0015).
 - **Gated case**: every case that is not external. The CI gate and the **Gated** metrics count only
   these, because the agent already has what it needs to get them right.
+- **Fooled-model gate**: the part of `pnpm eval:replay --check` that runs every gated fraud case
+  with a model that always proposes a confident, finding-free approval, with the web as recorded
+  and with it down. It fails if a code-decided case resolves as an approval, or ends `approve`
+  over a negative system finding. Not part of the metrics (ADR 0013, amendment of #82).
+- **Code-decided case / model-decided case**: a gated fraud case whose expected outcome the code
+  guarantees whatever the model proposes / one that rests on the model's judgement. Declared per
+  case (`decidedBy`) and checked against the fooled-model run.
 - **Recording**: the model's responses to one case, each with the hash of the request that
   produced it, plus the clock the fixtures were built from (`evals/recordings/`).
 - **Retrieved source**: a URL a tool returned in the current run (a `web_search` result). It is

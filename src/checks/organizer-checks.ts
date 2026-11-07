@@ -8,7 +8,7 @@ import { type SystemFinding, systemFinding } from "./types.js";
 export function runOrganizerChecks(
   context: OrganizerReviewContext,
 ): SystemFinding[] {
-  return [taxId(context), ...history(context)];
+  return [taxId(context), ...organizerHistoryChecks(context)];
 }
 
 function taxId(context: OrganizerReviewContext): SystemFinding {
@@ -46,7 +46,14 @@ function taxId(context: OrganizerReviewContext): SystemFinding {
   );
 }
 
-function history(context: OrganizerReviewContext): SystemFinding[] {
+/**
+ * The organizer's track record: rejected organizations of its owner and fraud
+ * reports on its events. It runs on event reviews too (#82), so the
+ * repeat-fraud pattern never depends on the model reading the organizer.
+ */
+export function organizerHistoryChecks(
+  context: OrganizerReviewContext,
+): SystemFinding[] {
   const check = "organizer_history";
   const findings: SystemFinding[] = [];
   const rejected = context.owner.otherOrganizers.filter(

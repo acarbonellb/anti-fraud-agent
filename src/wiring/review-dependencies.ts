@@ -67,10 +67,7 @@ export interface Reviewer {
   /** Shared across a command's runs: the providers' limits are per client. */
   throttles: VenueThrottles;
   /** The venue checks and web search a review takes, from `throttles` and `search`. */
-  evidence: Pick<
-    ReviewSubjectInput,
-    "venueChecks" | "extraTools" | "webSearch"
-  >;
+  evidence: Pick<ReviewSubjectInput, "venueChecks" | "webSearch">;
 }
 
 /**

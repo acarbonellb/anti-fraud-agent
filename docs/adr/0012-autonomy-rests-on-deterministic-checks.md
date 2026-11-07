@@ -1,7 +1,7 @@
 # ADR 0012 — Autonomy rests on deterministic checks, and mechanical requests resolve on their own
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#77)
+- **Status:** accepted · amendment 2026-11-03 (#7) · amendment 2026-11-03 (#24) · amendment 2026-11-04 (#33) · amendment 2026-11-04 (#35) · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#77) · amendment 2026-11-07 (#82)
 - **Related:** brief §4.1, §4.2 and §5; brief D3 and D9; ADR 0008; issues #7, #18, #24, #33 and #35.
 
 ## Context
@@ -194,3 +194,58 @@ ADR 0019 takes the model's confidence out of the policy. Where this ADR says a d
 the findings already decide; the model's number only holds back, below 0.5. It replaces point 3 of
 the amendment of #33: a held-back approval shows its tier when it resolves as a mechanical
 request, and at most 0.84 when it escalates.
+
+## Amendment (2026-11-07, #82): a model negative survives where the code reached no verdict, and two patterns narrow
+
+Three changes from the review of #81 (groups 1 and 2).
+
+**1. The model-finding rule.** This replaces the rule of the amendment of #57. On a check the code
+ran, the model's `fail` or `warn` is kept unless the code's own finding on that check is negative
+(`fail` or `warn`): there the system finding wins, as before. The model's `pass` and `unknown` are
+still dropped. So a system `unknown` now behaves like a system `pass` for this purpose. The
+`covers` family of the venue checks (`venue_capacity`, `capacity_far_above_venue`) follows the same
+rule. It lives in one function, `keepsModelFinding` (`src/agent/loop.ts`).
+
+- **Why.** A system `unknown` means the code had no evidence, not that it found the subject clean.
+  With a sparse price benchmark, `price_benchmark: unknown` dropped the model's `warn` on case 13's
+  outlier price, and that `warn` was the only thing catching the pattern. Where the code has no
+  verdict, a model doubt should hold back an approval.
+- **What doesn't change.** A system negative still wins over any model finding on its check, so
+  the admin reads one verdict per check. A model `pass` still counts for nothing. The #33 rule on
+  approvals is untouched.
+
+**2. `text_originality` is no longer a minor warning.** It leaves `MINOR_WARN_CHECKS`, so a model
+`warn` on it holds back an approval like any other non-minor model warning (point 3).
+`organizer_web_presence` stays minor. The copied-text check (ADR 0015, amendment of #37) searches
+one sentence, and it can't run when web search is down (ADR 0015, amendment of #82). A copy the
+model noticed and the code missed should reach the admin.
+
+**3. Two rule patterns narrow.** Both checks stay `rule` findings and hard signals, and the fraud
+fixtures of cases 10 and 26 (Bizum) and 24 (alcohol aimed at minors) still fire.
+
+- **Off-platform payment.** A negation shortly after the match now counts too, not only one before
+  it: "Bizum no disponible" and "PayPal ya no se acepta" give no finding. "Shortly after" means at
+  most two words in between, none of them a conjunction (`y`, `o`, `pero`, `sino`…) or a clause
+  break, so "Paga por Bizum y no pagues gastos" still fires. Every occurrence of a pattern is now
+  checked, not only the first, so "Bizum no disponible en taquilla; paga por Bizum al…" still
+  fires on the second.
+- **Alcohol aimed at minors.** The minors mention and the alcohol mention must be in the same
+  clause. A clause ends at `.`, `!`, `?`, `;`, `,` or a line break, but not at a colon: what
+  follows a colon is what its head offers, list commas included. Case 24 needs that ("para +14:
+  música, cervezas y barra libre" is one offer to the +14).
+- **The cost, both ways.** The comma cut misses "Fiesta +14, barra libre", a real offer split by a
+  comma: no finding, so the case rests on the model. The colon join fires on "Menores: zona
+  infantil, cerveza para adultos", a benign sentence: a false hard signal. Both are listed in
+  `docs/known-limitations.md`. They are the price of a clause rule simple enough to argue; neither
+  appears in the cases today.
+
+**Rejected:**
+
+- **Keeping the #57 rule** (a model negative survives only next to a system `pass`). It silences
+  the model exactly where the code has no evidence.
+- **Letting a model `pass` stand next to a system `unknown`.** A model `pass` is a claim; it would
+  read as evidence of a clean check that no one ran.
+- **Making the payment rule a heuristic** to absorb its false fails. It would no longer let a
+  rejection resolve on its own on case 10 and 26's plain requests, which are certain.
+- **A clause parser** (subordinate clauses, list detection) for the minors rule. More upkeep than
+  one cases-backed split, and still Spanish-only.

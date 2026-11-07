@@ -98,7 +98,11 @@ function run(
     limits: LIMITS,
     autoApproveThreshold: 0.85,
     task: "event evt_0001",
-    subject: { type: "event", maxTicketsOnSale: 100 },
+    subject: {
+      type: "event",
+      maxTicketsOnSale: 100,
+      moneyOnSaleCents: 150_000,
+    },
     context: { event: { title: "Noche de jazz" } },
     systemFindings: venueVerified,
     fence: createUntrustedFence("n0nce"),

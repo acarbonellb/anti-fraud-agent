@@ -34,8 +34,11 @@ export type SearchFailure =
   | "network"
   | "invalid_response";
 
+/** The code of every `WebSearchError`, however the search failed. */
+export const WEB_SEARCH_FAILED = "WEB_SEARCH_FAILED";
+
 export class WebSearchError extends DomainError {
-  readonly code = "WEB_SEARCH_FAILED";
+  readonly code = WEB_SEARCH_FAILED;
 
   constructor(
     readonly failure: SearchFailure,

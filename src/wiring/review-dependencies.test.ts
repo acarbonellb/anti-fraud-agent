@@ -61,11 +61,10 @@ describe("buildReviewer", () => {
     });
 
     expect(without.search).toBeUndefined();
-    expect(without.evidence.extraTools).toEqual([]);
+    expect(without.evidence.webSearch).toBeUndefined();
     expect(withKey.search).toBeDefined();
-    expect(withKey.evidence.extraTools?.map((tool) => tool.name)).toEqual([
-      "web_search",
-    ]);
+    // The review builds its own `web_search` tool from it, counted (#82).
+    expect(withKey.evidence.webSearch).toBeDefined();
   });
 });
 

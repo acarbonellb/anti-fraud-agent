@@ -8,7 +8,9 @@
  * search engine answers a long query with pages that merely share its words.
  * It only ever warns, as a heuristic: a reused text is a reason to ask, not
  * proof of fraud (an organizer may publish its own text elsewhere), and no
- * copy found proves nothing either, so a miss gives no finding.
+ * copy found proves nothing either, so a miss gives no finding. A search that
+ * couldn't run gives an `unknown`: the text went unchecked, and the admin
+ * should know (#82).
  */
 import {
   type SearchResult,
@@ -41,8 +43,19 @@ export async function copiedTextCheck(
       maxResults: SEARCH_RESULTS,
     });
   } catch (error) {
-    // Without search there is no evidence either way: the review goes on.
-    if (error instanceof WebSearchError) return [];
+    // Without search there is no evidence either way: the admin reads that
+    // the text went unchecked, and the policy holds an approval back on the
+    // failed search itself, not on this finding (#82).
+    if (error instanceof WebSearchError) {
+      return [
+        systemFinding(
+          "heuristic",
+          "text_originality",
+          "unknown",
+          "No se pudo comprobar si la descripción está copiada: la búsqueda web no estaba disponible.",
+        ),
+      ];
+    }
     throw error;
   }
 

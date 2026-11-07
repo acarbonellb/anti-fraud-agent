@@ -107,6 +107,8 @@ try {
     resolutions: report.resolutions,
     skippedItems: report.skippedItems,
     retriesQueued: report.retriesQueued,
+    searches: report.searches.total,
+    searchesFailed: report.searches.failed,
   });
 } catch (error) {
   // The code only: a message could carry more than ids.

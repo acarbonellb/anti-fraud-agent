@@ -60,6 +60,14 @@ const PATTERNS: Record<TextSignalKind, readonly RegExp[]> = {
  * hard signal would let a rejection resolve on its own.
  */
 const NEGATED_BEFORE = /\b(?:no|nunca|jam[aá]s|ni)\b[^.\n]{0,30}$/i;
+/**
+ * So does one right after it, in the same clause ("Bizum no disponible",
+ * "PayPal ya no se acepta"): at most two words in between, none of them a
+ * conjunction or a clause break. "Paga por Bizum y no pagues gastos" is a
+ * request followed by a second clause, and still fires.
+ */
+const NEGATED_AFTER =
+  /^\s*(?:(?!(?:y|e|o|u|pero|sino)(?!\p{L}))[^\s.!?;,]+\s+){0,2}(?:no|nunca|jam[aá]s)(?!\p{L})/iu;
 const NEGATABLE: ReadonlySet<TextSignalKind> = new Set([
   "off_platform_payment",
 ]);
@@ -76,19 +84,36 @@ const PROHIBITION =
   /\b(?:prohibid[ao]s?|no se (?:vende|venden|sirve|sirven|servir[áa]n?|despacha)|no (?:vendemos|servimos)|venta de alcohol a menores)(?!\p{L})/iu;
 
 /**
- * Alcohol and minors in one sentence, not inside a prohibition. Across
- * sentences the two are usually about different things ("Entrada con
- * cerveza. Menores acompañados"). Returns the matched words, or null.
+ * Alcohol and minors in one clause, not inside a prohibition. Across clauses
+ * the two are usually about different things ("Entrada con cerveza. Menores
+ * acompañados"; "zona infantil para menores, y cerveza para adultos").
+ * Returns the matched words, or null.
  */
 function alcoholOfferedToMinors(text: string): string | null {
-  for (const sentence of text.split(/[.!?\n]+/)) {
-    const alcohol = ALCOHOL.exec(sentence);
-    const minors = MINORS.exec(sentence);
-    if (alcohol && minors && !PROHIBITION.test(sentence)) {
+  for (const clause of clauses(text)) {
+    const alcohol = ALCOHOL.exec(clause);
+    const minors = MINORS.exec(clause);
+    if (alcohol && minors && !PROHIBITION.test(clause)) {
       return `${alcohol[0]} … ${minors[0]}`;
     }
   }
   return null;
+}
+
+/**
+ * Sentences cut at semicolons and commas. A colon doesn't end a clause: what
+ * follows it is what its head offers, list commas included ("para +14:
+ * música, cervezas y barra libre" is one offer to the +14).
+ */
+function clauses(text: string): string[] {
+  return text.split(/[.!?;\n]+/).flatMap((part) => {
+    const colon = part.indexOf(":");
+    const head = colon === -1 ? part : part.slice(0, colon);
+    const segments = head.split(",");
+    if (colon !== -1)
+      segments.push(`${segments.pop() ?? ""}${part.slice(colon)}`);
+    return segments;
+  });
 }
 
 export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
@@ -98,14 +123,8 @@ export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
       TextSignalKind,
       readonly RegExp[],
     ][]) {
-      for (const pattern of patterns) {
-        const found = pattern.exec(text);
-        if (!found) continue;
-        const before = text.slice(Math.max(0, found.index - 45), found.index);
-        if (NEGATABLE.has(kind) && NEGATED_BEFORE.test(before)) continue;
-        signals.push({ kind, field, match: mask(found[0]) });
-        break;
-      }
+      const found = firstSignal(kind, patterns, text);
+      if (found !== null) signals.push({ kind, field, match: mask(found) });
     }
     const offer = alcoholOfferedToMinors(text);
     if (offer !== null) {
@@ -113,6 +132,32 @@ export function scanTexts(texts: readonly ScannedText[]): TextSignal[] {
     }
   }
   return signals;
+}
+
+/**
+ * Every occurrence counts, not just the first: a text that warns "Bizum no
+ * disponible en taquilla" and then asks for Bizum still asks for it.
+ */
+function firstSignal(
+  kind: TextSignalKind,
+  patterns: readonly RegExp[],
+  text: string,
+): string | null {
+  for (const pattern of patterns) {
+    for (const found of text.matchAll(
+      new RegExp(pattern.source, `${pattern.flags}g`),
+    )) {
+      if (!NEGATABLE.has(kind) || !negated(text, found)) return found[0];
+    }
+  }
+  return null;
+}
+
+function negated(text: string, found: RegExpExecArray): boolean {
+  const end = found.index + found[0].length;
+  const before = text.slice(Math.max(0, found.index - 45), found.index);
+  const after = text.slice(end, end + 45);
+  return NEGATED_BEFORE.test(before) || NEGATED_AFTER.test(after);
 }
 
 /**

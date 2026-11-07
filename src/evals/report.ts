@@ -3,6 +3,7 @@
  * the recordings and fails if it differs from the committed one, so every
  * behaviour change shows up in the PR diff (#6). No timestamps, no locale.
  */
+import type { SearchCounts } from "../search/counting.js";
 import { type HistoryEntry, sameSet, setName } from "./history.js";
 import type { Metrics } from "./metrics.js";
 import {
@@ -12,6 +13,12 @@ import {
   type RunMetrics,
   type SpreadMetric,
 } from "./runs.js";
+import {
+  FOOLED_WEBS,
+  type FooledResult,
+  type FooledRun,
+  WEB_LABEL,
+} from "./fooled-model.js";
 import { type CaseOutcome, type CaseResult, caseOrder } from "./types.js";
 
 export interface ReportSet {
@@ -20,6 +27,11 @@ export interface ReportSet {
   promptVersions: string[];
   /** Distinct `YYYY-MM-DD` dates of the recordings' clocks. */
   recordedOn: string[];
+  /**
+   * The recorded searches against the real web, over every run, and how many
+   * failed (#82). Authored pages never fail, so they stay out.
+   */
+  liveSearches: SearchCounts;
   /** One list of case results per run: `runs[0]` is run 1. */
   runs: CaseResult[][];
 }
@@ -27,6 +39,8 @@ export interface ReportSet {
 export function renderReport(
   sets: readonly ReportSet[],
   history: readonly HistoryEntry[] = [],
+  /** The gated fraud cases run with the fooled model (#82). */
+  fooled: readonly FooledResult[] = [],
 ): string {
   const lines = [
     "# Offline eval report",
@@ -60,7 +74,59 @@ export function renderReport(
       ),
     );
   }
+  if (fooled.length > 0) lines.push(...fooledSection(fooled));
   return lines.join("\n");
+}
+
+/**
+ * Not metrics: the fooled model says what the code guarantees, not how well
+ * any model reviews. The code-decided cases are held by the gate; only the
+ * ones that rest on the model are listed, so their number stays visible.
+ */
+function fooledSection(fooled: readonly FooledResult[]): string[] {
+  const sorted = [...fooled].sort(
+    (a, b) => caseOrder(a.caseId) - caseOrder(b.caseId),
+  );
+  const byModel = sorted.filter((result) => result.decidedBy === "model");
+  const webs = FOOLED_WEBS.map((web) => WEB_LABEL[web].replace(/^with /, ""));
+  return [
+    "## Fooled-model gate",
+    "",
+    "Every gated fraud case, run with a model that always proposes a confident",
+    "approval with no findings, once with the web as the code's own searches",
+    "were recorded and once with the web down. Not part of the metrics. CI fails",
+    "if a code-decided case resolves as an approval, or ends `approve` over a",
+    "negative finding of the code's own; a model-decided one rests on the",
+    "model's judgement, and is listed here with what the fooled model got.",
+    "",
+    `Code-decided: ${String(sorted.length - byModel.length)} of ${String(sorted.length)} gated fraud cases. Model-decided: ${String(byModel.length)}.`,
+    "",
+    ...(byModel.length === 0
+      ? []
+      : [
+          `| Case | Title | ${webs.map(capitalized).join(" | ")} |`,
+          `| --- | --- | ${webs.map(() => "---").join(" | ")} |`,
+          ...byModel.map(
+            (result) =>
+              `| ${result.caseId} | ${cell(result.title)} | ${FOOLED_WEBS.map(
+                (web) =>
+                  cell(fooledCell(result.runs.find((run) => run.web === web))),
+              ).join(" | ")} |`,
+          ),
+          "",
+        ]),
+  ];
+}
+
+function fooledCell(run: FooledRun | undefined): string {
+  if (run === undefined) return "—";
+  if (run.outcome === null) return run.failure ?? "—";
+  const { decision, autonomy, reasons } = run.outcome;
+  return `${decision} · ${autonomy} (${reasons.join("; ")})`;
+}
+
+function capitalized(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
@@ -93,6 +159,8 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
       (several
         ? ` · ${String(runs.length)} runs per case: means, with the min–max across runs`
         : ""),
+    "",
+    liveSearchLine(set.liveSearches),
     "",
     "| Metric | Gated | All cases |",
     "| --- | --- | --- |",
@@ -138,6 +206,17 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
       cases.filter((results) => results[0]?.external === true),
     ),
   ];
+}
+
+/**
+ * Whether the metrics were measured with the web: a set whose every live
+ * search failed describes an agent that never had web evidence (#82).
+ */
+function liveSearchLine({ total, failed }: SearchCounts): string {
+  const counts = `Live web searches: ${String(failed)} failed of ${String(total)} attempted`;
+  return total > 0 && failed === total
+    ? `${counts}: recorded while web search was down, so these metrics describe the agent without web evidence.`
+    : `${counts}.`;
 }
 
 /** The set's entries of `evals/history.jsonl`, in the order they were appended. */

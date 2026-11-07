@@ -96,14 +96,33 @@ describe("copied description", () => {
     expect(queries).toEqual([]);
   });
 
-  it("gives no finding when search is down: the review goes on", async () => {
+  it("says the text couldn't be checked when search is down, without warning", async () => {
     const down: WebSearch = {
       provider: "down",
       search: () => Promise.reject(new WebSearchError("quota_exceeded")),
     };
-    expect(await copiedTextCheck(withDescription(DESCRIPTION), down)).toEqual(
-      [],
+    const [finding, ...rest] = await copiedTextCheck(
+      withDescription(DESCRIPTION),
+      down,
     );
+    expect(rest).toEqual([]);
+    expect(finding?.certainty).toBe("heuristic");
+    expect(finding?.finding).toMatchObject({
+      check: "text_originality",
+      verdict: "unknown",
+      sources: [],
+    });
+    expect(finding?.finding.detail).toMatch(/búsqueda web/);
+  });
+
+  it("gives no finding for a description too short to search, even with search down", async () => {
+    const down: WebSearch = {
+      provider: "down",
+      search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+    };
+    expect(
+      await copiedTextCheck(withDescription("Plazas limitadas."), down),
+    ).toEqual([]);
   });
 
   it("searches a long sentence by its first words, within the query limit", async () => {
