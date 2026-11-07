@@ -31,6 +31,7 @@ import { PROMPT_VERSION } from "./prompt.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { VenueChecks } from "../venue/venue-checks.js";
 import { reviewSubject } from "./review.js";
+import { webSearchTool } from "./web-search-tool.js";
 
 const TOKEN = "token";
 let mock: MockSatella;
@@ -358,6 +359,24 @@ it("counts the searches that worked as run, none failed", async () => {
   );
   expect(result.run.searches).toEqual({ total: 2, failed: 0 });
   expect(result.review.autonomy).toBe("auto_resolved");
+});
+
+it("refuses an extra web_search tool, whose searches nobody would count (#82)", async () => {
+  await expect(
+    reviewSubject({
+      subject: { type: "event", id: "evt_0001" },
+      runId: "run-1",
+      satella: satellaClient(),
+      provider: createScriptedProvider([
+        callTool("submit_recommendation", approval),
+      ]),
+      limits: { maxToolCalls: 10, maxTokens: 100_000, maxWebSearches: 2 },
+      autoApproveThreshold: 0.85,
+      venueChecks: verifiedVenue,
+      extraTools: [webSearchTool(createAuthoredSearch([]))],
+    }),
+  ).rejects.toMatchObject({ code: "REVIEW_UNCOUNTED_SEARCH_TOOL" });
+  expect(mock.reviews).toHaveLength(0);
 });
 
 it("holds back an approval of an event whose organizer has fraud reports", async () => {

@@ -85,6 +85,15 @@ export interface ReviewSubjectResult {
 export async function reviewSubject(
   input: ReviewSubjectInput,
 ): Promise<ReviewSubjectResult> {
+  // The review's own `web_search` is the counted one; another would win by
+  // name, or search beside it, and its credits would go uncounted (#82).
+  if (
+    input.extraTools?.some(
+      (tool) => tool.name === "web_search" || tool.kind === "web_search",
+    ) === true
+  ) {
+    throw new ReviewSetupError("REVIEW_UNCOUNTED_SEARCH_TOOL");
+  }
   // Every attempt's searches spent credits, a stale one's included, and so
   // did a review that failed: the totals are counted across them (#82).
   const reviewCounted =
@@ -113,6 +122,13 @@ export class ReviewFailedError extends DomainError {
     const code = cause instanceof DomainError ? cause.code : "UNEXPECTED";
     super(`review failed: ${code}`, { cause });
     this.code = code;
+  }
+}
+
+/** A review wired wrong: a bug in the caller, refused before anything runs. */
+export class ReviewSetupError extends DomainError {
+  constructor(readonly code: "REVIEW_UNCOUNTED_SEARCH_TOOL") {
+    super(`review refused: ${code}`);
   }
 }
 
