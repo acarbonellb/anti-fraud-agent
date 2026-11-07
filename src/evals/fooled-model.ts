@@ -52,6 +52,11 @@ export interface FooledOutcome {
   decision: Decision;
   autonomy: Autonomy;
   reasons: string[];
+  /**
+   * The checks the code itself found negative (`fail` or `warn`): the gate
+   * holds an approval carrying one as a broken hold-back (#33, #82).
+   */
+  flagged: string[];
 }
 
 /**

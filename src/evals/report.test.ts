@@ -337,7 +337,7 @@ describe("the fooled-model gate (#82)", () => {
     reasons: string[],
   ): FooledRun => ({
     web,
-    outcome: { decision: "approve", autonomy, reasons },
+    outcome: { decision: "approve", autonomy, reasons, flagged: [] },
     failure: null,
   });
   const fooled: FooledResult[] = [

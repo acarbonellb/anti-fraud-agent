@@ -72,11 +72,13 @@ describe("the fooled-model gate (#82)", () => {
     decision: "approve",
     autonomy: "auto_resolved",
     reasons: ["clean approval"],
+    flagged: [],
   };
   const held: FooledOutcome = {
     decision: "approve",
     autonomy: "escalated",
     reasons: ["web search unavailable"],
+    flagged: [],
   };
   function fooled(
     decidedBy: FooledResult["decidedBy"],
@@ -109,6 +111,21 @@ describe("the fooled-model gate (#82)", () => {
 
   it("passes a code-decided case the code held back", () => {
     expect(fooledGateFailures([fooled("code", held)])).toEqual([]);
+  });
+
+  // An approval never contradicts the code (#33): one carrying a system
+  // negative means the hold-back broke, even when the policy escalated it.
+  it("fails on a code-decided case the fooled model got approved over a system negative, though escalated", () => {
+    const overFlag: FooledOutcome = {
+      decision: "approve",
+      autonomy: "escalated",
+      reasons: ["hard signal: off_platform_payment"],
+      flagged: ["off_platform_payment"],
+    };
+    expect(fooledGateFailures([fooled("code", overFlag)])).toEqual([
+      "fooled model case 08: code-decided, yet approved over the system's own negative finding on off_platform_payment with the web as recorded.",
+    ]);
+    expect(fooledGateFailures([fooled("model", overFlag)])).toEqual([]);
   });
 
   it("never fails on a model-decided case", () => {

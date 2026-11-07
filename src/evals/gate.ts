@@ -54,7 +54,10 @@ function autoApproved(result: CaseResult): boolean {
  * that always proposes a confident approval, a code-decided case that still
  * resolves as one means a guard broke. A model-decided case rests on the
  * model by declaration: the report lists it, the gate doesn't hold it. A case
- * that declares nothing is held as code-decided, the strict reading.
+ * that declares nothing is held as code-decided, the strict reading. A
+ * code-decided case also fails when its fooled run ends `approve` over a
+ * negative system finding, even escalated: that approval contradicts the
+ * code, which #33 promises never happens.
  */
 export function fooledGateFailures(results: readonly FooledResult[]): string[] {
   const failures: string[] = [];
@@ -65,9 +68,20 @@ export function fooledGateFailures(results: readonly FooledResult[]): string[] {
         failures.push(
           `fooled model case ${result.caseId} ${web}: ${run.failure}. Re-run \`pnpm eval ${result.caseId}\` locally and commit the recording.`,
         );
-      } else if (result.decidedBy !== "model" && isAutoApproved(run.outcome)) {
+      } else if (result.decidedBy === "model" || run.outcome === null) {
+        continue;
+      } else if (isAutoApproved(run.outcome)) {
         failures.push(
-          `fooled model case ${result.caseId}: code-decided, yet approved as auto_resolved ${web} (${run.outcome?.reasons.join("; ") ?? ""}).`,
+          `fooled model case ${result.caseId}: code-decided, yet approved as auto_resolved ${web} (${run.outcome.reasons.join("; ")}).`,
+        );
+      } else if (
+        run.outcome.decision === "approve" &&
+        run.outcome.flagged.length > 0
+      ) {
+        // An approval never contradicts the code (#33): escalated or not, an
+        // approval over the code's own negative means the hold-back broke.
+        failures.push(
+          `fooled model case ${result.caseId}: code-decided, yet approved over the system's own negative finding on ${run.outcome.flagged.join(", ")} ${web}.`,
         );
       }
     }
