@@ -3,18 +3,106 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "a7ca99bbe4beec3d6133009297bc0d30b9c5d0517cef751d5c58394163ad7675",
-      "latencyMs": 2910,
+      "requestHash": "5793aa0f44c0208dee21cce3a26af244eafa0b9082aafbc1b614283e90a0fbb5",
+      "latencyMs": 12668,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "I need to review this event and make a recommendation. Let me analyze what I have:\n\n**Event details:**\n- Title: \"Hiru Haize en directo\"\n- Artist: Hiru Haize (rock band)\n- Venue: Teatro Albéniz, Madrid\n- Date: 2026-11-28\n- Price: 22.00 € for General tickets\n\n**Deterministic checks already passed:**\n- Postal code matches province ✓\n- No off-platform payment requests ✓\n- No external ticketing links ✓\n- No abusive terms ✓\n- No minors/alcohol issues ✓\n- No prompt injection ✓\n- Price sanity (no VIP below general) ✓\n- Service fee within limits ✓\n- No problematic discounts ✓\n- Session dates don't overlap ✓\n- Session timing is reasonable ✓\n- Price benchmark: 22€ is well below the p90 of 35€ for comparable events ✓\n- Organizer history: clean (no rejected orgs or fraud reports) ✓\n- Venue exists at coordinates ✓\n- Venue capacity: **WARN** - selling 1,100 tickets vs OSM's 898 capacity (1.2x). This could be explained by a terrace or expanded capacity.\n\n**What I need to check:**\nThe venue capacity warning is the only flag. The deterministic check says it's between 1-2 times the OSM capacity, which \"may have explanation (una terraza, un aforo ampliado)\". However, I should verify:\n1. Whether Hiru Haize is a real artist and if they have announced this date elsewhere\n2. Whether there are similar events from other organizers that might indicate cloning\n\nLet me search for the artist to verify their existence and tour dates.",
           "toolCalls": [
             {
-              "id": "xwGSzgJVCB3jemllSu8TYEMrUvVmRlh0",
+              "id": "GUkhof7t7LqHcjdvwpHZybQQUctbZoAD",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock concierto 2026 Madrid Teatro Albéniz\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 3700,
+          "outputTokens": 428
+        }
+      }
+    },
+    {
+      "requestHash": "ccf651f961d9973a548e5e42b8527aab4a94634665549c7fb54fe046a70e1619",
+      "latencyMs": 2856,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results show Teatro Albéniz exists and hosts concerts, but I don't see specific information about Hiru Haize. Let me search more specifically for the artist \"Hiru Haize\" to verify they exist as a real band.",
+          "toolCalls": [
+            {
+              "id": "scNGFDoe7tiL67u0XsRMgH3con8D6A30",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Hiru Haize banda rock España\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 4666,
+          "outputTokens": 94
+        }
+      }
+    },
+    {
+      "requestHash": "36a80ae9035bc7120ef65c57ef10faaef408f92852e6ca4cffa93b814e6a5fe4",
+      "latencyMs": 4840,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search results show:\n- \"Haizea\" - a real Basque band from the 1970s (psychedelic/progressive/folk rock)\n- \"Haize-arrosa\" - a newer group from 2022\n- \"Hiru Beltz\" - another band\n\nBut I don't see \"Hiru Haize\" specifically. The name \"Hiru Haize\" could be:\n1. A real band that doesn't have web presence\n2. A fictional/clone band name\n\nLet me search for the exact event title to see if there are similar events or if this is a clone.",
+          "toolCalls": [
+            {
+              "id": "gVZReK6d9uNe6EZbtXarBVuLXBvJDJDC",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Hiru Haize en directo\\\" concierto\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5248,
+          "outputTokens": 181
+        }
+      }
+    },
+    {
+      "requestHash": "2fdbdd8f8d56f075275a0b595e22e613c2e58b36844593576d507bcfb340cbe0",
+      "latencyMs": 3827,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "The search for \"Hiru Haize en directo\" didn't find any relevant results about this specific event or band. The results are about unrelated things (Jimi Hendrix, Hiru Corporation). This suggests the event title/description might not have web presence outside the platform.\n\nLet me also check if there are similar events from other organizers that might indicate cloning. I should use the find_similar_events function to check for clones.",
+          "toolCalls": [
+            {
+              "id": "AYfO57St1WUsEWgfCKdEHjxcv1PD9cPq",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_c6ca54cd26\",\"windowDays\":30}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5904,
+          "outputTokens": 139
+        }
+      }
+    },
+    {
+      "requestHash": "6923ae988dce9fb9b4eacfa4da2268979584b1570a5c25aa630b44fc894331bf",
+      "latencyMs": 2270,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "No similar events found in the same province within 30 days. This is good - no clone signal there.\n\nNow let me also check the organizer context to see if there's anything suspicious about the organizer.",
+          "toolCalls": [
+            {
+              "id": "HUa7kBPb5JRLGpDs2F7C6mQXN56xuohM",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_c301c6a2f4\"}"
             }
@@ -22,140 +110,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3732,
-          "outputTokens": 41
+          "inputTokens": 6126,
+          "outputTokens": 85
         }
       }
     },
     {
-      "requestHash": "061cf9ac8995676679196c864a265f4c430880fa4650f13aaa953c142ab299cf",
-      "latencyMs": 1600,
+      "requestHash": "7c6b8e74b78cb976cd1eff56d1474bce384e4d68f82cb6e0dd47139b86b4c2cf",
+      "latencyMs": 52234,
       "response": {
         "message": {
           "role": "assistant",
-          "content": null,
+          "content": "The organizer context shows:\n- Organizer name: \"Itsasargi Kontzertuak\" (Basque name meaning \"Starfish Concerts\")\n- Status: approved\n- Fiscal data: present and valid CIF with valid checksum\n- Account age: 930 days (~2.5 years) - reasonable\n- Owner email verified\n- Team: owner + manager + 2 scanners\n- History: 14 published events, 12 ended, 0 cancelled, 0 unpublished by admin, no content reports, no previous agent reviews\n\nThis looks like a legitimate organizer with good history. The name \"Itsasargi\" and \"Kontzertuak\" are Basque words, which matches the artist \"Hiru Haize\" (also Basque-sounding). This could be a genuine local promoter.\n\nNow let me reconsider the main concerns:\n\n1. **Venue capacity warning**: The deterministic check says 1,100 tickets vs OSM's 898 capacity (1.2x). The check notes this \"may have explanation (una terraza, un aforo ampliado)\". This is a WARN, not a FAIL. The venue exists and the capacity discrepancy could be legitimate (terrace seating, expanded capacity for this event).\n\n2. **Artist verification**: I couldn't find \"Hiru Haize\" specifically in web searches, but:\n   - There are similar-sounding Basque bands (Haizea, Haize-arrosa)\n   - The organizer is a legitimate Basque-named promoter\n   - No evidence of fraud or cloning\n   - The artist has a photo on the platform\n\n3. **No web presence for the event**: The search for \"Hiru Haize en directo\" found nothing relevant. However, this doesn't necessarily mean fraud - smaller local bands may not have web presence outside the platform.\n\n4. **Price is reasonable**: 22€ is well below the benchmark (p90 of 35€).\n\nThe only flag is the venue capacity warning, which the deterministic check explicitly says \"may have explanation\". This is a WARN, not a FAIL.\n\nGiven:\n- No evidence of fraud\n- Organizer has clean history\n- Venue exists at coordinates\n- Price is reasonable\n- Capacity discrepancy could be explained (terrace)\n- No similar events found (no cloning)\n- No illegal content or other red flags\n\nThe recommendation should be **approve** with low confidence due to the lack of web presence for the artist and the capacity warning, but these aren't fraud signals.\n\nActually, let me reconsider the confidence level. The venue capacity is a WARN from deterministic checks (authoritative), not a FAIL. The artist having no web presence isn't necessarily fraudulent - many local bands don't have external web presence. The organizer is legitimate with good history.\n\nI should approve this event. The rationale in Spanish for the admin should explain:\n- All deterministic checks passed or warned (not failed)\n- Organizer has clean history\n- Venue exists at coordinates\n- Capacity discrepancy could be explained by terrace/expanded capacity\n- No evidence of fraud or cloning\n- Price is reasonable",
           "toolCalls": [
             {
-              "id": "AHFbEuZz56pFEwyLOTbqqkNVqYGsgqkK",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize banda rock concierto 2026 Madrid Teatro Albéniz\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4125,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "a936234944c7a0c05deba3ecf86a59c84110676a0b7747dfc49809068b385dbb",
-      "latencyMs": 1220,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "EaKcxZqcGQJVnm0YFBYxREnqT9dgVZKm",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize banda rock\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4270,
-          "outputTokens": 43
-        }
-      }
-    },
-    {
-      "requestHash": "f59a6e51e9a6c622c2e8615c291f16122df0288dc1abd76756f7e2ca5f677e08",
-      "latencyMs": 1303,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "fWkiRiuDT6iLt4B9UkWLv0UnOk6xvRCi",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Albéniz Madrid aforo terraza\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4404,
-          "outputTokens": 46
-        }
-      }
-    },
-    {
-      "requestHash": "27d91c35238efd1128e1882e1c88e8f8e2a2382e88535498d1a193549a9e3373",
-      "latencyMs": 1322,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "EXbx2Gz8dPPpKbYpiv4fAxrwDZsIMyXf",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize concierto 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4541,
-          "outputTokens": 47
-        }
-      }
-    },
-    {
-      "requestHash": "8154d0b7a07f8e4c529d471f842cf00681b3098ece13ad3f48ad963ab7c66ab6",
-      "latencyMs": 1338,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "wIJZx0vfjmlmkqzleAxqggCyY7PXSN4W",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Hiru Haize banda rock España\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4679,
-          "outputTokens": 44
-        }
-      }
-    },
-    {
-      "requestHash": "92735ca96a8b176a0f1d83d9dc944eb3e207d03cee42e6dae674ebd049ef107e",
-      "latencyMs": 34568,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "jyKp88pWFYQUNfC5CWlOPDjjRLXpjq1n",
+              "id": "qL5FgiNNBJ8DfVMRlo67ZcV4l2Ar5QzO",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.85,\"rationale\":\"El evento cumple con todos los controles determinísticos: código postal correcto, sin pagos fuera de plataforma, sin enlaces externos, términos no abusivos, sin alcohol a menores, sin inyección de prompts, precios sanos y dentro del benchmark, comisiones aceptables, descuentos válidos, sesiones sin solapamiento ni problemas de timing. El histórico del organizador (Itsasargi Kontzertuak) es limpio: cuenta aprobado desde 2024, fiscalidad verificada, sin organizaciones rechazadas ni denuncias por fraude, sin eventos despublicados por admin, sin reportes de contenido y sin revisiones previas como agente. El recinto Teatro Albéniz existe en OpenStreetMap y el aforo de venta (1.100) es 1,2 veces el aforo oficial (898), lo cual puede explicarse por una terraza o aforo ampliado (verdict warn aceptable). La búsqueda web no pudo confirmarse por cuota excedida, pero no hay señales de fraude ni ilegalidad. No hay evidencia de clonación ni duplicado exacto con otro organizador. Se aprueba con confianza alta dado el perfil sólido del organizador y la ausencia de alertas determinísticas fallidas.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 28012 corresponde a Madrid.\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":1,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":1,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":1,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":1,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":1,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":1,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.\",\"confidence\":1,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Madrid, aforo 1000to5000).\",\"confidence\":1,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin organizaciones rechazadas del dueño ni denuncias por fraude.\",\"confidence\":1,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Albéniz» figura en OpenStreetMap como amenity=theatre a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":1,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 1.100, 1,2 veces el aforo de 898 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Entre 1 y 2 veces puede tener explicación (una terraza, un aforo ampliado).\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada: la búsqueda web no estaba disponible.\",\"confidence\":0.5,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"approve\",\"confidence\":0.75,\"rationale\":\"Evento aprobado. Todas las verificaciones determinísticas pasaron o mostraron advertencia (no fallos). El recinto existe en las coordenadas indicadas y la diferencia de aforo (1.100 entradas vs 898 en OSM) puede explicarse por terraza o aforo ampliado para esta ocasión. El organizador \\\"Itsasargi Kontzertuak\\\" tiene historial limpio: 14 eventos publicados, 12 finalizados, sin cancelaciones ni denuncias. No se encontraron eventos similares de otros organizadores (sin señal de clon). El precio de 22€ está por debajo del p90 del benchmark para rock en Madrid. La banda no tiene presencia web externa detectada, pero esto no implica fraude; puede ser una banda local sin presencia online fuera de la plataforma. Sin evidencia de fraude ni contenido ilegal.\",\"findings\":[{\"check\":\"postal_code_province\",\"verdict\":\"pass\",\"detail\":\"El código postal 28012 corresponde a Madrid.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"Los textos no piden pagar fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"Los textos no enlazan a otras ticketeras ni a acortadores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones no niegan la devolución en caso de cancelación.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"minors_alcohol\",\"verdict\":\"pass\",\"detail\":\"Los textos no ofrecen alcohol a menores.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"prompt_injection\",\"verdict\":\"pass\",\"detail\":\"Los textos no intentan dar instrucciones al revisor.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_sanity\",\"verdict\":\"pass\",\"detail\":\"Ninguna entrada VIP cuesta menos que una general.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Los gastos de gestión no superan el 20 % del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"pass\",\"detail\":\"Ningún descuento activo de más del 50 % carece de límite de usos.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_dates\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no se solapan.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"session_timing\",\"verdict\":\"pass\",\"detail\":\"Las sesiones no son inminentes ni lejanas, y ninguna ya celebrada sigue a la venta.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Ningún precio supera 3 veces el p90 (35,00 €) de 42 eventos comparables (género rock, Madrid, aforo 1000to5000).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin organizaciones rechazadas del dueño ni denuncias por fraude.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Recinto verificado: «Teatro Albéniz» figura en OpenStreetMap como amenity=theatre a 3 m de las coordenadas del evento (umbral: 200 m).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap: Teatro Albéniz (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"Heurística de aforo: la sesión con más entradas pone a la venta 1.100, 1,2 veces el aforo de 898 que publica OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Entre 1 y 2 veces puede tener explicación (una terraza, un aforo ampliado).\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/13440856094\",\"title\":\"OpenStreetMap (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en la misma provincia dentro de 30 días.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se detectó presencia web externa para la banda Hiru Haize; no hay evidencia de fechas anunciadas en otros sitios.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.instagram.com/popular/teatro-alb%C3%A9niz-madrid\",\"title\":\"Teatro Albéniz Madrid\"},{\"url\":\"https://www.songkick.com/venues/33065-teatro-albeniz\",\"title\":\"Songkick: Teatro Albeniz Madrid\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4759,
-          "outputTokens": 1320
+          "inputTokens": 6563,
+          "outputTokens": 1996
         }
       }
     }
@@ -168,47 +146,111 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.unisabana.edu.co/teatro-unisabana",
+            "title": "Conoce el teatro Unisabana | Universidad de La Sabana",
+            "snippet": "El Teatro UniSabana ofrece a las organizaciones una propuesta integral para la realización de eventos culturales corporativos de alto nivel, diseñados para generar experiencias memorables y de gran impacto. Las empresas pueden seleccionar funciones de nuestra programación artística y complementarlas"
+          },
+          {
+            "url": "https://www.instagram.com/reel/DXR-1_zjr4I",
+            "title": "Instagram",
+            "snippet": "#Teatro 🎭 | ¡Es hoy! Terraza Norte abre sus puertas para la presentación de este microteatro, un formato dinámico que presenta el proyecto \"Álbum de Escenas\".  \n  \nEl encuentro fusiona el arte de las tablas con la buena música en un viaje que recorre el drama, el humor y el suspenso, con presentaci"
+          },
+          {
+            "url": "https://miyamotointernational.com/es/proyectos/la-terraza-del-teatro-griego-completamente-renovada",
+            "title": "Renovación completa de la terraza del Teatro Griego - Miyamoto International",
+            "snippet": "El Teatro Griego, un emblemático recinto al aire libre para conciertos, espectáculos y eventos en el Parque Griffith de Los Ángeles, celebraría su 90.º aniversario en 2020. Sin embargo, debido a la COVID-19, el recinto no pudo abrir sus puertas para celebraciones presenciales. No obstante, esta paus"
+          },
+          {
+            "url": "https://www.instagram.com/p/DXX0ie5jgaE",
+            "title": "Instagram",
+            "snippet": "cultura\\_fca\n\nEl miércoles 15 de abril La Comuna, Grupo de Teatro de la FCA compartió \"La calle de la gran ocasión, de Luisa Josefina Hernández\" en el marco del Día Mundial del Arte en la FCA, en la Terraza de las Artes a las 14:00 horas\n\n## No comments yet.\n\nStart the conversation.\n\n38\n\nLog in to l"
+          },
+          {
+            "url": "https://www.telemundo47.com/historias-destacadas/teatro-de-broadway-abre-sus-puertas-por-primera-vez-luego-de-meses-de-cierre-por-la-pandemia/2166560",
+            "title": "Teatro de Broadway abre sus puertas por primera vez luego de meses de cierre por la pandemia – Telemundo New York (47)",
+            "snippet": "Y es que como parte del festival de arte conocido como NY PopsUp, que fue creado como una iniciativa del gobernador Andrew Cuomo para acelerar el regreso de la escena artística y cultural, se presentó el sábado en la tarde la primera actuación dentro de un teatro de Broadway luego de meses de estar "
+          }
+        ]
       }
     },
     {
-      "requestHash": "6350eba882d03d1bba1d487724ffbc4c7995bc075d89c34244106e98378f6146",
+      "requestHash": "dd7ea84e2c639512175c41da7a68fc8044c2bf7f13ad4794033d924ad37ba1a9",
       "provider": "Tavily",
       "query": "Hiru Haize banda rock concierto 2026 Madrid Teatro Albéniz",
-      "maxResults": 2,
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.instagram.com/popular/teatro-alb%C3%A9niz-madrid",
+            "title": "Teatro Albéniz Madrid",
+            "snippet": "Log In\n\nSign Up\n\n# Teatro Albéniz Madrid\n\nThe Teatro Albéniz in Madrid recently hosted a concert by Joaquina on March 23, 2026. According to recent reviews, the theater is known for its amazing setting and staging, with high-level light and... more\n\n## teatros madrid\n\n## teatro albeniz\n\nGRACIAS, MAD"
+          },
+          {
+            "url": "https://www.songkick.com/venues/33065-teatro-albeniz",
+            "title": "Teatro Albeniz Madrid, Tickets for Concerts & Music Events 2026 – Songkick",
+            "snippet": "Missy Elliott Concert Tickets - 2026 Tour Dates.\nAWOLNATION Concert Tickets - 2026 Tour Dates.\nGym Class Heroes Concert Tickets - 2026 Tour Dates.\nMary J. Blige Concert Tickets - 2026 Tour Dates.\nThe Game Concert Tickets - 2026 Tour Dates.\nMadra Salach Concert Tickets - 2026 Tour Dates.\nWestside Cow"
+          },
+          {
+            "url": "https://www.bandsintown.com/e/108569670-alfa-mist-at-teatro-albeniz-madrid",
+            "title": "Alfa Mist Madrid Tickets, Teatro Albéniz Madrid Oct 31, 2026 | Bandsintown",
+            "snippet": "Phone icon\n\nGet the app\n\nSign up\n\nConcert# Alfa Mist\n\nAlfa Mist\n\nTeatro Albéniz Madrid\n\nMadrid, Spain\n\n## Sat, Oct 31, 2026\n\n8:30 PM\n\nI was there\n\nLeave a review\n\nView all concerts by artist\n\nAlfa Mist Tickets, Tour Dates and Concerts\n\n## About this concert\n\n8:30 PM GMT+1•109 Going [...] 15.2996C2.7"
+          }
+        ]
       }
     },
     {
-      "requestHash": "711107750811eee381a4797eaf5707a278210d352da17c31d80411e8e49c750d",
+      "requestHash": "8761cbd5081fa7ec445be4b6808cffbcb943e3ac8253f0f00775bce83c045b45",
       "provider": "Tavily",
-      "query": "Hiru Haize banda rock",
-      "maxResults": 2,
+      "query": "Hiru Haize banda rock España",
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://en.wikipedia.org/wiki/Haizea",
+            "title": "Haizea - Wikipedia",
+            "snippet": "Haizea ('Wind') was a Basque band, playing psychedelic rock, progressive rock and folk-rock. Haizea released two albums, Haizea and Hontz Gaua. The first album Haizea was released in 1977 (IOIOTS-149 LS), being more folk than progressive. The second album, Hontz gaua (XOXOA 111 03) was released in 1"
+          },
+          {
+            "url": "https://baga-biga.eus/es/haize-arrosa-nuevo-grupo-y-primer-single-videoclip",
+            "title": "HAIZE-ARROSA Nuevo grupo y primer single + videoclip - Baga Biga",
+            "snippet": "en 2022. Los colores musicales del grupo Haize-arrosa son tan variados como diversos, pero no dependen de lo que marque la veleta del viento. Han trabajado estilos bien meditados, son músicos experimentados (el núcleo central proviene de la banda de los 90, Ene Bada) y son ritmos sacados para la lib"
+          },
+          {
+            "url": "https://www.metaleuskadi.com/banda/hiru-beltz",
+            "title": "Hiru Beltz - Metal Euskadi",
+            "snippet": "1. Los Clavos - I Don't Know Why  \n 2. Zodiacs - Pinball Rock  \n 3. The Fakeband - Sweet  \n 4. Electrobikinis - Boston City Girl  \n 5. Dry Flies - Down  \n 6. Cujo - Deliverance  \n 7. 2 Extraños - Historias De Un Barrio Chino  \n 8. Lord Sickness - Ha, Ha  \n 9. Smile - Do As I Want  \n 10. The Painkill"
+          }
+        ]
       }
     },
     {
-      "requestHash": "69d7763d2888fc22b5bdbbca66b2072639d46c06273c91417d8cd09c5280b163",
+      "requestHash": "4c219bc2e05a362261f4bd0293fe975ad14add8a5387bbb3af9c55fb0e9181a2",
       "provider": "Tavily",
-      "query": "Teatro Albéniz Madrid aforo terraza",
-      "maxResults": 2,
+      "query": "\"Hiru Haize en directo\" concierto",
+      "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "0a2548a0c3ce177e5d48354b0de8ef3a463a32a6f42f2788bfd85785c4dc473a",
-      "provider": "Tavily",
-      "query": "Hiru Haize concierto 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=cJunCsrhJjg",
+            "title": "The Jimi Hendrix Experience - Purple Haze (Live at the Atlanta Pop Festival)",
+            "snippet": "# The Jimi Hendrix Experience - Purple Haze (Live at the Atlanta Pop Festival)\n## Channel: Jimi Hendrix (verified)\n1.46M subscribers\n339K likes\n\n### Description\n37,969,552 views\nPosted: 2015-08-20\nLive at the Atlanta Pop Festival - \"Purple Haze\" by The Jimi Hendrix Experience\n\nListen to Jimi Hendrix"
+          },
+          {
+            "url": "https://www.investing.com/equities/hiru-corporation-company-profile",
+            "title": "About Hiru Corporation (HIRU) - Investing.com",
+            "snippet": "English (UK)\n   English (India)\n   English (Canada)\n   English (Australia)\n   English (South Africa)\n   English (Philippines)\n   English (Nigeria)\n   Deutsch\n   Español (España)\n   Español (México)\n   Français\n   Italiano\n   Nederlands\n   Polski\n   Português (Portugal)\n   Português (Brasil)\n   Русск"
+          },
+          {
+            "url": "https://finance.yahoo.com/news/hiru-corporation-hiru-providing-clarity-123000431.html",
+            "title": "Hiru Corporation (HIRU) Providing Clarity on Our Strategic Growth Plans",
+            "snippet": "2. Significant Revenue Growth: We project revenues for 2025 to be in the range of $10 to $15 million USD, supported by robust EBITDA margins of approximately 30%.\n\n3. Operational Expansion: Integrating new assets seamlessly to ensure operational efficiency and profitability.\n\n4. Increased Market Vis"
+          }
+        ]
       }
     }
   ]

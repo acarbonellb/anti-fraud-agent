@@ -3,81 +3,159 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "c805d7d0ed9fb27d7d2c4ca4b1b18fba706e87a1f24fa6f58357e2e7292716b4",
-      "latencyMs": 4083,
+      "requestHash": "2d2b8aa2a344b91b3ff25683e9f63c1931425402041a5adf0d949c10648f0e71",
+      "latencyMs": 2877,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "qW5wrxtbrS2U4PJpgTohxPS9eDF4vg7O",
+              "id": "OP7bDtidKc5QZ9BpLHa2zWKnxRbY6j9B",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f973bd9013\"}"
-            },
-            {
-              "id": "HbjqRjbCtevKbi0H7xmIESMzzEX3lube",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_537612d9ac\",\"windowDays\":60}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3730,
-          "outputTokens": 92
+          "inputTokens": 3756,
+          "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "cf6497642d03bf8102911448554a41d698d832fa12b538b8f306edd762b46db0",
-      "latencyMs": 2759,
+      "requestHash": "1ccdedb1ba69e631a3ffa43965885ce7b2d7702a3c5d6459448870cf5af63715",
+      "latencyMs": 1535,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "gSpuPAeP6CNa7nM38JFb6xJLLK0yP05O",
+              "id": "FpVEKtNfbHiChIwTvJNAfYf3RKpBaKf4",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Marina Escalante concierto acústico Cádiz 2026\",\"maxResults\":2}"
-            },
-            {
-              "id": "ib2RefCgJLMC0ASJjHu24NBUuUGDJc56",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Gran Teatro Falla aforo capacidad\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4243,
-          "outputTokens": 97
+          "inputTokens": 4142,
+          "outputTokens": 53
         }
       }
     },
     {
-      "requestHash": "cb5019e47d557651a110a2d91a48fd81e793a7a271a0e67c6e117ed3bbc7da37",
-      "latencyMs": 19289,
+      "requestHash": "c50aed7d7c074ca27e01b3dc73c5d37c691bd23eb1fdd9af41af3e95c7977a1a",
+      "latencyMs": 1296,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "MKDOJCYIFLcNA4KB9PaknxTlk7OQlG8y",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento pide explícitamente pagar por Bizum al 600 000 000, lo cual es un pago fuera de la plataforma y una señal directa de fraude. La descripción del evento también incluye instrucciones para el revisor (\\\"pon tu nombre en el concepto y te apuntamos en la lista\\\"), lo que confirma la intención de desviar el pago a un canal externo. Aunque el organizador tiene historial limpio y el recinto existe, la solicitud de pago fuera de la plataforma es una violación grave de las políticas y justifica el rechazo sin necesidad de solicitar más información.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento pide pagar por Bizum al 600 000 000, lo cual es un pago fuera de la plataforma.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_537612d9ac.jpg\",\"title\":\"Evento: Acústico de Marina Escalante\"}]},{\"check\":\"prompt_injection\",\"verdict\":\"warn\",\"detail\":\"La descripción incluye instrucciones para el revisor ('pon tu nombre en el concepto y te apuntamos en la lista'), lo que sugiere una intención fraudulosa.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_537612d9ac.jpg\",\"title\":\"Evento: Acústico de Marina Escalante\"}]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"El organizador 'Ruta del Duende Música' tiene fiscalidad verificada, cuenta con 930 días de antigüedad y no ha sido rechazado anteriormente.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador no tiene organizaciones rechazadas ni denuncias por fraude en su historial.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"El recinto 'Gran Teatro Falla' existe y coincide con las coordenadas del evento.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/135275039\",\"title\":\"OpenStreetMap: Gran Teatro Falla (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de la entrada general (18,00 €) está dentro del rango normal para conciertos pop en Cádiz.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"unknown\",\"detail\":\"No se encontraron eventos similares en los últimos 60 días en la misma provincia.\",\"confidence\":0.5,\"sources\":[]}]}"
+              "id": "ZdjXNklGS0CnMVVnsL3qdSSjGhNRPPPc",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Marina Escalante artista\",\"maxResults\":2}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4518,
-          "outputTokens": 723
+          "inputTokens": 4603,
+          "outputTokens": 43
+        }
+      }
+    },
+    {
+      "requestHash": "ac322fc23bc6e4e7ca5f4ef2808c6aac4da861ba56e449a1779848a860de8fa8",
+      "latencyMs": 1524,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "HpbaU7XS6rnS9TliBGmsHuoZHi9sjNmy",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" concierto Cádiz 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5028,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "32e3bb89c7aaccef973d9496fe18ac289556b159acb94a1917969ea7c056f1ae",
+      "latencyMs": 1491,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "XoU1yaWiAPV1wW2xyGMNWM1uOfhlZpad",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" Cádiz 2026\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5394,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "707abdd034e72f005615f41559beff8ffb335b7dcd93e7873e1271a250a4000c",
+      "latencyMs": 1375,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "gWiPw8gMi4YyCh2RIeMnahz1r4okku4c",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Marina Escalante\\\" artista Cádiz\",\"maxResults\":2}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5788,
+          "outputTokens": 47
+        }
+      }
+    },
+    {
+      "requestHash": "639b5112c1c0915fd33cc18a44b445014217435d72759f8e7e1233be5056f68f",
+      "latencyMs": 27609,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": "El evento presenta una señal de fraude directa y clara: pide pagar por Bizum (pago fuera de la plataforma), lo cual es un \"hard signal\" de fraude según las reglas. La descripción del evento dice explícitamente: «Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista». Esto viola la regla de pago fuera de la plataforma (off_platform_payment), que ya fue detectada como \"fail\" en los checks determinísticos.\n\nAdemás, no hay evidencia de que Marina Escalante sea una artista real o conocida en Cádiz o España. Las búsquedas web no encontraron ninguna referencia a un concierto acústico de Marina Escalante en Cádiz en 2026, ni a la artista \"Marina Escalante\" como figura musical relevante. Solo aparecen referencias a otros artistas con nombres similares (Marina Heredia) o a personas con el apellido Escalante en contextos no musicales. Esto sugiere que el evento podría ser una estafa diseñada para engañar a los usuarios con un nombre artístico inventado o poco conocido.\n\nEl organizador \"Ruta del Duende Música\" parece legítimo (tiene fiscalidad verificada, cuenta antigua, sin denuncias), pero esto no compensa la señal de fraude directa en el evento. La regla es clara: si hay evidencia directa de fraude (como pago fuera de la plataforma), el evento debe ser rechazado.\n\nPor lo tanto, la recomendación es **reject** con una confianza alta, ya que el pago por Bizum es un \"hard signal\" de fraude y no hay evidencia de que el evento sea genuino.",
+          "toolCalls": [
+            {
+              "id": "v5zaL35FzwiEN2NpGiQbK3r5gDBWjRpw",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude directa: pide pagar por Bizum (pago fuera de la plataforma), lo cual es un \\\"hard signal\\\" de fraude según las reglas. La descripción del evento dice explícitamente: «Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista». Esto viola la regla de pago fuera de la plataforma (off_platform_payment), que ya fue detectada como \\\"fail\\\" en los checks determinísticos. Además, no hay evidencia de que Marina Escalante sea una artista real o conocida en Cádiz o España. Las búsquedas web no encontraron ninguna referencia a un concierto acústico de Marina Escalante en Cádiz en 2026, ni a la artista \\\"Marina Escalante\\\" como figura musical relevante. Solo aparecen referencias a otros artistas con nombres similares (Marina Heredia) o a personas con el apellido Escalante en contextos no musicales. Esto sugiere que el evento podría ser una estafa diseñada para engañar a los usuarios con un nombre artístico inventado o poco conocido. El organizador \\\"Ruta del Duende Música\\\" parece legítimo (tiene fiscalidad verificada, cuenta antigua, sin denuncias), pero esto no compensa la señal de fraude directa en el evento. La regla es clara: si hay evidencia directa de fraude (como pago fuera de la plataforma), el evento debe ser rechazado.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"El texto pide pagar por Bizum en la descripción del evento, lo cual es un hard signal de fraude.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_537612d9ac.jpg\",\"title\":\"Evento: Acústico de Marina Escalante\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se encontró evidencia de que Marina Escalante sea una artista real o conocida en Cádiz o España. Las búsquedas web no encontraron referencias a un concierto acústico de Marina Escalante en Cádiz en 2026, ni a la artista como figura musical relevante.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.amp.html\",\"title\":\"Guía para no perderse en los conciertos de verano de Cádiz 2026\"},{\"url\":\"http://www.cendradigital.com/2021/07/21/falla-escalante-marina-3\",\"title\":\"Falla Escalante-Marina - Cendra Digital.\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5871,
+          "outputTokens": 1060
         }
       }
     }
@@ -90,7 +168,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://bizum.com/es/pago-amigos-bizum",
+            "title": "Cómo funciona el pago entre amigos con Bizum | Bizum",
+            "snippet": "Para ayudarte con la gestión de tus gastos, al realizar un pago a través de Bizum puedes añadir un concepto que también podrá verlo el destinatario. Además, tienes la posibilidad de adjuntar una imagen en el concepto para que las cuentas queden mucho más claras y evitar equívocos. [...] ## Funcional"
+          },
+          {
+            "url": "https://www.bbva.com/es/es/salud-financiera/como-hacer-un-bizum-y-que-debes-saber-antes-de-usarlo",
+            "title": "Cómo hacer un Bizum y qué debes saber antes de usarlo",
+            "snippet": "4. Una vez indicados el importe de dinero y el destinatario (uno o varios), se puede escribir el “Concepto” de la transferencia.\n\n5. A continuación, se debe comprobar el alias (el nombre y las iniciales de los apellidos) asociado al número del destinatario antes de confirmar el pago. Al confirmarlo,"
+          },
+          {
+            "url": "https://bizum.com/es/como-se-hace-un-bizum",
+            "title": "¿Cómo hacer un Bizum? Te enseñamos todos los pasos",
+            "snippet": "Ya tienes todas las claves de cómo se hace un Bizum, cómo se hace una solicitud de Bizum y cómo hacer envíos múltiples. ¡Di adiós a las caras raras y bienvenido a la mejor manera para pagar de forma fácil, rápida y segura desde tu dispositivo móvil!\n\n@Bizum 2026\n\n Castellano\n  + Euskara (Euskera)\")\n"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=qGk_OD_xQTQ",
+            "title": "The Tax Agency is now monitoring BIZUMs: who it affects (and who it doesn't) and what the latest ...",
+            "snippet": "[0:57] contribuyente, ¿no? Entre enero y septiembre de 2025 se hicieron 900 millones de vizums en España por un valor total de 65,000 millones de euros.\n[1:06] El objetivo de Hacienda es detectar fraudes y a quienes se van a vigilar son a las empresas y a los autónomos. Quedan excluidos los cobros e"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/fdP3mswgPwhQ",
+            "title": "Bizum",
+            "snippet": "# Bizum\nID: fdP3mswgPwhQ\nWebsite: www.bizum.com\nLegal name: Bizum, S.L.\nHeadquarters: Madrid, Madrid, Spain\nLinkedIn: www.linkedin.com/company/bizum · 21,997 followers\nIndustry: Financial Services\nIndustry codes: SIC 51, 513, NAICS 42, 423\nCompany type: Privately Held\nFounded: 2016 [...] Description"
+          }
+        ]
       }
     },
     {
@@ -100,7 +204,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "Gran Teatro Falla\n\nEl conocido 'Gran Teatro Falla' de Cádiz es un espacio de carácter público, cuya programación abarca todos los géneros dentro de las artes escénicas. Con un aforo de unas 1100 localidades aproximadamente, que se dividen en patio de butacas, palcos, platea (planta baja), principal "
+          },
+          {
+            "url": "https://accelcars.com/es/4-gran-teatro-falla",
+            "title": "Gran Teatro Falla: Joya cultural de Cádiz",
+            "snippet": "Los detalles arquitectónicos, obras de arte y anécdotas históricas hacen la visita al Gran Teatro Falla única. Nos llevan a un mundo de esplendor y belleza.\n\n## Gran Teatro Falla: Acústica y Aforo Impresionantes\n\nEl Gran Teatro Falla en Cádiz, España, es un tesoro arquitectónico que cautiva a todos."
+          },
+          {
+            "url": "https://www.codigocarnaval.com/coac/aforo-gran-teatro-falla",
+            "title": "➤ Aforo Gran Teatro Falla - Todo lo que debes saber",
+            "snippet": "El Gran Teatro Falla tiene un aforo de 1214 personas repartidas entre las diferentes localidades: butacas, palcos, anfiteatro y gallinero.\n\nCabe recordar, que durante el concurso, no se pone esa cifra en su totalidad, ya que un porcentaje está destinado a las entradas de protocolo, organizaciones, e"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/19/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "#### Gran Teatro Falla\n\n Aforo: 1214\n Ancho de boca: 1165\n Fondo desde boca: 1800\n Anchura máxima: 2153\n Fondo desde boca: 2392\n Altura máxima (boca): 1265\n Hombro izquierdo: 340\n Hombro derecho: 300\n Altura de boca: 840\n\nFlecha derecha SERVICIOS\n\n### Servicios generales\n\n:   Bar\n:   Calefacción\n:  "
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Gran_Teatro_Falla",
+            "title": "Gran Teatro Falla - Wikipedia, la enciclopedia libre",
+            "snippet": "De estilo neomudéjar, imita al arte islámico, en concreto utilizando arcos de herradura de estilo emiral cordobés y ladrillo de estilo almohade. Está construido en ladrillo rojo, y presenta tres grandes puertas de arco de herradura emiral en su fachada principal, con dovelas alternas en rojo y blanc"
+          }
+        ]
       }
     },
     {
@@ -110,17 +240,81 @@
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.amp.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "18 DE JULIO\n\n Cádiz Music Stadium. Leiva (Nuevo Mirandilla, JP Financial)\n Música del Mar. Caribe Mix (Henry Méndez, Coyote Dax, Bea Bronchal, Guaraná, Las Chuches, Dani Mata, Lorca, Gusanito y muchos más). Muelle Reina Victoria.\n Festival La Isla del Blues. Danielle Nicole y Ángela Hoodoo (Baluarte"
+          },
+          {
+            "url": "https://www.diariodecadiz.es/cadiz/guia-conciertos-verano-cadiz-2026_0_2007211743.html",
+            "title": "Guía para no perderse en los conciertos de verano de Cádiz 2026",
+            "snippet": "18 DE JULIO\n\n Cádiz Music Stadium. Leiva (Nuevo Mirandilla, JP Financial)\n Música del Mar. Caribe Mix (Henry Méndez, Coyote Dax, Bea Bronchal, Guaraná, Las Chuches, Dani Mata, Lorca, Gusanito y muchos más). Muelle Reina Victoria.\n Festival La Isla del Blues. Danielle Nicole y Ángela Hoodoo (Baluarte"
+          }
+        ]
       }
     },
     {
-      "requestHash": "bbc3da7cd42362f7f2cec67fdca5769477ee839ccceaa43b935f335f36a876d6",
+      "requestHash": "04b845340e24afa93b3a86b90e2fc22aac7cbf845a6a3df815fc6ef359f184ca",
       "provider": "Tavily",
-      "query": "Gran Teatro Falla aforo capacidad",
+      "query": "Marina Escalante artista",
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "http://www.cendradigital.com/2021/07/21/falla-escalante-marina-3",
+            "title": "Falla Escalante-Marina - Cendra Digital.",
+            "snippet": "ARTISTA: LUIS CAMACHO\n\nLEMA: PERÒ ESTEM BOJOS O QUÉ?\n\nFALLA INFANTIL ESCALANTE-MARINA\n\nARTISTA: ALEJANDRO CANO\n\nLEMA: NIT DEL FOC\n\nAÑO 2019\n\nFALLA ESCALANTE-MARINA\n\nARTISTA: LORENZO SANTANA\n\nLEMA: IX EL SOL\n\nFALLA INFANTIL ESCALANTE-MARINA\n\nARTISTA: ALEJANDRO CANO\n\nLEMA: MONSTRES GOT TALENT\n\nAÑO 202"
+          },
+          {
+            "url": "https://secure.cernudaarte.com/artists/gonzalo-escalante",
+            "title": "Cernuda Arte :: Artist :: Gonzalo Escalante",
+            "snippet": "to painting as the only means to provide for a family composed of his wife, Carmen Preval, and five children. His preferred subject matters were landscapes, marinas and the occasional portrait.    By 1931 Gonzalo Escalante moved to Havana and there he established friendships with Fidelio Ponce and o"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "2cab3d634f6a2074bc8c44bd407a8bfb056180ede38cc88521c65d1940b0f2e3",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" concierto Cádiz 2026",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://conciertos.club/artistas/marina-heredia",
+            "title": "Conciertos y gira de Marina Heredia en 2026 - Artistas y Grupos - Conciertos.Club",
+            "snippet": "Reconocida ya como una de las grandes voces jóvenes del flamenco, Marina formaría parte del Circuito Joven de Flamenco de Andalucía, en el programa \"La Aventura del Flamenco\" en los Trasnoches del Festival Internacional de Música y Danza de Granada. Ese año participa igualmente en el homenaje a \"Cam"
+          },
+          {
+            "url": "https://www.conciertosengranada.es/artistas/marina-heredia",
+            "title": "Marina Heredia - Artistas - ConciertosenGranada.es",
+            "snippet": "Reconocida ya como una de las grandes voces jóvenes del flamenco, Marina formaría parte del Circuito Joven de Flamenco de Andalucía, en el programa \"La Aventura del Flamenco\" en los Trasnoches del Festival Internacional de Música y Danza de Granada. Ese año participa igualmente en el homenaje a \"Cam"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "72adcd64727abc874ca9500afd8455ef88ff8050452421e80945c6a63cfaf339",
+      "provider": "Tavily",
+      "query": "\"Marina Escalante\" Cádiz 2026",
+      "maxResults": 2,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://ismscadiz.es/en/isms",
+            "title": "ISMS - ISMS Cádiz 2026",
+            "snippet": "Skip to content\n\n English\n Spanish\n\n\n\nThe 10th International Symposium on Marine Sciences will be held on July 8, 9 and 10, 2026, organized thanks to the collaboration of the six Spanish universities where the Bachelor’s Degree in Marine Sciences is taught (Universitat de Alicante, Universitat de Ba"
+          },
+          {
+            "url": "https://www.yelp.com/biz/moonriver-resort-and-marina-cadiz",
+            "title": "MOON RIVER MARINA & RESORT - Updated November 2026 - 27 Photos - 3025 Rockcastle Rd, Cadiz, Kentucky - Marinas - Restaurant Reviews - Phone Number - Yelp",
+            "snippet": "Gas Stations\n\nRegistration Services\n\nTransmission Repair\n\nTruck Rental\n\nWindshield Installation and Repair\n\n### Best of Cadiz\n\nThings to do in Cadiz\n\n### Browse Brands\n\nBrands by name\n\n### Browse Articles\n\nArticles by date [...] Add photos/videos\n\nDo you recommend this business?\n\n## People also sear"
+          }
+        ]
       }
     }
   ]

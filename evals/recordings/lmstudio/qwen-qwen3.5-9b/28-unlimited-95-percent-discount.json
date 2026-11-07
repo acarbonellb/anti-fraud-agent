@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "bbcc99b79f23a0575c3b5fb7efda5e1e25b975afb83ef7464b3df975bf055240",
-      "latencyMs": 2963,
+      "requestHash": "6bf212de833fbf90492f51797e49da09308331a81229d49d23a6cddd1245f29c",
+      "latencyMs": 3549,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "zPP9jModhb82MDlDzEx0X9T6JDK8iCEo",
+              "id": "zj1VDSDsLG8qHG1u0viGczZJC3nHbOVp",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_a074bb6554\"}"
             }
@@ -22,72 +22,145 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3729,
+          "inputTokens": 3746,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "b4b54b089ea200233f348bdf7eb4dd9dbff709b0e5c3a0d844702ebb5963b0bc",
-      "latencyMs": 2650,
+      "requestHash": "35a58493064f146158c78aac1aed98c2aa466ca21193cec436180c88ad6c6a20",
+      "latencyMs": 1533,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "fcRl4OJyj7wRNXi5R5wqg6S0t2HQNvB5",
+              "id": "vG1QeLH4wcgYF3W7Ffx3vztDLpfhHfNE",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Las Golondrinas de Papel concierto Burgos 2026\",\"maxResults\":3}"
-            },
-            {
-              "id": "A9HnhbyZNLMYJELWbfuKz5kruYPWdrdI",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Principal Burgos aforo capacidad\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4113,
-          "outputTokens": 95
+          "inputTokens": 4130,
+          "outputTokens": 51
         }
       }
     },
     {
-      "requestHash": "36744b1fbc4f87f3da2994a14e878270404537e22b3e83d26914720317006ed7",
-      "latencyMs": 18272,
+      "requestHash": "3c7ec20f791d68abcd580d423160c02e52a89a06ee1882747640bc72f60b1153",
+      "latencyMs": 1690,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "USeltV84k0oTfVOGgvRO7VAXer8p3hTA",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.7,\"rationale\":\"El evento presenta un descuento del 95 % sin límite de usos, lo cual es atípico y podría indicar una estrategia promocional agresiva o un error. Además, el aforo del Teatro Principal no está disponible públicamente en fuentes externas (Wikidata ni OpenStreetMap), y la búsqueda web para verificar la existencia del artista \\\"Las Golondrinas de Papel\\\" y el aforo real del recinto falló por cuota excedida. Aunque el organizador tiene historial limpio y fiscalidad correcta, la combinación de un descuento extremo sin restricciones y la incapacidad de verificar el aforo del recinto (que podría estar sobreventa) justifica solicitar información adicional antes de aprobar.\",\"findings\":[{\"check\":\"discounts\",\"verdict\":\"warn\",\"detail\":\"Hay un descuento activo del 95 % sin límite de usos, lo cual es atípico y podría indicar una estrategia promocional agresiva o un error.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Teatro Principal», y la búsqueda web falló (quota_exceeded); la sesión con más entradas pone a la venta 300.\",\"confidence\":0.6,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/42797791\",\"title\":\"OpenStreetMap: Teatro Principal (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar si el artista «Las Golondrinas de Papel» tiene fechas anunciadas en otros sitios debido a cuota excedida en la búsqueda web.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador «Páramo Sonoro» con fiscalidad correcta (CIF válido), cuenta activa desde 2024 y sin organizaciones adicionales del dueño.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Organizador con 14 eventos publicados, 12 finalizados, sin denuncias por fraude ni unpublishes administrativos.\",\"confidence\":0.9,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es el aforo real del Teatro Principal en Burgos?\",\"¿Por qué se ofrece un descuento del 95 % sin límite de usos para este evento?\",\"¿Existe alguna fecha adicional anunciada para «Las Golondrinas de Papel» fuera de esta plataforma?\"],\"draft\":\"Solicitamos información sobre el aforo real del recinto, la justificación del descuento extremo y la disponibilidad del artista en otros canales.\"}}"
+              "id": "FVWytYHYLjsPORkSA58dT3x1aaHy0uKi",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Golondrinas de Papel\\\" banda Burgos\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4382,
-          "outputTokens": 695
+          "inputTokens": 4708,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "eb98e8f75c544f88d2cffb821b5a3496ca6d38005e58a457a381de72886b05df",
+      "latencyMs": 1617,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "FQcpv1kYHj20uMUR64MPMXeWz5T8CndI",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Golondrinas de Papel\\\" concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5268,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "f6943bf4b7876a5dfc495defc485dbf3dea075ffc717084cdf5c707403ce043f",
+      "latencyMs": 1521,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "spW83xsCcrh2GPcuWj2BS8r6hjn6ISQd",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Golondrinas de Papel\\\" banda España\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5813,
+          "outputTokens": 48
+        }
+      }
+    },
+    {
+      "requestHash": "e988d68cf4f011835ace7fdcc42b6ba5ecfe513e6185649a3da65dfc12238f14",
+      "latencyMs": 1705,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "2BGAF637E0OwGFXcrp7HzyLOI83HjuGK",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Golondrinas de Papel\\\" Burgos concierto 2026 entradas\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6365,
+          "outputTokens": 54
+        }
+      }
+    },
+    {
+      "requestHash": "fa6a266ac2152978f4a2bd1946da7dedcaa1508355a0d9bb0222a9259fd5e8b2",
+      "latencyMs": 13665,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "jfhyzi8TCsHrk6dbzqRNTdM2kTHnJ6hu",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta señales de fraude: el artista \\\"Las Golondrinas de Papel\\\" no aparece en ninguna fuente externa como banda real (las búsquedas web solo encuentran lugares con nombres similares, no la banda), y no hay menciones de este concierto en 2026 en Burgos. Además, el organizador \\\"Páramo Sonoro\\\" tiene un nombre que podría estar intentando parecerse a otro promoter conocido (\\\"Páramo\\\" es una banda real española), lo que sugiere posible impersonación. El descuento del 95% sin límite de usos también es sospechoso y no se ajusta a prácticas normales. La combinación de artista inexistente, posible impersonación y descuentos anómalos indica fraude.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"La banda 'Las Golondrinas de Papel' no aparece en fuentes externas como artista real ni con conciertos anunciados; las búsquedas web solo encuentran lugares con nombres similares (El Rancho de las Golondrinas, Bar Las Golondrinas), no la banda.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.cajadeburgos.com/cultura/programacion-cultural\",\"title\":\"Programación cultural - Fundación Caja de Burgos\"},{\"url\":\"https://concerts50.com/es/spain/burgos\",\"title\":\"Conciertos en Burgos 2026-2027 | Agenda y Entradas\"}]},{\"check\":\"impersonation\",\"verdict\":\"warn\",\"detail\":\"El organizador 'Páramo Sonoro' podría estar intentando parecerse a la banda real 'Páramo', una banda española conocida, lo que sugiere posible impersonación.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"discounts\",\"verdict\":\"warn\",\"detail\":\"Hay un descuento activo del 95% sin límite de usos, lo cual es anómalo y no se ajusta a prácticas normales de venta de entradas.\",\"confidence\":0.8,\"sources\":[]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6455,
+          "outputTokens": 519
         }
       }
     }
   ],
   "searches": [
-    {
-      "requestHash": "ac8f61718e966c963491c7328765845171dfbfb36cbc520d1848e6e0e789cc40",
-      "provider": "Tavily",
-      "query": "\"Las Golondrinas de Papel vuelven a Burgos con canciones nuevas y las de siempre\"",
-      "maxResults": 5,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
-      }
-    },
     {
       "requestHash": "20f5bfba513d24d3fe94eec2596eb6b92db3cb62ef05466ec35b94f37f16add9",
       "provider": "Tavily",
@@ -95,7 +168,69 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.redescena.net/escenario/129/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nEste espacio desarrolla las siguientes prácticas\n:   Exhibición\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Principal\n\n Aforo: 771\n Ancho de boca: 897\n Fondo desde boca: 1040\n Anchura máxima: 148"
+          },
+          {
+            "url": "https://tienda.santamarialareal.org/es/productos/detalles/teatro-principal-burgos/260",
+            "title": "Teatro Principal (Burgos) - Santa María la Real",
+            "snippet": "Después de intensos años de actividad, el Teatro fue clausurado en agosto de 1946 por orden del alcalde Carlos Quintana. En 1976, el Ayuntamiento declaró en ruina, siendo salvado del derribo de forma milagrosa gracias a la nominación, ese mismo año, como monumento histórico-artístico en base “a sus "
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Principal_(Burgos)",
+            "title": "Teatro Principal (Burgos) - Wikipedia, la enciclopedia libre",
+            "snippet": "1843: Se nombra director encargado de las obras al arquitecto Francisco Angoitia y tendrá una capacidad para 1200 personas. Un poco más tarde se presenta un proyecto para construir el paseo del Espolón con dos puentes el San Pablo y el de Santa María dejando en el centro del Teatro. El arquitecto fu"
+          },
+          {
+            "url": "https://cultura.jcyl.es/web/jcyl/Cultura/es/Plantilla100Directorio/1284282053297/1284236230164/1284236230164/DirectorioPadre",
+            "title": "Teatro Principal | Cultura | Junta de Castilla y León",
+            "snippet": "Cultura de Castilla y León\n\n## Redes Sociales\n\nX. Abre una nueva ventana\nYoutube. Abre una nueva ventana\n\n# Teatro Principal\n\nAbre una nueva ventana\n\nBurgos, 3.\n C.P.: 34100 Palencia.\n\n979 702 904\n\n979 718 138\n\nCorreo electrónico (pulse para verlo)\n\nMunicipal\n\n# Más información"
+          },
+          {
+            "url": "https://www.mirem.net/web/datosrecinto.php?id=315&d=t&df=3",
+            "title": "Mapa Informatizado de Recintos Escénicos: Datos de recinto",
+            "snippet": "Teatro Principal. Paseo del Espolón, s/n, 3º planta   \n Burgos   \n 09003 - Burgos   \n Teléfono: 947288840   \n FAX: 947271250   \n   \n Gerencia: coordinador cultural   \n Ignacio J. de Miguel Gallo   \n Teatro Principal. Paseo del Espolón, s/n, 3º planta   \n Burgos   \n 09003 - Burgos   \n Teléfono: 94728"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "ac8f61718e966c963491c7328765845171dfbfb36cbc520d1848e6e0e789cc40",
+      "provider": "Tavily",
+      "query": "\"Las Golondrinas de Papel vuelven a Burgos con canciones nuevas y las de siempre\"",
+      "maxResults": 5,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=3JPcOzInVrU",
+            "title": "🐦 ¡La Golondrina Vuelve al Nido! | Canción Infantil sobre la Familia 🏡🎶",
+            "snippet": "[1:26] Nido, nido dulce hogar, siempre es lindo regresar. Huela lejos, vuelve al fin.\n[1:36] La familia cuida de ti.\n[1:53] La la la La la la la la. [...] # 🐦 ¡La Golondrina Vuelve al Nido! | Canción Infantil sobre la Familia 🏡🎶\n## Channel: CantaPeque Show\n29.8K subscribers\n0 likes\n\n### Descripti"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=r31zDWK4Sdg",
+            "title": "Vicente Fernández - Las Golondrinas (En Vivo)[Un Azteca en el Azteca]",
+            "snippet": "[0:51] [música]\n[0:58] El aplauso para don Vicente Fernández Una noche muy especial para todos nosotros Que se va a quedar en el corazón En el alma de todos y cada uno\n[1:07] De los que tuvimos la oportunidad de disfrutar esta noche Al rey de la música mexicana Muchísimas gracias por su presencia Bu"
+          },
+          {
+            "url": "https://www.mapquest.com/mx/sotano-de-las-golondrinas-528441436",
+            "title": "Sotano De Las Golondrinas",
+            "snippet": "Directions\n\nAdvertisement\n\nAdvertisement\n\n## Photos\n\nImage 18: Sotano de Las Golonddrinas\n\nSotano de Las Golonddrinas\n\nImage 19: photo0.jpg\n\nphoto0.jpg\n\nImage 20: photo0.jpg\n\nphoto0.jpg\n\nImage 21: photo4.jpg\n\nphoto4.jpg\n\nImage 22: photo1.jpg\n\nphoto1.jpg\n\nImage 23: photo0.jpg\n\nphoto0.jpg\n\nImage 24\n\nI"
+          },
+          {
+            "url": "https://www.mapquest.com/es/andalucia/bar-las-golondrinas-triana-775762398",
+            "title": "Bar Las Golondrinas Triana, Calle Pagés del Corro 76 Triana, Seville, ES - MapQuest",
+            "snippet": "Android app Google Play\nDownload on the App Store\n\nAdvertisement\n\nAdvertisement\n\n# Bar Las Golondrinas Triana\n\ntripadvisor logo\n\n(2,042)\n\nAdvertisement\n\nAdvertisement\n\n## Photos\n\nLas Golondrinas 2\nlove the radishes in olive oil and coarse salt\nphoto7.jpg\nPork medallions\nTAPA DE BACALAO CONFITADO\nPis"
+          },
+          {
+            "url": "https://www.mapquest.com/us/new-mexico/el-rancho-de-las-golondrinas-356142323",
+            "title": "El Rancho de las Golondrinas",
+            "snippet": "Kid-friendly\n\nImage 14SaveImage 15CallImage 16WebImage 17Share\n\nDirections\n\nAdvertisement\n\nAdvertisement\n\n## Photos\n\nImage 18: Alamo Rest along wetlands trailYelp\n\nAlamo Rest along wetlands trail\n\nImage 19: Bird blind in the wetlandsYelp\n\nBird blind in the wetlands\n\nImage 20: Menu from onsite cafe w"
+          }
+        ]
       }
     },
     {
@@ -105,17 +240,101 @@
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://concerts50.com/es/spain/burgos",
+            "title": "Conciertos en Burgos 2026-2027 | Agenda y Entradas",
+            "snippet": "| Vie, 20:00  11 Dic  2026  Diego El Cigala | Diego El Cigala Burgos  Evolution Forum Burgos - Congress Center and Auditorium - Burgos, Spain |  |\n| Sáb, 21:30  14 Nov  2026  Niña Polaca | Niña polaca  Sala Andén 56 - Burgos, Spain |  |\n| Sáb, 20:30  27 Feb  2027  Isabel Aaiún | Isabel aaiún  Sala A"
+          },
+          {
+            "url": "https://excelentiamusica.com/conciertos-burgos",
+            "title": "conciertos-burgos - Excelentia",
+            "snippet": "Ir al contenido\n\nExcelentia\n\nExcelentia\n\n## Conciertos Burgos\n\n\n\n\n\n## DJ Symphonic & Royal Film Concert Orchestra\n\nDomingo 27 de septiembre de 2026 / 20:00h\n\nAuditorio Fórum Evolución Burgos\n\n#### Compra de entradas\n\nUna fascinante combinación de orquesta sinfónica y DJ para interpretar temas de Col"
+          },
+          {
+            "url": "https://www.cajadeburgos.com/cultura/programacion-cultural",
+            "title": "Programación cultural - Fundación Caja de Burgos",
+            "snippet": "15 €\n\nArtes escénicas – Bienal Burgos – Música ### Rufus T Firefly\n\nEn Burgos\n\n14 noviembre 2026\n\n25 €\n\nCine – Recrea – Salud mental ### Los renglones torcidos de Dios\n\nEn Burgos\n\n4 noviembre 2026\n\nEntrada libre\n\n## Toda la programación\n\nFiltros\n\nVer en calendario\n\nVer en mosaico\n\nCentro\n\nBorrar fil"
+          }
+        ]
       }
     },
     {
-      "requestHash": "a43905fd88255facc474646f9776168edb1389d1d26b983697efb371db98b13b",
+      "requestHash": "9dae072b9877521364c80e42222cf7be491cd1da2dd828b9a08211099dd2bd21",
       "provider": "Tavily",
-      "query": "Teatro Principal Burgos aforo capacidad",
+      "query": "\"Las Golondrinas de Papel\" banda Burgos",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.cajadeburgos.com/una-fiesta-con-musica-y-baile-en-el-cab-abre-el-festival-internacional-de-jazz-sesion-b-de-la-fundacion-caja-de-burgos",
+            "title": "Una fiesta con música y baile en el CAB abre el Festival Internacional de Jazz ‘Sesión B’ de la Fundación Caja de Burgos - Fundación Caja de Burgos",
+            "snippet": "Big Band Burgos presenta el sábado 21 de febrero en el mismo escenario un espectáculo que cuenta con la participación de la cantante burgalesa María Sedano, interpretando una selección de los mejores ritmos iberoamericanos, incluyendo samba, bossa nova, salsa, cumbia y, cómo no, boleros, en distinta"
+          },
+          {
+            "url": "https://www.instagram.com/cinnamon.burgos?hl=en",
+            "title": "Banda del rock (@cinnamon.burgos) • Instagram photos and videos",
+            "snippet": "INFestival 2025\n cinnamon.burgos's highlight story picture\n\n  Octavo Arte\n cinnamon.burgos's highlight story picture\n\n  Nosotros\n cinnamon.burgos's highlight story picture\n\n  Las Candelas 25\n cinnamon.burgos's highlight story picture\n\n  La Rua XI\n cinnamon.burgos's highlight story picture\n\n  Fotos\n\n"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=qepsz1xWUGU",
+            "title": "Besos De Papel",
+            "snippet": "# Besos De Papel\n## Channel: Banda Movil (verified)\n122K subscribers\n11K likes\n\n### Description\n2,455,470 views\nPosted: 2020-04-30\nProvided to YouTube by Universal Music Group\n\nBesos De Papel · Banda Movil\n\nUn Amor...\n\n℗ 1996 Universal Music Mexico S.A. de C.V.\n\nReleased on: 1996-01-01\n\nProducer: Do"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "3dcb1699e73cad282e264b827a5f412cb534b2254d53fea57a89865446014875",
+      "provider": "Tavily",
+      "query": "\"Las Golondrinas de Papel\" concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.mapquest.com/us/new-mexico/el-rancho-de-las-golondrinas-356142323",
+            "title": "El Rancho de las Golondrinas",
+            "snippet": "Terms of use\n   Privacy policy\n   Data and licenses\n   About our ads\n   Do not sell\n\nAdvertisement\n\nAdvertisement\n\n© 2026 MapQuestLegal\n\nImage 6CoffeeImage 7FoodImage 8GasImage 9GroceryImage 10ShoppingImage 11Hotels\n\nImage 12Live Radio\n\n500 ft\n\n- [x] Traffic slowdowns - [x] Traffic incidents \n\nEl Ra"
+          },
+          {
+            "url": "https://www.mapquest.com/us/new-mexico/el-rancho-de-las-golondrinas-357961314",
+            "title": "El Rancho de las Golondrinas",
+            "snippet": "Terms of use\n   Privacy policy\n   Data and licenses\n   About our ads\n   Do not sell\n\nAdvertisement\n\nAdvertisement\n\n© 2026 MapQuestLegal\n\nImage 6CoffeeImage 7FoodImage 8GasImage 9GroceryImage 10ShoppingImage 11Hotels\n\nImage 12Live Radio\n\n500 ft\n\n- [x] Traffic slowdowns - [x] Traffic incidents \n\nEl Ra"
+          },
+          {
+            "url": "https://www.peacocktheater.com/events/search",
+            "title": "Search | Events",
+            "snippet": "### Venue Info\n\n© 2026 Peacock Theater. \nSitemap |\nTerms and Conditions of Use |\nPrivacy Policy |\nCalifornia Privacy Notice |\nYour Privacy Choices |\nManage Cookie Preferences\n|\nAccessibility\na carbonhouse experience [...] # Upcoming Events\n\n## Event List\n\nMore Info for Rock & Roll Hall Of Fame Induc"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "0c2180a17d10f24dbaf85e6e05d63daa3050b404f4780a63f3330234ddeff141",
+      "provider": "Tavily",
+      "query": "\"Las Golondrinas de Papel\" banda España",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.mapquest.com/es/andalucia/bar-las-golondrinas-triana-775762398",
+            "title": "Bar Las Golondrinas Triana, Calle Pagés del Corro 76 Triana, Seville, ES - MapQuest",
+            "snippet": "Bar Las Golondrinas, ubicado en Triana, Sevilla, es un restaurante que ofrece una experiencia de tapeo con un enfoque en comida sencilla pero de calidad. Este antiguo establecimiento se ha transformado en un lugar donde los clientes pueden disfrutar de una variedad de tapas y pinchos a precios razon"
+          },
+          {
+            "url": "https://www.mapquest.com/us/new-mexico/el-rancho-de-las-golondrinas-356142323",
+            "title": "El Rancho de las Golondrinas",
+            "snippet": "Image 33\n\nMarie S.\n\nRead more on Yelp\nEl Rancho de las Golondrinas is a great indoor/outdoor 300+ year old museum and ranch. It provides a great overview of Spanish, Mexican, and American history, as well as provide a great...\n\n4 years ago\n\nImage 34\n\nDerrick G.\n\nRead more on Yelp\n\nYes, MapQuest has "
+          },
+          {
+            "url": "https://www.mapquest.com/us/new-mexico/el-rancho-de-las-golondrinas-357961314",
+            "title": "El Rancho de las Golondrinas",
+            "snippet": "Image 33\n\nMarie S.\n\nRead more on Yelp\nEl Rancho de las Golondrinas is a great indoor/outdoor 300+ year old museum and ranch. It provides a great overview of Spanish, Mexican, and American history, as well as provide a great...\n\n4 years ago\n\nImage 34\n\nDerrick G.\n\nRead more on Yelp\n\nYes, MapQuest has "
+          }
+        ]
       }
     }
   ]

@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "ffe0e2c03b25c6ffab647f57594f0f29636f5d64fd9e052c3e71012f22086ffc",
-      "latencyMs": 3009,
+      "requestHash": "c4f77ab450e4698c2cccb135c23c4ade4b4012f2751c99923b5598e5a8c7cdad",
+      "latencyMs": 2804,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "dXX4NMcy7AevIqNyDF6PCUjEOidLsl50",
+              "id": "ryBhcwdxV3Ra1ozcLiBTv4LbjNQMYd9s",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_e34731c267\"}"
             }
@@ -22,21 +22,21 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3727,
+          "inputTokens": 3689,
           "outputTokens": 41
         }
       }
     },
     {
-      "requestHash": "894c2fc3e6a0b428bce7593faff128852bcec72b0b47185d1a26bb102aa57a04",
-      "latencyMs": 1497,
+      "requestHash": "7635e694c1370fd6aedb07e08604b6ba9c18a947457933548f637cafbf3c7286",
+      "latencyMs": 1414,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "avf3PQhFtpsVUBRj3z7sRy0GaI3cmMEa",
+              "id": "OmwlfQ5KlehJkDu8hIjCxkd2atqcfaWC",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Palacio de los Deportes Huesca aforo capacidad\",\"maxResults\":2}"
             }
@@ -44,90 +44,30 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4118,
+          "inputTokens": 4080,
           "outputTokens": 48
         }
       }
     },
     {
-      "requestHash": "17d161225ad7afce283803039c31801cd1d47717ee838476956774eeb0136ef8",
-      "latencyMs": 1493,
+      "requestHash": "83202899ffa25053c6f2bebdc17beebf3ad582d92940cd35194b916fef2dcd6c",
+      "latencyMs": 9559,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "i3F4n5sp9e64jkSd5XepXFKbNjA8tcHy",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Peña Ventana Las Tremolinas Huesca festival 2026\",\"maxResults\":2}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4263,
-          "outputTokens": 54
-        }
-      }
-    },
-    {
-      "requestHash": "93862554beb4090a671dce0b4130352d385efc2eff65f77ba96dedd922fd53f5",
-      "latencyMs": 1400,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "YHuBwoPd3kb2guofGaOBfoJCpJo9rKwB",
-              "name": "find_similar_events",
-              "argumentsJson": "{\"eventId\":\"evt_7a080b2adf\",\"windowDays\":60}"
-            }
-          ]
-        },
-        "stopReason": "tool_calls",
-        "usage": {
-          "inputTokens": 4414,
-          "outputTokens": 51
-        }
-      }
-    },
-    {
-      "requestHash": "534c9bf6b241f01abdc1d9520810795113bbfa6260b9a98ea874c5d86715d0dd",
-      "latencyMs": 11999,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": "He revisado el evento y el organizador. Aquí está mi análisis:\n\n**Organizador (Cierzo Sonoro):**\n- Cuenta aprobada desde mayo de 2024 (930 días)\n- Datos fiscales válidos (CIF con checksum correcto)\n- 14 eventos publicados, 12 finalizados sin cancelaciones\n- Sin denuncias por fraude ni organizaciones rechazadas del dueño\n- Equipo estable (1 propietario, 1 manager, 2 scanners)\n\n**Evento:**\n- Título: \"Festival de bandas locales del Alto Aragón\"\n- Artistas: Peña Ventana (headliner), Las Tremolinas\n- Precio: 15 € (dentro del benchmark para rock en Huesca)\n- Gastos de gestión: 1 € (fijo, dentro del 20%)\n- Condiciones: devolución en cancelación (no abusivas)\n- Sin pagos fuera de plataforma ni enlaces externos\n\n**Hallazgos clave:**\n1. **Aforo del recinto**: El Palacio de los Deportes no tiene aforo público en Wikidata/OpenStreetMap. La búsqueda web falló por cuota excedida. El evento vende 900 entradas, pero sin capacidad oficial verificada, esto es una incertidumbre.\n\n2. **Textos originales**: No pude verificar si la descripción está copiada (búsqueda web no disponible).\n\n3. **Artistas**: No encontré información externa sobre estos artistas en Huesca para confirmar su disponibilidad o existencia fuera de la plataforma.\n\n4. **Eventos similares**: Ningún evento similar encontrado en los últimos 60 días en la provincia.\n\n**Decisión:**\nRecomiendo **request_info** por dos razones:\n- El aforo del recinto no está verificado (dato crítico para un festival)\n- No pude verificar la originalidad de la descripción ni la existencia real de los artistas fuera de la plataforma\n\nNecesito que el organizador proporcione:\n1. La capacidad oficial del Palacio de los Deportes (documento o fuente verificable)\n2. Confirmación de que los artistas están disponibles y no tienen fechas anunciadas en otros lugares\n3. Origen original de la descripción del evento",
-          "toolCalls": []
-        },
-        "stopReason": "end",
-        "usage": {
-          "inputTokens": 4554,
-          "outputTokens": 464
-        }
-      }
-    },
-    {
-      "requestHash": "735f5366e0f6c218fe2a8f5e95476e47b593bbcf6df479bad8e77e4aa51d914c",
-      "latencyMs": 30710,
-      "response": {
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "toolCalls": [
-            {
-              "id": "DvV3b5D3Ehqm8nLonFiRTFIZvfsR4oCl",
+              "id": "VciUXEssXXuXUIA1DpH9Hu8nzpJOLHNC",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"request_info\",\"confidence\":0.65,\"rationale\":\"El evento presenta señales de legitimidad (organizador con historial limpio, precios dentro del benchmark, sin pagos fuera de plataforma), pero existen dos incertidumbres críticas que requieren aclaración antes de aprobar: 1) El aforo del Palacio de los Deportes no está verificado públicamente y la búsqueda web falló por cuota excedida; el evento vende 900 entradas sin capacidad oficial confirmada. 2) No pude verificar la originalidad de la descripción ni la existencia/availability de los artistas (Peña Ventana, Las Tremolinas) fuera de la plataforma debido a limitaciones en las búsquedas web. Sin esta información, no puedo descartar riesgos de sobreventa o contenido copiado.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Organizador Cierzo Sonoro aprobado desde 2024-05-21, CIF válido, sin organizaciones rechazadas del dueño.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados, 12 finalizados sin cancelaciones, sin denuncias por fraude ni unpublishes de admin.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"Palacio de los Deportes verificado en OpenStreetMap como leisure=sports_centre a 6 m de las coordenadas del evento.\",\"confidence\":0.98,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/216955182\",\"title\":\"OpenStreetMap: Palacio de los Deportes (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo del recinto; búsqueda web falló por quota_exceeded. El evento vende 900 entradas.\",\"confidence\":0.85,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada de otra fuente: las búsquedas web no estaban disponibles (quota_exceeded).\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"artist_availability\",\"verdict\":\"unknown\",\"detail\":\"No encontré información externa sobre los artistas Peña Ventana o Las Tremolinas en Huesca para confirmar su disponibilidad o fechas anunciadas en otros lugares.\",\"confidence\":0.65,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"Ningún evento similar encontrado en la provincia de Huesca con título parecido en los últimos 60 días.\",\"confidence\":0.9,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"Precio de 15 € está dentro del benchmark para rock en Huesca (p90=35,00 €).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"Gastos de gestión fijos de 1 € están dentro del 20% del precio.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Condiciones permiten devolución en cancelación; no hay cláusulas abusivas.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"off_platform_payment\",\"verdict\":\"pass\",\"detail\":\"No se solicitan pagos fuera de la plataforma (Bizum, transferencia, teléfono).\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"external_ticketing_link\",\"verdict\":\"pass\",\"detail\":\"No hay enlaces a otras ticketeras ni acortadores de URL.\",\"confidence\":0.95,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Cuál es la capacidad oficial del Palacio de los Deportes en Huesca? Por favor, proporcione un documento o fuente verificable (ej. página web del recinto, licencia municipal).\",\"¿Los artistas Peña Ventana y Las Tremolinas están disponibles para esta fecha? ¿Tienen fechas anunciadas en otros lugares?\",\"¿Cuál es el origen original de la descripción del evento? ¿Fue escrita por el organizador o copiada de otra fuente?\"],\"draft\":\"Organizador con historial limpio, pero necesito verificar: 1) capacidad oficial del recinto (vende 900 entradas sin aforo público), 2) disponibilidad real de los artistas fuera de la plataforma, 3) originalidad de la descripción.\"}}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento vende 900 entradas para un recinto (Palacio de los Deportes) cuya capacidad real es de 5.000 personas según fuentes oficiales verificadas. Esto constituye una venta masiva por debajo de la capacidad del lugar, lo cual es una señal de fraude grave (\\\"capacity_far_above_venue\\\"). Además, el aforo no está publicado en Wikidata ni OpenStreetMap, pero la búsqueda web confirma que el recinto tiene capacidad para 5.000 personas, mientras que el evento solo pone a la venta 900 entradas, lo que indica una discrepancia significativa y sospechosa.\",\"findings\":[{\"check\":\"venue_capacity\",\"verdict\":\"fail\",\"detail\":\"El Palacio de los Deportes tiene capacidad para 5.000 personas según fuentes oficiales (Huesca Turismo, CBP Huesca), pero el evento pone a la venta solo 900 entradas, lo que indica una venta masiva por debajo de la capacidad real del recinto.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://www.huescaturismo.com/palacio-de-deportes-de-huesca\",\"title\":\"Palacio de Deportes de Huesca - Huesca es otra historia\"},{\"url\":\"https://www.cbphuesca.com/pabellon\",\"title\":\"Pabellón - Club Baloncesto Peñas Huesca\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5020,
-          "outputTokens": 1132
+          "inputTokens": 4449,
+          "outputTokens": 366
         }
       }
     }
@@ -140,7 +80,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.facebook.com/100068347146645/posts/6-bandas-de-rockpop-venezolano-de-los-70srock-rocknroll-fblifestyle-metal-rockpo/1386542430300649",
+            "title": "4K views · 154 reactions | 6 bandas de Rock/Pop Venezolano de los 70s\n#rock #rocknroll #fblifestyle #metal #rockpop #hardrock #rockvenezolano #rockclasico #rock70s | El grinch del rock n roll",
+            "snippet": "See more\n\n## Comments\n\nMost relevant\n\n[](\n\nImage 4Author\n\nEl grinch del rock n roll\n\n@seguidores @fansdestacados el rock venezolano sigue en pie...\n\n   6w \n\n1\n\nImage 5\n\n[](\n\nRodolfo Rodriguez Montenegro\n\nDe mi época, Grupo C de Valencia, Dermis Tatu, Los Cazadores, El Grupo Pan, Vita Brenner, por su"
+          },
+          {
+            "url": "https://www.univision.com/entretenimiento/cultura-pop/6-bandas-actuales-que-estan-redefiniendo-el-futuro-del-rock",
+            "title": "6 bandas actuales que están redefiniendo el futuro del Rock | Entretenimiento Cultura Pop | Univision",
+            "snippet": "Desde su debut en 2004 con el aclamadísimo Funeral, hasta Reflektor, su último trabajo de 2013, los liderados por Win Butler se convirtieron en una de las  bandas más innovadoras de la última década y un faro de inspiración para muchos artistas.\n\nSu sonido cargado de épica con letras que emanan bron"
+          },
+          {
+            "url": "https://www.instagram.com/p/DY7MXu3Msu0",
+            "title": "Instagram",
+            "snippet": "culturabarrios\n\nMúsica | Tarde de Clásicos del Rock & Pop 🎸  \n  \nUna tarde a puro ritmo con clásicos de todas las épocas:  \n  \n🎶 Rock Lovers presenta covers del rock y del pop internacional.  \n🎤 Queens of Soul recorre grandes clásicos del soul de los años 70 y 80.  \n  \n🗓️ Domingo 31 de mayo  \n🕠"
+          },
+          {
+            "url": "https://open.spotify.com/playlist/6y1Ouap17vq0CMav10cKIy",
+            "title": "BANDAS DE POP Y ROCK - playlist by Jeannette Pulido Bernal",
+            "snippet": "Albania\n   Algeria\n   Andorra\n   Angola\n   Antigua and Barbuda\n   Argentina\n   Armenia\n   Australia\n   Austria\n   Azerbaijan\n   Bahrain\n   Bangladesh\n   Barbados\n   Belarus\n   Belgium\n   Belize\n   Benin\n   Bhutan\n   Bolivia\n   Bosnia and Herzegovina\n   Botswana\n   Brazil\n   Brunei Darussalam\n   Bulg"
+          },
+          {
+            "url": "https://www.instagram.com/reel/De78jRAiWmL",
+            "title": "Instagram",
+            "snippet": "zrockandpop\n\n🎸 ¡Los verdaderos íconos del rock y pop en español están en un solo lugar!   \n  \n🔥 Súbele el volumen a las tardes y revive las mejores canciones y bandas que hicieron historia. De lunes a viernes de 1:00 p. m. a 2:00 p. m., acompáñanos a conectar con el poder de nuestra música.  \n  \n\ud83d"
+          }
+        ]
       }
     },
     {
@@ -150,7 +116,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.huescaturismo.com/palacio-de-deportes-de-huesca",
+            "title": "Palacio de Deportes de Huesca - Huesca es otra historia",
+            "snippet": "Con capacidad para 5.000 personas, acoge partidos del Club Baloncesto Peñas Huesca y del Bada Huesca de balonmano en Liga ASOBAL. Pero su actividad va mucho más allá: también alberga conciertos, ferias, espectáculos y eventos para todos los públicos, convirtiéndose en un punto de encuentro para la c"
+          },
+          {
+            "url": "https://feverup.com/es/huesca/venue/palacio-municipal-de-los-deportes-de-huesca",
+            "title": "Palacio Municipal de los Deportes de Huesca (Huesca): Eventos y Entradas | Fever",
+            "snippet": "# Palacio Municipal de los Deportes de Huesca\n\nEl Palacio Municipal de Deportes en Huesca ofrece modernas instalaciones para varios deportes como baloncesto, balonmano, fútbol sala, voleibol y gimnasia. Cuenta con una pista polideportiva con capacidad para 5.000 personas, sala polivalente y pista ex"
+          },
+          {
+            "url": "https://www.huesca.es/w/palacio-municipal-de-deportes",
+            "title": "Palacio Municipal de Deportes - Ayuntamiento de Huesca",
+            "snippet": "Pista Polideportiva de 50 x 32 metros, de parquet con iluminación y gradas para 5.000 personas.\n Sala Polivalente de 504 metros cuadrados, de hormigón fratasado con iluminación y sin gradas.\n\nInstalaciones descubiertas:\n\n Pista de baloncesto de 28 x 15 metros, de hormigón fratasado con iluminación y"
+          },
+          {
+            "url": "https://www.cbphuesca.com/pabellon",
+            "title": "Pabellón - Club Baloncesto Peñas Huesca",
+            "snippet": "El palacio de los deportes de Huesca, es un singular edificio, obra del arquitecto barcelonés Enric Miralles Moya, que resultó ganador de un concurso restringido convocado por el Ayuntamiento de Huesca. Su construcción fue iniciada en 1990 y tras numerosas vicisitudes, derrumbe de la cubierta inclui"
+          },
+          {
+            "url": "https://commons.wikimedia.org/wiki/File:Palacio_de_los_Deportes_Huesca.jpg",
+            "title": "File:Palacio de los Deportes Huesca.jpg - Wikimedia Commons",
+            "snippet": "| Date/Time | Thumbnail | Dimensions | User | Comment |\n ---  --- \n| current | 20:44, 4 June 2009 | 1,296 × 972 (219 KB) | Cebes (talk | contribs) | {{Information |Description={{es|1=Polideportivo \"Palacio de los deportes\" de Huesca. }} |Source=trabajo propio (own work) |Author=Cebes |Date=3 Nov 200"
+          }
+        ]
       }
     },
     {
@@ -160,17 +152,18 @@
       "maxResults": 2,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
-      }
-    },
-    {
-      "requestHash": "dd9c27b2b4fa34d6b39df849f750ac4a84f7e26bba28e4a0cd2f904ccbc9c84d",
-      "provider": "Tavily",
-      "query": "Peña Ventana Las Tremolinas Huesca festival 2026",
-      "maxResults": 2,
-      "origin": "recorded",
-      "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.huescaturismo.com/palacio-de-deportes-de-huesca",
+            "title": "Palacio de Deportes de Huesca - Huesca es otra historia",
+            "snippet": "Con capacidad para 5.000 personas, acoge partidos del Club Baloncesto Peñas Huesca y del Bada Huesca de balonmano en Liga ASOBAL. Pero su actividad va mucho más allá: también alberga conciertos, ferias, espectáculos y eventos para todos los públicos, convirtiéndose en un punto de encuentro para la c"
+          },
+          {
+            "url": "https://www.cbphuesca.com/pabellon",
+            "title": "Pabellón - Club Baloncesto Peñas Huesca",
+            "snippet": "El palacio de los deportes de Huesca, es un singular edificio, obra del arquitecto barcelonés Enric Miralles Moya, que resultó ganador de un concurso restringido convocado por el Ayuntamiento de Huesca. Su construcción fue iniciada en 1990 y tras numerosas vicisitudes, derrumbe de la cubierta inclui"
+          }
+        ]
       }
     }
   ]

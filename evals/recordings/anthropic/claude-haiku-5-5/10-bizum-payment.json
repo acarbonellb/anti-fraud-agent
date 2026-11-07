@@ -3,76 +3,128 @@
   "provider": "anthropic",
   "model": "claude-haiku-5-5",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T10:07:00.000Z",
+  "clock": "2026-11-07T11:12:00.000Z",
   "calls": [
     {
-      "requestHash": "1a33a06e822b02561bc7e60c6c69a440de8e2e5453692e116473b8e74899b6ff",
-      "latencyMs": 6790,
+      "requestHash": "44fd514bcb3f558bde1a2252914bb0fc594d1f02d1e561339a6e59c741391a27",
+      "latencyMs": 1514,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01C24MoBxaWxXa5YWjeQ5xVc",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.93,\"rationale\":\"Recomendación: rechazar el evento evt_537612d9ac («Acústico de Marina Escalante»). La descripción pide pagar por Bizum al 600 000 000 fuera de la plataforma, con el nombre en el concepto para «apuntar en la lista». Es una señal directa de fraude: la comprobación determinista de pago fuera de la plataforma ha fallado, y ese tipo de cobro no deja protección al comprador ni queda registrado en la plataforma. Las demás comprobaciones deterministas pasan (código postal, condiciones de cancelación, precios, gastos de gestión, sesiones y recinto, que existe en OpenStreetMap). El aforo del recinto y la originalidad del texto no se han podido verificar. No hace falta más investigación para decidir, porque el rechazo se apoya en el fallo del pago externo. Si el organizador quisiera volver a publicar, tendría que eliminar cualquier instrucción de pago fuera de la plataforma y revisarse de nuevo.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción del evento pide pagar por Bizum al número 600 000 000 («Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista»). Es un cobro fuera de la plataforma y la comprobación determinista lo marca como fallo. Es una señal de fraude directa.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"«Gran Teatro Falla» figura en OpenStreetMap como amenity=theatre a 4 m de las coordenadas del evento (comprobación determinista).\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/135275039\",\"title\":\"OpenStreetMap: Gran Teatro Falla (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OpenStreetMap publican el aforo del recinto, y la búsqueda web falló por cuota. La sesión pone a la venta 150 entradas, pero no se puede comparar con el aforo real.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada de otra web, porque la búsqueda no estaba disponible en la comprobación determinista.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 18,00 € no supera 3 veces el p90 (35,00 €) de 42 eventos comparables de pop en Cádiz con aforo lt300 (comprobación determinista).\",\"confidence\":0.7,\"sources\":[]}]}"
+              "id": "toolu_011v5hB2uPBTkuzbq2eGkvqB",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_f973bd9013\"}"
+            },
+            {
+              "id": "toolu_01XCkP8VhgxhVzHXqAuH2dEF",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_537612d9ac\",\"windowDays\":30}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "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"
+              "signature": "CAQSvQcKEAgTGAI4AUIIdGhpbmtpbmcSDKN+o/A1QGPAiEMOohoM5FI1nkJGirLxagZpIjAlwFSMqHcLHWu6p5haCuLWxYiGiwmFKkxBDSWgzYj5m2U12EcC8blVS/0fTsTNqPoq2gZBILTB0voDBQZ1XwMRx9SaJ3f90/tzDGRlbqdBhJWGmduA+ZCXIOCvN5YxvsuauX5YLVXl4I8GdeEQC/QVp8xwpPBSGcEzGLNRJ31xV/tW7uRbHMxcwp7ZseZJr7z3coqrhUuu+B/BnNVk1rx0a/Zu904kveZFF6L3nBDX7QYKoHmlh50vjooPeM1EVHxU1LJ9tZhNTBVsexAX5ZlwK2dKxXh75R4RfeQWxVNsa899u9ZZ7C9UDgbCzNZK97D8SQwvxpnClIFrApqrOSAJS2wDjf9ESkpGABNmDef0c3X7ahFJ7Pm+GbdZpK1BzAnYsZqf0ufV5lGrsdotWSIa/0tH14CCeIqYsEAZhGSgwYzClMhqHNPdEs9vvyjZTZ3c0PZ17bI0eypc/oLC9zX00Ws6OInoQZBzGhtp7lnqU0qnbEEb8P6efl+dvPKgHP238ZixOKpZGoz2hywERc2XBB/HfKylJz17LX27F0axttH4zMHoI+ZrmyAo5TgftYfrB5dvkJx6PC+u0jEEuMB2N41ZGWuNcxmB+dDZZmpTpIo39IqlDZNNHTiNBSgU5vG+2sHisruD/7bm32w+ps3shuk0YhZVH1YLBWsZAo1yWUUYYPHxJWKv1W/z3WZDE089lS/RJ2HjvCX9quXleBRp4EteIb/kKNomUzD/wlu6/TwFOLcunLXgTqbMyf6yj+Ou5yySX7wm/teNz018+sSAS8FCH9MwXG4qq662V/4+9GsUR40FdQiEqhHgeVJ0jO25vIo2LgMkkSzMpiH091ks1rCw9WRmlfbbVAwCELFhKutgjIywk5piP3bN0FkdfZYmKJOUZK6l51ic+X8CzjJLqCN5AyoxZTPA2fj6wPlUnR/FU+P+NkVMQNVSDDblfqaMq8o26JKLVKUtIOIizi2QNz9ZrTd0cz5/XNKt3O+nSCITqGIfs2oBi7QTQVgajp5VqsIEhfQ5R/1HpZq/Ual9m4ozfghIelQJaifKz6ZqXAzXJGm9rtladfcC0v8rUy9maJFUpKLsGswPclNgQGCZTURaLgG5VPQ2Uj/Lltt9pBO1+sGTVh/bcrMnctUvp0o8ky0V42oLCzzq2MtJP0gupQyzMIK2Us+1N5iabHw6YndoQ2xPolHRYaoZypgYAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01C24MoBxaWxXa5YWjeQ5xVc",
+              "id": "toolu_011v5hB2uPBTkuzbq2eGkvqB",
+              "name": "get_organizer_context",
+              "input": {
+                "organizerId": "org_f973bd9013"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01XCkP8VhgxhVzHXqAuH2dEF",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_537612d9ac",
+                "windowDays": 30
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5315,
+          "outputTokens": 262,
+          "cacheReadInputTokens": 0,
+          "cacheWriteInputTokens": 5311
+        }
+      }
+    },
+    {
+      "requestHash": "7a53d3c9dc9fe704ba64a75511277cfccc78ab675581c91c91708d38573c0a16",
+      "latencyMs": 5412,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01GRRDyD9UW4JdXEUT52JNNA",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.88,\"rationale\":\"Recomiendo rechazar el evento. El motivo es directo: la descripción pide pagar por Bizum al 600 000 000 fuera de la plataforma y promete «ahorrarse los gastos de gestión» apuntando a una lista con el nombre en el concepto. Es la señal de pago externo que ya marcó la comprobación determinista como fallida, y en un evento que vende entradas es un patrón típico de estafa. El organizador (Ruta del Duende Música S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni denuncias) no presenta señales negativas, así que el fallo no se explica por el historial del organizador y podría deberse a una cuenta comprometida o a un texto añadido después; aun así, el texto del evento tal como está publicado es suficiente para no aprobarlo. No se encontraron eventos similares de otros organizadores en la provincia en ±30 días. El aforo del recinto no está verificado, pero no cambia la recomendación.\",\"findings\":[{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"Razón social Ruta del Duende Música S.L., CIF con checksum válido, dirección presente en Cádiz (CP 11002), correo del propietario verificado y cuenta de 930 días. Sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"14 eventos publicados (12 terminados, 0 cancelados), ninguna despublicación por administración, sin denuncias de contenido ni revisiones previas.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"La búsqueda de eventos similares en la provincia (ventana de 30 días) no devolvió ninguno.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del recinto no está verificado por la comprobación en código (la web indica 1.100, la sesión pone a la venta 150). No cambia la decisión.\",\"confidence\":0.3,\"sources\":[{\"url\":\"https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla\",\"title\":\"la web (www.juntadeandalucia.es)\"}]}]}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "thinking",
+              "thinking": "",
+              "signature": "CAQSkwsKEAgTGAI4AUIIdGhpbmtpbmcSDPOB9QuRBZq+ffIaDRoMh5sO9mbct5/IZxtFIjDeKUiHDPUmR3livGBYWvU5FFQxOokPhWO+3LSbrhF31zkPTfB6jGv1cH0spuXwFWMqsApNWa/dzUkVzufic6w2wRDhoGQPJaO2RsI7rlm/LGAqpwSgaF8hUntmwJ0h3Ae+jj1dt2ycgqvDCpDMiNNjY6zbexw6xH+g70FGypUOgLw+27T5yQTB6BqxeX4lksA+e+gXWo/4RoxHOURVhAvndYRzfOtsA37D8Z7nK2UkceerdfFlIOalayTgu4eCk6vqmUoXq1p+rnKy74LhCUKim935ZiVCjKyEyIMvh20giO7BLIpMaU3O9SKduX5OuFBWZ5BunsM2MlY754SpuddY0Ud7XRTKsYK+Ax/XHr4KY2/CP+OzWl3Rg403FnuvaNgd0zDyUeUn+8NJ0q7Jg9bwsHbNjGqauE4tLcdg0sC8gyhrEINh3DfQr2MPrrKF1zd43QZa/jSxy+2OpAbTdHb6ROEkcb6oXtZJp39Vh4a2MmVPICKFidQs3vkd0lZnlAiJ3GaOeiop99AeD+oWdTTIUgGFyfK67rFaKAtQBxwCWnRLAg+VyHsIokR4PvfVe4zauGzHpcPXc94JeX1PRLq5k28gJct0qSAkwHk3xCr4tmbQtg5QjBtoxHXun5wKxHCAvgPx0wWdL5o+qLB5yFW9Y7/2EXGqvoaBYvDecwJrS05QLuLusovzfauLIocVddxGBv2+CliysPcSufaTEK1cSX22xxgY5RhriNoBtSvP3uysumqDO7GlX9WsXQoyEOVHx/XJ/NgiiAJ+uXq7raP2tp8pKcfpPHtbnZkZwDlk7zFyyaBknJBKZfRVy+r0veduKJx1+w98u/Z22rDY6zDwXp8WNvgU42d26t3p2hAeB2TOYG4MwtNtjj7/ULYrCDmq/8jkhGipbRVL3G6Dw0/L52MbzSX00EaE3IMxxLau8kbgYfAiGB7H7Gk4J+La2GJt0Igq9wkw9B/8t1lejQNlZZosfyks5YFKOsz2ZGs9/gkHlmzfKqvNIhTo7BjXug4nGxUdZSzBqRMBP+Ct5tQ3Ef5yuzVjScdnv40mb9R2/7I2Tdh3lxCVyojnF06TMfXliuzBTa3f3gWOwLqjtwc8wCgqLHeXdafziO0TJdlaoFamSkzowQY/Tk76BRmtqDXap2TO3nqbRq5yhjihDAbMLdmfhFel0knCP/ventu2CnazW2hmoLVJRDh1hmAaEt5hvlM7ZK1zLfKYrjny1+bNvL8ISXwHx3lvP4/mvi8934g63LnSiFl4rqMqJbNG3cV2nPDFL9F0WNUfW6pW35hlts3u6CyXVn60i3lGhSnKjoolTk7wLW+tTHNsAYleXNqJsa3QTugV0buHM3O4EflX8tl6bU79d1fHnJT8PAyWVcPPwClYYlPnKuYf2/vOuf/TLRLhcj8tJLWgR7DdHZtoNmhKrlMqG5E9l4fEW3P12rJ33eEkl4RiuBtL5RFwxFlFCHKIMnBnHHdaH/pR+6XwMPo6OrCOcBBF9Go3Fkj4yOTzXf72PYYArSOTYvNBIQMwZyEAB/cqvvJKPzroWZqAkMZtr+IwaCggNmuRl25H26GF8QSxcKUQTLc2TGXMrILo0mjS008jzIsC8ItSmML6EzUYVuOCptHIxOWuUFQ0ltODA9NGbOLvuHHNkAWjCNShCfFDluNg6rNyVi61ahyD5UVGk2VYQeJR4S2prhix9p2GjQn2sxFdhYPPGq8qQgSTc1wwTSbtTjiUP78CN9toQqfyFQr/NUumvG4ucJ/o6JEqzuLVsczDx8YrMSDrQZ0F/kjLMsMFjLd4B8u2IW04bbmaDp1ogICVhnuXyQFe7uYmshgB"
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_01GRRDyD9UW4JdXEUT52JNNA",
               "name": "submit_recommendation",
               "input": {
                 "decision": "reject",
-                "confidence": 0.93,
-                "rationale": "Recomendación: rechazar el evento evt_537612d9ac («Acústico de Marina Escalante»). La descripción pide pagar por Bizum al 600 000 000 fuera de la plataforma, con el nombre en el concepto para «apuntar en la lista». Es una señal directa de fraude: la comprobación determinista de pago fuera de la plataforma ha fallado, y ese tipo de cobro no deja protección al comprador ni queda registrado en la plataforma. Las demás comprobaciones deterministas pasan (código postal, condiciones de cancelación, precios, gastos de gestión, sesiones y recinto, que existe en OpenStreetMap). El aforo del recinto y la originalidad del texto no se han podido verificar. No hace falta más investigación para decidir, porque el rechazo se apoya en el fallo del pago externo. Si el organizador quisiera volver a publicar, tendría que eliminar cualquier instrucción de pago fuera de la plataforma y revisarse de nuevo.",
+                "confidence": 0.88,
+                "rationale": "Recomiendo rechazar el evento. El motivo es directo: la descripción pide pagar por Bizum al 600 000 000 fuera de la plataforma y promete «ahorrarse los gastos de gestión» apuntando a una lista con el nombre en el concepto. Es la señal de pago externo que ya marcó la comprobación determinista como fallida, y en un evento que vende entradas es un patrón típico de estafa. El organizador (Ruta del Duende Música S.L., CIF válido, cuenta de 930 días, 14 eventos publicados sin incidencias ni denuncias) no presenta señales negativas, así que el fallo no se explica por el historial del organizador y podría deberse a una cuenta comprometida o a un texto añadido después; aun así, el texto del evento tal como está publicado es suficiente para no aprobarlo. No se encontraron eventos similares de otros organizadores en la provincia en ±30 días. El aforo del recinto no está verificado, pero no cambia la recomendación.",
                 "findings": [
                   {
-                    "check": "off_platform_payment",
-                    "verdict": "fail",
-                    "detail": "La descripción del evento pide pagar por Bizum al número 600 000 000 («Paga por Bizum al 600 000 000 y te ahorras los gastos de gestión; pon tu nombre en el concepto y te apuntamos en la lista»). Es un cobro fuera de la plataforma y la comprobación determinista lo marca como fallo. Es una señal de fraude directa.",
-                    "confidence": 0.95,
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "Razón social Ruta del Duende Música S.L., CIF con checksum válido, dirección presente en Cádiz (CP 11002), correo del propietario verificado y cuenta de 930 días. Sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
                     "sources": []
                   },
                   {
-                    "check": "venue_exists",
+                    "check": "organizer_history",
                     "verdict": "pass",
-                    "detail": "«Gran Teatro Falla» figura en OpenStreetMap como amenity=theatre a 4 m de las coordenadas del evento (comprobación determinista).",
-                    "confidence": 0.85,
-                    "sources": [
-                      {
-                        "url": "https://www.openstreetmap.org/way/135275039",
-                        "title": "OpenStreetMap: Gran Teatro Falla (© colaboradores de OpenStreetMap, ODbL)"
-                      }
-                    ]
+                    "detail": "14 eventos publicados (12 terminados, 0 cancelados), ninguna despublicación por administración, sin denuncias de contenido ni revisiones previas.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "La búsqueda de eventos similares en la provincia (ventana de 30 días) no devolvió ninguno.",
+                    "confidence": 0.6,
+                    "sources": []
                   },
                   {
                     "check": "venue_capacity",
                     "verdict": "unknown",
-                    "detail": "Ni Wikidata ni OpenStreetMap publican el aforo del recinto, y la búsqueda web falló por cuota. La sesión pone a la venta 150 entradas, pero no se puede comparar con el aforo real.",
+                    "detail": "El aforo del recinto no está verificado por la comprobación en código (la web indica 1.100, la sesión pone a la venta 150). No cambia la decisión.",
                     "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "text_originality",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar si la descripción está copiada de otra web, porque la búsqueda no estaba disponible en la comprobación determinista.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "El precio de 18,00 € no supera 3 veces el p90 (35,00 €) de 42 eventos comparables de pop en Cádiz con aforo lt300 (comprobación determinista).",
-                    "confidence": 0.7,
-                    "sources": []
+                    "sources": [
+                      {
+                        "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla",
+                        "title": "la web (www.juntadeandalucia.es)"
+                      }
+                    ]
                   }
                 ]
               },
@@ -84,10 +136,10 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5289,
-          "outputTokens": 1570,
-          "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 5285
+          "inputTokens": 6139,
+          "outputTokens": 1184,
+          "cacheReadInputTokens": 5311,
+          "cacheWriteInputTokens": 826
         }
       }
     }
@@ -100,7 +152,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://bizum.com/es/pago-amigos-bizum",
+            "title": "Cómo funciona el pago entre amigos con Bizum | Bizum",
+            "snippet": "Para ayudarte con la gestión de tus gastos, al realizar un pago a través de Bizum puedes añadir un concepto que también podrá verlo el destinatario. Además, tienes la posibilidad de adjuntar una imagen en el concepto para que las cuentas queden mucho más claras y evitar equívocos. [...] ## Funcional"
+          },
+          {
+            "url": "https://www.bbva.com/es/es/salud-financiera/como-hacer-un-bizum-y-que-debes-saber-antes-de-usarlo",
+            "title": "Cómo hacer un Bizum y qué debes saber antes de usarlo",
+            "snippet": "4. Una vez indicados el importe de dinero y el destinatario (uno o varios), se puede escribir el “Concepto” de la transferencia.\n\n5. A continuación, se debe comprobar el alias (el nombre y las iniciales de los apellidos) asociado al número del destinatario antes de confirmar el pago. Al confirmarlo,"
+          },
+          {
+            "url": "https://bizum.com/es/como-se-hace-un-bizum",
+            "title": "¿Cómo hacer un Bizum? Te enseñamos todos los pasos",
+            "snippet": "Ya tienes todas las claves de cómo se hace un Bizum, cómo se hace una solicitud de Bizum y cómo hacer envíos múltiples. ¡Di adiós a las caras raras y bienvenido a la mejor manera para pagar de forma fácil, rápida y segura desde tu dispositivo móvil!\n\n@Bizum 2026\n\n Castellano\n  + Euskara (Euskera)\")\n"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=qGk_OD_xQTQ",
+            "title": "The Tax Agency is now monitoring BIZUMs: who it affects (and who it doesn't) and what the latest ...",
+            "snippet": "[0:57] contribuyente, ¿no? Entre enero y septiembre de 2025 se hicieron 900 millones de vizums en España por un valor total de 65,000 millones de euros.\n[1:06] El objetivo de Hacienda es detectar fraudes y a quienes se van a vigilar son a las empresas y a los autónomos. Quedan excluidos los cobros e"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/fdP3mswgPwhQ",
+            "title": "Bizum",
+            "snippet": "# Bizum\nID: fdP3mswgPwhQ\nWebsite: www.bizum.com\nLegal name: Bizum, S.L.\nHeadquarters: Madrid, Madrid, Spain\nLinkedIn: www.linkedin.com/company/bizum · 21,997 followers\nIndustry: Financial Services\nIndustry codes: SIC 51, 513, NAICS 42, 423\nCompany type: Privately Held\nFounded: 2016 [...] Description"
+          }
+        ]
       }
     },
     {
@@ -110,7 +188,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.juntadeandalucia.es/cultura/agendaculturaldeandalucia/espacios/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "Gran Teatro Falla\n\nEl conocido 'Gran Teatro Falla' de Cádiz es un espacio de carácter público, cuya programación abarca todos los géneros dentro de las artes escénicas. Con un aforo de unas 1100 localidades aproximadamente, que se dividen en patio de butacas, palcos, platea (planta baja), principal "
+          },
+          {
+            "url": "https://accelcars.com/es/4-gran-teatro-falla",
+            "title": "Gran Teatro Falla: Joya cultural de Cádiz",
+            "snippet": "Los detalles arquitectónicos, obras de arte y anécdotas históricas hacen la visita al Gran Teatro Falla única. Nos llevan a un mundo de esplendor y belleza.\n\n## Gran Teatro Falla: Acústica y Aforo Impresionantes\n\nEl Gran Teatro Falla en Cádiz, España, es un tesoro arquitectónico que cautiva a todos."
+          },
+          {
+            "url": "https://www.codigocarnaval.com/coac/aforo-gran-teatro-falla",
+            "title": "➤ Aforo Gran Teatro Falla - Todo lo que debes saber",
+            "snippet": "El Gran Teatro Falla tiene un aforo de 1214 personas repartidas entre las diferentes localidades: butacas, palcos, anfiteatro y gallinero.\n\nCabe recordar, que durante el concurso, no se pone esa cifra en su totalidad, ya que un porcentaje está destinado a las entradas de protocolo, organizaciones, e"
+          },
+          {
+            "url": "https://www.redescena.net/escenario/19/gran-teatro-falla",
+            "title": "Gran Teatro Falla",
+            "snippet": "#### Gran Teatro Falla\n\n Aforo: 1214\n Ancho de boca: 1165\n Fondo desde boca: 1800\n Anchura máxima: 2153\n Fondo desde boca: 2392\n Altura máxima (boca): 1265\n Hombro izquierdo: 340\n Hombro derecho: 300\n Altura de boca: 840\n\nFlecha derecha SERVICIOS\n\n### Servicios generales\n\n:   Bar\n:   Calefacción\n:  "
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Gran_Teatro_Falla",
+            "title": "Gran Teatro Falla - Wikipedia, la enciclopedia libre",
+            "snippet": "De estilo neomudéjar, imita al arte islámico, en concreto utilizando arcos de herradura de estilo emiral cordobés y ladrillo de estilo almohade. Está construido en ladrillo rojo, y presenta tres grandes puertas de arco de herradura emiral en su fachada principal, con dovelas alternas en rojo y blanc"
+          }
+        ]
       }
     }
   ]

@@ -849,3 +849,48 @@ Metrics are the **gated** ones unless a line says otherwise. Each section has th
   - N6 escalates on the search budget (`web search budget spent`), as in E028, and N2 now does
     too: qwen still spends its searches on authored pages.
 - **Decision:** keep.
+
+## E031 — The #82 agent with web evidence (Haiku 5.5, working Tavily key)
+
+- **Hypothesis** (#82, step two): with search working, escalation falls back to within 5 points
+  of E027 (60.6 %), accuracy stays within or above E027's spread (87.9–93.9 %), auto-approved
+  fraud stays 0, and the report's live-search line reads 0 failed.
+- **Change:** no code change since E029. All 34 cases re-recorded, 3 runs each, with a working
+  Tavily key, organizer cases 20–22 included so that no recording keeps a failed search. The
+  report reads 0 failed of 184 live searches. About $0.22 (102 runs) and 184 Tavily searches.
+  No recording came out stale.
+- **Before → after** (E029 → E031; E027 for the hypothesis), gated, 33 cases: accuracy 94.9 %
+  (93.9–97.0) → **93.9 % (93.9–93.9)** (E027 90.9 %), approved-fraud rate 0.0 % → 0.0 %,
+  auto-approved fraud rate 0.0 % → 0.0 %, escalation rate 58.6 % → **59.6 %** (E027 60.6 %),
+  autonomy accuracy 96.0 % → 95.0 %, Brier 0.143 → 0.137. All cases: accuracy 94.1 % → 94.1 %,
+  approved fraud 1.2 % → 0.0 %.
+- **What went wrong or surprised:**
+  - Every prediction held: escalation is 1 point from E027, accuracy sits at the top of E027's
+    spread, and no fraud skipped the admin.
+  - Web evidence moved little. The real-web cases are fraud cases Haiku already sent to the
+    admin or rejected on a hard signal, and the legitimate approve cases search authored pages (E029), so having Tavily
+    back changes the evidence the model reads more than the decisions it takes.
+  - Case 12 went back to rejecting 3/3, as in E027: E029's gain there was a draw, as E029 read
+    it. Cases 19 and N2 now resolve 3/3; 03 and 22 escalate one run in three.
+- **Decision:** keep. This is the reference entry for the agent #82 ships.
+
+## E032 — The #82 agent with web evidence (qwen 3.5 9B, working Tavily key)
+
+- **Hypothesis** (#82, step two): as in E031, against E028 (accuracy 75.8 %, escalation 72.7 %).
+- **Change:** the same as E031, one run of all 34 cases on LM Studio ($0), 0 failed of 130
+  live searches.
+- **Before → after** (E030 → E032; E028 for the hypothesis), gated, 33 cases: accuracy 84.8 % →
+  **72.7 %** (E028 75.8 %), approved-fraud rate 0.0 % → 0.0 %, auto-approved fraud rate 0.0 % →
+  0.0 %, escalation rate 72.7 % → 72.7 %, autonomy accuracy 81.8 % → 81.8 %, Brier 0.151 →
+  0.245.
+- **What went wrong or surprised:**
+  - **Accuracy fell one case below E028.** qwen now rejects six fraud cases it should ask about
+    (09, 18, 19, 23, 25, 28; 25's reject is also right). Each of those rejections lacks a hard
+    signal, so the policy escalates it: the cost is the admin's time, not a wrong decision taken
+    alone. None of them resolves on its own.
+  - With search back, qwen reads more third-party pages and treats them as grounds to reject,
+    against the prompt's "reject only on direct evidence" (review-v6). With one run per case it
+    is not yet a measured tendency; the E030 gain was partly the same noise in the other
+    direction.
+- **Decision:** keep: no fraud skips the admin. qwen's over-rejection with web evidence is worth
+  a repeated run before any prompt change.

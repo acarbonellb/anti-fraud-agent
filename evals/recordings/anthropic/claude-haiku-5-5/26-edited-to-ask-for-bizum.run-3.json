@@ -4,99 +4,51 @@
   "model": "claude-haiku-5-5",
   "run": 3,
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T10:07:00.000Z",
+  "clock": "2026-11-07T11:12:00.000Z",
   "calls": [
     {
-      "requestHash": "0808b023c784a7d85573c0d6d5a6c1672300df069f7ab29453cb95c04ae10659",
-      "latencyMs": 7008,
+      "requestHash": "135abaaa64c43b1ded5509c798ad46646a45ccca1c05a170eeeeab2333777b9c",
+      "latencyMs": 2209,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "toolu_01FHUFsUHD6Xa3FMKH1eVS2M",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"Recomiendo rechazar el evento evt_0da2cf7345 («Canciones de ida y vuelta con Lucía Barbadillo»). La descripción pide explícitamente pagar fuera de la plataforma: «Reserva por Bizum al 600 000 000 y paga la mitad». Es una señal dura de fraude: el comprador pagaría a un teléfono sin la protección de la plataforma, y la comprobación determinista de pago fuera de la plataforma ha fallado. El resto de comprobaciones deterministas (código postal, recinto en OpenStreetMap, precios, comisiones, condiciones de cancelación, sesiones y organizador) han pasado, pero no compensan esa señal. El aforo del Teatro Ramos Carrión no se ha podido verificar y la descripción no se pudo comparar con texto copiado, así que quedan como desconocidos.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción pide reservar y pagar por Bizum a un número de teléfono externo («Reserva por Bizum al 600 000 000 y paga la mitad»). Es un pago fuera de la plataforma y señal dura de fraude. Comprobación determinista ya ejecutada.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_exists\",\"verdict\":\"pass\",\"detail\":\"El recinto «Teatro Ramos Carrión» figura en OpenStreetMap como amenity=theatre, a 3 m de las coordenadas del evento. Comprobación determinista ya ejecutada.\",\"confidence\":0.85,\"sources\":[{\"url\":\"https://www.openstreetmap.org/way/239470425\",\"title\":\"OpenStreetMap: Teatro Ramos Carrión (© colaboradores de OpenStreetMap, ODbL)\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Ni Wikidata ni OpenStreetMap publican el aforo del recinto, y la búsqueda web falló (quota_exceeded). La sesión pone a la venta 160 entradas, sin poder compararlas con el aforo real.\",\"confidence\":0.3,\"sources\":[]},{\"check\":\"price_benchmark\",\"verdict\":\"pass\",\"detail\":\"El precio de 15,00 € no supera 3 veces el p90 (35,00 €) de 42 eventos comparables de cantautor en Zamora con aforo lt300.\",\"confidence\":0.7,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo comprobar si la descripción está copiada, porque la búsqueda web no estaba disponible.\",\"confidence\":0.2,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"Sin organizaciones rechazadas del dueño ni denuncias por fraude, según la comprobación determinista. No se ha revisado el perfil ampliado del organizador.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"abusive_terms\",\"verdict\":\"pass\",\"detail\":\"Las condiciones garantizan la devolución del importe si el evento se cancela. Comprobación determinista ya ejecutada.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"service_fee\",\"verdict\":\"pass\",\"detail\":\"La comisión fija de 1,00 € es inferior al 20 % del precio. Comprobación determinista ya ejecutada.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "id": "toolu_01XjmKRUWf1oJyYRzvbbW3Nw",
+              "name": "get_organizer_context",
+              "argumentsJson": "{\"organizerId\":\"org_125ef5205a\"}"
+            },
+            {
+              "id": "toolu_017W5dgvXeYm7ZjmKhX1v7CU",
+              "name": "find_similar_events",
+              "argumentsJson": "{\"eventId\":\"evt_0da2cf7345\",\"windowDays\":30}"
             }
           ],
           "providerContent": [
             {
               "type": "thinking",
               "thinking": "",
-              "signature": "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"
+              "signature": "CAQSpgsKEAgTGAI4AUIIdGhpbmtpbmcSDHfOhxAnXtT9peZg1hoMHkPNfkO2WX4B4O7eIjCZMhy5uWI/wu/wSUexLB0oF27XEOkjQzEhKmp3+zJNOEay0LgP/Bh8swoEzCWaoVsqwwrXPk4DTv7QXwUvLu3eXJstlV9mvTwcJ4ZQsyD57K0NcZyoj+Zq8+Em3jjSIn+Gu35Guf0wKJBu+0EPj94kdIi0kRKAt7cl/pZ0EdJap0ErDIhZ9ErPN/emM8U5z34yAsKxujjajynT7/f5h7waBJXWjR4K1Mjko4sqX6PEy2/8FaN0RFbVW3yC6EAWfUXL88d44tOXoq0ATmvTnyxS+RsD40myGWBdZkj2x7aEP6kL0X5fsVgBuwy7eufMhUGRfxiFuFIdtXVP901U53dy9aOueviz5nuwwD/W4GV2NeKoxmzqF16tBv/oO9TXtU76mhgEJ/nNJxkRL4N5hOCjusUQHP1HJrWDlO5Lwfx4mc65/bPD64Q7T0czayg/Z4lO1DkPhTDLYqRfhiuGk0fyda6U4uh84spmWwsrEzYjfoEz7a081Y76SCh1eOiOPwpu3Kc0ndG8RTZYd4LnkmCkuxQAOsMdpBTkbx5080A4A9UeuRQ1cFAuTWK+u7YLD5igMlLMJLUPXcXAlygQB9EkGfWy9fGD7L33FEfDwtGm4pYy2zyLw0cq9GpL13llxwtELLgVNW1F/MxoeAIeygR8TJTY/ziwFSZvJ4+bXmSoLRvjRxxEe6xH7DQJkxG1xaGk18Wy2RoN/K1Va6MGJrE2Ms5ohqPwAYhu0cu40CGqTgRHURnU6evkSqmWIJNdkwTVBcaRdHzfYTIgjjYPlqFoT4hgC016vsvIW5hSrT50bBntMLBzQO1siqyutV+ghufPDBHoTa+qULz1TojXGiuMPzV5QGfQOqOt1vWjUnaagjWYojwP0hxsf0lYitlIMC/4p9maAQqpYL89c7M+GRQkgh/vpjExeTjtOrYNS8m1J5EnOEtUb24zuCQROtVXqq720D6Kkc/58JNGd3XPda7p6HmAS6GJUZxQ/acP927CHEEZYoVR+QNMhllAUEtYSSbSd2xCWVAL4qCk9Ef+DzocOCF7nYggydyvLNzKYtOAEBclMnOTc2MsDF8xC5IyBAbmtiCyggbqHriRJJAoa5NeAYy+txSFLhFAJRzu4QwHAeEq9ScG+RsO0aOlBdy8k66A5Hhac3us7pkplkJbNmQ9bnvxEAnHYkEiy1j7cGTpoMjdOjnCVhpVoZ+utLWWOZY3Ix8tewCyTdd7G0H9l/Zu6CAxg9a2fzV8C+62UfKwAQnpcWbndI7laAmphGmXnMCVY7qqj9silDS/QLQS3zesglluW2nUbnan4Z6rVgSPDxCKyv11hFc7MDKaoHuUQUkDka97NNGqOxpE1YHxyzWyzAN9m+WsFRYNaz0OoLdOAjemRdY2aiAfMNu4RVbpwRvxcHYE/S92QYzqX+cD10TpS+E6BdtA7lBWoFFFJwJBaWkwjZTufiaeNaATDN6j4TeGw3rM7bkYSIp2RWHTcE6vZwQnjcsGScO6ucQEwhx9M2xlv/l7FedSdqQEdK/Y4JoDok8Db882ywP5uev+wXiJs1f8+YyI3fYl5imcjxUwz+tmN5DbFQuPx7RgIsYkeT/8Ey6Ay29eQLi2R1n7Nb4eBQV3Bc6YugM4swEYICa1aOo7Hpyt3P9tuhXN9piQg5xF8Wh32OXxKn0DmiLNeTxGczVcWIQzxu+9zKkrcmZ7xxErpHn9mYXBUoLPfaXBWHGaT/OseGcC3IJT1Csa5YtJ8DNT+uFoUIuAvSPzXAPFkDvPvPwmr1sHhHqpOZPXgDMtNP065l8kRSxHt8ciIVtaLN9jlr15YeGP77haJPpVfj9cU4YfnuGdQS3N7n8+k9VVsTeNWq4YAQ=="
             },
             {
               "type": "tool_use",
-              "id": "toolu_01FHUFsUHD6Xa3FMKH1eVS2M",
-              "name": "submit_recommendation",
+              "id": "toolu_01XjmKRUWf1oJyYRzvbbW3Nw",
+              "name": "get_organizer_context",
               "input": {
-                "decision": "reject",
-                "confidence": 0.9,
-                "rationale": "Recomiendo rechazar el evento evt_0da2cf7345 («Canciones de ida y vuelta con Lucía Barbadillo»). La descripción pide explícitamente pagar fuera de la plataforma: «Reserva por Bizum al 600 000 000 y paga la mitad». Es una señal dura de fraude: el comprador pagaría a un teléfono sin la protección de la plataforma, y la comprobación determinista de pago fuera de la plataforma ha fallado. El resto de comprobaciones deterministas (código postal, recinto en OpenStreetMap, precios, comisiones, condiciones de cancelación, sesiones y organizador) han pasado, pero no compensan esa señal. El aforo del Teatro Ramos Carrión no se ha podido verificar y la descripción no se pudo comparar con texto copiado, así que quedan como desconocidos.",
-                "findings": [
-                  {
-                    "check": "off_platform_payment",
-                    "verdict": "fail",
-                    "detail": "La descripción pide reservar y pagar por Bizum a un número de teléfono externo («Reserva por Bizum al 600 000 000 y paga la mitad»). Es un pago fuera de la plataforma y señal dura de fraude. Comprobación determinista ya ejecutada.",
-                    "confidence": 0.95,
-                    "sources": []
-                  },
-                  {
-                    "check": "venue_exists",
-                    "verdict": "pass",
-                    "detail": "El recinto «Teatro Ramos Carrión» figura en OpenStreetMap como amenity=theatre, a 3 m de las coordenadas del evento. Comprobación determinista ya ejecutada.",
-                    "confidence": 0.85,
-                    "sources": [
-                      {
-                        "url": "https://www.openstreetmap.org/way/239470425",
-                        "title": "OpenStreetMap: Teatro Ramos Carrión (© colaboradores de OpenStreetMap, ODbL)"
-                      }
-                    ]
-                  },
-                  {
-                    "check": "venue_capacity",
-                    "verdict": "unknown",
-                    "detail": "Ni Wikidata ni OpenStreetMap publican el aforo del recinto, y la búsqueda web falló (quota_exceeded). La sesión pone a la venta 160 entradas, sin poder compararlas con el aforo real.",
-                    "confidence": 0.3,
-                    "sources": []
-                  },
-                  {
-                    "check": "price_benchmark",
-                    "verdict": "pass",
-                    "detail": "El precio de 15,00 € no supera 3 veces el p90 (35,00 €) de 42 eventos comparables de cantautor en Zamora con aforo lt300.",
-                    "confidence": 0.7,
-                    "sources": []
-                  },
-                  {
-                    "check": "text_originality",
-                    "verdict": "unknown",
-                    "detail": "No se pudo comprobar si la descripción está copiada, porque la búsqueda web no estaba disponible.",
-                    "confidence": 0.2,
-                    "sources": []
-                  },
-                  {
-                    "check": "organizer_history",
-                    "verdict": "pass",
-                    "detail": "Sin organizaciones rechazadas del dueño ni denuncias por fraude, según la comprobación determinista. No se ha revisado el perfil ampliado del organizador.",
-                    "confidence": 0.5,
-                    "sources": []
-                  },
-                  {
-                    "check": "abusive_terms",
-                    "verdict": "pass",
-                    "detail": "Las condiciones garantizan la devolución del importe si el evento se cancela. Comprobación determinista ya ejecutada.",
-                    "confidence": 0.8,
-                    "sources": []
-                  },
-                  {
-                    "check": "service_fee",
-                    "verdict": "pass",
-                    "detail": "La comisión fija de 1,00 € es inferior al 20 % del precio. Comprobación determinista ya ejecutada.",
-                    "confidence": 0.8,
-                    "sources": []
-                  }
-                ]
+                "organizerId": "org_125ef5205a"
+              },
+              "caller": {
+                "type": "direct"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "toolu_017W5dgvXeYm7ZjmKhX1v7CU",
+              "name": "find_similar_events",
+              "input": {
+                "eventId": "evt_0da2cf7345",
+                "windowDays": 30
               },
               "caller": {
                 "type": "direct"
@@ -106,10 +58,93 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 5336,
-          "outputTokens": 1684,
+          "inputTokens": 5269,
+          "outputTokens": 413,
           "cacheReadInputTokens": 0,
-          "cacheWriteInputTokens": 5332
+          "cacheWriteInputTokens": 5265
+        }
+      }
+    },
+    {
+      "requestHash": "790ca18358342f0f58e0ac0610a780d78b6970310edad2b5592fd35aa9481f9e",
+      "latencyMs": 5213,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "toolu_01GHzMdSjfn1S87L5k4CuoVh",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"La descripción del evento pide reservar y pagar por Bizum al 600 000 000 («Reserva por Bizum al 600 000 000 y paga la mitad»). Es un pago fuera de la plataforma, señal dura de fraude según el control determinista (off_platform_payment: fail). Además, el texto ofrece pagar solo la mitad fuera de la plataforma, lo que deja al comprador sin protección de la compra ni de la devolución. El resto de comprobaciones deterministas pasan (recinto existente en OSM, código postal, precios, comisiones, condiciones de cancelación), y el organizador tiene cuenta antigua, CIF válido y sin historial de denuncias. Pero el pago externo basta para rechazar. El aforo del recinto sigue desconocido (160 entradas a la venta sin dato verificable), y no hay eventos similares de otros organizadores en la ventana de 30 días. Recomiendo rechazar; si el organizador quisiera volver a publicar, debería eliminar cualquier instrucción de pago externo de la descripción.\",\"findings\":[{\"check\":\"off_platform_payment\",\"verdict\":\"fail\",\"detail\":\"La descripción pide reservar y pagar por Bizum al 600 000 000 y pagar «la mitad» fuera de la plataforma. Es pago fuera de la plataforma, señal dura de fraude; confirma el control determinista.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"organizer_history\",\"verdict\":\"pass\",\"detail\":\"El organizador Sonidos del Tormes S.L. tiene 8 eventos publicados, ninguno cancelado ni despublicado por admin, y sin denuncias de contenido.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"organizer_identity\",\"verdict\":\"pass\",\"detail\":\"CIF presente con checksum válido, dirección fiscal en Zamora (49001), cuenta del propietario de 530 días con email verificado y sin otras organizaciones del propietario.\",\"confidence\":0.8,\"sources\":[]},{\"check\":\"similar_event\",\"verdict\":\"pass\",\"detail\":\"No se encontraron eventos similares de otros organizadores en la provincia en la ventana de 30 días.\",\"confidence\":0.6,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Ramos Carrión no consta en Wikidata ni OSM; la sesión pone a la venta 160 entradas. No se puede comparar con el aforo real.\",\"confidence\":0.5,\"sources\":[]}],\"infoRequest\":{\"questions\":[\"¿Por qué la descripción indica reserva y pago por Bizum fuera de la plataforma?\",\"¿Cuál es el aforo real del Teatro Ramos Carrión y puede confirmar la venta de 160 entradas?\"],\"draft\":\"Hola, hemos revisado el evento «Canciones de ida y vuelta con Lucía Barbadillo». La descripción pide reservar y pagar por Bizum al 600 000 000, lo que no está permitido: todas las compras deben hacerse a través de la plataforma. Por favor, elimine esas instrucciones de pago y confirme el aforo del recinto. Sin estos cambios, no podremos publicar el evento.\"}}"
+            }
+          ],
+          "providerContent": [
+            {
+              "type": "tool_use",
+              "id": "toolu_01GHzMdSjfn1S87L5k4CuoVh",
+              "name": "submit_recommendation",
+              "input": {
+                "decision": "reject",
+                "confidence": 0.9,
+                "rationale": "La descripción del evento pide reservar y pagar por Bizum al 600 000 000 («Reserva por Bizum al 600 000 000 y paga la mitad»). Es un pago fuera de la plataforma, señal dura de fraude según el control determinista (off_platform_payment: fail). Además, el texto ofrece pagar solo la mitad fuera de la plataforma, lo que deja al comprador sin protección de la compra ni de la devolución. El resto de comprobaciones deterministas pasan (recinto existente en OSM, código postal, precios, comisiones, condiciones de cancelación), y el organizador tiene cuenta antigua, CIF válido y sin historial de denuncias. Pero el pago externo basta para rechazar. El aforo del recinto sigue desconocido (160 entradas a la venta sin dato verificable), y no hay eventos similares de otros organizadores en la ventana de 30 días. Recomiendo rechazar; si el organizador quisiera volver a publicar, debería eliminar cualquier instrucción de pago externo de la descripción.",
+                "findings": [
+                  {
+                    "check": "off_platform_payment",
+                    "verdict": "fail",
+                    "detail": "La descripción pide reservar y pagar por Bizum al 600 000 000 y pagar «la mitad» fuera de la plataforma. Es pago fuera de la plataforma, señal dura de fraude; confirma el control determinista.",
+                    "confidence": 0.95,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_history",
+                    "verdict": "pass",
+                    "detail": "El organizador Sonidos del Tormes S.L. tiene 8 eventos publicados, ninguno cancelado ni despublicado por admin, y sin denuncias de contenido.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "organizer_identity",
+                    "verdict": "pass",
+                    "detail": "CIF presente con checksum válido, dirección fiscal en Zamora (49001), cuenta del propietario de 530 días con email verificado y sin otras organizaciones del propietario.",
+                    "confidence": 0.8,
+                    "sources": []
+                  },
+                  {
+                    "check": "similar_event",
+                    "verdict": "pass",
+                    "detail": "No se encontraron eventos similares de otros organizadores en la provincia en la ventana de 30 días.",
+                    "confidence": 0.6,
+                    "sources": []
+                  },
+                  {
+                    "check": "venue_capacity",
+                    "verdict": "unknown",
+                    "detail": "El aforo del Teatro Ramos Carrión no consta en Wikidata ni OSM; la sesión pone a la venta 160 entradas. No se puede comparar con el aforo real.",
+                    "confidence": 0.5,
+                    "sources": []
+                  }
+                ],
+                "infoRequest": {
+                  "questions": [
+                    "¿Por qué la descripción indica reserva y pago por Bizum fuera de la plataforma?",
+                    "¿Cuál es el aforo real del Teatro Ramos Carrión y puede confirmar la venta de 160 entradas?"
+                  ],
+                  "draft": "Hola, hemos revisado el evento «Canciones de ida y vuelta con Lucía Barbadillo». La descripción pide reservar y pagar por Bizum al 600 000 000, lo que no está permitido: todas las compras deben hacerse a través de la plataforma. Por favor, elimine esas instrucciones de pago y confirme el aforo del recinto. Sin estos cambios, no podremos publicar el evento."
+                }
+              },
+              "caller": {
+                "type": "direct"
+              }
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6320,
+          "outputTokens": 1239,
+          "cacheReadInputTokens": 5265,
+          "cacheWriteInputTokens": 1053
         }
       }
     }
@@ -122,7 +157,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.youtube.com/watch?v=Hk4Ul7OefCg",
+            "title": "Podcast: ¿Sabes todo lo que puedes hacer con Bizum y sus novedades más recientes? | Salud Financiera",
+            "snippet": "[4:29] monitorización de todo este tipo de operativas por eso existe este límite está límit a la recepción y luego en el envío tú puedes enviar dinero entre\n[4:36] medio Euro y 500 por operación con un límite mensual de hasta 5000 y en el día no puedes enviar más de 1000000 € o sea por ejemplo yo ho"
+          },
+          {
+            "url": "https://bizum.com/es",
+            "title": "Inicio - Bizum",
+            "snippet": "Más información\n\n## Disfruta de las ventajas de tener Bizum\n\nRápido\n\nEn menos de 10 segundos puedes enviar dinero.\n\nSeguro\n\nBizum está respaldado por los principales bancos españoles.\n\nFácil\n\nEnvía dinero solo con tu móvil, sea el banco que sea\n\n## Esto es Bizum en número\n\n### 31500000\n\nUsuarios act"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/fdP3mswgPwhQ",
+            "title": "Bizum",
+            "snippet": "# Bizum\nID: fdP3mswgPwhQ\nWebsite: www.bizum.com\nLegal name: Bizum, S.L.\nHeadquarters: Madrid, Madrid, Spain\nLinkedIn: www.linkedin.com/company/bizum · 21,997 followers\nIndustry: Financial Services\nIndustry codes: SIC 51, 513, NAICS 42, 423\nCompany type: Privately Held\nFounded: 2016 [...] Founded: 20"
+          },
+          {
+            "url": "https://bizum.com/es/enviar-y-recibir-dinero",
+            "title": "Hacer un bizum: Enviar y recibir dinero al instante desde tu móvil",
+            "snippet": "Olvídate de pedir el IBAN y de transferencias que tardan días en llegar. Solo necesitas tu móvil y el número de teléfono de la persona a la que quieres enviar el dinero\n\nActiva Bizum\n\n## Salda cuentas con tus amigos y envía dinero en 10 segundos\n\nOlvídate del momento “¿quién paga la cuenta?” Con Biz"
+          },
+          {
+            "url": "https://www.tiktok.com/@tu_blog_fiscal/video/7500540110606241046?lang=en",
+            "title": "Bizum y Hacienda: ¿Deberías tener miedo? Te lo explicamos",
+            "snippet": "video-cover\n\n# Que no os metan miedo con los bizums. #bizum #hacienda #banco\n\nsonido original\n\nauthor\nmusic"
+          }
+        ]
       }
     },
     {
@@ -132,7 +193,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Ramos_Carri%C3%B3n",
+            "title": "Teatro Ramos Carrión - Wikipedia, la enciclopedia libre",
+            "snippet": ". Se inauguró en 1916 como teatro, siendo la primera obra que se representó La noche del sábado, de Jacinto Benavente. Sufrió un periodo de decadencia que acabó transformándolo en sala de cine durante finales del siglo XX y su posterior abandono. Durante más de una década, justo a comienzos del sigl"
+          },
+          {
+            "url": "http://www.fundacionsiglo.es/web/jcyl/FundacionSiglo/es/Plantilla100Directorio/1284235399249/1284315558671/1284315558671/DirectorioPadre",
+            "title": "Teatro Ramos Carrión (Zamora) | Fundación Siglo para el Turismo y las Artes | Junta de Castilla y León",
+            "snippet": "El edificio, de estilo modernista, se inauguró en el año 1916 como teatro, siendo la primera obra que se representó \"La noche del sábado\" de Jacinto Benavente. Sufrió un período de decadencia que acaba transformándolo en sala de cine. Durante más de una década, justo a comienzos del siglo XXI, perma"
+          },
+          {
+            "url": "https://www.vividseats.com/teatro-ramos-carrin-de-zamora-tickets/venue/50852",
+            "title": "Teatro Ramos Carrión de Zamora Tickets - Teatro Ramos Carrión de Zamora Information - Teatro Ramos Carrión de Zamora Seating Chart",
+            "snippet": "## Teatro Ramos Carrión de Zamora Overview: Helpful Information\n\n Address: Calle de Ramos Carrión, 25 Zamora 49001 Spain\n Venue Capacity: 600\n\n## Frequently Asked Questions about Teatro Ramos Carrión de Zamora Tickets\n\n### What are the best cheap seats at the Teatro Ramos Carrión de Zamora? [...] Sk"
+          },
+          {
+            "url": "https://tavily.com/knowledge/company/KDdrrgbcjjUT",
+            "title": "Teatro Ramos Carrión",
+            "snippet": "# Teatro Ramos Carrión Zamora\nID: KDdrrgbcjjUT\nWebsite: www.teatroramoscarrionzamora.com\nHeadquarters: Zamora, Castilla y León, Spain\nLinkedIn: www.linkedin.com/company/teatro-ramos-carrion-zamora · 75 followers\nIndustry: Events Services\nCompany type: Self-Owned\nFounded: 2016\nSocial profiles: www.fa"
+          },
+          {
+            "url": "https://chemtrolstage.com/wp-content/uploads/2024/02/Teatro-Ramos-Carrion.pdf",
+            "title": "Teatro Ramos Carrión Zamora (España)",
+            "snippet": "Teatro Ramos Carrión Zamora (España) Ingeniero Engineer D. José Luis Hernández Merchán Propietario Owner DIPUTACION DE ZAMORA Cliente Client UTE Ortiz - Arcebansa Contacto Contact D. José Luis Hernández Merchán Tlf. +34 980 559 300 Presupuesto Budget 2,4 millones de euros 2,4 millions of euros ALCAN"
+          }
+        ]
       }
     }
   ]

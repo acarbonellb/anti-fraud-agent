@@ -3,23 +3,23 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "9ebd75e3246e42b0f08a62c5a4184b49a23ecfa759ef3265aaa5616ddd79f478",
-      "latencyMs": 5004,
+      "requestHash": "2c0fe40429175b46d892f7e71d290d5b5680fe6654e4738046ef8b02c687d38d",
+      "latencyMs": 4110,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "QRjD7hEo5zuADzzzOSig1rzHI7CJX2jZ",
+              "id": "3nunIHhpzUjCSWqsmLeGGEF0L0TXRlmv",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f032e3a64e\"}"
             },
             {
-              "id": "3ZHHW9QfF247XzZJH42bBP2Qo2ILGwA9",
+              "id": "ax1bMe4oBgxtyys3ypLtkohcrj7QHH1A",
               "name": "find_similar_events",
               "argumentsJson": "{\"eventId\":\"evt_bd0d54bb69\",\"windowDays\":60}"
             }
@@ -33,20 +33,20 @@
       }
     },
     {
-      "requestHash": "cd62c5cc7de026646f9d9e0c8e38da5150d4af834ac0c7af1b5c158c470c093c",
-      "latencyMs": 2644,
+      "requestHash": "f3f16cf99ed93516a10d78eac7f70a4c78c8ae406d3a01a66f5b3125af3e5785",
+      "latencyMs": 2656,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "2JBEtXcfYs8VbyaZvPs7ljx5khllxcj6",
+              "id": "6pYhlCx3NyURqW1HQ0a8vVnViDd0B8yW",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Los Bárbaros del Sur banda rock Granada concierto Tierra Quemada\",\"maxResults\":2}"
             },
             {
-              "id": "M5H3uDDxdUNQ0tcgHaueeUDjs5mrcbGK",
+              "id": "4mOQfxTqLZsueeqFi3eQqgimoKUixE3s",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Sala Planta Baja Granada aforo capacidad\",\"maxResults\":2}"
             }
@@ -60,24 +60,24 @@
       }
     },
     {
-      "requestHash": "f289caadf30603b2326a968f5670bbe18411d7330460fe69adccc8278e6f2c27",
-      "latencyMs": 11282,
+      "requestHash": "dc47bbec7a8e1026436c0096cb01e9a01cbaa6597d0230f86ab2e48d7e1ab9a5",
+      "latencyMs": 13092,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "jCSTjT0Sfp3pLJXYXqV5vtExWJKjWsfX",
+              "id": "xXoKuenCeBBGJPrSgiVcJa5eMh0scFxV",
               "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una contradicción directa con la disponibilidad del artista: Los Bárbaros del Sur ya tienen anunciada una fecha para el 28 de noviembre de 2026 en Bilbao (Festival Ola Norte), según fuentes externas verificadas. Publicar un concierto en Granada para la misma fecha es imposible y constituye una señal clara de fraude o error intencional. Además, el aforo del recinto no está disponible públicamente, lo que impide verificar si las entradas a la venta (700) son coherentes con la capacidad real del local.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"Los Bárbaros del Sur ya tienen una fecha anunciada para el 28 de noviembre de 2026 en Bilbao (Festival Ola Norte), según https://losbarbarosdelsur.test/gira-tierra-quemada y https://festivalolanorte.test/cartel. Publicar un concierto en Granada para la misma fecha es imposible.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://losbarbarosdelsur.test/gira-tierra-quemada\",\"title\":\"Los Bárbaros del Sur — Gira Tierra Quemada: fechas\"},{\"url\":\"https://festivalolanorte.test/cartel\",\"title\":\"Festival Ola Norte — cartel por días\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"Aforo desconocido: ni Wikidata ni OpenStreetMap publican el aforo de «Sala Planta Baja», ni la búsqueda web; la sesión con más entradas pone a la venta 700.\",\"confidence\":0.8,\"sources\":[]}]}"
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta una señal de fraude directa: el artista \\\"Los Bárbaros del Sur\\\" tiene fechas oficiales anunciadas en otros lugares (Bilbao, Valencia, Zaragoza) para la misma gira, según fuentes externas verificadas. Esto indica que la fecha del 28 de noviembre en Granada es falsa o duplicada. Además, el recinto \\\"Sala Planta Baja\\\" no tiene aforo público en Wikidata ni OpenStreetMap, y la venta de 700 entradas supera cualquier capacidad razonable para un local de ese tipo sin datos oficiales. El organizador \\\"Granate Directo\\\" parece legítimo (CIF válido, cuenta antigua), pero el evento en sí es sospechoso por duplicación de fecha con otros actos confirmados fuera de la plataforma.\",\"findings\":[{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"Los Bárbaros del Sur tienen fechas oficiales para la gira Tierra Quemada en Bilbao (28 nov 2026, Ola Norte), Valencia y Zaragoza, según fuentes externas. La fecha de Granada coincide con el concierto de Bilbao, lo que indica duplicación o evento falso.\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://losbarbarosdelsur.test/gira-tierra-quemada\",\"title\":\"Los Bárbaros del Sur — Gira Tierra Quemada: fechas\"},{\"url\":\"https://festivalolanorte.test/cartel\",\"title\":\"Festival Ola Norte — cartel por días\"}]},{\"check\":\"venue_capacity\",\"verdict\":\"warn\",\"detail\":\"El aforo de «Sala Planta Baja» no está publicado en Wikidata ni OpenStreetMap. La venta de 700 entradas sin capacidad oficial es sospechosa y podría indicar sobreventa.\",\"confidence\":0.8,\"sources\":[{\"url\":\"https://www.openstreetmap.org/node/5691935477\",\"title\":\"OpenStreetMap: Sala Planta Baja (© colaboradores de OpenStreetMap, ODbL)\"}]}]}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
           "inputTokens": 4521,
-          "outputTokens": 430
+          "outputTokens": 500
         }
       }
     }

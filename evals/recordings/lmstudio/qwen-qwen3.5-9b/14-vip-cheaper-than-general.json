@@ -3,18 +3,18 @@
   "provider": "lmstudio",
   "model": "qwen/qwen3.5-9b",
   "promptVersion": "review-v6",
-  "clock": "2026-11-07T09:51:00.000Z",
+  "clock": "2026-11-07T10:47:00.000Z",
   "calls": [
     {
-      "requestHash": "0b1eac1557e425f73d3cc02466a7890ae160c6f859887ebf78884fa6c482f6ff",
-      "latencyMs": 2903,
+      "requestHash": "6ce827805173d1c39d2cb44203719d5c81772212467160f152cee0d86eb2c812",
+      "latencyMs": 3176,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Wba74ieg7W7m7b9fOM45Lf8lqBTuLKjn",
+              "id": "T5ZsvFOH8Mwmg8f6EbdUnMYVhIgGjPiz",
               "name": "get_organizer_context",
               "argumentsJson": "{\"organizerId\":\"org_f5d65ea921\"}"
             }
@@ -22,57 +22,162 @@
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 3739,
+          "inputTokens": 3756,
           "outputTokens": 40
         }
       }
     },
     {
-      "requestHash": "da6fa8b8bfd266deb4395670ba7e91328f0fef7bb8d2987eabf6e210d5a2a62c",
-      "latencyMs": 2652,
+      "requestHash": "903f074c32ac7c012c212539757dfac05bce3133f455e9e3567a600f7bf4ae78",
+      "latencyMs": 1476,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "Xja18HbK4t7IbXTItfptnlFqd5pOmrW0",
+              "id": "mQVv0fY4dm33dniFuG6mVoN2HPluVn8s",
               "name": "web_search",
               "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda indie Burgos concierto 2026\",\"maxResults\":3}"
-            },
-            {
-              "id": "fAeWu9T8Nz4FcklqyTon4bjuPKQkfy84",
-              "name": "web_search",
-              "argumentsJson": "{\"query\":\"Teatro Principal Burgos aforo capacidad\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4115,
-          "outputTokens": 94
+          "inputTokens": 4132,
+          "outputTokens": 50
         }
       }
     },
     {
-      "requestHash": "0dad13a6626b39fba52c6c466c90158877346e3c4698fafb21f8b50cdac0b8a7",
-      "latencyMs": 12075,
+      "requestHash": "46a1bfb76b01f635bdfaae951818d1825aca86eda89c75013894985254696235",
+      "latencyMs": 1374,
       "response": {
         "message": {
           "role": "assistant",
           "content": null,
           "toolCalls": [
             {
-              "id": "aDNmtCLRHtCt84IZoPwDt7XyH4ncuKPB",
-              "name": "submit_recommendation",
-              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.9,\"rationale\":\"El evento presenta una anomalía crítica en la estructura de precios: el ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es contrario a la lógica estándar de productos y sugiere una configuración errónea o intencional fraudulenta. Esta irregularidad no tiene explicación inocente plausible y constituye una señal directa de fraude según las directrices. Además, el aforo del Teatro Principal no está disponible públicamente (Wikidata/OpenStreetMap sin dato, búsqueda web fallida por cuota), pero la venta de 400 entradas podría ser compatible con un recinto de ese tamaño; sin embargo, la falla en precios es suficiente para rechazar. El organizador Meseta Beat tiene historial limpio y fiscalidad válida, pero el evento específico falla en sanity básica de precios.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"El ticket VIP (18,00 €) cuesta menos que el ticket General (25,00 €), lo cual es inviable comercialmente y sugiere configuración fraudulenta o error grave.\",\"confidence\":0.95,\"sources\":[]},{\"check\":\"venue_capacity\",\"verdict\":\"unknown\",\"detail\":\"El aforo del Teatro Principal no está disponible en Wikidata ni OpenStreetMap; la búsqueda web falló por cuota excedida. La venta de 400 entradas podría ser compatible con un teatro de tamaño medio, pero sin dato oficial es incierto.\",\"confidence\":0.5,\"sources\":[]},{\"check\":\"text_originality\",\"verdict\":\"unknown\",\"detail\":\"No se pudo verificar si la descripción está copiada: la búsqueda web no estaba disponible (quota_exceeded).\",\"confidence\":0.3,\"sources\":[]}]}"
+              "id": "gU0gjMpS6NTg7x31LiYj401dA2COaP2H",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"Las Ardillas Rojas banda España disco segundo\",\"maxResults\":3}"
             }
           ]
         },
         "stopReason": "tool_calls",
         "usage": {
-          "inputTokens": 4379,
-          "outputTokens": 456
+          "inputTokens": 4688,
+          "outputTokens": 45
+        }
+      }
+    },
+    {
+      "requestHash": "b83a24c542a38747058d42d1b0992d4357f4f89d1d0937876203a7f0ec12185f",
+      "latencyMs": 1600,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "ZlolQdsANP5WxSTNqGssAdO03W4127UQ",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie Burgos concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5321,
+          "outputTokens": 52
+        }
+      }
+    },
+    {
+      "requestHash": "caa448292f3b1b2b6f4bd67e25f8ed66f40013a8c8b7dfb2f7ac23c4b779f93e",
+      "latencyMs": 1279,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "FRBoVuzA65EksxIxCOYRiJxVenczI0hs",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda España\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5411,
+          "outputTokens": 45
+        }
+      }
+    },
+    {
+      "requestHash": "6994ece65580fbf4efcc9ff361cf4502cfda5ca0deefd3458b4bebf0348866ab",
+      "latencyMs": 1593,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "iZBEn2ZTDmYjByNiheQV3WT7zRgMbsWN",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie concierto 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 5988,
+          "outputTokens": 51
+        }
+      }
+    },
+    {
+      "requestHash": "1873d737e4189540c8e871146322a7c4b21e0f8d40a6fc2eb26ed4c82e5012e7",
+      "latencyMs": 1633,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "BKMpuWUfroFfb5y6JfIf9aasyUjHdiCr",
+              "name": "web_search",
+              "argumentsJson": "{\"query\":\"\\\"Las Ardillas Rojas\\\" banda indie España disco segundo 2026\",\"maxResults\":3}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6552,
+          "outputTokens": 53
+        }
+      }
+    },
+    {
+      "requestHash": "c2b491a64830c54c2989a80aed1acfeb50b63b2e911b22cf981555ec968ed561",
+      "latencyMs": 15483,
+      "response": {
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "toolCalls": [
+            {
+              "id": "bfTfHIldTEoZXjbeqxeSqaA7jnSCmXMV",
+              "name": "submit_recommendation",
+              "argumentsJson": "{\"decision\":\"reject\",\"confidence\":0.95,\"rationale\":\"El evento presenta dos señales de fraude determinantes: (1) La regla VIP↔General falla porque la entrada VIP (18,00 €) cuesta menos que la General (25,00 €), lo cual es inconsistente con las prácticas del mercado y sugiere una configuración errónea o intencionada para confundir al comprador. (2) No se ha encontrado ninguna evidencia de que \\\"Las Ardillas Rojas\\\" sea una banda indie real en España: las búsquedas web solo devuelven referencias a la banda sonora \\\"La Ardilla Roja\\\" de Alberto Iglesias, artículos sobre ardillas rojas animales, o bandas con nombres similares pero no esta formación específica. El evento anuncia su \\\"segundo disco\\\", pero no existe rastro de dicha banda ni del disco en fuentes externas. Esto apunta a una banda ficticia creada para vender entradas. Además, el organizador Meseta Beat tiene un historial limpio y fiscalidad correcta, pero la combinación de precio VIP inferior al general y la inexistencia de la banda justifica rechazar el evento por fraude presunto.\",\"findings\":[{\"check\":\"price_sanity\",\"verdict\":\"fail\",\"detail\":\"Regla VIP↔General: «VIP» (18,00 €) cuesta menos que «General» (25,00 €).\",\"confidence\":0.95,\"sources\":[{\"url\":\"https://images.example.test/covers/evt_e15aa9110b.jpg\",\"title\":\"Evento evt_e15aa9110b\"}]},{\"check\":\"artist_availability\",\"verdict\":\"fail\",\"detail\":\"No se ha encontrado ninguna banda indie llamada «Las Ardillas Rojas» en España ni rastro de su segundo disco; las búsquedas web solo devuelven referencias a la BSO «La Ardilla Roja» de Alberto Iglesias, artículos sobre ardillas rojas animales o bandas con nombres similares pero no esta formación específica.\",\"confidence\":0.92,\"sources\":[{\"url\":\"https://www.nationalgeographic.com.es/mundo-animal/ardillas-rojas-no-siempre-son-rojas-pero-ia-sabe_24027\",\"title\":\"National Geographic España\"},{\"url\":\"https://music.apple.com/es/album/la-ardilla-roja-b-s-o/903002885\",\"title\":\"Apple Music\"}]}]}"
+            }
+          ]
+        },
+        "stopReason": "tool_calls",
+        "usage": {
+          "inputTokens": 6641,
+          "outputTokens": 586
         }
       }
     }
@@ -85,7 +190,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://los40.com.co/2026/07/30/que-incluye-la-entrada-vip-prueba-de-sonido-para-bts-en-bogota-esto-se-sabe-sobre-el-paquete",
+            "title": "Qué incluye la entrada VIP - Prueba de sonido para BTS en Bogotá: Esto se sabe sobre el paquete | Música | LOS40 Colombia",
+            "snippet": "Uno de los mayores atractivos del paquete VIP es el acceso al soundcheck. Horas antes del concierto, los asistentes ingresan al escenario para observar un ensayo privado del grupo, que normalmente tiene una duración aproximada de 10 a 15 minutos.\n\nNo te pierdas: K-dramas recomendados por los integra"
+          },
+          {
+            "url": "https://elcomercio.pe/luces/musica/bts-en-peru-que-incluye-el-exclusivo-paquete-de-prueba-de-sonido-para-army-apuesplan-ultimas-noticia",
+            "title": "BTS en Perú: ¿Qué incluye el exclusivo paquete de prueba de sonido para ARMY? | EL COMERCIO PERÚ",
+            "snippet": "De esta manera, quienes cuentan con este acceso no solo tienen su entrada para el concierto, sino también la posibilidad de participar en una actividad previa vinculada directamente con la presentación de BTS.\n\n## Regalo VIP, lanyard y merchandising\n\nEl Soundcheck VIP Package también incluye un artí"
+          },
+          {
+            "url": "https://www.facebook.com/groups/1700991540144138/posts/4457788464464418",
+            "title": "BTS  A.R.M.Y chile | Consulta al tener el.vip se tiene acceso a la.prueba de sonido y entrada anticipada, pero al terminar la.pruwba de sonido te sacan o te dejan ahí | Facebook",
+            "snippet": "29w \n\n2\n\nImage 4\n\n[](\n\nVale Pastene Gu\n\nAmiga las vip como lo dice en las mismas inclusiones del paquete ingresan antes y ahí se quedan, es la gracia de VIP.\n\n   29w \n\n2\n\nImage 5\n\nView all 5 replies\n\n[](\n\nGetoygojo’\n\nUna vez que entras no te vuelven a sacar del recinto, ese es tu beneficio por pagar"
+          },
+          {
+            "url": "https://www.ocu.org/reclamar/lista-reclamaciones-publicas/entradas-E2-80-9Cvip-E2-80-9D/f6c5adede7dae071e1",
+            "title": "Entradas “vip” - Reclamaciones y opiniones LIVE NATION - 26/07/2025",
+            "snippet": "del recinto y se repartió agua de manera gratuita a los asistentes ubicados en las áreas PIT desde las barricadas. Tal como se detallaba en las páginas web de Live Nation y en el canal oficial de venta Ticketmaster, la descripción de los servicios incluidos en la entrada VIP1 - GA PIT Soundcheck VIP"
+          },
+          {
+            "url": "https://www.ocu.org/reclamar/lista-reclamaciones-publicas/experiencia-vip-stray-kids-(ma/41a4dd45e37a29ae0c",
+            "title": "Experiencia VIP Stray Kids (Madrid) - Reclamaciones y opiniones  LIVE NATION - 25/07/2025",
+            "snippet": "Tal como se detallaba en las páginas web de Live Nation y en el canal oficial de venta Ticketmaster, la descripción de los servicios incluidos en la entrada VIP1 - GA PIT Soundcheck VIP Package - Pit 1 era la siguiente:\nEntrada de pie en el área Pit 1\\ de pista para ver a Stray Kids en directo!\nAcce"
+          }
+        ]
       }
     },
     {
@@ -95,7 +226,33 @@
       "maxResults": 5,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.redescena.net/escenario/129/teatro-principal-de-burgos",
+            "title": "Teatro Principal de Burgos",
+            "snippet": "Este espacio desarrolla las siguientes disciplinas\n:   Teatro, Danza, Multidisciplinar, Música, Ópera\n\nEste espacio desarrolla las siguientes prácticas\n:   Exhibición\n\nFlecha derecha SALAS / ESPACIOS\n\n#### Teatro Principal\n\n Aforo: 771\n Ancho de boca: 897\n Fondo desde boca: 1040\n Anchura máxima: 148"
+          },
+          {
+            "url": "https://tienda.santamarialareal.org/es/productos/detalles/teatro-principal-burgos/260",
+            "title": "Teatro Principal (Burgos) - Santa María la Real",
+            "snippet": "Después de intensos años de actividad, el Teatro fue clausurado en agosto de 1946 por orden del alcalde Carlos Quintana. En 1976, el Ayuntamiento declaró en ruina, siendo salvado del derribo de forma milagrosa gracias a la nominación, ese mismo año, como monumento histórico-artístico en base “a sus "
+          },
+          {
+            "url": "https://es.wikipedia.org/wiki/Teatro_Principal_(Burgos)",
+            "title": "Teatro Principal (Burgos) - Wikipedia, la enciclopedia libre",
+            "snippet": "1843: Se nombra director encargado de las obras al arquitecto Francisco Angoitia y tendrá una capacidad para 1200 personas. Un poco más tarde se presenta un proyecto para construir el paseo del Espolón con dos puentes el San Pablo y el de Santa María dejando en el centro del Teatro. El arquitecto fu"
+          },
+          {
+            "url": "https://cultura.jcyl.es/web/jcyl/Cultura/es/Plantilla100Directorio/1284282053297/1284236230164/1284236230164/DirectorioPadre",
+            "title": "Teatro Principal | Cultura | Junta de Castilla y León",
+            "snippet": "Cultura de Castilla y León\n\n## Redes Sociales\n\nX. Abre una nueva ventana\nYoutube. Abre una nueva ventana\n\n# Teatro Principal\n\nAbre una nueva ventana\n\nBurgos, 3.\n C.P.: 34100 Palencia.\n\n979 702 904\n\n979 718 138\n\nCorreo electrónico (pulse para verlo)\n\nMunicipal\n\n# Más información"
+          },
+          {
+            "url": "https://www.mirem.net/web/datosrecinto.php?id=315&d=t&df=3",
+            "title": "Mapa Informatizado de Recintos Escénicos: Datos de recinto",
+            "snippet": "Teatro Principal. Paseo del Espolón, s/n, 3º planta   \n Burgos   \n 09003 - Burgos   \n Teléfono: 947288840   \n FAX: 947271250   \n   \n Gerencia: coordinador cultural   \n Ignacio J. de Miguel Gallo   \n Teatro Principal. Paseo del Espolón, s/n, 3º planta   \n Burgos   \n 09003 - Burgos   \n Teléfono: 94728"
+          }
+        ]
       }
     },
     {
@@ -105,17 +262,101 @@
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://www.laganzua.net/conciertos/burgos",
+            "title": "Conciertos en Burgos 2026 y 2027, Agenda y Entradas",
+            "snippet": "En Burgos hay más de 9 conciertos y festivales programados en 2026 y 2027, incluyendo Niña Polaca, La La Love You, Sonorama Ribera Festival 2026 o Ebrovisión Festival 2026. Los conciertos se celebrarán en salas como Sala Andén 56, El Picón o Polideportivo Municipal de Anduva.\n\nConsulta la Agenda com"
+          },
+          {
+            "url": "https://www.jacksonlive.es/burgos",
+            "title": "Conciertos en Burgos 2026 | JacksOnLive",
+            "snippet": "Logotipo de JacksOnLive\n\n1. Portada\n2. Burgos\n\n# Conciertos en Burgos\n\nToda la música en vivo en Burgos en 2026\n\n19 conciertos 1 festivales 8 salas\n\nPop / Rock (5)Flamenco (2)Indie / Alternativo (2)Rock (2)Hard Rock / Metal (1)Blues, Soul, Góspel (1)Cantautor (1)Clásica (1)Punk (1)Reguetón (1)Musica"
+          },
+          {
+            "url": "https://www.burgosconecta.es/temas/generales/conciertos.html",
+            "title": "Conciertos, últimas noticias - BURGOSconecta",
+            "snippet": "Presentación de los conciertos del escenario Céntrico de los Sampedros 2026 de Burgos.   (Aythami Pérez Miguel)\n\n  ## Burgos desvela los conciertos del escenario Céntrico de los Sampedros 2026\n\n  Ladilla Rusa, Juan Magan, Danny Ocean o la Orquesta Panorama pondrán música en las fiestas de San Pedro "
+          }
+        ]
       }
     },
     {
-      "requestHash": "a43905fd88255facc474646f9776168edb1389d1d26b983697efb371db98b13b",
+      "requestHash": "e2b784e520e1b538c0d326b8849ff30a7573efa5187532b7b1c451f490619e19",
       "provider": "Tavily",
-      "query": "Teatro Principal Burgos aforo capacidad",
+      "query": "Las Ardillas Rojas banda España disco segundo",
       "maxResults": 3,
       "origin": "recorded",
       "response": {
-        "failure": "quota_exceeded"
+        "results": [
+          {
+            "url": "https://open.spotify.com/intl-es/track/0fzAkwD35kEGJko59z2DHE",
+            "title": "La Ardilla Roja - song and lyrics by Alberto Iglesias, Txetxo Bengoechea",
+            "snippet": "2011 • Single\n\n## Recommended releases\n\nShow all\n\nImage 40\n\nZaratustra (Original Cast Recording)\n\n1970 • Album\n\nImage 41\n\nSonada\n\n2019 • Album\n\nImage 42\n\nLa Copla Errante Vol.2\n\n2025 • Album\n\nImage 43\n\nALJAMÍA\n\n2025 • Album\n\nImage 44\n\nLa Mesías (Banda Sonora Original Serie La Mesías)\n\n2023 • Album\n\n"
+          },
+          {
+            "url": "https://music.apple.com/es/album/la-ardilla-roja-b-s-o/903002885",
+            "title": "‎La Ardilla Roja (B. S. O.) - Álbum de Alberto Iglesias - Apple Music",
+            "snippet": "La Ardilla Roja (B. S. O.)\n\n# La Ardilla Roja (B. S. O.)\n\nAlberto Iglesias\n\nBanda sonora · 1993\n\n1 de enero de 1993 20 canciones, 59 minutos ℗ 1993 Sogecine\n\n##\n\n Dolor y Gloria (Banda Sonora Original)\n\n  Dolor y Gloria (Banda Sonora Original)\n\n  Dolor y Gloria (Banda Sonora Original)\n\n  2019\n La ha"
+          },
+          {
+            "url": "https://ardillas.bandcamp.com/album/ardillas",
+            "title": "ARDILLAS | Ardillas",
+            "snippet": "A terrific split cassette from two promising young indie bands, this is one part melody, one part fury. Bandcamp New & Notable Jul 17, 2023\n\n  go to album [...] ARDILLAS\n\n  Aug 2011\n\n### contact / help\n\nContact Ardillas\n\nStreaming and   \nDownload help\n\nReport this album or account\n\nArdillas recommen"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "97678006fbafc58c1f4a3dc82c6792311519d323da2ef77b350f004e0142c244",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda España",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.nationalgeographic.com.es/mundo-animal/ardillas-rojas-no-siempre-son-rojas-pero-ia-sabe_24027",
+            "title": "Las ardillas rojas están en peligro, y la inteligencia artificial podría salvarlas",
+            "snippet": "de la empresa, Emma McClenaghan, a National Geographic España a través del correo electrónico. [...] Betelgeuse Feixue Liang Nueva DANA Beneficios cafeína  Apellido Flauta Troya Dibujos Gaudí Garibaldi Jean Baudrillard Navidad Madrid Bienestar Últimos descubrimientos\n\n# National Geographic\n\nNational"
+          },
+          {
+            "url": "https://music.apple.com/es/album/la-ardilla-roja-b-s-o/903002885",
+            "title": "‎La Ardilla Roja (B. S. O.) - Álbum de Alberto Iglesias - Apple Music",
+            "snippet": "La Ardilla Roja (B. S. O.)\n\n# La Ardilla Roja (B. S. O.)\n\nAlberto Iglesias\n\nBanda sonora · 1993\n\n1 de enero de 1993 20 canciones, 59 minutos ℗ 1993 Sogecine\n\n##\n\n Dolor y Gloria (Banda Sonora Original)\n\n  Dolor y Gloria (Banda Sonora Original)\n\n  Dolor y Gloria (Banda Sonora Original)\n\n  2019\n La ha"
+          },
+          {
+            "url": "https://animalia.bio/es/red-squirrel?custom_list=14850",
+            "title": "Datos de Ardilla roja, dieta, hábitat e imágenes en Animalia.bio",
+            "snippet": "Dentro de la península ibérica está presente de manera más o menos uniforme, faltando sólo en el cuadrante suroeste. Ocupa de manera continua la zona norte peninsular, desde Cataluña a Galicia, y el Sistema Ibérico septentrional. En la mitad sur se restringe a los siste [...] Albania,  Austria,  Bie"
+          }
+        ]
+      }
+    },
+    {
+      "requestHash": "cfc6b9e2abce3f4a73978592e32158ae5aabbd1be95083f33061acae55f94623",
+      "provider": "Tavily",
+      "query": "\"Las Ardillas Rojas\" banda indie concierto 2026",
+      "maxResults": 3,
+      "origin": "recorded",
+      "response": {
+        "results": [
+          {
+            "url": "https://www.songkick.com/artists/7955023-las-ardillas-de-dakota",
+            "title": "las ardillas de dakota Tour Announcements 2026 & 2027, Notifications, Dates, Concerts & Tickets – Songkick",
+            "snippet": "Un aclamado bis nos trajo los acordes de un rock urbano madrileño de pura cepa como el “Sorprendente” de Leño.\n  \nEl sudor, y las caras sonrientes fuerón el epilogo de un concierto que nos alegramos de haber compartido con todos y cada uno de ellos. Gracias Ardillas. [...] Le siguio “La Llave” tambi"
+          },
+          {
+            "url": "https://www.instagram.com/p/DWP9Yr0jNt7",
+            "title": "Instagram",
+            "snippet": "Photo by Foro Indie Rocks! on October 29, 2026. May be an image of text.\n\nPhoto by Hipnosis on October 28, 2026.\n\nPhoto by Indie Rocks! on October 28, 2026. May be an image of text.\n\nVideo by ElectrónicaMX on October 26, 2026. May be an image of one or more people, poster, magazine and text.\n\nPhoto"
+          },
+          {
+            "url": "https://www.ticketmaster.com/la-adictiva-banda-san-jose-de-tickets/artist/2114961",
+            "title": "La Adictiva Banda San Jose De Mesillas Tickets, 2026-2027 Concert Tour Dates | Ticketmaster",
+            "snippet": "Wish they would of had the show all to themselves.. still had many songs i wanted to hear from them.. i would definitely see them again..\n\n## Fans Also Viewed\n\n Banda MS\n Los Tigres del Norte\n Fuerza Regida\n MANÁ\n Carín León\n Banda El Recodo\n Pancho Barraza [...] La Adictiva gave an amazing performa"
+          }
+        ]
       }
     }
   ]
