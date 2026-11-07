@@ -206,8 +206,7 @@ workflow couldn't read the secrets. That was wrong. It also pins what the deploy
 
 - add "Require review from Code Owners" to `main`'s ruleset;
 - enable Dependabot version updates in the repository settings, if the config file alone doesn't
-  start them;
-- scope the GitHub token the coding agent uses to this repository only.
+  start them.
 
 **Rejected:**
 
