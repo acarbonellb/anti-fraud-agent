@@ -114,17 +114,16 @@ export async function recordCase(
   const searches = createRecordingSearch(options.search);
   const run = options.run ?? 1;
   try {
-    const { outcome } = await review(
-      evalCase,
-      run,
-      recorder,
-      tools.fetch,
-      searches.search,
-      options.throttles ?? createVenueThrottles(),
+    const { outcome } = await review(evalCase, {
+      runIndex: run,
+      provider: recorder,
+      fetch: tools.fetch,
+      web: searches.search,
+      throttles: options.throttles ?? createVenueThrottles(),
       clock,
       prompt,
-      options.autoApproveThreshold ?? defaultThreshold,
-    );
+      autoApproveThreshold: options.autoApproveThreshold ?? defaultThreshold,
+    });
     const recording: Recording = {
       caseId: evalCase.id,
       provider: provider.provider,
@@ -163,17 +162,16 @@ export async function replayCase(
     if (recording.promptVersion !== prompt.version) {
       throw new StaleRecordingError("prompt_version");
     }
-    const { outcome } = await review(
-      evalCase,
-      recording.run ?? 1,
-      createReplayProvider(recording),
-      createReplayFetch(toolRecording),
-      createReplaySearch(recording.searches),
-      REPLAY_THROTTLES,
-      new Date(recording.clock),
+    const { outcome } = await review(evalCase, {
+      runIndex: recording.run ?? 1,
+      provider: createReplayProvider(recording),
+      fetch: createReplayFetch(toolRecording),
+      web: createReplaySearch(recording.searches),
+      throttles: REPLAY_THROTTLES,
+      clock: new Date(recording.clock),
       prompt,
-      options.autoApproveThreshold ?? defaultThreshold,
-    );
+      autoApproveThreshold: options.autoApproveThreshold ?? defaultThreshold,
+    });
     return resultOf(evalCase, fromCalls(outcome, recording));
   } catch (error) {
     return failed(evalCase, error);
@@ -203,18 +201,16 @@ export async function fooledCase(
   const runs: FooledRun[] = [];
   for (const web of FOOLED_WEBS) {
     try {
-      const { outcome, flagged } = await review(
-        evalCase,
-        1,
-        createFooledModel(),
-        createReplayFetch(toolRecording),
-        web === "down" ? WEB_DOWN : createReplaySearch(searches),
-        REPLAY_THROTTLES,
-        FOOLED_CLOCK,
-        REVIEW_PROMPT,
-        defaultThreshold,
-        web === "down",
-      );
+      const { outcome, flagged } = await review(evalCase, {
+        runIndex: 1,
+        provider: createFooledModel(),
+        fetch: createReplayFetch(toolRecording),
+        web: web === "down" ? "down" : createReplaySearch(searches),
+        throttles: REPLAY_THROTTLES,
+        clock: FOOLED_CLOCK,
+        prompt: REVIEW_PROMPT,
+        autoApproveThreshold: defaultThreshold,
+      });
       runs.push({
         web,
         outcome: {
@@ -358,26 +354,43 @@ interface Reviewed {
   flagged: string[];
 }
 
+interface ReviewRun {
+  runIndex: number;
+  provider: LlmProvider;
+  fetch: Fetch;
+  /**
+   * The real web's search, or `down`: every search fails, the authored
+   * pages' too. Only the fooled model asks for that (#82).
+   */
+  web: WebSearch | "down";
+  throttles: VenueThrottles;
+  clock: Date;
+  prompt: Prompt;
+  autoApproveThreshold: number;
+}
+
 async function review(
   evalCase: EvalCase,
-  runIndex: number,
-  provider: LlmProvider,
-  fetch: Fetch,
-  webSearch: WebSearch,
-  throttles: VenueThrottles,
-  clock: Date,
-  prompt: Prompt,
-  autoApproveThreshold: number,
-  /** The web is down for the authored pages too: only the fooled model asks. */
-  webDown = false,
+  {
+    runIndex,
+    provider,
+    fetch,
+    web,
+    throttles,
+    clock,
+    prompt,
+    autoApproveThreshold,
+  }: ReviewRun,
 ): Promise<Reviewed> {
   const fixtures = evalCase.build(clock);
   // Invented organizers, artists and texts have no real web: their pages are
   // authored, and searched in code in both modes (ADR 0015 point 9).
   const search =
-    fixtures.web === undefined || webDown
-      ? webSearch
-      : createAuthoredSearch(fixtures.web);
+    web === "down"
+      ? WEB_DOWN
+      : fixtures.web === undefined
+        ? web
+        : createAuthoredSearch(fixtures.web);
   const mock = await startMockSatella({
     fixtures: {
       events: fixtures.event === undefined ? [] : [fixtures.event],
