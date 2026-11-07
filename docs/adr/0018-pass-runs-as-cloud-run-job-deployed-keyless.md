@@ -1,7 +1,8 @@
 # ADR 0018 — The pass runs as a Cloud Run Job in its own project, deployed from CI without keys and shipped paused
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#9) · amendment 2026-11-07 (#85)
+- **Status:** accepted · amendment 2026-11-05 (#9) · amendment 2026-11-07 (#85) · amendment
+  2026-11-07 (#90)
 - **Related:** brief §8 (deployment) and §6.3 (spend caps); ADR 0008 (the deployed model, amended
   here for the Tailscale decision); ADR 0016 (the store); ADR 0017 (the pass); issues #8, #46
   and #9.
@@ -130,7 +131,7 @@ Four facts shaped the rest:
 - **Left open:**
   - the dashboard's service and its service account (#47, on hold);
   - Satella's credential and a bypass token for staging's deployment protection, if it needs one (brief §8, #9);
-  - alerting on failed passes beyond the budget alert.
+  - alerting on failed passes beyond the budget alert (closed by the amendment of #90).
 
 ## Amendment (2026-11-05, #9): the pass reaches Satella staging with its identity token
 
@@ -221,3 +222,62 @@ workflow couldn't read the secrets. That was wrong. It also pins what the deploy
 - **Narrow the deploy account so it can't touch secret bindings.** `gcloud run jobs update` sets
   the image, and the image alone reads the secrets the job already binds. A narrower role would
   not change what a malicious image can read.
+
+## Amendment (2026-11-07, #90): the pass's failures alert by email
+
+`run.failed`, `run.abandoned` and `pass.budget_reached` were log lines only, so a subject nobody
+reviewed was noticed only by someone reading the logs or the store. This closes the last item left
+open in the Consequences ("alerting on failed passes beyond the budget alert") and extends point 8.
+
+1. **Four alert policies in Cloud Monitoring and one email channel.** Each opens an incident on
+   the first match, with no threshold to wait for:
+   - **`run.failed`**: a review failed. A transient one is retried by later passes, but a model or
+     Satella outage should reach the operator the same day (#84, story 1).
+   - **`run.abandoned`**: the agent gave up on a subject after its retries. Nobody will review it
+     unless an admin does.
+   - **`pass.budget_reached`**: a pass stopped at the day's budget (ADR 0017). The feed is
+     outgrowing the budget, or a run is spending more than its worst case.
+   - **A failed execution of the job**: the job's `completed_execution_count` metric with
+     `result=failed`.
+2. **The three pass lines are log-based policies; the job's failure is a metric policy.**
+   - **The lines.** They match `jsonPayload.event` on the job's entries (point 9). The email carries
+     the line's `runId`, subject and `code` as labels: ids and codes only, as the line itself
+     (CLAUDE.md §4).
+   - **The job.** A task timeout or an out-of-memory kill ends the execution as failed without the
+     pass logging anything, and a pass that exits 1 (`pass.failed`) fails it too. The metric sees
+     all of them; a log filter would have to know each way a process can die.
+3. **The budget alert notifies at most once a day; the others at most once every 5 minutes.**
+   - **Budget.** Its notification rate limit and its auto-close are 24 hours. A day spent at the
+     budget logs `pass.budget_reached` on every pass, 144 times, and sends one email. The window
+     is rolling from the first email, not the UTC day of ADR 0017's budget, so a budget reached
+     late one day may hold back the next day's first email. That is accepted: the day's spend in
+     the store has the exact figure.
+   - **The rest.** 5 minutes is Cloud Monitoring's floor for log-based policies and under the
+     10-minute schedule, so each pass that fails can send its own email. An incident closes itself
+     after 30 minutes without matches, the floor.
+4. **A second script, `scripts/gcp/alerts.sh`, creates them, run by the author.**
+   - **No ids in the repo.** The project is the one set in the `satella` gcloud configuration, and
+     the email is asked for when the script runs. Neither is committed.
+   - **Idempotent.** The channel is found by its address and each policy by its display name. An
+     existing policy is replaced from the script only with the author's go-ahead, so a change to the
+     script reaches it. It also enables the Monitoring API if it is off.
+   - **Not run in CI or by the agent.** The channel and the policies are cloud resources (CLAUDE.md
+     §8). The script is checked with `bash -n` and shellcheck only.
+
+**Rejected:**
+
+- **Log-based metrics with threshold policies on them.** A user-defined metric per event, plus a
+  policy per metric: twice the resources, and the email loses the line's labels. Log-based policies
+  match the line itself.
+- **A log filter for the job's failure** (Cloud Run's system log for the execution). Its message
+  text is not a contract the way the metric's `result` label is.
+- **Alerting from the pass itself** (an email or a webhook call at the end of a pass). A pass that
+  is killed sends nothing, and the pass would need a mail credential. The platform watching the
+  logs sees a dead pass too.
+- **One policy for every failure line.** One rate limit would cover all of them, so a day at the
+  budget could hide the first `run.abandoned`.
+
+**Left open:**
+
+- a daily Tavily credit alert (#84, out of scope; #82 counts searches per run and per pass);
+- the email channel is the author's address; a shared inbox or a pager is for when there is a team.

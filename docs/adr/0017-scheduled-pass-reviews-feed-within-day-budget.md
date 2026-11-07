@@ -1,7 +1,8 @@
 # ADR 0017 — The scheduled pass reviews each changed subject once, never holds the feed for a failure, and stops at the day's budget
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#57)
+- **Status:** accepted · amendment 2026-11-05 (#57) · amendment 2026-11-06 (#57) ·
+  amendment 2026-11-07 (#88)
 - **Related:** brief §2.1, §4.2, §4.3 and §6.3.3, which it departs from (point 5); ADR 0016
   (the store it writes, amended for failed runs and resolutions); ADR 0011 (the feed's contract);
   issues #8 and #45.
@@ -161,3 +162,39 @@ above: of the 2 runs' room, a pass retries at most 1 subject and reads 1 feed it
 Sizing the page in subjects was rejected. The feed can't be asked for a number of subjects: only
 reading the items shows how many subjects they hold, and a cursor past items left unreviewed
 would skip them.
+
+## Amendment (2026-11-07, #88): a hold that expires unsettled is charged at its reserved amount
+
+Until now a hold that was never settled simply expired: after 15 minutes it stopped counting
+(ADR 0016 point 6) and was dropped on the next write. A run killed mid-pass (the job's task
+timeout, an out-of-memory kill) never reaches its settle, so its model calls were never recorded.
+A pass that crashed every 10 minutes could spend without limit inside a day the budget said was
+nearly empty, with only the provider's spend cap left to stop it. This replaces "the hold simply
+expires" under this ADR's budget stop (point 5).
+
+1. **An expired, unsettled hold becomes settled spend at the amount it reserved.** Whoever reads
+   the day's document next (a reservation, a settle, or the pass's `daySpend` before it reads the
+   feed) converts it. `daySpend` writes the converted document; it writes nothing when no hold
+   expired. The entry is kept under its `runId` with no expiry, like any settled cost (#84, story 11),
+   so the budget arithmetic stays one rule.
+2. **Exactly once.** A settled entry never expires again, so a later read finds nothing to charge.
+   The entry is keyed by run, so two readers converting the same hold write the same entry.
+3. **A run that settles late still records its actual cost.** Settling overwrites the run's entry,
+   so a slow run settled after its hold was charged replaces the charge with what it spent.
+4. **The rule is `chargeExpired` in `src/store/spend.ts`**, pure and shared by both stores
+   (ADR 0016 point 7), and the contract suite checks it against both.
+
+**Rejected:**
+
+- **Charge the actual cost of the killed run**: the run dies before it can report it, and
+  reconstructing it from logs or the provider's usage API adds a dependency to recover a figure
+  the reservation already bounds.
+- **Charge only when a reservation is next written**: a day whose passes stop at the budget reads
+  `daySpend` and writes nothing, so its document would keep an expired hold that only the shared
+  arithmetic counts. Writing on the read keeps the document a true record.
+- **Keep dropping expired holds**: it is the hole this amendment closes.
+
+**Consequences:** the worst case is pessimistic for a killed run, as it is for a live one (point
+5): a crash charges up to one hold ($1.00 with the defaults) more than it spent. Expired holds are
+no longer dropped, so the day's document keeps one entry per run, at most a few hundred a day,
+far below Firestore's 1 MiB limit.

@@ -6,7 +6,8 @@
  *
  * Every update carries a precondition: `exists=false` for a document it
  * found missing, or the `updateTime` it read. That is the compare-and-set
- * behind the feed cursor and the day's spend, with no transaction API.
+ * behind the feed cursor, the retry queue and the day's spend, with no
+ * transaction API.
  *
  * Documents: `runs/{runId}`, `resolutions/{runId}`, `agentState/feedCursor`,
  * `agentState/retryQueue`, `spend/{YYYY-MM-DD}`.
@@ -35,7 +36,7 @@ import {
   validRun,
 } from "./run-document.js";
 import { retryQueueSchema, validRetryQueue } from "./retry-queue.js";
-import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
+import { type DayEntries, reserve, settle, chargedSpend } from "./spend.js";
 import {
   type AgentStore,
   type DaySpend,
@@ -148,10 +149,19 @@ export function createFirestoreStore(
     read: FirestoreDocument | null,
     fields: FirestoreFields,
   ): Promise<void> {
+    await putVersion(path, read?.updateTime ?? null, fields);
+  }
+
+  /** As `putDocument`, from the `updateTime` read (null: found missing). */
+  async function putVersion(
+    path: string,
+    updateTime: string | null,
+    fields: FirestoreFields,
+  ): Promise<void> {
     const precondition =
-      read === null
+      updateTime === null
         ? "currentDocument.exists=false"
-        : `currentDocument.updateTime=${encodeURIComponent(read.updateTime)}`;
+        : `currentDocument.updateTime=${encodeURIComponent(updateTime)}`;
     await request("PATCH", `/${path}?${precondition}`, { fields });
   }
 
@@ -277,18 +287,20 @@ export function createFirestoreStore(
     async readRetryQueue() {
       const document = await getDocument("agentState/retryQueue");
       return document === null
-        ? []
-        : parse(retryQueueDocumentSchema, decoded(document)).retries;
+        ? { retries: [], version: null }
+        : {
+            retries: parse(retryQueueDocumentSchema, decoded(document)).retries,
+            version: document.updateTime,
+          };
     },
 
-    async replaceRetryQueue(retries) {
+    async replaceRetryQueue(version, retries) {
       const valid = validRetryQueue(retries);
-      // Firestore takes no unconditional write here (every update carries a
-      // precondition). Overlapping passes don't happen: ADR 0018's timeout.
-      const document = await getDocument("agentState/retryQueue");
-      await putDocument(
+      // The version is the `updateTime` read, so the precondition is the
+      // whole compare-and-set: no second read that could hide a race.
+      await putVersion(
         "agentState/retryQueue",
-        document,
+        version,
         encodeFields({ retries: valid }),
       );
     },
@@ -312,8 +324,11 @@ export function createFirestoreStore(
     async daySpend(): Promise<DaySpend> {
       const at = now();
       const day = utcDay(at);
-      const { entries } = await readSpend(day);
-      return totalOf(day, entries, at);
+      // Writes only when a hold expired unsettled, to record its charge.
+      return updateSpend(day, (entries) => {
+        const read = chargedSpend(day, entries, at);
+        return { result: read.spend, entries: read.entries };
+      });
     },
   };
 

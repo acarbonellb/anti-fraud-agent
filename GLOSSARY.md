@@ -79,7 +79,8 @@ fixed.
 - **Effort**: how much Claude thinks before it answers (`AGENT_LLM_EFFORT`: `low` to `max`,
   default `medium`). Thinking is billed as output.
 - **Paid provider**: one that bills per token (`anthropic`). The scripts call it only with
-  `--paid`.
+  `--paid`. It alone gets the paid key (`AGENT_LLM_API_KEY`) and Anthropic's endpoint; the local
+  providers get their own optional key, `AGENT_LLM_LOCAL_API_KEY` (ADR 0008 amendment of #89).
 - **Deployed model**: the model the deployed agent runs, set in its environment and chosen by the
   evals (Claude Haiku 5.5 since E014). The code's fallback with nothing set stays local qwen, so
   development needs no key (ADR 0008 amendment, #42).
@@ -105,14 +106,17 @@ fixed.
   (ADR 0017 amendment).
 - **Retry queue**: the subjects whose last review failed transiently, oldest first. Each pass
   reviews some of them again, in at most half its room; a subject leaves after a review that
-  doesn't fail transiently, or is abandoned after its third failure (ADR 0017 amendment).
+  doesn't fail transiently, or is abandoned after its third failure (ADR 0017 amendment). Like
+  the feed cursor, it is replaced only from the version read, so two overlapping passes can't
+  drop each other's retries (#87).
 - **Run resolution**: the admin's resolution of a run's recommendation, kept next to the run in
   the store; the admin agreement rate (brief §4.3) joins them (ADR 0016 amendment).
 - **Feed cursor**: where the next pass reads the feed from. It advances only from the value read,
   so two overlapping passes can't both move it (ADR 0016).
 - **Spend hold**: a run's worst-case cost, reserved against the UTC day's budget
   (`AGENT_DAILY_BUDGET_MICROS`) before it runs and replaced by its actual cost after. It expires
-  after 15 minutes, so a crashed run can't keep budget (ADR 0016).
+  after 15 minutes; a hold that expires unsettled (a run killed mid-pass) is charged at its
+  reserved amount, so a crash still counts against the day (ADR 0016, ADR 0017 amendment).
 - **Worst-case cost**: what a run reserves before it starts: `AGENT_MAX_TOKENS` at the model's
   dearest rate, for the review and its re-review after a stale subject. A model with no price has
   none, so the pass won't run it (ADR 0017).

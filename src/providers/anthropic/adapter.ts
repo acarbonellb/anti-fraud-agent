@@ -24,6 +24,11 @@ import {
 
 export interface AnthropicOptions {
   apiKey: string;
+  /**
+   * Passed explicitly: left out, the SDK reads `ANTHROPIC_BASE_URL` on its
+   * own and would send the key wherever it points (#89).
+   */
+  baseUrl: string;
   /** e.g. `claude-haiku-5-5`, from the current models docs. */
   model: string;
   /** Explicit, so every run records it (#30); the model's default is `medium`. */
@@ -46,11 +51,38 @@ const stopReasons: Partial<Record<string, StopReason>> = {
 
 const COMPLETION_TIMEOUT_MS = 120_000;
 
+/**
+ * Each header name the SDK parses from `ANTHROPIC_CUSTOM_HEADERS`, mapped to
+ * null. The SDK has no option that stops it reading the variable, so this
+ * reads it the same way (one `name: value` per line) only to cancel it.
+ */
+function headersTheSdkReadsOnItsOwn(): Record<string, null> {
+  // Not configuration: the only read of the variable is to neutralise it.
+  // eslint-disable-next-line no-restricted-properties
+  const raw = process.env.ANTHROPIC_CUSTOM_HEADERS;
+  const cancelled: Record<string, null> = {};
+  for (const line of raw?.split("\n") ?? []) {
+    const colon = line.indexOf(":");
+    if (colon >= 0) cancelled[line.slice(0, colon).trim()] = null;
+  }
+  return cancelled;
+}
+
 export function createAnthropicProvider(
   options: AnthropicOptions,
 ): LlmProvider {
   const client = new Anthropic({
     apiKey: options.apiKey,
+    baseURL: options.baseUrl,
+    // `ANTHROPIC_LOG=debug` would log whole requests, review contexts
+    // included (CLAUDE.md §4: ids only). Failures surface as ProviderError.
+    logLevel: "off",
+    // The SDK adds every header `ANTHROPIC_CUSTOM_HEADERS` names to every
+    // request, under ours; a null of the same name removes it (#84).
+    defaultHeaders: headersTheSdkReadsOnItsOwn(),
+    // Off, so `ANTHROPIC_OPEN_TELEMETRY_TRACES_CONTENT_MODE=content` can't put
+    // review contexts into spans of a tracer someone else registered (#84).
+    openTelemetry: false,
     // The SDK waits 10 minutes per attempt by default, longer than the job
     // itself (ADR 0018). With its two retries, 3 × 2 min still fits (#57).
     timeout: COMPLETION_TIMEOUT_MS,
