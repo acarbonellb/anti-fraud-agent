@@ -3,7 +3,8 @@
  * deterministic, venue and copied-text checks, run the loop, submit the
  * recommendation. Satella's `409 STALE_SUBJECT` means the
  * subject changed during the review: re-review the new version, never retry
- * the old recommendation (CLAUDE.md §4).
+ * the old recommendation (CLAUDE.md §4). A review that fails throws
+ * `ReviewFailedError`, which carries the searches it spent (#82).
  */
 import { runEventChecks } from "../checks/event-checks.js";
 import {
@@ -18,7 +19,13 @@ import {
 } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
-import { countSearches, NO_SEARCHES } from "../search/counting.js";
+import { DomainError } from "../errors.js";
+import {
+  type CountingSearch,
+  countSearches,
+  NO_SEARCHES,
+  type SearchCounts,
+} from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
@@ -78,14 +85,43 @@ export interface ReviewSubjectResult {
 export async function reviewSubject(
   input: ReviewSubjectInput,
 ): Promise<ReviewSubjectResult> {
-  const { subject, satella } = input;
-  const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
-
-  // Every attempt's searches spent credits, a stale one's included: the
-  // review's totals are counted across them (#82).
+  // Every attempt's searches spent credits, a stale one's included, and so
+  // did a review that failed: the totals are counted across them (#82).
   const reviewCounted =
     input.webSearch === undefined ? undefined : countSearches(input.webSearch);
   const searches = () => reviewCounted?.counts() ?? NO_SEARCHES;
+  try {
+    const result = await reviewAttempts(input, reviewCounted);
+    return { ...result, run: { ...result.run, searches: searches() } };
+  } catch (error) {
+    throw new ReviewFailedError(error, searches());
+  }
+}
+
+/**
+ * A review that didn't reach Satella, with the searches it ran before it
+ * failed: the credits are spent either way (#82). `code` is the cause's, so
+ * a caller reads it as it would the cause's own.
+ */
+export class ReviewFailedError extends DomainError {
+  readonly code: string;
+
+  constructor(
+    override readonly cause: unknown,
+    readonly searches: SearchCounts,
+  ) {
+    const code = cause instanceof DomainError ? cause.code : "UNEXPECTED";
+    super(`review failed: ${code}`, { cause });
+    this.code = code;
+  }
+}
+
+async function reviewAttempts(
+  input: ReviewSubjectInput,
+  reviewCounted: CountingSearch | undefined,
+): Promise<ReviewSubjectResult> {
+  const { subject, satella } = input;
+  const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
 
   for (let attempt = 1; ; attempt += 1) {
     const now = input.now?.() ?? new Date();
@@ -138,12 +174,7 @@ export async function reviewSubject(
         // safe, and a re-review after a stale subject is a new submission.
         { idempotencyKey: `${input.runId}:${String(attempt)}` },
       );
-      return {
-        run: { ...run, searches: searches() },
-        review,
-        created,
-        attempts: attempt,
-      };
+      return { run, review, created, attempts: attempt };
     } catch (error) {
       const stale =
         error instanceof SatellaApiError && error.code === "STALE_SUBJECT";

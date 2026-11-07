@@ -83,7 +83,8 @@ export interface RunResult {
   webSearches: number;
   /**
    * Every search the review ran, the code's included (copied text, capacity
-   * fallback): the credits it spent, and how many failed (#82).
+   * fallback): the credits it spent, and how many failed (#82). From
+   * `reviewSubject`, every attempt's.
    */
   searches: SearchCounts;
   trace: TraceEntry[];

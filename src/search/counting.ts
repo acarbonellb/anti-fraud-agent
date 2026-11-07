@@ -19,6 +19,13 @@ export const NO_SEARCHES: Readonly<SearchCounts> = Object.freeze({
   failed: 0,
 });
 
+export function addSearchCounts(
+  a: SearchCounts,
+  b: SearchCounts,
+): SearchCounts {
+  return { total: a.total + b.total, failed: a.failed + b.failed };
+}
+
 export interface CountingSearch {
   search: WebSearch;
   readonly counts: () => SearchCounts;

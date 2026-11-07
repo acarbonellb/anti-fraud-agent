@@ -16,7 +16,7 @@
 import { createHash } from "node:crypto";
 
 import { REVIEW_PROMPT, type Prompt } from "../agent/prompt.js";
-import { reviewSubject } from "../agent/review.js";
+import { ReviewFailedError, reviewSubject } from "../agent/review.js";
 import { reviewEvidence } from "../agent/review-evidence.js";
 import { createUntrustedFence } from "../agent/untrusted.js";
 import { loadConfig } from "../config/config.js";
@@ -509,7 +509,10 @@ function resultOf(
 }
 
 /** Stable codes only: an error's text may quote a model or Satella response. */
-function failed(evalCase: EvalCase, error: unknown): CaseResult {
+function failed(evalCase: EvalCase, thrown: unknown): CaseResult {
+  // The review's own wrapper only adds its searches, which a case doesn't
+  // report: the cause says what went wrong.
+  const error = thrown instanceof ReviewFailedError ? thrown.cause : thrown;
   const failure =
     error instanceof StaleRecordingError
       ? `stale: ${error.reason}`

@@ -220,6 +220,29 @@ describe("a pass over a page of the feed", () => {
     );
   });
 
+  it("reports the searches of a review that failed, which spent them too (#82)", async () => {
+    mock.appendFeedItem(feedItem("event.published", evt1));
+    const down: WebSearch = {
+      provider: "down",
+      search: () => Promise.reject(new WebSearchError("quota_exceeded")),
+    };
+
+    const report = await pass(
+      {
+        ...HAIKU,
+        complete: () =>
+          Promise.reject(new ProviderError("LLM_UNAVAILABLE", "anthropic")),
+      },
+      { webSearch: down },
+    );
+
+    expect(report.runs).toEqual([
+      expect.objectContaining({ subject: evt1, outcome: "failed" }),
+    ]);
+    // The copied-text check searched before the model failed.
+    expect(report.searches).toEqual({ total: 1, failed: 1 });
+  });
+
   it("resumes from the stored cursor", async () => {
     mock.appendFeedItem(feedItem("organizer.registered", org1));
     await pass(createScriptedProvider(submits(1), HAIKU));

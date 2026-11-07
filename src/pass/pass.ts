@@ -11,7 +11,11 @@ import { randomUUID } from "node:crypto";
 
 import { type RunLimits } from "../agent/loop.js";
 import { PROMPT_VERSION } from "../agent/prompt.js";
-import { type ReviewSubjectResult, reviewSubject } from "../agent/review.js";
+import {
+  ReviewFailedError,
+  type ReviewSubjectResult,
+  reviewSubject,
+} from "../agent/review.js";
 import type { AnyAgentTool } from "../agent/tools.js";
 import { DomainError } from "../errors.js";
 import { costMicros, worstCaseMicros } from "../providers/pricing.js";
@@ -23,7 +27,11 @@ import type {
   SatellaClient,
   Subject,
 } from "../satella-client/index.js";
-import type { SearchCounts } from "../search/counting.js";
+import {
+  addSearchCounts,
+  NO_SEARCHES,
+  type SearchCounts,
+} from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import {
   type FailedRunDocument,
@@ -114,8 +122,9 @@ export interface PassReport {
   /** Subjects left to try again on a later pass. */
   retriesQueued: number;
   /**
-   * The web searches the pass's completed reviews ran, the code's included,
-   * and how many failed: a quota running out shows here the same day (#82).
+   * The web searches the pass's reviews ran, the code's included and a failed
+   * review's too, and how many failed: a quota running out shows here the
+   * same day (#82).
    */
   searches: SearchCounts;
 }
@@ -145,7 +154,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
   // A stale subject is reviewed again within the same run, at full cost.
   const worstCase = perAttempt * (1 + STALE_RETRIES);
 
-  const searches: SearchCounts = { total: 0, failed: 0 };
+  let searches: SearchCounts = NO_SEARCHES;
   const from = await store.readFeedCursor();
   const queued = await store.readRetryQueue();
   let queue = queued;
@@ -239,8 +248,7 @@ export async function runPass(options: PassOptions): Promise<PassReport> {
       log,
     );
     await store.settleSpend(reservation.hold, outcome.costMicros);
-    searches.total += outcome.searches.total;
-    searches.failed += outcome.searches.failed;
+    searches = addSearchCounts(searches, outcome.searches);
     runs.push({ runId, subject, outcome: outcome.review.outcome });
     const next = afterReview(queue, subject, outcome.review);
     queue = next.queue;
@@ -322,7 +330,7 @@ async function reviewAndStore(
 ): Promise<{
   review: ReviewOutcome;
   costMicros: number;
-  /** None for a failed review: its counts went with it. */
+  /** A failed review's too: they travel with its failure. */
   searches: SearchCounts;
 }> {
   const { provider, store } = options;
@@ -372,7 +380,9 @@ async function reviewAndStore(
     // Any failure, typed or not: one bad subject must not stall the feed. A
     // transient one is tried again on a later pass. Only the stable code is
     // kept (ADR 0017 point 3 and amendment).
-    const code = error instanceof DomainError ? error.code : "UNEXPECTED";
+    const failure = error instanceof ReviewFailedError ? error : null;
+    const cause = failure === null ? error : failure.cause;
+    const code = cause instanceof DomainError ? cause.code : "UNEXPECTED";
     const finishedAt = now();
     const usage = calls.reduce<FailedRunDocument["usage"]>(
       (total, call) => ({
@@ -406,7 +416,7 @@ async function reviewAndStore(
       usage,
       costMicros: spent(),
     });
-    const transient = isTransient(error);
+    const transient = isTransient(cause);
     log({
       level: "warn",
       event: "run.failed",
@@ -418,7 +428,7 @@ async function reviewAndStore(
     return {
       review: { outcome: "failed", code, transient },
       costMicros: spent(),
-      searches: { total: 0, failed: 0 },
+      searches: failure?.searches ?? NO_SEARCHES,
     };
   }
 
