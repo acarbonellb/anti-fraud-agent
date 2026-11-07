@@ -19,6 +19,26 @@ have resolved itself.
     (decided 2026-11-04).
   - **Today:** web search settles the case.
 
+## Gaps in the checks
+
+- **The alcohol-to-minors rule reads one clause, and a colon doesn't end one** (#82).
+  - **Symptom:** clauses end at `.`, `!`, `?`, `;`, `,` and line breaks, so "Fiesta +14, barra
+    libre", a real offer split by a comma, gives no finding and rests on the model. The colon
+    joins what follows to its head, so "Menores: zona infantil, cerveza para adultos", a benign
+    sentence, fires a `minors_alcohol` rule `fail`, a hard signal that can let a model `reject`
+    resolve on its own.
+  - **Why:** case 24 needs the colon join ("para +14: música, cervezas y barra libre"), and the
+    comma cut is what keeps "zona infantil para menores, y cerveza para adultos" quiet. Neither
+    cost appears in the cases today (ADR 0012, amendment of #82).
+  - **Fix:** an eval case for each sentence (group 10 of #81), then a clause rule that tells a
+    list after a colon from a heading.
+- **The organizer-history guard on event reviews is covered by unit tests only** (#82).
+  - **Symptom:** removing `organizer_history` from event reviews fails no fooled-model run. Case
+    23, the case it was meant for, still escalates on the exposure cap and the failed searches.
+    No gated case pairs an otherwise clean event with a bad organizer history.
+  - **Fix:** add that case (group 10 of #81), declared code-decided, so the fooled-model gate
+    feels the guard (ADR 0013, amendment of #82).
+
 ## Costs the admin time
 
 - **Only parks reach the open-space exposure cap** (#78).
