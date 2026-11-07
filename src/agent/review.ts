@@ -18,7 +18,7 @@ import {
 } from "../checks/organizer-checks.js";
 import type { SystemFinding } from "../checks/types.js";
 import type { LlmProvider } from "../providers/types.js";
-import { countSearches } from "../search/counting.js";
+import { countSearches, NO_SEARCHES } from "../search/counting.js";
 import type { WebSearch } from "../search/types.js";
 import type { AgentReview, SatellaClient } from "../satella-client/index.js";
 import { SatellaApiError } from "../satella-client/index.js";
@@ -67,6 +67,7 @@ export interface ReviewSubjectInput {
 }
 
 export interface ReviewSubjectResult {
+  /** Its `searches` cover every attempt, a stale one's included. */
   run: RunResult;
   review: AgentReview;
   /** False when Satella already had this recommendation (an idempotent retry). */
@@ -80,14 +81,20 @@ export async function reviewSubject(
   const { subject, satella } = input;
   const maxAttempts = 1 + (input.maxStaleRetries ?? 1);
 
+  // Every attempt's searches spent credits, a stale one's included: the
+  // review's totals are counted across them (#82).
+  const reviewCounted =
+    input.webSearch === undefined ? undefined : countSearches(input.webSearch);
+  const searches = () => reviewCounted?.counts() ?? NO_SEARCHES;
+
   for (let attempt = 1; ; attempt += 1) {
     const now = input.now?.() ?? new Date();
-    // Counted per attempt: each one is a review of its own version, and its
-    // policy weighs the searches it ran.
+    // Also counted per attempt: each one is a review of its own version, and
+    // its policy weighs only the searches it ran.
     const counted =
-      input.webSearch === undefined
+      reviewCounted === undefined
         ? undefined
-        : countSearches(input.webSearch);
+        : countSearches(reviewCounted.search);
     const tools = [
       ...satellaTools(satella),
       ...(counted === undefined ? [] : [webSearchTool(counted.search)]),
@@ -131,7 +138,12 @@ export async function reviewSubject(
         // safe, and a re-review after a stale subject is a new submission.
         { idempotencyKey: `${input.runId}:${String(attempt)}` },
       );
-      return { run, review, created, attempts: attempt };
+      return {
+        run: { ...run, searches: searches() },
+        review,
+        created,
+        attempts: attempt,
+      };
     } catch (error) {
       const stale =
         error instanceof SatellaApiError && error.code === "STALE_SUBJECT";

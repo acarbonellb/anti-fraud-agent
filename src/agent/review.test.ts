@@ -478,6 +478,38 @@ it("re-reviews when the event changes during the review", async () => {
   expect(mock.reviews).toHaveLength(1);
 });
 
+it("counts the searches of every attempt, while each attempt's policy weighs only its own (#82)", async () => {
+  const script = createScriptedProvider([
+    callTool("submit_recommendation", approval),
+    callTool("submit_recommendation", approval),
+  ]);
+  let calls = 0;
+  const provider: LlmProvider = {
+    provider: script.provider,
+    model: script.model,
+    complete: (request) => {
+      calls += 1;
+      if (calls === 1) mock.setSubjectVersion("event", "evt_0001", "v2-edited");
+      return script.complete(request);
+    },
+  };
+  // Down for the first attempt's copied-text search, back for the second's.
+  let searches = 0;
+  const flaky: WebSearch = {
+    provider: "flaky",
+    search: () =>
+      (searches += 1) === 1
+        ? Promise.reject(new WebSearchError("quota_exceeded"))
+        : Promise.resolve([]),
+  };
+
+  const result = await review(provider, verifiedVenue, satellaClient(), flaky);
+
+  expect(result.attempts).toBe(2);
+  expect(result.run.searches).toEqual({ total: 2, failed: 1 });
+  expect(result.review.autonomy).toBe("auto_resolved");
+});
+
 it("keeps the model's warn on a check the code couldn't decide, and escalates", async () => {
   // The mock serves no benchmark sample, so the price check ends `unknown`:
   // the model's doubt is then the only evidence on that check (#82).

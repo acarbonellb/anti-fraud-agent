@@ -13,6 +13,12 @@ export interface SearchCounts {
   failed: number;
 }
 
+/** No search run, none failed. */
+export const NO_SEARCHES: Readonly<SearchCounts> = Object.freeze({
+  total: 0,
+  failed: 0,
+});
+
 export interface CountingSearch {
   search: WebSearch;
   readonly counts: () => SearchCounts;
