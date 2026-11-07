@@ -42,7 +42,7 @@
  * the rest is recorded and shown, which is what lets the policy be measured
  * against the admin's decisions (ADR 0012).
  */
-import { euros } from "../checks/event-checks.js";
+import { euros } from "../money.js";
 import type { SystemFinding } from "../checks/types.js";
 import {
   type Decision,
@@ -205,7 +205,8 @@ export interface AutonomyInput {
   searchUnavailable?: boolean;
 }
 
-const isNegative = (finding: Finding) =>
+/** A verdict against the subject: what holds back an approval. */
+export const isNegative = (finding: Pick<Finding, "verdict">): boolean =>
   finding.verdict === "fail" || finding.verdict === "warn";
 
 /** What the evidence alone says, before the threshold and the holds. */

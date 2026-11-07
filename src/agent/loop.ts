@@ -26,6 +26,7 @@ import {
   decideAutonomy,
   escalated,
   holdBackApproval,
+  isNegative,
 } from "./policy.js";
 import { type Prompt, REVIEW_PROMPT } from "./prompt.js";
 import { type Proposal, SUBMIT_TOOL } from "./recommendation.js";
@@ -132,8 +133,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   // Each check the code ran, and whether it reached a negative verdict there.
   const systemChecks = new Map<string, boolean>();
   for (const item of systemFindings) {
-    const negative =
-      item.finding.verdict === "fail" || item.finding.verdict === "warn";
+    const negative = isNegative(item.finding);
     for (const check of [item.finding.check, ...(item.covers ?? [])]) {
       systemChecks.set(check, (systemChecks.get(check) ?? false) || negative);
     }
@@ -415,8 +415,5 @@ function keepsModelFinding(
   systemNegative: boolean | undefined,
 ): boolean {
   if (systemNegative === undefined) return true;
-  return (
-    !systemNegative &&
-    (finding.verdict === "fail" || finding.verdict === "warn")
-  );
+  return !systemNegative && isNegative(finding);
 }

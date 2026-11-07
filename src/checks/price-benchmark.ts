@@ -15,7 +15,7 @@ import type {
   PriceBenchmark,
   PriceBenchmarkQuery,
 } from "../satella-client/schemas.js";
-import { euros } from "./event-checks.js";
+import { euros } from "../money.js";
 import { type SystemFinding, systemFinding } from "./types.js";
 
 /** A ticket above this many times the benchmark's p90 is an outlier (case 13). */

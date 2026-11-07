@@ -15,6 +15,7 @@
  */
 import { createHash } from "node:crypto";
 
+import { isNegative } from "../agent/policy.js";
 import { REVIEW_PROMPT, type Prompt } from "../agent/prompt.js";
 import { ReviewFailedError, reviewSubject } from "../agent/review.js";
 import { reviewEvidence } from "../agent/review-evidence.js";
@@ -432,9 +433,7 @@ async function review(
       outputTokens: run.usage.outputTokens,
     };
     const flagged = run.systemFindings
-      .filter(
-        (finding) => finding.verdict === "fail" || finding.verdict === "warn",
-      )
+      .filter(isNegative)
       .map((finding) => finding.check);
     return { outcome, flagged };
   } finally {
