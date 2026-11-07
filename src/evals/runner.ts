@@ -338,7 +338,7 @@ export async function replaySet(
     promptVersions: distinct(recordings.map((r) => r.promptVersion)),
     recordedOn: distinct(recordings.map((r) => r.clock.slice(0, 10))),
     liveSearches: {
-      attempted: live.length,
+      total: live.length,
       failed: live.filter((call) => "failure" in call.response).length,
     },
     runs,

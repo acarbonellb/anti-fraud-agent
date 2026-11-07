@@ -354,7 +354,7 @@ it("counts a set's live searches and failures, leaving the authored web out (#82
     ]),
   );
 
-  expect(set.liveSearches).toEqual({ attempted: 1, failed: 1 });
+  expect(set.liveSearches).toEqual({ total: 1, failed: 1 });
 });
 
 // Keeps the shape the CLI writes honest: a recording is plain JSON.

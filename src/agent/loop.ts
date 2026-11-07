@@ -9,7 +9,7 @@ import type { z } from "zod";
 
 import type { SystemFinding } from "../checks/types.js";
 import { DomainError } from "../errors.js";
-import type { SearchCounts } from "../search/counting.js";
+import { NO_SEARCHES, type SearchCounts } from "../search/counting.js";
 import type {
   ChatMessage,
   LlmProvider,
@@ -176,7 +176,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
   const askedBefore = new Set<string>();
 
   const finish = (endedBy: RunEnd, proposal?: Proposal): RunResult => {
-    const searches = input.searchCounts?.() ?? { total: 0, failed: 0 };
+    const searches = input.searchCounts?.() ?? NO_SEARCHES;
     const base = holdBackApproval(
       proposal ?? limitFallback(endedBy),
       systemFindings,

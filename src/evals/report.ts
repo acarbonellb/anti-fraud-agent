@@ -3,6 +3,7 @@
  * the recordings and fails if it differs from the committed one, so every
  * behaviour change shows up in the PR diff (#6). No timestamps, no locale.
  */
+import type { SearchCounts } from "../search/counting.js";
 import { type HistoryEntry, sameSet, setName } from "./history.js";
 import type { Metrics } from "./metrics.js";
 import {
@@ -30,7 +31,7 @@ export interface ReportSet {
    * The recorded searches against the real web, over every run, and how many
    * failed (#82). Authored pages never fail, so they stay out.
    */
-  liveSearches: { attempted: number; failed: number };
+  liveSearches: SearchCounts;
   /** One list of case results per run: `runs[0]` is run 1. */
   runs: CaseResult[][];
 }
@@ -211,12 +212,9 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
  * Whether the metrics were measured with the web: a set whose every live
  * search failed describes an agent that never had web evidence (#82).
  */
-function liveSearchLine({
-  attempted,
-  failed,
-}: ReportSet["liveSearches"]): string {
-  const counts = `Live web searches: ${String(failed)} failed of ${String(attempted)} attempted`;
-  return attempted > 0 && failed === attempted
+function liveSearchLine({ total, failed }: SearchCounts): string {
+  const counts = `Live web searches: ${String(failed)} failed of ${String(total)} attempted`;
+  return total > 0 && failed === total
     ? `${counts}: recorded while web search was down, so these metrics describe the agent without web evidence.`
     : `${counts}.`;
 }

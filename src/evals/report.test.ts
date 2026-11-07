@@ -56,7 +56,7 @@ const set: ReportSet = {
   model: "qwen/qwen3.5-9b",
   promptVersions: ["review-v2"],
   recordedOn: ["2026-11-02"],
-  liveSearches: { attempted: 12, failed: 2 },
+  liveSearches: { total: 12, failed: 2 },
   runs: [[scored, stale]],
 };
 
@@ -86,7 +86,7 @@ describe("the live web searches of a set (#82)", () => {
 
   it("says when the set was recorded while search was down", () => {
     const report = renderReport([
-      { ...set, liveSearches: { attempted: 12, failed: 12 } },
+      { ...set, liveSearches: { total: 12, failed: 12 } },
     ]);
     expect(report).toContain(
       "Live web searches: 12 failed of 12 attempted: recorded while web search was down, so these metrics describe the agent without web evidence.",
@@ -95,7 +95,7 @@ describe("the live web searches of a set (#82)", () => {
 
   it("doesn't call a set with no live searches down", () => {
     const report = renderReport([
-      { ...set, liveSearches: { attempted: 0, failed: 0 } },
+      { ...set, liveSearches: { total: 0, failed: 0 } },
     ]);
     expect(report).toContain("Live web searches: 0 failed of 0 attempted.");
     expect(report).not.toContain("web search was down");
