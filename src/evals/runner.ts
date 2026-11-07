@@ -113,7 +113,7 @@ export async function recordCase(
   const searches = createRecordingSearch(options.search);
   const run = options.run ?? 1;
   try {
-    const outcome = await review(
+    const { outcome } = await review(
       evalCase,
       run,
       recorder,
@@ -162,7 +162,7 @@ export async function replayCase(
     if (recording.promptVersion !== prompt.version) {
       throw new StaleRecordingError("prompt_version");
     }
-    const outcome = await review(
+    const { outcome } = await review(
       evalCase,
       recording.run ?? 1,
       createReplayProvider(recording),
@@ -202,7 +202,7 @@ export async function fooledCase(
   const runs: FooledRun[] = [];
   for (const web of FOOLED_WEBS) {
     try {
-      const outcome = await review(
+      const { outcome, flagged } = await review(
         evalCase,
         1,
         createFooledModel(),
@@ -220,6 +220,7 @@ export async function fooledCase(
           decision: outcome.decision,
           autonomy: outcome.autonomy,
           reasons: outcome.reasons,
+          flagged,
         },
         failure: null,
       });
@@ -347,6 +348,15 @@ function distinct(values: readonly string[]): string[] {
   return [...new Set(values)].sort();
 }
 
+/**
+ * A reviewed case: its outcome, and the checks the code itself found
+ * negative, which only the fooled-model gate reads (#82).
+ */
+interface Reviewed {
+  outcome: Omit<CaseOutcome, "latencyMs" | "costMicros">;
+  flagged: string[];
+}
+
 async function review(
   evalCase: EvalCase,
   runIndex: number,
@@ -359,7 +369,7 @@ async function review(
   autoApproveThreshold: number,
   /** The web is down for the authored pages too: only the fooled model asks. */
   webDown = false,
-): Promise<Omit<CaseOutcome, "latencyMs" | "costMicros">> {
+): Promise<Reviewed> {
   const fixtures = evalCase.build(clock);
   // Invented organizers, artists and texts have no real web: their pages are
   // authored, and searched in code in both modes (ADR 0015 point 9).
@@ -406,20 +416,27 @@ async function review(
       // A stale subject can't happen against fixed fixtures.
       maxStaleRetries: 0,
     });
-    return {
+    const outcome = {
       decision: run.recommendation.decision,
       autonomy: run.autonomy.autonomy,
       confidence: run.recommendation.confidence,
       modelConfidence: run.modelConfidence,
       reasons: run.autonomy.reasons,
       authoredWeb: fixtures.web !== undefined,
-      venue: run.recommendation.findings
+      // What the code verified: a model finding on the venue is a claim (#82).
+      venue: run.systemFindings
         .filter((finding) => isVenueCheck(finding.check))
         .map((finding) => ({ check: finding.check, verdict: finding.verdict })),
       endedBy: run.endedBy,
       inputTokens: run.usage.inputTokens,
       outputTokens: run.usage.outputTokens,
     };
+    const flagged = run.systemFindings
+      .filter(
+        (finding) => finding.verdict === "fail" || finding.verdict === "warn",
+      )
+      .map((finding) => finding.check);
+    return { outcome, flagged };
   } finally {
     await mock.close();
   }

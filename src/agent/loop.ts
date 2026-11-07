@@ -69,6 +69,11 @@ export interface RunResult {
   endedBy: RunEnd;
   /** Carries the policy's confidence, derived from the evidence (#77). */
   recommendation: Recommendation;
+  /**
+   * The code's own findings, as the recommendation carries them first: what
+   * the code verified, apart from the model's claims (#82).
+   */
+  systemFindings: Finding[];
   autonomy: AutonomyVerdict;
   /** The number the model proposed: kept to compare with the derived one. */
   modelConfidence: number;
@@ -218,6 +223,7 @@ export async function runReview(input: RunReviewInput): Promise<RunResult> {
       model: provider.model,
       endedBy,
       recommendation,
+      systemFindings: systemFindings.map((item) => item.finding),
       autonomy,
       modelConfidence: base.confidence,
       usage,

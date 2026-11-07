@@ -33,6 +33,7 @@ function reviewed(): ReviewSubjectResult {
           draft: "Hola, ¿nos indicas el aforo?",
         },
       },
+      systemFindings: [finding],
       autonomy: {
         autonomy: "escalated",
         reasons: ["needs judgement"],

@@ -140,6 +140,34 @@ describe("record then replay", () => {
   });
 });
 
+// The Venue column reads what the code verified, not the model's claims
+// about the venue (#82): a model `fail` the policy keeps stays out of it.
+it("reports the venue checks the code ran, not the model's venue findings", async () => {
+  const { result } = await recordCase(
+    eventCase,
+    createScriptedProvider([
+      callTool("submit_recommendation", {
+        ...approval,
+        findings: [
+          {
+            check: "venue_exists",
+            verdict: "fail",
+            detail: "No encuentro la sala.",
+            confidence: 0.6,
+            sources: [],
+          },
+        ],
+      }),
+    ]),
+    CLOCK,
+    network,
+  );
+  expect(result.outcome?.venue).toEqual([
+    { check: "venue_exists", verdict: "pass" },
+    { check: "venue_capacity", verdict: "pass" },
+  ]);
+});
+
 describe("stale recordings", () => {
   it("marks every case stale when the prompt changed", async () => {
     const { event, organizer } = await recordBoth();
@@ -363,6 +391,7 @@ describe("the fooled model (#82)", () => {
           decision: "approve",
           autonomy: "auto_resolved",
           reasons: ["clean approval"],
+          flagged: [],
         },
         failure: null,
       },
@@ -372,6 +401,7 @@ describe("the fooled model (#82)", () => {
           decision: "approve",
           autonomy: "escalated",
           reasons: ["web search unavailable"],
+          flagged: [],
         },
         failure: null,
       },
@@ -400,6 +430,7 @@ describe("the fooled model (#82)", () => {
       decision: "request_info",
       autonomy: "auto_resolved",
       reasons: ["mechanical request: off_platform_payment"],
+      flagged: ["off_platform_payment"],
     };
     expect(result.runs.map((run) => run.outcome)).toEqual([request, request]);
   });
