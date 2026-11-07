@@ -14,7 +14,11 @@ import { defineTool } from "./tools.js";
  * whole conversation is sent again on every step (#31).
  */
 export const MAX_RESULTS_PER_SEARCH = 3;
-/** Enough of a page to judge it; the stored snippet is longer (#31). */
+/**
+ * Enough of a page to judge it without paying context for the rest (#31).
+ * Search recordings store snippets cut to this length too (#85), so the repo
+ * keeps no more third-party text than the model reads.
+ */
 export const MODEL_SNIPPET_CHARS = 300;
 
 export function webSearchTool(search: WebSearch) {

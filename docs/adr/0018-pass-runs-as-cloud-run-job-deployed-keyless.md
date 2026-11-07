@@ -1,7 +1,7 @@
 # ADR 0018 — The pass runs as a Cloud Run Job in its own project, deployed from CI without keys and shipped paused
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#9)
+- **Status:** accepted · amendment 2026-11-05 (#9) · amendment 2026-11-07 (#85)
 - **Related:** brief §8 (deployment) and §6.3 (spend caps); ADR 0008 (the deployed model, amended
   here for the Tailscale decision); ADR 0016 (the store); ADR 0017 (the pass); issues #8, #46
   and #9.
@@ -125,7 +125,8 @@ Four facts shaped the rest:
   deployed like code. A newer eval winner changes the deployed model through the workflow
   (ADR 0008, amendment of #42).
 - **Deploys can't widen their own permissions.** A compromised workflow could replace the image,
-  but couldn't grant itself roles, read the secrets or resume the trigger.
+  but couldn't grant itself roles, read the secrets or resume the trigger. (Wrong about the
+  secrets: replaced by the amendment of #85.)
 - **Left open:**
   - the dashboard's service and its service account (#47, on hold);
   - Satella's credential and a bypass token for staging's deployment protection, if it needs one (brief §8, #9);
@@ -165,6 +166,12 @@ first item left open.
 
 **Rejected:**
 
+- **Require code-owner review in `main`'s ruleset.** GitHub doesn't let a PR's author approve it,
+  and the author is the only code owner, so every PR of the author's that touches these files
+  would be blocked. An admin bypass would unblock them, but it also skips the required checks.
+  With one collaborator the rule adds no control the merge right doesn't already give. Revisit if
+  a collaborator joins.
+
 - **A bearer token for the deployed agent.** Brief §3.1 keeps it for local development. It is a
   secret that would have to be stored and rotated, which the identity token avoids.
 - **Google's auth library.** It reads application default credentials, which this repo never
@@ -174,3 +181,43 @@ first item left open.
 
 - loading the eval dataset into staging through the app's flows (brief §5, doubt 2 of §10): #53;
 - the brief §7 checks before any third party sees staging (doubts 4 and 5 of §10): #54.
+
+## Amendment (2026-11-07, #85): the deploy account holds the job's secrets in effect, and `main` is the boundary
+
+Replaces the consequence "Deploys can't widen their own permissions". It said a compromised
+workflow couldn't read the secrets. That was wrong. It also pins what the deploy job runs.
+
+1. **The deploy account is equivalent to the job's secrets.** The deploy step sets the job's
+   image, its environment and its secret bindings (point 7). A malicious image deployed from
+   `main` runs as `pass-job` and reads all four secrets on its next execution, within 10 minutes
+   once the trigger runs. Changing the environment could also point the pass at another host.
+   What the deploy account still can't do is change IAM, add secret versions or resume the
+   trigger (point 6).
+2. **`main` is the boundary.** Only a run on `refs/heads/main` of this repository gets the deploy
+   account (point 7). Code reaches `main` only through `main`'s ruleset: a PR is required, the
+   checks must pass and force pushes are blocked. The author is the only collaborator, so only the
+   author can merge, and Dependabot's PRs wait for that merge. `.github/CODEOWNERS` names the
+   author on the workflows, the `Dockerfile`, `scripts/gcp/` and the CODEOWNERS file itself, the
+   files that decide what is deployed and with what: it names the owner and requests their review,
+   and enforces nothing by itself (see Rejected).
+3. **What runs with the deploy account is pinned.** Every action in the workflow is pinned to a
+   full commit SHA with its release in a comment. The base image is pinned by its multi-arch
+   digest in both stages of the `Dockerfile`. A moved tag would otherwise run someone else's code
+   with the deploy account, or build a different image from the same commit.
+4. **Dependabot moves the pins.** `.github/dependabot.yml` checks `github-actions` and `docker`
+   weekly and opens a PR for each new SHA or digest, which goes through the same ruleset. Version
+   updates start from the file on the default branch. Security alerts stay off, as decided in #40.
+
+**Rejected:**
+
+- **Require code-owner review in `main`'s ruleset.** GitHub doesn't let a PR's author approve it,
+  and the author is the only code owner, so every PR of the author's that touches these files
+  would be blocked. An admin bypass would unblock them, but it also skips the required checks.
+  With one collaborator the rule adds no control the merge right doesn't already give. Revisit if
+  a collaborator joins.
+
+- **Pin by tag and trust the publishers.** The tags are mutable, and the action that exchanges the
+  OIDC token gets the deploy account. A SHA costs a Dependabot PR now and then.
+- **Narrow the deploy account so it can't touch secret bindings.** `gcloud run jobs update` sets
+  the image, and the image alone reads the secrets the job already binds. A narrower role would
+  not change what a malicious image can read.
