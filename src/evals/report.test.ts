@@ -178,24 +178,26 @@ describe("history", () => {
     expect(report).not.toContain("| E002 |");
   });
 
-  it("draws the gated rates over the entries as a Mermaid line chart", () => {
+  it("embeds the history charts once, light and dark, before the sets", () => {
     const report = renderReport([set], history);
     expect(report).toContain(
       [
-        "```mermaid",
-        "xychart-beta",
-        '  title "Gated cases over the history (%)"',
-        "  x-axis [E001, E003]",
-        '  y-axis "%" 0 --> 100',
-        "  line [59.1, 63.6]",
-        "  line [38.9, 33.3]",
-        "  line [0, 0]",
-        "```",
+        "<picture>",
+        '  <source media="(prefers-color-scheme: dark)" srcset="charts/accuracy-dark.svg">',
+        '  <img alt="Gated accuracy per history entry, one line per recording set" src="charts/accuracy-light.svg">',
+        "</picture>",
       ].join("\n"),
     );
-    expect(report).toContain(
-      "Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.",
+    expect(report).toContain('srcset="charts/rates-dark.svg"');
+    expect(report.split("charts/accuracy-light.svg")).toHaveLength(2);
+    expect(report).not.toContain("```mermaid");
+    expect(report.indexOf("## History")).toBeLessThan(
+      report.indexOf("## lmstudio"),
     );
+  });
+
+  it("draws no charts before there is any history", () => {
+    expect(renderReport([set], [])).not.toContain("<picture>");
   });
 
   it("renders the same history the same way, after the metrics and before the cases", () => {

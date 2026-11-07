@@ -1,7 +1,7 @@
 # ADR 0014 — Eval metrics are tracked in a machine-written history, explained in an experiment log, and CI enforces both
 
 - **Date:** 2026-11-02
-- **Status:** accepted · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#57)
+- **Status:** accepted · amendment 2026-11-04 (#42) · amendment 2026-11-05 (#57) · amendment 2026-11-07 (#102)
 - **Related:** brief §4.3; ADR 0013 (the replayed evals and the report this builds on); ADR 0008
   (the evals choose the default model); issues #21, #6, #7 and #15.
 
@@ -145,3 +145,34 @@ is.
 
 **Rejected:** keeping the majority and reporting minority runs as a warning. A warning in CI
 doesn't block a PR, and this is the one metric meant to block.
+
+## Amendment (2026-11-07, #102): generated SVG charts replace the Mermaid chart
+
+This replaces the Mermaid `xychart-beta` of point 6. The «History» table of each set stays.
+
+- **The charts are SVG files drawn from the history.** `pnpm eval:replay` writes
+  `evals/charts/accuracy-*.svg` (gated accuracy per entry, one line per set, the min–max band of
+  repeated entries) and `evals/charts/rates-*.svg` (approved fraud with auto-approved fraud
+  dashed, escalation, and the number of gated cases). Each comes in a light and a dark file that
+  `<picture>` picks by `prefers-color-scheme`, which GitHub maps to the reader's theme.
+- **The README carries a generated summary.** Each set's latest entry (gated cases, accuracy,
+  approved and auto-approved fraud with their ranges, escalation) sits between two markers in
+  `README.md`, rewritten by the same command.
+- **CI checks both byte for byte.** `pnpm eval:replay --check` fails when a chart file or the
+  README block differs from what the history draws, as it does for the report. They read only the
+  history, so a code change that leaves the metrics alone leaves them alone too.
+- **Why.** The README is what a visitor reads first, and it now opens with the results. A Mermaid
+  chart can't draw a range, a legend or end labels, and it plots a missing value as 0. A
+  screenshot would go stale on the next entry. Numbers typed into the README would drift from
+  the history, which is what point 1 forbids.
+
+### Alternatives rejected
+
+- **An interactive page on GitHub Pages embedded in the README.** GitHub strips scripts and
+  iframes from a README, so it could only be linked, and Pages on the free plan needs the repo
+  public.
+- **One SVG with a `prefers-color-scheme` media query inside.** In an `<img>` it follows the
+  operating system, not the GitHub theme, so a reader with a dark GitHub on a light system would
+  get dark text on a dark page.
+- **A charting library to draw them.** The charts need a few lines, dots and labels; drawing them
+  by hand keeps them deterministic with no dependency, at the cost of estimated text widths.

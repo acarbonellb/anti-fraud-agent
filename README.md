@@ -1,123 +1,157 @@
 # anti-fraud-agent
 
-An autonomous AI agent that reviews new events and organizers on Satella, a Spanish ticketing
-platform, and leaves a reasoned recommendation (`approve`, `reject` or `request_info`) for a human
-admin. It runs against Satella's staging environment, on synthetic data, and never changes an
-event's state itself.
+An AI agent that reviews every new event and organizer on Satella, a Spanish ticketing platform,
+and leaves a reasoned recommendation for a human admin: **approve**, **reject** or **request
+info**. It works on Satella's staging environment, with synthetic data, and never changes an
+event itself: the admin always has the last word.
 
-**Graded autonomy.** The model proposes a decision; code decides how much to trust it. A
-recommendation resolves on its own only when deterministic checks back it, and anything else is
-escalated to the admin. In Satella, only an auto-resolved approval skips the admin, and on the
-recorded evals none of those is fraud ([ADR 0012](docs/adr/0012-autonomy-rests-on-deterministic-checks.md)).
+The interesting part isn't that a model reads an event. It's how much the system lets the model
+decide on its own, and how I know that trust is deserved.
 
-**Status:** deployed. A Cloud Run Job reviews Satella staging's feed every 10 minutes with Claude
-Haiku 5.5, within a daily budget. What it doesn't do well yet is in
-[`docs/known-limitations.md`](docs/known-limitations.md).
+**Status:** deployed. A scheduled job reviews staging's feed every 10 minutes with Claude Haiku
+5.5, within a daily budget. I'm still working on it; what it doesn't do well yet is
+[below](#what-it-doesnt-do-well-yet).
 
-## Where to start reading
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="evals/charts/accuracy-dark.svg">
+  <img alt="Accuracy on the gated eval cases per history entry, one line per model" src="evals/charts/accuracy-light.svg">
+</picture>
 
-- [`docs/design-highlights.md`](docs/design-highlights.md): the decisions worth arguing about,
-  each with its reason and evidence. It is the English entry point.
-- [`docs/adr/`](docs/adr/): the architecture decisions, each with the alternatives rejected.
-- [`evals/report.md`](evals/report.md): accuracy, approved-fraud rate, escalation, cost and latency
-  per model, generated from recordings.
-- [`evals/history.jsonl`](evals/history.jsonl) and [`docs/experiments.md`](docs/experiments.md):
-  how the metrics moved over time, and why ([ADR 0014](docs/adr/0014-eval-metrics-history-and-experiment-log.md)).
-- [`docs/agent-design-brief.md`](docs/agent-design-brief.md): the original specification, in
-  Spanish.
+## The problem
+
+A ticketing platform that lets anyone publish an event attracts a familiar set of frauds: a bar
+of 140 people selling 2,000 tickets, a description that asks buyers to pay by Bizum and "skip the
+fees", a clone of another promoter's concert, a terms page that refuses refunds even if the
+event is cancelled, a prompt injection hidden in the description. Each of these costs buyers money
+and the platform its reputation.
+
+An admin can catch them, but reviewing every event by hand doesn't scale. A language model reads
+an event well, but it can be fooled, it can be confidently wrong, and it reads organizer text that
+may be written to manipulate it. So the agent is built around one rule:
+
+> **The model proposes. Code decides how far to trust it.**
 
 ## How a review works
 
-```
-Satella feed ─▶ pass ─▶ reviewSubject ─▶ checks in code ─▶ model loop ─▶ policy ─▶ Satella + store
-                 │                       (rules, venue,     (tools,        (autonomy)  (recommendation,
-          cursor, budget,                 copied text)       limits)                    run document)
-          retries
-```
-
-1. **The pass** (`pnpm pass`) reads a page of Satella's feed from a stored cursor and reviews each
-   changed subject once. It reserves each run's worst-case cost against the day's budget, and
-   tries a review that failed transiently again on a later pass ([ADR 0017](docs/adr/0017-scheduled-pass-reviews-feed-within-day-budget.md)).
-2. **Checks in code** run before the model on the review context: rule checks (postal code and
-   province, overlapping sessions, off-platform payment…), venue checks against OpenStreetMap and
-   Wikidata, and one web search for a copied description ([ADR 0015](docs/adr/0015-external-evidence-venue-checks-and-sourced-search.md)).
-3. **The model loop** sees the context and those findings as untrusted data, calls tools (the
-   organizer's context, similar events, the price benchmark, web search) within run limits, and submits a recommendation.
-4. **The policy** computes autonomy from the findings, never from the model's own claim.
-5. **Satella** receives the recommendation with an idempotency key, and **the store** (Firestore)
-   keeps the run: findings, trace, tokens and cost ([ADR 0016](docs/adr/0016-agent-store-on-firestore-over-rest.md)).
-
-| Directory             | What it holds                                                              |
-| --------------------- | -------------------------------------------------------------------------- |
-| `src/pass/`           | The scheduled pass, its retry queue and its log lines                      |
-| `src/agent/`          | `reviewSubject`, the model loop, the autonomy policy, the prompt and tools |
-| `src/checks/`         | Deterministic checks and the check vocabulary                              |
-| `src/venue/`          | Venue existence and capacity, from OpenStreetMap (Nominatim) and Wikidata  |
-| `src/search/`         | Web search (Tavily) and authored pages for fictitious eval entities        |
-| `src/providers/`      | One provider-neutral interface; Claude and OpenAI-compatible adapters      |
-| `src/satella-client/` | Satella's agent API: client, Zod schemas, identity token and a mock server |
-| `src/store/`          | The agent's store: Firestore over REST and an in-memory twin               |
-| `src/evals/`          | The eval runner, recording and replay, metrics and the CI gate             |
-| `src/config/`         | Environment variables, read once and validated with Zod                    |
-| `src/test-support/`   | Test doubles, kept out of the deployed image                               |
-
-## Run it
-
-Requirements: Node ≥ 22, pnpm, and [gitleaks](https://github.com/gitleaks/gitleaks) for the
-pre-commit secret scan.
-
-```sh
-pnpm install
-cp .env.example .env   # optional: every variable has a default or is optional
-
-pnpm test        # Vitest, always in UTC
-pnpm lint        # ESLint with type-aware rules
-pnpm typecheck   # tsc, strict
-pnpm format      # Prettier
+```mermaid
+flowchart LR
+  feed[Satella feed] --> pass[Scheduled pass]
+  pass --> checks[Checks in code<br/>rules, venue, copied text]
+  checks --> model[Model loop<br/>tools, run limits]
+  model --> policy[Autonomy policy]
+  policy --> out[Recommendation to Satella<br/>run kept in the store]
 ```
 
-### Offline evals, with no keys and no cost
+1. **The pass** reads the subjects that changed since the last pass, reviews each once, and
+   reserves each review's worst-case cost against the day's budget
+   ([ADR 0017](docs/adr/0017-scheduled-pass-reviews-feed-within-day-budget.md)).
+2. **Checks in code run first.** Rules that anyone can verify (postal code against province,
+   overlapping sessions, payment off the platform, a wrong tax id), the venue checked against
+   OpenStreetMap and Wikidata, and a web search for a copied description
+   ([ADR 0015](docs/adr/0015-external-evidence-venue-checks-and-sourced-search.md)). Their
+   findings are authoritative: the model can't overrule them.
+3. **The model** reads the event and those findings, marked as untrusted data, calls tools (the
+   organizer's history, similar events, a price benchmark, web search) within hard limits on
+   calls, tokens and searches, and proposes a decision with its findings.
+4. **The policy** decides whether that proposal resolves on its own or goes to the admin
+   ([ADR 0012](docs/adr/0012-autonomy-rests-on-deterministic-checks.md)).
+5. **Satella** receives the recommendation, and the agent's store keeps the whole run: findings,
+   tool trace, tokens and cost.
 
-`pnpm eval:replay` replays the recorded model and tool responses of every eval case (fraud patterns and
-legitimate events; the organizers, promoters and artists in fraud cases are invented) and rewrites `evals/report.md`. CI runs
-`pnpm eval:replay --check`, which fails on a stale recording or on any gated fraud case approved
-without reaching the admin ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md)).
+## Graded autonomy
 
-`pnpm eval [case…]` records new responses with the configured model.
+Every review has two independent parts. The **decision** is what the model proposes. The
+**autonomy** is computed by a pure function from the evidence, never from the model's own
+confidence: `auto_resolved` means the evidence is strong enough to stand on its own, `escalated`
+means a human should look.
 
-### A review or a pass on your machine
+| Decision         | Resolves on its own when…                                                                       | Example                                                             | Escalated when…                                                                |
+| ---------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **approve**      | no check flagged anything, the model raised at most one minor warning, and the venue checks out | A 400-person room selling 350 tickets, organizer with a website     | anything is flagged, the capacity can't be bounded, or it's an organizer       |
+| **reject**       | a hard signal backs it: a rule finding, or a source a tool actually retrieved during the review | "Pay by Bizum to 600 000 000"; a clone of another organizer's event | it rests on suspicion or a source the model wrote itself, or it's an organizer |
+| **request info** | every problem found is a rule anyone can verify, so the request is mechanical                   | A Madrid postal code with the province Sevilla                      | any problem needs judgement: a 45 % service fee, a prompt injection            |
 
-By default the agent talks to [LM Studio](https://lmstudio.ai) in server mode on
-`http://localhost:1234/v1` with `qwen/qwen3.5-9b` loaded (a tool-calling model that fits 8 GB of
-VRAM; give it a context of 16k or more). `AGENT_LLM_*` in `.env.example` points it elsewhere.
+Only one of the six outcomes skips the admin in Satella: **approve + auto-resolved**. That is the
+outcome the evals guard hardest: CI fails if any fraud case ends there. The other autonomies are
+still recorded, so the admin's decisions can later show whether more could be automated.
 
-```sh
-pnpm review:local            # one review of the fixture event against the Satella mock
-pnpm review:local organizer  # the fixture organizer
-pnpm pass --mock             # a whole pass over the mock's fictitious feed, with an in-memory store
-```
+The review's confidence follows the same idea. It is the tier of the evidence that resolved it
+(a rule, a verified capacity, an exposure cap), not a number the model chose
+([ADR 0019](docs/adr/0019-confidence-is-derived-from-the-evidence-tier.md)).
 
-Satella is an in-process mock with fictitious fixtures, and the model runs locally. The venue
-checks still call OpenStreetMap and Wikidata (free, keyless), and web search calls Tavily when
-`TAVILY_API_KEY` is set.
+## How I know it works
 
-### Providers
+A dataset of eval cases covers the fraud patterns above and legitimate events that should pass.
+The organizers, promoters and artists in the fraud cases are invented. Each case says which
+decision and autonomy are right.
 
-| `AGENT_LLM_PROVIDER` | What it is                       | Cost                            |
-| -------------------- | -------------------------------- | ------------------------------- |
-| `lmstudio` (default) | Any model LM Studio serves       | Free                            |
-| `ollama`             | Any model Ollama serves          | Free                            |
-| `anthropic`          | Claude, through the official SDK | Paid: the scripts need `--paid` |
+- **Record once, replay in CI.** Running the agent against a real model records every model and
+  tool response. CI replays them through the real agent in seconds, with no model, no network and
+  no cost. Each recording is valid only for the exact request it answered, so a change to the
+  prompt or a check marks the affected recordings stale instead of reusing old answers
+  ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md)).
+- **The hosted model runs each case three times.** It isn't deterministic, so a metric is a mean
+  with its range: two measurements differ only where their ranges don't overlap.
+- **A fooled model tests the code, not the model.** CI also runs every gated fraud case with a
+  model that approves everything at 0.95 confidence, once with the web answering and once with it
+  down. Every case the code claims to decide must still reach the admin; the cases that rest on the
+  model's judgement are listed apart, so it is clear which guarantees are the code's
+  ([ADR 0013](docs/adr/0013-evals-replay-recorded-model-responses.md), amendment of #82).
+- **Every change that moves a metric leaves a line and a reason.** A machine-written history holds
+  the numbers; an experiment log holds the hypothesis, the result and the decision. CI fails until
+  both match the replay ([ADR 0014](docs/adr/0014-eval-metrics-history-and-experiment-log.md)).
 
-Any other value fails at startup ([ADR 0008](docs/adr/0008-provider-neutral-agent-local-model-first.md)).
+The latest measurement of each model, regenerated from the history by every replay:
 
-## Deployment
+<!-- eval-summary:start · generated by `pnpm eval:replay` from evals/history.jsonl: don't edit -->
+<!-- prettier-ignore-start -->
+| Model | Latest entry | Runs per case | Gated cases | Accuracy | Approved fraud | Auto-approved fraud | Escalated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `lmstudio/qwen/qwen3.5-9b` | E032 · 2026-11-07 | 1 | 33 | 72.7 % | 0.0 % | 0.0 % | 72.7 % |
+| `anthropic/claude-haiku-5-5` | E031 · 2026-11-07 | 3 | 33 | 93.9 % (93.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 59.6 % |
+<!-- prettier-ignore-end -->
+<!-- eval-summary:end -->
 
-The pass runs as a Cloud Run Job, started every 10 minutes by Cloud Scheduler. CI deploys it from
-`main` with Workload Identity Federation, so no service-account key exists. The job reaches Satella
-with its Google identity token, keeps runs in Firestore, and reads its API keys and Satella's
-address from Secret Manager ([ADR 0018](docs/adr/0018-pass-runs-as-cloud-run-job-deployed-keyless.md)). Spend is
-capped twice: by the daily budget in code and by the provider key's own limit.
+**Gated** cases are the ones that can fail CI; a case the agent can't settle yet (an image it
+doesn't read) is measured but left out. **Approved fraud** counts fraud cases whose final decision
+was approve, whether or not the policy escalated them. **Auto-approved fraud** is the one that
+would reach buyers.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="evals/charts/rates-dark.svg">
+  <img alt="Approved fraud, escalation to the admin and gated cases per history entry" src="evals/charts/rates-light.svg">
+</picture>
+
+The full per-case report is [`evals/report.md`](evals/report.md), and the story behind every
+point is in [`docs/experiments.md`](docs/experiments.md).
+
+## What it doesn't do well yet
+
+- **It doesn't read images.** A poster carrying another ticketing site's logo or QR code goes
+  unnoticed; that case stays outside the gate.
+- **Some rules read text too literally.** The alcohol-to-minors rule splits clauses on
+  punctuation, so a comma can hide an offer from the rule and leave it to the model.
+- **It escalates more than it needs to.** Most limitations cost the admin time rather than let
+  fraud through: an event in a square keeps the cap meant for unknown venues, for instance.
+- **Public map services aren't built for production volume.** The agent throttles itself and
+  reviews a small batch per pass.
+
+None of them lets gated fraud skip the admin. The full list, with the evidence and the fix for
+each, is in [`docs/known-limitations.md`](docs/known-limitations.md).
+
+## Decisions worth arguing about
+
+- [`docs/design-highlights.md`](docs/design-highlights.md): the decisions, each with its reason and
+  its evidence. Start here.
+- [`docs/adr/`](docs/adr/): every architecture decision, with the alternatives rejected.
+- [`docs/architecture.md`](docs/architecture.md): the code layout and the deployment.
+- [`docs/agent-design-brief.md`](docs/agent-design-brief.md): the original specification, in
+  Spanish.
+
+## Running it
+
+TypeScript on Node, Vitest, Zod at every boundary. The evals replay with no keys and no cost;
+[`docs/development.md`](docs/development.md) has the commands, the providers and how to record.
 
 ## Data attribution
 
