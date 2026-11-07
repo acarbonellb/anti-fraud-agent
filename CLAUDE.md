@@ -76,6 +76,7 @@ The `mattpocock-skills` plugin (`/tdd`, `/grilling`, `/domain-modeling`, `/code-
 - The `block-dangerous-git` hook blocks commands that overwrite the working tree or rewrite history (`reset --hard`, `clean -f`, `push --force`, `branch -D`, `checkout .`). Hand those to the user.
 - **Outward-facing actions need the user's confirmation:** making the repo public, creating cloud resources (GCP, databases), adding secrets, spending on LLM or tool APIs beyond local tests, and anything against Satella staging.
 - LLM and tool API keys are demo-only keys with a spend cap at the provider (brief §6.3).
+- **Local env files may be read and used, but their values are never shown.** Prefer handing them to the process (`node --env-file=.env`, `set -a; source .env`) over printing them. A secret value never goes into chat output, commits, PRs, issues, logs, artifacts or a subagent's prompt; to identify a key, show at most its first 4 characters. `.gitignore` and gitleaks keep the files out of git.
 
 ## Agent skills
 
