@@ -9,6 +9,7 @@ import { createHash } from "node:crypto";
 
 import { z } from "zod";
 
+import { MODEL_SNIPPET_CHARS } from "../agent/web-search-tool.js";
 import {
   type SearchQuery,
   type WebSearch,
@@ -58,7 +59,12 @@ export interface RecordingSearch {
   calls(): SearchCall[];
 }
 
-/** Wraps a real search and keeps each reduced answer, or failure, by hash. */
+/**
+ * Wraps a real search and keeps each reduced answer, or failure, by hash.
+ * Snippets are cut to what the model reads, so the repo keeps no more
+ * third-party text than the agent uses (#85); the recording run gets the cut
+ * text too, so it sees exactly what replay will serve.
+ */
 export function createRecordingSearch(inner: WebSearch): RecordingSearch {
   const calls = new Map<string, SearchCall>();
   const search: WebSearch = {
@@ -72,7 +78,10 @@ export function createRecordingSearch(inner: WebSearch): RecordingSearch {
         origin: "recorded" as const,
       };
       try {
-        const results = await inner.search(query);
+        const results = (await inner.search(query)).map((result) => ({
+          ...result,
+          snippet: result.snippet.slice(0, MODEL_SNIPPET_CHARS),
+        }));
         calls.set(base.requestHash, { ...base, response: { results } });
         return results;
       } catch (error) {

@@ -5,7 +5,7 @@
 // shape before any paid call; the first real pass (E013) confirmed it.
 import { readFileSync } from "node:fs";
 
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { ChatMessage } from "../types.js";
 import { ProviderError } from "../types.js";
@@ -19,17 +19,22 @@ function response(name: string): unknown {
 
 function stubFetch(reply: () => Response | Promise<Response>) {
   const bodies: Record<string, unknown>[] = [];
-  const fetch: typeof globalThis.fetch = async (_input, init) => {
+  const urls: string[] = [];
+  const headers: Headers[] = [];
+  const fetch: typeof globalThis.fetch = async (input, init) => {
+    urls.push(input instanceof Request ? input.url : String(input));
+    headers.push(new Headers(init?.headers));
     // The SDK sends its JSON body as a string.
     bodies.push(JSON.parse(init?.body as string) as Record<string, unknown>);
     return reply();
   };
-  return { fetch, bodies };
+  return { fetch, bodies, urls, headers };
 }
 
 function providerWith(fetch: typeof globalThis.fetch) {
   return createAnthropicProvider({
     apiKey: "test-key",
+    baseUrl: "https://api.anthropic.com",
     model: "claude-haiku-5-5",
     effort: "medium",
     thinkingHeadroomTokens: 8000,
@@ -276,5 +281,71 @@ describe("Anthropic adapter", () => {
         maxOutputTokens: 16,
       }),
     ).rejects.toMatchObject({ code: "LLM_UNAVAILABLE", provider: "anthropic" });
+  });
+  it("calls the configured base URL with logging off, whatever the SDK's own variables say", async () => {
+    // The SDK reads these on its own: one could redirect the key, the other
+    // log whole review contexts (#89).
+    vi.stubEnv("ANTHROPIC_BASE_URL", "https://elsewhere.example.test");
+    vi.stubEnv("ANTHROPIC_LOG", "debug");
+    const logged = (["debug", "info", "warn", "error", "log"] as const).map(
+      (level) => vi.spyOn(console, level).mockImplementation(() => undefined),
+    );
+    const { fetch, urls } = stubFetch(() =>
+      Response.json(response("final-answer.json")),
+    );
+
+    try {
+      await createAnthropicProvider({
+        apiKey: "test-key",
+        baseUrl: "https://gateway.example.test",
+        model: "claude-haiku-5-5",
+        effort: "medium",
+        maxRetries: 0,
+        fetch,
+      }).complete({
+        messages: [{ role: "user", content: "x" }],
+        tools: [],
+        maxOutputTokens: 16,
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
+
+    expect(urls).toEqual(["https://gateway.example.test/v1/messages"]);
+    for (const spy of logged) expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("sends none of the headers the SDK's own ANTHROPIC_CUSTOM_HEADERS names", async () => {
+    // The SDK adds them to every request on its own: a stray one could carry
+    // a credential to the gateway or change the request (#89).
+    vi.stubEnv(
+      "ANTHROPIC_CUSTOM_HEADERS",
+      "X-Leak: secret\nanthropic-beta: some-beta",
+    );
+    const { fetch, headers } = stubFetch(() =>
+      Response.json(response("final-answer.json")),
+    );
+
+    try {
+      await createAnthropicProvider({
+        apiKey: "test-key",
+        baseUrl: "https://gateway.example.test",
+        model: "claude-haiku-5-5",
+        effort: "medium",
+        maxRetries: 0,
+        fetch,
+      }).complete({
+        messages: [{ role: "user", content: "x" }],
+        tools: [],
+        maxOutputTokens: 16,
+      });
+    } finally {
+      vi.unstubAllEnvs();
+    }
+
+    expect(headers[0]?.has("x-leak")).toBe(false);
+    expect(headers[0]?.has("anthropic-beta")).toBe(false);
+    // The SDK's own headers still go: only the named ones are cancelled.
+    expect(headers[0]?.has("anthropic-version")).toBe(true);
   });
 });

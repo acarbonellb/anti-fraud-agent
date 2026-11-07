@@ -16,6 +16,16 @@ export interface RunPage {
   nextCursor: string | null;
 }
 
+export interface RetryQueueRead {
+  /** Oldest first; empty until a review first fails for a passing reason. */
+  retries: PendingRetry[];
+  /**
+   * Opaque: changes on every replace, even one that writes the same queue.
+   * Null until the queue is first written.
+   */
+  version: string | null;
+}
+
 export interface SpendHold {
   runId: string;
   /** The UTC day the hold counts against: `YYYY-MM-DD`. */
@@ -71,10 +81,17 @@ export interface AgentStore {
    */
   advanceFeedCursor(from: string | null, to: string): Promise<void>;
 
-  /** Oldest first; empty until a review first fails for a passing reason. */
-  readRetryQueue(): Promise<PendingRetry[]>;
-  /** Replaces the whole queue: only the pass writes it, once a pass. */
-  replaceRetryQueue(retries: readonly PendingRetry[]): Promise<void>;
+  /** The queue with the version it was read at, for `replaceRetryQueue`. */
+  readRetryQueue(): Promise<RetryQueueRead>;
+  /**
+   * Compare-and-set, like the feed cursor: replaces the whole queue only if
+   * it is still at the `version` read, so two overlapping passes can't drop
+   * each other's retries. A stale `version` throws a `STORE_CONFLICT`.
+   */
+  replaceRetryQueue(
+    version: string | null,
+    retries: readonly PendingRetry[],
+  ): Promise<void>;
 
   /**
    * Reserves a run's worst-case cost against the current UTC day. Refused

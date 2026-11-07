@@ -9,20 +9,32 @@
  * was never recorded: either way the old answer doesn't apply.
  *
  * The responses are model-independent, so one file per case serves every
- * recording set. Open data (OSM, Wikidata) is committed as recorded, with its
- * attribution.
+ * recording set. Open data (OSM, Wikidata) is committed with its attribution,
+ * reduced at record time to what the code reads (#85): replay needs the
+ * decision a response leads to, not the third-party data it also carried.
  */
 import { createHash } from "node:crypto";
 
 import { z } from "zod";
 
 import type { Fetch } from "../fetch.js";
+import { reduceNominatimBody } from "../venue/nominatim.js";
 import { StaleRecordingError } from "./stale.js";
 
 export const ATTRIBUTIONS: Readonly<Record<string, string>> = {
   "nominatim.openstreetmap.org":
     "Data © OpenStreetMap contributors, ODbL 1.0, https://osm.org/copyright",
   "query.wikidata.org": "Wikidata, CC0 1.0",
+};
+
+/**
+ * Per host, what a recorded JSON body keeps. Applied when recording, so a new
+ * recording can't bring back what an old one dropped.
+ */
+export const RESPONSE_REDUCERS: Readonly<
+  Record<string, (body: unknown) => unknown>
+> = {
+  "nominatim.openstreetmap.org": reduceNominatimBody,
 };
 
 const toolCallSchema = z.object({
@@ -109,19 +121,47 @@ export function createRecordingFetch(inner: Fetch): RecordingFetch {
     const text = await response.text();
     calls.set(requestHash, {
       ...base,
-      response: { status: response.status, ...bodyOf(text) },
+      response: {
+        status: response.status,
+        ...bodyOf(text, RESPONSE_REDUCERS[new URL(url).hostname]),
+      },
     });
     return new Response(text, { status: response.status });
   };
   return { fetch, calls: () => [...calls.values()] };
 }
 
-function bodyOf(text: string): { json: unknown } | { text: string } {
+function bodyOf(
+  text: string,
+  reduce: ((body: unknown) => unknown) | undefined,
+): { json: unknown } | { text: string } {
+  let json: unknown;
   try {
-    return { json: JSON.parse(text) as unknown };
+    json = JSON.parse(text) as unknown;
   } catch {
     return { text };
   }
+  return { json: reduce === undefined ? json : reduce(json) };
+}
+
+/**
+ * A recording reduced as if it had been recorded today, for files committed
+ * before a reducer existed (#85). Only response bodies change: the request,
+ * and so its hash, stays as recorded. Reducing twice changes nothing.
+ */
+export function reduceToolRecording(recording: ToolRecording): ToolRecording {
+  return {
+    ...recording,
+    calls: recording.calls.map((call) => {
+      const reduce = RESPONSE_REDUCERS[new URL(call.url).hostname];
+      const { response } = call;
+      if (reduce === undefined || !("json" in response)) return call;
+      return {
+        ...call,
+        response: { ...response, json: reduce(response.json) },
+      };
+    }),
+  };
 }
 
 /** Serves the recorded responses by request hash; never touches the network. */

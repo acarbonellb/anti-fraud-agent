@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { DomainError } from "../errors.js";
-import type { Effort } from "../providers/types.js";
+import { type Effort, EFFORTS } from "../providers/types.js";
 
 // An empty value in .env (`AGENT_MAX_TOKENS=`) means "unset", so it falls back
 // to the default instead of failing as 0.
@@ -16,6 +16,9 @@ const positiveIntWithDefault = (fallback: number) =>
 /** `anthropic` through its SDK; the local ones through the OpenAI-compatible adapter. */
 export const LLM_PROVIDERS = ["lmstudio", "ollama", "anthropic"] as const;
 export type LlmProviderName = (typeof LLM_PROVIDERS)[number];
+
+/** The SDK's own default, written out so the environment can't change it. */
+const ANTHROPIC_PUBLIC_BASE_URL = "https://api.anthropic.com";
 
 const textWithDefault = (fallback: string) =>
   z.preprocess(unsetIfEmpty, z.string().min(1).default(fallback));
@@ -40,17 +43,28 @@ const envSchema = z
       unsetIfEmpty,
       z.enum(LLM_PROVIDERS).default("lmstudio"),
     ),
+    // The local providers' server. Never anthropic's: a local URL left in
+    // .env must not receive the paid key (#89).
     AGENT_LLM_BASE_URL: z.preprocess(
       unsetIfEmpty,
       z.url({ protocol: /^https?$/ }).default("http://localhost:1234/v1"),
     ),
+    // Anthropic's endpoint, set here so the SDK never reads
+    // ANTHROPIC_BASE_URL on its own. https only: it carries the paid key.
+    AGENT_LLM_ANTHROPIC_BASE_URL: z.preprocess(
+      unsetIfEmpty,
+      z.url({ protocol: /^https$/ }).default(ANTHROPIC_PUBLIC_BASE_URL),
+    ),
     AGENT_LLM_MODEL: textWithDefault("qwen/qwen3.5-9b"),
+    // One key per kind of provider: the paid key never reaches a local or
+    // shared server, and a local key never reaches Anthropic (#89).
     AGENT_LLM_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
+    AGENT_LLM_LOCAL_API_KEY: z.preprocess(unsetIfEmpty, z.string().optional()),
     // How much Claude thinks (#30): set explicitly so every run records it.
     // Read only by the `anthropic` provider.
     AGENT_LLM_EFFORT: z.preprocess(
       unsetIfEmpty,
-      z.enum(["low", "medium", "high", "xhigh", "max"]).default("medium"),
+      z.enum(EFFORTS).default("medium"),
     ),
     // Brief §6.3.3 and ADR 0017: the day's model spend, in integer
     // micro-dollars ($2 by default). Every run reserves its worst case first.
@@ -92,6 +106,23 @@ const envSchema = z
     },
   );
 
+/** The chosen provider with its endpoint, key and effort, picked together. */
+export type LlmConfig = {
+  model: string;
+  /** The chosen provider's endpoint: anthropic's or the local server's. */
+  baseUrl: string;
+  /**
+   * The chosen provider's key: `AGENT_LLM_API_KEY` for anthropic,
+   * `AGENT_LLM_LOCAL_API_KEY` (usually none) for the local ones. A secret:
+   * never logged.
+   */
+  apiKey: string | undefined;
+} & (
+  | { provider: "anthropic"; effort: Effort }
+  // The local providers take no effort, so none is sent or recorded.
+  | { provider: Exclude<LlmProviderName, "anthropic">; effort: null }
+);
+
 export interface Config {
   runLimits: {
     maxToolCalls: number;
@@ -106,14 +137,7 @@ export interface Config {
     firestoreProjectId: string | undefined;
     firestoreEmulatorHost: string | undefined;
   };
-  llm: {
-    provider: LlmProviderName;
-    baseUrl: string;
-    model: string;
-    /** Local servers need none. A secret: never logged. */
-    apiKey: string | undefined;
-    effort: Effort;
-  };
+  llm: LlmConfig;
   webSearch: {
     /** A secret: never logged. Undefined: no web search. */
     tavilyApiKey: string | undefined;
@@ -169,13 +193,7 @@ export function loadConfig(
       firestoreProjectId: parsed.FIRESTORE_PROJECT_ID,
       firestoreEmulatorHost: parsed.FIRESTORE_EMULATOR_HOST,
     },
-    llm: {
-      provider: parsed.AGENT_LLM_PROVIDER,
-      baseUrl: parsed.AGENT_LLM_BASE_URL,
-      model: parsed.AGENT_LLM_MODEL,
-      apiKey: parsed.AGENT_LLM_API_KEY,
-      effort: parsed.AGENT_LLM_EFFORT,
-    },
+    llm: chosenProvider(parsed),
     webSearch: { tavilyApiKey: parsed.TAVILY_API_KEY },
     satella:
       parsed.SATELLA_STAGING_BASE_URL === undefined ||
@@ -185,5 +203,31 @@ export function loadConfig(
             baseUrl: parsed.SATELLA_STAGING_BASE_URL,
             audience: parsed.SATELLA_AGENT_API_AUDIENCE,
           },
+  };
+}
+
+/**
+ * The one place the provider's endpoint, key and effort are picked: the paid
+ * key and Anthropic's URL go to anthropic alone, so a local or shared server
+ * never sees them (#89), and only anthropic gets an effort. Everything else
+ * reads what this picked instead of asking which provider it is.
+ */
+function chosenProvider(parsed: z.infer<typeof envSchema>): LlmConfig {
+  const { AGENT_LLM_PROVIDER: provider, AGENT_LLM_MODEL: model } = parsed;
+  if (provider === "anthropic") {
+    return {
+      provider,
+      model,
+      baseUrl: parsed.AGENT_LLM_ANTHROPIC_BASE_URL,
+      apiKey: parsed.AGENT_LLM_API_KEY,
+      effort: parsed.AGENT_LLM_EFFORT,
+    };
+  }
+  return {
+    provider,
+    model,
+    baseUrl: parsed.AGENT_LLM_BASE_URL,
+    apiKey: parsed.AGENT_LLM_LOCAL_API_KEY,
+    effort: null,
   };
 }

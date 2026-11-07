@@ -1,7 +1,8 @@
 /**
  * Runs one real review on this machine: the configured model (LM Studio by
  * default, at no cost) against the in-process Satella mock and its fictitious
- * fixtures. A paid provider (`anthropic`) runs only with `--paid`. Only the venue checks and web
+ * fixtures, wired by the composition root (#92). A paid provider
+ * (`anthropic`) runs only with `--paid`. Only the venue checks and web
  * search leave the machine: OpenStreetMap and Wikidata (free, keyless) and,
  * with TAVILY_API_KEY in .env, Tavily (free plan credits).
  *
@@ -12,29 +13,34 @@
 import { randomUUID } from "node:crypto";
 
 import { reviewSubject } from "../src/agent/review.js";
-import { reviewEvidence } from "../src/agent/review-evidence.js";
 import { loadConfig } from "../src/config/config.js";
 import { loadLocalEnvFile } from "../src/config/env-file.js";
-import { createConfiguredProvider } from "../src/providers/from-config.js";
-import { isPaidProvider } from "../src/providers/pricing.js";
 import { fixtures } from "../src/satella-client/fixtures.js";
-import { createConfiguredSearch } from "../src/search/from-config.js";
-import { createVenueThrottles } from "../src/venue/venue-checks.js";
-import { startLocalSatella } from "./local-satella.js";
+import { startLocalSatella } from "../src/satella-client/local-satella.js";
+import {
+  buildReviewer,
+  PaidNotAllowedError,
+  type Reviewer,
+} from "../src/wiring/review-dependencies.js";
 
 loadLocalEnvFile();
 const config = loadConfig(process.env);
-if (isPaidProvider(config.llm.provider) && !process.argv.includes("--paid")) {
-  console.error(
-    `✗ ${config.llm.provider} bills per token: pass --paid to spend (CLAUDE.md §8).`,
-  );
-  process.exit(2);
-}
 const subject = process.argv.includes("organizer")
   ? { type: "organizer" as const, id: fixtures.organizerContext.organizer.id }
   : { type: "event" as const, id: fixtures.eventContext.event.id };
 
 const runId = randomUUID();
+let reviewer: Reviewer;
+try {
+  // The reviewer alone: one review stores no run, so no store is built.
+  reviewer = buildReviewer(config, { paid: process.argv.includes("--paid") });
+} catch (error) {
+  if (!(error instanceof PaidNotAllowedError)) throw error;
+  console.error(`✗ ${error.message}`);
+  process.exit(2);
+}
+const { provider, evidence } = reviewer;
+// Always the mock: this script reviews the fixtures, never staging.
 const satella = await startLocalSatella(runId);
 const started = performance.now();
 try {
@@ -42,14 +48,10 @@ try {
     subject,
     runId,
     satella: satella.client,
-    provider: createConfiguredProvider(config.llm),
+    provider,
     limits: config.runLimits,
     autoApproveThreshold: config.autoApproveThreshold,
-    ...reviewEvidence({
-      fetch: globalThis.fetch,
-      throttles: createVenueThrottles(),
-      search: createConfiguredSearch(config.webSearch),
-    }),
+    ...evidence,
   });
 
   const { run, review } = result;

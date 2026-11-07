@@ -1,7 +1,8 @@
 # ADR 0018 — The pass runs as a Cloud Run Job in its own project, deployed from CI without keys and shipped paused
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#9)
+- **Status:** accepted · amendment 2026-11-05 (#9) · amendment 2026-11-07 (#85) · amendment
+  2026-11-07 (#90)
 - **Related:** brief §8 (deployment) and §6.3 (spend caps); ADR 0008 (the deployed model, amended
   here for the Tailscale decision); ADR 0016 (the store); ADR 0017 (the pass); issues #8, #46
   and #9.
@@ -125,11 +126,12 @@ Four facts shaped the rest:
   deployed like code. A newer eval winner changes the deployed model through the workflow
   (ADR 0008, amendment of #42).
 - **Deploys can't widen their own permissions.** A compromised workflow could replace the image,
-  but couldn't grant itself roles, read the secrets or resume the trigger.
+  but couldn't grant itself roles, read the secrets or resume the trigger. (Wrong about the
+  secrets: replaced by the amendment of #85.)
 - **Left open:**
   - the dashboard's service and its service account (#47, on hold);
   - Satella's credential and a bypass token for staging's deployment protection, if it needs one (brief §8, #9);
-  - alerting on failed passes beyond the budget alert.
+  - alerting on failed passes beyond the budget alert (closed by the amendment of #90).
 
 ## Amendment (2026-11-05, #9): the pass reaches Satella staging with its identity token
 
@@ -165,6 +167,12 @@ first item left open.
 
 **Rejected:**
 
+- **Require code-owner review in `main`'s ruleset.** GitHub doesn't let a PR's author approve it,
+  and the author is the only code owner, so every PR of the author's that touches these files
+  would be blocked. An admin bypass would unblock them, but it also skips the required checks.
+  With one collaborator the rule adds no control the merge right doesn't already give. Revisit if
+  a collaborator joins.
+
 - **A bearer token for the deployed agent.** Brief §3.1 keeps it for local development. It is a
   secret that would have to be stored and rotated, which the identity token avoids.
 - **Google's auth library.** It reads application default credentials, which this repo never
@@ -174,3 +182,102 @@ first item left open.
 
 - loading the eval dataset into staging through the app's flows (brief §5, doubt 2 of §10): #53;
 - the brief §7 checks before any third party sees staging (doubts 4 and 5 of §10): #54.
+
+## Amendment (2026-11-07, #85): the deploy account holds the job's secrets in effect, and `main` is the boundary
+
+Replaces the consequence "Deploys can't widen their own permissions". It said a compromised
+workflow couldn't read the secrets. That was wrong. It also pins what the deploy job runs.
+
+1. **The deploy account is equivalent to the job's secrets.** The deploy step sets the job's
+   image, its environment and its secret bindings (point 7). A malicious image deployed from
+   `main` runs as `pass-job` and reads all four secrets on its next execution, within 10 minutes
+   once the trigger runs. Changing the environment could also point the pass at another host.
+   What the deploy account still can't do is change IAM, add secret versions or resume the
+   trigger (point 6).
+2. **`main` is the boundary.** Only a run on `refs/heads/main` of this repository gets the deploy
+   account (point 7). Code reaches `main` only through `main`'s ruleset: a PR is required, the
+   checks must pass and force pushes are blocked. The author is the only collaborator, so only the
+   author can merge, and Dependabot's PRs wait for that merge. `.github/CODEOWNERS` names the
+   author on the workflows, the `Dockerfile`, `scripts/gcp/` and the CODEOWNERS file itself, the
+   files that decide what is deployed and with what: it names the owner and requests their review,
+   and enforces nothing by itself (see Rejected).
+3. **What runs with the deploy account is pinned.** Every action in the workflow is pinned to a
+   full commit SHA with its release in a comment. The base image is pinned by its multi-arch
+   digest in both stages of the `Dockerfile`. A moved tag would otherwise run someone else's code
+   with the deploy account, or build a different image from the same commit.
+4. **Dependabot moves the pins.** `.github/dependabot.yml` checks `github-actions` and `docker`
+   weekly and opens a PR for each new SHA or digest, which goes through the same ruleset. Version
+   updates start from the file on the default branch. Security alerts stay off, as decided in #40.
+
+**Rejected:**
+
+- **Require code-owner review in `main`'s ruleset.** GitHub doesn't let a PR's author approve it,
+  and the author is the only code owner, so every PR of the author's that touches these files
+  would be blocked. An admin bypass would unblock them, but it also skips the required checks.
+  With one collaborator the rule adds no control the merge right doesn't already give. Revisit if
+  a collaborator joins.
+
+- **Pin by tag and trust the publishers.** The tags are mutable, and the action that exchanges the
+  OIDC token gets the deploy account. A SHA costs a Dependabot PR now and then.
+- **Narrow the deploy account so it can't touch secret bindings.** `gcloud run jobs update` sets
+  the image, and the image alone reads the secrets the job already binds. A narrower role would
+  not change what a malicious image can read.
+
+## Amendment (2026-11-07, #90): the pass's failures alert by email
+
+`run.failed`, `run.abandoned` and `pass.budget_reached` were log lines only, so a subject nobody
+reviewed was noticed only by someone reading the logs or the store. This closes the last item left
+open in the Consequences ("alerting on failed passes beyond the budget alert") and extends point 8.
+
+1. **Four alert policies in Cloud Monitoring and one email channel.** Each opens an incident on
+   the first match, with no threshold to wait for:
+   - **`run.failed`**: a review failed. A transient one is retried by later passes, but a model or
+     Satella outage should reach the operator the same day (#84, story 1).
+   - **`run.abandoned`**: the agent gave up on a subject after its retries. Nobody will review it
+     unless an admin does.
+   - **`pass.budget_reached`**: a pass stopped at the day's budget (ADR 0017). The feed is
+     outgrowing the budget, or a run is spending more than its worst case.
+   - **A failed execution of the job**: the job's `completed_execution_count` metric with
+     `result=failed`.
+2. **The three pass lines are log-based policies; the job's failure is a metric policy.**
+   - **The lines.** They match `jsonPayload.event` on the job's entries (point 9). The email carries
+     the line's `runId`, subject and `code` as labels: ids and codes only, as the line itself
+     (CLAUDE.md §4).
+   - **The job.** A task timeout or an out-of-memory kill ends the execution as failed without the
+     pass logging anything, and a pass that exits 1 (`pass.failed`) fails it too. The metric sees
+     all of them; a log filter would have to know each way a process can die.
+3. **The budget alert notifies at most once a day; the others at most once every 5 minutes.**
+   - **Budget.** Its notification rate limit and its auto-close are 24 hours. A day spent at the
+     budget logs `pass.budget_reached` on every pass, 144 times, and sends one email. The window
+     is rolling from the first email, not the UTC day of ADR 0017's budget, so a budget reached
+     late one day may hold back the next day's first email. That is accepted: the day's spend in
+     the store has the exact figure.
+   - **The rest.** 5 minutes is Cloud Monitoring's floor for log-based policies and under the
+     10-minute schedule, so each pass that fails can send its own email. An incident closes itself
+     after 30 minutes without matches, the floor.
+4. **A second script, `scripts/gcp/alerts.sh`, creates them, run by the author.**
+   - **No ids in the repo.** The project is the one set in the `satella` gcloud configuration, and
+     the email is asked for when the script runs. Neither is committed.
+   - **Idempotent.** The channel is found by its address and each policy by its display name. An
+     existing policy is replaced from the script only with the author's go-ahead, so a change to the
+     script reaches it. It also enables the Monitoring API if it is off.
+   - **Not run in CI or by the agent.** The channel and the policies are cloud resources (CLAUDE.md
+     §8). The script is checked with `bash -n` and shellcheck only.
+
+**Rejected:**
+
+- **Log-based metrics with threshold policies on them.** A user-defined metric per event, plus a
+  policy per metric: twice the resources, and the email loses the line's labels. Log-based policies
+  match the line itself.
+- **A log filter for the job's failure** (Cloud Run's system log for the execution). Its message
+  text is not a contract the way the metric's `result` label is.
+- **Alerting from the pass itself** (an email or a webhook call at the end of a pass). A pass that
+  is killed sends nothing, and the pass would need a mail credential. The platform watching the
+  logs sees a dead pass too.
+- **One policy for every failure line.** One rate limit would cover all of them, so a day at the
+  budget could hide the first `run.abandoned`.
+
+**Left open:**
+
+- a daily Tavily credit alert (#84, out of scope; #82 counts searches per run and per pass);
+- the email channel is the author's address; a shared inbox or a pager is for when there is a team.

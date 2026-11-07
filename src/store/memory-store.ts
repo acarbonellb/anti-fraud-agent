@@ -10,7 +10,7 @@ import {
   validRun,
 } from "./run-document.js";
 import { type PendingRetry, validRetryQueue } from "./retry-queue.js";
-import { type DayEntries, reserve, settle, totalOf } from "./spend.js";
+import { type DayEntries, reserve, settle, chargedSpend } from "./spend.js";
 import {
   checkPageLimit,
   decodeRunCursor,
@@ -28,6 +28,8 @@ export function createMemoryStore(
   const spend = new Map<string, DayEntries>();
   let feedCursor: string | null = null;
   let retryQueue: PendingRetry[] = [];
+  let retryQueueVersion: string | null = null;
+  let retryQueueWrites = 0;
 
   return {
     saveRun(run) {
@@ -92,12 +94,21 @@ export function createMemoryStore(
     },
 
     readRetryQueue() {
-      return Promise.resolve(structuredClone(retryQueue));
+      return Promise.resolve({
+        retries: structuredClone(retryQueue),
+        version: retryQueueVersion,
+      });
     },
 
-    replaceRetryQueue(retries) {
+    replaceRetryQueue(version, retries) {
       return asPromise(() => {
-        retryQueue = structuredClone(validRetryQueue(retries));
+        const valid = validRetryQueue(retries);
+        if (version !== retryQueueVersion) {
+          throw new StoreError("STORE_CONFLICT");
+        }
+        retryQueue = structuredClone(valid);
+        retryQueueWrites += 1;
+        retryQueueVersion = String(retryQueueWrites);
       });
     },
 
@@ -120,7 +131,9 @@ export function createMemoryStore(
     daySpend() {
       const at = now();
       const day = utcDay(at);
-      return Promise.resolve(totalOf(day, spend.get(day) ?? {}, at));
+      const read = chargedSpend(day, spend.get(day) ?? {}, at);
+      if (read.entries !== null) spend.set(day, read.entries);
+      return Promise.resolve(read.spend);
     },
   };
 }

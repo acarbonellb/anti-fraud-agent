@@ -4,18 +4,31 @@
  * at `AGENT_LLM_BASE_URL` (LM Studio by default).
  */
 import type { Config } from "../config/config.js";
+import { DomainError } from "../errors.js";
 import { createAnthropicProvider } from "./anthropic/adapter.js";
 import { createOpenAiCompatibleProvider } from "./openai-compatible/adapter.js";
 import type { LlmProvider } from "./types.js";
 
+/** A provider configured without the key it needs to run. */
+export class ProviderKeyMissingError extends DomainError {
+  readonly code = "LLM_KEY_MISSING";
+
+  constructor(readonly provider: string) {
+    super(`${provider} needs AGENT_LLM_API_KEY`);
+  }
+}
+
 export function createConfiguredProvider(llm: Config["llm"]): LlmProvider {
+  // Which adapter, not which key or effort: the config picked those (#84).
   if (llm.provider === "anthropic") {
     if (llm.apiKey === undefined) {
-      // loadConfig already refuses this; the check narrows the type.
-      throw new Error("anthropic needs AGENT_LLM_API_KEY");
+      // loadConfig already refuses this; the check narrows the type, and the
+      // code lets the pass log it as more than UNEXPECTED.
+      throw new ProviderKeyMissingError(llm.provider);
     }
     return createAnthropicProvider({
       apiKey: llm.apiKey,
+      baseUrl: llm.baseUrl,
       model: llm.model,
       effort: llm.effort,
     });

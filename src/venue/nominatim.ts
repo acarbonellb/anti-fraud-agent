@@ -184,6 +184,64 @@ function parsePlaces(body: unknown): Place[] {
   }));
 }
 
+/** What `parsePlaces` and `parsePoint` read; `class` is `category` in older formats. */
+const KEPT_FIELDS = [
+  "osm_type",
+  "osm_id",
+  "lat",
+  "lon",
+  "category",
+  "class",
+  "type",
+  "name",
+  "display_name",
+] as const;
+/** The only tags the scorer reads (identity and capacity). */
+const KEPT_TAGS = ["wikidata", "capacity"] as const;
+
+/**
+ * A Nominatim response reduced to what the venue checks read, for
+ * recordings (#85). Raw responses carry venues' emails, phones and opening
+ * hours in `extratags`, and street addresses in `address`, which a public
+ * repo has no reason to republish. Each result keeps `KEPT_FIELDS`; from
+ * `extratags`, only `KEPT_TAGS`; from a reverse lookup's `address`, only
+ * `LOCALITY_KEYS` (the locality is read from it). An `{ error }` body stays
+ * as it is. Anything that isn't a result object is left alone, so an
+ * unexpected body still fails replay the way it failed live.
+ */
+export function reduceNominatimBody(body: unknown): unknown {
+  if (Array.isArray(body)) return body.map(reducePlace);
+  if (isObject(body) && "error" in body) return body;
+  return reducePlace(body);
+}
+
+function reducePlace(place: unknown): unknown {
+  if (!isObject(place)) return place;
+  const reduced: Record<string, unknown> = {};
+  for (const field of KEPT_FIELDS) {
+    if (field in place) reduced[field] = place[field];
+  }
+  if ("extratags" in place) {
+    reduced.extratags = pick(place.extratags, KEPT_TAGS);
+  }
+  if ("address" in place) {
+    reduced.address = pick(place.address, LOCALITY_KEYS);
+  }
+  return reduced;
+}
+
+/** The listed keys of an object; anything else is kept as it is. */
+function pick(value: unknown, keys: readonly string[]): unknown {
+  if (!isObject(value)) return value;
+  return Object.fromEntries(
+    keys.filter((key) => key in value).map((key) => [key, value[key]]),
+  );
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 /** The public page of an OSM element: the source a finding links to. */
 export function osmUrl(place: Pick<Place, "osmType" | "osmId">): string {
   return `https://www.openstreetmap.org/${place.osmType}/${String(place.osmId)}`;

@@ -1,7 +1,8 @@
 # ADR 0016 — The agent's store is Firestore over its REST API, behind one interface with an in-memory twin
 
 - **Date:** 2026-11-05
-- **Status:** accepted · amendment 2026-11-05 (#45)
+- **Status:** accepted · amendment 2026-11-05 (#45) · point 6 amended by ADR 0017
+  (2026-11-07, #88: an expired hold is charged, not dropped) · amendment 2026-11-07 (#87)
 - **Related:** brief §2 («Reparto de responsabilidades»), §6.1, §6.3 and §8, which it replaces
   where they say Postgres; CLAUDE.md §3–§5; ADR 0015 (the venue providers' `fetch` seam); issues
   #8 and #44.
@@ -127,3 +128,36 @@ The scheduled pass (ADR 0017) needs two things point 3 and point 4 didn't cover.
   Recording a resolution again replaces it, against the version read, since the feed can
   deliver it twice.
 - The contract suite covers both, against both stores.
+
+## Amendment (2026-11-07, #87): the retry queue is replaced only from the version read
+
+The retry queue (ADR 0017, amendment of #57) was last-writer-wins, while the feed cursor next to it
+is compare-and-set (point 5). Point 5 assumes two passes can overlap (a manual run, a scheduler
+retry); the queue's code said they couldn't. When they did, the second pass to finish overwrote
+the first one's queued subjects, and a transiently failed review was never tried again.
+
+1. **`readRetryQueue` returns the queue with an opaque version; `replaceRetryQueue(version,
+retries)` writes only from it.** The version is Firestore's `updateTime` (a precondition on the
+   write), or a write counter in the in-memory store. A queue that changed since the read is
+   refused with `STORE_CONFLICT`, like `advanceFeedCursor`. A first write passes `null`: the
+   document must not exist yet.
+2. **The pass reads the queue once, at its start, and writes it back against that version.** The
+   write still comes before the cursor moves (ADR 0017, amendment of #57, point 2). The pass that
+   loses the race fails with `STORE_CONFLICT`, so the conflict is visible; its cursor doesn't
+   move, and the next pass reads its page again and queues its failures then. Both passes' retries
+   end up queued; the loser's completed reviews may run once more.
+3. **The in-memory store keeps the same promise** (point 7), and the contract suite has two
+   writers replacing the queue from the same read against both stores.
+
+**Rejected:**
+
+- **Merge the two queues on conflict** (re-read, union, write again): the loser can't tell a
+  subject the winner removed because its review completed from one it never had, so a merge
+  would bring back finished subjects. Failing and re-reading the page reuses the cursor's rule.
+- **Keep last-writer-wins and rely on the scheduler not overlapping**: Cloud Scheduler retries and
+  a manual `pnpm pass` both overlap, and the loss is silent.
+
+**Consequences:** a pass can now fail with `STORE_CONFLICT` after its reviews, which logs
+`pass.failed` and exits 1; the alert on failed executions (ADR 0018, amendment of #90) reports it.
+The reviews it made are already stored and recommended in Satella; the next pass's re-review of the
+same subject reaches Satella as the same recommendation or a newer one.

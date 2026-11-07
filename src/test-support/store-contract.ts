@@ -2,8 +2,9 @@
  * The behaviour every `AgentStore` promises, as one suite each implementation
  * runs (ADR 0016): runs, completed or failed, saved and read back and listed
  * newest first across pages; an admin's resolution kept next to its run; the
- * feed cursor advanced only from the value read; the day's spend
- * reserved, settled and expired against an injected clock.
+ * feed cursor advanced only from the value read and the retry queue replaced
+ * only from the version read; the day's spend reserved, settled, and charged
+ * when a hold expires unsettled, against an injected clock.
  */
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -11,11 +12,8 @@ import type {
   CompletedRunDocument,
   FailedRunDocument,
 } from "../store/run-document.js";
-import {
-  type AgentStore,
-  SPEND_HOLD_TTL_MS,
-  StoreError,
-} from "../store/types.js";
+import { type AgentStore, SPEND_HOLD_TTL_MS } from "../store/types.js";
+import { caughtCode } from "./caught-code.js";
 
 export interface StoreUnderTest {
   store: AgentStore;
@@ -107,16 +105,6 @@ export function runDocument(
   };
 }
 
-async function errorCodeOf(promise: Promise<unknown>): Promise<string | null> {
-  try {
-    await promise;
-    return null;
-  } catch (error) {
-    if (error instanceof StoreError) return error.code;
-    throw error;
-  }
-}
-
 export function describeAgentStore(name: string, make: MakeStore): void {
   describe(`${name}: the AgentStore contract`, () => {
     let clock: Date;
@@ -159,7 +147,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       it("never overwrites a saved run", async () => {
         await store.saveRun(runDocument("run_1", "2026-11-05T09:00:00.000Z"));
 
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.saveRun(
             runDocument("run_1", "2026-11-05T09:00:00.000Z", {
               decision: "reject",
@@ -180,7 +168,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
           runDocument("run_1", "2026-11-05T09:00:00.000Z", { costMicros: 1.5 }),
         ];
         for (const run of invalid) {
-          expect(await errorCodeOf(store.saveRun(run))).toBe(
+          expect(await caughtCode(store.saveRun(run))).toBe(
             "STORE_INVALID_INPUT",
           );
         }
@@ -198,7 +186,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
 
       it("refuses a page size that isn't a positive integer", async () => {
         for (const limit of [0, -1, 2.5]) {
-          expect(await errorCodeOf(store.listRuns({ limit }))).toBe(
+          expect(await caughtCode(store.listRuns({ limit }))).toBe(
             "STORE_INVALID_INPUT",
           );
         }
@@ -271,7 +259,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
       });
 
       it("refuses a resolution it could not store, as a typed error", async () => {
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.saveResolution({ ...resolution, runId: ".." }),
         );
 
@@ -296,7 +284,7 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         const read = await store.readFeedCursor();
         await store.advanceFeedCursor(read, "cur_first");
 
-        const code = await errorCodeOf(
+        const code = await caughtCode(
           store.advanceFeedCursor(read, "cur_second"),
         );
 
@@ -311,32 +299,66 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         failures: 1,
         code: "LLM_UNAVAILABLE",
       };
+      const second = {
+        subject: { type: "organizer" as const, id: "org_1" },
+        failures: 2,
+        code: "SATELLA_UNAVAILABLE",
+      };
 
       it("starts empty", async () => {
-        expect(await store.readRetryQueue()).toEqual([]);
+        expect((await store.readRetryQueue()).retries).toEqual([]);
       });
 
       it("reads back the queue it was given, in order", async () => {
-        const second = {
-          subject: { type: "organizer" as const, id: "org_1" },
-          failures: 2,
-          code: "SATELLA_UNAVAILABLE",
-        };
-        await store.replaceRetryQueue([retry, second]);
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry, second]);
 
-        expect(await store.readRetryQueue()).toEqual([retry, second]);
+        expect((await store.readRetryQueue()).retries).toEqual([retry, second]);
       });
 
       it("replaces the whole queue, down to empty", async () => {
-        await store.replaceRetryQueue([retry]);
-        await store.replaceRetryQueue([]);
+        await store.replaceRetryQueue((await store.readRetryQueue()).version, [
+          retry,
+        ]);
+        await store.replaceRetryQueue(
+          (await store.readRetryQueue()).version,
+          [],
+        );
 
-        expect(await store.readRetryQueue()).toEqual([]);
+        expect((await store.readRetryQueue()).retries).toEqual([]);
+      });
+
+      it("refuses a replace from a stale version", async () => {
+        // Two overlapping passes read the same queue; only one may replace it.
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry]);
+
+        const code = await caughtCode(
+          store.replaceRetryQueue(version, [second]),
+        );
+
+        expect(code).toBe("STORE_CONFLICT");
+        expect((await store.readRetryQueue()).retries).toEqual([retry]);
+      });
+
+      it("refuses a stale version even when the queue reads the same", async () => {
+        // The version, not the contents, tells a write since the read.
+        const { version } = await store.readRetryQueue();
+        await store.replaceRetryQueue(version, [retry]);
+        await store.replaceRetryQueue(
+          (await store.readRetryQueue()).version,
+          [],
+        );
+
+        const code = await caughtCode(store.replaceRetryQueue(version, []));
+
+        expect(code).toBe("STORE_CONFLICT");
       });
 
       it("refuses a queue it could not store, as a typed error", async () => {
-        const code = await errorCodeOf(
-          store.replaceRetryQueue([{ ...retry, failures: 0 }]),
+        const { version } = await store.readRetryQueue();
+        const code = await caughtCode(
+          store.replaceRetryQueue(version, [{ ...retry, failures: 0 }]),
         );
 
         expect(code).toBe("STORE_INVALID_INPUT");
@@ -438,22 +460,57 @@ export function describeAgentStore(name: string, make: MakeStore): void {
         expect(next.ok).toBe(true);
       });
 
-      it("stops counting a hold once it expires", async () => {
+      it("charges an expired, unsettled hold at its reserved amount, once", async () => {
+        // A run killed mid-pass never settles: its hold must not just vanish.
         await store.reserveSpend({
           runId: "run_crashed",
-          micros: 9_000,
+          micros: 4_000,
           budgetMicros: BUDGET,
         });
 
         advanceClock(SPEND_HOLD_TTL_MS);
 
-        expect((await store.daySpend()).heldMicros).toBe(0);
-        const reservation = await store.reserveSpend({
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 4_000,
+          heldMicros: 0,
+        });
+        // Read again and written over by other runs: still charged once.
+        expect((await store.daySpend()).settledMicros).toBe(4_000);
+        const fits = await store.reserveSpend({
           runId: "run_2",
-          micros: 9_000,
+          micros: 6_000,
           budgetMicros: BUDGET,
         });
-        expect(reservation.ok).toBe(true);
+        expect(fits.ok).toBe(true);
+        advanceClock(SPEND_HOLD_TTL_MS);
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 10_000,
+          heldMicros: 0,
+        });
+        const refused = await store.reserveSpend({
+          runId: "run_3",
+          micros: 1,
+          budgetMicros: BUDGET,
+        });
+        expect(refused.ok).toBe(false);
+      });
+
+      it("leaves an unexpired hold held", async () => {
+        await store.reserveSpend({
+          runId: "run_live",
+          micros: 4_000,
+          budgetMicros: BUDGET,
+        });
+
+        advanceClock(SPEND_HOLD_TTL_MS - 1);
+
+        expect(await store.daySpend()).toEqual({
+          day: "2026-11-05",
+          settledMicros: 0,
+          heldMicros: 4_000,
+        });
       });
 
       it("still records the cost of a run settled after its hold expired", async () => {
