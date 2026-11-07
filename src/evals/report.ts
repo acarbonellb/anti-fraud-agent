@@ -51,6 +51,7 @@ export function renderReport(
   if (sets.length === 0) {
     lines.push("No recordings yet: run `pnpm eval` with a model.", "");
   }
+  if (history.length > 0) lines.push(...chartsSection());
   const sorted = [...sets].sort((a, b) => compare(setName(a), setName(b)));
   for (const set of sorted) {
     lines.push(
@@ -140,6 +141,33 @@ function renderSet(set: ReportSet, history: readonly HistoryEntry[]): string[] {
   ];
 }
 
+/**
+ * The charts `pnpm eval:replay` draws from the whole history (#102), one file
+ * per theme: GitHub shows the one that matches the reader's.
+ */
+function chartsSection(): string[] {
+  const picture = (name: string, alt: string) => [
+    "<picture>",
+    `  <source media="(prefers-color-scheme: dark)" srcset="charts/${name}-dark.svg">`,
+    `  <img alt="${alt}" src="charts/${name}-light.svg">`,
+    "</picture>",
+  ];
+  return [
+    "## History",
+    "",
+    ...picture(
+      "accuracy",
+      "Gated accuracy per history entry, one line per recording set",
+    ),
+    "",
+    ...picture(
+      "rates",
+      "Approved fraud, escalation and gated cases per history entry",
+    ),
+    "",
+  ];
+}
+
 /** The set's entries of `evals/history.jsonl`, in the order they were appended. */
 function historySection(history: readonly HistoryEntry[]): string[] {
   if (history.length === 0) {
@@ -150,10 +178,6 @@ function historySection(history: readonly HistoryEntry[]): string[] {
       "",
     ];
   }
-  // Mermaid can't leave a gap: a rate with no cases to measure plots as 0,
-  // and the table shows it as «—».
-  const line = (value: (entry: HistoryEntry) => number | null) =>
-    `  line [${history.map((entry) => String(Number(((value(entry) ?? 0) * 100).toFixed(1)))).join(", ")}]`;
   return [
     "### History",
     "",
@@ -179,18 +203,6 @@ function historySection(history: readonly HistoryEntry[]): string[] {
         .map(cell)
         .join(" | ")} |`;
     }),
-    "",
-    "Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.",
-    "",
-    "```mermaid",
-    "xychart-beta",
-    '  title "Gated cases over the history (%)"',
-    `  x-axis [${history.map((entry) => entry.id).join(", ")}]`,
-    '  y-axis "%" 0 --> 100',
-    line((entry) => entry.gated.accuracy),
-    line((entry) => entry.gated.approvedFraudRate),
-    line((entry) => entry.gated.autoApprovedFraudRate),
-    "```",
     "",
   ];
 }
@@ -365,7 +377,7 @@ function cell(text: string): string {
 }
 
 /** `90.0 % (86.7–93.3)`: a mean over runs and its min–max. */
-function withRange(
+export function withRange(
   value: number | null,
   range: [number, number] | null,
 ): string {

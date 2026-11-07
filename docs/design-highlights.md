@@ -64,6 +64,13 @@ lives in the ADRs; this page is the map. Add a line when a decision earns one.
   - _Evidence:_ E001, the baseline: a lenient model whose 7 gated approvals of fraud the policy
     all escalated.
   - [ADR 0014](adr/0014-eval-metrics-history-and-experiment-log.md)
+- **The front page shows measured numbers, not typed ones.**
+  - _Why:_ a README is what a visitor reads first, and a figure typed into it goes stale on the
+    next measurement. The summary table and the charts are drawn from the history by the replay,
+    and CI fails when the committed ones differ.
+  - _Evidence:_ the charts show what a table hides, such as the local model's single
+    auto-approved fraud at E002, which the gate caught and E003 closed.
+  - [ADR 0014](adr/0014-eval-metrics-history-and-experiment-log.md) (amendment of #102)
 - **Keep the cases you can't pass yet.**
   - _Why:_ the 9 cases that need external tools are recorded but not gated.
   - _Evidence:_ their 26.9 % auto-approved fraud is the baseline that will show whether #7 works,

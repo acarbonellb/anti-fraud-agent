@@ -16,6 +16,18 @@ of its runs are, so a tie is wrong, and CI fails on a fraud case any run
 auto-approved. An entry's **Runs** tells a mean from a single run: two
 entries differ only where their ranges don't overlap.
 
+## History
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="charts/accuracy-dark.svg">
+  <img alt="Gated accuracy per history entry, one line per recording set" src="charts/accuracy-light.svg">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="charts/rates-dark.svg">
+  <img alt="Approved fraud, escalation and gated cases per history entry" src="charts/rates-light.svg">
+</picture>
+
 ## anthropic / claude-haiku-5-5
 
 Prompt `review-v6` · recorded 2026-11-06 · 3 runs per case: means, with the min–max across runs
@@ -46,18 +58,6 @@ Prompt `review-v6` · recorded 2026-11-06 · 3 runs per case: means, with the mi
 | E023 | 2026-11-06 | `review-v6` | 3 | the prompt rejects only on direct evidence and lists only what it found (review-v6, #76) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
 | E025 | 2026-11-06 | `review-v6` | 3 | a review's confidence comes from its evidence tier, not the model's number (ADR 0019, #77) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.124 |
 | E027 | 2026-11-06 | `review-v6` | 3 | Brier reads the model's own confidence again, comparable with earlier entries (#77) | 90.9 % (87.9–93.9) | 0.0 % (0.0–0.0) | 0.0 % (0.0–0.0) | 0.152 |
-
-Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
-
-```mermaid
-xychart-beta
-  title "Gated cases over the history (%)"
-  x-axis [E013, E014, E015, E018, E019, E021, E023, E025, E027]
-  y-axis "%" 0 --> 100
-  line [90, 86.7, 85.6, 85, 88.5, 88.9, 90.9, 90.9, 90.9]
-  line [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  line [0, 0, 0, 0, 0, 0, 0, 0, 0]
-```
 
 ### Gated cases
 
@@ -143,18 +143,6 @@ Prompt `review-v6` · recorded 2026-11-06
 | E024 | 2026-11-06 | `review-v6` | 1 | the prompt rejects only on direct evidence and lists only what it found (review-v6, #76) | 75.8 % | 3.7 % | 0.0 % | 0.220 |
 | E026 | 2026-11-06 | `review-v6` | 1 | a review's confidence comes from its evidence tier, not the model's number (ADR 0019, #77) | 75.8 % | 3.7 % | 0.0 % | 0.195 |
 | E028 | 2026-11-06 | `review-v6` | 1 | Brier reads the model's own confidence again, comparable with earlier entries (#77) | 75.8 % | 3.7 % | 0.0 % | 0.220 |
-
-Lines, in order: accuracy, approved-fraud rate, auto-approved fraud rate.
-
-```mermaid
-xychart-beta
-  title "Gated cases over the history (%)"
-  x-axis [E001, E002, E003, E004, E005, E006, E007, E008, E009, E010, E011, E012, E016, E017, E020, E022, E024, E026, E028]
-  y-axis "%" 0 --> 100
-  line [59.1, 57.7, 53.8, 65.5, 58.6, 58.6, 65.5, 51.7, 65.5, 72.4, 72.4, 73.3, 73.3, 71, 78.1, 78.8, 75.8, 75.8, 75.8]
-  line [38.9, 38.1, 33.3, 8.3, 20.8, 20.8, 12.5, 16.7, 12.5, 4.2, 4.2, 4, 4, 0, 3.7, 3.7, 3.7, 3.7, 3.7]
-  line [0, 4.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-```
 
 ### Gated cases
 
